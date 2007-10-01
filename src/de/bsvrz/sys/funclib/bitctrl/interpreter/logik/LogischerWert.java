@@ -1,0 +1,237 @@
+/*
+ * Interpreter von logischen Ausdrücken
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ *
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
+ * mailto: info@bitctrl.de
+ */
+
+package de.bsvrz.sys.funclib.bitctrl.interpreter.logik;
+
+import de.bsvrz.sys.funclib.bitctrl.i18n.Messages;
+import de.bsvrz.sys.funclib.bitctrl.interpreter.InterpreterException;
+import de.bsvrz.sys.funclib.bitctrl.interpreter.InterpreterMessages;
+
+/**
+ * Der Wert eines LogischenAsudrucks, der f&uuml;r Boolesche Logik und
+ * Fuzzy-Logik verwendbar ist. Boolsche Logik wird intern durch die
+ * Zugeh&ouml;rigkeitswerte "1" und "0" repr&auml;sentiert.
+ * 
+ * @author BitCtrl, Peuker
+ * @author BitCtrl, Schumann
+ * @version $Id$
+ */
+public class LogischerWert {
+
+	/**
+	 * Eine globale Instanz f&uuml;r den boolschen Wert <i>true</i>
+	 */
+	public final static LogischerWert WAHR = new LogischerWert(true);
+
+	/**
+	 * Eine globale Instanz f&uuml;r den boolschen Wert <i>false</i>
+	 */
+	public final static LogischerWert FALSCH = new LogischerWert(false);
+
+	/**
+	 * Die Zugeh&ouml;rigkeit
+	 */
+	private float zugehoerigkeit;
+
+	/**
+	 * Gibt an, ob der Wert gerade ein logischer oder ein
+	 * Zugeh&ouml;rigkeitswert ist
+	 */
+	private boolean boolWert;
+
+	/**
+	 * liefert die statische Instanz eines logischen Wertes f&uuml;r die
+	 * Boolschen Werte WAHR und FALSCH.
+	 * 
+	 * @param wert
+	 *            der boolsche Wert
+	 * @return die Instanz
+	 */
+	public final static LogischerWert valueOf(boolean wert) {
+		if (wert) {
+			return WAHR;
+		}
+		return FALSCH;
+	}
+
+	/**
+	 * Der Konstruktor erzeugt einen logischen Wert mit der &uuml;bergebenen
+	 * Zugeh&ouml;rigkeit.
+	 * 
+	 * @param wert
+	 *            Der Zugeh&ouml;rigkeitswert
+	 */
+	public LogischerWert(float wert) {
+		set(wert);
+	}
+
+	/**
+	 * Der Konstruktor erzeugt einen logischen Wert mit der Zugeh&ouml;rigkeit
+	 * "1" f&uuml;r <i>true</i> bzw "0" f&uuml;r <i>false</i>
+	 * 
+	 * @param wert
+	 *            Der boolsche Wert, den der logische Wert repr&auml;sentieren
+	 *            soll
+	 */
+	public LogischerWert(boolean wert) {
+		set(wert);
+	}
+
+	/**
+	 * Gibt den aktuellen Wert zur&uuml;ck
+	 * 
+	 * @return Wert vom Typ {@code Float} oder {@code Boolean}
+	 */
+	public Object get() {
+		if (!boolWert)
+			return zugehoerigkeit;
+
+		assert zugehoerigkeit == 0 || zugehoerigkeit == 1;
+
+		if (getZugehoerigkeit() == 1) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Setzt den Wert auf die angegebene Zugeh&ouml;rigkeit
+	 * 
+	 * @param zugehoerigkeit
+	 *            Zugeh&ouml;rigkeit
+	 */
+	public void set(float zugehoerigkeit) {
+		if (zugehoerigkeit < 0 || zugehoerigkeit > 1)
+			throw new InterpreterException(Messages.get(
+					InterpreterMessages.BadMembership, zugehoerigkeit));
+
+		this.zugehoerigkeit = zugehoerigkeit;
+		boolWert = false;
+	}
+
+	/**
+	 * Setzt den Wert auf den angegebenen booleschen Wert
+	 * 
+	 * @param wert
+	 *            boolescher Wert
+	 */
+	public void set(boolean wert) {
+		if (wert) {
+			set(1);
+		} else {
+			set(0);
+		}
+		boolWert = true;
+	}
+
+	/**
+	 * Pr&uuml;ft ob der logische Wert ein boolescher Wert ist
+	 * 
+	 * @return {@code true}, wenn der Wert ein boolescher Wert ist, sonst
+	 *         {@code false}
+	 */
+	public boolean isBoolWert() {
+		return boolWert;
+	}
+
+	/**
+	 * Liefert den Zugeh&ouml;rigkeitswert, der durch den logischen Wert
+	 * repr&auml;sentiert wird
+	 * 
+	 * @return Wert
+	 */
+	public float getZugehoerigkeit() {
+		return zugehoerigkeit;
+	}
+
+	/**
+	 * Liefert einen booleschen Wert entsprechend der Zugeh&ouml;rigkeit des
+	 * logischen Wertes. Die Zugeh&ouml;rigkeit "1" entspricht dem booleschen
+	 * Wert <i>true</i>, die Zugeh&ouml;rigkeit "0" entspricht dem booleschen
+	 * Wert <i>false</i>. Hat die Zugeh&ouml;rigkeit einen anderen Wert wird
+	 * eine <b>InterpreterException</b> geworfen.
+	 * 
+	 * @return Den Wert
+	 */
+	public boolean getBoolWert() {
+		if (!boolWert)
+			throw new InterpreterException(Messages
+					.get(InterpreterMessages.NoBooleanValue));
+
+		assert zugehoerigkeit == 0 || zugehoerigkeit == 1;
+
+		if (getZugehoerigkeit() == 1) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Zwei logische Werte sind gleich, wenn sie beide den selben Typ (logischer
+	 * Wert oder Zugeh&ouml;rigkeit) und Wert besitzen
+	 * 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof LogischerWert) {
+			LogischerWert lw = (LogischerWert) obj;
+			Float f1, f2;
+			f1 = zugehoerigkeit;
+			f2 = lw.zugehoerigkeit;
+			if (!(this.boolWert ^ lw.boolWert) && f1.equals(f2))
+				return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Wenn der logische Wert ein boolescher Wert ist, wird "wahr" oder "falsch"
+	 * zur&uuml;ckgegeben, sonst der Zahlenwert der Zugeh&ouml;rigkeit
+	 * 
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("nls")
+	@Override
+	public String toString() {
+		String result;
+
+		if (boolWert) {
+			if (getBoolWert()) {
+				result = "wahr";
+			} else {
+				result = "falsch";
+			}
+		} else
+			result = String.valueOf(getZugehoerigkeit());
+
+		return result;
+	}
+
+}
