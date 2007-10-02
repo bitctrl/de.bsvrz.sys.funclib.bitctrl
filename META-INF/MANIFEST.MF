@@ -4,7 +4,6 @@ Bundle-Name: Datenverteiler, allgemeine Funktionen
 Bundle-SymbolicName: de.bitctrl.sys.funclib
 Bundle-Version: 1.0.0
 Bundle-Vendor: BitCtrl Systems GmbH
-Bundle-Localization: plugin
 Require-Bundle: de.bitctrl.dav.daf
 Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application",
  de.bsvrz.sys.funclib.bitctrl.app.rmi;uses:="sys.funclib.application,stauma.dav.clientside,sys.funclib",
@@ -85,4 +84,4 @@ Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application"
  de.bsvrz.sys.funclib.bitctrl.util,
  de.bsvrz.sys.funclib.bitctrl.util.dav
 Eclipse-LazyStart: true
-Bundle-ClassPath: de.bsvrz.sys.funclib.jar
+Bundle-ClassPath: de.bsvrz.sys.funclib.bitctrl.jar
