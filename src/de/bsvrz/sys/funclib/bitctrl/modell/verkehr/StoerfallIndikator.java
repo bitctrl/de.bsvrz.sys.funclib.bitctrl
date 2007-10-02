@@ -43,6 +43,14 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  */
 public class StoerfallIndikator extends AbstractSystemObjekt {
 
+	private static final String PID_ATG_STOERFALL_ZUSTAND = "atg.störfallZustand"; //$NON-NLS-1$
+
+	/**
+	 * Attributname für die Speicherung des aktuellen Störfallzustands des
+	 * Indikators.
+	 */
+	public static final String ATT_NAME_SITUATION = "Situation"; //$NON-NLS-1$
+
 	private static AttributeGroup situationsAtg = null;
 
 	/** die aktuelle Situation des Indikators. */
@@ -60,12 +68,12 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Störfallindikator.");
+					"Systemobjekt ist kein Störfallindikator."); //$NON-NLS-1$
 		}
 
 		if (situationsAtg == null) {
 			situationsAtg = obj.getDataModel().getAttributeGroup(
-					"atg.störfallZustand");
+					PID_ATG_STOERFALL_ZUSTAND);
 		}
 	}
 
