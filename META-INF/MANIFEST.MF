@@ -83,7 +83,6 @@ Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application"
  de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten.verkehr;uses:="stauma.dav.configuration.interfaces,stauma.dav.clientside,de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten",
  de.bsvrz.sys.funclib.bitctrl.text,
  de.bsvrz.sys.funclib.bitctrl.util,
- de.bsvrz.sys.funclib.bitctrl.util.dav,
- de.bsvrz.sys.funclib.kbgen;uses:="stauma.dav.configuration.interfaces,stauma.dav.clientside"
+ de.bsvrz.sys.funclib.bitctrl.util.dav
 Eclipse-LazyStart: true
 Bundle-ClassPath: de.bsvrz.sys.funclib.jar
