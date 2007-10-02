@@ -39,9 +39,6 @@ import de.bsvrz.sys.funclib.bitctrl.i18n.Messages;
  */
 public class Kontext {
 
-	/** Die Menge der im Kontext enthaltenen Name/Wert-Paare */
-	private final HashMap<String, Object> kontext;
-
 	/** Pr&uuml;fklasse die Symbolnamen auf ihre G&uuml;ltigkeit testet */
 	public static Namenspruefer pruefer = new StandardNamenspruefer();
 
@@ -57,10 +54,14 @@ public class Kontext {
 	 *             besteht
 	 */
 	public static void pruefeName(String name) {
-		if (!pruefer.pruefe(name))
+		if (!pruefer.pruefe(name)) {
 			throw new InterpreterException(Messages.get(
 					InterpreterMessages.BadVariableName, name));
+		}
 	}
+
+	/** Die Menge der im Kontext enthaltenen Name/Wert-Paare */
+	private final HashMap<String, Object> kontext;
 
 	/**
 	 * Der Standardkonstruktor initialisiert die interne Streuspeicherabbildung.
@@ -91,6 +92,17 @@ public class Kontext {
 	}
 
 	/**
+	 * Schaut nach, ob im Kontext eine bestimmte Variable existiert
+	 * 
+	 * @param name
+	 *            Name der Variable
+	 * @return {@code true}, wenn die Variable existiert, sonst {@code false}
+	 */
+	public boolean enthaelt(String name) {
+		return kontext.containsKey(name.trim());
+	}
+
+	/**
 	 * Liefert den Wert einer Variable
 	 * 
 	 * @param name
@@ -106,9 +118,10 @@ public class Kontext {
 		pruefeName(name);
 
 		Object wert = kontext.get(name.trim());
-		if (wert == null)
+		if (wert == null) {
 			throw new SymbolUndefiniertException(Messages.get(
 					InterpreterMessages.NoVariableWithName, name));
+		}
 
 		return wert;
 	}
@@ -126,10 +139,11 @@ public class Kontext {
 	 *             Variablenname nur aus Whitespaces betsteht oder der Typ der
 	 *             Variable nicht korrekt ist
 	 */
-	public Object get(String name, Class<? extends Object>... typ) {
-		if (typ == null)
+	public Object get(String name, Class<?>... typ) {
+		if (typ == null) {
 			throw new InterpreterException(Messages
 					.get(InterpreterMessages.BadTypNull));
+		}
 
 		Object wert = get(name);
 		boolean ok = false;
@@ -148,6 +162,15 @@ public class Kontext {
 	}
 
 	/**
+	 * Gibt alle im Kontext enthaltenen Variablenname zur&uuml;ck.
+	 * 
+	 * @return kontext Menge von Name/Wert-Paaren
+	 */
+	public Set<String> getVariablen() {
+		return kontext.keySet();
+	}
+
+	/**
 	 * Setzt den Wert einer Variable
 	 * 
 	 * @param name
@@ -161,31 +184,12 @@ public class Kontext {
 	synchronized public void set(String name, Object wert) {
 		pruefeName(name);
 
-		if (wert == null)
+		if (wert == null) {
 			throw new InterpreterException(Messages
 					.get(InterpreterMessages.BadValueNull));
+		}
 
 		kontext.put(name.trim(), wert);
-	}
-
-	/**
-	 * Schaut nach, ob im Kontext eine bestimmte Variable existiert
-	 * 
-	 * @param name
-	 *            Name der Variable
-	 * @return {@code true}, wenn die Variable existiert, sonst {@code false}
-	 */
-	public boolean enthaelt(String name) {
-		return kontext.containsKey(name.trim());
-	}
-
-	/**
-	 * Gibt alle im Kontext enthaltenen Variablenname zur&uuml;ck.
-	 * 
-	 * @return kontext Menge von Name/Wert-Paaren
-	 */
-	public Set<String> getVariablen() {
-		return kontext.keySet();
 	}
 
 	/**
