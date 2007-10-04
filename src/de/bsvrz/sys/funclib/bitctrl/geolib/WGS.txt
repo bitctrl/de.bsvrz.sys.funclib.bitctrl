@@ -1,0 +1,103 @@
+EPSG:4326 entspricht WGS84
+
+
+http://www.explorermagazin.de/gps/gpsbasic.htm
+
+Entfernung in km = arccos(sin(a) * sin(c) + cos(a) * cos(c) * cos(min(b-d,360-(b-d)))) * 111
+
+Die Parameter bedeuten dabei Folgendes: 
+
+a: Geografische Breite Ort1
+b: Längenangabe Ort1
+c: Breitenangabe Ort2
+d: Längenangabe Ort2
+
+Zu beachten dabei: Breitenangaben für Süd sind negativ, Längenangaben für Ost ebenfalls.  
+
+
+
+
+
+
+http://de.wikipedia.org/wiki/Orthodrome
+
+ b1 := Geografische Breite von Standort 1
+   l1 := Geografische Länge von Standort 1
+   b2 := Geografische Breite von Standort 2
+   l2 := Geografische Länge von Standort 2
+   
+   f := Abplattung der Erde (1/298,257223563)
+   a := Äquatorradius der Erde (6378,14 km)
+   
+   F := (b1+b2)/2
+   G := (b1-b2)/2
+   l := (l1-l2)/2
+   S := sin²(G)cos²(l) + cos²(F)sin²(l)
+   C := cos²(G)cos²(l) + sin²(F)sin²(l)
+   w := arctan(sqrt(S/C)) in rad
+   R := sqrt(S*C)/w
+   D := 2*w*a
+   H1 := (3R-1)/(2C)
+   H2 := (3R+1)/(2S)
+   
+   Abstand:
+      s := D(1 + f*H1*sin²(F)cos²(G) - f*H2*cos²(F)sin²(G))
+      
+      
+      
+      http://williams.best.vwh.net/gccalc.html
+      
+      
+      
+      
+      
+      
+---> http://www.addressdoctor.com/de/support/faq/geocoding.asp
+      
+      Berechnung einer Entfernung zweier geographischer Punkte in WGS84
+
+Es ist sehr kompliziert die exakte Entfernung zweier geographischer Koordinaten zu berechnen, 
+da hierfür sowohl die unterschiedlichen Projektionen als auch die abgeflachte Form der Erde in Betracht gezogen werden muss. 
+In den meisten Fällen wird jedoch eine einfache Formel weiterhelfen, solange die Distanz nicht zu kurz und sich die Punkte nicht zu nah an den Polen befinden.
+Die Angaben der WGS84 Koordinaten müssen in Dezimalgrad sein (nicht in Grad-Minuten-Sekunden wie z.B. N 49° 29.296 E 008° 27.722). 
+Alle Koordinaten, die Sie von Platon erhalten, sind in Dezimalgrad.
+Zuerst müssen Sie die Koordinaten vom Gradmaß ins Bogenmaß umrechnen. Dieses erfolgt durch Multiplizieren des Längen- und Breitengrades mit PI/180. 
+In Excel können Sie einfach die Formel =Bogenmass(X) und =Bogenmass(Y) verwenden.
+
+Mit der folgenden Formel erhalten Sie dann die angenäherte Luftlinie zweier geographischer Punkte:
+
+d=arccos(sin(X2)*sin(X1)+cos(X2)*cos(X1)*cos(Y2 - Y1))
+
+Beispiel:
+
+1. Lissabon, Portugal:
+   x-coord: 9,136523757581143;
+   y-coord: 38,744916875859985
+2. Arnheim, Niederlande:
+   x-coord: 5,962115675929862;
+   y-coord: 51,98395045710915
+
+Längengrad/Breitengrad 	Dezimalgrad 	Bogenmaß
+X1 	 9,136523757581 	0,15946242
+Y1 	38,744916875860 	0,67622637
+		
+		
+X2 	 5,962115675930 	0,10405855
+Y2 	51,983950457109 	0,90729109
+
+Entfernung:
+
+d=arccos(sin(X2)*sin(X1)+cos(X2)*cos(X1)*cos(Y2 - Y1))
+
+d=arccos(sin(0,10405855) * sin(0,15946242) + cos(0,10405855) *
+    cos(0,15946242) * cos(0,67622637 - 0,67622637))
+
+d= 1503,31 km
+      
+      
+      
+ --> http://www.kowoma.de/gpsforum/viewtopic.php?p=3079
+ --> http://www.ottmarlabonde.de/L1/Pr1.Applet1.html
+ --> http://www.mydarc.de/db6zh/qthzz/qthxx03.htm
+ 
+ 
