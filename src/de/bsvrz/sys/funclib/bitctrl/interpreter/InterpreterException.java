@@ -31,7 +31,7 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter;
  * aktiv geworfen werden k&ouml;nnen.
  *
  * @author Peuker
- * @version $Id: InterpreterException.java 164 2007-02-26 10:36:54Z Schumann $
+ * @version $Id$
  */
 public class InterpreterException extends RuntimeException {
 

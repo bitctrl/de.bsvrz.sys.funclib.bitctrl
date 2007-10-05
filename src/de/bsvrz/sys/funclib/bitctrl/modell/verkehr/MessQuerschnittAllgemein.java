@@ -39,7 +39,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 			SystemObject so;
 
 			so = datum.getReferenceValue("LinienReferenz").getSystemObject();
-			strassenSegment = (StrassenSegment) ObjektFactory
+			strassenSegment = (StrassenSegment) ObjektFactory.getInstanz()
 					.getModellobjekt(so);
 			offset = datum.getScaledValue("Offset").floatValue();
 		} else {
@@ -47,6 +47,22 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 			offset = 0;
 		}
 
+	}
+
+	public Punkt getLocation() {
+		DataModel model = getSystemObject().getDataModel();
+		AttributeGroup atg = model.getAttributeGroup("atg.punktKoordinaten");
+		DataCache.cacheData(getSystemObject().getType(), atg);
+		Data datum = objekt.getConfigurationData(atg);
+		if (datum != null) {
+			double x = datum.getScaledValue("x").doubleValue();
+			double y = datum.getScaledValue("y").doubleValue();
+			position = new Punkt(x, y);
+		} else {
+			position = null;
+		}
+
+		return position;
 	}
 
 	/**
@@ -98,21 +114,5 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	@Override
 	public SystemObjektTyp getTyp() {
 		return VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN;
-	}
-
-	public Punkt getLocation() {
-		DataModel model = getSystemObject().getDataModel();
-		AttributeGroup atg = model.getAttributeGroup("atg.punktKoordinaten");
-		DataCache.cacheData(getSystemObject().getType(), atg);
-		Data datum = objekt.getConfigurationData(atg);
-		if (datum != null) {
-			double x = datum.getScaledValue("x").doubleValue();
-			double y = datum.getScaledValue("y").doubleValue();
-			position = new Punkt(x, y);
-		} else {
-			position = null;
-		}
-
-		return position;
 	}
 }

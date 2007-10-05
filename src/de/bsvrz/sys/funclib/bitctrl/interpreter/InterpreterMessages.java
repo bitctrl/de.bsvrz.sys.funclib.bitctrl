@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.i18n.MessageHandler;
  * mit lokalisierten Meldungen
  *
  * @author BitCtrl, Schumann
- * @version $Id: InterpreterMessage.java 166 2007-02-26 13:43:42Z Schumann $
+ * @version $Id$
  */
 public enum InterpreterMessages implements MessageHandler {
 

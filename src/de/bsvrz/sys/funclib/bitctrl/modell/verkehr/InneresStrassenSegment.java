@@ -3,7 +3,6 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.dav.daf.main.config.SystemObjectType;
 import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 
@@ -30,13 +29,13 @@ public class InneresStrassenSegment extends StrassenSegment {
 				.getSystemObject();
 	}
 
-	public AeusseresStrassenSegment getVonSegment() {
-		return (AeusseresStrassenSegment) ObjektFactory
-				.getModellobjekt(vonSegmentObj);
+	public AeusseresStrassenSegment getNachSegment() {
+		return (AeusseresStrassenSegment) ObjektFactory.getInstanz()
+				.getModellobjekt(nachSegmentObj);
 	}
 
-	public AeusseresStrassenSegment getNachSegment() {
-		return (AeusseresStrassenSegment) ObjektFactory
-				.getModellobjekt(nachSegmentObj);
+	public AeusseresStrassenSegment getVonSegment() {
+		return (AeusseresStrassenSegment) ObjektFactory.getInstanz()
+				.getModellobjekt(vonSegmentObj);
 	}
 }

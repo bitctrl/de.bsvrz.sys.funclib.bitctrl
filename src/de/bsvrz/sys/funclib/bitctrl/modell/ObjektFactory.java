@@ -1,20 +1,20 @@
 /*
- * Segment 5 Intelligente Analyseverfahren, SWE 5.2 Straﬂensubsegmentanalyse
- * Copyright (C) 2007 BitCtrl Systems GmbH
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -27,6 +27,7 @@
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,33 +40,47 @@ import de.bsvrz.dav.daf.main.config.SystemObjectType;
 import de.bsvrz.sys.funclib.bitctrl.daf.Konfigurationsbereich;
 
 /**
- * Dient dem Erzeugen von Objekten des logischen Modells aus dem Datenmodell des
- * Datenverteilers. Es k&ouml;nnen beliebige verschiedene Modelle benutzt
- * werden. Sie &uuml;ssen aber vor der Verwendung mit
- * {@link #registerFactory(ModellObjektFactory[])} bekannt gemacht werden.
+ * Eine "Super-Factory" f&uuml;r Modellobjekte. Dient dem Erzeugen von Objekten
+ * des logischen Modells aus dem Datenmodell des Datenverteilers. Es k&ouml;nnen
+ * beliebige verschiedene Modelle benutzt werden. Sie &uuml;ssen aber vor der
+ * Verwendung mit {@link #registerFactory(ModellObjektFactory[])} bekannt
+ * gemacht werden.
  * 
- * @author BitCtrl, Schumann
- * @version $Id: ObjektFactory.java 1410 2007-05-29 13:16:10Z Schumann $
+ * @author BitCtrl Systems GmbH, Falko Schumann
+ * @version $Id$
  */
-public final class ObjektFactory {
+public final class ObjektFactory implements ModellObjektFactory {
 
-	/** Merkt sich die Klassen aller registrierten Fabriken. */
-	private static Map<Class<ModellObjektFactory>, ModellObjektFactory> factories;
+	/** Das Singleton der Factory. */
+	private static ObjektFactory singleton;
 
 	/**
-	 * Registriert eine neuen Modellobjektfabrik.
+	 * Gibt das einzige Objekt der Super-Factory zur&uuml;ck.
 	 * 
-	 * @param factory
-	 *            Modellobjektfabrik
+	 * @return das Singleton der Super-Factory.
 	 */
-	public static void registerFactory(ModellObjektFactory... factory) {
-		if (factories == null) {
-			factories = new HashMap<Class<ModellObjektFactory>, ModellObjektFactory>();
+	public static ObjektFactory getInstanz() {
+		if (singleton == null) {
+			singleton = new ObjektFactory();
 		}
+		return singleton;
+	}
 
-		for (ModellObjektFactory f : factory) {
-			factories.put((Class<ModellObjektFactory>) f.getClass(), f);
-		}
+	/**
+	 * Cacht die erstellten Objekten und stellt sicher, dass es jedes Objekt nur
+	 * genau einmal gubt.
+	 */
+	private final Map<Long, SystemObjekt> cache;
+
+	/** Merkt sich die Klassen aller registrierten Fabriken. */
+	private final Map<Class<? extends ModellObjektFactory>, ModellObjektFactory> factories;
+
+	/**
+	 * Konstruktor verstecken, da Klasse nur statische Objekte besitzt.
+	 */
+	private ObjektFactory() {
+		factories = new HashMap<Class<? extends ModellObjektFactory>, ModellObjektFactory>();
+		cache = new HashMap<Long, SystemObjekt>();
 	}
 
 	/**
@@ -80,7 +95,7 @@ public final class ObjektFactory {
 	 *            PIDs der zu &uuml;bersetzenden Systemobjekte
 	 * @return Tabelle von IDs und Modellobjekten
 	 */
-	public static List<SystemObjekt> bestimmeModellobjekte(DataModel dm,
+	public List<SystemObjekt> bestimmeModellobjekte(DataModel dm,
 			String... pids) {
 		List<SystemObjekt> objekte = new ArrayList<SystemObjekt>();
 
@@ -134,9 +149,20 @@ public final class ObjektFactory {
 	}
 
 	/**
+	 * Sammelt alle gecachten Systemobjekte der registrierten Objektfabriken.
+	 * 
+	 * @return Liste aller derzeit bekannten Systemobjekte
+	 */
+	public Collection<SystemObjekt> getInstanzen() {
+		return cache.values();
+	}
+
+	/**
 	 * Versucht mit Hilfe der registrierten Fabriken ein Systemobjekt in ein
 	 * Modellobjekt zu &uumnl;berf&uuml;hren. Gibt es mehrere Fabriken, die dazu
 	 * in der Lage sind, wird die Fabrik benutzt, die zuerst registriert wurde.
+	 * 
+	 * {@inheritDoc}
 	 * 
 	 * @param obj
 	 *            Ein Systemobjekt
@@ -144,45 +170,59 @@ public final class ObjektFactory {
 	 *         Systemobjekt nicht in ein Modellobjekt &uuml;berf&uuml;hrt werden
 	 *         kann
 	 */
-	public static SystemObjekt getModellobjekt(SystemObject obj) {
+	public SystemObjekt getModellobjekt(SystemObject obj) {
 		SystemObjekt so = null;
 
+		// Liegt Objekt bereits im Cache?
+		if (cache.containsKey(obj.getId())) {
+			return cache.get(obj.getId());
+		}
+
+		// Objekt muss erzeugt werden
 		for (ModellObjektFactory f : factories.values()) {
-			so = f.getInstanz(obj);
+			so = f.getModellobjekt(obj);
 			if (so != null) {
 				// Wir haben eine passende Fabrik gefunden
 				break;
 			}
 		}
 
+		// Objekt im Cache ablegen, falls es erstellt werden konnte
+		if (so != null) {
+			cache.put(obj.getId(), so);
+		}
+
 		return so;
 	}
 
 	/**
-	 * Sammelt alle gecachten Systemobjekte der registrierten Objektfabriken.
+	 * Sammelt alle erzeugbaren Objekttypen der registrierten Factories.
 	 * 
-	 * @return Liste aller derzeit bekannten Systemobjekte
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory#getTypen()
 	 */
-	public static List<SystemObjekt> getModellobjekte() {
-		List<SystemObjekt> objekte;
+	public Collection<SystemObjektTyp> getTypen() {
+		List<SystemObjektTyp> typen;
 
-		objekte = null;
+		typen = new ArrayList<SystemObjektTyp>();
 		for (ModellObjektFactory f : factories.values()) {
-			if (objekte == null) {
-				objekte = f.getInstanzen();
-			} else {
-				objekte.addAll(f.getInstanzen());
-			}
+			typen.addAll(f.getTypen());
 		}
 
-		return objekte;
+		return typen;
 	}
 
 	/**
-	 * Konstruktor verstecken, da Klasse nur statische Objekte besitzt.
+	 * Registriert eine neuen Modellobjektfabrik.
+	 * 
+	 * @param factory
+	 *            Modellobjektfabrik
 	 */
-	private ObjektFactory() {
-		// Nix zu tun
+	public void registerFactory(ModellObjektFactory... factory) {
+		for (ModellObjektFactory f : factory) {
+			factories.put(f.getClass(), f);
+		}
 	}
 
 }

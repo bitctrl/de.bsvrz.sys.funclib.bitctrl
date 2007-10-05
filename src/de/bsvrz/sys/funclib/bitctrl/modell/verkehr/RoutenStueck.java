@@ -41,14 +41,9 @@ public class RoutenStueck extends StoerfallIndikator {
 			objekte = ref.getSystemObjectArray();
 			for (SystemObject so : objekte) {
 				strassenSegmente.add((AeusseresStrassenSegment) ObjektFactory
-						.getModellobjekt(so));
+						.getInstanz().getModellobjekt(so));
 			}
 		}
-	}
-
-	@Override
-	public SystemObjektTyp getTyp() {
-		return VerkehrsModellTypen.ROUTENSTUECK;
 	}
 
 	public Collection<AeusseresStrassenSegment> getStrassenSegmente() {
@@ -57,5 +52,10 @@ public class RoutenStueck extends StoerfallIndikator {
 			segmente.addAll(strassenSegmente);
 		}
 		return segmente;
+	}
+
+	@Override
+	public SystemObjektTyp getTyp() {
+		return VerkehrsModellTypen.ROUTENSTUECK;
 	}
 }

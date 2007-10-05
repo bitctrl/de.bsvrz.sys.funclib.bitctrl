@@ -36,7 +36,7 @@ import java.util.List;
  * Schnittstelle definiert werden. Siehe auch {@link AbstractHandler}
  *
  * @author BitCtrl, Schumann
- * @version $Id: Handler.java 158 2007-02-23 12:52:55Z Schumann $
+ * @version $Id$
  */
 public interface Handler {
 

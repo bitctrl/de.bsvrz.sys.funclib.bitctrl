@@ -27,7 +27,6 @@
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -97,54 +96,6 @@ public class StrassenTeilSegment extends StoerfallIndikator {
 	}
 
 	/**
-	 * Gibt die L&auml;nge des Stra&szlig;enteilsegments zur&uuml;ck.
-	 * 
-	 * @return Die L&auml;nge
-	 */
-	public float getLaenge() {
-		return laenge;
-	}
-
-	/**
-	 * TODO: Ergebnis zwischenspeichern, da konfigurierende Daten
-	 * <p>
-	 * Gibt die Menge der Messquerschnitte dieses Stra&szlig;enteilsegment
-	 * zur&uuml;ck. Das Stra&szlig;enteilsegment und seine Messquerschnitte
-	 * m&uuml;ssen im selben Konfigurationsbereich definiert sein.
-	 * 
-	 * @return Menge von Messquerschnitten
-	 */
-	public List<MessQuerschnitt> getMessQuerschnitte() {
-		List<MessQuerschnitt> mengeMQ;
-		List<SystemObject> listeSO;
-
-		mengeMQ = new ArrayList<MessQuerschnitt>();
-		listeSO = Konfigurationsbereich.getObjekte(objekt
-				.getConfigurationArea(), VerkehrsModellTypen.MESSQUERSCHNITT
-				.getPid());
-
-		for (SystemObject so : listeSO) {
-			MessQuerschnitt mq = (MessQuerschnitt) ObjektFactory
-					.getModellobjekt(so);
-			StrassenTeilSegment sts = mq.getStrassenTeilSegment();
-			if (this.equals(sts)) {
-				mengeMQ.add(mq);
-			}
-		}
-
-		Collections.sort(mengeMQ, new MessQuerschnittComparator());
-		return mengeMQ;
-	}
-
-	/**
-	 * {@inheritDoc}.
-	 */
-	@Override
-	public SystemObjektTyp getTyp() {
-		return VerkehrsModellTypen.STRASSENTEILSEGMENT;
-	}
-
-	/**
 	 * liefert die Anzahl der Fahrstreifen des Strassenteilsegments.
 	 * 
 	 * @return die Anzahl
@@ -175,5 +126,53 @@ public class StrassenTeilSegment extends StoerfallIndikator {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Gibt die L&auml;nge des Stra&szlig;enteilsegments zur&uuml;ck.
+	 * 
+	 * @return Die L&auml;nge
+	 */
+	public float getLaenge() {
+		return laenge;
+	}
+
+	/**
+	 * TODO: Ergebnis zwischenspeichern, da konfigurierende Daten
+	 * <p>
+	 * Gibt die Menge der Messquerschnitte dieses Stra&szlig;enteilsegment
+	 * zur&uuml;ck. Das Stra&szlig;enteilsegment und seine Messquerschnitte
+	 * m&uuml;ssen im selben Konfigurationsbereich definiert sein.
+	 * 
+	 * @return Menge von Messquerschnitten
+	 */
+	public List<MessQuerschnitt> getMessQuerschnitte() {
+		List<MessQuerschnitt> mengeMQ;
+		List<SystemObject> listeSO;
+
+		mengeMQ = new ArrayList<MessQuerschnitt>();
+		listeSO = Konfigurationsbereich.getObjekte(objekt
+				.getConfigurationArea(), VerkehrsModellTypen.MESSQUERSCHNITT
+				.getPid());
+
+		for (SystemObject so : listeSO) {
+			MessQuerschnitt mq = (MessQuerschnitt) ObjektFactory.getInstanz()
+					.getModellobjekt(so);
+			StrassenTeilSegment sts = mq.getStrassenTeilSegment();
+			if (this.equals(sts)) {
+				mengeMQ.add(mq);
+			}
+		}
+
+		Collections.sort(mengeMQ, new MessQuerschnittComparator());
+		return mengeMQ;
+	}
+
+	/**
+	 * {@inheritDoc}.
+	 */
+	@Override
+	public SystemObjektTyp getTyp() {
+		return VerkehrsModellTypen.STRASSENTEILSEGMENT;
 	}
 }

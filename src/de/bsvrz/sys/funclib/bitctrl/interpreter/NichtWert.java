@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.i18n.Messages;
  * beliebiges Datenobjekt zugewiesen werden.
  * 
  * @author Peuker
- * @version $Id: NichtWert.java 164 2007-02-26 10:36:54Z Schumann $
+ * @version $Id$
  */
 public final class NichtWert {
 

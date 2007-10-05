@@ -36,7 +36,7 @@ import java.util.List;
  * 
  * @author BitCtrl, Uwe
  * @author BitCtrl, Schumann
- * @version $Id: AbstractHandler.java 164 2007-02-26 10:36:54Z Schumann $
+ * @version $Id$
  */
 public abstract class AbstractHandler implements Handler {
 

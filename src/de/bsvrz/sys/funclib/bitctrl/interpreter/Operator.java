@@ -42,7 +42,7 @@ import de.bsvrz.sys.funclib.bitctrl.i18n.Messages;
  * {@link Handler} die ihn behandeln können.
  *
  * @author BitCtrl, Schumann
- * @version $Id: Operator.java 164 2007-02-26 10:36:54Z Schumann $
+ * @version $Id$
  */
 public class Operator {
 	/**

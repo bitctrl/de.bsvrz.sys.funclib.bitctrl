@@ -67,19 +67,9 @@ public class Netz extends StoerfallIndikator implements NetzBestandTeil {
 		ObjectSet menge = ((ConfigurationObject) getSystemObject())
 				.getObjectSet("NetzBestandTeile");
 		for (SystemObject mengenObj : menge.getElements()) {
-			bestandteile.add((NetzBestandTeil) ObjektFactory
+			bestandteile.add((NetzBestandTeil) ObjektFactory.getInstanz()
 					.getModellobjekt(mengenObj));
 		}
-	}
-
-	/**
-	 * {@inheritDoc}.
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getTyp()
-	 */
-	@Override
-	public SystemObjektTyp getTyp() {
-		return VerkehrsModellTypen.NETZ;
 	}
 
 	/**
@@ -113,6 +103,16 @@ public class Netz extends StoerfallIndikator implements NetzBestandTeil {
 			}
 		}
 		return strassenListe;
+	}
+
+	/**
+	 * {@inheritDoc}.
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getTyp()
+	 */
+	@Override
+	public SystemObjektTyp getTyp() {
+		return VerkehrsModellTypen.NETZ;
 	}
 
 }

@@ -33,7 +33,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * Umfelddatensensor, der die Helligkeit misst.
  * 
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: Helligkeit.java 1531 2007-06-04 09:27:42Z Schumann $
+ * @version $Id$
  */
 public class UDSHelligkeit extends AbstractUmfelddatensensor {
 

@@ -92,15 +92,6 @@ public class KalenderEvent extends EventObject {
 		}
 
 		/**
-		 * Gibt den Zeitstempel der Zustands&auml;nderung zur&uuml;ck.
-		 * 
-		 * @return ein Zeitstempel.
-		 */
-		public long getZeitstempel() {
-			return zeitstempel;
-		}
-
-		/**
 		 * Gibt das Ereignis zur&uuml;ck, dessen Zustand sich &auml;ndert.
 		 * 
 		 * @return ein Ereignis.
@@ -110,12 +101,12 @@ public class KalenderEvent extends EventObject {
 		}
 
 		/**
-		 * Flag f&uuml;r die neue zeitliche G&uuml;ltigkeit.
+		 * Gibt den Zeitstempel der Zustands&auml;nderung zur&uuml;ck.
 		 * 
-		 * @return der Zustand der neuen zeitlichen G&uuml;ltigkeit.
+		 * @return ein Zeitstempel.
 		 */
-		public boolean isZeitlichGueltig() {
-			return zeitlichGueltig;
+		public long getZeitstempel() {
+			return zeitstempel;
 		}
 
 		/**
@@ -125,6 +116,15 @@ public class KalenderEvent extends EventObject {
 		 */
 		public boolean isVerkehrlichGueltig() {
 			return verkehrlichGueltig;
+		}
+
+		/**
+		 * Flag f&uuml;r die neue zeitliche G&uuml;ltigkeit.
+		 * 
+		 * @return der Zustand der neuen zeitlichen G&uuml;ltigkeit.
+		 */
+		public boolean isZeitlichGueltig() {
+			return zeitlichGueltig;
 		}
 
 		/**
@@ -152,7 +152,7 @@ public class KalenderEvent extends EventObject {
 	private boolean aenderung;
 
 	/** Die Liste der Ereignisse und deren Zustandswechsel. */
-	private List<Zustand> zustandswechsel;
+	private final List<Zustand> zustandswechsel;
 
 	/**
 	 * Konstruiert das Event.
@@ -166,6 +166,40 @@ public class KalenderEvent extends EventObject {
 		super(source);
 		this.anfrager = anfrager;
 		zustandswechsel = new ArrayList<Zustand>();
+	}
+
+	/**
+	 * F&uuml;gt der Liste der Zustandswechsel einen neuen hinzu.
+	 * <p>
+	 * <em>Hinweis:</em> Diese Methode ist nicht Teil der öffentlichen API und
+	 * sollte nicht außerhalb der Ganglinie-API verwendet werden.
+	 * 
+	 * @param zustand
+	 *            ein Zustandswechsel.
+	 */
+	public void add(Zustand zustand) {
+		if (zustand == null) {
+			throw new IllegalArgumentException();
+		}
+		zustandswechsel.add(zustand);
+	}
+
+	/**
+	 * Gibt das Absenderzeichen zur&uuml;ck.
+	 * 
+	 * @return ein beliebiger String.
+	 */
+	public String getAbsenderZeichen() {
+		return absenderZeichen;
+	}
+
+	/**
+	 * Gibt die anfragende Applikation zur&uuml;ck.
+	 * 
+	 * @return die Applikation.
+	 */
+	public ClientApplication getAnfrager() {
+		return anfrager;
 	}
 
 	/**
@@ -215,6 +249,51 @@ public class KalenderEvent extends EventObject {
 	}
 
 	/**
+	 * Gibt die Liste der Zustandswechsel zur&uuml;ck.
+	 * 
+	 * @return die nach Zeitstempel sortierte Liste der Zustandswechsel.
+	 */
+	public List<Zustand> getZustandswechsel() {
+		return new ArrayList<Zustand>(zustandswechsel);
+	}
+
+	/**
+	 * Flag, ob es sich um die erste Antwort handelt oder ob es sich um eine
+	 * Aktualisierung handelt.
+	 * 
+	 * @return {@code true}, wenn das Event eine Aktualisierung darstellt.
+	 */
+	public boolean isAenderung() {
+		return aenderung;
+	}
+
+	/**
+	 * Legt das Absenderzeichen fest.
+	 * <p>
+	 * <em>Hinweis:</em> Diese Methode ist nicht Teil der öffentlichen API und
+	 * sollte nicht außerhalb der Ganglinie-API verwendet werden.
+	 * 
+	 * @param absenderZeichen
+	 *            ein beliebiger String.
+	 */
+	public void setAbsenderZeichen(String absenderZeichen) {
+		this.absenderZeichen = absenderZeichen;
+	}
+
+	/**
+	 * Legt fest, ob das Event eine Aktualisierung darstellt.
+	 * <p>
+	 * <em>Hinweis:</em> Diese Methode ist nicht Teil der öffentlichen API und
+	 * sollte nicht außerhalb der Ganglinie-API verwendet werden.
+	 * 
+	 * @param aenderung
+	 *            {@code true}, wenn es eine Aktualissierung ist.
+	 */
+	public void setAenderung(boolean aenderung) {
+		this.aenderung = aenderung;
+	}
+
+	/**
 	 * &Uuml;bernimmt die Informationen aus dem Datum als inneren Zustand.
 	 * <p>
 	 * <em>Hinweis:</em> Diese Methode ist nicht Teil der öffentlichen API und
@@ -241,7 +320,8 @@ public class KalenderEvent extends EventObject {
 			zeitstempel = feld.getItem(i).getTimeValue("Zeitpunkt").getMillis();
 			ereignisSO = feld.getItem(i).getReferenceValue("EreignisReferenz")
 					.getSystemObject();
-			ereignis = (Ereignis) ObjektFactory.getModellobjekt(ereignisSO);
+			ereignis = (Ereignis) ObjektFactory.getInstanz().getModellobjekt(
+					ereignisSO);
 			zeitlichGueltig = feld.getItem(i)
 					.getUnscaledValue("zeitlichGültig").intValue() != 0;
 			verkehrlichGueltig = feld.getItem(i).getUnscaledValue(
@@ -249,85 +329,6 @@ public class KalenderEvent extends EventObject {
 			zustandswechsel.add(new Zustand(zeitstempel, ereignis,
 					zeitlichGueltig, verkehrlichGueltig));
 		}
-	}
-
-	/**
-	 * Gibt das Absenderzeichen zur&uuml;ck.
-	 * 
-	 * @return ein beliebiger String.
-	 */
-	public String getAbsenderZeichen() {
-		return absenderZeichen;
-	}
-
-	/**
-	 * Legt das Absenderzeichen fest.
-	 * <p>
-	 * <em>Hinweis:</em> Diese Methode ist nicht Teil der öffentlichen API und
-	 * sollte nicht außerhalb der Ganglinie-API verwendet werden.
-	 * 
-	 * @param absenderZeichen
-	 *            ein beliebiger String.
-	 */
-	public void setAbsenderZeichen(String absenderZeichen) {
-		this.absenderZeichen = absenderZeichen;
-	}
-
-	/**
-	 * Flag, ob es sich um die erste Antwort handelt oder ob es sich um eine
-	 * Aktualisierung handelt.
-	 * 
-	 * @return {@code true}, wenn das Event eine Aktualisierung darstellt.
-	 */
-	public boolean isAenderung() {
-		return aenderung;
-	}
-
-	/**
-	 * Legt fest, ob das Event eine Aktualisierung darstellt.
-	 * <p>
-	 * <em>Hinweis:</em> Diese Methode ist nicht Teil der öffentlichen API und
-	 * sollte nicht außerhalb der Ganglinie-API verwendet werden.
-	 * 
-	 * @param aenderung
-	 *            {@code true}, wenn es eine Aktualissierung ist.
-	 */
-	public void setAenderung(boolean aenderung) {
-		this.aenderung = aenderung;
-	}
-
-	/**
-	 * Gibt die anfragende Applikation zur&uuml;ck.
-	 * 
-	 * @return die Applikation.
-	 */
-	public ClientApplication getAnfrager() {
-		return anfrager;
-	}
-
-	/**
-	 * Gibt die Liste der Zustandswechsel zur&uuml;ck.
-	 * 
-	 * @return die nach Zeitstempel sortierte Liste der Zustandswechsel.
-	 */
-	public List<Zustand> getZustandswechsel() {
-		return new ArrayList<Zustand>(zustandswechsel);
-	}
-
-	/**
-	 * F&uuml;gt der Liste der Zustandswechsel einen neuen hinzu.
-	 * <p>
-	 * <em>Hinweis:</em> Diese Methode ist nicht Teil der öffentlichen API und
-	 * sollte nicht außerhalb der Ganglinie-API verwendet werden.
-	 * 
-	 * @param zustand
-	 *            ein Zustandswechsel.
-	 */
-	public void add(Zustand zustand) {
-		if (zustand == null) {
-			throw new IllegalArgumentException();
-		}
-		zustandswechsel.add(zustand);
 	}
 
 	/**

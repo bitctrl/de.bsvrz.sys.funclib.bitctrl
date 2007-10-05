@@ -19,9 +19,34 @@ public class AeusseresStrassenSegment extends StrassenSegment implements
 
 	static private Set<AeusseresStrassenSegment> assListe;
 
+	public static Collection<AeusseresStrassenSegment> getSegmentListe(
+			final DataModel model) {
+		Collection<AeusseresStrassenSegment> result = new ArrayList<AeusseresStrassenSegment>();
+
+		if (assListe == null) {
+			List<SystemObject> listeSO;
+			listeSO = model.getType(
+					VerkehrsModellTypen.AUESSERES_STRASSENSEGMENT.getPid())
+					.getElements();
+
+			assListe = new HashSet<AeusseresStrassenSegment>();
+			for (SystemObject so : listeSO) {
+				AeusseresStrassenSegment ass = (AeusseresStrassenSegment) ObjektFactory
+						.getInstanz().getModellobjekt(so);
+				if (ass != null) {
+					assListe.add(ass);
+				}
+			}
+		}
+
+		result.addAll(assListe);
+		return result;
+	}
+
 	private StrassenKnoten vonKnoten;
 	private StrassenKnoten nachKnoten;
 	private Set<RoutenStueck> routenStuecke;
+
 	private TmcRichtung tmcRichtung = TmcRichtung.UNDEFINIERT;
 
 	public AeusseresStrassenSegment(SystemObject obj) {
@@ -38,25 +63,17 @@ public class AeusseresStrassenSegment extends StrassenSegment implements
 			SystemObject knotenObj = daten.getReferenceValue("vonKnoten")
 					.getSystemObject();
 			if (knotenObj != null) {
-				vonKnoten = (StrassenKnoten) ObjektFactory
+				vonKnoten = (StrassenKnoten) ObjektFactory.getInstanz()
 						.getModellobjekt(knotenObj);
 			}
 			knotenObj = daten.getReferenceValue("nachKnoten").getSystemObject();
 			if (knotenObj != null) {
-				nachKnoten = (StrassenKnoten) ObjektFactory
+				nachKnoten = (StrassenKnoten) ObjektFactory.getInstanz()
 						.getModellobjekt(knotenObj);
 			}
 			tmcRichtung = TmcRichtung.getTyp(daten.getUnscaledValue(
 					"TmcRichtung").intValue());
 		}
-	}
-
-	/**
-	 * {@inheritDoc}.
-	 */
-	@Override
-	public SystemObjektTyp getTyp() {
-		return VerkehrsModellTypen.AUESSERES_STRASSENSEGMENT;
 	}
 
 	/**
@@ -66,20 +83,13 @@ public class AeusseresStrassenSegment extends StrassenSegment implements
 		return nachKnoten;
 	}
 
-	/**
-	 * @return vonKnoten
-	 */
-	public StrassenKnoten getVonKnoten() {
-		return vonKnoten;
-	}
-
 	public Collection<RoutenStueck> getRoutenStuecke() {
 		if (routenStuecke == null) {
 			routenStuecke = new HashSet<RoutenStueck>();
 
 			for (SystemObject obj : getSystemObject().getDataModel().getType(
 					VerkehrsModellTypen.ROUTENSTUECK.getPid()).getElements()) {
-				RoutenStueck rs = (RoutenStueck) ObjektFactory
+				RoutenStueck rs = (RoutenStueck) ObjektFactory.getInstanz()
 						.getModellobjekt(obj);
 				if (rs.getStrassenSegmente().contains(this)) {
 					routenStuecke.add(rs);
@@ -115,27 +125,18 @@ public class AeusseresStrassenSegment extends StrassenSegment implements
 		return tmcRichtung;
 	}
 
-	public static Collection<AeusseresStrassenSegment> getSegmentListe(
-			final DataModel model) {
-		Collection<AeusseresStrassenSegment> result = new ArrayList<AeusseresStrassenSegment>();
+	/**
+	 * {@inheritDoc}.
+	 */
+	@Override
+	public SystemObjektTyp getTyp() {
+		return VerkehrsModellTypen.AUESSERES_STRASSENSEGMENT;
+	}
 
-		if (assListe == null) {
-			List<SystemObject> listeSO;
-			listeSO = model.getType(
-					VerkehrsModellTypen.AUESSERES_STRASSENSEGMENT.getPid())
-					.getElements();
-
-			assListe = new HashSet<AeusseresStrassenSegment>();
-			for (SystemObject so : listeSO) {
-				AeusseresStrassenSegment ass = (AeusseresStrassenSegment) ObjektFactory
-						.getModellobjekt(so);
-				if (ass != null) {
-					assListe.add(ass);
-				}
-			}
-		}
-
-		result.addAll(assListe);
-		return result;
+	/**
+	 * @return vonKnoten
+	 */
+	public StrassenKnoten getVonKnoten() {
+		return vonKnoten;
 	}
 }

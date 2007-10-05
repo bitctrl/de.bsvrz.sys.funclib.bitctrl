@@ -27,7 +27,6 @@
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -88,8 +87,8 @@ public class StrassenSegment extends StoerfallIndikator {
 			SystemObject strassenObjekt = datum.getReferenceValue(
 					"gehörtZuStraße").getSystemObject();
 			if (strassenObjekt != null) {
-				strasse = (Strasse) ObjektFactory
-						.getModellobjekt(strassenObjekt);
+				strasse = (Strasse) ObjektFactory.getInstanz().getModellobjekt(
+						strassenObjekt);
 			} else {
 				strasse = null;
 			}
@@ -111,30 +110,9 @@ public class StrassenSegment extends StoerfallIndikator {
 			objekte = ref.getSystemObjectArray();
 			for (SystemObject so : objekte) {
 				strassenTeilSegment.add((StrassenTeilSegment) ObjektFactory
-						.getModellobjekt(so));
+						.getInstanz().getModellobjekt(so));
 			}
 		}
-	}
-
-	/**
-	 * Gibt die L&auml;nge des Stra&szlig;ensegments zur&uuml;ck.
-	 * 
-	 * @return Die L&auml;nge
-	 */
-	public float getLaenge() {
-		return laenge;
-	}
-
-	/**
-	 * Pr&uuml;ft ob ein Stra&szlig;enteilsegment zu diesem Stra&szlig;ensegment
-	 * geh&ouml;rt.
-	 * 
-	 * @param sts
-	 *            Ein Stra&szlig;enteilsegment
-	 * @return {@code true}, wenn das Stra&szlig;enteilsegment dazugeh&ouml;rt
-	 */
-	public boolean contains(StrassenTeilSegment sts) {
-		return strassenTeilSegment.contains(sts);
 	}
 
 	/**
@@ -147,52 +125,15 @@ public class StrassenSegment extends StoerfallIndikator {
 	}
 
 	/**
-	 * Gibt die Liste der Stra&szlig;enteilsegmente zur&uuml;ck.
+	 * Pr&uuml;ft ob ein Stra&szlig;enteilsegment zu diesem Stra&szlig;ensegment
+	 * geh&ouml;rt.
 	 * 
-	 * @return Liste von Stra&szlig;enteilsegmenten
+	 * @param sts
+	 *            Ein Stra&szlig;enteilsegment
+	 * @return {@code true}, wenn das Stra&szlig;enteilsegment dazugeh&ouml;rt
 	 */
-	public List<StrassenTeilSegment> getStrassenTeilSegmente() {
-		return new ArrayList<StrassenTeilSegment>(strassenTeilSegment);
-	}
-
-	/**
-	 * TODO: Ergebnis zwischenspeichern, da konfigurierende Daten
-	 * <p>
-	 * Sucht alle Messquerschnitte der Stra&szlig;enteilsegmente dieses
-	 * Stra&szlig;ensegments zusammen.
-	 * 
-	 * @return Menge aller Messquerschnitte des Stra&szlig;ensegments
-	 */
-	public List<MessQuerschnitt> getMessquerschnitte() {
-		List<MessQuerschnitt> mengeMQ = new ArrayList<MessQuerschnitt>();
-
-		for (MessQuerschnitt mq : MessQuerschnitt.getMqListe(objekt
-				.getDataModel())) {
-			if (this.equals(mq.getStrassenSegment())) {
-				mengeMQ.add(mq);
-			}
-		}
-
-		Collections.sort(mengeMQ, new MessQuerschnittComparator());
-		return mengeMQ;
-	}
-
-	/**
-	 * {@inheritDoc}.
-	 */
-	@Override
-	public SystemObjektTyp getTyp() {
-		return VerkehrsModellTypen.STRASSENSEGMENT;
-	}
-
-	/**
-	 * liefert die Stra&szlig;e, zu der das Segment geh&ouml;rt oder <i>null</i>,
-	 * wenn keine Stra&szlig;e konfiguriert wurde.
-	 * 
-	 * @return die Stra&szlig;e oder <i>null</i>.
-	 */
-	public Strasse getStrasse() {
-		return strasse;
+	public boolean contains(StrassenTeilSegment sts) {
+		return strassenTeilSegment.contains(sts);
 	}
 
 	/**
@@ -228,5 +169,63 @@ public class StrassenSegment extends StoerfallIndikator {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Gibt die L&auml;nge des Stra&szlig;ensegments zur&uuml;ck.
+	 * 
+	 * @return Die L&auml;nge
+	 */
+	public float getLaenge() {
+		return laenge;
+	}
+
+	/**
+	 * TODO: Ergebnis zwischenspeichern, da konfigurierende Daten
+	 * <p>
+	 * Sucht alle Messquerschnitte der Stra&szlig;enteilsegmente dieses
+	 * Stra&szlig;ensegments zusammen.
+	 * 
+	 * @return Menge aller Messquerschnitte des Stra&szlig;ensegments
+	 */
+	public List<MessQuerschnitt> getMessquerschnitte() {
+		List<MessQuerschnitt> mengeMQ = new ArrayList<MessQuerschnitt>();
+
+		for (MessQuerschnitt mq : MessQuerschnitt.getMqListe(objekt
+				.getDataModel())) {
+			if (this.equals(mq.getStrassenSegment())) {
+				mengeMQ.add(mq);
+			}
+		}
+
+		Collections.sort(mengeMQ, new MessQuerschnittComparator());
+		return mengeMQ;
+	}
+
+	/**
+	 * liefert die Stra&szlig;e, zu der das Segment geh&ouml;rt oder <i>null</i>,
+	 * wenn keine Stra&szlig;e konfiguriert wurde.
+	 * 
+	 * @return die Stra&szlig;e oder <i>null</i>.
+	 */
+	public Strasse getStrasse() {
+		return strasse;
+	}
+
+	/**
+	 * Gibt die Liste der Stra&szlig;enteilsegmente zur&uuml;ck.
+	 * 
+	 * @return Liste von Stra&szlig;enteilsegmenten
+	 */
+	public List<StrassenTeilSegment> getStrassenTeilSegmente() {
+		return new ArrayList<StrassenTeilSegment>(strassenTeilSegment);
+	}
+
+	/**
+	 * {@inheritDoc}.
+	 */
+	@Override
+	public SystemObjektTyp getTyp() {
+		return VerkehrsModellTypen.STRASSENSEGMENT;
 	}
 }

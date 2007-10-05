@@ -38,22 +38,8 @@ public class StrassenKnoten extends StoerfallIndikator {
 		for (SystemObject o : ((ConfigurationObject) obj).getObjectSet(
 				"InnereStraßenSegmente").getElements()) {
 			innereSegmente.add((InneresStrassenSegment) ObjektFactory
-					.getModellobjekt(o));
+					.getInstanz().getModellobjekt(o));
 		}
-	}
-
-	@Override
-	public SystemObjektTyp getTyp() {
-		return VerkehrsModellTypen.STRASSENKNOTEN;
-	}
-
-	/**
-	 * liefert den Typ des Straßenknotens.
-	 * 
-	 * @return den Typ
-	 */
-	public StrassenKnotenTyp getKnotenTyp() {
-		return knotenTyp;
 	}
 
 	/**
@@ -61,6 +47,47 @@ public class StrassenKnoten extends StoerfallIndikator {
 	 */
 	public Collection<InneresStrassenSegment> getInnereSegmente() {
 		return new ArrayList<InneresStrassenSegment>(innereSegmente);
+	}
+
+	/**
+	 * liefert das innere Straßensegment, das ein äußeres Straßensegment des
+	 * Knotens in Fahrtrichtung mit einem anderen äußeren Straßensegment des
+	 * Knotens auf der gleichen Straße verbindet. Wird kein solches gefunden,
+	 * wird das innere Straßensegment geliefert, das an dem äußeren Segment
+	 * hängt. Existiert auch dieses nicht, wird <b><i>null</i></b> geliefert.
+	 * 
+	 * @param segment
+	 *            das äußere Straßensegment
+	 * @return das ermittelte innere Straßensegment
+	 */
+	public InneresStrassenSegment getInnereVerbindungDanach(
+			AeusseresStrassenSegment segment) {
+		InneresStrassenSegment result = null;
+		InneresStrassenSegment candidate = null;
+		Strasse strasse = segment.getStrasse();
+		if ((segment != null) && (strasse != null)) {
+			for (InneresStrassenSegment innen : innereSegmente) {
+				if (segment.equals(innen.getVonSegment())) {
+					AeusseresStrassenSegment ass = innen.getNachSegment();
+					if ((ass != null) && strasse.equals(ass.getStrasse())) {
+						if (ass.getTmcRichtung() == segment.getTmcRichtung()) {
+							result = innen;
+							break;
+						}
+					}
+
+					if ((ass == null) && strasse.equals(innen.getStrasse())) {
+						candidate = innen;
+					}
+				}
+			}
+		}
+
+		if (result == null) {
+			result = candidate;
+		}
+
+		return result;
 	}
 
 	/**
@@ -106,44 +133,12 @@ public class StrassenKnoten extends StoerfallIndikator {
 	}
 
 	/**
-	 * liefert das innere Straßensegment, das ein äußeres Straßensegment des
-	 * Knotens in Fahrtrichtung mit einem anderen äußeren Straßensegment des
-	 * Knotens auf der gleichen Straße verbindet. Wird kein solches gefunden,
-	 * wird das innere Straßensegment geliefert, das an dem äußeren Segment
-	 * hängt. Existiert auch dieses nicht, wird <b><i>null</i></b> geliefert.
+	 * liefert den Typ des Straßenknotens.
 	 * 
-	 * @param segment
-	 *            das äußere Straßensegment
-	 * @return das ermittelte innere Straßensegment
+	 * @return den Typ
 	 */
-	public InneresStrassenSegment getInnereVerbindungDanach(
-			AeusseresStrassenSegment segment) {
-		InneresStrassenSegment result = null;
-		InneresStrassenSegment candidate = null;
-		Strasse strasse = segment.getStrasse();
-		if ((segment != null) && (strasse != null)) {
-			for (InneresStrassenSegment innen : innereSegmente) {
-				if (segment.equals(innen.getVonSegment())) {
-					AeusseresStrassenSegment ass = innen.getNachSegment();
-					if ((ass != null) && strasse.equals(ass.getStrasse())) {
-						if (ass.getTmcRichtung() == segment.getTmcRichtung()) {
-							result = innen;
-							break;
-						}
-					}
-
-					if ((ass == null) && strasse.equals(innen.getStrasse())) {
-						candidate = innen;
-					}
-				}
-			}
-		}
-
-		if (result == null) {
-			result = candidate;
-		}
-
-		return result;
+	public StrassenKnotenTyp getKnotenTyp() {
+		return knotenTyp;
 	}
 
 	/**
@@ -198,5 +193,10 @@ public class StrassenKnoten extends StoerfallIndikator {
 		}
 
 		return result;
+	}
+
+	@Override
+	public SystemObjektTyp getTyp() {
+		return VerkehrsModellTypen.STRASSENKNOTEN;
 	}
 }

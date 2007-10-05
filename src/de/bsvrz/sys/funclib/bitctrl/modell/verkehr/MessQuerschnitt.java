@@ -33,8 +33,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import de.bsvrz.dav.daf.main.Data;
-import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
@@ -47,8 +45,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @version $Id$
  */
 public class MessQuerschnitt extends MessQuerschnittAllgemein {
-
-	static public Set<MessQuerschnitt> mqListe;
 
 	/**
 	 * Definiert eine Ordung auf Messquerschnitte nach deren Offset. Die Ordnung
@@ -74,6 +70,30 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 
 	}
 
+	static public Set<MessQuerschnitt> mqListe;
+
+	public static Collection<MessQuerschnitt> getMqListe(final DataModel model) {
+		Collection<MessQuerschnitt> result = new ArrayList<MessQuerschnitt>();
+
+		if (mqListe == null) {
+			List<SystemObject> listeSO;
+			listeSO = model.getType(
+					VerkehrsModellTypen.MESSQUERSCHNITT.getPid()).getElements();
+
+			mqListe = new HashSet<MessQuerschnitt>();
+			for (SystemObject so : listeSO) {
+				MessQuerschnitt mq = (MessQuerschnitt) ObjektFactory
+						.getInstanz().getModellobjekt(so);
+				if (mq != null) {
+					mqListe.add(mq);
+				}
+			}
+		}
+
+		result.addAll(mqListe);
+		return result;
+	}
+
 	/**
 	 * Erzeugt einen Messquerschnitt aus einem Systemobjekt.
 	 * 
@@ -97,27 +117,5 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 	@Override
 	public SystemObjektTyp getTyp() {
 		return VerkehrsModellTypen.MESSQUERSCHNITT;
-	}
-
-	public static Collection<MessQuerschnitt> getMqListe(final DataModel model) {
-		Collection<MessQuerschnitt> result = new ArrayList<MessQuerschnitt>();
-
-		if (mqListe == null) {
-			List<SystemObject> listeSO;
-			listeSO = model.getType(
-					VerkehrsModellTypen.MESSQUERSCHNITT.getPid()).getElements();
-
-			mqListe = new HashSet<MessQuerschnitt>();
-			for (SystemObject so : listeSO) {
-				MessQuerschnitt mq = (MessQuerschnitt) ObjektFactory
-						.getModellobjekt(so);
-				if (mq != null) {
-					mqListe.add(mq);
-				}
-			}
-		}
-
-		result.addAll(mqListe);
-		return result;
 	}
 }

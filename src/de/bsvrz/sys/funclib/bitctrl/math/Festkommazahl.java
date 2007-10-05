@@ -32,7 +32,7 @@ package de.bsvrz.sys.funclib.bitctrl.math;
  * TODO: Rechenoperationen als Methoden definieren
  * 
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: RationaleZahl.java 1220 2007-05-15 12:07:37Z Schumann $
+ * @version $Id$
  */
 public class Festkommazahl extends Number implements Comparable<Festkommazahl> {
 

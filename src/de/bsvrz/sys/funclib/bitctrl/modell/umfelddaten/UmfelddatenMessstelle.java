@@ -66,7 +66,7 @@ public class UmfelddatenMessstelle extends AbstractSystemObjekt {
 		menge = co.getNonMutableSet("UmfeldDatenSensoren");
 		for (SystemObject obj : menge.getElements()) {
 			umfelddatensensoren.add((UmfelddatenSensor) ObjektFactory
-					.getModellobjekt(obj));
+					.getInstanz().getModellobjekt(obj));
 		}
 	}
 
@@ -84,6 +84,13 @@ public class UmfelddatenMessstelle extends AbstractSystemObjekt {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	public SystemObjektTyp getTyp() {
+		return UmfelddatenModelTypen.UMFELDDATENMESSSTELLE;
+	}
+
+	/**
 	 * Gibt einen Iterator der Umfelddatensensoren dieser Umfelddatenmessstelle
 	 * zur&uuml;ck.
 	 * 
@@ -91,13 +98,6 @@ public class UmfelddatenMessstelle extends AbstractSystemObjekt {
 	 */
 	public List<UmfelddatenSensor> getUmfelddatensensoren() {
 		return new ArrayList<UmfelddatenSensor>(umfelddatensensoren);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public SystemObjektTyp getTyp() {
-		return UmfelddatenModelTypen.UMFELDDATENMESSSTELLE;
 	}
 
 }

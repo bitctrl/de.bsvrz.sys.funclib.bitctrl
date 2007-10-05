@@ -48,7 +48,8 @@ public class Ereignis extends AbstractSystemObjekt {
 			beschreibung = datum.getTextValue("Ereignisbeschreibung").getText();
 			so = datum.getReferenceValue("EreignisTypReferenz")
 					.getSystemObject();
-			ereignisTyp = (EreignisTyp) ObjektFactory.getModellobjekt(so);
+			ereignisTyp = (EreignisTyp) ObjektFactory.getInstanz()
+					.getModellobjekt(so);
 		} else {
 			beschreibung = null;
 			ereignisTyp = null;

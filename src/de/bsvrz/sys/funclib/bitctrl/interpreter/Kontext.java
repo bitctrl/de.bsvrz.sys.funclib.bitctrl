@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.i18n.Messages;
  * Kontext eines Ausdrucks. Speichert alle Variablen in einer Menge.
  * 
  * @author BitCtrl, Schumann
- * @version $Id: Kontext.java 166 2007-02-26 13:43:42Z Schumann $
+ * @version $Id$
  */
 public class Kontext {
 

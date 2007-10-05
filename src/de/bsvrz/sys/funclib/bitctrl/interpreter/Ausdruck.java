@@ -34,7 +34,7 @@ import java.util.Set;
  * Basisklasse aller Symbole des Interpeters
  * 
  * @author BitCtrl, Schumann
- * @version $Id: Ausdruck.java 157 2007-02-23 12:37:29Z Schumann $
+ * @version $Id$
  */
 public interface Ausdruck {
 
