@@ -30,12 +30,20 @@ public class InneresStrassenSegment extends StrassenSegment {
 	}
 
 	public AeusseresStrassenSegment getNachSegment() {
-		return (AeusseresStrassenSegment) ObjektFactory.getInstanz()
-				.getModellobjekt(nachSegmentObj);
+		AeusseresStrassenSegment result = null;
+		if (nachSegmentObj != null) {
+			result = (AeusseresStrassenSegment) ObjektFactory.getInstanz()
+					.getModellobjekt(nachSegmentObj);
+		}
+		return result;
 	}
 
 	public AeusseresStrassenSegment getVonSegment() {
-		return (AeusseresStrassenSegment) ObjektFactory.getInstanz()
-				.getModellobjekt(vonSegmentObj);
+		AeusseresStrassenSegment result = null;
+		if (vonSegmentObj != null) {
+			result = (AeusseresStrassenSegment) ObjektFactory.getInstanz()
+					.getModellobjekt(vonSegmentObj);
+		}
+		return result;
 	}
 }
