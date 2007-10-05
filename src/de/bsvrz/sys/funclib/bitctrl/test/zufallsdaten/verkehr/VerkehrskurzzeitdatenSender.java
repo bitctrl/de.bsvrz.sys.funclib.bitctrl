@@ -16,7 +16,7 @@ import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittMesswert;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemeinMesswert;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 import de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten.AbstractMesswertSender;
 import de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten.Anzeige;
@@ -162,8 +162,8 @@ public class VerkehrskurzzeitdatenSender extends AbstractMesswertSender
 		}
 
 		atg = modell
-				.getAttributeGroup(MessQuerschnittMesswert.ALKW.getAtgPID());
-		asp = modell.getAspect(MessQuerschnittMesswert.ALKW.getAspPID());
+				.getAttributeGroup(MessQuerschnittAllgemeinMesswert.ALKW.getAtgPID());
+		asp = modell.getAspect(MessQuerschnittAllgemeinMesswert.ALKW.getAspPID());
 		dbs = new DataDescription(atg, asp);
 
 		try {
