@@ -1,4 +1,32 @@
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
+ *
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weiﬂenfelser Straﬂe 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
+ * mailto: info@bitctrl.de
+ */
+
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
+
+import java.util.Comparator;
 
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
@@ -8,19 +36,65 @@ import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
+/**
+ * Repr&auml;ssentiert einen allgemeinen Messquerschnitt.
+ * 
+ * @author BitCtrl Systems GmbH, Falko Schumann
+ * @version $Id$
+ */
 public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
+
+	/**
+	 * Definiert eine Ordung auf Messquerschnitte nach deren Offset. Die Ordnung
+	 * ist nur innerhalb des selben Stra&szlig;ensegments korrekt.
+	 * 
+	 * @author BitCtrl Systems GmbH, Schumann
+	 * @version $Id$
+	 */
+	static class MessQuerschnittComparator implements
+			Comparator<MessQuerschnittAllgemein> {
+
+		/**
+		 * Vergleicht die beiden Messquerschnitte nach ihrem Offset. Der
+		 * vergleich ist nur dann sinnvoll, wenn sich beide Messquerschnitte auf
+		 * dem gleichen Stra&szlig;ensegment befinde.
+		 * <p>
+		 * {@inheritDoc}
+		 */
+		public int compare(MessQuerschnittAllgemein mq1,
+				MessQuerschnittAllgemein mq2) {
+			return Float.compare(mq1.getStrassenSegmentOffset(), mq2
+					.getStrassenSegmentOffset());
+		}
+
+	}
 
 	/**
 	 * Das Stra&szlig;ensegment auf dem der Messquerschnitt liegt.
 	 */
 	private final StrassenSegment strassenSegment;
+
 	/**
 	 * Der Offset auf dem Stra&szlig;ensegment.
 	 */
 	private final float offset;
 
+	/**
+	 * Das Stra&szlig;enteilsegment auf dem der Messquerschnitt liegt. Die
+	 * Information ist konfigurierend, muss aber aufwendig zusammengesucht
+	 * werden, weswegen die Liste nur bei Bedarf erstellt wird.
+	 */
+	private StrassenTeilSegment strassenTeilSegment;
+
 	private Punkt position;
 
+	/**
+	 * Erzeugt einen allgemeinen Messquerschnitt aus einem Systemobjekt.
+	 * 
+	 * @param obj
+	 *            Ein Systemobjekt, welches ein MessQuerschnittAllgemein sein
+	 *            muss
+	 */
 	public MessQuerschnittAllgemein(SystemObject obj) {
 		super(obj);
 
@@ -92,6 +166,10 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	 * @return Das Stra&szlig;enteilsegment
 	 */
 	public StrassenTeilSegment getStrassenTeilSegment() {
+		if (strassenTeilSegment != null) {
+			return strassenTeilSegment;
+		}
+
 		float offsetSS = 0;
 		StrassenTeilSegment sts = null;
 
@@ -105,6 +183,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 		}
 		assert sts != null;
 
+		strassenTeilSegment = sts;
 		return sts;
 	}
 
@@ -115,4 +194,5 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	public SystemObjektTyp getTyp() {
 		return VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN;
 	}
+
 }

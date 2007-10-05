@@ -1,20 +1,20 @@
 /*
- * Segment 5 Intelligente Analyseverfahren, SWE 5.2 Straßensubsegmentanalyse
- * Copyright (C) 2007 BitCtrl Systems GmbH
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -37,13 +37,14 @@ import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnitt.MessQuerschnittComparator;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein.MessQuerschnittComparator;
 
 /**
  * Repr&auml;sentiert ein Stra&szlig;ensegment.
  * 
- * @author BitCtrl, Schumann
+ * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
 public class StrassenSegment extends StoerfallIndikator {
@@ -56,6 +57,14 @@ public class StrassenSegment extends StoerfallIndikator {
 
 	/** Die Stra&szlig;e, zur der das Stra&zslig;ensegment gehört. */
 	private final Strasse strasse;
+
+	/**
+	 * Nach Offset sortierte Liste der Messquerschnitt auf dem Segement. Die
+	 * Liste besteht zwar aus konfigurierenden Daten, diese m&uuml;ssen aber
+	 * aufwendig zusammengesucht werden, weswegen die Liste nur bei Bedarf
+	 * erstellt wird.
+	 */
+	private List<MessQuerschnittAllgemein> messQuerschnitte;
 
 	/**
 	 * Konstruiert aus einem Systemobjekt ein Stra&szlig;ensegment.
@@ -181,25 +190,34 @@ public class StrassenSegment extends StoerfallIndikator {
 	}
 
 	/**
-	 * TODO: Ergebnis zwischenspeichern, da konfigurierende Daten
-	 * <p>
 	 * Sucht alle Messquerschnitte der Stra&szlig;enteilsegmente dieses
 	 * Stra&szlig;ensegments zusammen.
 	 * 
 	 * @return Menge aller Messquerschnitte des Stra&szlig;ensegments
 	 */
-	public List<MessQuerschnitt> getMessquerschnitte() {
-		List<MessQuerschnitt> mengeMQ = new ArrayList<MessQuerschnitt>();
+	public List<MessQuerschnittAllgemein> getMessquerschnitte() {
+		if (messQuerschnitte != null) {
+			return messQuerschnitte;
+		}
 
-		for (MessQuerschnitt mq : MessQuerschnitt.getMqListe(objekt
-				.getDataModel())) {
+		List<MessQuerschnittAllgemein> listeMQ;
+		List<SystemObjekt> listeSO;
+
+		listeMQ = new ArrayList<MessQuerschnittAllgemein>();
+		listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
+				objekt.getDataModel(),
+				VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
+
+		for (SystemObjekt so : listeSO) {
+			MessQuerschnittAllgemein mq = (MessQuerschnittAllgemein) so;
 			if (this.equals(mq.getStrassenSegment())) {
-				mengeMQ.add(mq);
+				listeMQ.add(mq);
 			}
 		}
 
-		Collections.sort(mengeMQ, new MessQuerschnittComparator());
-		return mengeMQ;
+		Collections.sort(listeMQ, new MessQuerschnittComparator());
+		messQuerschnitte = listeMQ;
+		return listeMQ;
 	}
 
 	/**

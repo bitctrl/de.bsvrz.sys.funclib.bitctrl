@@ -171,6 +171,10 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 *         kann
 	 */
 	public SystemObjekt getModellobjekt(SystemObject obj) {
+		if (obj == null) {
+			throw new IllegalArgumentException("Argument darf nicht null sein.");
+		}
+
 		SystemObjekt so = null;
 
 		// Liegt Objekt bereits im Cache?

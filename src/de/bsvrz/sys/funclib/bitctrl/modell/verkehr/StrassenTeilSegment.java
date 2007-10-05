@@ -1,20 +1,20 @@
 /*
- * Segment 5 Intelligente Analyseverfahren, SWE 5.2 Straﬂensubsegmentanalyse
- * Copyright (C) 2007 BitCtrl Systems GmbH
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -34,18 +34,18 @@ import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.daf.Konfigurationsbereich;
 import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnitt.MessQuerschnittComparator;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein.MessQuerschnittComparator;
 
 /**
  * Repr&auml;sentiert ein Stra&szlig;enteilsegment. Als Schl&uuml;ssel f&uuml;r
  * die Mess- und Fuzzy-Werte, wird der selbe wie am {@link MessQuerschnitt}
  * benutzt.
  * 
- * @author BitCtrl, Schumann
+ * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
 public class StrassenTeilSegment extends StoerfallIndikator {
@@ -53,10 +53,16 @@ public class StrassenTeilSegment extends StoerfallIndikator {
 	/** Die L&auml;nge des Stra&szlig;enteilsegments. */
 	private final float laenge;
 
+	/** Die Anzahl der Fahrstreifen des Stra&szlig;enteilsegments. */
+	private final int anzahlFahrStreifen;
+
 	/**
-	 * die Anzahl der Fahrstreifen des Stra&szlig;enteilsegments
+	 * Nach Offset sortierte Liste der Messquerschnitt auf dem Teilsegement. Die
+	 * Liste besteht zwar aus konfigurierenden Daten, diese m&uuml;ssen aber
+	 * aufwendig zusammengesucht werden, weswegen die Liste nur bei Bedarf
+	 * erstellt wird.
 	 */
-	private int anzahlFahrStreifen;
+	private List<MessQuerschnittAllgemein> messQuerschnitte;
 
 	/**
 	 * Erzeugt ein Stra&szlig;enteilsegment aus einem Systemobjekt.
@@ -138,34 +144,37 @@ public class StrassenTeilSegment extends StoerfallIndikator {
 	}
 
 	/**
-	 * TODO: Ergebnis zwischenspeichern, da konfigurierende Daten
-	 * <p>
 	 * Gibt die Menge der Messquerschnitte dieses Stra&szlig;enteilsegment
 	 * zur&uuml;ck. Das Stra&szlig;enteilsegment und seine Messquerschnitte
 	 * m&uuml;ssen im selben Konfigurationsbereich definiert sein.
 	 * 
 	 * @return Menge von Messquerschnitten
 	 */
-	public List<MessQuerschnitt> getMessQuerschnitte() {
-		List<MessQuerschnitt> mengeMQ;
-		List<SystemObject> listeSO;
+	public List<MessQuerschnittAllgemein> getMessQuerschnitte() {
+		if (messQuerschnitte != null) {
+			return messQuerschnitte;
+		}
 
-		mengeMQ = new ArrayList<MessQuerschnitt>();
-		listeSO = Konfigurationsbereich.getObjekte(objekt
-				.getConfigurationArea(), VerkehrsModellTypen.MESSQUERSCHNITT
-				.getPid());
+		List<MessQuerschnittAllgemein> listeMQ;
+		List<SystemObjekt> listeSO;
 
-		for (SystemObject so : listeSO) {
-			MessQuerschnitt mq = (MessQuerschnitt) ObjektFactory.getInstanz()
-					.getModellobjekt(so);
+		listeMQ = new ArrayList<MessQuerschnittAllgemein>();
+		listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
+				objekt.getDataModel(),
+				VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
+
+		for (SystemObjekt so : listeSO) {
+			MessQuerschnittAllgemein mq = (MessQuerschnittAllgemein) ObjektFactory
+					.getInstanz().getModellobjekt(so.getSystemObject());
 			StrassenTeilSegment sts = mq.getStrassenTeilSegment();
 			if (this.equals(sts)) {
-				mengeMQ.add(mq);
+				listeMQ.add(mq);
 			}
 		}
 
-		Collections.sort(mengeMQ, new MessQuerschnittComparator());
-		return mengeMQ;
+		Collections.sort(listeMQ, new MessQuerschnittComparator());
+		messQuerschnitte = listeMQ;
+		return listeMQ;
 	}
 
 	/**
