@@ -54,6 +54,9 @@ public final class ObjektFactory implements ModellObjektFactory {
 	/** Das Singleton der Factory. */
 	private static ObjektFactory singleton;
 
+	/** Die Singleton der benannten Factories. */
+	private static Map<String, ObjektFactory> singletons = new HashMap<String, ObjektFactory>();
+
 	/**
 	 * Gibt das einzige Objekt der Super-Factory zur&uuml;ck.
 	 * 
@@ -64,6 +67,23 @@ public final class ObjektFactory implements ModellObjektFactory {
 			singleton = new ObjektFactory();
 		}
 		return singleton;
+	}
+
+	/**
+	 * Werden in der selben Applikation mehrere verschiedene Fabriken
+	 * ben&ouml;tigt, kann man hiermit die Fabriken anhand ihres eineutigen
+	 * Namens verwalten.
+	 * 
+	 * @param id
+	 *            der Name der gesuchten Fabrik. Existiert sie nicht, wird sie
+	 *            angelegt.
+	 * @return die Fabrik mit dem angegebenen Namen.
+	 */
+	public static ObjektFactory getInstanz(String id) {
+		if (singletons.get(id) == null) {
+			singletons.put(id, new ObjektFactory());
+		}
+		return singletons.get(id);
 	}
 
 	/**
