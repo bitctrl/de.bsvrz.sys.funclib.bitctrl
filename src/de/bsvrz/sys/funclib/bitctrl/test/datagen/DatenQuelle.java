@@ -1,23 +1,26 @@
-/**
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Wei&szlig;enfelser Stra&szlig;e 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -48,21 +51,29 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.IntegerAttributeType;
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Die Realisierung einer einzelnen Datenquelle zur Erstellung der Eingabedatei
  * für den Datenverteiler-Datengenerator.
- *
- * @author peuker
+ * 
+ * @author BitCtrl Systems GmbH, Peuker
+ * @version $Id$
  */
 class DatenQuelle {
 
 	/**
+	 * Logger für Debugausgaben.
+	 */
+	private static final Debug LOGGER = Debug.getLogger();
+
+	/**
 	 * Konstanten zur Definition des aktuell eingelesenen Bereichs der
 	 * Konfigurationsdatei.
-	 *
+	 * 
 	 * @author peuker
-	 *
+	 * 
 	 */
 	private enum Bereich {
 		/**
@@ -82,7 +93,7 @@ class DatenQuelle {
 	/**
 	 * die Menge der Systemobjekte, für die Daten versendet werden sollen.
 	 */
-	private Set<SystemObject> objekte = new HashSet<SystemObject>();
+	private final Set<SystemObject> objekte = new HashSet<SystemObject>();
 
 	/**
 	 * der Aspekt unter den die Daten versendet werden sollen.
@@ -102,7 +113,7 @@ class DatenQuelle {
 	/**
 	 * die Definition der Standardwerte für die Attribute des Datensatzes.
 	 */
-	private Map<String, String> defaultWerte = new HashMap<String, String>();
+	private final Map<String, String> defaultWerte = new HashMap<String, String>();
 
 	/**
 	 * die Spaltenbezeichungen des Datenabschnittes.
@@ -113,17 +124,17 @@ class DatenQuelle {
 	 * die Daten für die zu versendenden Datensätze als CSV-EInträge
 	 * (Trennzeichen ';').
 	 */
-	private SortedMap<Long, List<String>> csvdaten = new TreeMap<Long, List<String>>();
+	private final SortedMap<Long, List<String>> csvdaten = new TreeMap<Long, List<String>>();
 
 	/**
 	 * die verwendete Datenverteilerverbindung.
 	 */
-	private ClientDavInterface connection;
+	private final ClientDavInterface connection;
 
 	/**
 	 * das Datemnmodell.
 	 */
-	private DataModel model;
+	private final DataModel model;
 
 	/**
 	 * die Rolle, unter der der Datenversand erfolgen soll (Quelle oder Sender).
@@ -132,7 +143,7 @@ class DatenQuelle {
 
 	/**
 	 * erzeugt eine Datenquelle.
-	 *
+	 * 
 	 * @param connection
 	 *            die verwendete Datenverteilerverbindung.
 	 * @param string
@@ -157,6 +168,7 @@ class DatenQuelle {
 					if ((line.length() <= 0) || line.startsWith("#")
 							|| (line.startsWith("//"))) {
 						// Kommentar wird vernachlässigt
+						LOGGER.finest("Ignoriere Kommentarzeile: " + line);
 					} else if (line.toUpperCase().startsWith("[CONFIG]")) {
 						aktuellerBereich = Bereich.CONFIG;
 					} else if (line.toUpperCase().startsWith("[DEFAULT]")) {
@@ -182,7 +194,8 @@ class DatenQuelle {
 				}
 			} while (line != null);
 		} catch (IOException e) {
-			// TODO: handle exception
+			LOGGER.error("Fehler beim einlesen der Datenquelle: "
+					+ e.getMessage());
 		}
 
 	}
@@ -190,7 +203,7 @@ class DatenQuelle {
 	/**
 	 * fügt einen Eintrag für den Standardwert eines Attributes des Datensatzes
 	 * hinzu.
-	 *
+	 * 
 	 * @param line
 	 *            die Zeile aus der Konfigurationsdatei
 	 */
@@ -214,7 +227,7 @@ class DatenQuelle {
 
 	/**
 	 * fügt einen Eintrag aus dem Abschnitt für die variablen Daten hinzu.
-	 *
+	 * 
 	 * @param line
 	 *            die Zeile aus der Konfigurationsdatei
 	 */
@@ -244,7 +257,7 @@ class DatenQuelle {
 	/**
 	 * verarbeitet einen Eintrag aus dem Konfigurationsbereich der
 	 * Konfigurationsdatei.
-	 *
+	 * 
 	 * @param line
 	 *            die Zeile aus der Konfigurationsdatei
 	 */
@@ -276,7 +289,7 @@ class DatenQuelle {
 	 * liefert den auf den übergebenen Zeitpunkt nächstfolgenden Zeitpunkt für
 	 * den Versand eines Datensatzes. Die Zeitpunkte ergeben sich aus den im
 	 * Datenberecih definierten Einträgen für die relativen Zeitstempel.
-	 *
+	 * 
 	 * @param wert
 	 *            der Zeuitpunkt nach dem der nächste Start gesucht ist.
 	 * @return den nächstfolgenden Zeitpunkt oder -1, wenn es keinen weiteren
@@ -294,7 +307,7 @@ class DatenQuelle {
 	/**
 	 * liefert die den zu versendeden Datensätze für den übergebenen
 	 * Startzeitpunkt.
-	 *
+	 * 
 	 * @param startZeit
 	 *            der absolute Startzeotpunkt für die Gesamtdatei.
 	 * @param offset
@@ -312,7 +325,8 @@ class DatenQuelle {
 
 		for (SystemObject object : objekte) {
 			resultData.add(new ResultData(object, new DataDescription(atg, asp,
-					simulationsVariante), startZeit + (offset * 1000L), daten));
+					simulationsVariante), startZeit
+					+ (offset * Konstante.SEKUNDE_IN_MS), daten));
 		}
 
 		return resultData;
@@ -320,7 +334,7 @@ class DatenQuelle {
 
 	/**
 	 * füllt den Datenverteilerdatensatz mit den konfigurierten Werten.
-	 *
+	 * 
 	 * @param daten
 	 *            der Zieldatensatz
 	 * @param offset
@@ -341,7 +355,7 @@ class DatenQuelle {
 	/**
 	 * setzt den mit dem Namen definierten Dateneintrag auf den übergebenen
 	 * Wert.
-	 *
+	 * 
 	 * @param daten
 	 *            der Datensatz
 	 * @param name
@@ -374,8 +388,8 @@ class DatenQuelle {
 			}
 		}
 
-		if ( data.getAttributeType() instanceof IntegerAttributeType) {
-			if ( ((IntegerAttributeType ) data.getAttributeType()).getRange() != null ) {
+		if (data.getAttributeType() instanceof IntegerAttributeType) {
+			if (((IntegerAttributeType) data.getAttributeType()).getRange() != null) {
 				try {
 					data.asScaledValue().set(Long.valueOf(wert));
 				} catch (NumberFormatException e) {
@@ -395,7 +409,7 @@ class DatenQuelle {
 
 	/**
 	 * liefert den Arrayindex aus einem Atttributnamen.
-	 *
+	 * 
 	 * @param attName
 	 *            der auszuwertende Name
 	 * @return der Index oder -1, wenn es sich nicht um ein Feldattribut handelt
@@ -413,7 +427,7 @@ class DatenQuelle {
 	/**
 	 * liefert den "reinen" Namen des Attributs, d.h. eventuelle Feldindizes
 	 * werden eliminiert.
-	 *
+	 * 
 	 * @param attName
 	 *            der Name des Attributs
 	 * @return den bereinigten Namen
@@ -428,7 +442,7 @@ class DatenQuelle {
 
 	/**
 	 * liefert die definierte Rolle für den Datenversand.
-	 *
+	 * 
 	 * @return die Rolle
 	 */
 	String getRolle() {
@@ -438,7 +452,7 @@ class DatenQuelle {
 	/**
 	 * liefert die Liste der Systemobjekte, für die Daten versendet werden
 	 * sollen.
-	 *
+	 * 
 	 * @return die Liste der Objekte
 	 */
 	Collection<SystemObject> getObjekte() {
@@ -448,7 +462,7 @@ class DatenQuelle {
 	/**
 	 * liefert die Beschreibung des Datensatzes in der Form
 	 * &lt;atg&gt;:&lt;aspekt&gt;:&lt;simulationsvariante&gt;.
-	 *
+	 * 
 	 * @return die Repräsentation der Datenbeschreibung
 	 */
 	String getDatenBeschreibung() {

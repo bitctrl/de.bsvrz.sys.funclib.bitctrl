@@ -1,23 +1,26 @@
-/**
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Wei&szlig;enfelser Stra&szlig;e 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -29,16 +32,25 @@ import de.bsvrz.dav.daf.main.ClientDavInterface;
 
 /**
  * Die Klasse erzeugt das jeweils geforderte Modul des Datengenerators.
- *
- * @author peuker
+ * 
+ * @author BitCtrl Systems GmbH, Peuker
+ * @version $Id$
  */
-class DatenGeneratorFactory {
+final class DatenGeneratorFactory {
+
+	/**
+	 * Privater Standardkonstruktor, verhindert das Anlegen von Instanzen dieser
+	 * Klasse.
+	 */
+	private DatenGeneratorFactory() {
+		super();
+	}
 
 	/**
 	 * erzeugt das geforderte Programmmodul auf Basis der übergebenen
 	 * Datenverteilerverbindung, dem Modulname und der Liste der
 	 * Aufrufargumente.
-	 *
+	 * 
 	 * @param connection
 	 *            die Verbindung zum Datenverteiler
 	 * @param modStr
@@ -47,9 +59,8 @@ class DatenGeneratorFactory {
 	 *            die Liste der Argumente für das Modul
 	 * @return das Modul
 	 */
-	static DatenGeneratorModul getModul(
-			final ClientDavInterface connection, final String modStr,
-			final Map<String, String> argumente) {
+	static DatenGeneratorModul getModul(final ClientDavInterface connection,
+			final String modStr, final Map<String, String> argumente) {
 		DatenGeneratorModul modul = null;
 		if ("CONFIG".equals(modStr.toUpperCase())) {
 			modul = new GeneriereTemplateModul(connection, argumente);

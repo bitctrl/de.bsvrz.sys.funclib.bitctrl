@@ -1,23 +1,26 @@
-/**
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Wei&szlig;enfelser Stra&szlig;e 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -42,14 +45,15 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 /**
  * Das Modul zum Erzeugen der Vorlagedateien für die Konfiguration von
  * Datenquellen.
- *
- * @author peuker
+ * 
+ * @author BitCtrl Systems GmbH, Peuker
+ * @version $Id$
  */
 class GeneriereTemplateModul extends DatenGeneratorModul {
 
 	/**
 	 * erzeugt eine Instanz des Moduls.
-	 *
+	 * 
 	 * @param connection
 	 *            die verwendete Datenverteilerverbindung
 	 * @param argumente
@@ -62,9 +66,10 @@ class GeneriereTemplateModul extends DatenGeneratorModul {
 
 	/**
 	 * {@inheritDoc}.
-	 *
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.test.datagen.DatenGeneratorModul#ausfuehren()
 	 */
+	@Override
 	protected int ausfuehren() {
 
 		DataModel model = getConnection().getDataModel();
@@ -129,7 +134,7 @@ class GeneriereTemplateModul extends DatenGeneratorModul {
 
 	/**
 	 * gibt ein Attribut aus.
-	 *
+	 * 
 	 * @param out
 	 *            der Ausgabestrom
 	 * @param prefix
