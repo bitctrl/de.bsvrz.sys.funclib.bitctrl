@@ -1,20 +1,20 @@
 /*
- * Allgemeine Funktionen
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -338,13 +338,13 @@ public class SortierteListe<E extends Comparable<? super E>> extends
 		SortierteListe<E> liste;
 
 		liste = new SortierteListe<E>();
-//		for (int i = 0; i < size; i++) {
-//			if (elementData[i].compareTo(fromElement) >= 0
-//					&& elementData[i].compareTo(toElement) < 0) {
-//				liste.add(elementData[i]);
-//			}
-//		}
-		
+		// for (int i = 0; i < size; i++) {
+		// if (elementData[i].compareTo(fromElement) >= 0
+		// && elementData[i].compareTo(toElement) < 0) {
+		// liste.add(elementData[i]);
+		// }
+		// }
+
 		// Suche binär nach fromElement
 		int anfang = 0;
 		int ende = size() - 1;
@@ -354,12 +354,12 @@ public class SortierteListe<E extends Comparable<? super E>> extends
 			final int mitte = anfang + (ende - anfang) / 2;
 			if (fromElement.compareTo(elementData[mitte]) > 0) {
 				anfang = mitte + 1;
-				if (fromElement.compareTo(elementData[mitte+1]) < 0) {
+				if (fromElement.compareTo(elementData[mitte + 1]) < 0) {
 					gefunden = mitte + 1;
 				}
 			} else if (fromElement.compareTo(elementData[mitte]) < 0) {
 				ende = mitte - 1;
-				if (fromElement.compareTo(elementData[mitte-1]) > 0) {
+				if (fromElement.compareTo(elementData[mitte - 1]) > 0) {
 					gefunden = mitte;
 				}
 			} else {
@@ -370,8 +370,8 @@ public class SortierteListe<E extends Comparable<? super E>> extends
 
 		while (elementData[gefunden].compareTo(toElement) < 0) {
 			liste.add(elementData[gefunden++]);
-		}	
-		
+		}
+
 		return liste;
 	}
 
