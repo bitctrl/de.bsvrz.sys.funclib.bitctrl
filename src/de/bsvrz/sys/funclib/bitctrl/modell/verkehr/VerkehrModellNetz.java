@@ -1,19 +1,20 @@
 /*
- * Copyright (C) 2007 BitCtrl Systems GmbH
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -37,7 +38,8 @@ import de.bsvrz.sys.funclib.debug.Debug;
 /**
  * Repr&auml;sentiert ein Stra&szlig;ensegment.
  * 
- * @author BitCtrl, peuker
+ * @author BitCtrl Systems GmbH, peuker
+ * @version $Id$
  */
 public class VerkehrModellNetz extends Netz {
 
@@ -49,11 +51,11 @@ public class VerkehrModellNetz extends Netz {
 	/**
 	 * Logger für Fehlerausgaben.
 	 */
-	private final static Debug LOGGER = Debug.getLogger();
+	private static final Debug LOGGER = Debug.getLogger();
 
 	/** PID des Typs eines VerkehrsModellNetz. */
 	@SuppressWarnings("hiding")
-	public final static String PID_TYP = "typ.verkehrsModellNetz"; //$NON-NLS-1$
+	public static final String PID_TYP = "typ.verkehrsModellNetz"; //$NON-NLS-1$
 
 	/**
 	 * Konstruiert aus einem Systemobjekt ein Netz.
@@ -71,9 +73,20 @@ public class VerkehrModellNetz extends Netz {
 		}
 	}
 
+	/**
+	 * liefert die Liste der äußeren Straßensegmente, die das Netz bilden und
+	 * zur übergebenen Straße gehören. Die Liste enthält alle äußeren
+	 * Straßensegmente, die innerhalb des Netzes selbst konfiguriert sind und
+	 * zusätzlich die Segmente aus den Listen der Unternetze.
+	 * 
+	 * @param strasse
+	 *            die Straße, für die die äußeren Straßensegemente gesucht
+	 *            werden
+	 * @return die Liste der ermittelten Straßensegmente
+	 */
 	public List<AeusseresStrassenSegment> getAssListe(Strasse strasse) {
 		List<AeusseresStrassenSegment> result = new ArrayList<AeusseresStrassenSegment>();
-		for (StrassenSegment segment : getSegmentListe()) {
+		for (StrassenSegment segment : getNetzSegmentListe()) {
 			if (segment instanceof AeusseresStrassenSegment) {
 				if ((strasse == null) || strasse.equals(segment.getStrasse())) {
 					result.add((AeusseresStrassenSegment) segment);
@@ -83,6 +96,13 @@ public class VerkehrModellNetz extends Netz {
 		return result;
 	}
 
+	/**
+	 * fügt den Netz ein Stauobjekt mit dem übergeben Systemobjekt hinzu. Das
+	 * Objekt wird in die Menge der Staus des VerkehrsmodellNetz eingetragen.
+	 * 
+	 * @param obj
+	 *            das neue Stauobjekt
+	 */
 	public void stauHinzufuegen(SystemObject obj) {
 		ObjectSet set = ((ConfigurationObject) getSystemObject())
 				.getObjectSet(MENGENNAME_STAUS);
@@ -96,6 +116,13 @@ public class VerkehrModellNetz extends Netz {
 
 	}
 
+	/**
+	 * entfernt ein Stauobjekt mit dem übergeben Systemobjekt vom Netz. Das
+	 * Objekt wird in die Menge der Staus des VerkehrsmodellNetz ausgetragen.
+	 * 
+	 * @param obj
+	 *            das zu entfernende Stauobjekt
+	 */
 	public void stauEntfernen(SystemObject obj) {
 		ObjectSet set = ((ConfigurationObject) getSystemObject())
 				.getObjectSet(MENGENNAME_STAUS);

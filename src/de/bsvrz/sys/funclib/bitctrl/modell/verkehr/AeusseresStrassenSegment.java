@@ -1,3 +1,29 @@
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
+ *
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weiﬂenfelser Straﬂe 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
+ * mailto: info@bitctrl.de
+ */
+
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
 import java.util.ArrayList;
@@ -14,11 +40,30 @@ import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
+/**
+ * Die Repr‰sentation eines ‰uﬂeren Straﬂensegments innerhalb der
+ * Modellobjektverwaltung.
+ * 
+ * @author BitCtrl Systems GmbH, Peuker
+ * @version $Id$
+ */
 public class AeusseresStrassenSegment extends StrassenSegment implements
 		NetzBestandTeil {
 
-	static private Set<AeusseresStrassenSegment> assListe;
+	/**
+	 * die Liste aller definierten ‰uﬂeren Straﬂensegmente.
+	 */
+	private static Set<AeusseresStrassenSegment> assListe;
 
+	/**
+	 * liefert die Liste aller im System deifnierten ‰uﬂeren Straﬂensegmente.<br>
+	 * Die Liste wird nur einmalig abgefragt und initialisiert, da
+	 * Straﬂensegmente nicht dynamisch angelegt werden kˆnnen.
+	 * 
+	 * @param model
+	 *            das Datenmodell, aus dem die Straﬂensegmente ermittelt werden
+	 * @return die Liste der ermittelten Straﬂensegmente
+	 */
 	public static Collection<AeusseresStrassenSegment> getSegmentListe(
 			final DataModel model) {
 		Collection<AeusseresStrassenSegment> result = new ArrayList<AeusseresStrassenSegment>();
@@ -43,12 +88,34 @@ public class AeusseresStrassenSegment extends StrassenSegment implements
 		return result;
 	}
 
+	/**
+	 * der Straﬂenknoten, an dem das Segment beginnt.
+	 */
 	private StrassenKnoten vonKnoten;
+
+	/**
+	 * der Straﬂenknoten, an dem das Segment endet.
+	 */
 	private StrassenKnoten nachKnoten;
+
+	/**
+	 * die Menge der Routenst¸cke, zu denen das Straﬂensegment gehˆrt.
+	 */
 	private Set<RoutenStueck> routenStuecke;
 
+	/**
+	 * die Richtung des Straﬂensegments.
+	 */
 	private TmcRichtung tmcRichtung = TmcRichtung.UNDEFINIERT;
 
+	/**
+	 * Konstruktor.<br>
+	 * Die Funktion erzeugt eine Instanz des ‰uﬂeren Teilsegments auf Basis des
+	 * ¸bergebenen Systemsobjekts.
+	 * 
+	 * @param obj
+	 *            das zu Grunde liegende Systemobjekt
+	 */
 	public AeusseresStrassenSegment(SystemObject obj) {
 		super(obj);
 
@@ -77,12 +144,19 @@ public class AeusseresStrassenSegment extends StrassenSegment implements
 	}
 
 	/**
-	 * @return nachKnoten
+	 * liefert den Knoten, zu dem das Straﬂensegment hinf¸hrt.
+	 * 
+	 * @return den Knoten
 	 */
 	public StrassenKnoten getNachKnoten() {
 		return nachKnoten;
 	}
 
+	/**
+	 * liefert die Liste der Routenst¸cke, zu denen das Straﬂensegment gehˆrt.
+	 * 
+	 * @return die Liste der ermittelten Routenst¸cke
+	 */
 	public Collection<RoutenStueck> getRoutenStuecke() {
 		if (routenStuecke == null) {
 			routenStuecke = new HashSet<RoutenStueck>();
@@ -100,7 +174,12 @@ public class AeusseresStrassenSegment extends StrassenSegment implements
 		return routenStuecke;
 	}
 
-	public Collection<? extends StrassenSegment> getSegmentListe() {
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.verkehr.NetzBestandTeil#getSegmentListe()
+	 */
+	public Collection<? extends StrassenSegment> getNetzSegmentListe() {
 		Set<StrassenSegment> liste = new HashSet<StrassenSegment>();
 		liste.add(this);
 		if (vonKnoten != null) {
@@ -121,6 +200,11 @@ public class AeusseresStrassenSegment extends StrassenSegment implements
 		return liste;
 	}
 
+	/**
+	 * liefert die f¸r das Straﬂensegment definierte TMC-Richtung.
+	 * 
+	 * @return die Richtung
+	 */
 	public TmcRichtung getTmcRichtung() {
 		return tmcRichtung;
 	}
@@ -134,6 +218,8 @@ public class AeusseresStrassenSegment extends StrassenSegment implements
 	}
 
 	/**
+	 * liefert den Knoten, an dem das Straﬂensegment beginnt.
+	 * 
 	 * @return vonKnoten
 	 */
 	public StrassenKnoten getVonKnoten() {

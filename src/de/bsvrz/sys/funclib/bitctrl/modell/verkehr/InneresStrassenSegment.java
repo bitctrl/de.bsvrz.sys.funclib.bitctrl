@@ -32,15 +32,36 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 
+/**
+ * Repr‰sentation eines inneren Straﬂensegment in der Datenmodellabbildung.
+ * 
+ * @author BitCtrl Systems GmbH, Peuker
+ * @version $Id$
+ */
 public class InneresStrassenSegment extends StrassenSegment {
 
 	/** PID des Typs eines Inneren Stra&szlig;ensegments. */
 	@SuppressWarnings("hiding")
-	public final static String PID_TYP = "typ.inneresStraﬂenSegment";
+	public static final String PID_TYP = "typ.inneresStraﬂenSegment";
 
+	/**
+	 * das ‰uﬂere Straﬂensegment am Beginn des Segments.
+	 */
 	private final SystemObject vonSegmentObj;
+
+	/**
+	 * das ‰uﬂere Straﬂensegment am Ende des Segments.
+	 */
 	private final SystemObject nachSegmentObj;
 
+	/**
+	 * Konstruktor.<br>
+	 * Die Funktion erzeugt ein InneresStraﬂensegment auf der Basis des
+	 * ¸bergebenen Systemsobjekts.
+	 * 
+	 * @param obj
+	 *            das Systemobjekt
+	 */
 	public InneresStrassenSegment(SystemObject obj) {
 		super(obj);
 
@@ -55,6 +76,13 @@ public class InneresStrassenSegment extends StrassenSegment {
 				.getSystemObject();
 	}
 
+	/**
+	 * liefert das ‰uﬂere Straﬂensegment, das nach dem inneren Straﬂensegment
+	 * folgt.
+	 * 
+	 * @return das Segment oder <code>null</code>, wenn keines konfiguriert
+	 *         ist
+	 */
 	public AeusseresStrassenSegment getNachSegment() {
 		AeusseresStrassenSegment result = null;
 		if (nachSegmentObj != null) {
@@ -64,6 +92,12 @@ public class InneresStrassenSegment extends StrassenSegment {
 		return result;
 	}
 
+	/**
+	 * liefert das ‰uﬂere Straﬂensegment, an dem das Segment beginnt.
+	 * 
+	 * @return das Segment oder <code>null</code>, wenn keines konfiguriert
+	 *         wurde.
+	 */
 	public AeusseresStrassenSegment getVonSegment() {
 		AeusseresStrassenSegment result = null;
 		if (vonSegmentObj != null) {

@@ -110,6 +110,11 @@ public class StrassenTeilSegment extends StoerfallIndikator {
 		return anzahlFahrStreifen;
 	}
 
+	/**
+	 * liefert die konfigurierten Koordinaten des Straﬂenteilsegments.
+	 * 
+	 * @return die Koordinaten
+	 */
 	public List<Punkt> getKoordinaten() {
 		List<Punkt> result = new ArrayList<Punkt>();
 		AttributeGroup atg = getSystemObject().getDataModel()

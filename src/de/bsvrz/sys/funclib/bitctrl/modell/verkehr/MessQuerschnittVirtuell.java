@@ -29,8 +29,23 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
+/**
+ * Die Repräsentation eines virtuellen Meßquerschnitts innerhalb der
+ * Modellabbildung.
+ * 
+ * @author BitCtrl Systems GmbH, Peuker
+ * @version $Id$
+ */
 public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 
+	/**
+	 * Konstruktor.<br>
+	 * Die Funktion erzeugt eine Instanz eines virtuellen Meßquerschnitts auf
+	 * der Basis des übergebenen Systemobjekts.
+	 * 
+	 * @param obj
+	 *            das Systemobjekt
+	 */
 	public MessQuerschnittVirtuell(SystemObject obj) {
 		super(obj);
 

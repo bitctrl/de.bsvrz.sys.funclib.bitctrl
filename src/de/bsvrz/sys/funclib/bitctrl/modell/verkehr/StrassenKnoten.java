@@ -1,3 +1,29 @@
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
+ *
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weiﬂenfelser Straﬂe 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
+ * mailto: info@bitctrl.de
+ */
+
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
 import java.util.ArrayList;
@@ -14,11 +40,32 @@ import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
+/**
+ * Die Repr‰sentation eines Strﬂenknotens innerhalb der Modellabbildung.
+ * 
+ * @author BitCtrl Systems GmbH, Peuker
+ * @version $Id$
+ */
 public class StrassenKnoten extends StoerfallIndikator {
 
+	/**
+	 * der Typ des Straﬂenknotens.
+	 */
 	private StrassenKnotenTyp knotenTyp = StrassenKnotenTyp.SONSTIG;
+
+	/**
+	 * die Liste der inneren Straﬂensegmente des Knotens.
+	 */
 	private final Set<InneresStrassenSegment> innereSegmente = new HashSet<InneresStrassenSegment>();
 
+	/**
+	 * Konstruktor.<br>
+	 * Die Funktion erzeugt einen Straﬂenknoten auf der Basis des ¸bergebenen
+	 * Systemobjekts.
+	 * 
+	 * @param obj
+	 *            das Systemobjekt
+	 */
 	public StrassenKnoten(SystemObject obj) {
 		super(obj);
 		if (!obj.isOfType(getTyp().getPid())) {
@@ -43,7 +90,9 @@ public class StrassenKnoten extends StoerfallIndikator {
 	}
 
 	/**
-	 * @return innereSegmente
+	 * liefert eine Kopie der Liste der inneren Straﬂensegmente.
+	 * 
+	 * @return die Liste der Segmente
 	 */
 	public Collection<InneresStrassenSegment> getInnereSegmente() {
 		return new ArrayList<InneresStrassenSegment>(innereSegmente);
@@ -149,7 +198,6 @@ public class StrassenKnoten extends StoerfallIndikator {
 	 */
 	public Punkt getLocation() {
 		Punkt result = null;
-		Collection<Punkt> pktListe = new ArrayList<Punkt>();
 		double sumX = 0;
 		double sumY = 0;
 		int count = 0;
@@ -195,6 +243,11 @@ public class StrassenKnoten extends StoerfallIndikator {
 		return result;
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StoerfallIndikator#getTyp()
+	 */
 	@Override
 	public SystemObjektTyp getTyp() {
 		return VerkehrsModellTypen.STRASSENKNOTEN;

@@ -39,7 +39,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 /**
  * Repr&auml;ssentiert einen allgemeinen Messquerschnitt.
  * 
- * @author BitCtrl Systems GmbH, Falko Schumann
+ * @author BitCtrl Systems GmbH, Falko Schumann, Peuker
  * @version $Id$
  */
 public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
@@ -49,7 +49,8 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	 * ist nur innerhalb des selben Stra&szlig;ensegments korrekt.
 	 * 
 	 * @author BitCtrl Systems GmbH, Schumann
-	 * @version $Id$
+	 * @version $Id: MessQuerschnittAllgemein.java 4123 2007-10-05 14:03:15Z
+	 *          Schumann $
 	 */
 	static class MessQuerschnittComparator implements
 			Comparator<MessQuerschnittAllgemein> {
@@ -86,6 +87,9 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	 */
 	private StrassenTeilSegment strassenTeilSegment;
 
+	/**
+	 * die Position des Meﬂquerschnitts.
+	 */
 	private Punkt position;
 
 	/**
@@ -123,6 +127,13 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 
 	}
 
+	/**
+	 * liefert die konfigurierten Koordinaten, an denen sich der Meﬂquerschnitt
+	 * befindet.
+	 * 
+	 * @return die Position oder <code>null</code>, wenn keine konfiguriert
+	 *         wurde
+	 */
 	public Punkt getLocation() {
 		DataModel model = getSystemObject().getDataModel();
 		AttributeGroup atg = model.getAttributeGroup("atg.punktKoordinaten");
