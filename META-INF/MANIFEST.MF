@@ -4,7 +4,7 @@ Bundle-Name: Datenverteiler, allgemeine Funktionen
 Bundle-SymbolicName: de.bsvrz.sys.funclib.bitctrl
 Bundle-Version: 1.0.0
 Bundle-Vendor: BitCtrl Systems GmbH
-Require-Bundle: de.bsvrz.dav.daf
+Require-Bundle: de.bsvrz.dav.daf;visibility:=reexport
 Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application",
  de.bsvrz.sys.funclib.bitctrl.app.rmi;uses:="sys.funclib.application,stauma.dav.clientside,sys.funclib",
  de.bsvrz.sys.funclib.bitctrl.daf;uses:="stauma.dav.configuration.interfaces,stauma.dav.clientside",
@@ -50,6 +50,7 @@ Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application"
    sys.funclib.debug",
  de.bsvrz.sys.funclib.bitctrl.dua.ufd;uses:="de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen,stauma.dav.clientside",
  de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen;uses:="stauma.dav.configuration.interfaces,stauma.dav.clientside",
+ de.bsvrz.sys.funclib.bitctrl.geolib,
  de.bsvrz.sys.funclib.bitctrl.geometrie,
  de.bsvrz.sys.funclib.bitctrl.i18n,
  de.bsvrz.sys.funclib.bitctrl.interpreter,
