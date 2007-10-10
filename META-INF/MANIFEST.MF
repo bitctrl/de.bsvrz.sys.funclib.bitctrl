@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Datenverteiler, allgemeine Funktionen
-Bundle-SymbolicName: de.bitctrl.sys.funclib
+Bundle-SymbolicName: de.bsvrz.sys.funclib.bitctrl
 Bundle-Version: 1.0.0
 Bundle-Vendor: BitCtrl Systems GmbH
-Require-Bundle: de.bitctrl.dav.daf
+Require-Bundle: de.bsvrz.dav.daf
 Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application",
  de.bsvrz.sys.funclib.bitctrl.app.rmi;uses:="sys.funclib.application,stauma.dav.clientside,sys.funclib",
  de.bsvrz.sys.funclib.bitctrl.daf;uses:="stauma.dav.configuration.interfaces,stauma.dav.clientside",
