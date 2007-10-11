@@ -26,6 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -102,11 +103,18 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 			Class<? extends OnlineDatensatz> typ) {
 		if (!onlineDaten.containsKey(typ)) {
 			try {
-				onlineDaten.put(typ, typ.newInstance());
+				onlineDaten.put(typ, typ.getConstructor(SystemObjekt.class)
+						.newInstance(this));
 			} catch (InstantiationException e) {
 				throw new IllegalArgumentException("Datensatz " + typ.getName()
 						+ "kann nicht instantiiert werden:" + e.getMessage());
 			} catch (IllegalAccessException e) {
+				throw new IllegalArgumentException("Datensatz " + typ.getName()
+						+ "kann nicht instantiiert werden:" + e.getMessage());
+			} catch (InvocationTargetException e) {
+				throw new IllegalArgumentException("Datensatz " + typ.getName()
+						+ "kann nicht instantiiert werden:" + e.getMessage());
+			} catch (NoSuchMethodException e) {
 				throw new IllegalArgumentException("Datensatz " + typ.getName()
 						+ "kann nicht instantiiert werden:" + e.getMessage());
 			}
@@ -121,11 +129,18 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 			Class<? extends ParameterDatensatz> typ) {
 		if (!parameter.containsKey(typ)) {
 			try {
-				parameter.put(typ, typ.newInstance());
+				parameter.put(typ, typ.getConstructor(SystemObjekt.class)
+						.newInstance(this));
 			} catch (InstantiationException e) {
 				throw new IllegalArgumentException("Datensatz " + typ.getName()
 						+ "kann nicht instantiiert werden:" + e.getMessage());
 			} catch (IllegalAccessException e) {
+				throw new IllegalArgumentException("Datensatz " + typ.getName()
+						+ "kann nicht instantiiert werden:" + e.getMessage());
+			} catch (InvocationTargetException e) {
+				throw new IllegalArgumentException("Datensatz " + typ.getName()
+						+ "kann nicht instantiiert werden:" + e.getMessage());
+			} catch (NoSuchMethodException e) {
 				throw new IllegalArgumentException("Datensatz " + typ.getName()
 						+ "kann nicht instantiiert werden:" + e.getMessage());
 			}

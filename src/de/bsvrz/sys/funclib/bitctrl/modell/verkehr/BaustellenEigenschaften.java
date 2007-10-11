@@ -33,6 +33,11 @@ public class BaustellenEigenschaften extends AbstractParameterDatensatz {
 		}
 	}
 
+	public void abmeldenSender() {
+		// TODO Auto-generated method stub
+
+	}
+
 	public AttributeGroup getAttributGruppe() {
 		return attributGruppe;
 	}
@@ -47,6 +52,11 @@ public class BaustellenEigenschaften extends AbstractParameterDatensatz {
 
 	public BaustellenVeranlasser getVeranlasser() {
 		return veranlasser;
+	}
+
+	public void sendeDaten() {
+		// TODO Auto-generated method stub
+
 	}
 
 	public void setDaten(Data daten) {

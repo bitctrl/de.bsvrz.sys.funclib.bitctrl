@@ -37,11 +37,22 @@ import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
  * Implementiert gemeinsame Funktionen von Parametern.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
+ * @version $Id: AbstractParameterDatensatz.java 4310 2007-10-11 16:11:09Z
+ *          Schumann $
  */
 public abstract class AbstractParameterDatensatz extends AbstractDatensatz {
 
 	// TODO Asynchronen Sender einbauen
+
+	/**
+	 * Konstruktor.
+	 * 
+	 * @param objekt
+	 *            ds Objekt, dem der Datensatz zugeordnet ist.
+	 */
+	public AbstractParameterDatensatz(SystemObjekt objekt) {
+		super(objekt);
+	}
 
 	/**
 	 * {@inheritDoc}

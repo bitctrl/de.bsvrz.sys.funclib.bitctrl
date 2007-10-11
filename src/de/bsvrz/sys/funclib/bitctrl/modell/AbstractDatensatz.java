@@ -41,6 +41,9 @@ import de.bsvrz.dav.daf.main.ResultData;
 public abstract class AbstractDatensatz implements Datensatz,
 		ClientReceiverInterface {
 
+	/** Das Systemobjekt. */
+	private final SystemObjekt objekt;
+
 	/** Liste der registrierten Listener. */
 	private final EventListenerList listeners = new EventListenerList();
 
@@ -54,10 +57,73 @@ public abstract class AbstractDatensatz implements Datensatz,
 	private Data sendeCache;
 
 	/**
+	 * Konstruktor.
+	 * 
+	 * @param objekt
+	 *            das Systemobjekt, dem der Datensatz zugeordnet ist.
+	 */
+	public AbstractDatensatz(SystemObjekt objekt) {
+		super();
+		this.objekt = objekt;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public void addUpdateListener(DatensatzUpdateListener listener) {
 		listeners.add(DatensatzUpdateListener.class, listener);
+	}
+
+	/**
+	 * Leert den Sendecache.
+	 */
+	protected void clearSendeCache() {
+		sendeCache = null;
+	}
+
+	/**
+	 * Meldet den Datensatz abh&auml;nig vom Flag {@code autoUpdate} als
+	 * Empf&auml;nger an oder ab.
+	 * 
+	 * @see #isAutoUpdate()
+	 */
+	protected abstract void fireAutoUpdate();
+
+	/**
+	 * Benachricht registrierte Listener &uuml;ber &Auml;nderungen am Datensatz.
+	 */
+	protected void fireDatensatzAktualisiert() {
+		DatensatzUpdateEvent event = new DatensatzUpdateEvent(getObjekt(), this);
+		for (DatensatzUpdateListener listener : listeners
+				.getListeners(DatensatzUpdateListener.class)) {
+			listener.datensatzAktualisiert(event);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
+	 */
+	public final SystemObjekt getObjekt() {
+		return objekt;
+	}
+
+	/**
+	 * Gibt den Sendecache zur&uuml;ck. Ist der Cache leer (z.&nbsp;B. nach dem
+	 * Senden), wird ein neues Datum angelegt. Datensatz&auml;nderungen werden
+	 * am Cache durchgef&uuml;hrt und anschlie&szlig;end mit
+	 * {@link #sendeDaten()} gesammelt gesendet.
+	 * 
+	 * @return der Sendecache.
+	 * @see #sendeDaten()
+	 */
+	protected Data getSendeCache() {
+		if (sendeCache == null) {
+			sendeCache = ObjektFactory.getInstanz().getVerbindung().createData(
+					getAttributGruppe());
+		}
+		return sendeCache;
 	}
 
 	/**
@@ -101,49 +167,6 @@ public abstract class AbstractDatensatz implements Datensatz,
 				valid = false;
 			}
 		}
-	}
-
-	/**
-	 * Leert den Sendecache.
-	 */
-	protected void clearSendeCache() {
-		sendeCache = null;
-	}
-
-	/**
-	 * Meldet den Datensatz abh&auml;nig vom Flag {@code autoUpdate} als
-	 * Empf&auml;nger an oder ab.
-	 * 
-	 * @see #isAutoUpdate()
-	 */
-	protected abstract void fireAutoUpdate();
-
-	/**
-	 * Benachricht registrierte Listener &uuml;ber &Auml;nderungen am Datensatz.
-	 */
-	protected void fireDatensatzAktualisiert() {
-		DatensatzUpdateEvent event = new DatensatzUpdateEvent(getObjekt(), this);
-		for (DatensatzUpdateListener listener : listeners
-				.getListeners(DatensatzUpdateListener.class)) {
-			listener.datensatzAktualisiert(event);
-		}
-	}
-
-	/**
-	 * Gibt den Sendecache zur&uuml;ck. Ist der Cache leer (z.&nbsp;B. nach dem
-	 * Senden), wird ein neues Datum angelegt. Datensatz&auml;nderungen werden
-	 * am Cache durchgef&uuml;hrt und anschlie&szlig;end mit
-	 * {@link #sendeDaten()} gesammelt gesendet.
-	 * 
-	 * @return der Sendecache.
-	 * @see #sendeDaten()
-	 */
-	protected Data getSendeCache() {
-		if (sendeCache == null) {
-			sendeCache = ObjektFactory.getInstanz().getVerbindung().createData(
-					getAttributGruppe());
-		}
-		return sendeCache;
 	}
 
 }

@@ -50,6 +50,11 @@ public class SituationsEigenschaften extends AbstractParameterDatensatz {
 		}
 	}
 
+	public void abmeldenSender() {
+		// TODO Auto-generated method stub
+
+	}
+
 	public AttributeGroup getAttributGruppe() {
 		return attributGruppe;
 	}
@@ -72,6 +77,11 @@ public class SituationsEigenschaften extends AbstractParameterDatensatz {
 
 	public long getStartZeit() {
 		return startZeit;
+	}
+
+	public void sendeDaten() {
+		// TODO Auto-generated method stub
+
 	}
 
 	public void setDaten(Data daten) {

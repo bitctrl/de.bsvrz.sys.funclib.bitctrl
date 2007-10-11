@@ -52,7 +52,8 @@ public abstract class AbstractOnlineDatensatz extends AbstractDatensatz
 	 * TODO Richtig implementieren.
 	 * 
 	 * @author BitCtrl Systems GmbH, Falko Schumann
-	 * @version $Id$
+	 * @version $Id: AbstractOnlineDatensatz.java 4310 2007-10-11 16:11:09Z
+	 *          Schumann $
 	 */
 	private class AsynchronerSender implements ClientSenderInterface {
 
@@ -101,6 +102,14 @@ public abstract class AbstractOnlineDatensatz extends AbstractDatensatz
 
 		}
 
+		private DataDescription getSendeDatenBeschreibung() {
+			if (sendeDatenBeschreibung == null) {
+				sendeDatenBeschreibung = new DataDescription(
+						getAttributGruppe(), getSendeAspekt());
+			}
+			return sendeDatenBeschreibung;
+		}
+
 		public boolean isRequestSupported(SystemObject object,
 				DataDescription dataDescription) {
 			if (object.equals(getObjekt().getSystemObject())
@@ -110,21 +119,16 @@ public abstract class AbstractOnlineDatensatz extends AbstractDatensatz
 			return false;
 		}
 
-		private DataDescription getSendeDatenBeschreibung() {
-			if (sendeDatenBeschreibung == null) {
-				sendeDatenBeschreibung = new DataDescription(
-						getAttributGruppe(), getSendeAspekt());
-			}
-			return sendeDatenBeschreibung;
-		}
-
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Konstruktor.
+	 * 
+	 * @param objekt
+	 *            das Objekt dem der Datensatz zugeordnet ist.
 	 */
-	public void sendeDaten() {
-		// TODO
+	public AbstractOnlineDatensatz(SystemObjekt objekt) {
+		super(objekt);
 	}
 
 	/**
@@ -151,6 +155,13 @@ public abstract class AbstractOnlineDatensatz extends AbstractDatensatz
 		} else {
 			dav.unsubscribeReceiver(this, getObjekt().getSystemObject(), dbs);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void sendeDaten() {
+		// TODO
 	}
 
 }
