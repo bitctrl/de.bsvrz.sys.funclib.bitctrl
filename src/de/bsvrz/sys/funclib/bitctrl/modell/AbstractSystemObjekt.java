@@ -95,6 +95,9 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 		return objekt.getNameOrPidOrId();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public OnlineDatensatz getOnlineDatensatz(
 			Class<? extends OnlineDatensatz> typ) {
 		if (!onlineDaten.containsKey(typ)) {
@@ -111,6 +114,9 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 		return onlineDaten.get(typ);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public ParameterDatensatz getParameterDatensatz(
 			Class<? extends ParameterDatensatz> typ) {
 		if (!parameter.containsKey(typ)) {
