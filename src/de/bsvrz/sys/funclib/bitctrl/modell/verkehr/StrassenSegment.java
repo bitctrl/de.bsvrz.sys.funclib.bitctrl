@@ -205,7 +205,6 @@ public class StrassenSegment extends StoerfallIndikator {
 
 		listeMQ = new ArrayList<MessQuerschnittAllgemein>();
 		listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
-				objekt.getDataModel(),
 				VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
 
 		for (SystemObjekt so : listeSO) {

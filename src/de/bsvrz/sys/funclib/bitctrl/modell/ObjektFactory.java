@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.config.ConfigurationArea;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.ObjectTimeSpecification;
@@ -54,9 +55,6 @@ public final class ObjektFactory implements ModellObjektFactory {
 	/** Das Singleton der Factory. */
 	private static ObjektFactory singleton;
 
-	/** Die Singleton der benannten Factories. */
-	private static Map<String, ObjektFactory> singletons = new HashMap<String, ObjektFactory>();
-
 	/**
 	 * Gibt das einzige Objekt der Super-Factory zur&uuml;ck.
 	 * 
@@ -70,21 +68,10 @@ public final class ObjektFactory implements ModellObjektFactory {
 	}
 
 	/**
-	 * Werden in der selben Applikation mehrere verschiedene Fabriken
-	 * ben&ouml;tigt, kann man hiermit die Fabriken anhand ihres eineutigen
-	 * Namens verwalten.
-	 * 
-	 * @param id
-	 *            der Name der gesuchten Fabrik. Existiert sie nicht, wird sie
-	 *            angelegt.
-	 * @return die Fabrik mit dem angegebenen Namen.
+	 * die Datenverteilerverbindung der Objektfactory, muss explizit gesetzt
+	 * werden und wird von den Autoupdatern der Datensätze benötigt.
 	 */
-	public static ObjektFactory getInstanz(String id) {
-		if (singletons.get(id) == null) {
-			singletons.put(id, new ObjektFactory());
-		}
-		return singletons.get(id);
-	}
+	private ClientDavInterface verbindung;
 
 	/**
 	 * Cacht die erstellten Objekten und stellt sicher, dass es jedes Objekt nur
@@ -109,14 +96,12 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 * Objekte des Konfigurationsbereichs bestimmt. Ist eine PID ein Typ, werden
 	 * alle Objekte des Typs bestimmt.
 	 * 
-	 * @param dm
-	 *            Das Datenmodell des Datenverteilers
 	 * @param pids
 	 *            PIDs der zu &uuml;bersetzenden Systemobjekte
 	 * @return Tabelle von IDs und Modellobjekten
 	 */
-	public List<SystemObjekt> bestimmeModellobjekte(DataModel dm,
-			String... pids) {
+	public List<SystemObjekt> bestimmeModellobjekte(String... pids) {
+		DataModel dm = verbindung.getDataModel();
 		List<SystemObjekt> objekte = new ArrayList<SystemObjekt>();
 
 		for (int i = 0; i < pids.length; i++) {
@@ -238,6 +223,21 @@ public final class ObjektFactory implements ModellObjektFactory {
 	}
 
 	/**
+	 * liefert die der Objektfactory zugeordnete Datenverteilerverbindung. Wenn
+	 * versucht wird, auf die Verbindung zuzugreifen, obwohl keine gesetzt
+	 * wurde, wird eine {@link IllegalStateException} geworfen.
+	 * 
+	 * @return die Verbindung
+	 */
+	public ClientDavInterface getVerbindung() {
+		if (verbindung == null) {
+			throw new IllegalStateException(
+					"Der Factory wurde keine Datenverteilerverbindung zugewiesen");
+		}
+		return verbindung;
+	}
+
+	/**
 	 * Registriert eine neuen Modellobjektfabrik.
 	 * 
 	 * @param factory
@@ -249,4 +249,13 @@ public final class ObjektFactory implements ModellObjektFactory {
 		}
 	}
 
+	/**
+	 * ordnet der Factory eine Datenverteilerverbindung zu.
+	 * 
+	 * @param verbindung
+	 *            die Verbindung
+	 */
+	public void setVerbindung(ClientDavInterface verbindung) {
+		this.verbindung = verbindung;
+	}
 }

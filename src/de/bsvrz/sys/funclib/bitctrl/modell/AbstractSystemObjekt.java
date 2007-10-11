@@ -1,20 +1,20 @@
 /*
- * Segment 5 Intelligente Analyseverfahren, SWE 5.2 Straﬂensubsegmentanalyse 
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -26,18 +26,33 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
  * Implementierung der gemeinsamen Methoden der Systemobjektschnittstelle.
  * 
- * @author Schumann, BitCtrl
+ * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
 public abstract class AbstractSystemObjekt implements SystemObjekt {
 
 	/** Das gekapselte Systemobjekt des Datenverteilers. */
 	protected final SystemObject objekt;
+
+	/**
+	 * Menge der Parameterdatensa‰tze, deren Daten innerhalb des Objekts
+	 * verwaltet werden.
+	 */
+	private final Map<Class<? extends ParameterDatensatz>, ParameterDatensatz> parameter = new HashMap<Class<? extends ParameterDatensatz>, ParameterDatensatz>();
+
+	/**
+	 * Menge der Onlinedatens‰tze, deren Daten innerhalb des Objekts verwaltet
+	 * werden.
+	 */
+	private final Map<Class<? extends OnlineDatensatz>, OnlineDatensatz> onlineDaten = new HashMap<Class<? extends OnlineDatensatz>, OnlineDatensatz>();
 
 	/**
 	 * Weist lediglich das Systemobjekt zu.
@@ -47,34 +62,6 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 */
 	protected AbstractSystemObjekt(SystemObject obj) {
 		objekt = obj;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getId() {
-		return objekt.getId();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getPid() {
-		return objekt.getPid();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getName() {
-		return objekt.getNameOrPidOrId();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public SystemObject getSystemObject() {
-		return objekt;
 	}
 
 	/**
@@ -92,6 +79,66 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 		}
 
 		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public long getId() {
+		return objekt.getId();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getName() {
+		return objekt.getNameOrPidOrId();
+	}
+
+	public OnlineDatensatz getOnlineDatensatz(
+			Class<? extends OnlineDatensatz> typ) {
+		if (!onlineDaten.containsKey(typ)) {
+			try {
+				onlineDaten.put(typ, typ.newInstance());
+			} catch (InstantiationException e) {
+				throw new IllegalArgumentException("Datensatz " + typ.getName()
+						+ "kann nicht instantiiert werden:" + e.getMessage());
+			} catch (IllegalAccessException e) {
+				throw new IllegalArgumentException("Datensatz " + typ.getName()
+						+ "kann nicht instantiiert werden:" + e.getMessage());
+			}
+		}
+		return onlineDaten.get(typ);
+	}
+
+	public ParameterDatensatz getParameterDatensatz(
+			Class<? extends ParameterDatensatz> typ) {
+		if (!parameter.containsKey(typ)) {
+			try {
+				parameter.put(typ, typ.newInstance());
+			} catch (InstantiationException e) {
+				throw new IllegalArgumentException("Datensatz " + typ.getName()
+						+ "kann nicht instantiiert werden:" + e.getMessage());
+			} catch (IllegalAccessException e) {
+				throw new IllegalArgumentException("Datensatz " + typ.getName()
+						+ "kann nicht instantiiert werden:" + e.getMessage());
+			}
+		}
+		return parameter.get(typ);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getPid() {
+		return objekt.getPid();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public SystemObject getSystemObject() {
+		return objekt;
 	}
 
 	/**
@@ -115,5 +162,4 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	public String toString() {
 		return objekt.toString();
 	}
-
 }

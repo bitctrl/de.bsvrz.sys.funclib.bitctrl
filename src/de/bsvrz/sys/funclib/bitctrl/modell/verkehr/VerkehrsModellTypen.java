@@ -78,7 +78,10 @@ public enum VerkehrsModellTypen implements SystemObjektTyp {
 	STRASSE("typ.straße", Strasse.class),
 
 	/** Ein Routenst&uuml;ck. */
-	ROUTENSTUECK("typ.routenStück", RoutenStueck.class);
+	ROUTENSTUECK("typ.routenStück", RoutenStueck.class),
+
+	/** Eine Baustelle. */
+	BAUSTELLE("typ.baustelle", Baustelle.class);
 
 	/** PID des Objekttyps im Datenverteiler. */
 	private final String pid;
@@ -102,15 +105,15 @@ public enum VerkehrsModellTypen implements SystemObjektTyp {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getPid() {
-		return pid;
+	public Class<? extends SystemObjekt> getKlasse() {
+		return klasse;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Class<? extends SystemObjekt> getKlasse() {
-		return klasse;
+	public String getPid() {
+		return pid;
 	}
 
 }

@@ -79,6 +79,8 @@ public class VerkehrsobjektFactory implements ModellObjektFactory {
 			obj = new StrassenKnoten(objekt);
 		} else if (objekt.isOfType(VerkehrsModellTypen.STRASSE.getPid())) {
 			obj = new Strasse(objekt);
+		} else if (objekt.isOfType(VerkehrsModellTypen.BAUSTELLE.getPid())) {
+			obj = new Baustelle(objekt);
 		}
 
 		return obj;

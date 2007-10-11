@@ -55,6 +55,11 @@ public interface SystemObjekt {
 	 */
 	String getName();
 
+	OnlineDatensatz getOnlineDatensatz(Class<? extends OnlineDatensatz> typ);
+
+	ParameterDatensatz getParameterDatensatz(
+			Class<? extends ParameterDatensatz> typ);
+
 	/**
 	 * Gibt die PID des Systemobjekts zur&uuml;ck.
 	 * 

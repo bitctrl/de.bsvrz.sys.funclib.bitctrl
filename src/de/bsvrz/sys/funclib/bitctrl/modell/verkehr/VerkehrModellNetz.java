@@ -27,12 +27,18 @@
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import javax.swing.event.EventListenerList;
 
 import de.bsvrz.dav.daf.main.config.ConfigurationChangeException;
 import de.bsvrz.dav.daf.main.config.ConfigurationObject;
+import de.bsvrz.dav.daf.main.config.MutableSet;
+import de.bsvrz.dav.daf.main.config.MutableSetChangeListener;
 import de.bsvrz.dav.daf.main.config.ObjectSet;
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
@@ -41,12 +47,12 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * @author BitCtrl Systems GmbH, peuker
  * @version $Id$
  */
-public class VerkehrModellNetz extends Netz {
+public class VerkehrModellNetz extends Netz implements MutableSetChangeListener {
 
 	/**
 	 * Name der Menge, in der die Staus des VerkehrsmodellNetz abgelegt werden.
 	 */
-	public static final String MENGENNAME_STAUS = "Staus"; //$NON-NLS-1$
+	public static final String MENGENNAME_STAUS = "Staus"; //$NON-NLS-1$ 
 
 	/**
 	 * Logger für Fehlerausgaben.
@@ -56,6 +62,16 @@ public class VerkehrModellNetz extends Netz {
 	/** PID des Typs eines VerkehrsModellNetz. */
 	@SuppressWarnings("hiding")
 	public static final String PID_TYP = "typ.verkehrsModellNetz"; //$NON-NLS-1$
+
+	/**
+	 * die Liste der von der Klasse verwalteten Listener.
+	 */
+	private final EventListenerList listeners = new EventListenerList();
+
+	/**
+	 * das Systemobjekt, das die Liste der Baustellen definiert.
+	 */
+	private final MutableSet baustellenMenge;
 
 	/**
 	 * Konstruiert aus einem Systemobjekt ein Netz.
@@ -70,6 +86,59 @@ public class VerkehrModellNetz extends Netz {
 		if (!obj.isOfType(PID_TYP)) {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist kein gültiges VerkehrsModellNetz."); //$NON-NLS-1$
+		}
+
+		baustellenMenge = ((ConfigurationObject) obj)
+				.getMutableSet("Baustellen");
+
+	}
+
+	/**
+	 * fügt dem Netz einen BaustellenListener hinzu.
+	 * 
+	 * @param listener
+	 *            der hinzuzufügende Listener
+	 */
+	public void addBaustellenListener(final BaustellenListener listener) {
+		if (listener == null) {
+			throw new IllegalArgumentException(
+					"null beim registrieren eines Listeners ist nicht erlaubt");
+		}
+
+		boolean registerListener = (listeners
+				.getListenerCount(BaustellenListener.class) == 0);
+		listeners.add(BaustellenListener.class, listener);
+
+		if (registerListener) {
+			baustellenMenge.addChangeListener(this);
+		}
+	}
+
+	/**
+	 * benachrichtigt alle BaustellenListener über hinzugefügte oder entfernte
+	 * Baustellen.
+	 * 
+	 * @param addedObjects
+	 *            die Systemobjekte, die die hinzugefügten Baustellen definieren
+	 * @param removedObjects
+	 *            die Systemobjekte, die die entfernten Baustellen definieren
+	 */
+	private void aktualisiereBaustellen(SystemObject[] addedObjects,
+			SystemObject[] removedObjects) {
+		for (BaustellenListener listener : listeners
+				.getListeners(BaustellenListener.class)) {
+			for (SystemObject obj : removedObjects) {
+				Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
+						.getModellobjekt(obj);
+				bst.removeNetzReferenz(this);
+				listener.baustelleEntfernt(this, bst);
+			}
+			for (SystemObject obj : addedObjects) {
+				Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
+						.getModellobjekt(obj);
+				bst.addNetzReferenz(this);
+				listener.baustelleAngelegt(this, bst);
+			}
 		}
 	}
 
@@ -97,6 +166,55 @@ public class VerkehrModellNetz extends Netz {
 	}
 
 	/**
+	 * liefert eine Liste der aktuell innerhalb des VerkehrsmodellNetzes
+	 * eingetragenen Baustellen.
+	 * 
+	 * @return die Liste der Baustellen
+	 */
+	public Collection<Baustelle> getBaustellen() {
+		Collection<Baustelle> result = new ArrayList<Baustelle>();
+		for (SystemObject obj : baustellenMenge.getElements()) {
+			result.add((Baustelle) ObjektFactory.getInstanz().getModellobjekt(
+					obj));
+		}
+		return result;
+	}
+
+	/**
+	 * entfernt einen Baustellenlistener vom Netz.
+	 * 
+	 * @param listener
+	 *            der zu entfernende Baustellenlistener
+	 */
+	public void removeBaustellenListener(final BaustellenListener listener) {
+		if (listener != null) {
+			listeners.remove(BaustellenListener.class, listener);
+			if (listeners.getListenerCount(BaustellenListener.class) == 0) {
+				baustellenMenge.removeChangeListener(this);
+			}
+		}
+	}
+
+	/**
+	 * entfernt ein Stauobjekt mit dem übergeben Systemobjekt vom Netz. Das
+	 * Objekt wird in die Menge der Staus des VerkehrsmodellNetz ausgetragen.
+	 * 
+	 * @param obj
+	 *            das zu entfernende Stauobjekt
+	 */
+	public void stauEntfernen(SystemObject obj) {
+		ObjectSet set = ((ConfigurationObject) getSystemObject())
+				.getObjectSet(MENGENNAME_STAUS);
+		if (set.getElements().contains(obj)) {
+			try {
+				set.remove(obj);
+			} catch (ConfigurationChangeException e) {
+				LOGGER.error(e.getMessage());
+			}
+		}
+	}
+
+	/**
 	 * fügt den Netz ein Stauobjekt mit dem übergeben Systemobjekt hinzu. Das
 	 * Objekt wird in die Menge der Staus des VerkehrsmodellNetz eingetragen.
 	 * 
@@ -117,21 +235,16 @@ public class VerkehrModellNetz extends Netz {
 	}
 
 	/**
-	 * entfernt ein Stauobjekt mit dem übergeben Systemobjekt vom Netz. Das
-	 * Objekt wird in die Menge der Staus des VerkehrsmodellNetz ausgetragen.
+	 * {@inheritDoc}.<br>
 	 * 
-	 * @param obj
-	 *            das zu entfernende Stauobjekt
+	 * @see de.bsvrz.dav.daf.main.config.MutableSetChangeListener#update(de.bsvrz.dav.daf.main.config.MutableSet,
+	 *      de.bsvrz.dav.daf.main.config.SystemObject[],
+	 *      de.bsvrz.dav.daf.main.config.SystemObject[])
 	 */
-	public void stauEntfernen(SystemObject obj) {
-		ObjectSet set = ((ConfigurationObject) getSystemObject())
-				.getObjectSet(MENGENNAME_STAUS);
-		if (set.getElements().contains(obj)) {
-			try {
-				set.remove(obj);
-			} catch (ConfigurationChangeException e) {
-				LOGGER.error(e.getMessage());
-			}
+	public void update(MutableSet set, SystemObject[] addedObjects,
+			SystemObject[] removedObjects) {
+		if (set.equals(baustellenMenge)) {
+			aktualisiereBaustellen(addedObjects, removedObjects);
 		}
 	}
 }
