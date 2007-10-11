@@ -144,7 +144,7 @@ implements Comparable<AbstraktMesswert>{
 	public final void setGueteIndex(final GanzZahl guete){
 		this.guete = guete;
 	}
-
+	
 		
 	/**
 	 * Erfragt das Gueteverfahren
@@ -203,6 +203,20 @@ implements Comparable<AbstraktMesswert>{
 	 */
 	public final long getWertUnskaliert(){
 		return this.wertUnskaliert;
+	}
+	
+	
+	/**
+	 * Erfragt, ob dieser Messwert entweder <code>fehlerhaft</code>, 
+	 * <code>nicht ermittelbar/fehlerhaft</code> oder <code>implausibel</code> ist
+	 * 
+	 * @return ob dieser Messwert entweder <code>fehlerhaft</code>, 
+	 * <code>nicht ermittelbar/fehlerhaft</code> oder <code>implausibel</code> ist
+	 */
+	public final boolean isFehlerhaftBzwImplausibel(){
+		return this.wertUnskaliert == DUAKonstanten.FEHLERHAFT ||
+				this.wertUnskaliert == DUAKonstanten.NICHT_ERMITTELBAR_BZW_FEHLERHAFT ||
+				this.implausibel;
 	}
 	
 			

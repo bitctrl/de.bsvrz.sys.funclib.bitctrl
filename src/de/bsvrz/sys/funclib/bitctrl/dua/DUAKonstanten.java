@@ -215,6 +215,26 @@ public class DUAKonstanten {
 	public static final int NICHT_ERMITTELBAR_BZW_FEHLERHAFT = -3;
 	
 	/**
+	 * Undefinierter (nicht initialisierter Messwert)
+	 */
+	public static final int MESSWERT_UNBEKANNT = -4;
+	
+	/**
+	 * Mittelwertbildung <code>unbekannt</code> 
+	 */
+	public static final int MWB_UNBEKANNT = -1;
+	
+	/**
+	 * Mittelwertbildung <code>gleitende Mittelwertbildung</code>
+	 */
+	public static final int MWB_GLEITEND = 0;
+	
+	/**
+	 * Mittelwertbildung <code>arithmetische Mittelwertbildung</code>
+	 */
+	public static final int MWB_ARITHMETISCH = 1;
+	
+	/**
 	 * Standard-Format der Zeitangabe innerhalb der Betriebsmeldungen
 	 */
 	public static final SimpleDateFormat BM_ZEIT_FORMAT = 
