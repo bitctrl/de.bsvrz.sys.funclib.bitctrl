@@ -26,6 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,7 +60,7 @@ public class UmfeldDatenArt{
 	 * Mapt den Systemobjekttyp eines Umfelddatensensors auf die
 	 * Informationen zu seinem Namen und seiner Abkürzung
 	 */
-	private static Map<SystemObjectType, UmfeldDatenArt> TYP_AUF_ART = new HashMap<SystemObjectType, UmfeldDatenArt>();
+	private static Map<SystemObjectType, UmfeldDatenArt> TYP_AUF_ART = null;
 	
 	/**
 	 * <code>typ.ufdsFahrBahnFeuchte</code>
@@ -200,6 +201,10 @@ public class UmfeldDatenArt{
 	 * eines Umfelddatensensors handelt
 	 */
 	public static final UmfeldDatenArt getUmfeldDatenArtVon(final SystemObject objekt){
+		if(TYP_AUF_ART == null){
+			throw new RuntimeException("UmfeldDatenArt wurde noch nicht initialisiert"); //$NON-NLS-1$
+		}
+		
 		UmfeldDatenArt umfeldDatenArt = null;
 		
 		if(objekt != null){
@@ -213,6 +218,20 @@ public class UmfeldDatenArt{
 	
 	
 	/**
+	 * Erfragt alle statischen Instanzen dieser Klasse also alle Umfelddatenarten
+	 * 
+	 * @return alle statischen Instanzen dieser Klasse
+	 */
+	public static final Collection<UmfeldDatenArt> getInstanzen(){
+		if(TYP_AUF_ART == null){
+			throw new RuntimeException("UmfeldDatenArt wurde noch nicht initialisiert"); //$NON-NLS-1$
+		}
+
+		return TYP_AUF_ART.values();
+	}
+	
+	
+	/**
 	 * Initialisierung
 	 * 
 	 * @param dav eine Datenverteiler-Verbindung
@@ -220,6 +239,11 @@ public class UmfeldDatenArt{
 	 */
 	public static final void initialisiere(final ClientDavInterface dav)
 	throws DUAInitialisierungsException{
+		if(TYP_AUF_ART != null){
+			throw new RuntimeException("UmfeldDatenArt darf nur einmal initialisiert werden"); //$NON-NLS-1$
+		}
+		TYP_AUF_ART = new HashMap<SystemObjectType, UmfeldDatenArt>();
+			
 		DataModel datenModell = dav.getDataModel();
 		
 		FBF = new UmfeldDatenArt(datenModell.getType("typ.ufdsFahrBahnFeuchte"), "FBF");  //$NON-NLS-1$//$NON-NLS-2$

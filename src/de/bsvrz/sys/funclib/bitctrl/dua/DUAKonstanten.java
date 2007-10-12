@@ -51,6 +51,11 @@ public class DUAKonstanten {
 	 * DAV-Typ-PID <code>typ.umfeldDatenSensor</code>
 	 */
 	public static final String TYP_UFD_SENSOR = "typ.umfeldDatenSensor"; //$NON-NLS-1$
+
+	/**
+	 * DAV-Typ-PID <code>typ.umfeldDatenMessStelle</code>
+	 */
+	public static final String TYP_UFD_MESSSTELLE = "typ.umfeldDatenMessStelle"; //$NON-NLS-1$
 	
 	/**
 	 * DAV-Typ-PID <code>typ.messQuerschnittAllgemein</code>
