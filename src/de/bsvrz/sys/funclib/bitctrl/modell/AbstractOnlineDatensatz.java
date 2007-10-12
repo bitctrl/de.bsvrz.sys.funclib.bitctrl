@@ -26,7 +26,6 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
-import de.bsvrz.dav.daf.main.DataDescription;
 
 /**
  * Implementiert gemeinsame Funktionen von Onlinedatens&auml;tzen.
@@ -81,22 +80,6 @@ public abstract class AbstractOnlineDatensatz extends AbstractDatensatz
 	 */
 	public void setSenke(boolean senke) {
 		this.senke = senke;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected DataDescription getEmpfangsDatenbeschreibung() {
-		return new DataDescription(getAttributGruppe(), getEmpfangsAspekt());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected DataDescription getSendeDatenbeschreibung() {
-		return new DataDescription(getAttributGruppe(), getSendeAspekt());
 	}
 
 }

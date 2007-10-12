@@ -26,7 +26,6 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
-import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
@@ -40,11 +39,11 @@ import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
 public abstract class AbstractParameterDatensatz extends AbstractDatensatz
 		implements ParameterDatensatz {
 
-	/** Die Datenbeschreibung mit der Daten empfangen werden. */
-	private final DataDescription receiverDbs;
+	/** Der Aspaket mit dem Parameter empfangen werden. */
+	private final Aspect receiverAsp;
 
-	/** Die Datenbeschreibung mit der Daten gesendet werden. */
-	private final DataDescription senderDbs;
+	/** Der Aspaket mit dem Parameter gesendet werden. */
+	private final Aspect senderAsp;
 
 	/**
 	 * Konstruktor.
@@ -55,30 +54,26 @@ public abstract class AbstractParameterDatensatz extends AbstractDatensatz
 	public AbstractParameterDatensatz(SystemObjekt objekt) {
 		super(objekt);
 
-		Aspect asp;
-
 		DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 				.getDataModel();
-		asp = modell.getAspect(DaVKonstanten.ASP_PARAMETER_SOLL);
-		receiverDbs = new DataDescription(getAttributGruppe(), asp);
-		asp = modell.getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE);
-		senderDbs = new DataDescription(getAttributGruppe(), asp);
+		receiverAsp = modell.getAspect(DaVKonstanten.ASP_PARAMETER_SOLL);
+		senderAsp = modell.getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected DataDescription getEmpfangsDatenbeschreibung() {
-		return receiverDbs;
+	protected Aspect getEmpfangsAspekt() {
+		return receiverAsp;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected DataDescription getSendeDatenbeschreibung() {
-		return senderDbs;
+	protected Aspect getSendeAspekt() {
+		return senderAsp;
 	}
 
 	/**

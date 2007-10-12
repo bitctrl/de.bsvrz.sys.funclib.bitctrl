@@ -40,6 +40,7 @@ import de.bsvrz.dav.daf.main.ReceiverRole;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.SendSubscriptionNotConfirmed;
 import de.bsvrz.dav.daf.main.SenderRole;
+import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
@@ -62,6 +63,9 @@ public abstract class AbstractDatensatz implements Datensatz {
 		/** Flag ob der Sender aktuell angemeldet ist. */
 		private boolean angemeldet;
 
+		/** Die Datenbeschreibung mit der altuell Daten empfangen werden. */
+		private DataDescription dbs;
+
 		/**
 		 * Konstruiert den Sender.
 		 */
@@ -76,7 +80,7 @@ public abstract class AbstractDatensatz implements Datensatz {
 		public void abmelden() {
 			if (angemeldet) {
 				dav.unsubscribeReceiver(this, getObjekt().getSystemObject(),
-						getEmpfangsDatenbeschreibung());
+						dbs);
 				angemeldet = false;
 			}
 		}
@@ -87,13 +91,12 @@ public abstract class AbstractDatensatz implements Datensatz {
 		 */
 		public void anmelden() {
 			abmelden();
+			dbs = new DataDescription(getAttributGruppe(), getEmpfangsAspekt());
 			if (isSenke()) {
-				dav.subscribeReceiver(this, getObjekt().getSystemObject(),
-						getEmpfangsDatenbeschreibung(),
+				dav.subscribeReceiver(this, getObjekt().getSystemObject(), dbs,
 						ReceiveOptions.normal(), ReceiverRole.drain());
 			} else {
-				dav.subscribeReceiver(this, getObjekt().getSystemObject(),
-						getEmpfangsDatenbeschreibung(),
+				dav.subscribeReceiver(this, getObjekt().getSystemObject(), dbs,
 						ReceiveOptions.normal(), ReceiverRole.receiver());
 			}
 			angemeldet = true;
@@ -130,6 +133,9 @@ public abstract class AbstractDatensatz implements Datensatz {
 		/** Flag ob der Sender aktuell angemeldet ist. */
 		private boolean angemeldet;
 
+		/** Die Datenbeschreibung mit der altuell Daten gesendet werden. */
+		private DataDescription dbs;
+
 		/**
 		 * Konstruiert den Sender.
 		 */
@@ -143,8 +149,7 @@ public abstract class AbstractDatensatz implements Datensatz {
 		 */
 		public void abmelden() {
 			if (angemeldet) {
-				dav.unsubscribeSender(this, getObjekt().getSystemObject(),
-						getSendeDatenbeschreibung());
+				dav.unsubscribeSender(this, getObjekt().getSystemObject(), dbs);
 				angemeldet = false;
 			}
 		}
@@ -158,13 +163,14 @@ public abstract class AbstractDatensatz implements Datensatz {
 		 */
 		public void anmelden() throws AnmeldeException {
 			abmelden();
+			dbs = new DataDescription(getAttributGruppe(), getSendeAspekt());
 			try {
 				if (isQuelle()) {
 					dav.subscribeSender(this, getObjekt().getSystemObject(),
-							getSendeDatenbeschreibung(), SenderRole.source());
+							dbs, SenderRole.source());
 				} else {
 					dav.subscribeSender(this, getObjekt().getSystemObject(),
-							getSendeDatenbeschreibung(), SenderRole.sender());
+							dbs, SenderRole.sender());
 				}
 			} catch (OneSubscriptionPerSendData ex) {
 				throw new AnmeldeException(ex);
@@ -196,7 +202,7 @@ public abstract class AbstractDatensatz implements Datensatz {
 		public boolean isRequestSupported(SystemObject object,
 				DataDescription dataDescription) {
 			if (object.equals(getObjekt().getSystemObject())
-					&& dataDescription.equals(getSendeDatenbeschreibung())) {
+					&& dataDescription.equals(dbs)) {
 				return true;
 			}
 			return false;
@@ -213,8 +219,7 @@ public abstract class AbstractDatensatz implements Datensatz {
 		public void sende(Data daten) throws DatensendeException {
 			if (sendenErlaubt) {
 				ResultData datensatz = new ResultData(getObjekt()
-						.getSystemObject(), getSendeDatenbeschreibung(), dav
-						.getTime(), daten);
+						.getSystemObject(), dbs, dav.getTime(), daten);
 				try {
 					dav.sendData(datensatz);
 				} catch (DataNotSubscribedException ex) {
@@ -367,10 +372,11 @@ public abstract class AbstractDatensatz implements Datensatz {
 		if (!isAutoUpdate()) {
 			ClientDavInterface dav;
 			ResultData datensatz;
+			DataDescription dbs;
 
 			dav = ObjektFactory.getInstanz().getVerbindung();
-			datensatz = dav.getData(getObjekt().getSystemObject(),
-					getEmpfangsDatenbeschreibung(), 0);
+			dbs = new DataDescription(getAttributGruppe(), getEmpfangsAspekt());
+			datensatz = dav.getData(getObjekt().getSystemObject(), dbs, 0);
 			letzterZeitstempel = datensatz.getDataTime();
 			setDaten(datensatz.getData());
 		} else {
@@ -397,12 +403,18 @@ public abstract class AbstractDatensatz implements Datensatz {
 	}
 
 	/**
-	 * Gibt die Datenbeschreibung zur&uuml;ck, mit der Daten empfangen werden
-	 * sollen.
+	 * Gibt den Aspekt zur&uuml;ck, mit dem Daten empfangen werden.
 	 * 
-	 * @return die Datenbeschreibung.
+	 * @return der Empfangsaspekt.
 	 */
-	protected abstract DataDescription getEmpfangsDatenbeschreibung();
+	protected abstract Aspect getEmpfangsAspekt();
+
+	/**
+	 * Gibt den Aspekt zur&uuml;ck, mit dem Daten gesendet werden.
+	 * 
+	 * @return der Sendeaspekt.
+	 */
+	protected abstract Aspect getSendeAspekt();
 
 	/**
 	 * Gibt den Sendecache zur&uuml;ck. Ist der Cache leer (z.&nbsp;B. nach dem
@@ -420,14 +432,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 		}
 		return sendeCache;
 	}
-
-	/**
-	 * Gibt die Datenbeschreibung zur&uuml;ck, mit der Daten gesendet werden
-	 * sollen.
-	 * 
-	 * @return die Datenbeschreibung.
-	 */
-	protected abstract DataDescription getSendeDatenbeschreibung();
 
 	/**
 	 * Gibt an, ob der Datensatz als Quelle oder Sender angemeldet werden soll.
