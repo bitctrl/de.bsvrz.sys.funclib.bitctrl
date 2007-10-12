@@ -28,7 +28,19 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
 
 import javax.swing.event.EventListenerList;
 
+import de.bsvrz.dav.daf.main.ClientDavInterface;
+import de.bsvrz.dav.daf.main.ClientReceiverInterface;
+import de.bsvrz.dav.daf.main.ClientSenderInterface;
 import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.DataDescription;
+import de.bsvrz.dav.daf.main.DataNotSubscribedException;
+import de.bsvrz.dav.daf.main.OneSubscriptionPerSendData;
+import de.bsvrz.dav.daf.main.ReceiveOptions;
+import de.bsvrz.dav.daf.main.ReceiverRole;
+import de.bsvrz.dav.daf.main.ResultData;
+import de.bsvrz.dav.daf.main.SendSubscriptionNotConfirmed;
+import de.bsvrz.dav.daf.main.SenderRole;
+import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
  * Implementiert gemeinsame Funktionen der Datens&auml;tze.
@@ -37,6 +49,197 @@ import de.bsvrz.dav.daf.main.Data;
  * @version $Id$
  */
 public abstract class AbstractDatensatz implements Datensatz {
+
+	/**
+	 * Der Empf&auml;nger wird in einer internen Klasse vor dem Anwender
+	 * versteckt.
+	 */
+	private class AsynchronerReceiver implements ClientReceiverInterface {
+
+		/** Die Datenverteilerverbindung. */
+		private final ClientDavInterface dav;
+
+		/** Flag ob der Sender aktuell angemeldet ist. */
+		private boolean angemeldet;
+
+		/**
+		 * Konstruiert den Sender.
+		 */
+		public AsynchronerReceiver() {
+			dav = ObjektFactory.getInstanz().getVerbindung();
+		}
+
+		/**
+		 * Meldet eine vorhandene Sendeanmeldung wieder ab. Existiert keine
+		 * Anmeldung, passiert nichts.
+		 */
+		public void abmelden() {
+			if (angemeldet) {
+				dav.unsubscribeReceiver(this, getObjekt().getSystemObject(),
+						getEmpfangsDatenbeschreibung());
+				angemeldet = false;
+			}
+		}
+
+		/**
+		 * Meldet eine neue Sendeanmeldung an. Eine eventuell existierende
+		 * Anmeldung wird vorher abgemeldet.
+		 */
+		public void anmelden() {
+			abmelden();
+			if (isSenke()) {
+				dav.subscribeReceiver(this, getObjekt().getSystemObject(),
+						getEmpfangsDatenbeschreibung(),
+						ReceiveOptions.normal(), ReceiverRole.drain());
+			} else {
+				dav.subscribeReceiver(this, getObjekt().getSystemObject(),
+						getEmpfangsDatenbeschreibung(),
+						ReceiveOptions.normal(), ReceiverRole.receiver());
+			}
+			angemeldet = true;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public void update(ResultData[] results) {
+			for (ResultData result : results) {
+				if (result.hasData()) {
+					setDaten(result.getData());
+					valid = true;
+				} else {
+					valid = false;
+				}
+				letzterZeitstempel = result.getDataTime();
+			}
+		}
+
+	}
+
+	/**
+	 * Versteckt die Sendelogik des Datenverteilers vor dem Anwender.
+	 */
+	private class SynchronerSender implements ClientSenderInterface {
+
+		/** Die Datenverteilerverbindung. */
+		private final ClientDavInterface dav;
+
+		/** Der Zustand der Sendesteuerung. */
+		private boolean sendenErlaubt;
+
+		/** Flag ob der Sender aktuell angemeldet ist. */
+		private boolean angemeldet;
+
+		/**
+		 * Konstruiert den Sender.
+		 */
+		public SynchronerSender() {
+			dav = ObjektFactory.getInstanz().getVerbindung();
+		}
+
+		/**
+		 * Meldet eine vorhandene Sendeanmeldung wieder ab. Existiert keine
+		 * Anmeldung, passiert nichts.
+		 */
+		public void abmelden() {
+			if (angemeldet) {
+				dav.unsubscribeSender(this, getObjekt().getSystemObject(),
+						getSendeDatenbeschreibung());
+				angemeldet = false;
+			}
+		}
+
+		/**
+		 * Meldet eine neue Sendeanmeldung an. Eine eventuell existierende
+		 * Anmeldung wird vorher abgemeldet.
+		 * 
+		 * @throws AnmeldeException
+		 *             wenn die Anmeldung schief ging.
+		 */
+		public void anmelden() throws AnmeldeException {
+			abmelden();
+			try {
+				if (isQuelle()) {
+					dav.subscribeSender(this, getObjekt().getSystemObject(),
+							getSendeDatenbeschreibung(), SenderRole.source());
+				} else {
+					dav.subscribeSender(this, getObjekt().getSystemObject(),
+							getSendeDatenbeschreibung(), SenderRole.sender());
+				}
+			} catch (OneSubscriptionPerSendData ex) {
+				throw new AnmeldeException(ex);
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.dav.daf.main.ClientSenderInterface#dataRequest(de.bsvrz.dav.daf.main.config.SystemObject,
+		 *      de.bsvrz.dav.daf.main.DataDescription, byte)
+		 */
+		public void dataRequest(SystemObject object,
+				DataDescription dataDescription, byte state) {
+			if (isRequestSupported(object, dataDescription)
+					&& state == ClientSenderInterface.START_SENDING) {
+				sendenErlaubt = true;
+			} else {
+				sendenErlaubt = false;
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.dav.daf.main.ClientSenderInterface#isRequestSupported(de.bsvrz.dav.daf.main.config.SystemObject,
+		 *      de.bsvrz.dav.daf.main.DataDescription)
+		 */
+		public boolean isRequestSupported(SystemObject object,
+				DataDescription dataDescription) {
+			if (object.equals(getObjekt().getSystemObject())
+					&& dataDescription.equals(getSendeDatenbeschreibung())) {
+				return true;
+			}
+			return false;
+		}
+
+		/**
+		 * F&uuml;gt ein Datum der Warteschlange des Senders hinzu.
+		 * 
+		 * @param daten
+		 *            ein zu sendentes Datum.
+		 * @throws DatensendeException
+		 *             wenn die Daten nicht gesendet werden konnten.
+		 */
+		public void sende(Data daten) throws DatensendeException {
+			if (sendenErlaubt) {
+				ResultData datensatz = new ResultData(getObjekt()
+						.getSystemObject(), getSendeDatenbeschreibung(), dav
+						.getTime(), daten);
+				try {
+					dav.sendData(datensatz);
+				} catch (DataNotSubscribedException ex) {
+					throw new DatensendeException(ex);
+				} catch (SendSubscriptionNotConfirmed ex) {
+					throw new DatensendeException(ex);
+				}
+			} else {
+				throw new DatensendeException(
+						"Die Sendesteuerung hat das Senden verboten.");
+			}
+		}
+	}
+
+	/** Der Empf&auml;nger dieses Datensatzes. */
+	private final AsynchronerReceiver receiver = new AsynchronerReceiver();
+
+	/** Der Sender dieses Datensatzes. */
+	private final SynchronerSender sender = new SynchronerSender();
+
+	/** Das Flag f&uuml;r die G&uuml;ltigkeit des Datensatzes. */
+	private boolean valid;
+
+	/** Der Zeitstempel der letzten Aktualisierung des Datensatzes. */
+	private long letzterZeitstempel;
 
 	/** Das Systemobjekt. */
 	private final SystemObjekt objekt;
@@ -64,8 +267,22 @@ public abstract class AbstractDatensatz implements Datensatz {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void abmeldenSender() {
+		sender.abmelden();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void addUpdateListener(DatensatzUpdateListener listener) {
 		listeners.add(DatensatzUpdateListener.class, listener);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void anmeldenSender() throws AnmeldeException {
+		sender.anmelden();
 	}
 
 	/**
@@ -85,11 +302,18 @@ public abstract class AbstractDatensatz implements Datensatz {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	public long getLetzterZeitstempel() {
+		return letzterZeitstempel;
+	}
+
+	/**
 	 * {@inheritDoc}.<br>
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
 	 */
-	public final SystemObjekt getObjekt() {
+	public SystemObjekt getObjekt() {
 		return objekt;
 	}
 
@@ -103,6 +327,13 @@ public abstract class AbstractDatensatz implements Datensatz {
 	/**
 	 * {@inheritDoc}
 	 */
+	public boolean isValid() {
+		return valid;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void removeUpdateListener(DatensatzUpdateListener listener) {
 		listeners.remove(DatensatzUpdateListener.class, listener);
 	}
@@ -110,20 +341,41 @@ public abstract class AbstractDatensatz implements Datensatz {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void sendeDaten() throws DatensendeException {
+		sender.sende(getSendeCache());
+		clearSendeCache();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setAutoUpdate(boolean ein) {
-		if (autoUpdate != ein) {
-			autoUpdate = ein;
-			fireAutoUpdate();
+		autoUpdate = ein;
+		if (autoUpdate) {
+			receiver.anmelden();
+		} else {
+			receiver.abmelden();
 		}
 	}
 
 	/**
-	 * {@inheritDoc}.<br>
+	 * {@inheritDoc}
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#update()
 	 */
 	public void update() {
-		fireUpdate();
+		if (!isAutoUpdate()) {
+			ClientDavInterface dav;
+			ResultData datensatz;
+
+			dav = ObjektFactory.getInstanz().getVerbindung();
+			datensatz = dav.getData(getObjekt().getSystemObject(),
+					getEmpfangsDatenbeschreibung(), 0);
+			letzterZeitstempel = datensatz.getDataTime();
+			setDaten(datensatz.getData());
+		} else {
+			throw new IllegalStateException("Auto-Update ist eingeschalten.");
+		}
 	}
 
 	/**
@@ -132,14 +384,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	protected void clearSendeCache() {
 		sendeCache = null;
 	}
-
-	/**
-	 * Meldet den Datensatz abh&auml;nig vom Flag {@code autoUpdate} als
-	 * Empf&auml;nger an oder ab.
-	 * 
-	 * @see #isAutoUpdate()
-	 */
-	protected abstract void fireAutoUpdate();
 
 	/**
 	 * Benachricht registrierte Listener &uuml;ber &Auml;nderungen am Datensatz.
@@ -153,10 +397,12 @@ public abstract class AbstractDatensatz implements Datensatz {
 	}
 
 	/**
-	 * ruft die aktuellen Daten ab und überträgt diee in die internen
-	 * Datenspeicher.
+	 * Gibt die Datenbeschreibung zur&uuml;ck, mit der Daten empfangen werden
+	 * sollen.
+	 * 
+	 * @return die Datenbeschreibung.
 	 */
-	protected abstract void fireUpdate();
+	protected abstract DataDescription getEmpfangsDatenbeschreibung();
 
 	/**
 	 * Gibt den Sendecache zur&uuml;ck. Ist der Cache leer (z.&nbsp;B. nach dem
@@ -174,5 +420,28 @@ public abstract class AbstractDatensatz implements Datensatz {
 		}
 		return sendeCache;
 	}
+
+	/**
+	 * Gibt die Datenbeschreibung zur&uuml;ck, mit der Daten gesendet werden
+	 * sollen.
+	 * 
+	 * @return die Datenbeschreibung.
+	 */
+	protected abstract DataDescription getSendeDatenbeschreibung();
+
+	/**
+	 * Gibt an, ob der Datensatz als Quelle oder Sender angemeldet werden soll.
+	 * 
+	 * @return {@code true}, wenn die Anmeldung als Quelle erfolgen soll.
+	 */
+	protected abstract boolean isQuelle();
+
+	/**
+	 * Gibt an, ob der Datensatz als Senke oder Empf&auml;ngher angemeldet
+	 * werden soll.
+	 * 
+	 * @return {@code true}, wenn die Anmeldung als Senke erfolgen soll.
+	 */
+	protected abstract boolean isSenke();
 
 }

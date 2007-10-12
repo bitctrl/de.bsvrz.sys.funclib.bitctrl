@@ -66,4 +66,24 @@ public interface OnlineDatensatz extends Datensatz {
 	 */
 	boolean isSenke();
 
+	/**
+	 * Legt fest, ob Anmeldungen als Quelle durchgef&uuml;hrt werden sollen.
+	 * Eine bereits bestehende Anmeldung wird dadurch nicht beeinflusst.
+	 * 
+	 * @param quelle
+	 *            {@code true}, wenn die Anmeldung als Quelle erfolgen soll,
+	 *            ansonsten erfolgt sie als Sender.
+	 */
+	void setQuelle(boolean quelle);
+
+	/**
+	 * Legt fest, ob Anmeldungen als Senke durchgef&uuml;hrt werden sollen. Eine
+	 * bereits bestehende Anmeldung wird dadurch nicht beeinflusst.
+	 * 
+	 * @param senke
+	 *            {@code true}, wenn die Anmeldung als Senke erfolgen soll,
+	 *            ansonsten erfolgt sie als Empf&auml;nger.
+	 */
+	void setSenke(boolean senke);
+
 }
