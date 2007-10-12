@@ -52,11 +52,26 @@ public interface Datensatz {
 	void addUpdateListener(DatensatzUpdateListener l);
 
 	/**
+	 * Meldet den Datensatz als Sender oder Quelle am Datenverteiler an.
+	 * 
+	 * @throws AnmeldeException
+	 *             wenn die Anmeldung nicht erfolgreich war.
+	 */
+	void anmeldenSender() throws AnmeldeException;
+
+	/**
 	 * Gibt die Attributgruppe zur&uuml;ck die diesem Datensatz entpricht.
 	 * 
 	 * @return die Attributgruppe die dem Datensatz entspricht.
 	 */
 	AttributeGroup getAttributGruppe();
+
+	/**
+	 * Gibt den Zeitstempel der letzten Datensatzaktualisierung zur&uuml;ck.
+	 * 
+	 * @return den Zeitstempel oder 0, wenn er nicht bekannt ist.
+	 */
+	long getLetzterZeitstempel();
 
 	/**
 	 * Gibt das Systemobjekt zur&uuml;ck, zu dem der Datensatz geh&ouml;rt.
@@ -92,8 +107,11 @@ public interface Datensatz {
 	/**
 	 * Veranlasst den Datensatz seinen Inhalt an den Datenverteiler zu
 	 * &uuml;bermitteln.
+	 * 
+	 * @throws DatensendeException
+	 *             wenn die Daten nicht gesendet werden konnten.
 	 */
-	void sendeDaten();
+	void sendeDaten() throws DatensendeException;
 
 	/**
 	 * Setzt das Flag {@code autoUpdate}.

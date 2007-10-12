@@ -28,9 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
 
 import javax.swing.event.EventListenerList;
 
-import de.bsvrz.dav.daf.main.ClientReceiverInterface;
 import de.bsvrz.dav.daf.main.Data;
-import de.bsvrz.dav.daf.main.ResultData;
 
 /**
  * Implementiert gemeinsame Funktionen der Datens&auml;tze.
@@ -39,30 +37,6 @@ import de.bsvrz.dav.daf.main.ResultData;
  * @version $Id$
  */
 public abstract class AbstractDatensatz implements Datensatz {
-
-	/**
-	 * Der Empf&auml;nger wird in einer internen Klasse vor dem Anwender
-	 * versteckt.
-	 * 
-	 * @author BitCtrl Systems GmbH, Falko Schumann
-	 * @version $Id$
-	 */
-	private class AsynchronerReceiver implements ClientReceiverInterface {
-
-		/**
-		 * {@inheritDoc}
-		 */
-		public void update(ResultData[] results) {
-			for (ResultData result : results) {
-				if (result.hasData()) {
-					setDaten(result.getData());
-					valid = true;
-				} else {
-					valid = false;
-				}
-			}
-		}
-	}
 
 	/** Das Systemobjekt. */
 	private final SystemObjekt objekt;
@@ -73,14 +47,8 @@ public abstract class AbstractDatensatz implements Datensatz {
 	/** Das Flag f&uuml;r autoamtische Aktualisierng des Datensatzes. */
 	private boolean autoUpdate;
 
-	/** Das Flag f&uuml;r die G&uuml;ltigkeit des Datensatzes. */
-	private boolean valid;
-
 	/** Der Sendecache. */
 	private Data sendeCache;
-
-	/** Der Datenverteilerempf&auml;nger dieser Klasse. */
-	private final AsynchronerReceiver receiver = new AsynchronerReceiver();
 
 	/**
 	 * Konstruktor.
@@ -101,13 +69,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	}
 
 	/**
-	 * Leert den Sendecache.
-	 */
-	protected void clearSendeCache() {
-		sendeCache = null;
-	}
-
-	/**
 	 * {@inheritDoc}.<br>
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
@@ -121,6 +82,55 @@ public abstract class AbstractDatensatz implements Datensatz {
 					&& (getAttributGruppe().equals(ds.getAttributGruppe()));
 		}
 		return result;
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
+	 */
+	public final SystemObjekt getObjekt() {
+		return objekt;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean isAutoUpdate() {
+		return autoUpdate;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void removeUpdateListener(DatensatzUpdateListener listener) {
+		listeners.remove(DatensatzUpdateListener.class, listener);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void setAutoUpdate(boolean ein) {
+		if (autoUpdate != ein) {
+			autoUpdate = ein;
+			fireAutoUpdate();
+		}
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#update()
+	 */
+	public void update() {
+		fireUpdate();
+	}
+
+	/**
+	 * Leert den Sendecache.
+	 */
+	protected void clearSendeCache() {
+		sendeCache = null;
 	}
 
 	/**
@@ -149,24 +159,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	protected abstract void fireUpdate();
 
 	/**
-	 * {@inheritDoc}.<br>
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
-	 */
-	public final SystemObjekt getObjekt() {
-		return objekt;
-	}
-
-	/**
-	 * Gibt den Empf&auml;nger f&uuml;r Datenverteilerkommunikation zur&uuml;ck.
-	 * 
-	 * @return den Datenverteilerempf&auml;nger.
-	 */
-	protected ClientReceiverInterface getReceiver() {
-		return receiver;
-	}
-
-	/**
 	 * Gibt den Sendecache zur&uuml;ck. Ist der Cache leer (z.&nbsp;B. nach dem
 	 * Senden), wird ein neues Datum angelegt. Datensatz&auml;nderungen werden
 	 * am Cache durchgef&uuml;hrt und anschlie&szlig;end mit
@@ -181,46 +173,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 					getAttributGruppe());
 		}
 		return sendeCache;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isAutoUpdate() {
-		return autoUpdate;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isValid() {
-		return valid;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void removeUpdateListener(DatensatzUpdateListener listener) {
-		listeners.remove(DatensatzUpdateListener.class, listener);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setAutoUpdate(boolean ein) {
-		if (autoUpdate != ein) {
-			autoUpdate = ein;
-			fireAutoUpdate();
-		}
-	}
-
-	/**
-	 * {@inheritDoc}.<br>
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#update()
-	 */
-	public void update() {
-		fireUpdate();
 	}
 
 }
