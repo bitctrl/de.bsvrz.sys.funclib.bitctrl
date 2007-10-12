@@ -27,6 +27,7 @@
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
 import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.Data.NumberValue;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
@@ -54,31 +55,31 @@ public class VerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	private static Aspect aspAnalyse;
 
 	/** Lkw-Anteil in Prozent. */
-	private int aLkw;
+	private Integer aLkw;
 
 	/** Bemessungsdichte KB in Fahrzeuge/km. */
-	private int kb;
+	private Integer kb;
 
 	/** Verkehrsstärke QKfz (alle Fahrzeuge) in Anzahl pro Messabschnittsdauer. */
-	private int qKfz;
+	private Integer qKfz;
 
 	/** Verkehrsstärke QPkw in Anzahl pro Messabschnittsdauer. */
-	private int qPkw;
+	private Integer qPkw;
 
 	/** Verkehrsstärke QLkw in Anzahl pro Messabschnittsdauer. */
-	private int qLkw;
+	private Integer qLkw;
 
 	/** Geschwindigkeit VKfz (Alle Fahrzeuge) in km/h. */
-	private int vKfz;
+	private Integer vKfz;
 
 	/** Geschwindigkeit VPkw in km/h. */
-	private int vPkw;
+	private Integer vPkw;
 
 	/** Geschwindigkeit VLkw in km/h. */
-	private int vLkw;
+	private Integer vLkw;
 
 	/** Standardabweichung der Kfz-Geschwindigkeiten SKfz in km/h. */
-	private int sKfz;
+	private Integer sKfz;
 
 	/**
 	 * Ruft den Superkonstruktor auf.
@@ -127,7 +128,7 @@ public class VerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	 * 
 	 * @return the kb
 	 */
-	public int getKb() {
+	public Integer getKb() {
 		return kb;
 	}
 
@@ -136,7 +137,7 @@ public class VerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	 * 
 	 * @return the qKfz
 	 */
-	public int getQKfz() {
+	public Integer getQKfz() {
 		return qKfz;
 	}
 
@@ -145,7 +146,7 @@ public class VerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	 * 
 	 * @return the qLkw
 	 */
-	public int getQLkw() {
+	public Integer getQLkw() {
 		return qLkw;
 	}
 
@@ -154,7 +155,7 @@ public class VerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	 * 
 	 * @return the qPkw
 	 */
-	public int getQPkw() {
+	public Integer getQPkw() {
 		return qPkw;
 	}
 
@@ -171,7 +172,7 @@ public class VerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	 * 
 	 * @return the sKfz
 	 */
-	public int getSKfz() {
+	public Integer getSKfz() {
 		return sKfz;
 	}
 
@@ -180,7 +181,7 @@ public class VerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	 * 
 	 * @return the vKfz
 	 */
-	public int getVKfz() {
+	public Integer getVKfz() {
 		return vKfz;
 	}
 
@@ -189,7 +190,7 @@ public class VerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	 * 
 	 * @return the vLkw
 	 */
-	public int getVLkw() {
+	public Integer getVLkw() {
 		return vLkw;
 	}
 
@@ -198,17 +199,78 @@ public class VerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	 * 
 	 * @return the vPkw
 	 */
-	public int getVPkw() {
+	public Integer getVPkw() {
 		return vPkw;
 	}
 
 	/**
-	 * Wirft immmer eine {@code UnsupportedOperationException}.
-	 * 
 	 * {@inheritDoc}
 	 */
 	public void setDaten(Data daten) {
-		throw new UnsupportedOperationException();
+		NumberValue wert;
+
+		wert = daten.getItem("QKfz").getUnscaledValue("Wert");
+		if (wert.isState()) {
+			qKfz = null;
+		} else {
+			qKfz = wert.intValue();
+		}
+
+		wert = daten.getItem("QLkw").getUnscaledValue("Wert");
+		if (wert.isState()) {
+			qLkw = null;
+		} else {
+			qLkw = wert.intValue();
+		}
+
+		wert = daten.getItem("QPkw").getUnscaledValue("Wert");
+		if (wert.isState()) {
+			qPkw = null;
+		} else {
+			qPkw = wert.intValue();
+		}
+
+		wert = daten.getItem("VKfz").getUnscaledValue("Wert");
+		if (wert.isState()) {
+			vKfz = null;
+		} else {
+			vKfz = wert.intValue();
+		}
+
+		wert = daten.getItem("VLkw").getUnscaledValue("Wert");
+		if (wert.isState()) {
+			vLkw = null;
+		} else {
+			vLkw = wert.intValue();
+		}
+
+		wert = daten.getItem("VPkw").getUnscaledValue("Wert");
+		if (wert.isState()) {
+			vPkw = null;
+		} else {
+			vPkw = wert.intValue();
+		}
+
+		wert = daten.getItem("SKfz").getUnscaledValue("Wert");
+		if (wert.isState()) {
+			sKfz = null;
+		} else {
+			sKfz = wert.intValue();
+		}
+
+		wert = daten.getItem("KB").getUnscaledValue("Wert");
+		if (wert.isState()) {
+			kb = null;
+		} else {
+			kb = wert.intValue();
+		}
+
+		wert = daten.getItem("ALkw").getUnscaledValue("Wert");
+		if (wert.isState()) {
+			aLkw = null;
+		} else {
+			aLkw = wert.intValue();
+		}
 	}
 
 }
