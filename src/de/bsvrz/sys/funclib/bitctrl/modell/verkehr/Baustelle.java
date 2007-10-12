@@ -30,7 +30,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
 /**
@@ -45,11 +44,6 @@ public class Baustelle extends Situation {
 	 * die Menge der Netze in denen die die Baustelle referenziert wird.
 	 */
 	private final Set<VerkehrModellNetz> netze = new HashSet<VerkehrModellNetz>();
-
-	/**
-	 * der Veranlasser der Baustelle.
-	 */
-	private final BaustellenVeranlasser veranlasser = BaustellenVeranlasser.UNDEFINIERT;
 
 	/**
 	 * Konstruktor.<br>
