@@ -101,6 +101,12 @@ public abstract class AbstractDatensatz implements Datensatz,
 	}
 
 	/**
+	 * ruft die aktuellen Daten ab und überträgt diee in die internen
+	 * Datenspeicher.
+	 */
+	protected abstract void fireUpdate();
+
+	/**
 	 * {@inheritDoc}.<br>
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
@@ -151,8 +157,19 @@ public abstract class AbstractDatensatz implements Datensatz,
 	 * {@inheritDoc}
 	 */
 	public void setAutoUpdate(boolean ein) {
-		autoUpdate = ein;
-		fireAutoUpdate();
+		if (autoUpdate != ein) {
+			autoUpdate = ein;
+			fireAutoUpdate();
+		}
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#update()
+	 */
+	public void update() {
+		fireUpdate();
 	}
 
 	/**

@@ -112,4 +112,8 @@ public interface Datensatz {
 	 */
 	void setDaten(Data daten);
 
+	/**
+	 * ruft die aktuellen Daten ab und setzt die internen Daten.
+	 */
+	void update();
 }

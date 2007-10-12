@@ -158,6 +158,24 @@ public abstract class AbstractOnlineDatensatz extends AbstractDatensatz
 	}
 
 	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#fireUpdate()
+	 */
+	@Override
+	protected void fireUpdate() {
+		if ((!isAutoUpdate()) && (!isSenke())) {
+			ClientDavInterface dav;
+			DataDescription dbs;
+
+			dav = ObjektFactory.getInstanz().getVerbindung();
+			dbs = new DataDescription(getAttributGruppe(), getEmpfangsAspekt());
+			setDaten(dav.getData(getObjekt().getSystemObject(), dbs, 0)
+					.getData());
+		}
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public void sendeDaten() {

@@ -30,6 +30,7 @@ import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.ReceiveOptions;
 import de.bsvrz.dav.daf.main.ReceiverRole;
+import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 
@@ -37,12 +38,17 @@ import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
  * Implementiert gemeinsame Funktionen von Parametern.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: AbstractParameterDatensatz.java 4310 2007-10-11 16:11:09Z
- *          Schumann $
+ * @version $Id$
  */
-public abstract class AbstractParameterDatensatz extends AbstractDatensatz {
+public abstract class AbstractParameterDatensatz extends AbstractDatensatz
+		implements ParameterDatensatz {
 
 	// TODO Asynchronen Sender einbauen
+
+	/**
+	 * der Aspekt für die Abfrage oder den Empfang von Sollparametern.
+	 */
+	private Aspect sollAspekt;
 
 	/**
 	 * Konstruktor.
@@ -52,6 +58,10 @@ public abstract class AbstractParameterDatensatz extends AbstractDatensatz {
 	 */
 	public AbstractParameterDatensatz(SystemObjekt objekt) {
 		super(objekt);
+		if (sollAspekt == null) {
+			sollAspekt = ObjektFactory.getInstanz().getVerbindung()
+					.getDataModel().getAspect(Konstante.DAV_ASP_PARAMETER_SOLL);
+		}
 	}
 
 	/**
@@ -65,8 +75,7 @@ public abstract class AbstractParameterDatensatz extends AbstractDatensatz {
 
 		dav = ObjektFactory.getInstanz().getVerbindung();
 		modell = dav.getDataModel();
-		dbs = new DataDescription(getAttributGruppe(), modell
-				.getAspect(Konstante.DAV_ASP_PARAMETER_SOLL));
+		dbs = new DataDescription(getAttributGruppe(), sollAspekt);
 
 		if (isAutoUpdate()) {
 			dav.subscribeReceiver(this, getObjekt().getSystemObject(), dbs,
@@ -76,4 +85,21 @@ public abstract class AbstractParameterDatensatz extends AbstractDatensatz {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#fireUpdate()
+	 */
+	@Override
+	protected void fireUpdate() {
+		if (!isAutoUpdate()) {
+			ClientDavInterface dav;
+			DataDescription dbs;
+
+			dav = ObjektFactory.getInstanz().getVerbindung();
+			dbs = new DataDescription(getAttributGruppe(), sollAspekt);
+			setDaten(dav.getData(getObjekt().getSystemObject(), dbs, 0)
+					.getData());
+		}
+	}
 }
