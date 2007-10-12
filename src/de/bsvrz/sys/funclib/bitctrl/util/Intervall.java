@@ -51,6 +51,28 @@ public class Intervall {
 	private final boolean zeitstempel;
 
 	/**
+	 * Kopierkonstruktor.
+	 * 
+	 * @param intervall
+	 *            ein zu kopierendes Intervall.
+	 */
+	public Intervall(Intervall intervall) {
+		this(intervall.start, intervall.ende, false);
+	}
+
+	/**
+	 * Kopierkonstruktor.
+	 * 
+	 * @param intervall
+	 *            ein zu kopierendes Intervall.
+	 * @param zeitstempel
+	 *            handelt es sich um ein zeitliches Intervall?
+	 */
+	public Intervall(Intervall intervall, boolean zeitstempel) {
+		this(intervall.start, intervall.ende, zeitstempel);
+	}
+
+	/**
 	 * Konstruiert das Intervall mit dem angegebenen Grenzen.
 	 * 
 	 * @param start
@@ -86,34 +108,31 @@ public class Intervall {
 	}
 
 	/**
-	 * Kopierkonstruktor.
+	 * Zwei Intervalle sind gleich, wenn sie den selben Start- und Endwert
+	 * besitzen.
 	 * 
-	 * @param intervall
-	 *            ein zu kopierendes Intervall.
-	 * @param zeitstempel
-	 *            handelt es sich um ein zeitliches Intervall?
+	 * {@inheritDoc}
 	 */
-	public Intervall(Intervall intervall, boolean zeitstempel) {
-		this(intervall.start, intervall.ende, zeitstempel);
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Intervall) {
+			Intervall intervall = (Intervall) o;
+
+			if (start == intervall.start && ende == intervall.ende) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
-	 * Kopierkonstruktor.
+	 * Gibt die Breite des Intervalls zur&uuml;ck.
 	 * 
-	 * @param intervall
-	 *            ein zu kopierendes Intervall.
+	 * @return Intervallbreite
 	 */
-	public Intervall(Intervall intervall) {
-		this(intervall.start, intervall.ende, false);
-	}
-
-	/**
-	 * Gibt den Anfang des Intervalls zur&uuml;ck.
-	 * 
-	 * @return Zeitstempel
-	 */
-	public long getStart() {
-		return start;
+	public long getBreite() {
+		return breite;
 	}
 
 	/**
@@ -126,12 +145,12 @@ public class Intervall {
 	}
 
 	/**
-	 * Gibt die Breite des Intervalls zur&uuml;ck.
+	 * Gibt den Anfang des Intervalls zur&uuml;ck.
 	 * 
-	 * @return Intervallbreite
+	 * @return Zeitstempel
 	 */
-	public long getBreite() {
-		return breite;
+	public long getStart() {
+		return start;
 	}
 
 	/**
@@ -159,6 +178,15 @@ public class Intervall {
 	}
 
 	/**
+	 * Stellt dieses Intervall einen Zeitraum dar.
+	 * 
+	 * @return {@code true}, wenn das Intervall einen Zeitraum beschreibt.
+	 */
+	public boolean isZeitstempel() {
+		return zeitstempel;
+	}
+
+	/**
 	 * Pr&uuml;ft ob sich zwei Intervalle schneiden. Zwei Intervalle schneiden
 	 * sich, wenn sie mindestens einen Punkt gemeinsam haben (exklusive den
 	 * Intervallgrenzen).
@@ -172,35 +200,6 @@ public class Intervall {
 		return (start < i.start && i.start < ende)
 				|| (start < i.ende && i.ende < ende)
 				|| (start > i.start && ende < i.ende);
-	}
-
-	/**
-	 * Zwei Intervalle sind gleich, wenn sie den selben Start- und Endwert
-	 * besitzen.
-	 * 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Intervall) {
-			Intervall intervall = (Intervall) o;
-
-			if (start == intervall.start && ende == intervall.ende) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Die Hashfunktion verkn&uuml;pft den Start- und Endwert per XOR.
-	 * 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		return Long.valueOf(start).hashCode() ^ Long.valueOf(ende).hashCode();
 	}
 
 	/**
@@ -218,15 +217,6 @@ public class Intervall {
 					+ formatter.format(new Date(ende)) + "]";
 		}
 		return "[" + start + ", " + ende + "]";
-	}
-
-	/**
-	 * Stellt dieses Intervall einen Zeitraum dar.
-	 * 
-	 * @return {@code true}, wenn das Intervall einen Zeitraum beschreibt.
-	 */
-	public boolean isZeitstempel() {
-		return zeitstempel;
 	}
 
 }

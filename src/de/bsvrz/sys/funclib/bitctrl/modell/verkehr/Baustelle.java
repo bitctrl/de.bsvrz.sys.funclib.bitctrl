@@ -29,7 +29,11 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.event.EventListenerList;
+
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent;
+import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
 /**
@@ -38,7 +42,9 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public class Baustelle extends Situation {
+public class Baustelle extends Situation implements DatensatzUpdateListener {
+
+	EventListenerList listeners = new EventListenerList();
 
 	/**
 	 * die Menge der Netze in denen die die Baustelle referenziert wird.
@@ -62,6 +68,23 @@ public class Baustelle extends Situation {
 		}
 	}
 
+	public void addBaustellenUpdateListener(BaustellenUpdateListener listener) {
+		boolean registerListeners = listeners
+				.getListenerCount(BaustellenUpdateListener.class) == 0;
+
+		listeners.add(BaustellenUpdateListener.class, listener);
+
+		if (registerListeners) {
+			getSituationsEigenschaften().update();
+			getSituationsEigenschaften().setAutoUpdate(true);
+			getSituationsEigenschaften().addUpdateListener(this);
+
+			getBaustellenEigenschaften().update();
+			getBaustellenEigenschaften().setAutoUpdate(true);
+			getBaustellenEigenschaften().addUpdateListener(this);
+		}
+	}
+
 	/**
 	 * fügt der Baustelle eine Netzreferenz hinzu.
 	 * 
@@ -70,6 +93,18 @@ public class Baustelle extends Situation {
 	 */
 	public void addNetzReferenz(VerkehrModellNetz netz) {
 		netze.add(netz);
+	}
+
+	public void datensatzAktualisiert(DatensatzUpdateEvent event) {
+		BaustellenUpdateEvent bstEvent = new BaustellenUpdateEvent(this);
+		for (BaustellenUpdateListener listener : listeners
+				.getListeners(BaustellenUpdateListener.class)) {
+			listener.baustelleAktualisiert(bstEvent);
+		}
+	}
+
+	public BaustellenEigenschaften getBaustellenEigenschaften() {
+		return (BaustellenEigenschaften) getParameterDatensatz(BaustellenEigenschaften.class);
 	}
 
 	/**
@@ -88,6 +123,15 @@ public class Baustelle extends Situation {
 	 */
 	public SystemObjektTyp getTyp() {
 		return VerkehrsModellTypen.BAUSTELLE;
+	}
+
+	public void removeBaustellenUpdateListener(BaustellenUpdateListener listener) {
+		listeners.remove(BaustellenUpdateListener.class, listener);
+
+		if (listeners.getListenerCount(BaustellenUpdateListener.class) <= 0) {
+			getSituationsEigenschaften().removeUpdateListener(this);
+			getBaustellenEigenschaften().removeUpdateListener(this);
+		}
 	}
 
 	/**

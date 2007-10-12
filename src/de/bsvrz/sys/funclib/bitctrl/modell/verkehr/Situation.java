@@ -48,4 +48,8 @@ public abstract class Situation extends AbstractSystemObjekt {
 	protected Situation(SystemObject obj) {
 		super(obj);
 	}
+
+	public SituationsEigenschaften getSituationsEigenschaften() {
+		return (SituationsEigenschaften) getParameterDatensatz(SituationsEigenschaften.class);
+	}
 }

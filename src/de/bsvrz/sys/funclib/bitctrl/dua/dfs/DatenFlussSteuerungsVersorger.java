@@ -38,25 +38,24 @@ import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.ConfigurationArea;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dav.daf.main.config.SystemObjectType;
+import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.schnittstellen.IDatenFlussSteuerungsListener;
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.SWETyp;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
- * Diese Klasse liest die Parameter der Datenflusssteuerung aus
- * und meldet Änderungen formatiert an andere Module des Typs
+ * Diese Klasse liest die Parameter der Datenflusssteuerung aus und meldet
+ * Änderungen formatiert an andere Module des Typs
  * <code>IDatenFlussSteuerungsListener</code> weiter.
- *
+ * 
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
  */
-public class DatenFlussSteuerungsVersorger
-implements ClientReceiverInterface {
+public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 
 	/**
 	 * Debug-Logger
@@ -66,8 +65,7 @@ implements ClientReceiverInterface {
 	/**
 	 * Fehlermeldungstext
 	 */
-	private static final String STD_FEHLER =
-				"Anmeldung auf Datenflusssteuerung fehlgeschlagen"; //$NON-NLS-1$
+	private static final String STD_FEHLER = "Anmeldung auf Datenflusssteuerung fehlgeschlagen"; //$NON-NLS-1$
 
 	/**
 	 * die statische Instanz dieser Klasse
@@ -75,10 +73,60 @@ implements ClientReceiverInterface {
 	protected static DatenFlussSteuerungsVersorger INSTANZ = null;
 
 	/**
+	 * Erfragt die statische Instanz dieser Klasse. Diese liest die Parameter
+	 * der Datenflusssteuerung aus und meldet Änderungen formatiert an
+	 * angemeldete Module des Typs <code>IDatenFlussSteuerungsListener</code>
+	 * weiter.
+	 * 
+	 * @param verwaltung
+	 *            Verbindung zum Verwaltungsmodul
+	 * @return die statische Instanz dieser Klasse
+	 * @throws DUAInitialisierungsException
+	 *             wird geworfen, wenn die übergebene Verbindung fehlerhaft ist
+	 *             (nicht die geforderten Informationen bereit hält), bzw. keine
+	 *             Datenanmeldungen durchgeführt werden konnten
+	 */
+	public static final DatenFlussSteuerungsVersorger getInstanz(
+			final IVerwaltung verwaltung) throws DUAInitialisierungsException {
+		if (INSTANZ == null) {
+			/**
+			 * Ermittlung des Objektes, das die Datenflusssteuerung für das
+			 * übergebene Verwaltungsmodul beschreibt
+			 */
+			final SystemObjectType typDFS = (SystemObjectType) verwaltung
+					.getVerbindung().getDataModel()
+					.getObject(DFSKonstanten.TYP);
+
+			Collection<ConfigurationArea> kBereiche = verwaltung
+					.getKonfigurationsBereiche();
+
+			SystemObject[] dfsObjekte = new SystemObject[0];
+			if (typDFS != null) {
+				dfsObjekte = DUAUtensilien.getBasisInstanzen(typDFS,
+						verwaltung.getVerbindung(), kBereiche).toArray(
+						new SystemObject[0]);
+			}
+
+			SystemObject dfsObjekt = (dfsObjekte.length > 0 ? dfsObjekte[0]
+					: null);
+
+			if (dfsObjekte.length == 1) {
+				LOGGER.fine("Es wurde genau ein Objekt vom Typ " + //$NON-NLS-1$
+						DFSKonstanten.TYP + " identifiziert"); //$NON-NLS-1$
+			} else if (dfsObjekte.length > 1) {
+				LOGGER.warning("Es liegen mehrere Objekte vom Typ " + //$NON-NLS-1$
+						DFSKonstanten.TYP + " vor"); //$NON-NLS-1$
+			}
+
+			INSTANZ = new DatenFlussSteuerungsVersorger(verwaltung, dfsObjekt);
+		}
+		return INSTANZ;
+	}
+
+	/**
 	 * Menge aller Beobachter dieser Instanz
 	 */
-	private Collection<IDatenFlussSteuerungsListener>
-			listenerListe = new HashSet<IDatenFlussSteuerungsListener>();
+	private final Collection<IDatenFlussSteuerungsListener> listenerListe = new HashSet<IDatenFlussSteuerungsListener>();
 
 	/**
 	 * die aktuellen Parameter der Datenflusssteuerung
@@ -90,10 +138,9 @@ implements ClientReceiverInterface {
 	 */
 	private IVerwaltung verwaltung = null;
 
-
 	/**
 	 * Standardkonstruktor
-	 *
+	 * 
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
 	 * @param dfsObjekt
@@ -105,167 +152,44 @@ implements ClientReceiverInterface {
 	 *             Datenanmeldungen durchgeführt werden konnten
 	 */
 	private DatenFlussSteuerungsVersorger(final IVerwaltung verwaltung,
-			final SystemObject dfsObjekt)
-	throws DUAInitialisierungsException {
+			final SystemObject dfsObjekt) throws DUAInitialisierungsException {
 		if (verwaltung == null) {
 			throw new DUAInitialisierungsException(STD_FEHLER
 					+ "\nKeine Verbindung zum Datenverteiler"); //$NON-NLS-1$
 		}
 		this.verwaltung = verwaltung;
 
-		if(dfsObjekt != null){
+		if (dfsObjekt != null) {
 			try {
-				DataDescription dd = new DataDescription(verwaltung.getVerbindung()
-						.getDataModel().getAttributeGroup(DFSKonstanten.ATG),
-						verwaltung.getVerbindung().getDataModel().getAspect(
-								Konstante.DAV_ASP_PARAMETER_SOLL), (short) 0);
+				DataDescription dd = new DataDescription(verwaltung
+						.getVerbindung().getDataModel().getAttributeGroup(
+								DFSKonstanten.ATG), verwaltung.getVerbindung()
+						.getDataModel().getAspect(
+								DaVKonstanten.ASP_PARAMETER_SOLL), (short) 0);
 
-				verwaltung.getVerbindung().subscribeReceiver(this, dfsObjekt, dd,
-						ReceiveOptions.normal(), ReceiverRole.receiver());
+				verwaltung.getVerbindung().subscribeReceiver(this, dfsObjekt,
+						dd, ReceiveOptions.normal(), ReceiverRole.receiver());
 
 				LOGGER.config("Für die Datenflusssteuerung" + //$NON-NLS-1$
 						" wird das Objekt " + dfsObjekt + " verwendet."); //$NON-NLS-1$//$NON-NLS-2$
 			} catch (Exception ex) {
 				throw new DUAInitialisierungsException(STD_FEHLER, ex);
 			}
-		}else{
-			LOGGER.warning("Die Datenflusssteuerung ist nicht zur Laufzeit steuerbar.\n" + //$NON-NLS-1$
-					"Es wurde kein Objekt vom Typ " + DFSKonstanten.TYP + //$NON-NLS-1$
-					" identifiziert."); //$NON-NLS-1$
-		}
-	}
-
-	/**
-	 * Erfragt die statische Instanz dieser Klasse. Diese
-	 * liest die Parameter der Datenflusssteuerung aus
-	 * und meldet Änderungen formatiert an angemeldete Module
-	 * des Typs <code>IDatenFlussSteuerungsListener</code>
-	 * weiter.
-	 *
-	 * @param verwaltung
-	 *            Verbindung zum Verwaltungsmodul
-	 * @return die statische Instanz dieser Klasse
-	 * @throws DUAInitialisierungsException
-	 *             wird geworfen, wenn die übergebene Verbindung fehlerhaft ist
-	 *             (nicht die geforderten Informationen bereit hält), bzw. keine
-	 *             Datenanmeldungen durchgeführt werden konnten
-	 */
-	public static final DatenFlussSteuerungsVersorger getInstanz(
-			final IVerwaltung verwaltung)
-	throws DUAInitialisierungsException {
-		if (INSTANZ == null) {
-			/**
-			 * Ermittlung des Objektes, das die Datenflusssteuerung
-			 * für das übergebene Verwaltungsmodul beschreibt
-			 */
-			final SystemObjectType typDFS = (SystemObjectType) verwaltung
-					.getVerbindung().getDataModel().getObject(
-							DFSKonstanten.TYP);
-
-			Collection<ConfigurationArea> kBereiche =
-				verwaltung.getKonfigurationsBereiche();
-
-			SystemObject[] dfsObjekte = new SystemObject[0];
-			if(typDFS != null){
-				dfsObjekte = DUAUtensilien.
-						getBasisInstanzen(typDFS, verwaltung.getVerbindung(),
-								kBereiche).toArray(new SystemObject[0]);
-			}
-
-			SystemObject dfsObjekt = (dfsObjekte.length > 0?dfsObjekte[0]:null);
-
-			if(dfsObjekte.length == 1){
-				LOGGER.fine("Es wurde genau ein Objekt vom Typ " + //$NON-NLS-1$
-						DFSKonstanten.TYP + " identifiziert"); //$NON-NLS-1$
-			}else if(dfsObjekte.length > 1){
-				LOGGER.warning("Es liegen mehrere Objekte vom Typ " + //$NON-NLS-1$
-						DFSKonstanten.TYP + " vor"); //$NON-NLS-1$
-			}
-
-			INSTANZ = new DatenFlussSteuerungsVersorger(verwaltung, dfsObjekt);
-		}
-		return INSTANZ;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void update(ResultData[] resultate) {
-		letzteDfs = new DatenFlussSteuerung();
-
-		if (resultate != null && resultate.length > 0) {
-			/**
-			 * nur ein Objekt wird hier behandelt, d.h. dass nur ein
-			 * Datensatz (der Letzte) interessiert
-			 */
-			final ResultData resultat = resultate[resultate.length - 1];
-
-			if (resultat != null && resultat.isSourceAvailable()
-					&& !resultat.isNoDataAvailable() && resultat.hasData()
-					&& resultat.getData() != null) {
-
-				Data.Array ps = resultat.getData().getArray(
-						DFSKonstanten.ATL_PARA_SATZ);
-
-				for (int i = 0; i < ps.getLength(); i++) {
-					Data satz = ps.getItem(i);
-					if (satz != null) {
-						ParameterSatz dfParameterSatz = new ParameterSatz();
-
-						final SWETyp swe = SWETyp.getZustand((int)satz.getUnscaledValue(
-								DFSKonstanten.ATT_SWE).getState().getValue());
-						dfParameterSatz.setSwe(swe);
-
-						/**
-						 * Iteriere über alle Publikationszuordnungen
-						 * innerhalb dieses Parametersatzes
-						 */
-						for (int j = 0; j < satz.getArray(
-								DFSKonstanten.ATT_PUB_ZUORDNUNG).getLength(); j++) {
-							Data paraZuordnung = satz.getArray(
-									DFSKonstanten.ATT_PUB_ZUORDNUNG).getItem(j);
-							PublikationsZuordung dfParaZuordnung;
-							try {
-								dfParaZuordnung = new PublikationsZuordung(
-										paraZuordnung, verwaltung);
-								dfParameterSatz.add(dfParaZuordnung);
-							} catch (Exception e) {
-								LOGGER.error("Eine Publikationszuordnung " +  //$NON-NLS-1$
-										"konnte nicht korrekt" +  //$NON-NLS-1$
-										" ausgelesen werden: " + paraZuordnung, e);  //$NON-NLS-1$
-							}
-						}
-
-						ParameterSatz dummy = letzteDfs
-								.getParameterSatzFuerSWE(swe);
-
-						if (dummy != null) {
-							for (PublikationsZuordung neuePz : dfParameterSatz
-									.getPubZuordnung()) {
-								dummy.add(neuePz);
-							}
-						} else {
-							letzteDfs.add(dfParameterSatz);
-						}
-					}
-				}
-			}
-		}
-
-		if(letzteDfs != null){
-			synchronized (this.listenerListe) {
-				for (IDatenFlussSteuerungsListener listener : this.listenerListe) {
-					listener.aktualisierePublikation(letzteDfs);
-				}
-			}
+		} else {
+			LOGGER
+					.warning("Die Datenflusssteuerung ist nicht zur Laufzeit steuerbar.\n" + //$NON-NLS-1$
+							"Es wurde kein Objekt vom Typ "
+							+ DFSKonstanten.TYP
+							+ //$NON-NLS-1$
+							" identifiziert."); //$NON-NLS-1$
 		}
 	}
 
 	/**
 	 * Fügt diesem Element einen neuen Beobachter hinzu. Jedes neue
-	 * Beobachterobjekt wird sofort nach der Anmeldung mit den aktuellen
-	 * Daten versorgt.
-	 *
+	 * Beobachterobjekt wird sofort nach der Anmeldung mit den aktuellen Daten
+	 * versorgt.
+	 * 
 	 * @param listener
 	 *            der neue Beobachter
 	 */
@@ -285,7 +209,7 @@ implements ClientReceiverInterface {
 
 	/**
 	 * Löscht ein Beobachterobjekt.
-	 *
+	 * 
 	 * @param listener
 	 *            das zu löschende Beobachterobjekt
 	 */
@@ -294,6 +218,82 @@ implements ClientReceiverInterface {
 		if (listener != null) {
 			synchronized (this.listenerListe) {
 				this.listenerListe.remove(listener);
+			}
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void update(ResultData[] resultate) {
+		letzteDfs = new DatenFlussSteuerung();
+
+		if (resultate != null && resultate.length > 0) {
+			/**
+			 * nur ein Objekt wird hier behandelt, d.h. dass nur ein Datensatz
+			 * (der Letzte) interessiert
+			 */
+			final ResultData resultat = resultate[resultate.length - 1];
+
+			if (resultat != null && resultat.isSourceAvailable()
+					&& !resultat.isNoDataAvailable() && resultat.hasData()
+					&& resultat.getData() != null) {
+
+				Data.Array ps = resultat.getData().getArray(
+						DFSKonstanten.ATL_PARA_SATZ);
+
+				for (int i = 0; i < ps.getLength(); i++) {
+					Data satz = ps.getItem(i);
+					if (satz != null) {
+						ParameterSatz dfParameterSatz = new ParameterSatz();
+
+						final SWETyp swe = SWETyp.getZustand((int) satz
+								.getUnscaledValue(DFSKonstanten.ATT_SWE)
+								.getState().getValue());
+						dfParameterSatz.setSwe(swe);
+
+						/**
+						 * Iteriere über alle Publikationszuordnungen innerhalb
+						 * dieses Parametersatzes
+						 */
+						for (int j = 0; j < satz.getArray(
+								DFSKonstanten.ATT_PUB_ZUORDNUNG).getLength(); j++) {
+							Data paraZuordnung = satz.getArray(
+									DFSKonstanten.ATT_PUB_ZUORDNUNG).getItem(j);
+							PublikationsZuordung dfParaZuordnung;
+							try {
+								dfParaZuordnung = new PublikationsZuordung(
+										paraZuordnung, verwaltung);
+								dfParameterSatz.add(dfParaZuordnung);
+							} catch (Exception e) {
+								LOGGER.error("Eine Publikationszuordnung " + //$NON-NLS-1$
+										"konnte nicht korrekt" + //$NON-NLS-1$
+										" ausgelesen werden: " + paraZuordnung,
+										e); //$NON-NLS-1$
+							}
+						}
+
+						ParameterSatz dummy = letzteDfs
+								.getParameterSatzFuerSWE(swe);
+
+						if (dummy != null) {
+							for (PublikationsZuordung neuePz : dfParameterSatz
+									.getPubZuordnung()) {
+								dummy.add(neuePz);
+							}
+						} else {
+							letzteDfs.add(dfParameterSatz);
+						}
+					}
+				}
+			}
+		}
+
+		if (letzteDfs != null) {
+			synchronized (this.listenerListe) {
+				for (IDatenFlussSteuerungsListener listener : this.listenerListe) {
+					listener.aktualisierePublikation(letzteDfs);
+				}
 			}
 		}
 	}

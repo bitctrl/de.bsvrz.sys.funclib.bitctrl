@@ -163,16 +163,6 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	}
 
 	/**
-	 * Ruft die Hashfunktion von {@link SystemObject} auf.
-	 * 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		return getSystemObject().hashCode();
-	}
-
-	/**
 	 * &UUml;bernimmt die Methode von {@link SystemObject}.
 	 * 
 	 * {@inheritDoc}

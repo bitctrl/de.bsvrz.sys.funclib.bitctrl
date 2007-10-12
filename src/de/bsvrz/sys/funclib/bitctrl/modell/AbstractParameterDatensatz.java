@@ -31,7 +31,7 @@ import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.ReceiveOptions;
 import de.bsvrz.dav.daf.main.ReceiverRole;
 import de.bsvrz.dav.daf.main.config.Aspect;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
+import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
 
 /**
  * Implementiert gemeinsame Funktionen von Parametern.
@@ -59,7 +59,7 @@ public abstract class AbstractParameterDatensatz extends AbstractDatensatz
 		super(objekt);
 		if (sollAspekt == null) {
 			sollAspekt = ObjektFactory.getInstanz().getVerbindung()
-					.getDataModel().getAspect(Konstante.DAV_ASP_PARAMETER_SOLL);
+					.getDataModel().getAspect(DaVKonstanten.ASP_PARAMETER_SOLL);
 		}
 	}
 

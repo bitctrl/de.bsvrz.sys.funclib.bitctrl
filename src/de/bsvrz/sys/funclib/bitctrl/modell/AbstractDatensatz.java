@@ -184,16 +184,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	}
 
 	/**
-	 * {@inheritDoc}.<br>
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		return objekt.hashCode() ^ getAttributGruppe().hashCode();
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	public boolean isAutoUpdate() {
