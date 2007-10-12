@@ -46,4 +46,11 @@ public class DaVKonstanten {
 
 	/** Aspekt f&uuml;r den Standardwert eines Parameters. */
 	public static final String ASP_PARAMETER_DEFAULT = "asp.parameterDefault";
+
+	/** Der Typ Typ. */
+	public static final String TYP_TYP = "typ.typ";
+
+	/** Der Typ Attributgruppe. */
+	public static final String TYP_ATTRIBUTGRUPPE = "typ.attributgruppe";
+
 }

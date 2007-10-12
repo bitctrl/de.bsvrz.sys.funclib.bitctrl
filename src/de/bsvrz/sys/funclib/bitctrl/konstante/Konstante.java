@@ -25,71 +25,46 @@ package de.bsvrz.sys.funclib.bitctrl.konstante;
 
 /**
  * @author peuker
- *
+ * 
  */
 /**
  * @author peuker
- *
+ * 
  */
 public final class Konstante {
 
 	/**
-	 *
+	 * 
 	 */
 	public static final long SEKUNDE_IN_MS = 1000L;
-	
+
 	/**
-	 *
+	 * 
 	 */
 	public static final long MINUTE_IN_MS = 60L * 1000L;
 
 	/**
-	 *
+	 * 
 	 */
 	public static final long STUNDE_IN_MS = 60L * 60L * 1000L;
-	
+
 	/**
-	 *
+	 * 
 	 */
 	public static final long TAG_24_IN_MS = 24L * 60L * 60L * 1000L;
 
 	/**
-	 *
+	 * 
 	 */
-	public static final long PROZENT_FAKTOR = 100L;
-	
+	public static final int PROZENT_FAKTOR = 100;
+
 	/**
-	 *
+	 * 
 	 */
 	public static final String LEERSTRING = ""; //$NON-NLS-1$
 
 	/**
-	 *
-	 */
-	public static final String DAV_TYP_VERKEHRS_MODELL_NETZ = "typ.verkehrsModellNetz"; //$NON-NLS-1$
-
-	/**
-	 *
-	 */
-	public static final String DAV_ASP_PARAMETER_SOLL = "asp.parameterSoll"; //$NON-NLS-1$
-
-	/**
-	 *
-	 */
-	public static final String DAV_ASP_PARAMETER_VORGABE = "asp.parameterVorgabe"; //$NON-NLS-1$
-
-	/**
-	 *
-	 */
-	public static final String DAV_TYP_TYP = "typ.typ"; //$NON-NLS-1$
-
-	/**
-	 *
-	 */
-	public static final String DAV_TYP_ATG = "typ.attributgruppe"; //$NON-NLS-1$
-
-	/**
-	 *
+	 * 
 	 */
 	public static final String STRING_UNBEKANNT = "unbekannt"; //$NON-NLS-1$
 
@@ -97,10 +72,5 @@ public final class Konstante {
 	 * Systemabhängiges Zeichen für einen Zeilenumbruch.
 	 */
 	public static final String NEWLINE = System.getProperty("line.separator"); //$NON-NLS-1$
-
-	/**
-	 * Primzahlkonstante zur Berechnung von Hash-Werten.
-	 */
-	public static final int PRIME = 31;
 
 }
