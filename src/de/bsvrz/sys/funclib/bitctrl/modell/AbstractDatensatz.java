@@ -62,7 +62,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 				}
 			}
 		}
-
 	}
 
 	/** Das Systemobjekt. */
@@ -102,12 +101,96 @@ public abstract class AbstractDatensatz implements Datensatz {
 	}
 
 	/**
+	 * Leert den Sendecache.
+	 */
+	protected void clearSendeCache() {
+		sendeCache = null;
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = false;
+		if (obj instanceof AbstractDatensatz) {
+			AbstractDatensatz ds = (AbstractDatensatz) obj;
+			result = getObjekt().equals(ds.getObjekt())
+					&& (getAttributGruppe().equals(ds.getAttributGruppe()));
+		}
+		return result;
+	}
+
+	/**
+	 * Meldet den Datensatz abh&auml;nig vom Flag {@code autoUpdate} als
+	 * Empf&auml;nger an oder ab.
+	 * 
+	 * @see #isAutoUpdate()
+	 */
+	protected abstract void fireAutoUpdate();
+
+	/**
+	 * Benachricht registrierte Listener &uuml;ber &Auml;nderungen am Datensatz.
+	 */
+	protected void fireDatensatzAktualisiert() {
+		DatensatzUpdateEvent event = new DatensatzUpdateEvent(getObjekt(), this);
+		for (DatensatzUpdateListener listener : listeners
+				.getListeners(DatensatzUpdateListener.class)) {
+			listener.datensatzAktualisiert(event);
+		}
+	}
+
+	/**
+	 * ruft die aktuellen Daten ab und überträgt diee in die internen
+	 * Datenspeicher.
+	 */
+	protected abstract void fireUpdate();
+
+	/**
 	 * {@inheritDoc}.<br>
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
 	 */
 	public final SystemObjekt getObjekt() {
 		return objekt;
+	}
+
+	/**
+	 * Gibt den Empf&auml;nger f&uuml;r Datenverteilerkommunikation zur&uuml;ck.
+	 * 
+	 * @return den Datenverteilerempf&auml;nger.
+	 */
+	protected ClientReceiverInterface getReceiver() {
+		return receiver;
+	}
+
+	/**
+	 * Gibt den Sendecache zur&uuml;ck. Ist der Cache leer (z.&nbsp;B. nach dem
+	 * Senden), wird ein neues Datum angelegt. Datensatz&auml;nderungen werden
+	 * am Cache durchgef&uuml;hrt und anschlie&szlig;end mit
+	 * {@link #sendeDaten()} gesammelt gesendet.
+	 * 
+	 * @return der Sendecache.
+	 * @see #sendeDaten()
+	 */
+	protected Data getSendeCache() {
+		if (sendeCache == null) {
+			sendeCache = ObjektFactory.getInstanz().getVerbindung().createData(
+					getAttributGruppe());
+		}
+		return sendeCache;
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return objekt.hashCode() ^ getAttributGruppe().hashCode();
 	}
 
 	/**
@@ -148,64 +231,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	 */
 	public void update() {
 		fireUpdate();
-	}
-
-	/**
-	 * Leert den Sendecache.
-	 */
-	protected void clearSendeCache() {
-		sendeCache = null;
-	}
-
-	/**
-	 * Meldet den Datensatz abh&auml;nig vom Flag {@code autoUpdate} als
-	 * Empf&auml;nger an oder ab.
-	 * 
-	 * @see #isAutoUpdate()
-	 */
-	protected abstract void fireAutoUpdate();
-
-	/**
-	 * Benachricht registrierte Listener &uuml;ber &Auml;nderungen am Datensatz.
-	 */
-	protected void fireDatensatzAktualisiert() {
-		DatensatzUpdateEvent event = new DatensatzUpdateEvent(getObjekt(), this);
-		for (DatensatzUpdateListener listener : listeners
-				.getListeners(DatensatzUpdateListener.class)) {
-			listener.datensatzAktualisiert(event);
-		}
-	}
-
-	/**
-	 * ruft die aktuellen Daten ab und überträgt diee in die internen
-	 * Datenspeicher.
-	 */
-	protected abstract void fireUpdate();
-
-	/**
-	 * Gibt den Empf&auml;nger f&uuml;r Datenverteilerkommunikation zur&uuml;ck.
-	 * 
-	 * @return den Datenverteilerempf&auml;nger.
-	 */
-	protected ClientReceiverInterface getReceiver() {
-		return receiver;
-	}
-
-	/**
-	 * Gibt den Sendecache zur&uuml;ck. Ist der Cache leer (z.&nbsp;B. nach dem
-	 * Senden), wird ein neues Datum angelegt. Datensatz&auml;nderungen werden
-	 * am Cache durchgef&uuml;hrt und anschlie&szlig;end mit
-	 * {@link #sendeDaten()} gesammelt gesendet.
-	 * 
-	 * @return der Sendecache.
-	 * @see #sendeDaten()
-	 */
-	protected Data getSendeCache() {
-		if (sendeCache == null) {
-			sendeCache = ObjektFactory.getInstanz().getVerbindung().createData(
-					getAttributGruppe());
-		}
-		return sendeCache;
 	}
 
 }
