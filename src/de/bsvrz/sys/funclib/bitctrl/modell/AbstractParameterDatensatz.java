@@ -31,7 +31,6 @@ import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.ReceiveOptions;
 import de.bsvrz.dav.daf.main.ReceiverRole;
 import de.bsvrz.dav.daf.main.config.Aspect;
-import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 
 /**
@@ -70,18 +69,17 @@ public abstract class AbstractParameterDatensatz extends AbstractDatensatz
 	@Override
 	protected void fireAutoUpdate() {
 		ClientDavInterface dav;
-		DataModel modell;
 		DataDescription dbs;
 
 		dav = ObjektFactory.getInstanz().getVerbindung();
-		modell = dav.getDataModel();
 		dbs = new DataDescription(getAttributGruppe(), sollAspekt);
 
 		if (isAutoUpdate()) {
-			dav.subscribeReceiver(this, getObjekt().getSystemObject(), dbs,
-					ReceiveOptions.normal(), ReceiverRole.receiver());
+			dav.subscribeReceiver(getReceiver(), getObjekt().getSystemObject(),
+					dbs, ReceiveOptions.normal(), ReceiverRole.receiver());
 		} else {
-			dav.unsubscribeReceiver(this, getObjekt().getSystemObject(), dbs);
+			dav.unsubscribeReceiver(getReceiver(), getObjekt()
+					.getSystemObject(), dbs);
 		}
 	}
 

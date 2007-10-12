@@ -102,14 +102,6 @@ public abstract class AbstractOnlineDatensatz extends AbstractDatensatz
 
 		}
 
-		private DataDescription getSendeDatenBeschreibung() {
-			if (sendeDatenBeschreibung == null) {
-				sendeDatenBeschreibung = new DataDescription(
-						getAttributGruppe(), getSendeAspekt());
-			}
-			return sendeDatenBeschreibung;
-		}
-
 		public boolean isRequestSupported(SystemObject object,
 				DataDescription dataDescription) {
 			if (object.equals(getObjekt().getSystemObject())
@@ -117,6 +109,14 @@ public abstract class AbstractOnlineDatensatz extends AbstractDatensatz
 				return true;
 			}
 			return false;
+		}
+
+		private DataDescription getSendeDatenBeschreibung() {
+			if (sendeDatenBeschreibung == null) {
+				sendeDatenBeschreibung = new DataDescription(
+						getAttributGruppe(), getSendeAspekt());
+			}
+			return sendeDatenBeschreibung;
 		}
 
 	}
@@ -129,6 +129,13 @@ public abstract class AbstractOnlineDatensatz extends AbstractDatensatz
 	 */
 	public AbstractOnlineDatensatz(SystemObjekt objekt) {
 		super(objekt);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void sendeDaten() {
+		// TODO
 	}
 
 	/**
@@ -150,10 +157,11 @@ public abstract class AbstractOnlineDatensatz extends AbstractDatensatz
 			} else {
 				rolle = ReceiverRole.receiver();
 			}
-			dav.subscribeReceiver(this, getObjekt().getSystemObject(), dbs,
-					ReceiveOptions.normal(), rolle);
+			dav.subscribeReceiver(getReceiver(), getObjekt().getSystemObject(),
+					dbs, ReceiveOptions.normal(), rolle);
 		} else {
-			dav.unsubscribeReceiver(this, getObjekt().getSystemObject(), dbs);
+			dav.unsubscribeReceiver(getReceiver(), getObjekt()
+					.getSystemObject(), dbs);
 		}
 	}
 
@@ -173,13 +181,6 @@ public abstract class AbstractOnlineDatensatz extends AbstractDatensatz
 			setDaten(dav.getData(getObjekt().getSystemObject(), dbs, 0)
 					.getData());
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void sendeDaten() {
-		// TODO
 	}
 
 }
