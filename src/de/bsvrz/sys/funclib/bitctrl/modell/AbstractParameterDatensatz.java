@@ -45,7 +45,8 @@ import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
  * Implementiert gemeinsame Funktionen von Parametern.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
+ * @version $Id: AbstractParameterDatensatz.java 4336 2007-10-12 13:46:53Z
+ *          Schumann $
  */
 public abstract class AbstractParameterDatensatz extends AbstractDatensatz
 		implements ParameterDatensatz {
@@ -291,8 +292,6 @@ public abstract class AbstractParameterDatensatz extends AbstractDatensatz
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#fireUpdate()
 	 */
 	@Override
 	protected void fireUpdate() {
