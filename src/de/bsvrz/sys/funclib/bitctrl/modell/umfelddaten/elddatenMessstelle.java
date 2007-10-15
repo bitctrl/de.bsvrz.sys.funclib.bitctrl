@@ -42,7 +42,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class UmfelddatenMessstelle extends AbstractSystemObjekt {
+public class elddatenMessstelle extends AbstractSystemObjekt {
 
 	/** Liste der Umfelddatensensoren dieser Umfelddatenmessstelle. */
 	private final List<UmfelddatenSensor> umfelddatensensoren;
@@ -54,7 +54,7 @@ public class UmfelddatenMessstelle extends AbstractSystemObjekt {
 	 *            Ein Systemobjekt, welches eine Umfelddatenmessstelle sein muss
 	 * @throws IllegalArgumentException
 	 */
-	public UmfelddatenMessstelle(SystemObject so) {
+	public elddatenMessstelle(SystemObject so) {
 		super(so);
 
 		ConfigurationObject co;

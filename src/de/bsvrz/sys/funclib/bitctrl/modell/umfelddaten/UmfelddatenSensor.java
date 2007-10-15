@@ -45,6 +45,6 @@ public interface UmfelddatenSensor extends SystemObjekt {
 	 * 
 	 * @return Liste von Umfelddatenmessstellen
 	 */
-	List<UmfelddatenMessstelle> getUmfelddatenMessstellen();
+	List<elddatenMessstelle> getUmfelddatenMessstellen();
 
 }

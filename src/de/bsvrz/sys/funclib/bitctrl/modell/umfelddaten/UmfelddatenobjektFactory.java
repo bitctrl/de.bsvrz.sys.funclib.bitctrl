@@ -70,7 +70,7 @@ public class UmfelddatenobjektFactory implements ModellObjektFactory {
 		} else if (objekt.isOfType(UDS_HELLIGKEIT.getPid())) {
 			obj = new UfdsHelligkeit(objekt);
 		} else if (objekt.isOfType(UMFELDDATENMESSSTELLE.getPid())) {
-			obj = new UmfelddatenMessstelle(objekt);
+			obj = new elddatenMessstelle(objekt);
 		}
 
 		return obj;

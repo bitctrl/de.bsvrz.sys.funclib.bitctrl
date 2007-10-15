@@ -24,7 +24,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class UmfelddatenMessstelleMesswert extends UmfelddatenMessstelle
+public class UmfelddatenMessstelleMesswert extends elddatenMessstelle
 		implements MesswertObjekt {
 
 	/** Messwert der die Gl&auml;tte beschreibt. */

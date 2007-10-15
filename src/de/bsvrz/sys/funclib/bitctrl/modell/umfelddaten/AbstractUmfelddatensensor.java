@@ -58,17 +58,17 @@ public abstract class AbstractUmfelddatensensor extends AbstractSystemObjekt
 	 * 
 	 * {@inheritDoc}
 	 */
-	public List<UmfelddatenMessstelle> getUmfelddatenMessstellen() {
-		List<UmfelddatenMessstelle> listeUDMS;
+	public List<elddatenMessstelle> getUmfelddatenMessstellen() {
+		List<elddatenMessstelle> listeUDMS;
 		List<SystemObject> listeSO;
 
-		listeUDMS = new ArrayList<UmfelddatenMessstelle>();
+		listeUDMS = new ArrayList<elddatenMessstelle>();
 		listeSO = Konfigurationsbereich.getObjekte(objekt
 				.getConfigurationArea(),
 				UmfelddatenModelTypen.UMFELDDATENMESSSTELLE.getPid());
 
 		for (SystemObject so : listeSO) {
-			UmfelddatenMessstelle udms = (UmfelddatenMessstelle) ObjektFactory
+			elddatenMessstelle udms = (elddatenMessstelle) ObjektFactory
 					.getInstanz().getModellobjekt(so);
 			if (udms.besitzt(this)) {
 				listeUDMS.add(udms);
