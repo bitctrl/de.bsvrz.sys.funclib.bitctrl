@@ -27,14 +27,19 @@
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.event.EventListenerList;
+import javax.swing.text.Segment;
 
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdBaustellenEigenschaften;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdSituationsEigenschaften;
 
 /**
  * Repr&auml;sentiert eine Baustelle.
@@ -76,12 +81,12 @@ public class Baustelle extends Situation implements DatensatzUpdateListener {
 
 		if (registerListeners) {
 			getSituationsEigenschaften().update();
-			getSituationsEigenschaften().setAutoUpdate(true);
 			getSituationsEigenschaften().addUpdateListener(this);
+			getSituationsEigenschaften().setAutoUpdate(true);
 
 			getBaustellenEigenschaften().update();
-			getBaustellenEigenschaften().setAutoUpdate(true);
 			getBaustellenEigenschaften().addUpdateListener(this);
+			getBaustellenEigenschaften().setAutoUpdate(true);
 		}
 	}
 
@@ -103,8 +108,40 @@ public class Baustelle extends Situation implements DatensatzUpdateListener {
 		}
 	}
 
-	public BaustellenEigenschaften getBaustellenEigenschaften() {
-		return (BaustellenEigenschaften) getParameterDatensatz(BaustellenEigenschaften.class);
+	public PdBaustellenEigenschaften getBaustellenEigenschaften() {
+		return (PdBaustellenEigenschaften) getParameterDatensatz(PdBaustellenEigenschaften.class);
+	}
+
+	public String getFolgeKnotenName() {
+		String result = "unbekannt";
+		PdSituationsEigenschaften daten = getSituationsEigenschaften();
+		List<StrassenSegment> segmente = daten.getSegmente();
+		if (segmente.size() > 0) {
+			StrassenSegment segment = segmente.get(0);
+			if (segment instanceof InneresStrassenSegment) {
+				segment = ((InneresStrassenSegment) segment).getNachSegment();
+			}
+			if (segment instanceof AeusseresStrassenSegment) {
+				StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
+						.getNachKnoten();
+				if (knoten != null) {
+					result = knoten.getName();
+				}
+			}
+
+		}
+		return result;
+	}
+
+	public double getLaenge() {
+		double result = 0;
+		PdSituationsEigenschaften daten = getSituationsEigenschaften();
+		for (StrassenSegment segment : daten.getSegmente()) {
+			result += segment.getLaenge();
+		}
+
+		result -= (daten.getStartOffset() + daten.getEndOffset());
+		return result;
 	}
 
 	/**
@@ -114,6 +151,24 @@ public class Baustelle extends Situation implements DatensatzUpdateListener {
 	 */
 	public Set<VerkehrModellNetz> getNetze() {
 		return netze;
+	}
+
+	/**
+	 * liefert die Strasse auf der die Baustelle beginnt. Kann keine Strasse
+	 * ermittelt werden , wird der Wert <code>null</code> geliefert.
+	 * 
+	 * @return die Strasse oder <code>null</code>, wenn keine ermittelt
+	 *         werden konnte.
+	 */
+	public Strasse getStrasse() {
+		Strasse result = null;
+		List<StrassenSegment> segmente = getSituationsEigenschaften()
+				.getSegmente();
+		if (segmente.size() > 0) {
+			StrassenSegment segment = segmente.get(0);
+			result = segment.getStrasse();
+		}
+		return result;
 	}
 
 	/**

@@ -29,47 +29,66 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definitionen für den Veranlasser einer Baustelle gemäß Datenkatalog.
+ * Definition der Typen einer Straße.
  * 
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public enum BaustellenVeranlasser implements Zustand {
+public enum StrassenTyp implements Zustand {
 	/**
-	 * der Veranlasser ist nicht definiert.
+	 * Allgemeiner nicht näher definierte Straße.
 	 */
-	ALLE("Alle", -1),
+	SONSTIGE("SonstigeStraße", 0),
 	/**
-	 * der Veranlasser ist nicht definiert.
+	 * eine Autobahn.
 	 */
-	UNDEFINIERT("Undefiniert", 0),
+	AUTOBAHN("Autobahn", 1),
 	/**
-	 * Baustelle wurde durch externes BIS-System angelegt.
+	 * eine Bundesstraße.
 	 */
-	BIS("BIS-extern", 1),
+	BUNDESSSTRASSE("Bundesstraße", 2),
 	/**
-	 * Baustelle wurde intern von der VRZ angelegt.
+	 * eine Landstraße.
 	 */
-	VRZ("VRZ-intern", 2);
+	LANDSTRASSE("Landstraße", 3),
+	/**
+	 * eine Kreisstraße.
+	 */
+	KREISSTRASSE("Kreisstraße", 4),
+	/**
+	 * eine Stadtstraße.
+	 */
+	STADTSTRASSE("Stadtstraße", 5),
+	/**
+	 * eine Hauptverkehrsstraße.
+	 */
+	HAUPTVERKEHRSSTRASSE("Hauptverkehrsstraße", 6),
+	/**
+	 * eine Sammelstraße.
+	 */
+	SAMMELSTRASSE("Sammelstraße", 7),
+	/**
+	 * eine Anliegerstraße.
+	 */
+	ANLIEGERSTRASSE("Anliegerstraße", 8);
 
 	/**
-	 * liefert den Störfallzustand mit dem übergebenen Code.
+	 * liefert den Straßenknotentyp, der dem übergebenen Code entspricht.
 	 * 
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code, für den ein Straßenknoten
+	 * @return den gefundenen Typ, wenn ein ungültiger Code übergeben wurde,
 	 *         wird eine {@link IllegalArgumentException} geworfen.
 	 */
-	public static BaustellenVeranlasser getVeranlasser(int gesuchterCode) {
-		BaustellenVeranlasser result = BaustellenVeranlasser.UNDEFINIERT;
-		for (BaustellenVeranlasser veranlasser : values()) {
-			if (veranlasser.getCode() == gesuchterCode) {
-				result = veranlasser;
-				break;
+	public static StrassenTyp getTyp(int gesuchterCode) {
+		for (StrassenTyp typ : values()) {
+			if (typ.getCode() == gesuchterCode) {
+				return typ;
 			}
 		}
-		return result;
 
+		throw new IllegalArgumentException("Ungültiger Typ mit Code: "
+				+ gesuchterCode);
 	}
 
 	/**
@@ -78,23 +97,22 @@ public enum BaustellenVeranlasser implements Zustand {
 	private int code;
 
 	/**
-	 * der Name des Zustandes.
+	 * die Bezeichnung des Zustandes.
 	 */
 	private String name;
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für einen Störfallzustand mit dem
-	 * übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
-	 * nur innerhalb der Klasse verwendet. Es wird eine Menge vordefinierter
-	 * Zustände zur Verfügung gestellt.
+	 * Die Funktion erzeugt einen Straßentyp mit dem gegebenen Code und der
+	 * zugehörigen Bezeichnung. Die Funktion wird nur innerhalb der Klasse
+	 * verwendet um eine Mange an Straßentypen zur Verfügung zu stellen.
 	 * 
 	 * @param name
-	 *            der Name des zustands
+	 *            der Name des Typs
 	 * @param code
-	 *            der verwendete Code
+	 *            der zugeordnete Code
 	 */
-	private BaustellenVeranlasser(String name, int code) {
+	private StrassenTyp(String name, int code) {
 		this.name = name;
 		this.code = code;
 	}
@@ -109,9 +127,10 @@ public enum BaustellenVeranlasser implements Zustand {
 	}
 
 	/**
-	 * liefert den Namen des Zustandes.
 	 * 
-	 * @return der Name
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Zustand#getName()
 	 */
 	public String getName() {
 		return name;

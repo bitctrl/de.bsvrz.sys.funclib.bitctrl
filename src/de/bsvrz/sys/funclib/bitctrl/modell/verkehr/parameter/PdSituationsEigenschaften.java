@@ -67,7 +67,7 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 	 * Referenzen auf alle Straﬂensegmente, ¸ber die sich die Situation
 	 * ausbreitet. ("StraﬂenSegment")
 	 */
-	private List<StrassenSegment> segmente;
+	private final List<StrassenSegment> segmente = new ArrayList<StrassenSegment>();
 
 	/**
 	 * Position des Situationsanfangs im ersten Straﬂensegment. ("StartOffset")
@@ -140,11 +140,7 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 	 * @return die Liste der Segmente
 	 */
 	public List<StrassenSegment> getSegmente() {
-		List<StrassenSegment> result = new ArrayList<StrassenSegment>();
-		if (segmente != null) {
-			result.addAll(segmente);
-		}
-		return result;
+		return segmente;
 	}
 
 	/**
@@ -185,7 +181,7 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 	public void setDaten(Data daten) {
 		if (daten != null) {
 			startZeit = daten.getTimeValue("StartZeit").getMillis();
-			dauer = daten.getUnscaledValue("Dauer").longValue();
+			dauer = daten.getTimeValue("Dauer").getMillis();
 			segmente.clear();
 			Data.Array segmentArray = daten.getArray("StraﬂenSegment");
 			for (int idx = 0; idx < segmentArray.getLength(); idx++) {

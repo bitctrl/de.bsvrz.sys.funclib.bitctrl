@@ -28,6 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdSituationsEigenschaften;
 
 /**
  * Repr&auml;sentiert eine Situation.
@@ -49,7 +50,7 @@ public abstract class Situation extends AbstractSystemObjekt {
 		super(obj);
 	}
 
-	public SituationsEigenschaften getSituationsEigenschaften() {
-		return (SituationsEigenschaften) getParameterDatensatz(SituationsEigenschaften.class);
+	public PdSituationsEigenschaften getSituationsEigenschaften() {
+		return (PdSituationsEigenschaften) getParameterDatensatz(PdSituationsEigenschaften.class);
 	}
 }

@@ -8,7 +8,7 @@ public class BaustellenUpdateEvent extends EventObject {
 		super(source);
 	}
 
-	Baustelle getBaustelle() {
+	public Baustelle getBaustelle() {
 		return (Baustelle) getSource();
 	}
 }

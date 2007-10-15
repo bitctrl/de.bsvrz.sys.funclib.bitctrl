@@ -62,7 +62,7 @@ public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 	/**
 	 * Veranlasser der Baustelle (BIS-System oder VRZ). ("Veranlasser")
 	 */
-	private BaustellenVeranlasser veranlasser;
+	private BaustellenVeranlasser veranlasser = BaustellenVeranlasser.UNDEFINIERT;
 
 	/**
 	 * Konstruktor.<br>
