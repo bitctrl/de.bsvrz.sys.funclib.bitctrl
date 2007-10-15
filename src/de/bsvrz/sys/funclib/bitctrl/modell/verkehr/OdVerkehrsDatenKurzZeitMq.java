@@ -40,7 +40,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class VerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
+public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 
 	/** Die PID der Attributgruppe. */
 	public static final String ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ = "atg.verkehrsDatenKurzZeitMq";
@@ -49,10 +49,10 @@ public class VerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	public static final String ASP_ANALYSE = "asp.analyse";
 
 	/** Die Attributgruppe kann von allen Instanzen gemeinsam genutzt werden. */
-	private static AttributeGroup atg;
+	private final AttributeGroup atg;
 
 	/** Der Aspekt kann von allen Instanzen gemeinsam genutzt werden. */
-	private static Aspect aspAnalyse;
+	private final Aspect aspAnalyse;
 
 	/** Lkw-Anteil in Prozent. */
 	private Integer aLkw;
@@ -88,15 +88,13 @@ public class VerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	 *            der Messquerschnitt dessen Kurzzeitdaten hier betrachtet
 	 *            werden.
 	 */
-	public VerkehrsDatenKurzZeitMq(MessQuerschnittAllgemein mq) {
+	public OdVerkehrsDatenKurzZeitMq(MessQuerschnittAllgemein mq) {
 		super(mq);
 
-		if (atg == null || aspAnalyse == null) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-					.getDataModel();
-			atg = modell.getAttributeGroup(ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ);
-			aspAnalyse = modell.getAspect(ASP_ANALYSE);
-		}
+		DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+				.getDataModel();
+		atg = modell.getAttributeGroup(ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ);
+		aspAnalyse = modell.getAspect(ASP_ANALYSE);
 	}
 
 	/**
