@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class UfdsWindrichtung extends AbstractUmfeldDdatensensor {
+public class UfdsWindrichtung extends AbstractUmfeldDatenSensor {
 
 	/**
 	 * Ruft den Superkonstruktor auf.

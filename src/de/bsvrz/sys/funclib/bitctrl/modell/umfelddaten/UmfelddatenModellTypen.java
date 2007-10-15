@@ -38,7 +38,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 public enum UmfelddatenModellTypen implements SystemObjektTyp {
 
 	/** Umfelddatensensor. */
-	UMFELDDATENSENSOR("typ.umfeldDatenSensor", UmfeldDdatenSensor.class),
+	UMFELDDATENSENSOR("typ.umfeldDatenSensor", UmfeldDatenSensor.class),
 
 	/** Umfelddatensensor f&uuml;r die Helligkeit. */
 	UDS_HELLIGKEIT("typ.ufdsHelligkeit", UfdsHelligkeit.class),

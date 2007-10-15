@@ -40,8 +40,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public abstract class AbstractUmfeldDdatensensor extends AbstractSystemObjekt
-		implements UmfeldDdatenSensor {
+public abstract class AbstractUmfeldDatenSensor extends AbstractSystemObjekt
+		implements UmfeldDatenSensor {
 
 	/**
 	 * Ruft den Superkonstruktor auf.
@@ -49,7 +49,7 @@ public abstract class AbstractUmfeldDdatensensor extends AbstractSystemObjekt
 	 * @param obj
 	 *            Ein Systemobjekt, was ein Umfelddatensensor darstellt
 	 */
-	public AbstractUmfeldDdatensensor(SystemObject obj) {
+	public AbstractUmfeldDatenSensor(SystemObject obj) {
 		super(obj);
 	}
 
