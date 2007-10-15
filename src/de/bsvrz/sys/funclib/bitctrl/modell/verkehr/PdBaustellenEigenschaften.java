@@ -39,7 +39,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public class BaustellenEigenschaften extends AbstractParameterDatensatz {
+public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 
 	/**
 	 * die Attributgruppe, in der die Eigenschaften enthaöten sind.
@@ -49,7 +49,7 @@ public class BaustellenEigenschaften extends AbstractParameterDatensatz {
 	/**
 	 * Zustand der Baustelle. ("Status")
 	 */
-	private BaustellenStatus status;
+	private BaustellenStatus status = BaustellenStatus.ENTWORFEN;
 
 	/**
 	 * Restkapazität während der Gültigkeitsdauer der Baustelle.
@@ -70,7 +70,7 @@ public class BaustellenEigenschaften extends AbstractParameterDatensatz {
 	 * @param objekt
 	 *            das der Baustelle zugrundliegende Systemobjekt.
 	 */
-	public BaustellenEigenschaften(SystemObjekt objekt) {
+	public PdBaustellenEigenschaften(SystemObjekt objekt) {
 		super(objekt);
 		if (attributGruppe == null) {
 			attributGruppe = objekt.getSystemObject().getDataModel()
@@ -83,6 +83,7 @@ public class BaustellenEigenschaften extends AbstractParameterDatensatz {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#abmeldenSender()
 	 */
+	@Override
 	public void abmeldenSender() {
 		// TODO Auto-generated method stub
 
@@ -129,6 +130,7 @@ public class BaustellenEigenschaften extends AbstractParameterDatensatz {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#sendeDaten()
 	 */
+	@Override
 	public void sendeDaten() {
 		// TODO Auto-generated method stub
 

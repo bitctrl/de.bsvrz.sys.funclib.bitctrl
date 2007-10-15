@@ -26,6 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.bsvrz.dav.daf.main.Data;
@@ -42,7 +43,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public class SituationsEigenschaften extends AbstractParameterDatensatz {
+public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 
 	/**
 	 * die Attributgruppe für den Zugriff auf die Parameter.
@@ -85,7 +86,7 @@ public class SituationsEigenschaften extends AbstractParameterDatensatz {
 	 * @param objekt
 	 *            das Systemobjekt
 	 */
-	public SituationsEigenschaften(SystemObjekt objekt) {
+	public PdSituationsEigenschaften(SystemObjekt objekt) {
 		super(objekt);
 		if (attributGruppe == null) {
 			attributGruppe = objekt.getSystemObject().getDataModel()
@@ -98,6 +99,7 @@ public class SituationsEigenschaften extends AbstractParameterDatensatz {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#abmeldenSender()
 	 */
+	@Override
 	public void abmeldenSender() {
 		// TODO Auto-generated method stub
 
@@ -137,7 +139,11 @@ public class SituationsEigenschaften extends AbstractParameterDatensatz {
 	 * @return die Liste der Segmente
 	 */
 	public List<StrassenSegment> getSegmente() {
-		return segmente;
+		List<StrassenSegment> result = new ArrayList<StrassenSegment>();
+		if (segmente != null) {
+			result.addAll(segmente);
+		}
+		return result;
 	}
 
 	/**
@@ -164,6 +170,7 @@ public class SituationsEigenschaften extends AbstractParameterDatensatz {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#sendeDaten()
 	 */
+	@Override
 	public void sendeDaten() {
 		// TODO Auto-generated method stub
 
