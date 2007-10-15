@@ -102,21 +102,30 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	public OnlineDatensatz getOnlineDatensatz(
 			Class<? extends OnlineDatensatz> typ) {
 		if (!onlineDaten.containsKey(typ)) {
+			OnlineDatensatz od;
 			try {
-				onlineDaten.put(typ, typ.getConstructor(SystemObjekt.class)
-						.newInstance(this));
+				od = typ.getConstructor(SystemObjekt.class).newInstance(this);
 			} catch (InstantiationException e) {
 				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ "kann nicht instantiiert werden:" + e.getMessage());
+						+ " kann nicht instantiiert werden:" + e.getMessage());
 			} catch (IllegalAccessException e) {
 				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ "kann nicht instantiiert werden:" + e.getMessage());
+						+ " kann nicht instantiiert werden:" + e.getMessage());
 			} catch (InvocationTargetException e) {
 				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ "kann nicht instantiiert werden:" + e.getMessage());
+						+ " kann nicht instantiiert werden:" + e.getMessage());
 			} catch (NoSuchMethodException e) {
 				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ "kann nicht instantiiert werden:" + e.getMessage());
+						+ " kann nicht instantiiert werden:" + e.getMessage());
+			}
+			if (getSystemObject().getType().getAttributeGroups().contains(
+					od.getAttributGruppe())) {
+				onlineDaten.put(typ, od);
+			} else {
+				throw new IllegalArgumentException("Datensatz " + typ.getName()
+						+ " kann nicht mit Objekt "
+						+ getSystemObject().getType().getPid()
+						+ " verwendet werden.");
 			}
 		}
 		return onlineDaten.get(typ);
@@ -128,21 +137,30 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	public ParameterDatensatz getParameterDatensatz(
 			Class<? extends ParameterDatensatz> typ) {
 		if (!parameter.containsKey(typ)) {
+			ParameterDatensatz pd;
 			try {
-				parameter.put(typ, typ.getConstructor(SystemObjekt.class)
-						.newInstance(this));
+				pd = typ.getConstructor(SystemObjekt.class).newInstance(this);
 			} catch (InstantiationException e) {
 				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ "kann nicht instantiiert werden:" + e.getMessage());
+						+ " kann nicht instantiiert werden:" + e.getMessage());
 			} catch (IllegalAccessException e) {
 				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ "kann nicht instantiiert werden:" + e.getMessage());
+						+ " kann nicht instantiiert werden:" + e.getMessage());
 			} catch (InvocationTargetException e) {
 				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ "kann nicht instantiiert werden:" + e.getMessage());
+						+ " kann nicht instantiiert werden:" + e.getMessage());
 			} catch (NoSuchMethodException e) {
 				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ "kann nicht instantiiert werden:" + e.getMessage());
+						+ " kann nicht instantiiert werden:" + e.getMessage());
+			}
+			if (getSystemObject().getType().getAttributeGroups().contains(
+					pd.getAttributGruppe())) {
+				parameter.put(typ, pd);
+			} else {
+				throw new IllegalArgumentException("Datensatz " + typ.getName()
+						+ " kann nicht mit Objekt "
+						+ getSystemObject().getType().getPid()
+						+ " verwendet werden.");
 			}
 		}
 		return parameter.get(typ);
