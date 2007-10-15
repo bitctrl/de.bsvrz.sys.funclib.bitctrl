@@ -26,56 +26,32 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.daf.Konfigurationsbereich;
-import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
-import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
 /**
- * Implementtiert die gemeinsame Logik von Umfelddatensensoren.
+ * Umfelddatensensor, der die Sichtweite misst.
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public abstract class AbstractUmfelddatensensor extends AbstractSystemObjekt
-		implements UmfelddatenSensor {
+public class UfdsSichtweite extends AbstractUmfelddatensensor {
 
 	/**
 	 * Ruft den Superkonstruktor auf.
 	 * 
 	 * @param obj
-	 *            Ein Systemobjekt, was ein Umfelddatensensor darstellt
+	 *            Ein Systemobjekt, was ein Sichtweitesensor darstellt
 	 */
-	public AbstractUmfelddatensensor(SystemObject obj) {
+	public UfdsSichtweite(SystemObject obj) {
 		super(obj);
 	}
 
 	/**
-	 * TODO: Ergebnis zwischenspeichern, da konfigurierende Daten.
-	 * 
 	 * {@inheritDoc}
 	 */
-	public List<UmfelddatenMessstelle> getUmfelddatenMessstellen() {
-		List<UmfelddatenMessstelle> listeUDMS;
-		List<SystemObject> listeSO;
-
-		listeUDMS = new ArrayList<UmfelddatenMessstelle>();
-		listeSO = Konfigurationsbereich.getObjekte(objekt
-				.getConfigurationArea(),
-				UmfelddatenModelTypen.UMFELDDATENMESSSTELLE.getPid());
-
-		for (SystemObject so : listeSO) {
-			UmfelddatenMessstelle udms = (UmfelddatenMessstelle) ObjektFactory
-					.getInstanz().getModellobjekt(so);
-			if (udms.besitzt(this)) {
-				listeUDMS.add(udms);
-			}
-		}
-
-		return listeUDMS;
+	public SystemObjektTyp getTyp() {
+		return UmfelddatenModelTypen.UDS_SICHTWEITE;
 	}
 
 }

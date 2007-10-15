@@ -60,15 +60,15 @@ public class UmfelddatenobjektFactory implements ModellObjektFactory {
 
 		SystemObjekt obj = null;
 		if (objekt.isOfType(UDS_NIEDERSCHLAGSINTENSITAET.getPid())) {
-			obj = new UDSNiederschlagsintensitaet(objekt);
+			obj = new UfdsNiederschlagsintensitaet(objekt);
 		} else if (objekt.isOfType(UDS_WINDRICHTUNG.getPid())) {
-			obj = new UDSWindrichtung(objekt);
+			obj = new UfdsWindrichtung(objekt);
 		} else if (objekt.isOfType(UDS_WINDGESCHWINDIGKEIT.getPid())) {
-			obj = new UDSWindgeschwindigkeit(objekt);
+			obj = new UfdsWindgeschwindigkeit(objekt);
 		} else if (objekt.isOfType(UDS_SICHTWEITE.getPid())) {
-			obj = new UDSSichtweite(objekt);
+			obj = new UfdsSichtweite(objekt);
 		} else if (objekt.isOfType(UDS_HELLIGKEIT.getPid())) {
-			obj = new UDSHelligkeit(objekt);
+			obj = new UfdsHelligkeit(objekt);
 		} else if (objekt.isOfType(UMFELDDATENMESSSTELLE.getPid())) {
 			obj = new UmfelddatenMessstelle(objekt);
 		}
