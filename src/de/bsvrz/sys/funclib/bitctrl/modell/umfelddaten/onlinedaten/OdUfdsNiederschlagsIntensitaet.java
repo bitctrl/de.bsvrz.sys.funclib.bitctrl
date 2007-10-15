@@ -39,8 +39,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsNiederschlagsintensit
  * Kapselt die Attriburgruppe {@code atg.ufdsNiederschlagsIntensit&auml;t}.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: OdUfdsNiederschlagsIntensitaet.java 4378 2007-10-15 09:56:49Z
- *          Schumann $
+ * @version $Id$
  */
 public class OdUfdsNiederschlagsIntensitaet extends AbstractOnlineDatensatz {
 

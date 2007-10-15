@@ -55,8 +55,24 @@ public interface SystemObjekt {
 	 */
 	String getName();
 
+	/**
+	 * Gibt einen bestimmten Onlinedatensatz zur&uuml;ck. Es wird gepr&uuml;ft,
+	 * ob der Datensatz am Systemobjekt verwendet werden darf.
+	 * 
+	 * @param typ
+	 *            der Typ des Datensatzes.
+	 * @return der Datensatz.
+	 */
 	OnlineDatensatz getOnlineDatensatz(Class<? extends OnlineDatensatz> typ);
 
+	/**
+	 * Gibt einen bestimmten Parameterdatensatz zur&uuml;ck. Es wird
+	 * gepr&uuml;ft, ob der Datensatz am Systemobjekt verwendet werden darf.
+	 * 
+	 * @param typ
+	 *            der Typ des Datensatzes.
+	 * @return der Datensatz.
+	 */
 	ParameterDatensatz getParameterDatensatz(
 			Class<? extends ParameterDatensatz> typ);
 
