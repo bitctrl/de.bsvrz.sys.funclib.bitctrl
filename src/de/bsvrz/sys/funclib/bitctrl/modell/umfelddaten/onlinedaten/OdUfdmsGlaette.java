@@ -33,46 +33,45 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsNiederschlagsintensitaet;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfeldDatenMessStelle;
 
 /**
- * Kapselt die Attriburgruppe {@code atg.ufdsNiederschlagsIntensit&auml;t}.
+ * Kapselt die Attriburgruppe {@code atg.ufdmsGl&auml;tte}.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: OdUfdsNiederschlagsIntensitaet.java 4378 2007-10-15 09:56:49Z
- *          Schumann $
+ * @version $Id$
  */
-public class OdUfdsNiederschlagsIntensitaet extends AbstractOnlineDatensatz {
+public class OdUfdmsGlaette extends AbstractOnlineDatensatz {
 
 	/** Die PID der Attributgruppe. */
-	public static final String ATG_UFDS_NIEDERSCHLAGS_INTENSITAET = "atg.ufdsNiederschlagsIntensitaet";
+	public static final String ATG_UFDMS_GLAETTE = "atg.ufdmsGlätte";
 
 	/** Die PID des Aspekts. */
-	public static final String ASP_MESS_WERT_ERSETZUNG = "asp.messWertErsetzung";
+	public static final String ASP_PROGNOSE = "asp.prognose";
 
 	/** Die Attributgruppe kann von allen Instanzen gemeinsam genutzt werden. */
 	private static AttributeGroup atg;
 
 	/** Der Aspekt kann von allen Instanzen gemeinsam genutzt werden. */
-	private static Aspect aspMessWertErsetzung;
+	private static Aspect aspPrognose;
 
-	/** Niederschlagsintensit&auml;t in mm/h. */
-	private Integer niederschlagsIntensitaet;
+	/** Zustandswert der Gl&auml;tte. */
+	private Integer glaette;
 
 	/**
 	 * Initialisiert den Onlinedatensatz.
 	 * 
-	 * @param sensor
-	 *            der Umfelddatensensor dessen Daten hier betrachtet werden.
+	 * @param messstelle
+	 *            die Messstelle dessen Daten hier betrachtet werden.
 	 */
-	public OdUfdsNiederschlagsIntensitaet(UfdsNiederschlagsintensitaet sensor) {
-		super(sensor);
+	public OdUfdmsGlaette(UmfeldDatenMessStelle messstelle) {
+		super(messstelle);
 
-		if (atg == null || aspMessWertErsetzung == null) {
+		if (atg == null || aspPrognose == null) {
 			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
-			atg = modell.getAttributeGroup(ATG_UFDS_NIEDERSCHLAGS_INTENSITAET);
-			aspMessWertErsetzung = modell.getAspect(ASP_MESS_WERT_ERSETZUNG);
+			atg = modell.getAttributeGroup(ATG_UFDMS_GLAETTE);
+			aspPrognose = modell.getAspect(ASP_PROGNOSE);
 		}
 	}
 
@@ -88,16 +87,16 @@ public class OdUfdsNiederschlagsIntensitaet extends AbstractOnlineDatensatz {
 	 */
 	@Override
 	public Aspect getEmpfangsAspekt() {
-		return aspMessWertErsetzung;
+		return aspPrognose;
 	}
 
 	/**
-	 * Gibt den Wert der Eigenschaft {@code NiederschlagsIntensitaet} wieder.
+	 * Gibt den Wert der Eigenschaft {@code Glaette} wieder.
 	 * 
-	 * @return {@code NiederschlagsIntensitaet}.
+	 * @return {@code Glaette}
 	 */
-	public Integer getNiederschlagsIntensitaet() {
-		return niederschlagsIntensitaet;
+	public Integer getGlaette() {
+		return glaette;
 	}
 
 	/**
@@ -105,7 +104,7 @@ public class OdUfdsNiederschlagsIntensitaet extends AbstractOnlineDatensatz {
 	 */
 	@Override
 	public Aspect getSendeAspekt() {
-		return aspMessWertErsetzung;
+		return aspPrognose;
 	}
 
 	/**
@@ -114,12 +113,11 @@ public class OdUfdsNiederschlagsIntensitaet extends AbstractOnlineDatensatz {
 	public void setDaten(Data daten) {
 		NumberValue wert;
 
-		wert = daten.getItem("NiederschlagsIntensitaet").getUnscaledValue(
-				"Wert");
+		wert = daten.getItem("Helligkeit").getUnscaledValue("Wert");
 		if (wert.isState()) {
-			niederschlagsIntensitaet = null;
+			glaette = null;
 		} else {
-			niederschlagsIntensitaet = wert.intValue();
+			glaette = wert.intValue();
 		}
 	}
 

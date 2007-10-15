@@ -59,7 +59,7 @@ public enum UmfelddatenModelTypen implements SystemObjektTyp {
 
 	/** Umfelddatenmessstelle. */
 	UMFELDDATENMESSSTELLE("typ.umfeldDatenMessStelle",
-			elddatenMessstelle.class);
+			UmfeldDatenMessStelle.class);
 
 	/** PID des Objekttyps im Datenverteiler. */
 	private final String pid;
