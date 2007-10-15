@@ -114,6 +114,7 @@ public abstract class AbstractDatensatz implements Datensatz {
 					valid = false;
 				}
 				letzterZeitstempel = result.getDataTime();
+				fireDatensatzAktualisiert();
 			}
 		}
 
@@ -293,13 +294,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	}
 
 	/**
-	 * Leert den Sendecache.
-	 */
-	protected void clearSendeCache() {
-		sendeCache = null;
-	}
-
-	/**
 	 * {@inheritDoc}.<br>
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
@@ -314,24 +308,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 		}
 		return result;
 	}
-
-	/**
-	 * Benachricht registrierte Listener &uuml;ber &Auml;nderungen am Datensatz.
-	 */
-	protected void fireDatensatzAktualisiert() {
-		DatensatzUpdateEvent event = new DatensatzUpdateEvent(getObjekt(), this);
-		for (DatensatzUpdateListener listener : listeners
-				.getListeners(DatensatzUpdateListener.class)) {
-			listener.datensatzAktualisiert(event);
-		}
-	}
-
-	/**
-	 * Gibt den Aspekt zur&uuml;ck, mit dem Daten empfangen werden.
-	 * 
-	 * @return der Empfangsaspekt.
-	 */
-	protected abstract Aspect getEmpfangsAspekt();
 
 	/**
 	 * {@inheritDoc}
@@ -350,50 +326,11 @@ public abstract class AbstractDatensatz implements Datensatz {
 	}
 
 	/**
-	 * Gibt den Aspekt zur&uuml;ck, mit dem Daten gesendet werden.
-	 * 
-	 * @return der Sendeaspekt.
-	 */
-	protected abstract Aspect getSendeAspekt();
-
-	/**
-	 * Gibt den Sendecache zur&uuml;ck. Ist der Cache leer (z.&nbsp;B. nach dem
-	 * Senden), wird ein neues Datum angelegt. Datensatz&auml;nderungen werden
-	 * am Cache durchgef&uuml;hrt und anschlie&szlig;end mit
-	 * {@link #sendeDaten()} gesammelt gesendet.
-	 * 
-	 * @return der Sendecache.
-	 * @see #sendeDaten()
-	 */
-	protected Data getSendeCache() {
-		if (sendeCache == null) {
-			sendeCache = ObjektFactory.getInstanz().getVerbindung().createData(
-					getAttributGruppe());
-		}
-		return sendeCache;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	public boolean isAutoUpdate() {
 		return autoUpdate;
 	}
-
-	/**
-	 * Gibt an, ob der Datensatz als Quelle oder Sender angemeldet werden soll.
-	 * 
-	 * @return {@code true}, wenn die Anmeldung als Quelle erfolgen soll.
-	 */
-	protected abstract boolean isQuelle();
-
-	/**
-	 * Gibt an, ob der Datensatz als Senke oder Empf&auml;ngher angemeldet
-	 * werden soll.
-	 * 
-	 * @return {@code true}, wenn die Anmeldung als Senke erfolgen soll.
-	 */
-	protected abstract boolean isSenke();
 
 	/**
 	 * {@inheritDoc}
@@ -449,5 +386,69 @@ public abstract class AbstractDatensatz implements Datensatz {
 			throw new IllegalStateException("Auto-Update ist eingeschalten.");
 		}
 	}
+
+	/**
+	 * Leert den Sendecache.
+	 */
+	protected void clearSendeCache() {
+		sendeCache = null;
+	}
+
+	/**
+	 * Benachricht registrierte Listener &uuml;ber &Auml;nderungen am Datensatz.
+	 */
+	protected void fireDatensatzAktualisiert() {
+		DatensatzUpdateEvent event = new DatensatzUpdateEvent(getObjekt(), this);
+		for (DatensatzUpdateListener listener : listeners
+				.getListeners(DatensatzUpdateListener.class)) {
+			listener.datensatzAktualisiert(event);
+		}
+	}
+
+	/**
+	 * Gibt den Aspekt zur&uuml;ck, mit dem Daten empfangen werden.
+	 * 
+	 * @return der Empfangsaspekt.
+	 */
+	protected abstract Aspect getEmpfangsAspekt();
+
+	/**
+	 * Gibt den Aspekt zur&uuml;ck, mit dem Daten gesendet werden.
+	 * 
+	 * @return der Sendeaspekt.
+	 */
+	protected abstract Aspect getSendeAspekt();
+
+	/**
+	 * Gibt den Sendecache zur&uuml;ck. Ist der Cache leer (z.&nbsp;B. nach dem
+	 * Senden), wird ein neues Datum angelegt. Datensatz&auml;nderungen werden
+	 * am Cache durchgef&uuml;hrt und anschlie&szlig;end mit
+	 * {@link #sendeDaten()} gesammelt gesendet.
+	 * 
+	 * @return der Sendecache.
+	 * @see #sendeDaten()
+	 */
+	protected Data getSendeCache() {
+		if (sendeCache == null) {
+			sendeCache = ObjektFactory.getInstanz().getVerbindung().createData(
+					getAttributGruppe());
+		}
+		return sendeCache;
+	}
+
+	/**
+	 * Gibt an, ob der Datensatz als Quelle oder Sender angemeldet werden soll.
+	 * 
+	 * @return {@code true}, wenn die Anmeldung als Quelle erfolgen soll.
+	 */
+	protected abstract boolean isQuelle();
+
+	/**
+	 * Gibt an, ob der Datensatz als Senke oder Empf&auml;ngher angemeldet
+	 * werden soll.
+	 * 
+	 * @return {@code true}, wenn die Anmeldung als Senke erfolgen soll.
+	 */
+	protected abstract boolean isSenke();
 
 }
