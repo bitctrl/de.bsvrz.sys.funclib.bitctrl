@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class UfdsWindrichtung extends AbstractUmfelddatensensor {
+public class UfdsWindrichtung extends AbstractUmfeldDdatensensor {
 
 	/**
 	 * Ruft den Superkonstruktor auf.
@@ -51,7 +51,7 @@ public class UfdsWindrichtung extends AbstractUmfelddatensensor {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return UmfelddatenModelTypen.UDS_WINDRICHTUNG;
+		return UmfelddatenModellTypen.UDS_WINDRICHTUNG;
 	}
 
 }

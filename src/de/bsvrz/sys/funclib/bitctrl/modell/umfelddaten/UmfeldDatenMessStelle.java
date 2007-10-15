@@ -45,7 +45,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 public class UmfeldDatenMessStelle extends AbstractSystemObjekt {
 
 	/** Liste der Umfelddatensensoren dieser Umfelddatenmessstelle. */
-	private final List<UmfelddatenSensor> umfelddatensensoren;
+	private final List<UmfeldDdatenSensor> umfelddatensensoren;
 
 	/**
 	 * Erzeugt eine Umfelddatenmessstelle aus einem Systemobjekt.
@@ -60,12 +60,12 @@ public class UmfeldDatenMessStelle extends AbstractSystemObjekt {
 		ConfigurationObject co;
 		NonMutableSet menge;
 
-		umfelddatensensoren = new ArrayList<UmfelddatenSensor>();
+		umfelddatensensoren = new ArrayList<UmfeldDdatenSensor>();
 
 		co = (ConfigurationObject) so;
 		menge = co.getNonMutableSet("UmfeldDatenSensoren");
 		for (SystemObject obj : menge.getElements()) {
-			umfelddatensensoren.add((UmfelddatenSensor) ObjektFactory
+			umfelddatensensoren.add((UmfeldDdatenSensor) ObjektFactory
 					.getInstanz().getModellobjekt(obj));
 		}
 	}
@@ -79,7 +79,7 @@ public class UmfeldDatenMessStelle extends AbstractSystemObjekt {
 	 * @return {@code true}, wenn der Umfelddatensensor zur
 	 *         Umfelddatenmessstelle geh&ouml;rt
 	 */
-	public boolean besitzt(UmfelddatenSensor uds) {
+	public boolean besitzt(UmfeldDdatenSensor uds) {
 		return umfelddatensensoren.contains(uds);
 	}
 
@@ -87,7 +87,7 @@ public class UmfeldDatenMessStelle extends AbstractSystemObjekt {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return UmfelddatenModelTypen.UMFELDDATENMESSSTELLE;
+		return UmfelddatenModellTypen.UMFELDDATENMESSSTELLE;
 	}
 
 	/**
@@ -96,8 +96,8 @@ public class UmfeldDatenMessStelle extends AbstractSystemObjekt {
 	 * 
 	 * @return Ein Umfelddatensensoriterator
 	 */
-	public List<UmfelddatenSensor> getUmfelddatensensoren() {
-		return new ArrayList<UmfelddatenSensor>(umfelddatensensoren);
+	public List<UmfeldDdatenSensor> getUmfelddatensensoren() {
+		return new ArrayList<UmfeldDdatenSensor>(umfelddatensensoren);
 	}
 
 }

@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class UfdsWindgeschwindigkeit extends AbstractUmfelddatensensor {
+public class UfdsWindgeschwindigkeit extends AbstractUmfeldDdatensensor {
 
 	/**
 	 * Ruft den Superkonstruktor auf.
@@ -51,7 +51,7 @@ public class UfdsWindgeschwindigkeit extends AbstractUmfelddatensensor {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return UmfelddatenModelTypen.UDS_WINDGESCHWINDIGKEIT;
+		return UmfelddatenModellTypen.UDS_WINDGESCHWINDIGKEIT;
 	}
 
 }

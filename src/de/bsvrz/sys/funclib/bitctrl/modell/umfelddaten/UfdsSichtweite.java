@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class UfdsSichtweite extends AbstractUmfelddatensensor {
+public class UfdsSichtweite extends AbstractUmfeldDdatensensor {
 
 	/**
 	 * Ruft den Superkonstruktor auf.
@@ -51,7 +51,7 @@ public class UfdsSichtweite extends AbstractUmfelddatensensor {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return UmfelddatenModelTypen.UDS_SICHTWEITE;
+		return UmfelddatenModellTypen.UDS_SICHTWEITE;
 	}
 
 }

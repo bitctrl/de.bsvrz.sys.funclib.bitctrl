@@ -35,10 +35,10 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public enum UmfelddatenModelTypen implements SystemObjektTyp {
+public enum UmfelddatenModellTypen implements SystemObjektTyp {
 
 	/** Umfelddatensensor. */
-	UMFELDDATENSENSOR("typ.umfeldDatenSensor", UmfelddatenSensor.class),
+	UMFELDDATENSENSOR("typ.umfeldDatenSensor", UmfeldDdatenSensor.class),
 
 	/** Umfelddatensensor f&uuml;r die Helligkeit. */
 	UDS_HELLIGKEIT("typ.ufdsHelligkeit", UfdsHelligkeit.class),
@@ -75,7 +75,7 @@ public enum UmfelddatenModelTypen implements SystemObjektTyp {
 	 * @param klasse
 	 *            Die Klasse des Modellobjekts
 	 */
-	private UmfelddatenModelTypen(String pid,
+	private UmfelddatenModellTypen(String pid,
 			Class<? extends SystemObjekt> klasse) {
 		this.pid = pid;
 		this.klasse = klasse;

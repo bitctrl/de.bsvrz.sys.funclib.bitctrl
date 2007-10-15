@@ -36,7 +36,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public interface UmfelddatenSensor extends SystemObjekt {
+public interface UmfeldDdatenSensor extends SystemObjekt {
 
 	/**
 	 * Gibt die Umfelddatenmessstellen zur&uuml;ck, zu der der Umfelddatensensor

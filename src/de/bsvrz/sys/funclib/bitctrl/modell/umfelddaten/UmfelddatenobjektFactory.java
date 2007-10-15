@@ -26,12 +26,12 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten;
 
-import static de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModelTypen.UDS_HELLIGKEIT;
-import static de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModelTypen.UDS_NIEDERSCHLAGSINTENSITAET;
-import static de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModelTypen.UDS_SICHTWEITE;
-import static de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModelTypen.UDS_WINDGESCHWINDIGKEIT;
-import static de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModelTypen.UDS_WINDRICHTUNG;
-import static de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModelTypen.UMFELDDATENMESSSTELLE;
+import static de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModellTypen.UDS_HELLIGKEIT;
+import static de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModellTypen.UDS_NIEDERSCHLAGSINTENSITAET;
+import static de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModellTypen.UDS_SICHTWEITE;
+import static de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModellTypen.UDS_WINDGESCHWINDIGKEIT;
+import static de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModellTypen.UDS_WINDRICHTUNG;
+import static de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModellTypen.UMFELDDATENMESSSTELLE;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -80,7 +80,7 @@ public class UmfelddatenobjektFactory implements ModellObjektFactory {
 	 * {@inheritDoc}
 	 */
 	public Collection<? extends SystemObjektTyp> getTypen() {
-		return Arrays.asList(UmfelddatenModelTypen.values());
+		return Arrays.asList(UmfelddatenModellTypen.values());
 	}
 
 }

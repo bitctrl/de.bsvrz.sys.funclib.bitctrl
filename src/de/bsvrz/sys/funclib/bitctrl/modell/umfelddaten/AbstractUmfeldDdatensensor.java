@@ -40,8 +40,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public abstract class AbstractUmfelddatensensor extends AbstractSystemObjekt
-		implements UmfelddatenSensor {
+public abstract class AbstractUmfeldDdatensensor extends AbstractSystemObjekt
+		implements UmfeldDdatenSensor {
 
 	/**
 	 * Ruft den Superkonstruktor auf.
@@ -49,7 +49,7 @@ public abstract class AbstractUmfelddatensensor extends AbstractSystemObjekt
 	 * @param obj
 	 *            Ein Systemobjekt, was ein Umfelddatensensor darstellt
 	 */
-	public AbstractUmfelddatensensor(SystemObject obj) {
+	public AbstractUmfeldDdatensensor(SystemObject obj) {
 		super(obj);
 	}
 
@@ -65,7 +65,7 @@ public abstract class AbstractUmfelddatensensor extends AbstractSystemObjekt
 		listeUDMS = new ArrayList<UmfeldDatenMessStelle>();
 		listeSO = Konfigurationsbereich.getObjekte(objekt
 				.getConfigurationArea(),
-				UmfelddatenModelTypen.UMFELDDATENMESSSTELLE.getPid());
+				UmfelddatenModellTypen.UMFELDDATENMESSSTELLE.getPid());
 
 		for (SystemObject so : listeSO) {
 			UmfeldDatenMessStelle udms = (UmfeldDatenMessStelle) ObjektFactory
