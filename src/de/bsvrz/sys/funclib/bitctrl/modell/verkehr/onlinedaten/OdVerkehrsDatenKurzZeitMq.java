@@ -208,6 +208,11 @@ public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	 * {@inheritDoc}
 	 */
 	public void setDaten(Data daten) {
+		if (!daten.getName().equals(ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ)) {
+			throw new IllegalArgumentException(
+					"Das Datum muss zur Attributgruppe "
+							+ ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ + " gehören.");
+		}
 		NumberValue wert;
 
 		wert = daten.getItem("QKfz").getUnscaledValue("Wert");
