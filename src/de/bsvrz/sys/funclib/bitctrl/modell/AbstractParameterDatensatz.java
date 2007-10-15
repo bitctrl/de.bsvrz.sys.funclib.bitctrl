@@ -34,16 +34,17 @@ import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
  * Implementiert gemeinsame Funktionen von Parametern.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
+ * @version $Id: AbstractParameterDatensatz.java 4345 2007-10-12 15:23:20Z
+ *          Schumann $
  */
 public abstract class AbstractParameterDatensatz extends AbstractDatensatz
 		implements ParameterDatensatz {
 
 	/** Der Aspaket mit dem Parameter empfangen werden. */
-	private final Aspect receiverAsp;
+	private static Aspect receiverAsp;
 
 	/** Der Aspaket mit dem Parameter gesendet werden. */
-	private final Aspect senderAsp;
+	private static Aspect senderAsp;
 
 	/**
 	 * Konstruktor.
@@ -54,10 +55,12 @@ public abstract class AbstractParameterDatensatz extends AbstractDatensatz
 	public AbstractParameterDatensatz(SystemObjekt objekt) {
 		super(objekt);
 
-		DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-				.getDataModel();
-		receiverAsp = modell.getAspect(DaVKonstanten.ASP_PARAMETER_SOLL);
-		senderAsp = modell.getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE);
+		if (receiverAsp == null && senderAsp == null) {
+			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+					.getDataModel();
+			receiverAsp = modell.getAspect(DaVKonstanten.ASP_PARAMETER_SOLL);
+			senderAsp = modell.getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE);
+		}
 	}
 
 	/**
