@@ -24,7 +24,7 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
+package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten;
 
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.Data.NumberValue;
@@ -33,9 +33,10 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein;
 
 /**
- * Kapselt die Attriburgruppe {@code atg.verkehrsDatenKurzZeitMq}.
+ * Kapselt die Attributgruppe {@code atg.verkehrsDatenKurzZeitMq}.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
@@ -49,10 +50,10 @@ public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	public static final String ASP_ANALYSE = "asp.analyse";
 
 	/** Die Attributgruppe kann von allen Instanzen gemeinsam genutzt werden. */
-	private final AttributeGroup atg;
+	private static AttributeGroup atg;
 
 	/** Der Aspekt kann von allen Instanzen gemeinsam genutzt werden. */
-	private final Aspect aspAnalyse;
+	private static Aspect aspAnalyse;
 
 	/** Lkw-Anteil in Prozent. */
 	private Integer aLkw;
@@ -82,7 +83,7 @@ public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	private Integer sKfz;
 
 	/**
-	 * Ruft den Superkonstruktor auf.
+	 * Initialisiert den Onlinedatensatz.
 	 * 
 	 * @param mq
 	 *            der Messquerschnitt dessen Kurzzeitdaten hier betrachtet
@@ -91,10 +92,12 @@ public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	public OdVerkehrsDatenKurzZeitMq(MessQuerschnittAllgemein mq) {
 		super(mq);
 
-		DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-				.getDataModel();
-		atg = modell.getAttributeGroup(ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ);
-		aspAnalyse = modell.getAspect(ASP_ANALYSE);
+		if (atg == null && aspAnalyse == null) {
+			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+					.getDataModel();
+			atg = modell.getAttributeGroup(ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ);
+			aspAnalyse = modell.getAspect(ASP_ANALYSE);
+		}
 	}
 
 	/**
