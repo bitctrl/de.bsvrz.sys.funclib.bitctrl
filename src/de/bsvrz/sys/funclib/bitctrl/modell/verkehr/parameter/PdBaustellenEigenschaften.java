@@ -24,12 +24,14 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
+package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter;
 
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.BaustellenStatus;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.BaustellenVeranlasser;
 
 /**
  * Ein Parameterdatensatz, die Eigenschaften einer Baustelle beinhaltet. Der

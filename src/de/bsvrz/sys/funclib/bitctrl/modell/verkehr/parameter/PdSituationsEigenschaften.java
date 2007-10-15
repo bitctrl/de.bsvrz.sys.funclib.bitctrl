@@ -24,7 +24,7 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
+package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +34,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StrassenSegment;
 
 /**
  * Ein Parameterdatensatz, die Eigenschaften einer Situation beinhaltet. Der
