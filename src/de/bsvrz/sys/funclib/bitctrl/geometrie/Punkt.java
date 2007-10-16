@@ -24,7 +24,7 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
+package de.bsvrz.sys.funclib.bitctrl.geometrie;
 
 /**
  * Repräsentation eines Koordinatenpunktes für geografisch bezogene Objekte
