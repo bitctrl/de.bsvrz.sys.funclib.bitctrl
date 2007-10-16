@@ -33,7 +33,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsWindgeschwindigkeit;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsWindGeschwindigkeitMittelWert;
 
 /**
  * Kapselt die Attriburgruppe {@code atg.ufdsWindGeschwindleitMittelWert}.
@@ -65,7 +65,7 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 	 * @param sensor
 	 *            der Umfelddatensensor dessen Daten hier betrachtet werden.
 	 */
-	public OdUfdsWindGeschwindigkeitMittelWert(UfdsWindgeschwindigkeit sensor) {
+	public OdUfdsWindGeschwindigkeitMittelWert(UfdsWindGeschwindigkeitMittelWert sensor) {
 		super(sensor);
 
 		if (atg == null && aspMessWertErsetzung == null) {

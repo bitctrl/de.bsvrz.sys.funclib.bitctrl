@@ -30,20 +30,20 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
 /**
- * Umfelddatensensor, der die Sichtweite misst.
+ * Umfelddatensensor, der die Windrichtung misst.
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class UfdsSichtweite extends AbstractUmfeldDatenSensor {
+public class UfdsWindRrichtung extends AbstractUmfeldDatenSensor {
 
 	/**
 	 * Ruft den Superkonstruktor auf.
 	 * 
 	 * @param obj
-	 *            Ein Systemobjekt, was ein Sichtweitesensor darstellt
+	 *            Ein Systemobjekt, was ein Helligkeitssensor darstellt
 	 */
-	UfdsSichtweite(SystemObject obj) {
+	UfdsWindRrichtung(SystemObject obj) {
 		super(obj);
 	}
 
@@ -51,7 +51,7 @@ public class UfdsSichtweite extends AbstractUmfeldDatenSensor {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return UmfelddatenModellTypen.UDS_SICHTWEITE;
+		return UmfelddatenModellTypen.UDS_WINDRICHTUNG;
 	}
 
 }

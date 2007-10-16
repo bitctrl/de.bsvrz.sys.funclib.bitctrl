@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class UfdsNiederschlagsintensitaet extends AbstractUmfeldDatenSensor {
+public class UfdsNiederschlagsIintensitaet extends AbstractUmfeldDatenSensor {
 
 	/**
 	 * Ruft den Superkonstruktor auf.
@@ -43,7 +43,7 @@ public class UfdsNiederschlagsintensitaet extends AbstractUmfeldDatenSensor {
 	 * @param obj
 	 *            Ein Systemobjekt, was ein Sichtweitesensor darstellt
 	 */
-	UfdsNiederschlagsintensitaet(SystemObject obj) {
+	UfdsNiederschlagsIintensitaet(SystemObject obj) {
 		super(obj);
 	}
 
