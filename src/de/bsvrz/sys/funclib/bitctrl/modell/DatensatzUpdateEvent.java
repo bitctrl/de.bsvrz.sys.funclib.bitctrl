@@ -75,4 +75,15 @@ public class DatensatzUpdateEvent extends EventObject {
 		return (SystemObjekt) source;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.util.EventObject#toString()
+	 */
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "[objekt=" + source
+				+ ", datensatz=" + datensatz + "]";
+	}
+
 }
