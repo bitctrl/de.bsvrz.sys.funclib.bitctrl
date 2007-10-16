@@ -46,12 +46,12 @@ public class DatensatzUpdateEvent extends EventObject {
 	 * Der Konstruktor des Ereignisses.
 	 * 
 	 * @param source
-	 *            die Quelle des Ereignis, in der Regel das betreffende
+	 *            die Quelle des Ereignis, in dem Fall das betreffende
 	 *            Systemobjekt.
 	 * @param datensatz
 	 *            der Datensatz, der sich ge&auml;ndert hat.
 	 */
-	public DatensatzUpdateEvent(Object source, Datensatz datensatz) {
+	public DatensatzUpdateEvent(SystemObjekt source, Datensatz datensatz) {
 		super(source);
 		this.datensatz = datensatz;
 	}
@@ -64,4 +64,15 @@ public class DatensatzUpdateEvent extends EventObject {
 	public Datensatz getDatensatz() {
 		return datensatz;
 	}
+
+	/**
+	 * Gibt das Systemobjekt zur&uuml;ck, dessen Datensatz sich ge&auml;ndert
+	 * hat.
+	 * 
+	 * @return das Systemobjekt.
+	 */
+	public SystemObjekt getObjekt() {
+		return (SystemObjekt) source;
+	}
+
 }
