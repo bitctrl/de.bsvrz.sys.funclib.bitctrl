@@ -244,6 +244,34 @@ public abstract class AbstractDatensatz implements Datensatz {
 						"Die Sendesteuerung hat das Senden verboten.");
 			}
 		}
+
+		/**
+		 * F&uuml;gt ein Datum der Warteschlange des Senders hinzu.
+		 * 
+		 * @param daten
+		 *            ein zu sendentes Datum.
+		 * @param zeitstempel
+		 *            der Zeitstempel, mit dem die Datengesendet werden.
+		 * @throws DatensendeException
+		 *             wenn die Daten nicht gesendet werden konnten.
+		 */
+		public void sende(Data daten, long zeitstempel)
+				throws DatensendeException {
+			if (sendenErlaubt) {
+				ResultData datensatz = new ResultData(getObjekt()
+						.getSystemObject(), dbs, zeitstempel, daten);
+				try {
+					dav.sendData(datensatz);
+				} catch (DataNotSubscribedException ex) {
+					throw new DatensendeException(ex);
+				} catch (SendSubscriptionNotConfirmed ex) {
+					throw new DatensendeException(ex);
+				}
+			} else {
+				throw new DatensendeException(
+						"Die Sendesteuerung hat das Senden verboten.");
+			}
+		}
 	}
 
 	/** Der Empf&auml;nger dieses Datensatzes. */
@@ -376,17 +404,13 @@ public abstract class AbstractDatensatz implements Datensatz {
 		clearSendeCache();
 	}
 
-	// /**
-	// * {@inheritDoc}
-	// */
-	// public void setAutoUpdate(boolean ein) {
-	// autoUpdate = ein;
-	// if (autoUpdate) {
-	// receiver.anmelden();
-	// } else {
-	// receiver.abmelden();
-	// }
-	// }
+	/**
+	 * {@inheritDoc}
+	 */
+	public void sendeDaten(long zeitstempel) throws DatensendeException {
+		sender.sende(getSendeCache(), zeitstempel);
+		clearSendeCache();
+	}
 
 	/**
 	 * {@inheritDoc}

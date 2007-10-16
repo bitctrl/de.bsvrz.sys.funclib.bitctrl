@@ -32,7 +32,9 @@ import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.Wert;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein;
 
 /**
@@ -41,7 +43,43 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
+public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz
+		implements MesswertDatensatz {
+
+	/** Benennt die Messwerte die dieser Datensatz kennt. */
+	public enum Werte implements Wert {
+
+		/** Lkw-Anteil in Prozent. */
+		ALkw,
+
+		/** Bemessungsdichte KB in Fahrzeuge/km. */
+		KB,
+
+		/**
+		 * Verkehrsstärke QKfz (alle Fahrzeuge) in Anzahl pro
+		 * Messabschnittsdauer.
+		 */
+		QKfz,
+
+		/** Verkehrsstärke QPkw in Anzahl pro Messabschnittsdauer. */
+		QPkw,
+
+		/** Verkehrsstärke QLkw in Anzahl pro Messabschnittsdauer. */
+		QLkw,
+
+		/** Geschwindigkeit VKfz (Alle Fahrzeuge) in km/h. */
+		VKfz,
+
+		/** Geschwindigkeit VPkw in km/h. */
+		VPkw,
+
+		/** Geschwindigkeit VLkw in km/h. */
+		VLkw,
+
+		/** Standardabweichung der Kfz-Geschwindigkeiten SKfz in km/h. */
+		SKfz;
+
+	}
 
 	/** Die PID der Attributgruppe. */
 	public static final String ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ = "atg.verkehrsDatenKurzZeitMq";
@@ -101,15 +139,6 @@ public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	}
 
 	/**
-	 * Gibt den Wert der Eigenschaft aLkw wieder.
-	 * 
-	 * @return the aLkw
-	 */
-	public int getALkw() {
-		return aLkw;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	public AttributeGroup getAttributGruppe() {
@@ -125,42 +154,6 @@ public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	}
 
 	/**
-	 * Gibt den Wert der Eigenschaft kb wieder.
-	 * 
-	 * @return the kb
-	 */
-	public Integer getKb() {
-		return kb;
-	}
-
-	/**
-	 * Gibt den Wert der Eigenschaft qKfz wieder.
-	 * 
-	 * @return the qKfz
-	 */
-	public Integer getQKfz() {
-		return qKfz;
-	}
-
-	/**
-	 * Gibt den Wert der Eigenschaft qLkw wieder.
-	 * 
-	 * @return the qLkw
-	 */
-	public Integer getQLkw() {
-		return qLkw;
-	}
-
-	/**
-	 * Gibt den Wert der Eigenschaft qPkw wieder.
-	 * 
-	 * @return the qPkw
-	 */
-	public Integer getQPkw() {
-		return qPkw;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -169,39 +162,41 @@ public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 	}
 
 	/**
-	 * Gibt den Wert der Eigenschaft sKfz wieder.
+	 * {@inheritDoc}
 	 * 
-	 * @return the sKfz
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatensatz#getWert(de.bsvrz.sys.funclib.bitctrl.modell.Wert)
 	 */
-	public Integer getSKfz() {
-		return sKfz;
+	public Number getWert(Wert wert) {
+		if (wert.equals(Werte.ALkw)) {
+			return aLkw;
+		} else if (wert.equals(Werte.KB)) {
+			return kb;
+		} else if (wert.equals(Werte.QKfz)) {
+			return qKfz;
+		} else if (wert.equals(Werte.QLkw)) {
+			return qLkw;
+		} else if (wert.equals(Werte.QPkw)) {
+			return qPkw;
+		} else if (wert.equals(Werte.VKfz)) {
+			return vKfz;
+		} else if (wert.equals(Werte.VLkw)) {
+			return vLkw;
+		} else if (wert.equals(Werte.VPkw)) {
+			return vPkw;
+		} else if (wert.equals(Werte.SKfz)) {
+			return sKfz;
+		}
+		throw new IllegalArgumentException("Der Datensatz " + toString()
+				+ " kennt keinen Wert " + wert + ".");
 	}
 
 	/**
-	 * Gibt den Wert der Eigenschaft vKfz wieder.
+	 * {@inheritDoc}
 	 * 
-	 * @return the vKfz
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatensatz#getWerte()
 	 */
-	public Integer getVKfz() {
-		return vKfz;
-	}
-
-	/**
-	 * Gibt den Wert der Eigenschaft vLkw wieder.
-	 * 
-	 * @return the vLkw
-	 */
-	public Integer getVLkw() {
-		return vLkw;
-	}
-
-	/**
-	 * Gibt den Wert der Eigenschaft vPkw wieder.
-	 * 
-	 * @return the vPkw
-	 */
-	public Integer getVPkw() {
-		return vPkw;
+	public Wert[] getWerte() {
+		return Werte.values();
 	}
 
 	/**

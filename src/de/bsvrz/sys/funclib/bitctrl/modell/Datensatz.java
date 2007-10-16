@@ -113,6 +113,17 @@ public interface Datensatz {
 	 */
 	void sendeDaten() throws DatensendeException;
 
+	/**
+	 * Veranlasst den Datensatz seinen Inhalt an den Datenverteiler zu
+	 * &uuml;bermitteln.
+	 * 
+	 * @param zeitstempel
+	 *            der Zeitstempel, mit dem die Daten versandt werden.
+	 * @throws DatensendeException
+	 *             wenn die Daten nicht gesendet werden konnten.
+	 */
+	void sendeDaten(long zeitstempel) throws DatensendeException;
+
 	// /**
 	// * Setzt das Flag {@code autoUpdate}.
 	// *
