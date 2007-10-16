@@ -66,7 +66,7 @@ public class StrassenKnoten extends StoerfallIndikator {
 	 * @param obj
 	 *            das Systemobjekt
 	 */
-	public StrassenKnoten(SystemObject obj) {
+	StrassenKnoten(SystemObject obj) {
 		super(obj);
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(

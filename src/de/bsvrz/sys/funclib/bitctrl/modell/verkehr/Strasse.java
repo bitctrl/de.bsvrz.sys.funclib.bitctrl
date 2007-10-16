@@ -33,7 +33,6 @@ import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
@@ -69,7 +68,7 @@ public class Strasse extends AbstractSystemObjekt {
 	 * @param obj
 	 *            das Systemobjekt
 	 */
-	public Strasse(SystemObject obj) {
+	Strasse(SystemObject obj) {
 		super(obj);
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException("Systemobjekt ist keine Straﬂe.");

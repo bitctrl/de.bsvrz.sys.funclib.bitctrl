@@ -99,7 +99,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	 *            Ein Systemobjekt, welches ein MessQuerschnittAllgemein sein
 	 *            muss
 	 */
-	public MessQuerschnittAllgemein(SystemObject obj) {
+	MessQuerschnittAllgemein(SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {

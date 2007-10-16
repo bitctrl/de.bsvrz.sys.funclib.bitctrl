@@ -72,7 +72,7 @@ public class StrassenTeilSegment extends StoerfallIndikator {
 	 *            muss
 	 * @throws IllegalArgumentException
 	 */
-	public StrassenTeilSegment(SystemObject obj) {
+	StrassenTeilSegment(SystemObject obj) {
 		super(obj);
 
 		DataModel modell;

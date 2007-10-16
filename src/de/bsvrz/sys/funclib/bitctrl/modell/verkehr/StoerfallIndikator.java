@@ -45,22 +45,32 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 public class StoerfallIndikator extends AbstractSystemObjekt {
 
 	/**
-	 * die PID der Attributgruppe, unter der der Störfallzustand des Indikators
-	 * veröffentlicht wird.
-	 */
-	private static final String PID_ATG_STOERFALL_ZUSTAND = "atg.störfallZustand"; //$NON-NLS-1$
-
-	/**
 	 * Attributname für die Speicherung des aktuellen Störfallzustands des
 	 * Indikators.
 	 */
 	public static final String ATT_NAME_SITUATION = "Situation"; //$NON-NLS-1$
 
 	/**
+	 * die PID der Attributgruppe, unter der der Störfallzustand des Indikators
+	 * veröffentlicht wird.
+	 */
+	private static final String PID_ATG_STOERFALL_ZUSTAND = "atg.störfallZustand"; //$NON-NLS-1$
+
+	/**
 	 * die Attributgruppe, unter der der Störfallzustand des Indikators
 	 * veröffentlicht wird.
 	 */
 	private static AttributeGroup situationsAtg = null;
+
+	/**
+	 * liefert die Attributgruppe unter der der Störfallzustand eines Indikators
+	 * innerhald des Datenverteilers publiziert wird.
+	 * 
+	 * @return die Attributgruppe
+	 */
+	public static AttributeGroup getSituationsAtg() {
+		return situationsAtg;
+	}
 
 	/** die aktuelle Situation des Indikators. */
 	private final Map<Aspect, StoerfallSituation> situationen = new HashMap<Aspect, StoerfallSituation>();
@@ -72,7 +82,7 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 	 *            Ein Systemobjekt, welches ein StörfallIndikator sein muss
 	 * @throws IllegalArgumentException
 	 */
-	public StoerfallIndikator(SystemObject obj) {
+	StoerfallIndikator(SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
@@ -84,43 +94,6 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 			situationsAtg = obj.getDataModel().getAttributeGroup(
 					PID_ATG_STOERFALL_ZUSTAND);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}.
-	 */
-	public SystemObjektTyp getTyp() {
-		return VerkehrsModellTypen.STOERFALLINDIKATOR;
-	}
-
-	/**
-	 * setzt den Situationswert für den angegebenen Aspekt.
-	 * 
-	 * @param situation
-	 *            der neue Störfallzustand des Indikators.
-	 * @param aspekt
-	 *            der Aspekt, unter dem der Zustand ermittelt wurde
-	 */
-	public void setSituation(final StoerfallSituation situation,
-			final Aspect aspekt) {
-		situationen.put(aspekt, situation);
-	}
-
-	/**
-	 * liefert den aktuellen Zustand des Indikators.<br>
-	 * Es wird das Maximum aus allen mit den verschiedenen Aspekten ermittelten
-	 * Zustandswerten ermittelt und geliefert.
-	 * 
-	 * @return der aktuelle Störfallzustand des Indikators.
-	 */
-	public StoerfallSituation getSituation() {
-		StoerfallSituation situation = StoerfallSituation.STOERUNG;
-		for (StoerfallSituation s : situationen.values()) {
-			if (s.getCode() > situation.getCode()) {
-				situation = s;
-			}
-		}
-		return situation;
 	}
 
 	/**
@@ -142,12 +115,39 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * liefert die Attributgruppe unter der der Störfallzustand eines Indikators
-	 * innerhald des Datenverteilers publiziert wird.
+	 * liefert den aktuellen Zustand des Indikators.<br>
+	 * Es wird das Maximum aus allen mit den verschiedenen Aspekten ermittelten
+	 * Zustandswerten ermittelt und geliefert.
 	 * 
-	 * @return die Attributgruppe
+	 * @return der aktuelle Störfallzustand des Indikators.
 	 */
-	public static AttributeGroup getSituationsAtg() {
-		return situationsAtg;
+	public StoerfallSituation getSituation() {
+		StoerfallSituation situation = StoerfallSituation.STOERUNG;
+		for (StoerfallSituation s : situationen.values()) {
+			if (s.getCode() > situation.getCode()) {
+				situation = s;
+			}
+		}
+		return situation;
+	}
+
+	/**
+	 * {@inheritDoc}.
+	 */
+	public SystemObjektTyp getTyp() {
+		return VerkehrsModellTypen.STOERFALLINDIKATOR;
+	}
+
+	/**
+	 * setzt den Situationswert für den angegebenen Aspekt.
+	 * 
+	 * @param situation
+	 *            der neue Störfallzustand des Indikators.
+	 * @param aspekt
+	 *            der Aspekt, unter dem der Zustand ermittelt wurde
+	 */
+	public void setSituation(final StoerfallSituation situation,
+			final Aspect aspekt) {
+		situationen.put(aspekt, situation);
 	}
 }

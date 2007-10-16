@@ -46,7 +46,7 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 	 * @param obj
 	 *            das Systemobjekt
 	 */
-	public MessQuerschnittVirtuell(SystemObject obj) {
+	MessQuerschnittVirtuell(SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {

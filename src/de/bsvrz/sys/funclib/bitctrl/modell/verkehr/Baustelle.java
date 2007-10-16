@@ -30,13 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.event.EventListenerList;
-import javax.swing.text.Segment;
-
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
-import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent;
-import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdBaustellenEigenschaften;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdSituationsEigenschaften;
@@ -62,7 +56,7 @@ public class Baustelle extends Situation {
 	 * @param obj
 	 *            das Systemobjekt, das die Baustelle definiert
 	 */
-	protected Baustelle(SystemObject obj) {
+	Baustelle(SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {

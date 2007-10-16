@@ -116,7 +116,7 @@ public class AeusseresStrassenSegment extends StrassenSegment implements
 	 * @param obj
 	 *            das zu Grunde liegende Systemobjekt
 	 */
-	public AeusseresStrassenSegment(SystemObject obj) {
+	AeusseresStrassenSegment(SystemObject obj) {
 		super(obj);
 
 		DataModel model = obj.getDataModel();
@@ -153,28 +153,6 @@ public class AeusseresStrassenSegment extends StrassenSegment implements
 	}
 
 	/**
-	 * liefert die Liste der Routenstücke, zu denen das Straßensegment gehört.
-	 * 
-	 * @return die Liste der ermittelten Routenstücke
-	 */
-	public Collection<RoutenStueck> getRoutenStuecke() {
-		if (routenStuecke == null) {
-			routenStuecke = new HashSet<RoutenStueck>();
-
-			for (SystemObject obj : getSystemObject().getDataModel().getType(
-					VerkehrsModellTypen.ROUTENSTUECK.getPid()).getElements()) {
-				RoutenStueck rs = (RoutenStueck) ObjektFactory.getInstanz()
-						.getModellobjekt(obj);
-				if (rs.getStrassenSegmente().contains(this)) {
-					routenStuecke.add(rs);
-				}
-			}
-		}
-
-		return routenStuecke;
-	}
-
-	/**
 	 * {@inheritDoc}.<br>
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.verkehr.NetzBestandTeil#getSegmentListe()
@@ -198,6 +176,28 @@ public class AeusseresStrassenSegment extends StrassenSegment implements
 			}
 		}
 		return liste;
+	}
+
+	/**
+	 * liefert die Liste der Routenstücke, zu denen das Straßensegment gehört.
+	 * 
+	 * @return die Liste der ermittelten Routenstücke
+	 */
+	public Collection<RoutenStueck> getRoutenStuecke() {
+		if (routenStuecke == null) {
+			routenStuecke = new HashSet<RoutenStueck>();
+
+			for (SystemObject obj : getSystemObject().getDataModel().getType(
+					VerkehrsModellTypen.ROUTENSTUECK.getPid()).getElements()) {
+				RoutenStueck rs = (RoutenStueck) ObjektFactory.getInstanz()
+						.getModellobjekt(obj);
+				if (rs.getStrassenSegmente().contains(this)) {
+					routenStuecke.add(rs);
+				}
+			}
+		}
+
+		return routenStuecke;
 	}
 
 	/**

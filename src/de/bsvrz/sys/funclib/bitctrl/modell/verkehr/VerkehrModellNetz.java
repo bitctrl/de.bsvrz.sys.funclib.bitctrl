@@ -54,14 +54,14 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 */
 	public static final String MENGENNAME_STAUS = "Staus"; //$NON-NLS-1$ 
 
+	/** PID des Typs eines VerkehrsModellNetz. */
+	@SuppressWarnings("hiding")
+	public static final String PID_TYP = "typ.verkehrsModellNetz"; //$NON-NLS-1$
+
 	/**
 	 * Logger für Fehlerausgaben.
 	 */
 	private static final Debug LOGGER = Debug.getLogger();
-
-	/** PID des Typs eines VerkehrsModellNetz. */
-	@SuppressWarnings("hiding")
-	public static final String PID_TYP = "typ.verkehrsModellNetz"; //$NON-NLS-1$
 
 	/**
 	 * die Liste der von der Klasse verwalteten Listener.
@@ -80,7 +80,7 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 *            Ein Systemobjekt, welches ein Netz darstellt
 	 * @throws IllegalArgumentException
 	 */
-	public VerkehrModellNetz(SystemObject obj) {
+	VerkehrModellNetz(SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(PID_TYP)) {
@@ -111,34 +111,6 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 
 		if (registerListener) {
 			baustellenMenge.addChangeListener(this);
-		}
-	}
-
-	/**
-	 * benachrichtigt alle BaustellenListener über hinzugefügte oder entfernte
-	 * Baustellen.
-	 * 
-	 * @param addedObjects
-	 *            die Systemobjekte, die die hinzugefügten Baustellen definieren
-	 * @param removedObjects
-	 *            die Systemobjekte, die die entfernten Baustellen definieren
-	 */
-	private void aktualisiereBaustellen(SystemObject[] addedObjects,
-			SystemObject[] removedObjects) {
-		for (BaustellenListener listener : listeners
-				.getListeners(BaustellenListener.class)) {
-			for (SystemObject obj : removedObjects) {
-				Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
-						.getModellobjekt(obj);
-				bst.removeNetzReferenz(this);
-				listener.baustelleEntfernt(this, bst);
-			}
-			for (SystemObject obj : addedObjects) {
-				Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
-						.getModellobjekt(obj);
-				bst.addNetzReferenz(this);
-				listener.baustelleAngelegt(this, bst);
-			}
 		}
 	}
 
@@ -245,6 +217,34 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 			SystemObject[] removedObjects) {
 		if (set.equals(baustellenMenge)) {
 			aktualisiereBaustellen(addedObjects, removedObjects);
+		}
+	}
+
+	/**
+	 * benachrichtigt alle BaustellenListener über hinzugefügte oder entfernte
+	 * Baustellen.
+	 * 
+	 * @param addedObjects
+	 *            die Systemobjekte, die die hinzugefügten Baustellen definieren
+	 * @param removedObjects
+	 *            die Systemobjekte, die die entfernten Baustellen definieren
+	 */
+	private void aktualisiereBaustellen(SystemObject[] addedObjects,
+			SystemObject[] removedObjects) {
+		for (BaustellenListener listener : listeners
+				.getListeners(BaustellenListener.class)) {
+			for (SystemObject obj : removedObjects) {
+				Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
+						.getModellobjekt(obj);
+				bst.removeNetzReferenz(this);
+				listener.baustelleEntfernt(this, bst);
+			}
+			for (SystemObject obj : addedObjects) {
+				Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
+						.getModellobjekt(obj);
+				bst.addNetzReferenz(this);
+				listener.baustelleAngelegt(this, bst);
+			}
 		}
 	}
 }
