@@ -103,16 +103,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 		}
 
 		/**
-		 * ermittelt, ob der Receiver f&uuml;r den Empfang der Daten des
-		 * Datensatzes angemeldet ist.
-		 * 
-		 * @return <code>true</code>, wenn die Anmeldung erfolgt ist.
-		 */
-		boolean isAngemeldet() {
-			return angemeldet;
-		}
-
-		/**
 		 * {@inheritDoc}
 		 */
 		@SuppressWarnings("synthetic-access")
@@ -127,6 +117,16 @@ public abstract class AbstractDatensatz implements Datensatz {
 				letzterZeitstempel = result.getDataTime();
 				fireDatensatzAktualisiert();
 			}
+		}
+
+		/**
+		 * ermittelt, ob der Receiver f&uuml;r den Empfang der Daten des
+		 * Datensatzes angemeldet ist.
+		 * 
+		 * @return <code>true</code>, wenn die Anmeldung erfolgt ist.
+		 */
+		boolean isAngemeldet() {
+			return angemeldet;
 		}
 
 	}
@@ -293,9 +293,10 @@ public abstract class AbstractDatensatz implements Datensatz {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void addUpdateListener(DatensatzUpdateListener listener) {
-		boolean anmelden = listeners
-				.getListenerCount(DatensatzUpdateListener.class) == 0;
+	public synchronized void addUpdateListener(DatensatzUpdateListener listener) {
+		boolean anmelden;
+
+		anmelden = listeners.getListenerCount(DatensatzUpdateListener.class) == 0;
 		listeners.add(DatensatzUpdateListener.class, listener);
 
 		if (anmelden) {
@@ -308,13 +309,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	 */
 	public void anmeldenSender() throws AnmeldeException {
 		sender.anmelden();
-	}
-
-	/**
-	 * Leert den Sendecache.
-	 */
-	protected void clearSendeCache() {
-		sendeCache = null;
 	}
 
 	/**
@@ -331,6 +325,93 @@ public abstract class AbstractDatensatz implements Datensatz {
 					&& (getAttributGruppe().equals(ds.getAttributGruppe()));
 		}
 		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public long getLetzterZeitstempel() {
+		return letzterZeitstempel;
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
+	 */
+	public SystemObjekt getObjekt() {
+		return objekt;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean isAutoUpdate() {
+		return receiver.isAngemeldet();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean isValid() {
+		return valid;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public synchronized void removeUpdateListener(
+			DatensatzUpdateListener listener) {
+		listeners.remove(DatensatzUpdateListener.class, listener);
+		if (listeners.getListenerCount(DatensatzUpdateListener.class) <= 0) {
+			receiver.abmelden();
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void sendeDaten() throws DatensendeException {
+		sender.sende(getSendeCache());
+		clearSendeCache();
+	}
+
+	// /**
+	// * {@inheritDoc}
+	// */
+	// public void setAutoUpdate(boolean ein) {
+	// autoUpdate = ein;
+	// if (autoUpdate) {
+	// receiver.anmelden();
+	// } else {
+	// receiver.abmelden();
+	// }
+	// }
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#update()
+	 */
+	public void update() {
+		if (!receiver.isAngemeldet()) {
+			ClientDavInterface dav;
+			ResultData datensatz;
+			DataDescription dbs;
+
+			dav = ObjektFactory.getInstanz().getVerbindung();
+			dbs = new DataDescription(getAttributGruppe(), getEmpfangsAspekt());
+			datensatz = dav.getData(getObjekt().getSystemObject(), dbs, 0);
+			letzterZeitstempel = datensatz.getDataTime();
+			setDaten(datensatz.getData());
+		}
+	}
+
+	/**
+	 * Leert den Sendecache.
+	 */
+	protected void clearSendeCache() {
+		sendeCache = null;
 	}
 
 	/**
@@ -352,39 +433,11 @@ public abstract class AbstractDatensatz implements Datensatz {
 	protected abstract Aspect getEmpfangsAspekt();
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public long getLetzterZeitstempel() {
-		return letzterZeitstempel;
-	}
-
-	/**
-	 * {@inheritDoc}.<br>
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
-	 */
-	public SystemObjekt getObjekt() {
-		return objekt;
-	}
-
-	/**
 	 * Gibt den Aspekt zur&uuml;ck, mit dem Daten gesendet werden.
 	 * 
 	 * @return der Sendeaspekt.
 	 */
 	protected abstract Aspect getSendeAspekt();
-
-	// /**
-	// * {@inheritDoc}
-	// */
-	// public void setAutoUpdate(boolean ein) {
-	// autoUpdate = ein;
-	// if (autoUpdate) {
-	// receiver.anmelden();
-	// } else {
-	// receiver.abmelden();
-	// }
-	// }
 
 	/**
 	 * Gibt den Sendecache zur&uuml;ck. Ist der Cache leer (z.&nbsp;B. nach dem
@@ -404,13 +457,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean isAutoUpdate() {
-		return receiver.isAngemeldet();
-	}
-
-	/**
 	 * Gibt an, ob der Datensatz als Quelle oder Sender angemeldet werden soll.
 	 * 
 	 * @return {@code true}, wenn die Anmeldung als Quelle erfolgen soll.
@@ -424,49 +470,5 @@ public abstract class AbstractDatensatz implements Datensatz {
 	 * @return {@code true}, wenn die Anmeldung als Senke erfolgen soll.
 	 */
 	protected abstract boolean isSenke();
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isValid() {
-		return valid;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void removeUpdateListener(DatensatzUpdateListener listener) {
-		listeners.remove(DatensatzUpdateListener.class, listener);
-		if (listeners.getListenerCount(DatensatzUpdateListener.class) <= 0) {
-			receiver.abmelden();
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void sendeDaten() throws DatensendeException {
-		sender.sende(getSendeCache());
-		clearSendeCache();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#update()
-	 */
-	public void update() {
-		if (!receiver.isAngemeldet()) {
-			ClientDavInterface dav;
-			ResultData datensatz;
-			DataDescription dbs;
-
-			dav = ObjektFactory.getInstanz().getVerbindung();
-			dbs = new DataDescription(getAttributGruppe(), getEmpfangsAspekt());
-			datensatz = dav.getData(getObjekt().getSystemObject(), dbs, 0);
-			letzterZeitstempel = datensatz.getDataTime();
-			setDaten(datensatz.getData());
-		}
-	}
 
 }
