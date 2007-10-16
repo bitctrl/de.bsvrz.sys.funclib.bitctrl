@@ -72,6 +72,7 @@ public class OdUfdsWindRichtung extends AbstractOnlineDatensatz {
 					.getDataModel();
 			atg = modell.getAttributeGroup(ATG_UFDS_WIND_RICHTUNG);
 			aspMessWertErsetzung = modell.getAspect(ASP_MESS_WERT_ERSETZUNG);
+			assert atg != null && aspMessWertErsetzung != null;
 		}
 	}
 

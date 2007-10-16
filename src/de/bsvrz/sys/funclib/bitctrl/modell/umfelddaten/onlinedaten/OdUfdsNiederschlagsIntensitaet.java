@@ -72,6 +72,7 @@ public class OdUfdsNiederschlagsIntensitaet extends AbstractOnlineDatensatz {
 					.getDataModel();
 			atg = modell.getAttributeGroup(ATG_UFDS_NIEDERSCHLAGS_INTENSITAET);
 			aspMessWertErsetzung = modell.getAspect(ASP_MESS_WERT_ERSETZUNG);
+			assert atg != null && aspMessWertErsetzung != null;
 		}
 	}
 

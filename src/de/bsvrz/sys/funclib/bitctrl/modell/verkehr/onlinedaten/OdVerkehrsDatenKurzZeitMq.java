@@ -135,6 +135,7 @@ public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz
 					.getDataModel();
 			atg = modell.getAttributeGroup(ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ);
 			aspAnalyse = modell.getAspect(ASP_ANALYSE);
+			assert atg != null && aspAnalyse != null;
 		}
 	}
 

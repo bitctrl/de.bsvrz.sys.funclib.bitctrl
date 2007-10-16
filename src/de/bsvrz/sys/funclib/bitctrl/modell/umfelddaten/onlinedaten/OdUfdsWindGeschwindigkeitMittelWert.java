@@ -65,7 +65,8 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 	 * @param sensor
 	 *            der Umfelddatensensor dessen Daten hier betrachtet werden.
 	 */
-	public OdUfdsWindGeschwindigkeitMittelWert(UfdsWindGeschwindigkeitMittelWert sensor) {
+	public OdUfdsWindGeschwindigkeitMittelWert(
+			UfdsWindGeschwindigkeitMittelWert sensor) {
 		super(sensor);
 
 		if (atg == null && aspMessWertErsetzung == null) {
@@ -73,6 +74,7 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 					.getDataModel();
 			atg = modell.getAttributeGroup(ATG_UFDS_HELLIGKEIT);
 			aspMessWertErsetzung = modell.getAspect(ASP_MESS_WERT_ERSETZUNG);
+			assert atg != null && aspMessWertErsetzung != null;
 		}
 	}
 

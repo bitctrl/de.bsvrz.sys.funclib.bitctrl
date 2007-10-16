@@ -72,6 +72,7 @@ public class OdUfdmsGlaette extends AbstractOnlineDatensatz {
 					.getDataModel();
 			atg = modell.getAttributeGroup(ATG_UFDMS_GLAETTE);
 			aspPrognose = modell.getAspect(ASP_PROGNOSE);
+			assert atg != null && aspPrognose != null;
 		}
 	}
 
