@@ -43,7 +43,7 @@ public class UfdsWindgeschwindigkeit extends AbstractUmfeldDatenSensor {
 	 * @param obj
 	 *            Ein Systemobjekt, was ein Windgeschwindigkeitssensor darstellt
 	 */
-	public UfdsWindgeschwindigkeit(SystemObject obj) {
+	UfdsWindgeschwindigkeit(SystemObject obj) {
 		super(obj);
 	}
 

@@ -49,7 +49,7 @@ public abstract class AbstractUmfeldDatenSensor extends AbstractSystemObjekt
 	 * @param obj
 	 *            Ein Systemobjekt, was ein Umfelddatensensor darstellt
 	 */
-	public AbstractUmfeldDatenSensor(SystemObject obj) {
+	AbstractUmfeldDatenSensor(SystemObject obj) {
 		super(obj);
 	}
 

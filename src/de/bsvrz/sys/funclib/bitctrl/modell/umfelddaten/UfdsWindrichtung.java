@@ -43,7 +43,7 @@ public class UfdsWindrichtung extends AbstractUmfeldDatenSensor {
 	 * @param obj
 	 *            Ein Systemobjekt, was ein Helligkeitssensor darstellt
 	 */
-	public UfdsWindrichtung(SystemObject obj) {
+	UfdsWindrichtung(SystemObject obj) {
 		super(obj);
 	}
 

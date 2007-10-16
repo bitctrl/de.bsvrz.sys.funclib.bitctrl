@@ -43,7 +43,7 @@ public class UfdsNiederschlagsintensitaet extends AbstractUmfeldDatenSensor {
 	 * @param obj
 	 *            Ein Systemobjekt, was ein Sichtweitesensor darstellt
 	 */
-	public UfdsNiederschlagsintensitaet(SystemObject obj) {
+	UfdsNiederschlagsintensitaet(SystemObject obj) {
 		super(obj);
 	}
 

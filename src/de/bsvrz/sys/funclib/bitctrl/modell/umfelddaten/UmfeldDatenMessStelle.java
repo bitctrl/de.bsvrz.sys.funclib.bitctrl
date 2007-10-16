@@ -54,7 +54,7 @@ public class UmfeldDatenMessStelle extends AbstractSystemObjekt {
 	 *            Ein Systemobjekt, welches eine Umfelddatenmessstelle sein muss
 	 * @throws IllegalArgumentException
 	 */
-	public UmfeldDatenMessStelle(SystemObject so) {
+	UmfeldDatenMessStelle(SystemObject so) {
 		super(so);
 
 		ConfigurationObject co;
