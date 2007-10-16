@@ -26,6 +26,8 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import java.util.Collection;
+
 import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
@@ -56,6 +58,18 @@ public interface SystemObjekt {
 	String getName();
 
 	/**
+	 * Gibt alle aktuell verwendeten Onlinedatens&auml;tze des Systemobjekts
+	 * zur&uuml;ck.
+	 * <p>
+	 * <em>Hinweis:</em> Die zur&uuml;ckgegebene Menge ist echte Teilmenge (!)
+	 * oder identisch mit der Menge der erlaubten Onlinedatens&auml;tze am
+	 * Systemobjekt.
+	 * 
+	 * @return die Menge der aktuell verwendeten Onlinedatens&auml;tze.
+	 */
+	Collection<? extends OnlineDatensatz> getOnlineDatensatz();
+
+	/**
 	 * Gibt einen bestimmten Onlinedatensatz zur&uuml;ck. Es wird gepr&uuml;ft,
 	 * ob der Datensatz am Systemobjekt verwendet werden darf.
 	 * 
@@ -64,6 +78,18 @@ public interface SystemObjekt {
 	 * @return der Datensatz.
 	 */
 	OnlineDatensatz getOnlineDatensatz(Class<? extends OnlineDatensatz> typ);
+
+	/**
+	 * Gibt alle aktuell verwendeten Parameterdatens&auml;tze des Systemobjekts
+	 * zur&uuml;ck.
+	 * <p>
+	 * <em>Hinweis:</em> Die zur&uuml;ckgegebene Menge ist echte Teilmenge (!)
+	 * oder identisch mit der Menge der erlaubten Parameterdatens&auml;tze am
+	 * Systemobjekt.
+	 * 
+	 * @return die Menge der aktuell verwendeten Onlinedatens&auml;tze.
+	 */
+	Collection<? extends ParameterDatensatz> getParameterDatensatz();
 
 	/**
 	 * Gibt einen bestimmten Parameterdatensatz zur&uuml;ck. Es wird

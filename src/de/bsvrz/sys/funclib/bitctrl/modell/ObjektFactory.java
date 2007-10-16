@@ -29,8 +29,10 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.config.ConfigurationArea;
@@ -56,6 +58,33 @@ public final class ObjektFactory implements ModellObjektFactory {
 	private static ObjektFactory singleton;
 
 	/**
+	 * Enth&auml;lt die Datens&auml;tze die einem bestimmten Systemobjekt von
+	 * der Factory initial hinzugef&uuml;gt werden.
+	 */
+	private static final Map<Class<? extends SystemObjekt>, Set<Class<? extends Datensatz>>> DEFAULT = new HashMap<Class<? extends SystemObjekt>, Set<Class<? extends Datensatz>>>();
+
+	/**
+	 * Veranlasst die Factory f&uuml;r ein bestimmtes Systemobjekt initial
+	 * beliebige Datens&auml;tze hinzuzuf&uuml;gen.
+	 * <p>
+	 * <em>Hinweis:</em> Alle erforderlichen Datens&auml;tze m&uuml;ssen vor
+	 * dem ersten Abrufen eines Objekts mit der Factory mit dieser Methode
+	 * registriert werden.
+	 * 
+	 * @param klasse
+	 *            die Klasse eines Systemobjekts.
+	 * @param datensatz
+	 *            die Klasse eines passenden Parameters oder Onlinedatensatzes.
+	 */
+	public static void addParameter(Class<? extends SystemObjekt> klasse,
+			Class<? extends Datensatz> datensatz) {
+		if (DEFAULT.get(klasse) == null) {
+			DEFAULT.put(klasse, new HashSet<Class<? extends Datensatz>>());
+		}
+		DEFAULT.get(klasse).add(datensatz);
+	}
+
+	/**
 	 * Gibt das einzige Objekt der Super-Factory zur&uuml;ck.
 	 * 
 	 * @return das Singleton der Super-Factory.
@@ -68,7 +97,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 	}
 
 	/**
-	 * die Datenverteilerverbindung der Objektfactory, muss explizit gesetzt
+	 * Die Datenverteilerverbindung der Objektfactory, muss explizit gesetzt
 	 * werden und wird von den Autoupdatern der Datensätze benötigt.
 	 */
 	private ClientDavInterface verbindung;
@@ -199,6 +228,25 @@ public final class ObjektFactory implements ModellObjektFactory {
 		// Objekt im Cache ablegen, falls es erstellt werden konnte
 		if (so != null) {
 			cache.put(obj.getId(), so);
+		}
+
+		// Falls noch nicht geschehen gewünschte Standarddatensätze ergänzen
+		if (so != null) {
+			for (Class<? extends SystemObjekt> co : DEFAULT.keySet()) {
+				if (co.isInstance(so)) {
+					for (Class<? extends Datensatz> cd : DEFAULT.get(co)) {
+						if (cd.isAssignableFrom(OnlineDatensatz.class)) {
+							so
+									.getOnlineDatensatz((Class<? extends OnlineDatensatz>) cd);
+						} else {
+							assert cd
+									.isAssignableFrom(ParameterDatensatz.class);
+							so
+									.getParameterDatensatz((Class<? extends ParameterDatensatz>) cd);
+						}
+					}
+				}
+			}
 		}
 
 		return so;

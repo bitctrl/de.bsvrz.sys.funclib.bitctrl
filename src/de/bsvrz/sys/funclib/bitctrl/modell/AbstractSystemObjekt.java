@@ -27,6 +27,7 @@
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -98,6 +99,15 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getOnlineDatensatz()
+	 */
+	public Collection<? extends OnlineDatensatz> getOnlineDatensatz() {
+		return onlineDaten.values();
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public OnlineDatensatz getOnlineDatensatz(
 			Class<? extends OnlineDatensatz> typ) {
@@ -129,6 +139,15 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 			}
 		}
 		return onlineDaten.get(typ);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getParameterDatensatz()
+	 */
+	public Collection<? extends ParameterDatensatz> getParameterDatensatz() {
+		return parameter.values();
 	}
 
 	/**
