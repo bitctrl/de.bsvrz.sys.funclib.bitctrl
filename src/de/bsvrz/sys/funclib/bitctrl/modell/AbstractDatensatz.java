@@ -115,15 +115,16 @@ public abstract class AbstractDatensatz implements Datensatz {
 		/**
 		 * {@inheritDoc}
 		 */
+		@SuppressWarnings("synthetic-access")
 		public void update(ResultData[] results) {
 			for (ResultData result : results) {
 				if (result.hasData()) {
 					setDaten(result.getData());
-					setValid(true);
+					valid = true;
 				} else {
-					setValid(false);
+					valid = false;
 				}
-				setLetzterZeitstempel(result.getDataTime());
+				letzterZeitstempel = result.getDataTime();
 				fireDatensatzAktualisiert();
 			}
 		}
@@ -447,26 +448,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	public void sendeDaten() throws DatensendeException {
 		sender.sende(getSendeCache());
 		clearSendeCache();
-	}
-
-	/**
-	 * setzt den Zeitstempel der letzten Datensatzänderung.
-	 * 
-	 * @param zeitstempel
-	 *            der Zeitstempel
-	 */
-	void setLetzterZeitstempel(long zeitstempel) {
-		this.letzterZeitstempel = zeitstempel;
-	}
-
-	/**
-	 * setzt die G&uuml;ltigkeit des Datensatzes.
-	 * 
-	 * @param valid
-	 *            die G&uuml;ltigkeit
-	 */
-	void setValid(boolean valid) {
-		this.valid = valid;
 	}
 
 	/**
