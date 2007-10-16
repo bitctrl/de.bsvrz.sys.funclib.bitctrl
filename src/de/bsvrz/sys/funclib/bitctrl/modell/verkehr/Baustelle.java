@@ -47,9 +47,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdSituationsEigensc
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public class Baustelle extends Situation implements DatensatzUpdateListener {
-
-	EventListenerList listeners = new EventListenerList();
+public class Baustelle extends Situation {
 
 	/**
 	 * die Menge der Netze in denen die die Baustelle referenziert wird.
@@ -73,22 +71,23 @@ public class Baustelle extends Situation implements DatensatzUpdateListener {
 		}
 	}
 
-	public void addBaustellenUpdateListener(BaustellenUpdateListener listener) {
-		boolean registerListeners = listeners
-				.getListenerCount(BaustellenUpdateListener.class) == 0;
-
-		listeners.add(BaustellenUpdateListener.class, listener);
-
-		if (registerListeners) {
-			getSituationsEigenschaften().update();
-			getSituationsEigenschaften().addUpdateListener(this);
-			getSituationsEigenschaften().setAutoUpdate(true);
-
-			getBaustellenEigenschaften().update();
-			getBaustellenEigenschaften().addUpdateListener(this);
-			getBaustellenEigenschaften().setAutoUpdate(true);
-		}
-	}
+	// public void addBaustellenUpdateListener(BaustellenUpdateListener
+	// listener) {
+	// boolean registerListeners = listeners
+	// .getListenerCount(BaustellenUpdateListener.class) == 0;
+	//
+	// listeners.add(BaustellenUpdateListener.class, listener);
+	//
+	// if (registerListeners) {
+	// getSituationsEigenschaften().update();
+	// getSituationsEigenschaften().addUpdateListener(this);
+	// getSituationsEigenschaften().setAutoUpdate(true);
+	//
+	// getBaustellenEigenschaften().update();
+	// getBaustellenEigenschaften().addUpdateListener(this);
+	// getBaustellenEigenschaften().setAutoUpdate(true);
+	// }
+	// }
 
 	/**
 	 * fügt der Baustelle eine Netzreferenz hinzu.
@@ -98,14 +97,6 @@ public class Baustelle extends Situation implements DatensatzUpdateListener {
 	 */
 	public void addNetzReferenz(VerkehrModellNetz netz) {
 		netze.add(netz);
-	}
-
-	public void datensatzAktualisiert(DatensatzUpdateEvent event) {
-		BaustellenUpdateEvent bstEvent = new BaustellenUpdateEvent(this);
-		for (BaustellenUpdateListener listener : listeners
-				.getListeners(BaustellenUpdateListener.class)) {
-			listener.baustelleAktualisiert(bstEvent);
-		}
 	}
 
 	public PdBaustellenEigenschaften getBaustellenEigenschaften() {
@@ -178,15 +169,6 @@ public class Baustelle extends Situation implements DatensatzUpdateListener {
 	 */
 	public SystemObjektTyp getTyp() {
 		return VerkehrsModellTypen.BAUSTELLE;
-	}
-
-	public void removeBaustellenUpdateListener(BaustellenUpdateListener listener) {
-		listeners.remove(BaustellenUpdateListener.class, listener);
-
-		if (listeners.getListenerCount(BaustellenUpdateListener.class) <= 0) {
-			getSituationsEigenschaften().removeUpdateListener(this);
-			getBaustellenEigenschaften().removeUpdateListener(this);
-		}
 	}
 
 	/**

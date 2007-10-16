@@ -113,14 +113,14 @@ public interface Datensatz {
 	 */
 	void sendeDaten() throws DatensendeException;
 
-	/**
-	 * Setzt das Flag {@code autoUpdate}.
-	 * 
-	 * @param ein
-	 *            {@code true}, wenn der Datensatz neue Daten automatisch vom
-	 *            Datenverteiler empfangen soll.
-	 */
-	void setAutoUpdate(boolean ein);
+	// /**
+	// * Setzt das Flag {@code autoUpdate}.
+	// *
+	// * @param ein
+	// * {@code true}, wenn der Datensatz neue Daten automatisch vom
+	// * Datenverteiler empfangen soll.
+	// */
+	// void setAutoUpdate(boolean ein);
 
 	/**
 	 * Liest das Datum aus und setzt dessen Inhalt als internen Zustand.
