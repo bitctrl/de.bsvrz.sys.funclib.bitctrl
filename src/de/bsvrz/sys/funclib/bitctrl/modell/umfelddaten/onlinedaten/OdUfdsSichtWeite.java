@@ -33,7 +33,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsSichtWweite;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsSichtWeite;
 
 /**
  * Kapselt die Attriburgruppe {@code atg.ufdsSichtWeite}.
@@ -64,7 +64,7 @@ public class OdUfdsSichtWeite extends AbstractOnlineDatensatz {
 	 * @param sensor
 	 *            der Umfelddatensensor dessen Daten hier betrachtet werden.
 	 */
-	public OdUfdsSichtWeite(UfdsSichtWweite sensor) {
+	public OdUfdsSichtWeite(UfdsSichtWeite sensor) {
 		super(sensor);
 
 		if (atg == null && aspMessWertErsetzung == null) {

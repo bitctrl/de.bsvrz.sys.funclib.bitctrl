@@ -33,7 +33,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsNiederschlagsIintensitaet;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsNiederschlagsIntensitaet;
 
 /**
  * Kapselt die Attriburgruppe {@code atg.ufdsNiederschlagsIntensit&auml;t}.
@@ -64,7 +64,7 @@ public class OdUfdsNiederschlagsIntensitaet extends AbstractOnlineDatensatz {
 	 * @param sensor
 	 *            der Umfelddatensensor dessen Daten hier betrachtet werden.
 	 */
-	public OdUfdsNiederschlagsIntensitaet(UfdsNiederschlagsIintensitaet sensor) {
+	public OdUfdsNiederschlagsIntensitaet(UfdsNiederschlagsIntensitaet sensor) {
 		super(sensor);
 
 		if (atg == null || aspMessWertErsetzung == null) {

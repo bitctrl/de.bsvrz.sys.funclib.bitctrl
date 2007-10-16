@@ -45,17 +45,17 @@ public enum UmfelddatenModellTypen implements SystemObjektTyp {
 
 	/** Umfelddatensensor f&uuml;r die Niederschlag. */
 	UDS_NIEDERSCHLAGSINTENSITAET("typ.ufdsNiederschlagsIntensität",
-			UfdsNiederschlagsIintensitaet.class),
+			UfdsNiederschlagsIntensitaet.class),
 
 	/** Umfelddatensensor f&uuml;r die Sichtweite. */
-	UDS_SICHTWEITE("typ.ufdsSichtWeite", UfdsSichtWweite.class),
+	UDS_SICHTWEITE("typ.ufdsSichtWeite", UfdsSichtWeite.class),
 
 	/** Umfelddatensensor f&uuml;r die Windgeschwindigkeit. */
 	UDS_WINDGESCHWINDIGKEIT("typ.ufdsWindGeschwindigkeitMittelWert",
 			UfdsWindGeschwindigkeitMittelWert.class),
 
 	/** Umfelddatensensor f&uuml;r die Windrichtung. */
-	UDS_WINDRICHTUNG("typ.ufdsWindRichtung", UfdsWindRrichtung.class),
+	UDS_WINDRICHTUNG("typ.ufdsWindRichtung", UfdsWindRichtung.class),
 
 	/** Umfelddatenmessstelle. */
 	UMFELDDATENMESSSTELLE("typ.umfeldDatenMessStelle",

@@ -33,7 +33,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsWindRrichtung;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsWindRichtung;
 
 /**
  * Kapselt die Attriburgruppe {@code atg.ufdsWindRichtung}.
@@ -64,7 +64,7 @@ public class OdUfdsWindRichtung extends AbstractOnlineDatensatz {
 	 * @param sensor
 	 *            der Umfelddatensensor dessen Daten hier betrachtet werden.
 	 */
-	public OdUfdsWindRichtung(UfdsWindRrichtung sensor) {
+	public OdUfdsWindRichtung(UfdsWindRichtung sensor) {
 		super(sensor);
 
 		if (atg == null && aspMessWertErsetzung == null) {
