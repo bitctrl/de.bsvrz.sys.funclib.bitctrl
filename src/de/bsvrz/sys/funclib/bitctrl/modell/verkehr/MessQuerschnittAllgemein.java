@@ -89,11 +89,6 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	private StrassenTeilSegment strassenTeilSegment;
 
 	/**
-	 * die Position des Meﬂquerschnitts.
-	 */
-	private Punkt position;
-
-	/**
 	 * Erzeugt einen allgemeinen Messquerschnitt aus einem Systemobjekt.
 	 * 
 	 * @param obj
@@ -136,6 +131,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	 *         wurde
 	 */
 	public Punkt getLocation() {
+		Punkt position = null;
 		DataModel model = getSystemObject().getDataModel();
 		AttributeGroup atg = model.getAttributeGroup("atg.punktKoordinaten");
 		DataCache.cacheData(getSystemObject().getType(), atg);
@@ -144,8 +140,6 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 			double x = datum.getScaledValue("x").doubleValue();
 			double y = datum.getScaledValue("y").doubleValue();
 			position = new Punkt(x, y);
-		} else {
-			position = null;
 		}
 
 		return position;
