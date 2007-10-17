@@ -23,19 +23,52 @@
 
 package de.bsvrz.sys.funclib.bitctrl.daf;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 /**
  * Allgemeine Funktionen im Zusammenhang mit
  * Datenverteiler-Applikationsfunktionen.
- *
- * @author peuker
+ * 
+ * @author BitCtrl Systems GmbH, peuker
+ * @author BitCtrl Systems GmbH, Falko Schumann
+ * @version $Id$
  */
 public class DavTools {
+
+	/**
+	 * Konvertiert einen Zeitstempel in eine lesbare absolute Zeit.
+	 * 
+	 * @param zeitstempel
+	 *            ein Zeitstempel.
+	 * @return die entsprechende Zeit als lesbaren String.
+	 */
+	public static String absoluteZeit(long zeitstempel) {
+		return DateFormat.getDateTimeInstance().format(new Date(zeitstempel));
+	}
+
+	/**
+	 * liefert einen Integerwert, der als Boolean-Ersatz für JaNein-Werte
+	 * innerhalb einer Datenverteiler-Attributgruppe verschicht werden kann.
+	 * 
+	 * @param wert
+	 *            der Boolwert
+	 * @return der Integerwert
+	 */
+	public static int intWertVonBoolean(boolean wert) {
+		int ergebnis = 0;
+		if (wert) {
+			ergebnis = 1;
+		}
+
+		return ergebnis;
+	}
 
 	/**
 	 * überprüft die Gültigkeit der übergebenen Simulationsvariante.<br>
 	 * Liegt die Simulationsvariante nicht im Bereich 0 ... 999, wird eine
 	 * RuntimeException augelöst.
-	 *
+	 * 
 	 * @param sim
 	 *            die Simulationsvariante
 	 */
@@ -54,7 +87,7 @@ public class DavTools {
 	 * Wird der Parameter <i>simulation</i> auf den Wert <i>true</i> gesetzt,
 	 * werdedn nur echte Simulationen, d.h. Simulationsvarianten &gt; 0
 	 * zugelassen.
-	 *
+	 * 
 	 * @param sim
 	 *            die Simulationsvariante
 	 * @param simulation
@@ -70,8 +103,8 @@ public class DavTools {
 							+ sim + "\" ist nicht erlaubt");
 		}
 
-		if ( simulation ) {
-			if ( sim == 0 ) {
+		if (simulation) {
+			if (sim == 0) {
 				throw new NoSimulationException();
 			}
 		}
@@ -79,20 +112,10 @@ public class DavTools {
 	}
 
 	/**
-	 * liefert einen Integerwert, der als Boolean-Ersatz für JaNein-Werte
-	 * innerhalb einer Datenverteiler-Attributgruppe verschicht werden kann.
-	 *
-	 * @param wert
-	 *            der Boolwert
-	 * @return der Integerwert
+	 * Defaultkonstruktor verstecken.
 	 */
-	public static int intWertVonBoolean(boolean wert) {
-		int ergebnis = 0;
-		if (wert) {
-			ergebnis = 1;
-		}
-
-		return ergebnis;
+	protected DavTools() {
+		// nix
 	}
 
 }
