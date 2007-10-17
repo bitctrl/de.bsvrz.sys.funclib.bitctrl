@@ -26,12 +26,18 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.onlinedaten;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.Data.NumberValue;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
+import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsSichtWeite;
 
@@ -42,6 +48,88 @@ import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsSichtWeite;
  * @version $Id$
  */
 public class OdUfdsSichtWeite extends AbstractOnlineDatensatz {
+
+	/**
+	 * Kapselt die Daten des Datensatzes.
+	 */
+	public static class Daten extends AbstractDatum implements MesswertDatum {
+
+		/**
+		 * Die bekannten Messwerte am dem Datensatz.
+		 */
+		public enum Werte {
+
+			/** Die Sichtweite in m. */
+			SichtWeite;
+
+		}
+
+		/** Sichtweite in m. */
+		private Integer sichtWeite;
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see java.lang.Object#clone()
+		 */
+		@Override
+		public Daten clone() {
+			Daten klon = new Daten();
+
+			klon.setZeitstempel(getZeitstempel());
+			klon.sichtWeite = sichtWeite;
+			return klon;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWert(java.lang.String)
+		 */
+		public Number getWert(String name) {
+			Werte wert = Werte.valueOf(name);
+			switch (wert) {
+			case SichtWeite:
+				return sichtWeite;
+			default:
+				throw new IllegalArgumentException("Das Datum " + getClass()
+						+ " kennt keinen Wert " + name + ".");
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWerte()
+		 */
+		public List<String> getWerte() {
+			List<String> werte = new ArrayList<String>();
+
+			for (Werte w : Werte.values()) {
+				werte.add(w.name());
+			}
+			return werte;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#setWert(java.lang.String,
+		 *      java.lang.Number)
+		 */
+		public void setWert(String name, Number wert) {
+			Werte w = Werte.valueOf(name);
+			switch (w) {
+			case SichtWeite:
+				sichtWeite = wert != null ? wert.intValue() : null;
+				break;
+			default:
+				throw new IllegalArgumentException("Das Datum " + getClass()
+						+ " kennt keinen Wert " + wert + ".");
+			}
+		}
+
+	}
 
 	/** Die PID der Attributgruppe. */
 	public static final String ATG_UFDS_SICHT_WEITE = "atg.ufdsSichtWeite";
@@ -54,9 +142,6 @@ public class OdUfdsSichtWeite extends AbstractOnlineDatensatz {
 
 	/** Der Aspekt kann von allen Instanzen gemeinsam genutzt werden. */
 	private static Aspect aspMessWertErsetzung;
-
-	/** Sichtweite in m. */
-	private Integer sichtWeite;
 
 	/**
 	 * Initialisiert den Onlinedatensatz.
@@ -100,26 +185,32 @@ public class OdUfdsSichtWeite extends AbstractOnlineDatensatz {
 	}
 
 	/**
-	 * Gibt den Wert der Eigenschaft {@code SichtWeite} wieder.
-	 * 
-	 * @return {@code SichtWeite}.
-	 */
-	public Integer getSichtWeite() {
-		return sichtWeite;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
-	public void setDaten(Data daten) {
-		NumberValue wert;
-
-		wert = daten.getItem("SichtWeite").getUnscaledValue("Wert");
-		if (wert.isState()) {
-			sichtWeite = null;
-		} else {
-			sichtWeite = wert.intValue();
+	public void setDaten(ResultData result) {
+		if (!result.getDataDescription().getAttributeGroup().equals(
+				getAttributGruppe())) {
+			throw new IllegalArgumentException(
+					"Das Datum muss zur Attributgruppe " + getAttributGruppe()
+							+ " gehören.");
 		}
+
+		Data daten = result.getData();
+		NumberValue wert;
+		Daten datum = new Daten();
+
+		wert = daten.getItem(Daten.Werte.SichtWeite.name()).getUnscaledValue(
+				"Wert");
+		if (wert.isState()) {
+			datum.setWert(Daten.Werte.SichtWeite.name(), null);
+		} else {
+			datum.setWert(Daten.Werte.SichtWeite.name(), wert.intValue());
+		}
+
+		datum.setZeitstempel(result.getDataTime());
+		setDatum(datum);
+		setValid(true);
+		fireDatensatzAktualisiert(datum.clone());
 	}
 
 }

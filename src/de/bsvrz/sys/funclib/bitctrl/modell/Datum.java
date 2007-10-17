@@ -27,67 +27,41 @@
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
 /**
- * Ausnahme die von einem Datensender geworfen wird, wenn Daten gesendet werden
- * konnten.
+ * Kapselt die Daten eines Datensatzes.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class DatensendeException extends Exception {
-
-	/** Versions-ID der Serialisierung. */
-	private static final long serialVersionUID = 1L;
+public interface Datum {
 
 	/**
-	 * Konstruktor.
+	 * Klont das Objekt, in dem der Zeitstempel und alle Daten hart kopiert
+	 * werden.
+	 * 
+	 * @return ein Klon des Datum.
 	 */
-	public DatensendeException() {
-		// nix
-	}
+	Datum clone();
 
 	/**
-	 * Konstruktor.
+	 * Gibt den Zeitstempel des Datums als lesbaren Text zur&uuml;ck.
 	 * 
-	 * @param datensatz
-	 *            der betroffene Datensatz
-	 * 
-	 * @param message
-	 *            eine Fehlernachricht.
+	 * @return der Zeitpunkt.
 	 */
-	public DatensendeException(Datensatz datensatz, String message) {
-		super(message + " [datensatz=" + datensatz + "]");
-	}
+	String getZeitpunkt();
 
 	/**
-	 * Konstruktor.
+	 * Gibt den Zeitstempel des Datum zur&uuml;ck.
 	 * 
-	 * @param message
-	 *            eine Fehlernachricht.
+	 * @return den Zeitstempel oder 0, wenn er nicht bekannt ist.
 	 */
-	public DatensendeException(String message) {
-		super(message);
-	}
+	long getZeitstempel();
 
 	/**
-	 * Konstruktor.
+	 * Legt den Zeitstempel des Datums fest.
 	 * 
-	 * @param message
-	 *            eine Fehlernachricht.
-	 * @param cause
-	 *            ein Grund.
+	 * @param zeitstempel
+	 *            der neue Zeitstempel.
 	 */
-	public DatensendeException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	/**
-	 * Konstruktor.
-	 * 
-	 * @param cause
-	 *            ein Grund.
-	 */
-	public DatensendeException(Throwable cause) {
-		super(cause);
-	}
+	void setZeitstempel(long zeitstempel);
 
 }

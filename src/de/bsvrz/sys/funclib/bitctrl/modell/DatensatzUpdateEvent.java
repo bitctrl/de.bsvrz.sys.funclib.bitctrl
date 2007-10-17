@@ -39,21 +39,20 @@ public class DatensatzUpdateEvent extends EventObject {
 	/** Die Versions-ID der Serialialisierung. */
 	private static final long serialVersionUID = 1L;
 
-	/** Der Datensatz, der sich ge&auml;ndert hat. */
-	private final Datensatz datensatz;
+	/** Das Datum des Datensatzes zum Zeitpunkt des Events. */
+	private final Datum datum;
 
 	/**
 	 * Der Konstruktor des Ereignisses.
 	 * 
-	 * @param source
-	 *            die Quelle des Ereignis, in dem Fall das betreffende
-	 *            Systemobjekt.
 	 * @param datensatz
 	 *            der Datensatz, der sich ge&auml;ndert hat.
+	 * @param datum
+	 *            die Daten des Datensatzes zum Zeitpunkt des Events.
 	 */
-	public DatensatzUpdateEvent(SystemObjekt source, Datensatz datensatz) {
-		super(source);
-		this.datensatz = datensatz;
+	public DatensatzUpdateEvent(Datensatz datensatz, Datum datum) {
+		super(datensatz);
+		this.datum = datum;
 	}
 
 	/**
@@ -62,7 +61,7 @@ public class DatensatzUpdateEvent extends EventObject {
 	 * @return der ge&auml;nderte Datensatz.
 	 */
 	public Datensatz getDatensatz() {
-		return datensatz;
+		return (Datensatz) source;
 	}
 
 	/**
@@ -72,7 +71,7 @@ public class DatensatzUpdateEvent extends EventObject {
 	 * @return das Systemobjekt.
 	 */
 	public SystemObjekt getObjekt() {
-		return (SystemObjekt) source;
+		return ((Datensatz) source).getObjekt();
 	}
 
 	/**
@@ -82,8 +81,8 @@ public class DatensatzUpdateEvent extends EventObject {
 	 */
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "[objekt=" + source
-				+ ", datensatz=" + datensatz + "]";
+		return getClass().getSimpleName() + "[source=" + source + ", datum="
+				+ datum + "]";
 	}
 
 }

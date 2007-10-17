@@ -26,7 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
-import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 
 /**
@@ -67,11 +67,11 @@ public interface Datensatz {
 	AttributeGroup getAttributGruppe();
 
 	/**
-	 * Gibt den Zeitstempel der letzten Datensatzaktualisierung zur&uuml;ck.
+	 * Gibt die aktuellen Daten des Datensatzes zur&uuml;ck.
 	 * 
-	 * @return den Zeitstempel oder 0, wenn er nicht bekannt ist.
+	 * @return ein Datum, welches die Daten des Datensatzes kapselt.
 	 */
-	long getLetzterZeitstempel();
+	Datum getDatum();
 
 	/**
 	 * Gibt das Systemobjekt zur&uuml;ck, zu dem der Datensatz geh&ouml;rt.
@@ -79,6 +79,14 @@ public interface Datensatz {
 	 * @return das Objekt, zu dem der Datensatz geh&ouml;rt.
 	 */
 	SystemObjekt getObjekt();
+
+	/**
+	 * Fragt, ob der Datensatz als Sender oder Quelle angemeldet ist.
+	 * 
+	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle
+	 *         angemeldet ist.
+	 */
+	boolean isAngemeldetSender();
 
 	/**
 	 * Liest das Flag {@code autoUpdate}.
@@ -109,7 +117,8 @@ public interface Datensatz {
 	 * &uuml;bermitteln.
 	 * 
 	 * @throws DatensendeException
-	 *             wenn die Daten nicht gesendet werden konnten.
+	 *             wenn die Daten nicht gesendet werden konnten. Der Sendecache
+	 *             wird in dem Fall nicht geleert.
 	 */
 	void sendeDaten() throws DatensendeException;
 
@@ -120,29 +129,21 @@ public interface Datensatz {
 	 * @param zeitstempel
 	 *            der Zeitstempel, mit dem die Daten versandt werden.
 	 * @throws DatensendeException
-	 *             wenn die Daten nicht gesendet werden konnten.
+	 *             wenn die Daten nicht gesendet werden konnten. Der Sendecache
+	 *             wird in dem Fall nicht geleert.
 	 */
 	void sendeDaten(long zeitstempel) throws DatensendeException;
-
-	// /**
-	// * Setzt das Flag {@code autoUpdate}.
-	// *
-	// * @param ein
-	// * {@code true}, wenn der Datensatz neue Daten automatisch vom
-	// * Datenverteiler empfangen soll.
-	// */
-	// void setAutoUpdate(boolean ein);
 
 	/**
 	 * Liest das Datum aus und setzt dessen Inhalt als internen Zustand.
 	 * 
 	 * @param daten
-	 *            ein passendes Datum.
+	 *            ein passender Datenverteilerdatensatz.
 	 */
-	void setDaten(Data daten);
+	void setDaten(ResultData daten);
 
 	/**
-	 * ruft die aktuellen Daten ab und setzt die internen Daten.
+	 * Ruft die aktuellen Daten ab und setzt die internen Daten.
 	 */
 	void update();
 }

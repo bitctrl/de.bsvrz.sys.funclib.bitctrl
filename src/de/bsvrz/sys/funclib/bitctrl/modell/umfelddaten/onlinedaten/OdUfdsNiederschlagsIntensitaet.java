@@ -26,12 +26,18 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.onlinedaten;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.Data.NumberValue;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
+import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsNiederschlagsIntensitaet;
 
@@ -42,6 +48,88 @@ import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsNiederschlagsIntensit
  * @version $Id$
  */
 public class OdUfdsNiederschlagsIntensitaet extends AbstractOnlineDatensatz {
+
+	/**
+	 * Kapselt die Daten des Datensatzes.
+	 */
+	public static class Daten extends AbstractDatum implements MesswertDatum {
+
+		/**
+		 * Die bekannten Messwerte am dem Datensatz.
+		 */
+		public enum Werte {
+
+			/** Die Windrichtung in Grad. */
+			NiederschlagsIntensität;
+
+		}
+
+		/** Niederschlagsintensit&auml;t in mm/h. */
+		private Double niederschlagsIntensitaet;
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see java.lang.Object#clone()
+		 */
+		@Override
+		public Daten clone() {
+			Daten klon = new Daten();
+
+			klon.setZeitstempel(getZeitstempel());
+			klon.niederschlagsIntensitaet = niederschlagsIntensitaet;
+			return klon;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWert(java.lang.String)
+		 */
+		public Number getWert(String name) {
+			Werte wert = Werte.valueOf(name);
+			switch (wert) {
+			case NiederschlagsIntensität:
+				return niederschlagsIntensitaet;
+			default:
+				throw new IllegalArgumentException("Das Datum " + getClass()
+						+ " kennt keinen Wert " + name + ".");
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWerte()
+		 */
+		public List<String> getWerte() {
+			List<String> werte = new ArrayList<String>();
+
+			for (Werte w : Werte.values()) {
+				werte.add(w.name());
+			}
+			return werte;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#setWert(java.lang.String,
+		 *      java.lang.Number)
+		 */
+		public void setWert(String name, Number wert) {
+			Werte w = Werte.valueOf(name);
+			switch (w) {
+			case NiederschlagsIntensität:
+				niederschlagsIntensitaet = wert != null ? wert.doubleValue()
+						: null;
+				break;
+			default:
+				throw new IllegalArgumentException("Das Datum " + getClass()
+						+ " kennt keinen Wert " + wert + ".");
+			}
+		}
+	}
 
 	/** Die PID der Attributgruppe. */
 	public static final String ATG_UFDS_NIEDERSCHLAGS_INTENSITAET = "atg.ufdsNiederschlagsIntensität";
@@ -54,9 +142,6 @@ public class OdUfdsNiederschlagsIntensitaet extends AbstractOnlineDatensatz {
 
 	/** Der Aspekt kann von allen Instanzen gemeinsam genutzt werden. */
 	private static Aspect aspMessWertErsetzung;
-
-	/** Niederschlagsintensit&auml;t in mm/h. */
-	private Integer niederschlagsIntensitaet;
 
 	/**
 	 * Initialisiert den Onlinedatensatz.
@@ -92,15 +177,6 @@ public class OdUfdsNiederschlagsIntensitaet extends AbstractOnlineDatensatz {
 	}
 
 	/**
-	 * Gibt den Wert der Eigenschaft {@code NiederschlagsIntensitaet} wieder.
-	 * 
-	 * @return {@code NiederschlagsIntensitaet}.
-	 */
-	public Integer getNiederschlagsIntensitaet() {
-		return niederschlagsIntensitaet;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -111,16 +187,24 @@ public class OdUfdsNiederschlagsIntensitaet extends AbstractOnlineDatensatz {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setDaten(Data daten) {
+	public synchronized void setDaten(ResultData result) {
+		Data daten = result.getData();
 		NumberValue wert;
+		Daten datum = new Daten();
 
-		wert = daten.getItem("NiederschlagsIntensitaet").getUnscaledValue(
-				"Wert");
+		wert = daten.getItem(Daten.Werte.NiederschlagsIntensität.name())
+				.getScaledValue("Wert");
 		if (wert.isState()) {
-			niederschlagsIntensitaet = null;
+			datum.setWert(Daten.Werte.NiederschlagsIntensität.name(), null);
 		} else {
-			niederschlagsIntensitaet = wert.intValue();
+			datum.setWert(Daten.Werte.NiederschlagsIntensität.name(), wert
+					.doubleValue());
 		}
+
+		datum.setZeitstempel(result.getDataTime());
+		setDatum(datum);
+		setValid(true);
+		fireDatensatzAktualisiert(datum.clone());
 	}
 
 }

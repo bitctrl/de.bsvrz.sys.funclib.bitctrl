@@ -26,15 +26,19 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.Data.NumberValue;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
+import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
-import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.Wert;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein;
 
 /**
@@ -43,41 +47,187 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz
-		implements MesswertDatensatz {
+public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz {
 
-	/** Benennt die Messwerte die dieser Datensatz kennt. */
-	public enum Werte implements Wert {
+	/**
+	 * Kapselt die Daten des Datensatzes.
+	 */
+	public static class Daten extends AbstractDatum implements MesswertDatum {
+
+		/** Benennt die Messwerte die dieser Datensatz kennt. */
+		public enum Werte {
+
+			/** Lkw-Anteil in Prozent. */
+			ALkw,
+
+			/** Bemessungsdichte KB in Fahrzeuge/km. */
+			KB,
+
+			/**
+			 * Verkehrsstärke QKfz (alle Fahrzeuge) in Anzahl pro
+			 * Messabschnittsdauer.
+			 */
+			QKfz,
+
+			/** Verkehrsstärke QPkw in Anzahl pro Messabschnittsdauer. */
+			QPkw,
+
+			/** Verkehrsstärke QLkw in Anzahl pro Messabschnittsdauer. */
+			QLkw,
+
+			/** Geschwindigkeit VKfz (Alle Fahrzeuge) in km/h. */
+			VKfz,
+
+			/** Geschwindigkeit VPkw in km/h. */
+			VPkw,
+
+			/** Geschwindigkeit VLkw in km/h. */
+			VLkw,
+
+			/** Standardabweichung der Kfz-Geschwindigkeiten SKfz in km/h. */
+			SKfz;
+
+		}
 
 		/** Lkw-Anteil in Prozent. */
-		ALkw,
+		private Integer aLkw;
 
 		/** Bemessungsdichte KB in Fahrzeuge/km. */
-		KB,
+		private Integer kb;
 
 		/**
 		 * Verkehrsstärke QKfz (alle Fahrzeuge) in Anzahl pro
 		 * Messabschnittsdauer.
 		 */
-		QKfz,
+		private Integer qKfz;
 
 		/** Verkehrsstärke QPkw in Anzahl pro Messabschnittsdauer. */
-		QPkw,
+		private Integer qPkw;
 
 		/** Verkehrsstärke QLkw in Anzahl pro Messabschnittsdauer. */
-		QLkw,
+		private Integer qLkw;
 
 		/** Geschwindigkeit VKfz (Alle Fahrzeuge) in km/h. */
-		VKfz,
+		private Integer vKfz;
 
 		/** Geschwindigkeit VPkw in km/h. */
-		VPkw,
+		private Integer vPkw;
 
 		/** Geschwindigkeit VLkw in km/h. */
-		VLkw,
+		private Integer vLkw;
 
 		/** Standardabweichung der Kfz-Geschwindigkeiten SKfz in km/h. */
-		SKfz;
+		private Integer sKfz;
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see java.lang.Object#clone()
+		 */
+		@Override
+		public Daten clone() {
+			Daten klon = new Daten();
+
+			klon.setZeitstempel(getZeitstempel());
+			klon.aLkw = aLkw;
+			klon.qKfz = qKfz;
+			klon.qLkw = qLkw;
+			klon.qPkw = qPkw;
+			klon.vKfz = vKfz;
+			klon.vLkw = vLkw;
+			klon.vPkw = vPkw;
+			klon.kb = kb;
+			klon.sKfz = sKfz;
+			return klon;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWert(java.lang.String)
+		 */
+		public Number getWert(String name) {
+			Werte wert = Werte.valueOf(name);
+			switch (wert) {
+			case ALkw:
+				return aLkw;
+			case KB:
+				return kb;
+			case QKfz:
+				return qKfz;
+			case QLkw:
+				return qLkw;
+			case QPkw:
+				return qPkw;
+			case VKfz:
+				return vKfz;
+			case VLkw:
+				return vLkw;
+			case VPkw:
+				return vPkw;
+			case SKfz:
+				return sKfz;
+			default:
+				throw new IllegalArgumentException("Das Datum " + getClass()
+						+ " kennt keinen Wert " + name + ".");
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWerte()
+		 */
+		public List<String> getWerte() {
+			List<String> werte = new ArrayList<String>();
+
+			for (Werte w : Werte.values()) {
+				werte.add(w.name());
+			}
+			return werte;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#setWert(java.lang.String,
+		 *      java.lang.Number)
+		 */
+		public void setWert(String name, Number wert) {
+			Werte w = Werte.valueOf(name);
+			switch (w) {
+			case ALkw:
+				aLkw = wert != null ? wert.intValue() : null;
+				break;
+			case KB:
+				kb = wert != null ? wert.intValue() : null;
+				break;
+			case QKfz:
+				qKfz = wert != null ? wert.intValue() : null;
+				break;
+			case QLkw:
+				qLkw = wert != null ? wert.intValue() : null;
+				break;
+			case QPkw:
+				qPkw = wert != null ? wert.intValue() : null;
+				break;
+			case VKfz:
+				vKfz = wert != null ? wert.intValue() : null;
+				break;
+			case VLkw:
+				vLkw = wert != null ? wert.intValue() : null;
+				break;
+			case VPkw:
+				vPkw = wert != null ? wert.intValue() : null;
+				break;
+			case SKfz:
+				sKfz = wert != null ? wert.intValue() : null;
+				break;
+			default:
+				throw new IllegalArgumentException("Das Datum " + getClass()
+						+ " kennt keinen Wert " + wert + ".");
+			}
+		}
 
 	}
 
@@ -92,33 +242,6 @@ public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz
 
 	/** Der Aspekt kann von allen Instanzen gemeinsam genutzt werden. */
 	private static Aspect aspAnalyse;
-
-	/** Lkw-Anteil in Prozent. */
-	private Integer aLkw;
-
-	/** Bemessungsdichte KB in Fahrzeuge/km. */
-	private Integer kb;
-
-	/** Verkehrsstärke QKfz (alle Fahrzeuge) in Anzahl pro Messabschnittsdauer. */
-	private Integer qKfz;
-
-	/** Verkehrsstärke QPkw in Anzahl pro Messabschnittsdauer. */
-	private Integer qPkw;
-
-	/** Verkehrsstärke QLkw in Anzahl pro Messabschnittsdauer. */
-	private Integer qLkw;
-
-	/** Geschwindigkeit VKfz (Alle Fahrzeuge) in km/h. */
-	private Integer vKfz;
-
-	/** Geschwindigkeit VPkw in km/h. */
-	private Integer vPkw;
-
-	/** Geschwindigkeit VLkw in km/h. */
-	private Integer vLkw;
-
-	/** Standardabweichung der Kfz-Geschwindigkeiten SKfz in km/h. */
-	private Integer sKfz;
 
 	/**
 	 * Initialisiert den Onlinedatensatz.
@@ -164,115 +287,92 @@ public class OdVerkehrsDatenKurzZeitMq extends AbstractOnlineDatensatz
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatensatz#getWert(de.bsvrz.sys.funclib.bitctrl.modell.Wert)
 	 */
-	public Number getWert(Wert wert) {
-		if (wert.equals(Werte.ALkw)) {
-			return aLkw;
-		} else if (wert.equals(Werte.KB)) {
-			return kb;
-		} else if (wert.equals(Werte.QKfz)) {
-			return qKfz;
-		} else if (wert.equals(Werte.QLkw)) {
-			return qLkw;
-		} else if (wert.equals(Werte.QPkw)) {
-			return qPkw;
-		} else if (wert.equals(Werte.VKfz)) {
-			return vKfz;
-		} else if (wert.equals(Werte.VLkw)) {
-			return vLkw;
-		} else if (wert.equals(Werte.VPkw)) {
-			return vPkw;
-		} else if (wert.equals(Werte.SKfz)) {
-			return sKfz;
-		}
-		throw new IllegalArgumentException("Der Datensatz " + toString()
-				+ " kennt keinen Wert " + wert + ".");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatensatz#getWerte()
-	 */
-	public Wert[] getWerte() {
-		return Werte.values();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setDaten(Data daten) {
-		if (!daten.getName().equals(ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ)) {
+	public synchronized void setDaten(ResultData result) {
+		if (!result.getDataDescription().getAttributeGroup().equals(
+				getAttributGruppe())) {
 			throw new IllegalArgumentException(
-					"Das Datum muss zur Attributgruppe "
-							+ ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ + " gehören.");
+					"Das Datum muss zur Attributgruppe " + getAttributGruppe()
+							+ " gehören.");
 		}
+
+		if (!result.hasData()) {
+			setValid(false);
+			setDatum(null);
+			fireDatensatzAktualisiert(null);
+		}
+
+		Data daten = result.getData();
+		Daten datum = new Daten();
 		NumberValue wert;
 
-		wert = daten.getItem("QKfz").getUnscaledValue("Wert");
+		wert = daten.getItem(Daten.Werte.QKfz.name()).getUnscaledValue("Wert");
 		if (wert.isState()) {
-			qKfz = null;
+			datum.setWert(Daten.Werte.QKfz.name(), null);
 		} else {
-			qKfz = wert.intValue();
+			datum.setWert(Daten.Werte.QKfz.name(), wert.intValue());
 		}
 
-		wert = daten.getItem("QLkw").getUnscaledValue("Wert");
+		wert = daten.getItem(Daten.Werte.QLkw.name()).getUnscaledValue("Wert");
 		if (wert.isState()) {
-			qLkw = null;
+			datum.setWert(Daten.Werte.QLkw.name(), null);
 		} else {
-			qLkw = wert.intValue();
+			datum.setWert(Daten.Werte.QLkw.name(), wert.intValue());
 		}
 
-		wert = daten.getItem("QPkw").getUnscaledValue("Wert");
+		wert = daten.getItem(Daten.Werte.QPkw.name()).getUnscaledValue("Wert");
 		if (wert.isState()) {
-			qPkw = null;
+			datum.setWert(Daten.Werte.QPkw.name(), null);
 		} else {
-			qPkw = wert.intValue();
+			datum.setWert(Daten.Werte.QPkw.name(), wert.intValue());
 		}
 
-		wert = daten.getItem("VKfz").getUnscaledValue("Wert");
+		wert = daten.getItem(Daten.Werte.VKfz.name()).getUnscaledValue("Wert");
 		if (wert.isState()) {
-			vKfz = null;
+			datum.setWert(Daten.Werte.VKfz.name(), null);
 		} else {
-			vKfz = wert.intValue();
+			datum.setWert(Daten.Werte.VKfz.name(), wert.intValue());
 		}
 
-		wert = daten.getItem("VLkw").getUnscaledValue("Wert");
+		wert = daten.getItem(Daten.Werte.VLkw.name()).getUnscaledValue("Wert");
 		if (wert.isState()) {
-			vLkw = null;
+			datum.setWert(Daten.Werte.VLkw.name(), null);
 		} else {
-			vLkw = wert.intValue();
+			datum.setWert(Daten.Werte.VLkw.name(), wert.intValue());
 		}
 
-		wert = daten.getItem("VPkw").getUnscaledValue("Wert");
+		wert = daten.getItem(Daten.Werte.VPkw.name()).getUnscaledValue("Wert");
 		if (wert.isState()) {
-			vPkw = null;
+			datum.setWert(Daten.Werte.VPkw.name(), null);
 		} else {
-			vPkw = wert.intValue();
+			datum.setWert(Daten.Werte.VPkw.name(), wert.intValue());
 		}
 
-		wert = daten.getItem("SKfz").getUnscaledValue("Wert");
+		wert = daten.getItem(Daten.Werte.SKfz.name()).getUnscaledValue("Wert");
 		if (wert.isState()) {
-			sKfz = null;
+			datum.setWert(Daten.Werte.SKfz.name(), null);
 		} else {
-			sKfz = wert.intValue();
+			datum.setWert(Daten.Werte.SKfz.name(), wert.intValue());
 		}
 
-		wert = daten.getItem("KB").getUnscaledValue("Wert");
+		wert = daten.getItem(Daten.Werte.KB.name()).getUnscaledValue("Wert");
 		if (wert.isState()) {
-			kb = null;
+			datum.setWert(Daten.Werte.KB.name(), null);
 		} else {
-			kb = wert.intValue();
+			datum.setWert(Daten.Werte.KB.name(), wert.intValue());
 		}
 
-		wert = daten.getItem("ALkw").getUnscaledValue("Wert");
+		wert = daten.getItem(Daten.Werte.ALkw.name()).getUnscaledValue("Wert");
 		if (wert.isState()) {
-			aLkw = null;
+			datum.setWert(Daten.Werte.ALkw.name(), null);
 		} else {
-			aLkw = wert.intValue();
+			datum.setWert(Daten.Werte.ALkw.name(), wert.intValue());
 		}
+
+		datum.setZeitstempel(result.getDataTime());
+		setDatum(datum);
+		setValid(true);
+		fireDatensatzAktualisiert(datum.clone());
 	}
 
 }

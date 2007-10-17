@@ -26,29 +26,52 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import de.bsvrz.sys.funclib.bitctrl.daf.DavTools;
 
 /**
- * Schnittstelle f&uuml;r einen Onlinedatensatz, der Messwerte beinhaltet.
+ * Implementiert die Gemeinsamkeiten der Schnittstelle {@code Datum}.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public interface MesswertDatensatz extends OnlineDatensatz {
+public abstract class AbstractDatum implements Datum {
+
+	/** Der Zeitstempel des Datums. */
+	private long zeitstempel;
 
 	/**
-	 * Gibt den Zahlenwert eines Messwerts zur&uuml;ck.
+	 * {@inheritDoc}
 	 * 
-	 * @param wert
-	 *            der gesuchte Messwert.
-	 * @return der Zahlenwert.
+	 * @see java.lang.Object#clone()
 	 */
-	Number getWert(Wert wert);
+	@Override
+	public abstract Datum clone();
 
 	/**
-	 * Gibt alle Messwerte zur&uuml;ck, die der Datensatz kennt.
+	 * {@inheritDoc}
 	 * 
-	 * @return die Liste bekannter Messwerte.
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getZeitpunkt()
 	 */
-	Wert[] getWerte();
+	public String getZeitpunkt() {
+		return DavTools.absoluteZeit(zeitstempel);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getZeitstempel()
+	 */
+	public long getZeitstempel() {
+		return zeitstempel;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#setZeitstempel(long)
+	 */
+	public void setZeitstempel(long zeitstempel) {
+		this.zeitstempel = zeitstempel;
+	}
 
 }

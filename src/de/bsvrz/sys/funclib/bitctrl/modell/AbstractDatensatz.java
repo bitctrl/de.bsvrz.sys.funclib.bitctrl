@@ -103,30 +103,23 @@ public abstract class AbstractDatensatz implements Datensatz {
 		}
 
 		/**
-		 * {@inheritDoc}
-		 */
-		@SuppressWarnings("synthetic-access")
-		public void update(ResultData[] results) {
-			for (ResultData result : results) {
-				if (result.hasData()) {
-					setDaten(result.getData());
-					valid = true;
-				} else {
-					valid = false;
-				}
-				letzterZeitstempel = result.getDataTime();
-				fireDatensatzAktualisiert();
-			}
-		}
-
-		/**
 		 * ermittelt, ob der Receiver f&uuml;r den Empfang der Daten des
 		 * Datensatzes angemeldet ist.
 		 * 
 		 * @return <code>true</code>, wenn die Anmeldung erfolgt ist.
 		 */
-		boolean isAngemeldet() {
+		public boolean isAngemeldet() {
 			return angemeldet;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@SuppressWarnings("synthetic-access")
+		public void update(ResultData[] results) {
+			for (ResultData result : results) {
+				setDaten(result);
+			}
 		}
 
 	}
@@ -184,7 +177,9 @@ public abstract class AbstractDatensatz implements Datensatz {
 					dav.subscribeSender(this, getObjekt().getSystemObject(),
 							dbs, SenderRole.sender());
 				}
+				angemeldet = true;
 			} catch (OneSubscriptionPerSendData ex) {
+				angemeldet = false;
 				throw new AnmeldeException(ex);
 			}
 		}
@@ -203,6 +198,15 @@ public abstract class AbstractDatensatz implements Datensatz {
 			} else {
 				sendenErlaubt = false;
 			}
+		}
+
+		/**
+		 * Gibt den Wert des Flags {@code angemeldet} zur&uuml;ck.
+		 * 
+		 * @return der Wert.
+		 */
+		public boolean isAngemeldet() {
+			return angemeldet;
 		}
 
 		/**
@@ -230,10 +234,11 @@ public abstract class AbstractDatensatz implements Datensatz {
 		 */
 		public void sende(Data daten) throws DatensendeException {
 			if (!angemeldet) {
-				throw new DatensendeException(
+				throw new DatensendeException(AbstractDatensatz.this,
 						"Datensatz ist zum Senden nicht angemeldet.");
 			}
-			if (sendenErlaubt) {
+			if (isQuelle() || sendenErlaubt) {
+				// Quelle darf immer senden!
 				ResultData datensatz = new ResultData(getObjekt()
 						.getSystemObject(), dbs, dav.getTime(), daten);
 				try {
@@ -244,7 +249,7 @@ public abstract class AbstractDatensatz implements Datensatz {
 					throw new DatensendeException(ex);
 				}
 			} else {
-				throw new DatensendeException(
+				throw new DatensendeException(AbstractDatensatz.this,
 						"Die Sendesteuerung hat das Senden verboten.");
 			}
 		}
@@ -291,17 +296,14 @@ public abstract class AbstractDatensatz implements Datensatz {
 	/** Das Flag f&uuml;r die G&uuml;ltigkeit des Datensatzes. */
 	private boolean valid;
 
-	/** Der Zeitstempel der letzten Aktualisierung des Datensatzes. */
-	private long letzterZeitstempel;
-
 	/** Das Systemobjekt. */
 	private final SystemObjekt objekt;
 
 	/** Liste der registrierten Listener. */
 	private final EventListenerList listeners = new EventListenerList();
 
-	// /** Das Flag f&uuml;r autoamtische Aktualisierng des Datensatzes. */
-	// private boolean autoUpdate;
+	/** Kapselt die aktuellen Daten des Datensatzes. */
+	private Datum datum;
 
 	/** Der Sendecache. */
 	private Data sendeCache;
@@ -365,9 +367,11 @@ public abstract class AbstractDatensatz implements Datensatz {
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getDatum()
 	 */
-	public long getLetzterZeitstempel() {
-		return letzterZeitstempel;
+	public Datum getDatum() {
+		return datum;
 	}
 
 	/**
@@ -377,6 +381,15 @@ public abstract class AbstractDatensatz implements Datensatz {
 	 */
 	public SystemObjekt getObjekt() {
 		return objekt;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#isAngemeldetSender()
+	 */
+	public boolean isAngemeldetSender() {
+		return sender.isAngemeldet();
 	}
 
 	/**
@@ -409,7 +422,7 @@ public abstract class AbstractDatensatz implements Datensatz {
 	 */
 	public void sendeDaten() throws DatensendeException {
 		sender.sende(getSendeCache());
-		clearSendeCache();
+		sendeCache = null;
 	}
 
 	/**
@@ -417,7 +430,18 @@ public abstract class AbstractDatensatz implements Datensatz {
 	 */
 	public void sendeDaten(long zeitstempel) throws DatensendeException {
 		sender.sende(getSendeCache(), zeitstempel);
-		clearSendeCache();
+		sendeCache = null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return getAttributGruppe() + "[objekt=" + getObjekt() + ", datum="
+				+ getDatum() + "]";
 	}
 
 	/**
@@ -434,23 +458,20 @@ public abstract class AbstractDatensatz implements Datensatz {
 			dav = ObjektFactory.getInstanz().getVerbindung();
 			dbs = new DataDescription(getAttributGruppe(), getEmpfangsAspekt());
 			datensatz = dav.getData(getObjekt().getSystemObject(), dbs, 0);
-			letzterZeitstempel = datensatz.getDataTime();
-			setDaten(datensatz.getData());
+			setDaten(datensatz);
 		}
 	}
 
 	/**
-	 * Leert den Sendecache.
-	 */
-	protected void clearSendeCache() {
-		sendeCache = null;
-	}
-
-	/**
 	 * Benachricht registrierte Listener &uuml;ber &Auml;nderungen am Datensatz.
+	 * Muss von abgeleiteten Klassen aufgerufen werden, wenn das Datum
+	 * ge&auml;ndert wurde.
+	 * 
+	 * @param neu
+	 *            das Datum zum Zeitpunkt des Events.
 	 */
-	protected void fireDatensatzAktualisiert() {
-		DatensatzUpdateEvent event = new DatensatzUpdateEvent(getObjekt(), this);
+	protected synchronized void fireDatensatzAktualisiert(Datum neu) {
+		DatensatzUpdateEvent event = new DatensatzUpdateEvent(this, neu);
 		for (DatensatzUpdateListener listener : listeners
 				.getListeners(DatensatzUpdateListener.class)) {
 			listener.datensatzAktualisiert(event);
@@ -502,5 +523,27 @@ public abstract class AbstractDatensatz implements Datensatz {
 	 * @return {@code true}, wenn die Anmeldung als Senke erfolgen soll.
 	 */
 	protected abstract boolean isSenke();
+
+	/**
+	 * Legt die aktuellen Daten fest.
+	 * 
+	 * @param datum
+	 *            das neuen Datum.
+	 */
+	protected void setDatum(Datum datum) {
+		this.datum = datum;
+	}
+
+	/**
+	 * Setzt den Zustand des Datensatzes. Muss von abgeleiteten Klassen
+	 * aufgerufen werden, nachdem das Datum ge&auml;ndert wurde.
+	 * 
+	 * @param valid
+	 *            {@code true}, wenn der Datensatz ein g&uuml;ltiges Datum
+	 *            enth&auml;lt.
+	 */
+	protected void setValid(boolean valid) {
+		this.valid = valid;
+	}
 
 }

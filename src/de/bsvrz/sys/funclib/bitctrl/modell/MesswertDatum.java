@@ -26,19 +26,40 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import java.util.List;
+
 /**
- * Spezifiziert einen beliebigen benannten Wert.
+ * Schnittstelle f&uuml;r einen Onlinedatensatz, der Messwerte beinhaltet.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public interface Wert {
+public interface MesswertDatum extends Datum {
 
 	/**
-	 * Gibt den Namen des Werts zur&uuml;ck.
+	 * Gibt den Zahlenwert eines Messwerts zur&uuml;ck.
 	 * 
-	 * @return der Wertname.
+	 * @param name
+	 *            der Name des gesuchten Messwert.
+	 * @return der Zahlenwert.
 	 */
-	String name();
+	Number getWert(String name);
+
+	/**
+	 * Gibt alle Messwerte zur&uuml;ck, die der Datensatz kennt.
+	 * 
+	 * @return die Liste bekannter Messwerte.
+	 */
+	List<String> getWerte();
+
+	/**
+	 * Legt den Zahlenwert eines Messwerts fest.
+	 * 
+	 * @param name
+	 *            der Name des Messwerts.
+	 * @param wert
+	 *            der neue Zahlenwert.
+	 */
+	void setWert(String name, Number wert);
 
 }
