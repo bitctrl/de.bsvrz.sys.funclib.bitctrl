@@ -44,7 +44,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsNiederschlagsIntensit
 public class OdUfdsNiederschlagsIntensitaet extends AbstractOnlineDatensatz {
 
 	/** Die PID der Attributgruppe. */
-	public static final String ATG_UFDS_NIEDERSCHLAGS_INTENSITAET = "atg.ufdsNiederschlagsIntensitaet";
+	public static final String ATG_UFDS_NIEDERSCHLAGS_INTENSITAET = "atg.ufdsNiederschlagsIntensität";
 
 	/** Die PID des Aspekts. */
 	public static final String ASP_MESS_WERT_ERSETZUNG = "asp.messWertErsetzung";
