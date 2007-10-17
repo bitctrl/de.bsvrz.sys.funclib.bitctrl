@@ -37,7 +37,6 @@ import java.util.Set;
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.config.ConfigurationArea;
 import de.bsvrz.dav.daf.main.config.DataModel;
-import de.bsvrz.dav.daf.main.config.ObjectTimeSpecification;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dav.daf.main.config.SystemObjectType;
 import de.bsvrz.sys.funclib.bitctrl.daf.Konfigurationsbereich;
@@ -158,12 +157,14 @@ public final class ObjektFactory implements ModellObjektFactory {
 					}
 				} else if (obj instanceof SystemObjectType) {
 					// Alle Objekte des Typs suchen
-					List<SystemObjectType> liste;
-
-					liste = new ArrayList<SystemObjectType>();
-					liste.add((SystemObjectType) obj);
-					for (SystemObject so : dm.getObjects(null, liste,
-							ObjectTimeSpecification.valid())) {
+					SystemObjectType typ = (SystemObjectType) obj;
+					// List<SystemObjectType> liste;
+					//
+					// liste = new ArrayList<SystemObjectType>();
+					// liste.add((SystemObjectType) obj);
+					// for (SystemObject so : dm.getObjects(null, liste,
+					// ObjectTimeSpecification.valid())) {
+					for (SystemObject so : typ.getElements()) {
 						SystemObjekt objekt = getModellobjekt(so);
 						if (objekt != null) {
 							objekte.add(objekt);
