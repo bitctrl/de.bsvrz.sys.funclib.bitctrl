@@ -229,6 +229,10 @@ public abstract class AbstractDatensatz implements Datensatz {
 		 *             wenn die Daten nicht gesendet werden konnten.
 		 */
 		public void sende(Data daten) throws DatensendeException {
+			if (!angemeldet) {
+				throw new DatensendeException(
+						"Datensatz ist zum Senden nicht angemeldet.");
+			}
 			if (sendenErlaubt) {
 				ResultData datensatz = new ResultData(getObjekt()
 						.getSystemObject(), dbs, dav.getTime(), daten);
