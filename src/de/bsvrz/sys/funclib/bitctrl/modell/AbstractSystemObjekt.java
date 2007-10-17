@@ -26,7 +26,9 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -113,21 +115,8 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 			Class<? extends OnlineDatensatz> typ) {
 		if (!onlineDaten.containsKey(typ)) {
 			OnlineDatensatz od;
-			try {
-				od = typ.getConstructor(SystemObjekt.class).newInstance(this);
-			} catch (InstantiationException e) {
-				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ " kann nicht instantiiert werden:" + e.getMessage());
-			} catch (IllegalAccessException e) {
-				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ " kann nicht instantiiert werden:" + e.getMessage());
-			} catch (InvocationTargetException e) {
-				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ " kann nicht instantiiert werden:" + e.getMessage());
-			} catch (NoSuchMethodException e) {
-				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ " kann nicht instantiiert werden:" + e.getMessage());
-			}
+
+			od = (OnlineDatensatz) getDatensatz(typ);
 			if (getSystemObject().getType().getAttributeGroups().contains(
 					od.getAttributGruppe())) {
 				onlineDaten.put(typ, od);
@@ -157,21 +146,8 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 			Class<? extends ParameterDatensatz> typ) {
 		if (!parameter.containsKey(typ)) {
 			ParameterDatensatz pd;
-			try {
-				pd = typ.getConstructor(SystemObjekt.class).newInstance(this);
-			} catch (InstantiationException e) {
-				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ " kann nicht instantiiert werden:" + e.getMessage());
-			} catch (IllegalAccessException e) {
-				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ " kann nicht instantiiert werden:" + e.getMessage());
-			} catch (InvocationTargetException e) {
-				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ " kann nicht instantiiert werden:" + e.getMessage());
-			} catch (NoSuchMethodException e) {
-				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ " kann nicht instantiiert werden:" + e.getMessage());
-			}
+
+			pd = (ParameterDatensatz) getDatensatz(typ);
 			if (getSystemObject().getType().getAttributeGroups().contains(
 					pd.getAttributGruppe())) {
 				parameter.put(typ, pd);
@@ -209,5 +185,63 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	@Override
 	public String toString() {
 		return objekt.toString();
+	}
+
+	/**
+	 * Generiert aus der Datensatzklasse ein Objekt. Dazu muss ein
+	 * &ouml;ffentlicher Konstruktor existieren, der als einzigen Parameter ein
+	 * SystemObjekt entgegennimmt.
+	 * 
+	 * @param typ
+	 *            die Klasse eines Datensatzes.
+	 * @return ein Objekt der Klasse.
+	 */
+	private Datensatz getDatensatz(Class<? extends Datensatz> typ) {
+		if (Modifier.isAbstract(typ.getModifiers())
+				|| Modifier.isInterface(typ.getModifiers())) {
+			throw new IllegalArgumentException("Datensatz " + typ.getName()
+					+ " kann nicht instantiiert werden, da es sich um eine "
+					+ "Schnittstelle oder abstrakte Klasse handelt.");
+		}
+
+		for (Constructor<? extends Datensatz> c : typ.getConstructors()) {
+			Class<?>[] parameterTypes = c.getParameterTypes();
+
+			if (Modifier.isPublic(c.getModifiers())
+					&& parameterTypes.length == 1
+					&& parameterTypes[0].isAssignableFrom(getClass())) {
+				try {
+					return c.newInstance(this);
+				} catch (IllegalArgumentException ex) {
+					// Darf nicht mehr eintreten, weil geprüpft
+					throw new IllegalArgumentException("Datensatz "
+							+ typ.getName()
+							+ " kann nicht instantiiert werden:"
+							+ ex.getMessage());
+				} catch (InstantiationException ex) {
+					// Darf nicht mehr eintreten, weil geprüpft
+					throw new IllegalArgumentException("Datensatz "
+							+ typ.getName()
+							+ " kann nicht instantiiert werden:"
+							+ ex.getMessage());
+				} catch (IllegalAccessException ex) {
+					// Darf nicht mehr eintreten, weil geprüpft
+					throw new IllegalArgumentException("Datensatz "
+							+ typ.getName()
+							+ " kann nicht instantiiert werden:"
+							+ ex.getMessage());
+				} catch (InvocationTargetException ex) {
+					// Tritt ein, wenn der aufgerufene Konstruktor eine
+					// Exception geworfen hat
+					throw new IllegalArgumentException("Datensatz "
+							+ typ.getName()
+							+ " kann nicht instantiiert werden:"
+							+ ex.getMessage());
+				}
+			}
+		}
+		throw new IllegalArgumentException("Datensatz " + typ.getName()
+				+ " kann nicht instantiiert werden, da der öffentlicher "
+				+ "Konstruktor mit einem Parameter vom Typ SystemObjekt fehlt.");
 	}
 }
