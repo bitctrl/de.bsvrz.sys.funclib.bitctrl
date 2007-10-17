@@ -257,6 +257,10 @@ public abstract class AbstractDatensatz implements Datensatz {
 		 */
 		public void sende(Data daten, long zeitstempel)
 				throws DatensendeException {
+			if (!angemeldet) {
+				throw new DatensendeException(
+						"Der Datensatz wurde noch nicht zum Senden angemeldet.");
+			}
 			if (sendenErlaubt) {
 				ResultData datensatz = new ResultData(getObjekt()
 						.getSystemObject(), dbs, zeitstempel, daten);
