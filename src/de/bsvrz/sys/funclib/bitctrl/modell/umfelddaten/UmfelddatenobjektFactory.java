@@ -40,6 +40,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Fabrikmethode f&uuml;r gekapselte Systemobjekte aus dem Umfelddatenmodell.
@@ -71,6 +72,18 @@ public class UmfelddatenobjektFactory implements ModellObjektFactory {
 			obj = new UfdsHelligkeit(objekt);
 		} else if (objekt.isOfType(UMFELDDATENMESSSTELLE.getPid())) {
 			obj = new UmfeldDatenMessStelle(objekt);
+		} else if (objekt.isOfType(UmfelddatenModellTypen.UMFELDDATENSENSOR
+				.getPid())) {
+			// TODO Unbekannte Umfelddatensensoren ergänzen
+			Debug.getLogger().warning("Unbekannter Umfelddatensensor gefunden",
+					objekt);
+			obj = new AbstractUmfeldDatenSensor(objekt) {
+
+				public SystemObjektTyp getTyp() {
+					return UmfelddatenModellTypen.UMFELDDATENSENSOR;
+				}
+
+			};
 		}
 
 		return obj;
