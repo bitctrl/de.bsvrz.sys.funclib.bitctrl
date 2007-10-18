@@ -237,8 +237,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 * @throws DatensendeException
 		 *             wenn die Daten nicht gesendet werden konnten.
 		 */
-		public void sende(Data d, long zeitstempel)
-				throws DatensendeException {
+		public void sende(Data d, long zeitstempel) throws DatensendeException {
 			if (!angemeldet) {
 				throw new DatensendeException(
 						"Der Datensatz wurde noch nicht zum Senden angemeldet.");
@@ -453,13 +452,13 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * ge&auml;ndert wurde. Muss von {@link Datensatz#setDaten(ResultData)}
 	 * aufgerufen, nachdem das Datum des Datensatzes aktuallisiert wurde.
 	 * 
-	 * @param neu
+	 * @param datum
 	 *            das Datum zum Zeitpunkt des Events.
 	 * @see Datensatz#setDaten(ResultData)
 	 * @see #setDatum(Datum)
 	 */
-	protected synchronized void fireDatensatzAktualisiert(T neu) {
-		DatensatzUpdateEvent event = new DatensatzUpdateEvent(this, neu);
+	protected synchronized void fireDatensatzAktualisiert(T datum) {
+		DatensatzUpdateEvent event = new DatensatzUpdateEvent(this, datum);
 		for (DatensatzUpdateListener listener : listeners
 				.getListeners(DatensatzUpdateListener.class)) {
 			listener.datensatzAktualisiert(event);
