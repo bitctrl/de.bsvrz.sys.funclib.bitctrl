@@ -293,9 +293,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	/** Der Sender dieses Datensatzes. */
 	private final SynchronerSender sender;
 
-	/** Das Flag f&uuml;r die G&uuml;ltigkeit des Datensatzes. */
-	private boolean valid;
-
 	/** Das Systemobjekt. */
 	private final SystemObjekt objekt;
 
@@ -402,13 +399,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isValid() {
-		return valid;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public synchronized void removeUpdateListener(
 			DatensatzUpdateListener listener) {
 		listeners.remove(DatensatzUpdateListener.class, listener);
@@ -459,6 +449,27 @@ public abstract class AbstractDatensatz implements Datensatz {
 			dbs = new DataDescription(getAttributGruppe(), getEmpfangsAspekt());
 			datensatz = dav.getData(getObjekt().getSystemObject(), dbs, 0);
 			setDaten(datensatz);
+		}
+	}
+
+	/**
+	 * Pr&uuml;ft, ob das {@code ResultData} zum Datensatz geh&ouml;rt. Es wird
+	 * die Attributgruppe aus der Datenbeschreibung des {@code ResultData} mit
+	 * der Attributgruppe des Datensatzes.
+	 * <p>
+	 * Geh&ouml;hrt das {@code ResultData} nicht zum Datensatz wird eine
+	 * {@link IllegalArgumentException} geworfen.
+	 * 
+	 * @param result
+	 *            ein {@code ResultSet}.
+	 * @see Datensatz#getAttributGruppe()
+	 */
+	protected void checkAttributgruppe(ResultData result) {
+		if (!result.getDataDescription().getAttributeGroup().equals(
+				getAttributGruppe())) {
+			throw new IllegalArgumentException(
+					"Das Datum muss zur Attributgruppe " + getAttributGruppe()
+							+ " gehören.");
 		}
 	}
 
@@ -532,18 +543,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	 */
 	protected void setDatum(Datum datum) {
 		this.datum = datum;
-	}
-
-	/**
-	 * Setzt den Zustand des Datensatzes. Muss von abgeleiteten Klassen
-	 * aufgerufen werden, nachdem das Datum ge&auml;ndert wurde.
-	 * 
-	 * @param valid
-	 *            {@code true}, wenn der Datensatz ein g&uuml;ltiges Datum
-	 *            enth&auml;lt.
-	 */
-	protected void setValid(boolean valid) {
-		this.valid = valid;
 	}
 
 }

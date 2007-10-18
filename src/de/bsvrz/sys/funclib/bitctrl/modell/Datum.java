@@ -57,6 +57,14 @@ public interface Datum {
 	long getZeitstempel();
 
 	/**
+	 * Liste das Flag {@code valid}.
+	 * 
+	 * @return {@code false}, wenn der Datensatz ung&uuml;ltig ist (z.&nbsp;B.
+	 *         "keine Daten" oder "keine Quelle").
+	 */
+	boolean isValid();
+
+	/**
 	 * Legt den Zeitstempel des Datums fest.
 	 * 
 	 * @param zeitstempel

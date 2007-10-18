@@ -64,6 +64,8 @@ public class OdUfdsWindRichtung extends AbstractOnlineDatensatz {
 
 		}
 
+		/** Das Flag f&uuml;r die G&uuml;ltigkeit des Datensatzes. */
+		private boolean valid;
 		/** Windrichtung in Grad. */
 		private Integer windRichtung;
 
@@ -113,6 +115,13 @@ public class OdUfdsWindRichtung extends AbstractOnlineDatensatz {
 
 		/**
 		 * {@inheritDoc}
+		 */
+		public boolean isValid() {
+			return valid;
+		}
+
+		/**
+		 * {@inheritDoc}
 		 * 
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#setWert(java.lang.String,
 		 *      java.lang.Number)
@@ -127,6 +136,16 @@ public class OdUfdsWindRichtung extends AbstractOnlineDatensatz {
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + wert + ".");
 			}
+		}
+
+		/**
+		 * Setzt das Flag {@code valid} des Datum.
+		 * 
+		 * @param valid
+		 *            der neue Wert des Flags.
+		 */
+		protected void setValid(boolean valid) {
+			this.valid = valid;
 		}
 
 	}
@@ -188,28 +207,28 @@ public class OdUfdsWindRichtung extends AbstractOnlineDatensatz {
 	 * {@inheritDoc}
 	 */
 	public void setDaten(ResultData result) {
-		if (!result.getDataDescription().getAttributeGroup().equals(
-				getAttributGruppe())) {
-			throw new IllegalArgumentException(
-					"Das Datum muss zur Attributgruppe " + getAttributGruppe()
-							+ " gehören.");
-		}
+		checkAttributgruppe(result);
 
-		Data daten = result.getData();
-		NumberValue wert;
 		Daten datum = new Daten();
+		if (result.hasData()) {
+			Data daten = result.getData();
+			NumberValue wert;
 
-		wert = daten.getItem(Daten.Werte.WindRichtung.name()).getUnscaledValue(
-				"Wert");
-		if (wert.isState()) {
-			datum.setWert(Daten.Werte.WindRichtung.name(), null);
+			wert = daten.getItem(Daten.Werte.WindRichtung.name())
+					.getUnscaledValue("Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.WindRichtung.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.WindRichtung.name(), wert.intValue());
+			}
+
+			datum.setValid(true);
 		} else {
-			datum.setWert(Daten.Werte.WindRichtung.name(), wert.intValue());
+			datum.setValid(false);
 		}
 
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(datum);
-		setValid(true);
 		fireDatensatzAktualisiert(datum.clone());
 	}
 
