@@ -37,7 +37,6 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
-import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsWindGeschwindigkeitMittelWert;
@@ -49,7 +48,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsWindGeschwindigkeitMi
  * @version $Id$
  */
 public class OdUfdsWindGeschwindigkeitMittelWert extends
-		AbstractOnlineDatensatz {
+		AbstractOnlineDatensatz<OdUfdsWindGeschwindigkeitMittelWert.Daten> {
 
 	/**
 	 * Kapselt die Daten des Datensatzes.
@@ -189,7 +188,7 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#erzeugeDatum()
 	 */
-	public Datum erzeugeDatum() {
+	public Daten erzeugeDatum() {
 		return new Daten();
 	}
 
@@ -253,7 +252,7 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
 	 */
 	@Override
-	protected Data konvertiere(Datum d) {
+	protected Data konvertiere(Daten d) {
 		throw new UnsupportedOperationException();
 	}
 

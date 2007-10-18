@@ -37,7 +37,6 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
-import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsWindRichtung;
@@ -48,7 +47,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsWindRichtung;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class OdUfdsWindRichtung extends AbstractOnlineDatensatz {
+public class OdUfdsWindRichtung extends
+		AbstractOnlineDatensatz<OdUfdsWindRichtung.Daten> {
 
 	/**
 	 * Kapselt die Daten des Datensatzes.
@@ -186,7 +186,7 @@ public class OdUfdsWindRichtung extends AbstractOnlineDatensatz {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#erzeugeDatum()
 	 */
-	public Datum erzeugeDatum() {
+	public Daten erzeugeDatum() {
 		return new Daten();
 	}
 
@@ -248,7 +248,7 @@ public class OdUfdsWindRichtung extends AbstractOnlineDatensatz {
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
 	 */
 	@Override
-	protected Data konvertiere(Datum d) {
+	protected Data konvertiere(Daten d) {
 		throw new UnsupportedOperationException();
 	}
 
