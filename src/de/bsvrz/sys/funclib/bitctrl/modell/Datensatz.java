@@ -60,6 +60,17 @@ public interface Datensatz {
 	void anmeldenSender() throws AnmeldeException;
 
 	/**
+	 * Erzeugt ein leeres oder mit Standardwerten ausgef&uuml;lltes Datum des
+	 * Datensatzes. Dieses Datum kann nach dem Ausf&uuml;llen an den
+	 * Datenverteiler versandt werden.
+	 * 
+	 * @return das Datum.
+	 * 
+	 * @see #sendeDaten(Datum)
+	 */
+	Datum erzeugeDatum();
+
+	/**
 	 * Gibt die Attributgruppe zur&uuml;ck die diesem Datensatz entpricht.
 	 * 
 	 * @return die Attributgruppe die dem Datensatz entspricht.
@@ -105,26 +116,18 @@ public interface Datensatz {
 	void removeUpdateListener(DatensatzUpdateListener l);
 
 	/**
-	 * Veranlasst den Datensatz seinen Inhalt an den Datenverteiler zu
-	 * &uuml;bermitteln.
+	 * Veranlasst den Datensatz ein Datum an den Datenverteiler zusenden. Ist
+	 * der Zeitstempel des Datums nicht gesetzt oder gleich 0, wird automatisch
+	 * der aktuelle Zeitstempel beim Versand verwendet.
 	 * 
+	 * @param datum
+	 *            das zu sendende Datum.
 	 * @throws DatensendeException
 	 *             wenn die Daten nicht gesendet werden konnten. Der Sendecache
 	 *             wird in dem Fall nicht geleert.
+	 * @see #erzeugeDatum()
 	 */
-	void sendeDaten() throws DatensendeException;
-
-	/**
-	 * Veranlasst den Datensatz seinen Inhalt an den Datenverteiler zu
-	 * &uuml;bermitteln.
-	 * 
-	 * @param zeitstempel
-	 *            der Zeitstempel, mit dem die Daten versandt werden.
-	 * @throws DatensendeException
-	 *             wenn die Daten nicht gesendet werden konnten. Der Sendecache
-	 *             wird in dem Fall nicht geleert.
-	 */
-	void sendeDaten(long zeitstempel) throws DatensendeException;
+	void sendeDaten(Datum datum) throws DatensendeException;
 
 	/**
 	 * Liest das Datum aus und setzt dessen Inhalt als internen Zustand.

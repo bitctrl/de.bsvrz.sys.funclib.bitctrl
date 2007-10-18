@@ -37,6 +37,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsWindGeschwindigkeitMittelWert;
@@ -185,6 +186,15 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#erzeugeDatum()
+	 */
+	public Datum erzeugeDatum() {
+		return new Daten();
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public AttributeGroup getAttributGruppe() {
 		return atg;
@@ -213,7 +223,7 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 		checkAttributgruppe(result);
 
 		Daten datum = new Daten();
-		if (!result.hasData()) {
+		if (result.hasData()) {
 			Data daten = result.getData();
 			NumberValue wert;
 
@@ -235,6 +245,16 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(datum);
 		fireDatensatzAktualisiert(datum.clone());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	@Override
+	protected Data konvertiere(Datum d) {
+		throw new UnsupportedOperationException();
 	}
 
 }

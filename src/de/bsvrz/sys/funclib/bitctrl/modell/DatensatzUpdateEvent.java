@@ -65,6 +65,16 @@ public class DatensatzUpdateEvent extends EventObject {
 	}
 
 	/**
+	 * Gibt das zum Zeitpunktz des Events g&uuml;ltige Datum des ge&auml;nderten
+	 * Datensatzes zur&uuml;ck.
+	 * 
+	 * @return das Datum.
+	 */
+	public Datum getDatum() {
+		return datum;
+	}
+
+	/**
 	 * Gibt das Systemobjekt zur&uuml;ck, dessen Datensatz sich ge&auml;ndert
 	 * hat.
 	 * 

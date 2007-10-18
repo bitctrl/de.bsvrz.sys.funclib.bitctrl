@@ -229,36 +229,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 		 * 
 		 * @param daten
 		 *            ein zu sendentes Datum.
-		 * @throws DatensendeException
-		 *             wenn die Daten nicht gesendet werden konnten.
-		 */
-		public void sende(Data daten) throws DatensendeException {
-			if (!angemeldet) {
-				throw new DatensendeException(AbstractDatensatz.this,
-						"Datensatz ist zum Senden nicht angemeldet.");
-			}
-			if (isQuelle() || sendenErlaubt) {
-				// Quelle darf immer senden!
-				ResultData datensatz = new ResultData(getObjekt()
-						.getSystemObject(), dbs, dav.getTime(), daten);
-				try {
-					dav.sendData(datensatz);
-				} catch (DataNotSubscribedException ex) {
-					throw new DatensendeException(ex);
-				} catch (SendSubscriptionNotConfirmed ex) {
-					throw new DatensendeException(ex);
-				}
-			} else {
-				throw new DatensendeException(AbstractDatensatz.this,
-						"Die Sendesteuerung hat das Senden verboten.");
-			}
-		}
-
-		/**
-		 * F&uuml;gt ein Datum der Warteschlange des Senders hinzu.
-		 * 
-		 * @param daten
-		 *            ein zu sendentes Datum.
 		 * @param zeitstempel
 		 *            der Zeitstempel, mit dem die Datengesendet werden.
 		 * @throws DatensendeException
@@ -270,9 +240,11 @@ public abstract class AbstractDatensatz implements Datensatz {
 				throw new DatensendeException(
 						"Der Datensatz wurde noch nicht zum Senden angemeldet.");
 			}
-			if (sendenErlaubt) {
+
+			if (isQuelle() || sendenErlaubt) {
+				long z = zeitstempel > 0 ? zeitstempel : dav.getTime();
 				ResultData datensatz = new ResultData(getObjekt()
-						.getSystemObject(), dbs, zeitstempel, daten);
+						.getSystemObject(), dbs, z, daten);
 				try {
 					dav.sendData(datensatz);
 				} catch (DataNotSubscribedException ex) {
@@ -301,9 +273,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 
 	/** Kapselt die aktuellen Daten des Datensatzes. */
 	private Datum datum;
-
-	/** Der Sendecache. */
-	private Data sendeCache;
 
 	/**
 	 * Konstruktor.
@@ -410,17 +379,8 @@ public abstract class AbstractDatensatz implements Datensatz {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void sendeDaten() throws DatensendeException {
-		sender.sende(getSendeCache());
-		sendeCache = null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void sendeDaten(long zeitstempel) throws DatensendeException {
-		sender.sende(getSendeCache(), zeitstempel);
-		sendeCache = null;
+	public void sendeDaten(Datum d) throws DatensendeException {
+		sender.sende(konvertiere(d), d.getZeitstempel());
 	}
 
 	/**
@@ -474,12 +434,26 @@ public abstract class AbstractDatensatz implements Datensatz {
 	}
 
 	/**
+	 * Gibt einen leeren Sendecache zur&uuml;ck.
+	 * 
+	 * @return ein leeres {@code Data}.
+	 * @see #konvertiere(Datum)
+	 */
+	protected Data erzeugeSendeCache() {
+		return ObjektFactory.getInstanz().getVerbindung().createData(
+				getAttributGruppe());
+	}
+
+	/**
 	 * Benachricht registrierte Listener &uuml;ber &Auml;nderungen am Datensatz.
 	 * Muss von abgeleiteten Klassen aufgerufen werden, wenn das Datum
-	 * ge&auml;ndert wurde.
+	 * ge&auml;ndert wurde. Muss von {@link Datensatz#setDaten(ResultData)}
+	 * aufgerufen, nachdem das Datum des Datensatzes aktuallisiert wurde.
 	 * 
 	 * @param neu
 	 *            das Datum zum Zeitpunkt des Events.
+	 * @see Datensatz#setDaten(ResultData)
+	 * @see #setDatum(Datum)
 	 */
 	protected synchronized void fireDatensatzAktualisiert(Datum neu) {
 		DatensatzUpdateEvent event = new DatensatzUpdateEvent(this, neu);
@@ -504,23 +478,6 @@ public abstract class AbstractDatensatz implements Datensatz {
 	protected abstract Aspect getSendeAspekt();
 
 	/**
-	 * Gibt den Sendecache zur&uuml;ck. Ist der Cache leer (z.&nbsp;B. nach dem
-	 * Senden), wird ein neues Datum angelegt. Datensatz&auml;nderungen werden
-	 * am Cache durchgef&uuml;hrt und anschlie&szlig;end mit
-	 * {@link #sendeDaten()} gesammelt gesendet.
-	 * 
-	 * @return der Sendecache.
-	 * @see #sendeDaten()
-	 */
-	protected Data getSendeCache() {
-		if (sendeCache == null) {
-			sendeCache = ObjektFactory.getInstanz().getVerbindung().createData(
-					getAttributGruppe());
-		}
-		return sendeCache;
-	}
-
-	/**
 	 * Gibt an, ob der Datensatz als Quelle oder Sender angemeldet werden soll.
 	 * 
 	 * @return {@code true}, wenn die Anmeldung als Quelle erfolgen soll.
@@ -536,10 +493,23 @@ public abstract class AbstractDatensatz implements Datensatz {
 	protected abstract boolean isSenke();
 
 	/**
-	 * Legt die aktuellen Daten fest.
+	 * Erzeugt aus dem Datum ein f&uuml;r den Datenverteiler verst&auml;ndliches
+	 * Objekt.
+	 * 
+	 * @param d
+	 *            ein Datum, welches konvertiert werden soll.
+	 * @return der Sendecache.
+	 */
+	protected abstract Data konvertiere(Datum d);
+
+	/**
+	 * Legt die aktuellen Daten fest. Muss von
+	 * {@link Datensatz#setDaten(ResultData)} aufgerufen werden.
 	 * 
 	 * @param datum
 	 *            das neuen Datum.
+	 * @see Datensatz#setDaten(ResultData)
+	 * @see #fireDatensatzAktualisiert(Datum)
 	 */
 	protected void setDatum(Datum datum) {
 		this.datum = datum;
