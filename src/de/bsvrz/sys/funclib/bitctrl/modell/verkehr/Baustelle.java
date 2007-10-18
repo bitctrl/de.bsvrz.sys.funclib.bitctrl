@@ -93,14 +93,26 @@ public class Baustelle extends Situation {
 		netze.add(netz);
 	}
 
+	/**
+	 * liefert den Datensatz der die Eigenschaften einer Baustelle definiert.
+	 * 
+	 * @return den Datensatz
+	 */
 	public PdBaustellenEigenschaften getBaustellenEigenschaften() {
 		return (PdBaustellenEigenschaften) getParameterDatensatz(PdBaustellenEigenschaften.class);
 	}
 
-	public String getFolgeKnotenName() {
-		String result = "unbekannt";
+	/**
+	 * liefert den in Fahrtrichtung auf die Baustelle folgenden Straßenknoten.
+	 * Wird kein Knoten gefunden liefert die Funktion den Wert <code>null</code>
+	 * zurück.
+	 * 
+	 * @return den Knoten oder <code>null</code>
+	 */
+	public StrassenKnoten getFolgeKnoten() {
+		StrassenKnoten result = null;
 		PdSituationsEigenschaften daten = getSituationsEigenschaften();
-		List<StrassenSegment> segmente = daten.getSegmente();
+		List<StrassenSegment> segmente = daten.getDatum().getSegmente();
 		if (segmente.size() > 0) {
 			StrassenSegment segment = segmente.get(0);
 			if (segment instanceof InneresStrassenSegment) {
@@ -110,7 +122,7 @@ public class Baustelle extends Situation {
 				StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
 						.getNachKnoten();
 				if (knoten != null) {
-					result = knoten.getName();
+					result = knoten;
 				}
 			}
 
@@ -118,14 +130,21 @@ public class Baustelle extends Situation {
 		return result;
 	}
 
+	/**
+	 * liefert die Länge der Baustelle als Summe der Längen der beteiligten
+	 * Straßensegemente abzüglich des Endoffsets und des Startoffsets.
+	 * 
+	 * @return die Länge
+	 */
 	public double getLaenge() {
 		double result = 0;
 		PdSituationsEigenschaften daten = getSituationsEigenschaften();
-		for (StrassenSegment segment : daten.getSegmente()) {
+		for (StrassenSegment segment : daten.getDatum().getSegmente()) {
 			result += segment.getLaenge();
 		}
 
-		result -= (daten.getStartOffset() + daten.getEndOffset());
+		result -= (daten.getDatum().getStartOffset() + daten.getDatum()
+				.getEndOffset());
 		return result;
 	}
 
@@ -148,7 +167,7 @@ public class Baustelle extends Situation {
 	public Strasse getStrasse() {
 		Strasse result = null;
 		List<StrassenSegment> segmente = getSituationsEigenschaften()
-				.getSegmente();
+				.getDatum().getSegmente();
 		if (segmente.size() > 0) {
 			StrassenSegment segment = segmente.get(0);
 			result = segment.getStrasse();

@@ -27,8 +27,11 @@
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter;
 
 import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
+import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.BaustellenStatus;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.BaustellenVeranlasser;
@@ -44,25 +47,108 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.BaustellenVeranlasser;
 public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 
 	/**
-	 * die Attributgruppe, in der die Eigenschaften enthaöten sind.
+	 * Repräsentation der Daten des Baustelleneigenschaften-Datensatzes.
+	 * 
+	 * @author BitCtrl Systems GmbH, Peuker
+	 * @version $Id$
+	 */
+	public class Daten extends AbstractDatum {
+
+		/**
+		 * Restkapazität während der Gültigkeitsdauer der Baustelle.
+		 * ("RestKapazität")
+		 */
+		private final long restKapazitaet;
+		/**
+		 * Zustand der Baustelle. ("Status")
+		 */
+		private final BaustellenStatus status;
+		/**
+		 * Veranlasser der Baustelle (BIS-System oder VRZ). ("Veranlasser")
+		 */
+		private final BaustellenVeranlasser veranlasser;
+
+		/**
+		 * Konstruktor.<br>
+		 * Die Funktion erzeugt ein Datum als Kopie des übergebenen Datums.
+		 * 
+		 * @param daten
+		 *            die Daten die kopiert werden sollen
+		 */
+		public Daten(Daten daten) {
+			this.restKapazitaet = daten.restKapazitaet;
+			this.status = daten.status;
+			this.veranlasser = daten.veranlasser;
+			setZeitstempel(daten.getZeitstempel());
+		}
+
+		/**
+		 * Konstruktor.<br>
+		 * Die Funktion wertet den vom Datenverteiler empfangenen Datensatz aus
+		 * und füllt die Daten entsprechend.
+		 * 
+		 * @param result
+		 *            der übergebene Datensatz
+		 */
+		public Daten(ResultData result) {
+			setZeitstempel(result.getDataTime());
+			Data daten = result.getData();
+			if (daten == null) {
+				status = BaustellenStatus.ENTWORFEN;
+				veranlasser = BaustellenVeranlasser.UNDEFINIERT;
+				restKapazitaet = 0;
+			} else {
+				status = BaustellenStatus.getStatus(daten.getUnscaledValue(
+						"Status").intValue());
+				restKapazitaet = daten.getScaledValue("RestKapazität")
+						.longValue();
+				veranlasser = BaustellenVeranlasser.getVeranlasser(daten
+						.getUnscaledValue("Veranlasser").intValue());
+			}
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum#clone()
+		 */
+		@Override
+		public Datum clone() {
+			return new Daten(this);
+		}
+
+		/**
+		 * liefert die Restkapazität der Baustelle.
+		 * 
+		 * @return die Restkapazität
+		 */
+		public long getRestKapazitaet() {
+			return restKapazitaet;
+		}
+
+		/**
+		 * liefert den Status der Baustelle.
+		 * 
+		 * @return der Status
+		 */
+		public BaustellenStatus getStatus() {
+			return status;
+		}
+
+		/**
+		 * liefert den Veranlassser der Baustelle.
+		 * 
+		 * @return den Veranlasser
+		 */
+		public BaustellenVeranlasser getVeranlasser() {
+			return veranlasser;
+		}
+	}
+
+	/**
+	 * die Attributgruppe, in der die Eigenschaften enthalten sind.
 	 */
 	private static AttributeGroup attributGruppe;
-
-	/**
-	 * Zustand der Baustelle. ("Status")
-	 */
-	private BaustellenStatus status = BaustellenStatus.ENTWORFEN;
-
-	/**
-	 * Restkapazität während der Gültigkeitsdauer der Baustelle.
-	 * ("RestKapazität")
-	 */
-	private long restKapazitaet;
-
-	/**
-	 * Veranlasser der Baustelle (BIS-System oder VRZ). ("Veranlasser")
-	 */
-	private BaustellenVeranlasser veranlasser = BaustellenVeranlasser.UNDEFINIERT;
 
 	/**
 	 * Konstruktor.<br>
@@ -101,30 +187,13 @@ public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 	}
 
 	/**
-	 * liefert die Restkapazität der Baustelle.
+	 * {@inheritDoc}.<br>
 	 * 
-	 * @return die Restkapazität
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getDatum()
 	 */
-	public long getRestKapazitaet() {
-		return restKapazitaet;
-	}
-
-	/**
-	 * liefert den Status der Baustelle.
-	 * 
-	 * @return der Status
-	 */
-	public BaustellenStatus getStatus() {
-		return status;
-	}
-
-	/**
-	 * liefert den Veranlassser der Baustelle.
-	 * 
-	 * @return den Veranlasser
-	 */
-	public BaustellenVeranlasser getVeranlasser() {
-		return veranlasser;
+	@Override
+	public Daten getDatum() {
+		return (Daten) super.getDatum();
 	}
 
 	/**
@@ -143,13 +212,8 @@ public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.Data)
 	 */
-	public void setDaten(Data daten) {
-		if (daten != null) {
-			status = BaustellenStatus.getStatus(daten
-					.getUnscaledValue("Status").intValue());
-			restKapazitaet = daten.getScaledValue("RestKapazität").longValue();
-			veranlasser = BaustellenVeranlasser.getVeranlasser(daten
-					.getUnscaledValue("Veranlasser").intValue());
-		}
+	public void setDaten(ResultData daten) {
+		setDatum(new Daten(daten));
 	}
+
 }

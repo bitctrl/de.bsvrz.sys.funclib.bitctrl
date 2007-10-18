@@ -30,8 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
+import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StrassenSegment;
@@ -47,37 +50,147 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StrassenSegment;
 public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 
 	/**
+	 * Die Repräsentation der Daten des Situationseigenschaften-Datensatzes.
+	 * 
+	 * @author BitCtrl Systems GmbH, Peuker
+	 * @version $Id$
+	 */
+	public class Daten extends AbstractDatum {
+
+		/**
+		 * Dauer des Situation (sofern bekannt). Eintrag von 0 ms bedeutet //
+		 * unbekannte (unendliche) Dauer. ("Dauer")
+		 */
+		private final long dauer;
+		/**
+		 * Position des Situationsendes im letzten Straßensegment. ("EndOffset")
+		 */
+		private final long endOffset;
+		/**
+		 * Referenzen auf alle Straßensegmente, über die sich die Situation
+		 * ausbreitet. ("StraßenSegment")
+		 */
+		private final List<StrassenSegment> segmente = new ArrayList<StrassenSegment>();
+		/**
+		 * Position des Situationsanfangs im ersten Straßensegment.
+		 * ("StartOffset")
+		 */
+		private final long startOffset;
+		/**
+		 * Startzeitpunkt der Situation (Staubeginn, Baustellenbeginn, // etc.).
+		 * ("StartZeit")
+		 */
+		private final long startZeit;
+
+		/**
+		 * Konstruktor zu Erstellen einer Kopie des übergebenen Datums.
+		 * 
+		 * @param daten
+		 *            das zu kopierende Datum
+		 */
+		private Daten(Daten daten) {
+			setZeitstempel(daten.getZeitstempel());
+			startZeit = daten.startZeit;
+			dauer = daten.dauer;
+			startOffset = daten.startOffset;
+			endOffset = daten.endOffset;
+			segmente.addAll(daten.segmente);
+		}
+
+		/**
+		 * Konstruktor.<br>
+		 * Die Funktion erzeugt eine Instnz des Datums und füllt dieses mit dem
+		 * Inhalt des übergebenen Datenverteiler-Datensatzes.
+		 * 
+		 * @param result
+		 *            die vom Datenverteiler empfangenen Dtaen
+		 */
+		public Daten(ResultData result) {
+			setZeitstempel(result.getDataTime());
+			Data daten = result.getData();
+			if (daten != null) {
+				startZeit = daten.getTimeValue("StartZeit").getMillis();
+				dauer = daten.getTimeValue("Dauer").getMillis();
+				Data.Array segmentArray = daten.getArray("StraßenSegment");
+				for (int idx = 0; idx < segmentArray.getLength(); idx++) {
+					segmente.add((StrassenSegment) ObjektFactory.getInstanz()
+							.getModellobjekt(
+									segmentArray.getReferenceValue(idx)
+											.getSystemObject()));
+				}
+				startOffset = daten.getUnscaledValue("StartOffset").longValue();
+				endOffset = daten.getUnscaledValue("EndOffset").longValue();
+			} else {
+				startZeit = Long.MAX_VALUE;
+				dauer = 0;
+				startOffset = 0;
+				endOffset = 0;
+			}
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum#clone()
+		 */
+		@Override
+		public Datum clone() {
+			return new Daten(this);
+		}
+
+		/**
+		 * liefert die Dauer der Situation.
+		 * 
+		 * @return die Dauer
+		 */
+		public long getDauer() {
+			return dauer;
+		}
+
+		/**
+		 * liefert die Position des Situationsendes im letzten Straßensegment.
+		 * 
+		 * @return der Offset
+		 */
+		public long getEndOffset() {
+			return endOffset;
+		}
+
+		/**
+		 * Referenzen auf alle Straßensegmente, über die sich die Situation
+		 * ausbreitet.
+		 * 
+		 * @return die Liste der Segmente
+		 */
+		public List<StrassenSegment> getSegmente() {
+			return segmente;
+		}
+
+		/**
+		 * liefert die Position des Situationsanfangs im ersten Straßensegment.
+		 * 
+		 * @return den Offset
+		 */
+		public long getStartOffset() {
+			return startOffset;
+		}
+
+		/**
+		 * liefert den Startzeitpunkt der Situation (Staubeginn,
+		 * Baustellenbeginn, // etc.).
+		 * 
+		 * @return den Zeitpunkt
+		 */
+		public long getStartZeit() {
+			return startZeit;
+		}
+
+	}
+
+	/**
 	 * die Attributgruppe für den Zugriff auf die Parameter.
 	 */
 	private static AttributeGroup attributGruppe;
-
-	/**
-	 * Startzeitpunkt der Situation (Staubeginn, Baustellenbeginn, // etc.).
-	 * ("StartZeit")
-	 */
-	private long startZeit;
-
-	/**
-	 * Dauer des Situation (sofern bekannt). Eintrag von 0 ms bedeutet //
-	 * unbekannte (unendliche) Dauer. ("Dauer")
-	 */
-	private long dauer;
-
-	/**
-	 * Referenzen auf alle Straßensegmente, über die sich die Situation
-	 * ausbreitet. ("StraßenSegment")
-	 */
-	private final List<StrassenSegment> segmente = new ArrayList<StrassenSegment>();
-
-	/**
-	 * Position des Situationsanfangs im ersten Straßensegment. ("StartOffset")
-	 */
-	long startOffset;
-
-	/**
-	 * Position des Situationsendes im letzten Straßensegment. ("EndOffset")
-	 */
-	long endOffset;
 
 	/**
 	 * Konstruktor.<br>
@@ -116,50 +229,13 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 	}
 
 	/**
-	 * liefert die Dauer der Situation.
+	 * {@inheritDoc}.<br>
 	 * 
-	 * @return die Dauer
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getDatum()
 	 */
-	public long getDauer() {
-		return dauer;
-	}
-
-	/**
-	 * liefert die Position des Situationsendes im letzten Straßensegment.
-	 * 
-	 * @return der Offset
-	 */
-	public long getEndOffset() {
-		return endOffset;
-	}
-
-	/**
-	 * Referenzen auf alle Straßensegmente, über die sich die Situation
-	 * ausbreitet.
-	 * 
-	 * @return die Liste der Segmente
-	 */
-	public List<StrassenSegment> getSegmente() {
-		return segmente;
-	}
-
-	/**
-	 * liefert die Position des Situationsanfangs im ersten Straßensegment.
-	 * 
-	 * @return den Offset
-	 */
-	public long getStartOffset() {
-		return startOffset;
-	}
-
-	/**
-	 * liefert den Startzeitpunkt der Situation (Staubeginn, Baustellenbeginn, //
-	 * etc.).
-	 * 
-	 * @return den Zeitpunkt
-	 */
-	public long getStartZeit() {
-		return startZeit;
+	@Override
+	public Daten getDatum() {
+		return (Daten) super.getDatum();
 	}
 
 	/**
@@ -178,20 +254,7 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.Data)
 	 */
-	public void setDaten(Data daten) {
-		if (daten != null) {
-			startZeit = daten.getTimeValue("StartZeit").getMillis();
-			dauer = daten.getTimeValue("Dauer").getMillis();
-			segmente.clear();
-			Data.Array segmentArray = daten.getArray("StraßenSegment");
-			for (int idx = 0; idx < segmentArray.getLength(); idx++) {
-				segmente.add((StrassenSegment) ObjektFactory.getInstanz()
-						.getModellobjekt(
-								segmentArray.getReferenceValue(idx)
-										.getSystemObject()));
-			}
-			startOffset = daten.getUnscaledValue("StartOffset").longValue();
-			endOffset = daten.getUnscaledValue("EndOffset").longValue();
-		}
+	public void setDaten(ResultData result) {
+		setDatum(new Daten(result));
 	}
 }
