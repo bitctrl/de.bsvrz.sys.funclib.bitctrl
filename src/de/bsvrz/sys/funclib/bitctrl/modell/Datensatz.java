@@ -34,8 +34,10 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
+ * @param <T>
+ *            Der Typ des Datums den der Datensatz sichert.
  */
-public interface Datensatz {
+public interface Datensatz<T extends Datum> {
 
 	/**
 	 * Meldet eine eventuell vorhandene Anmeldung als Sender oder Quelle wieder
@@ -68,7 +70,7 @@ public interface Datensatz {
 	 * 
 	 * @see #sendeDaten(Datum)
 	 */
-	Datum erzeugeDatum();
+	T erzeugeDatum();
 
 	/**
 	 * Gibt die Attributgruppe zur&uuml;ck die diesem Datensatz entpricht.
@@ -82,7 +84,7 @@ public interface Datensatz {
 	 * 
 	 * @return ein Datum, welches die Daten des Datensatzes kapselt.
 	 */
-	Datum getDatum();
+	T getDatum();
 
 	/**
 	 * Gibt das Systemobjekt zur&uuml;ck, zu dem der Datensatz geh&ouml;rt.
@@ -127,7 +129,7 @@ public interface Datensatz {
 	 *             wird in dem Fall nicht geleert.
 	 * @see #erzeugeDatum()
 	 */
-	void sendeDaten(Datum datum) throws DatensendeException;
+	void sendeDaten(T datum) throws DatensendeException;
 
 	/**
 	 * Liest das Datum aus und setzt dessen Inhalt als internen Zustand.

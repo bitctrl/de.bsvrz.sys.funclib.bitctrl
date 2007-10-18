@@ -35,9 +35,11 @@ import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
+ * @param <T>
+ *            Der Typ des Datums den der Datensatz sichert.
  */
-public abstract class AbstractParameterDatensatz extends AbstractDatensatz
-		implements ParameterDatensatz {
+public abstract class AbstractParameterDatensatz<T extends Datum> extends
+		AbstractDatensatz<T> implements ParameterDatensatz<T> {
 
 	/** Der Aspaket mit dem Parameter empfangen werden. */
 	private static Aspect receiverAsp;

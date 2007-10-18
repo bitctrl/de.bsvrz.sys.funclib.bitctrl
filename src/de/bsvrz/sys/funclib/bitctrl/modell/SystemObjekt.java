@@ -38,6 +38,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
+ * 
  */
 public interface SystemObjekt {
 
@@ -67,7 +68,7 @@ public interface SystemObjekt {
 	 * 
 	 * @return die Menge der aktuell verwendeten Onlinedatens&auml;tze.
 	 */
-	Collection<? extends OnlineDatensatz> getOnlineDatensatz();
+	Collection<? extends OnlineDatensatz<?>> getOnlineDatensatz();
 
 	/**
 	 * Gibt einen bestimmten Onlinedatensatz zur&uuml;ck. Es wird gepr&uuml;ft,
@@ -77,7 +78,8 @@ public interface SystemObjekt {
 	 *            der Typ des Datensatzes.
 	 * @return der Datensatz.
 	 */
-	OnlineDatensatz getOnlineDatensatz(Class<? extends OnlineDatensatz> typ);
+	OnlineDatensatz<?> getOnlineDatensatz(
+			Class<? extends OnlineDatensatz<?>> typ);
 
 	/**
 	 * Gibt alle aktuell verwendeten Parameterdatens&auml;tze des Systemobjekts
@@ -89,7 +91,7 @@ public interface SystemObjekt {
 	 * 
 	 * @return die Menge der aktuell verwendeten Onlinedatens&auml;tze.
 	 */
-	Collection<? extends ParameterDatensatz> getParameterDatensatz();
+	Collection<? extends ParameterDatensatz<?>> getParameterDatensatz();
 
 	/**
 	 * Gibt einen bestimmten Parameterdatensatz zur&uuml;ck. Es wird
@@ -99,8 +101,8 @@ public interface SystemObjekt {
 	 *            der Typ des Datensatzes.
 	 * @return der Datensatz.
 	 */
-	ParameterDatensatz getParameterDatensatz(
-			Class<? extends ParameterDatensatz> typ);
+	ParameterDatensatz<?> getParameterDatensatz(
+			Class<? extends ParameterDatensatz<?>> typ);
 
 	/**
 	 * Gibt die PID des Systemobjekts zur&uuml;ck.

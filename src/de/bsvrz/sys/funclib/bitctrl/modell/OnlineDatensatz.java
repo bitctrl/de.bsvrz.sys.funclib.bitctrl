@@ -33,8 +33,10 @@ import de.bsvrz.dav.daf.main.config.Aspect;
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
+ * @param <T>
+ *            Der Typ des Datums den der Datensatz sichert.
  */
-public interface OnlineDatensatz extends Datensatz {
+public interface OnlineDatensatz<T extends Datum> extends Datensatz<T> {
 
 	/**
 	 * Gibt den Aspekt zur&uuml;ck, mit dem Daten empfangen werden.

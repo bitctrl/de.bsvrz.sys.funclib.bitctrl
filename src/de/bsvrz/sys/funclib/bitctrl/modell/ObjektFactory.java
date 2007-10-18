@@ -60,7 +60,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 * Enth&auml;lt die Datens&auml;tze die einem bestimmten Systemobjekt von
 	 * der Factory initial hinzugef&uuml;gt werden.
 	 */
-	private static final Map<Class<? extends SystemObjekt>, Set<Class<? extends Datensatz>>> DEFAULT = new HashMap<Class<? extends SystemObjekt>, Set<Class<? extends Datensatz>>>();
+	private static final Map<Class<? extends SystemObjekt>, Set<Class<? extends Datensatz<?>>>> DEFAULT = new HashMap<Class<? extends SystemObjekt>, Set<Class<? extends Datensatz<?>>>>();
 
 	/**
 	 * Veranlasst die Factory f&uuml;r ein bestimmtes Systemobjekt initial
@@ -76,9 +76,9 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 *            die Klasse eines passenden Parameters oder Onlinedatensatzes.
 	 */
 	public static void addParameter(Class<? extends SystemObjekt> klasse,
-			Class<? extends Datensatz> datensatz) {
+			Class<? extends Datensatz<?>> datensatz) {
 		if (DEFAULT.get(klasse) == null) {
-			DEFAULT.put(klasse, new HashSet<Class<? extends Datensatz>>());
+			DEFAULT.put(klasse, new HashSet<Class<? extends Datensatz<?>>>());
 		}
 		DEFAULT.get(klasse).add(datensatz);
 	}
@@ -235,15 +235,15 @@ public final class ObjektFactory implements ModellObjektFactory {
 		if (so != null) {
 			for (Class<? extends SystemObjekt> co : DEFAULT.keySet()) {
 				if (co.isInstance(so)) {
-					for (Class<? extends Datensatz> cd : DEFAULT.get(co)) {
+					for (Class<? extends Datensatz<?>> cd : DEFAULT.get(co)) {
 						if (cd.isAssignableFrom(OnlineDatensatz.class)) {
 							so
-									.getOnlineDatensatz((Class<? extends OnlineDatensatz>) cd);
+									.getOnlineDatensatz((Class<? extends OnlineDatensatz<?>>) cd);
 						} else {
 							assert cd
 									.isAssignableFrom(ParameterDatensatz.class);
 							so
-									.getParameterDatensatz((Class<? extends ParameterDatensatz>) cd);
+									.getParameterDatensatz((Class<? extends ParameterDatensatz<?>>) cd);
 						}
 					}
 				}

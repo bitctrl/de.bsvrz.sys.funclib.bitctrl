@@ -31,8 +31,10 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
+ * @param <T>
+ *            Der Typ des Datums den der Datensatz sichert.
  */
-public interface ParameterDatensatz extends Datensatz {
+public interface ParameterDatensatz<T extends Datum> extends Datensatz<T> {
 
 	// nix
 

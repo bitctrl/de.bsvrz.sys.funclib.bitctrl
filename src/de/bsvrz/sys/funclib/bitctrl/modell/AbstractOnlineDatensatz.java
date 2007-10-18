@@ -26,15 +26,16 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
-
 /**
  * Implementiert gemeinsame Funktionen von Onlinedatens&auml;tzen.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
+ * @param <T>
+ *            Der Typ des Datums den der Datensatz sichert.
  */
-public abstract class AbstractOnlineDatensatz extends AbstractDatensatz
-		implements OnlineDatensatz {
+public abstract class AbstractOnlineDatensatz<T extends Datum> extends
+		AbstractDatensatz<T> implements OnlineDatensatz<T> {
 
 	/** Flag ob dieser Datensatz als Quelle angemeldet werden soll. */
 	private boolean quelle;

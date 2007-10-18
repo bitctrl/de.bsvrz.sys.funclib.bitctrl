@@ -48,8 +48,11 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
+ * @param <T>
+ *            Der Typ des Datums den der Datensatz sichert.
  */
-public abstract class AbstractDatensatz implements Datensatz {
+public abstract class AbstractDatensatz<T extends Datum> implements
+		Datensatz<T> {
 
 	/**
 	 * Der Empf&auml;nger wird in einer internen Klasse vor dem Anwender
@@ -227,14 +230,14 @@ public abstract class AbstractDatensatz implements Datensatz {
 		/**
 		 * F&uuml;gt ein Datum der Warteschlange des Senders hinzu.
 		 * 
-		 * @param daten
+		 * @param d
 		 *            ein zu sendentes Datum.
 		 * @param zeitstempel
 		 *            der Zeitstempel, mit dem die Datengesendet werden.
 		 * @throws DatensendeException
 		 *             wenn die Daten nicht gesendet werden konnten.
 		 */
-		public void sende(Data daten, long zeitstempel)
+		public void sende(Data d, long zeitstempel)
 				throws DatensendeException {
 			if (!angemeldet) {
 				throw new DatensendeException(
@@ -244,7 +247,7 @@ public abstract class AbstractDatensatz implements Datensatz {
 			if (isQuelle() || sendenErlaubt) {
 				long z = zeitstempel > 0 ? zeitstempel : dav.getTime();
 				ResultData datensatz = new ResultData(getObjekt()
-						.getSystemObject(), dbs, z, daten);
+						.getSystemObject(), dbs, z, d);
 				try {
 					dav.sendData(datensatz);
 				} catch (DataNotSubscribedException ex) {
@@ -272,7 +275,7 @@ public abstract class AbstractDatensatz implements Datensatz {
 	private final EventListenerList listeners = new EventListenerList();
 
 	/** Kapselt die aktuellen Daten des Datensatzes. */
-	private Datum datum;
+	private T daten;
 
 	/**
 	 * Konstruktor.
@@ -324,7 +327,7 @@ public abstract class AbstractDatensatz implements Datensatz {
 	public boolean equals(Object obj) {
 		boolean result = false;
 		if (obj instanceof AbstractDatensatz) {
-			AbstractDatensatz ds = (AbstractDatensatz) obj;
+			AbstractDatensatz<?> ds = (AbstractDatensatz<?>) obj;
 			result = getObjekt().equals(ds.getObjekt())
 					&& (getAttributGruppe().equals(ds.getAttributGruppe()));
 		}
@@ -336,8 +339,8 @@ public abstract class AbstractDatensatz implements Datensatz {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getDatum()
 	 */
-	public Datum getDatum() {
-		return datum;
+	public T getDatum() {
+		return daten;
 	}
 
 	/**
@@ -379,7 +382,7 @@ public abstract class AbstractDatensatz implements Datensatz {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void sendeDaten(Datum d) throws DatensendeException {
+	public void sendeDaten(T d) throws DatensendeException {
 		sender.sende(konvertiere(d), d.getZeitstempel());
 	}
 
@@ -455,7 +458,7 @@ public abstract class AbstractDatensatz implements Datensatz {
 	 * @see Datensatz#setDaten(ResultData)
 	 * @see #setDatum(Datum)
 	 */
-	protected synchronized void fireDatensatzAktualisiert(Datum neu) {
+	protected synchronized void fireDatensatzAktualisiert(T neu) {
 		DatensatzUpdateEvent event = new DatensatzUpdateEvent(this, neu);
 		for (DatensatzUpdateListener listener : listeners
 				.getListeners(DatensatzUpdateListener.class)) {
@@ -496,11 +499,11 @@ public abstract class AbstractDatensatz implements Datensatz {
 	 * Erzeugt aus dem Datum ein f&uuml;r den Datenverteiler verst&auml;ndliches
 	 * Objekt.
 	 * 
-	 * @param d
+	 * @param datum
 	 *            ein Datum, welches konvertiert werden soll.
 	 * @return der Sendecache.
 	 */
-	protected abstract Data konvertiere(Datum d);
+	protected abstract Data konvertiere(T datum);
 
 	/**
 	 * Legt die aktuellen Daten fest. Muss von
@@ -511,8 +514,8 @@ public abstract class AbstractDatensatz implements Datensatz {
 	 * @see Datensatz#setDaten(ResultData)
 	 * @see #fireDatensatzAktualisiert(Datum)
 	 */
-	protected void setDatum(Datum datum) {
-		this.datum = datum;
+	protected void setDatum(T datum) {
+		this.daten = datum;
 	}
 
 }

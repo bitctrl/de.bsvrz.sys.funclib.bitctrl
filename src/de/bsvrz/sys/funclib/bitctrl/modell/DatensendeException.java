@@ -54,7 +54,7 @@ public class DatensendeException extends Exception {
 	 * @param message
 	 *            eine Fehlernachricht.
 	 */
-	public DatensendeException(Datensatz datensatz, String message) {
+	public DatensendeException(Datensatz<?> datensatz, String message) {
 		super(message + " [datensatz=" + datensatz + "]");
 	}
 

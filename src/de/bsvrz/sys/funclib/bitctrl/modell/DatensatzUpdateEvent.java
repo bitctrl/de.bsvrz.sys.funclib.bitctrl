@@ -50,7 +50,7 @@ public class DatensatzUpdateEvent extends EventObject {
 	 * @param datum
 	 *            die Daten des Datensatzes zum Zeitpunkt des Events.
 	 */
-	public DatensatzUpdateEvent(Datensatz datensatz, Datum datum) {
+	public DatensatzUpdateEvent(Datensatz<?> datensatz, Datum datum) {
 		super(datensatz);
 		this.datum = datum;
 	}
@@ -60,8 +60,8 @@ public class DatensatzUpdateEvent extends EventObject {
 	 * 
 	 * @return der ge&auml;nderte Datensatz.
 	 */
-	public Datensatz getDatensatz() {
-		return (Datensatz) source;
+	public Datensatz<?> getDatensatz() {
+		return (Datensatz<?>) source;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class DatensatzUpdateEvent extends EventObject {
 	 * @return das Systemobjekt.
 	 */
 	public SystemObjekt getObjekt() {
-		return ((Datensatz) source).getObjekt();
+		return ((Datensatz<?>) source).getObjekt();
 	}
 
 	/**

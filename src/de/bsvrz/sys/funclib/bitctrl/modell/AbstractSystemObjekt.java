@@ -50,13 +50,13 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * Menge der Parameterdatensaätze, deren Daten innerhalb des Objekts
 	 * verwaltet werden.
 	 */
-	private final Map<Class<? extends ParameterDatensatz>, ParameterDatensatz> parameter = new HashMap<Class<? extends ParameterDatensatz>, ParameterDatensatz>();
+	private final Map<Class<? extends ParameterDatensatz<?>>, ParameterDatensatz<?>> parameter = new HashMap<Class<? extends ParameterDatensatz<?>>, ParameterDatensatz<?>>();
 
 	/**
 	 * Menge der Onlinedatensätze, deren Daten innerhalb des Objekts verwaltet
 	 * werden.
 	 */
-	private final Map<Class<? extends OnlineDatensatz>, OnlineDatensatz> onlineDaten = new HashMap<Class<? extends OnlineDatensatz>, OnlineDatensatz>();
+	private final Map<Class<? extends OnlineDatensatz<?>>, OnlineDatensatz<?>> onlineDaten = new HashMap<Class<? extends OnlineDatensatz<?>>, OnlineDatensatz<?>>();
 
 	/**
 	 * Weist lediglich das Systemobjekt zu.
@@ -104,19 +104,19 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getOnlineDatensatz()
 	 */
-	public Collection<? extends OnlineDatensatz> getOnlineDatensatz() {
+	public Collection<? extends OnlineDatensatz<?>> getOnlineDatensatz() {
 		return onlineDaten.values();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public OnlineDatensatz getOnlineDatensatz(
-			Class<? extends OnlineDatensatz> typ) {
+	public OnlineDatensatz<?> getOnlineDatensatz(
+			Class<? extends OnlineDatensatz<?>> typ) {
 		if (!onlineDaten.containsKey(typ)) {
-			OnlineDatensatz od;
+			OnlineDatensatz<?> od;
 
-			od = (OnlineDatensatz) getDatensatz(typ);
+			od = (OnlineDatensatz<?>) getDatensatz(typ);
 			if (getSystemObject().getType().getAttributeGroups().contains(
 					od.getAttributGruppe())) {
 				onlineDaten.put(typ, od);
@@ -135,19 +135,19 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getParameterDatensatz()
 	 */
-	public Collection<? extends ParameterDatensatz> getParameterDatensatz() {
+	public Collection<? extends ParameterDatensatz<?>> getParameterDatensatz() {
 		return parameter.values();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public ParameterDatensatz getParameterDatensatz(
-			Class<? extends ParameterDatensatz> typ) {
+	public ParameterDatensatz<?> getParameterDatensatz(
+			Class<? extends ParameterDatensatz<?>> typ) {
 		if (!parameter.containsKey(typ)) {
-			ParameterDatensatz pd;
+			ParameterDatensatz<?> pd;
 
-			pd = (ParameterDatensatz) getDatensatz(typ);
+			pd = (ParameterDatensatz<?>) getDatensatz(typ);
 			if (getSystemObject().getType().getAttributeGroups().contains(
 					pd.getAttributGruppe())) {
 				parameter.put(typ, pd);
@@ -196,7 +196,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 *            die Klasse eines Datensatzes.
 	 * @return ein Objekt der Klasse.
 	 */
-	private Datensatz getDatensatz(Class<? extends Datensatz> typ) {
+	private Datensatz<?> getDatensatz(Class<? extends Datensatz<?>> typ) {
 		if (Modifier.isAbstract(typ.getModifiers())
 				|| Modifier.isInterface(typ.getModifiers())) {
 			throw new IllegalArgumentException("Datensatz " + typ.getName()
@@ -204,7 +204,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 					+ "Schnittstelle oder abstrakte Klasse handelt.");
 		}
 
-		for (Constructor<? extends Datensatz> c : typ.getConstructors()) {
+		for (Constructor<? extends Datensatz<?>> c : typ.getConstructors()) {
 			Class<?>[] parameterTypes = c.getParameterTypes();
 
 			if (Modifier.isPublic(c.getModifiers())
