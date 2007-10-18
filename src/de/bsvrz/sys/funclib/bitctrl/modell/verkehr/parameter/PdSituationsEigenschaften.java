@@ -53,7 +53,8 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 	 * Die Repräsentation der Daten des Situationseigenschaften-Datensatzes.
 	 * 
 	 * @author BitCtrl Systems GmbH, Peuker
-	 * @version $Id$
+	 * @version $Id: PdSituationsEigenschaften.java 4508 2007-10-18 05:30:18Z
+	 *          peuker $
 	 */
 	public class Daten extends AbstractDatum {
 
@@ -185,6 +186,11 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 			return startZeit;
 		}
 
+		public boolean isValid() {
+			// TODO Auto-generated method stub
+			return true;
+		}
+
 	}
 
 	/**
@@ -255,6 +261,7 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.Data)
 	 */
 	public void setDaten(ResultData result) {
+		checkAttributgruppe(result);
 		setDatum(new Daten(result));
 	}
 }
