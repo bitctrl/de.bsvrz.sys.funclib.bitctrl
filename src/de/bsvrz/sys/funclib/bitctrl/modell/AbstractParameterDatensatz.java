@@ -59,11 +59,12 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	public AbstractParameterDatensatz(SystemObjekt objekt) {
 		super(objekt);
 
-		if (receiverAsp == null && senderAsp == null) {
+		if (receiverAsp == null || senderAsp == null) {
 			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			receiverAsp = modell.getAspect(DaVKonstanten.ASP_PARAMETER_SOLL);
 			senderAsp = modell.getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE);
+			assert receiverAsp != null && senderAsp != null;
 		}
 	}
 
@@ -149,6 +150,17 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	}
 
 	/**
+	 * Informiert angemeldete Listener &uuml;ber ein neues Datum.
+	 * 
+	 * @param datum
+	 *            das neue Datum.
+	 * @see AbstractDatensatz#fireDatensatzAktualisiert(Aspect, Datum)
+	 */
+	protected void fireDatensatzAktualisiert(T datum) {
+		fireDatensatzAktualisiert(receiverAsp, datum);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getAspekte()
@@ -176,6 +188,17 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	@Override
 	protected boolean isSenke(Aspect asp) {
 		return false;
+	}
+
+	/**
+	 * Legt die Daten des Parameters fest.
+	 * 
+	 * @param datum
+	 *            das neue Datum.
+	 * @see AbstractDatensatz#setDatum(Aspect, Datum)
+	 */
+	protected void setDatum(T datum) {
+		setDatum(receiverAsp, datum);
 	}
 
 }
