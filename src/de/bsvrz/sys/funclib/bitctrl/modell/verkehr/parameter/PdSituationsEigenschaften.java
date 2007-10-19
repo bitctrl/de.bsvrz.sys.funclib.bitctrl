@@ -47,7 +47,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StrassenSegment;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
+public class PdSituationsEigenschaften extends
+		AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 
 	/**
 	 * Die Repräsentation der Daten des Situationseigenschaften-Datensatzes.
@@ -56,7 +57,7 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 	 * @version $Id: PdSituationsEigenschaften.java 4508 2007-10-18 05:30:18Z
 	 *          peuker $
 	 */
-	public class Daten extends AbstractDatum {
+	public static class Daten extends AbstractDatum {
 
 		/**
 		 * Dauer des Situation (sofern bekannt). Eintrag von 0 ms bedeutet //
@@ -77,6 +78,7 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 		 * ("StartOffset")
 		 */
 		private final long startOffset;
+
 		/**
 		 * Startzeitpunkt der Situation (Staubeginn, Baustellenbeginn, // etc.).
 		 * ("StartZeit")
@@ -84,12 +86,31 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 		private final long startZeit;
 
 		/**
+		 * markiert die Gültigkeit des Datums. ("StartZeit")
+		 */
+		private boolean valid;
+
+		/**
+		 * Standard-Konstruktor zum Erstellen eines leeren Datensatzes.
+		 * 
+		 */
+		Daten() {
+			valid = false;
+			setZeitstempel(0);
+			startZeit = Long.MAX_VALUE;
+			dauer = 0;
+			startOffset = 0;
+			endOffset = 0;
+		}
+
+		/**
 		 * Konstruktor zu Erstellen einer Kopie des übergebenen Datums.
 		 * 
 		 * @param daten
 		 *            das zu kopierende Datum
 		 */
-		private Daten(Daten daten) {
+		Daten(Daten daten) {
+			this.valid = daten.valid;
 			setZeitstempel(daten.getZeitstempel());
 			startZeit = daten.startZeit;
 			dauer = daten.dauer;
@@ -106,10 +127,11 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 		 * @param result
 		 *            die vom Datenverteiler empfangenen Dtaen
 		 */
-		public Daten(ResultData result) {
+		Daten(ResultData result) {
 			setZeitstempel(result.getDataTime());
 			Data daten = result.getData();
 			if (daten != null) {
+				valid = true;
 				startZeit = daten.getTimeValue("StartZeit").getMillis();
 				dauer = daten.getTimeValue("Dauer").getMillis();
 				Data.Array segmentArray = daten.getArray("StraßenSegment");
@@ -122,6 +144,7 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 				startOffset = daten.getUnscaledValue("StartOffset").longValue();
 				endOffset = daten.getUnscaledValue("EndOffset").longValue();
 			} else {
+				valid = false;
 				startZeit = Long.MAX_VALUE;
 				dauer = 0;
 				startOffset = 0;
@@ -186,9 +209,13 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 			return startZeit;
 		}
 
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#isValid()
+		 */
 		public boolean isValid() {
-			// TODO Auto-generated method stub
-			return true;
+			return valid;
 		}
 
 	}
@@ -228,6 +255,15 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 	/**
 	 * {@inheritDoc}.<br>
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#erzeugeDatum()
+	 */
+	public Daten erzeugeDatum() {
+		return new Daten();
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getAttributGruppe()
 	 */
 	public AttributeGroup getAttributGruppe() {
@@ -241,18 +277,18 @@ public class PdSituationsEigenschaften extends AbstractParameterDatensatz {
 	 */
 	@Override
 	public Daten getDatum() {
-		return (Daten) super.getDatum();
+		return super.getDatum();
 	}
 
 	/**
 	 * {@inheritDoc}.<br>
 	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#sendeDaten()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
 	 */
 	@Override
-	public void sendeDaten() {
+	protected Data konvertiere(Daten datum) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	/**

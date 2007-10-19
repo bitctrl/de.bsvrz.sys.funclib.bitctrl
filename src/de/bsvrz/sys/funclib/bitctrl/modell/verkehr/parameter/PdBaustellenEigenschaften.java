@@ -44,7 +44,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.BaustellenVeranlasser;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
+public class PdBaustellenEigenschaften extends
+		AbstractParameterDatensatz<PdBaustellenEigenschaften.Daten> {
 
 	/**
 	 * Repräsentation der Daten des Baustelleneigenschaften-Datensatzes.
@@ -53,7 +54,7 @@ public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 	 * @version $Id: PdBaustellenEigenschaften.java 4508 2007-10-18 05:30:18Z
 	 *          peuker $
 	 */
-	public class Daten extends AbstractDatum {
+	public static class Daten extends AbstractDatum {
 
 		/**
 		 * Restkapazität während der Gültigkeitsdauer der Baustelle.
@@ -70,6 +71,23 @@ public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 		private final BaustellenVeranlasser veranlasser;
 
 		/**
+		 * markiert die Gültigkeit des Datensatzes.
+		 */
+		private boolean valid;
+
+		/**
+		 * Standardkonstruktor.<br>
+		 * Die Funktion erzeugt ein en leeres Datum.
+		 */
+		public Daten() {
+			status = BaustellenStatus.ENTWORFEN;
+			veranlasser = BaustellenVeranlasser.UNDEFINIERT;
+			restKapazitaet = 0;
+			valid = false;
+			setZeitstempel(0);
+		}
+
+		/**
 		 * Konstruktor.<br>
 		 * Die Funktion erzeugt ein Datum als Kopie des übergebenen Datums.
 		 * 
@@ -80,6 +98,7 @@ public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 			this.restKapazitaet = daten.restKapazitaet;
 			this.status = daten.status;
 			this.veranlasser = daten.veranlasser;
+			this.valid = daten.valid;
 			setZeitstempel(daten.getZeitstempel());
 		}
 
@@ -95,6 +114,7 @@ public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 			setZeitstempel(result.getDataTime());
 			Data daten = result.getData();
 			if (daten == null) {
+				valid = false;
 				status = BaustellenStatus.ENTWORFEN;
 				veranlasser = BaustellenVeranlasser.UNDEFINIERT;
 				restKapazitaet = 0;
@@ -105,6 +125,7 @@ public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 						.longValue();
 				veranlasser = BaustellenVeranlasser.getVeranlasser(daten
 						.getUnscaledValue("Veranlasser").intValue());
+				valid = true;
 			}
 		}
 
@@ -145,9 +166,13 @@ public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 			return veranlasser;
 		}
 
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#isValid()
+		 */
 		public boolean isValid() {
-			// TODO Auto-generated method stub
-			return true;
+			return valid;
 		}
 	}
 
@@ -186,6 +211,15 @@ public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 	/**
 	 * {@inheritDoc}.<br>
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#erzeugeDatum()
+	 */
+	public Daten erzeugeDatum() {
+		return new Daten((ResultData) null);
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getAttributGruppe()
 	 */
 	public AttributeGroup getAttributGruppe() {
@@ -199,18 +233,18 @@ public class PdBaustellenEigenschaften extends AbstractParameterDatensatz {
 	 */
 	@Override
 	public Daten getDatum() {
-		return (Daten) super.getDatum();
+		return super.getDatum();
 	}
 
 	/**
 	 * {@inheritDoc}.<br>
 	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#sendeDaten()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
 	 */
 	@Override
-	public void sendeDaten() {
+	protected Data konvertiere(Daten datum) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	/**
