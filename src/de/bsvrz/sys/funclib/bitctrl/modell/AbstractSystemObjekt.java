@@ -111,23 +111,29 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	/**
 	 * {@inheritDoc}
 	 */
-	public OnlineDatensatz<?> getOnlineDatensatz(
-			Class<? extends OnlineDatensatz<?>> typ) {
+	public <O extends OnlineDatensatz<?>> O getOnlineDatensatz(Class<O> typ) {
 		if (!onlineDaten.containsKey(typ)) {
 			OnlineDatensatz<?> od;
 
 			od = (OnlineDatensatz<?>) getDatensatz(typ);
+			if (od == null) {
+				throw new IllegalArgumentException(
+						"Datensatz "
+								+ typ
+								+ " kann nicht instantiiert werden, da der öffentlicher "
+								+ "Konstruktor mit einem Parameter vom Typ SystemObjekt fehlt.");
+			}
 			if (getSystemObject().getType().getAttributeGroups().contains(
 					od.getAttributGruppe())) {
 				onlineDaten.put(typ, od);
 			} else {
-				throw new IllegalArgumentException("Datensatz " + typ.getName()
+				throw new IllegalArgumentException("Datensatz " + typ
 						+ " kann nicht mit Objekt "
 						+ getSystemObject().getType().getPid()
 						+ " verwendet werden.");
 			}
 		}
-		return onlineDaten.get(typ);
+		return (O) onlineDaten.get(typ);
 	}
 
 	/**
@@ -142,12 +148,19 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	/**
 	 * {@inheritDoc}
 	 */
-	public ParameterDatensatz<?> getParameterDatensatz(
-			Class<? extends ParameterDatensatz<?>> typ) {
+	public <P extends ParameterDatensatz<?>> P getParameterDatensatz(
+			Class<P> typ) {
 		if (!parameter.containsKey(typ)) {
 			ParameterDatensatz<?> pd;
 
 			pd = (ParameterDatensatz<?>) getDatensatz(typ);
+			if (pd == null) {
+				throw new IllegalArgumentException(
+						"Datensatz "
+								+ typ
+								+ " kann nicht instantiiert werden, da der öffentlicher "
+								+ "Konstruktor mit einem Parameter vom Typ SystemObjekt fehlt.");
+			}
 			if (getSystemObject().getType().getAttributeGroups().contains(
 					pd.getAttributGruppe())) {
 				parameter.put(typ, pd);
@@ -158,7 +171,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 						+ " verwendet werden.");
 			}
 		}
-		return parameter.get(typ);
+		return (P) parameter.get(typ);
 	}
 
 	/**
@@ -173,6 +186,25 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 */
 	public SystemObject getSystemObject() {
 		return objekt;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#hasOnlineDatensatz(java.lang.Class)
+	 */
+	public boolean hasOnlineDatensatz(Class<? extends OnlineDatensatz<?>> typ) {
+		return getDatensatz(typ) != null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#hasParameterDatensatz(java.lang.Class)
+	 */
+	public boolean hasParameterDatensatz(
+			Class<? extends ParameterDatensatz<?>> typ) {
+		return getDatensatz(typ) != null;
 	}
 
 	/**
@@ -194,7 +226,8 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * 
 	 * @param typ
 	 *            die Klasse eines Datensatzes.
-	 * @return ein Objekt der Klasse.
+	 * @return ein Objekt der Klasse oder {@code null}, wenn der Datensatz am
+	 *         Systemobjekt nicht unterst&uuml;tzt wird..
 	 */
 	private Datensatz<?> getDatensatz(Class<? extends Datensatz<?>> typ) {
 		if (Modifier.isAbstract(typ.getModifiers())
@@ -240,8 +273,8 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 				}
 			}
 		}
-		throw new IllegalArgumentException("Datensatz " + typ.getName()
-				+ " kann nicht instantiiert werden, da der öffentlicher "
-				+ "Konstruktor mit einem Parameter vom Typ SystemObjekt fehlt.");
+
+		return null;
 	}
+
 }

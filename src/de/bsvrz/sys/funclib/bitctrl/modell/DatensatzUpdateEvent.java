@@ -99,7 +99,7 @@ public class DatensatzUpdateEvent extends EventObject {
 	 * @return das Systemobjekt.
 	 */
 	public SystemObjekt getObjekt() {
-		return ((Datensatz<?>) source).getObjekt();
+		return getDatensatz().getObjekt();
 	}
 
 	/**

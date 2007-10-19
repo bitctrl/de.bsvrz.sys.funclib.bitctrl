@@ -68,6 +68,17 @@ public interface SystemObjekt {
 	 * 
 	 * @return die Menge der aktuell verwendeten Onlinedatens&auml;tze.
 	 */
+
+	/**
+	 * Gibt alle aktuell verwendeten Onlinedatens&auml;tze des Systemobjekts
+	 * zur&uuml;ck.
+	 * <p>
+	 * <em>Hinweis:</em> Die zur&uuml;ckgegebene Menge ist echte Teilmenge (!)
+	 * oder identisch mit der Menge der erlaubten Onlinedatens&auml;tze am
+	 * Systemobjekt.
+	 * 
+	 * @return die Menge der aktuell verwendeten Onlinedatens&auml;tze.
+	 */
 	Collection<? extends OnlineDatensatz<?>> getOnlineDatensatz();
 
 	/**
@@ -78,8 +89,7 @@ public interface SystemObjekt {
 	 *            der Typ des Datensatzes.
 	 * @return der Datensatz.
 	 */
-	OnlineDatensatz<?> getOnlineDatensatz(
-			Class<? extends OnlineDatensatz<?>> typ);
+	<O extends OnlineDatensatz<?>> O getOnlineDatensatz(Class<O> typ);
 
 	/**
 	 * Gibt alle aktuell verwendeten Parameterdatens&auml;tze des Systemobjekts
@@ -101,8 +111,7 @@ public interface SystemObjekt {
 	 *            der Typ des Datensatzes.
 	 * @return der Datensatz.
 	 */
-	ParameterDatensatz<?> getParameterDatensatz(
-			Class<? extends ParameterDatensatz<?>> typ);
+	<P extends ParameterDatensatz<?>> P getParameterDatensatz(Class<P> typ);
 
 	/**
 	 * Gibt die PID des Systemobjekts zur&uuml;ck.
@@ -126,5 +135,26 @@ public interface SystemObjekt {
 	 * @return den Typ
 	 */
 	SystemObjektTyp getTyp();
+
+	/**
+	 * Pr&uuml;ft ob das Systemobjekt einen bestimmten Onlinedatensatz besitzt.
+	 * 
+	 * @param typ
+	 *            der Typ des Onlinedatensatzes.
+	 * @return {@code true}, wenn der Onlinedatensatz am Systemobjekt verwendet
+	 *         werden kann.
+	 */
+	boolean hasOnlineDatensatz(Class<? extends OnlineDatensatz<?>> typ);
+
+	/**
+	 * Pr&uuml;ft ob das Systemobjekt einen bestimmten Parameterdatensatz
+	 * besitzt.
+	 * 
+	 * @param typ
+	 *            der Typ des Parameterdatensatzes.
+	 * @return {@code true}, wenn der Parameterdatensatz am Systemobjekt
+	 *         verwendet werden kann.
+	 */
+	boolean hasParameterDatensatz(Class<? extends ParameterDatensatz<?>> typ);
 
 }
