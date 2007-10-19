@@ -36,6 +36,76 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
  */
 public interface ParameterDatensatz<T extends Datum> extends Datensatz<T> {
 
-	// nix
+	/**
+	 * Meldet eine eventuell vorhandene Anmeldung als Sender oder Quelle wieder
+	 * ab.
+	 */
+	void abmeldenSender();
+
+	/**
+	 * Registriert einen Listener.
+	 * 
+	 * @param l
+	 *            ein interessierte Listener.
+	 */
+	void addUpdateListener(DatensatzUpdateListener l);
+
+	/**
+	 * Meldet den Datensatz als Sender oder Quelle am Datenverteiler an.
+	 * 
+	 * @throws AnmeldeException
+	 *             wenn die Anmeldung nicht erfolgreich war.
+	 */
+	void anmeldenSender() throws AnmeldeException;
+
+	/**
+	 * Gibt die aktuellen Daten des Datensatzes zur&uuml;ck.
+	 * 
+	 * @return ein Datum, welches die Daten des Datensatzes kapselt.
+	 */
+	T getDatum();
+
+	/**
+	 * Fragt, ob der Datensatz als Sender oder Quelle angemeldet ist.
+	 * 
+	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle
+	 *         angemeldet ist.
+	 */
+	boolean isAngemeldetSender();
+
+	/**
+	 * Liest das Flag {@code autoUpdate}.
+	 * 
+	 * @return {@code true}, wenn der Datensatz neue Daten automatisch vom
+	 *         Datenverteiler empf&auml;ngt.
+	 */
+	boolean isAutoUpdate();
+
+	/**
+	 * Deregistriert einen Listener.
+	 * 
+	 * @param l
+	 *            ein nicht mehr interessierten Listener.
+	 */
+	void removeUpdateListener(DatensatzUpdateListener l);
+
+	/**
+	 * Veranlasst den Datensatz ein Datum an den Datenverteiler zusenden. Ist
+	 * der Zeitstempel des Datums nicht gesetzt oder gleich 0, wird automatisch
+	 * der aktuelle Zeitstempel beim Versand verwendet.
+	 * 
+	 * @param datum
+	 *            das zu sendende Datum.
+	 * @throws DatensendeException
+	 *             wenn die Daten nicht gesendet werden konnten. Der Sendecache
+	 *             wird in dem Fall nicht geleert.
+	 * @see #erzeugeDatum()
+	 */
+	void sendeDaten(T datum) throws DatensendeException;
+
+	/**
+	 * Ruft die aktuellen Daten ab und setzt die internen Daten.
+	 */
+	void update();
 
 }

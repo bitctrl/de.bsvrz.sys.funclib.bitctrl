@@ -26,48 +26,29 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
-import de.bsvrz.dav.daf.main.ResultData;
-import de.bsvrz.dav.daf.main.config.AttributeGroup;
+import de.bsvrz.dav.daf.main.config.Aspect;
 
 /**
- * Schnittstelle f&uum;r den Inhalt einer Attributgruppen.
+ * Schnittstelle f&uuml;r einen Aspekt. Hilfreich, wenn Aspekte als enum
+ * behandelt werden.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
- * @param <T>
- *            Der Typ des Datums den der Datensatz sichert.
  */
-public interface Datensatz<T extends Datum> {
+public interface Aspekt {
 
 	/**
-	 * Erzeugt ein leeres oder mit Standardwerten ausgef&uuml;lltes Datum des
-	 * Datensatzes. Dieses Datum kann nach dem Ausf&uuml;llen an den
-	 * Datenverteiler versandt werden.
+	 * Gibt den gekapselten Aspekt zur&uuml;ck.
 	 * 
-	 * @return das Datum.
+	 * @return der Aspekt.
 	 */
-	T erzeugeDatum();
+	Aspect getAspekt();
 
 	/**
-	 * Gibt die Attributgruppe zur&uuml;ck die diesem Datensatz entpricht.
+	 * Gibt den Namen des Aspekts zur&uuml;ck.
 	 * 
-	 * @return die Attributgruppe die dem Datensatz entspricht.
+	 * @return der Aspektname.
 	 */
-	AttributeGroup getAttributGruppe();
-
-	/**
-	 * Gibt das Systemobjekt zur&uuml;ck, zu dem der Datensatz geh&ouml;rt.
-	 * 
-	 * @return das Objekt, zu dem der Datensatz geh&ouml;rt.
-	 */
-	SystemObjekt getObjekt();
-
-	/**
-	 * Liest das Datum aus und setzt dessen Inhalt als internen Zustand.
-	 * 
-	 * @param daten
-	 *            ein passender Datenverteilerdatensatz.
-	 */
-	void setDaten(ResultData daten);
+	String getName();
 
 }

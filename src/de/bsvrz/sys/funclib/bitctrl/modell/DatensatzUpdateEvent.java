@@ -28,6 +28,8 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
 
 import java.util.EventObject;
 
+import de.bsvrz.dav.daf.main.config.Aspect;
+
 /**
  * Das Ereignis tritt ein, wenn ein Datensatz ge&auml;ndert wurde.
  * 
@@ -39,6 +41,9 @@ public class DatensatzUpdateEvent extends EventObject {
 	/** Die Versions-ID der Serialialisierung. */
 	private static final long serialVersionUID = 1L;
 
+	/** Der betroffene Aspekt. */
+	private final Aspect aspekt;
+
 	/** Das Datum des Datensatzes zum Zeitpunkt des Events. */
 	private final Datum datum;
 
@@ -47,12 +52,25 @@ public class DatensatzUpdateEvent extends EventObject {
 	 * 
 	 * @param datensatz
 	 *            der Datensatz, der sich ge&auml;ndert hat.
+	 * @param aspekt
+	 *            der betroffene Aspekt.
 	 * @param datum
 	 *            die Daten des Datensatzes zum Zeitpunkt des Events.
 	 */
-	public DatensatzUpdateEvent(Datensatz<?> datensatz, Datum datum) {
+	public DatensatzUpdateEvent(Datensatz<?> datensatz, Aspect aspekt,
+			Datum datum) {
 		super(datensatz);
+		this.aspekt = aspekt;
 		this.datum = datum;
+	}
+
+	/**
+	 * Gibt den Wert der Eigenschaft {@code aspekt} wieder.
+	 * 
+	 * @return {@code aspekt}.
+	 */
+	public Aspect getAspekt() {
+		return aspekt;
 	}
 
 	/**

@@ -26,6 +26,9 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
@@ -66,33 +69,112 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#abmeldenSender()
 	 */
-	@Override
-	protected Aspect getEmpfangsAspekt() {
-		return receiverAsp;
+	public void abmeldenSender() {
+		abmeldenSender(senderAsp);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#addUpdateListener(de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener)
 	 */
-	@Override
-	protected Aspect getSendeAspekt() {
-		return senderAsp;
+	public void addUpdateListener(DatensatzUpdateListener l) {
+		addUpdateListener(receiverAsp, l);
 	}
 
 	/**
-	 * Gibt immer {@code false} zur&uuml;ck. {@inheritDoc}
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#anmeldenSender()
+	 */
+	public void anmeldenSender() throws AnmeldeException {
+		anmeldenSender(senderAsp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#getDatum()
+	 */
+	public T getDatum() {
+		return getDatum(receiverAsp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#isAngemeldetSender()
+	 */
+	public boolean isAngemeldetSender() {
+		return isAngemeldetSender(senderAsp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#isAutoUpdate()
+	 */
+	public boolean isAutoUpdate() {
+		return isAutoUpdate(receiverAsp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#removeUpdateListener(de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener)
+	 */
+	public void removeUpdateListener(DatensatzUpdateListener l) {
+		removeUpdateListener(receiverAsp, l);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#sendeDaten(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	public void sendeDaten(T datum) throws DatensendeException {
+		sendeDaten(senderAsp, datum);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#update()
+	 */
+	public void update() {
+		update(receiverAsp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getAspekte()
 	 */
 	@Override
-	protected boolean isQuelle() {
+	protected Collection<Aspect> getAspekte() {
+		return Arrays.asList(new Aspect[] { receiverAsp, senderAsp });
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isQuelle(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	protected boolean isQuelle(Aspect asp) {
 		return false;
 	}
 
 	/**
-	 * Gibt immer {@code false} zur&uuml;ck. {@inheritDoc}
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isSenke(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override
-	protected boolean isSenke() {
+	protected boolean isSenke(Aspect asp) {
 		return false;
 	}
 

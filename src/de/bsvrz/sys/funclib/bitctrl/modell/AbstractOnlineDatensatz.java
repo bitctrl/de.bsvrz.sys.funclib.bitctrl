@@ -26,6 +26,11 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import de.bsvrz.dav.daf.main.config.Aspect;
+
 /**
  * Implementiert gemeinsame Funktionen von Onlinedatens&auml;tzen.
  * 
@@ -38,10 +43,10 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 		AbstractDatensatz<T> implements OnlineDatensatz<T> {
 
 	/** Flag ob dieser Datensatz als Quelle angemeldet werden soll. */
-	private boolean quelle;
+	private final Map<Aspect, Boolean> quellen;
 
 	/** Flag ob dieser Datensatz als Senke angemeldet werden soll. */
-	private boolean senke;
+	private final Map<Aspect, Boolean> senken;
 
 	/**
 	 * Konstruktor.
@@ -51,36 +56,142 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 */
 	public AbstractOnlineDatensatz(SystemObjekt objekt) {
 		super(objekt);
+		quellen = new HashMap<Aspect, Boolean>();
+		senken = new HashMap<Aspect, Boolean>();
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#abmeldenSender(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override
-	public boolean isQuelle() {
-		return quelle;
+	public void abmeldenSender(Aspect asp) {
+		super.abmeldenSender(asp);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#addUpdateListener(de.bsvrz.dav.daf.main.config.Aspect,
+	 *      de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener)
 	 */
 	@Override
-	public boolean isSenke() {
-		return senke;
+	public void addUpdateListener(Aspect asp, DatensatzUpdateListener listener) {
+		super.addUpdateListener(asp, listener);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#anmeldenSender(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
-	public void setQuelle(boolean quelle) {
-		this.quelle = quelle;
+	@Override
+	public void anmeldenSender(Aspect asp) throws AnmeldeException {
+		super.anmeldenSender(asp);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getDatum(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
-	public void setSenke(boolean senke) {
-		this.senke = senke;
+	@Override
+	public T getDatum(Aspect asp) {
+		return super.getDatum(asp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isAngemeldetSender(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	public boolean isAngemeldetSender(Aspect asp) {
+		return super.isAngemeldetSender(asp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isAutoUpdate(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	public boolean isAutoUpdate(Aspect asp) {
+		return super.isAutoUpdate(asp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isQuelle(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	public boolean isQuelle(Aspect asp) {
+		return quellen.get(asp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isSenke(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	public boolean isSenke(Aspect asp) {
+		return senken.get(asp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#removeUpdateListener(de.bsvrz.dav.daf.main.config.Aspect,
+	 *      de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener)
+	 */
+	@Override
+	public void removeUpdateListener(Aspect asp,
+			DatensatzUpdateListener listener) {
+		super.removeUpdateListener(asp, listener);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#sendeDaten(de.bsvrz.dav.daf.main.config.Aspect,
+	 *      de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	@Override
+	public void sendeDaten(Aspect asp, T datum) throws DatensendeException {
+		super.sendeDaten(asp, datum);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.OnlineDatensatz#setQuelle(de.bsvrz.dav.daf.main.config.Aspect,
+	 *      boolean)
+	 */
+	public void setQuelle(Aspect asp, boolean quelle) {
+		quellen.put(asp, quelle);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.OnlineDatensatz#setSenke(de.bsvrz.dav.daf.main.config.Aspect,
+	 *      boolean)
+	 */
+	public void setSenke(Aspect asp, boolean senke) {
+		senken.put(asp, senke);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#update(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	public void update(Aspect asp) {
+		super.update(asp);
 	}
 
 }

@@ -26,6 +26,8 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import java.util.Collection;
+
 import de.bsvrz.dav.daf.main.config.Aspect;
 
 /**
@@ -39,53 +41,146 @@ import de.bsvrz.dav.daf.main.config.Aspect;
 public interface OnlineDatensatz<T extends Datum> extends Datensatz<T> {
 
 	/**
-	 * Gibt den Aspekt zur&uuml;ck, mit dem Daten empfangen werden.
+	 * Meldet eine eventuell vorhandene Anmeldung als Sender oder Quelle wieder
+	 * ab.
 	 * 
-	 * @return der Empfangsaspekt.
+	 * @param asp
+	 *            der betroffene Aspekt.
 	 */
-	Aspect getEmpfangsAspekt();
+	void abmeldenSender(Aspect asp);
 
 	/**
-	 * Gibt den Aspekt zur&uuml;ck, mit dem Daten gesendet werden.
+	 * Registriert einen Listener.
 	 * 
-	 * @return der Sendeaspekt.
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @param l
+	 *            ein interessierte Listener.
 	 */
-	Aspect getSendeAspekt();
+	void addUpdateListener(Aspect asp, DatensatzUpdateListener l);
+
+	/**
+	 * Meldet den Datensatz als Sender oder Quelle am Datenverteiler an.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @throws AnmeldeException
+	 *             wenn die Anmeldung nicht erfolgreich war.
+	 */
+	void anmeldenSender(Aspect asp) throws AnmeldeException;
+
+	/**
+	 * Gibt die verf&uuml;gbaren Aspekte zur&uuml;ck.
+	 * 
+	 * @return die Menge der verf&uuml;gbaren Aspekte.
+	 */
+	Collection<Aspect> getAspekte();
+
+	/**
+	 * Gibt die aktuellen Daten des Datensatzes zur&uuml;ck.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @return ein Datum, welches die Daten des Datensatzes kapselt.
+	 */
+	T getDatum(Aspect asp);
+
+	/**
+	 * Fragt, ob der Datensatz als Sender oder Quelle angemeldet ist.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle
+	 *         angemeldet ist.
+	 */
+	boolean isAngemeldetSender(Aspect asp);
+
+	/**
+	 * Liest das Flag {@code autoUpdate}.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @return {@code true}, wenn der Datensatz neue Daten automatisch vom
+	 *         Datenverteiler empf&auml;ngt.
+	 */
+	boolean isAutoUpdate(Aspect asp);
 
 	/**
 	 * Gibt das Flag {@code quelle} zur&uuml;ck.
 	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
 	 * @return {@code true}, wenn der Datensatz als Quelle und {@code false},
 	 *         wenn er als Sender angemeldet werden soll.
 	 */
-	boolean isQuelle();
+	boolean isQuelle(Aspect asp);
 
 	/**
 	 * Gibt das Flag {@code senke} zur&uuml;ck.
 	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
 	 * @return {@code true}, wenn der Datensatz als Senke und {@code false},
 	 *         wenn er als Empf&auml;nger angemeldet werden soll.
 	 */
-	boolean isSenke();
+	boolean isSenke(Aspect asp);
+
+	/**
+	 * Deregistriert einen Listener.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @param l
+	 *            ein nicht mehr interessierten Listener.
+	 */
+	void removeUpdateListener(Aspect asp, DatensatzUpdateListener l);
+
+	/**
+	 * Veranlasst den Datensatz ein Datum an den Datenverteiler zusenden. Ist
+	 * der Zeitstempel des Datums nicht gesetzt oder gleich 0, wird automatisch
+	 * der aktuelle Zeitstempel beim Versand verwendet.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @param datum
+	 *            das zu sendende Datum.
+	 * @throws DatensendeException
+	 *             wenn die Daten nicht gesendet werden konnten. Der Sendecache
+	 *             wird in dem Fall nicht geleert.
+	 * @see #erzeugeDatum()
+	 */
+	void sendeDaten(Aspect asp, T datum) throws DatensendeException;
 
 	/**
 	 * Legt fest, ob Anmeldungen als Quelle durchgef&uuml;hrt werden sollen.
 	 * Eine bereits bestehende Anmeldung wird dadurch nicht beeinflusst.
 	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
 	 * @param quelle
 	 *            {@code true}, wenn die Anmeldung als Quelle erfolgen soll,
 	 *            ansonsten erfolgt sie als Sender.
 	 */
-	void setQuelle(boolean quelle);
+	void setQuelle(Aspect asp, boolean quelle);
 
 	/**
 	 * Legt fest, ob Anmeldungen als Senke durchgef&uuml;hrt werden sollen. Eine
 	 * bereits bestehende Anmeldung wird dadurch nicht beeinflusst.
 	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
 	 * @param senke
 	 *            {@code true}, wenn die Anmeldung als Senke erfolgen soll,
 	 *            ansonsten erfolgt sie als Empf&auml;nger.
 	 */
-	void setSenke(boolean senke);
+	void setSenke(Aspect asp, boolean senke);
+
+	/**
+	 * Ruft die aktuellen Daten ab und setzt die internen Daten.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 */
+	void update(Aspect asp);
 
 }

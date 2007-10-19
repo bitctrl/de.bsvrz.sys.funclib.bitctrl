@@ -27,7 +27,10 @@
 package de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.onlinedaten;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
@@ -37,6 +40,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsWindGeschwindigkeitMittelWert;
@@ -49,6 +53,50 @@ import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsWindGeschwindigkeitMi
  */
 public class OdUfdsWindGeschwindigkeitMittelWert extends
 		AbstractOnlineDatensatz<OdUfdsWindGeschwindigkeitMittelWert.Daten> {
+
+	/**
+	 * Die vorhandenen Aspekte des Datensatzes.
+	 */
+	public enum Aspekte implements Aspekt {
+
+		/** Der Aspekt {@code asp.analyse}. */
+		MessWertErsetzung("asp.messWertErsetzung");
+
+		/** Der Aspekt, den das enum kapselt. */
+		private final Aspect aspekt;
+
+		/**
+		 * Erzeugt aus der PID den Aspekt.
+		 * 
+		 * @param pid
+		 *            die PID eines Aspekts.
+		 */
+		private Aspekte(String pid) {
+			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+					.getDataModel();
+			aspekt = modell.getAspect(pid);
+			assert aspekt != null;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Aspekt#getAspekt()
+		 */
+		public Aspect getAspekt() {
+			return aspekt;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Aspekt#getName()
+		 */
+		public String getName() {
+			return aspekt.getNameOrPidOrId();
+		}
+
+	}
 
 	/**
 	 * Kapselt die Daten des Datensatzes.
@@ -155,14 +203,8 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 	/** Die PID der Attributgruppe. */
 	public static final String ATG_UFDS_HELLIGKEIT = "atg.ufdsWindGeschwindigkeitMittelWert";
 
-	/** Die PID des Aspekts. */
-	public static final String ASP_MESS_WERT_ERSETZUNG = "asp.messWertErsetzung";
-
 	/** Die Attributgruppe kann von allen Instanzen gemeinsam genutzt werden. */
 	private static AttributeGroup atg;
-
-	/** Der Aspekt kann von allen Instanzen gemeinsam genutzt werden. */
-	private static Aspect aspMessWertErsetzung;
 
 	/**
 	 * Initialisiert den Onlinedatensatz.
@@ -174,12 +216,11 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 			UfdsWindGeschwindigkeitMittelWert sensor) {
 		super(sensor);
 
-		if (atg == null && aspMessWertErsetzung == null) {
+		if (atg == null) {
 			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			atg = modell.getAttributeGroup(ATG_UFDS_HELLIGKEIT);
-			aspMessWertErsetzung = modell.getAspect(ASP_MESS_WERT_ERSETZUNG);
-			assert atg != null && aspMessWertErsetzung != null;
+			assert atg != null;
 		}
 	}
 
@@ -194,25 +235,23 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getAspekte()
+	 */
+	@Override
+	public Collection<Aspect> getAspekte() {
+		Set<Aspect> aspekte = new HashSet<Aspect>();
+		for (Aspekt a : Aspekte.values()) {
+			aspekte.add(a.getAspekt());
+		}
+		return aspekte;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public AttributeGroup getAttributGruppe() {
 		return atg;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Aspect getEmpfangsAspekt() {
-		return aspMessWertErsetzung;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Aspect getSendeAspekt() {
-		return aspMessWertErsetzung;
 	}
 
 	/**
@@ -242,8 +281,9 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 		}
 
 		datum.setZeitstempel(result.getDataTime());
-		setDatum(datum);
-		fireDatensatzAktualisiert(datum.clone());
+		setDatum(result.getDataDescription().getAspect(), datum);
+		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
+				datum.clone());
 	}
 
 	/**

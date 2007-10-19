@@ -27,7 +27,10 @@
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
@@ -37,6 +40,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein;
@@ -49,6 +53,50 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein;
  */
 public class OdVerkehrsDatenKurzZeitMq extends
 		AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitMq.Daten> {
+
+	/**
+	 * Die vorhandenen Aspekte des Datensatzes.
+	 */
+	public enum Aspekte implements Aspekt {
+
+		/** Der Aspekt {@code asp.analyse}. */
+		Analyse("asp.analyse");
+
+		/** Der Aspekt, den das enum kapselt. */
+		private final Aspect aspekt;
+
+		/**
+		 * Erzeugt aus der PID den Aspekt.
+		 * 
+		 * @param pid
+		 *            die PID eines Aspekts.
+		 */
+		private Aspekte(String pid) {
+			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+					.getDataModel();
+			aspekt = modell.getAspect(pid);
+			assert aspekt != null;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Aspekt#getAspekt()
+		 */
+		public Aspect getAspekt() {
+			return aspekt;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Aspekt#getName()
+		 */
+		public String getName() {
+			return aspekt.getNameOrPidOrId();
+		}
+
+	}
 
 	/**
 	 * Kapselt die Daten des Datensatzes.
@@ -254,16 +302,10 @@ public class OdVerkehrsDatenKurzZeitMq extends
 	}
 
 	/** Die PID der Attributgruppe. */
-	public static final String ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ = "atg.verkehrsDatenKurzZeitMq";
-
-	/** Die PID des Aspekts. */
-	public static final String ASP_ANALYSE = "asp.analyse";
+	private static final String ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ = "atg.verkehrsDatenKurzZeitMq";
 
 	/** Die Attributgruppe kann von allen Instanzen gemeinsam genutzt werden. */
 	private static AttributeGroup atg;
-
-	/** Der Aspekt kann von allen Instanzen gemeinsam genutzt werden. */
-	private static Aspect aspAnalyse;
 
 	/**
 	 * Initialisiert den Onlinedatensatz.
@@ -275,12 +317,11 @@ public class OdVerkehrsDatenKurzZeitMq extends
 	public OdVerkehrsDatenKurzZeitMq(MessQuerschnittAllgemein mq) {
 		super(mq);
 
-		if (atg == null && aspAnalyse == null) {
+		if (atg == null) {
 			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			atg = modell.getAttributeGroup(ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ);
-			aspAnalyse = modell.getAspect(ASP_ANALYSE);
-			assert atg != null && aspAnalyse != null;
+			assert atg != null;
 		}
 	}
 
@@ -295,25 +336,23 @@ public class OdVerkehrsDatenKurzZeitMq extends
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getAspekte()
+	 */
+	@Override
+	public Collection<Aspect> getAspekte() {
+		Set<Aspect> aspekte = new HashSet<Aspect>();
+		for (Aspekt a : Aspekte.values()) {
+			aspekte.add(a.getAspekt());
+		}
+		return aspekte;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public AttributeGroup getAttributGruppe() {
 		return atg;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Aspect getEmpfangsAspekt() {
-		return aspAnalyse;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Aspect getSendeAspekt() {
-		return aspAnalyse;
 	}
 
 	/**
@@ -405,8 +444,9 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		}
 
 		datum.setZeitstempel(result.getDataTime());
-		setDatum(datum);
-		fireDatensatzAktualisiert(datum.clone());
+		setDatum(result.getDataDescription().getAspect(), datum);
+		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
+				datum.clone());
 	}
 
 	/**
