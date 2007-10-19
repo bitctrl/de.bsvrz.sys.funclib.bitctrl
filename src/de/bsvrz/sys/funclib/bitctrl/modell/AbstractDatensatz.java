@@ -321,19 +321,24 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	}
 
 	/**
-	 * {@inheritDoc}.<br>
+	 * Zwei Datens&auml;tze sind gleich, wenn sie die selbe Attributgruppe am
+	 * gleichen Systemobjekt abbilden.
+	 * <p>
+	 * {@inheritDoc}
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		boolean result = false;
-		if (obj instanceof AbstractDatensatz) {
-			AbstractDatensatz<?> ds = (AbstractDatensatz<?>) obj;
-			result = getObjekt().equals(ds.getObjekt())
-					&& (getAttributGruppe().equals(ds.getAttributGruppe()));
+		if (obj == this) {
+			return true;
 		}
-		return result;
+		if (obj instanceof Datensatz) {
+			Datensatz<?> ds = (Datensatz<?>) obj;
+			return getObjekt().equals(ds.getObjekt())
+					&& getAttributGruppe().equals(ds.getAttributGruppe());
+		}
+		return false;
 	}
 
 	/**
