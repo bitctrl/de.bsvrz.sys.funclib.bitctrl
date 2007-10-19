@@ -256,7 +256,7 @@ public class OdUfdsWindRichtung extends
 	 * {@inheritDoc}
 	 */
 	public void setDaten(ResultData result) {
-		checkAttributgruppe(result);
+		check(result);
 
 		Daten datum = new Daten();
 		if (result.hasData()) {

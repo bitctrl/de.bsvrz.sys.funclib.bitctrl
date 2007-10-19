@@ -340,7 +340,7 @@ public class OdStoerfallZustand extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.ResultData)
 	 */
 	public void setDaten(ResultData result) {
-		checkAttributgruppe(result);
+		check(result);
 
 		Daten datum = new Daten();
 		if (result.hasData()) {

@@ -253,7 +253,7 @@ public class PdBaustellenEigenschaften extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.Data)
 	 */
 	public void setDaten(ResultData daten) {
-		checkAttributgruppe(daten);
+		check(daten);
 		setDatum(new Daten(daten));
 	}
 }

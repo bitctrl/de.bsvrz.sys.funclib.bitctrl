@@ -297,7 +297,7 @@ public class PdSituationsEigenschaften extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.Data)
 	 */
 	public void setDaten(ResultData result) {
-		checkAttributgruppe(result);
+		check(result);
 		setDatum(new Daten(result));
 	}
 }

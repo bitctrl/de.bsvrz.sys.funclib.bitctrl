@@ -410,7 +410,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	/**
 	 * Pr&uuml;ft, ob das {@code ResultData} zum Datensatz geh&ouml;rt. Es wird
 	 * die Attributgruppe aus der Datenbeschreibung des {@code ResultData} mit
-	 * der Attributgruppe des Datensatzes.
+	 * der Attributgruppe des Datensatzes. Au&szlig;erdem wird gepr&uuml;ft, ob
+	 * der Aspekt des {@code ResultData} bekannt ist.
 	 * <p>
 	 * Geh&ouml;hrt das {@code ResultData} nicht zum Datensatz wird eine
 	 * {@link IllegalArgumentException} geworfen.
@@ -419,12 +420,20 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 *            ein {@code ResultSet}.
 	 * @see Datensatz#getAttributGruppe()
 	 */
-	protected void checkAttributgruppe(ResultData result) {
+	protected void check(ResultData result) {
 		if (!result.getDataDescription().getAttributeGroup().equals(
 				getAttributGruppe())) {
 			throw new IllegalArgumentException(
 					"Das Datum muss zur Attributgruppe " + getAttributGruppe()
-							+ " gehören.");
+							+ " gehören (gefunden: "
+							+ result.getDataDescription().getAttributeGroup()
+							+ ").");
+		}
+		if (!getAspekte().contains(result.getDataDescription().getAspect())) {
+			throw new IllegalArgumentException(
+					"Unbekanner Aspekt im Datum gefunden (gefunden: "
+							+ result.getDataDescription().getAspect()
+							+ ", bekannt: " + getAspekte() + ")");
 		}
 	}
 

@@ -256,7 +256,7 @@ public class OdUfdmsGlaette extends
 	 * {@inheritDoc}
 	 */
 	public synchronized void setDaten(ResultData result) {
-		checkAttributgruppe(result);
+		check(result);
 
 		Daten datum = new Daten();
 		if (result.hasData()) {
