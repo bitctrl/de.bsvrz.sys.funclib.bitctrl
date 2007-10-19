@@ -26,8 +26,8 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import de.bsvrz.dav.daf.main.config.Aspect;
 
@@ -43,10 +43,10 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 		AbstractDatensatz<T> implements OnlineDatensatz<T> {
 
 	/** Flag ob dieser Datensatz als Quelle angemeldet werden soll. */
-	private final Map<Aspect, Boolean> quellen;
+	private final Set<Aspect> quellen;
 
 	/** Flag ob dieser Datensatz als Senke angemeldet werden soll. */
-	private final Map<Aspect, Boolean> senken;
+	private final Set<Aspect> senken;
 
 	/**
 	 * Konstruktor.
@@ -56,8 +56,8 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 */
 	public AbstractOnlineDatensatz(SystemObjekt objekt) {
 		super(objekt);
-		quellen = new HashMap<Aspect, Boolean>();
-		senken = new HashMap<Aspect, Boolean>();
+		quellen = new HashSet<Aspect>();
+		senken = new HashSet<Aspect>();
 	}
 
 	/**
@@ -128,7 +128,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 */
 	@Override
 	public boolean isQuelle(Aspect asp) {
-		return quellen.get(asp) == null ? false : quellen.get(asp);
+		return quellen.contains(asp);
 	}
 
 	/**
@@ -138,7 +138,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 */
 	@Override
 	public boolean isSenke(Aspect asp) {
-		return senken.get(asp) == null ? false : senken.get(asp);
+		return senken.contains(asp);
 	}
 
 	/**
@@ -171,7 +171,11 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 *      boolean)
 	 */
 	public void setQuelle(Aspect asp, boolean quelle) {
-		quellen.put(asp, quelle);
+		if (quelle) {
+			quellen.add(asp);
+		} else {
+			quellen.remove(asp);
+		}
 	}
 
 	/**
@@ -181,7 +185,11 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 *      boolean)
 	 */
 	public void setSenke(Aspect asp, boolean senke) {
-		senken.put(asp, senke);
+		if (senke) {
+			senken.add(asp);
+		} else {
+			senken.remove(asp);
+		}
 	}
 
 	/**
