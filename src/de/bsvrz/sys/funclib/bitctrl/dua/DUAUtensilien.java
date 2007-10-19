@@ -577,4 +577,5 @@ public class DUAUtensilien {
 
 		return ergebnis;
 	}
+		
 }

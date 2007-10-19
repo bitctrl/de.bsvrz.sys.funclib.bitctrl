@@ -30,6 +30,7 @@ import java.util.Date;
 
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
+import de.bsvrz.sys.funclib.bitctrl.dua.GanzZahl;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 
 /**
@@ -70,14 +71,14 @@ public class UmfeldDatenSensorDatum {
 	/**
 	 * Standardkonstruktor
 	 * 
-	 * @param resultat ein Roh-Sensorwert eines Umfelddatensensors
+	 * @param resultat ein Roh-Sensorwert eines Umfelddatensensors (<code>!= null</code>)
 	 */
 	public UmfeldDatenSensorDatum(final ResultData resultat){
 		if(resultat == null){
 			throw new NullPointerException("Datensatz ist <<null>>"); //$NON-NLS-1$
 		}
 		if(resultat.getData() == null){
-			throw new NullPointerException("Datensatz enthält keine Daten"); //$NON-NLS-1$")
+			throw new NullPointerException("Datensatz enthaelt keine Daten"); //$NON-NLS-1$")
 		}
 		
 		this.originalDatum = resultat;
@@ -91,9 +92,9 @@ public class UmfeldDatenSensorDatum {
 		this.datum = resultat.getData();
 		this.wert = new UmfeldDatenSensorWert(datenArt);
 		this.wert.setWert(this.datum.getItem(this.datenArt.getName()).getUnscaledValue("Wert").longValue()); //$NON-NLS-1$
-		this.wert.setVeraendert(false);		
+		this.wert.setVeraendert(false);				
 	}
-
+	
 	
 	/**
 	 * Erfragt ein <code>ResultData</code>-Objekt, mit dem Datensatz, wie er sich 
@@ -147,6 +148,34 @@ public class UmfeldDatenSensorDatum {
 		return this.originalDatum;
 	}
 	
+	
+	/**
+	 * Erfragt den Gueteindex
+	 * 
+	 * @return der Gueteindex
+	 */
+	public final GanzZahl getGueteIndex(){
+		GanzZahl gueteIndex = GanzZahl.getGueteIndex();
+		
+		gueteIndex.setWert(this.datum.getItem(this.datenArt.getName()).getItem("Güte"). //$NON-NLS-1$
+				getUnscaledValue("Index").longValue()); //$NON-NLS-1$
+
+		return gueteIndex;
+	}
+	
+	
+	/**
+	 * Erfragt das Gueteverfahren
+	 * 
+	 * @return das Gueteverfahren
+	 */
+	public final int getGueteVerfahren(){
+		int gueteVerfahren = this.datum.getItem(this.datenArt.getName()).getItem("Güte"). //$NON-NLS-1$
+				getUnscaledValue("Verfahren").intValue(); //$NON-NLS-1$
+
+		return gueteVerfahren;
+	}
+	
 
 	/**
 	 * Erfragt das Erfassungsintervall dieses Datums
@@ -194,6 +223,32 @@ public class UmfeldDatenSensorDatum {
 
 
 	/**
+	 * Setzte den Gueteindex
+	 * 
+	 * @param guete der neue Gueteindex
+	 */
+	public final void setGueteIndex(long guete){
+		this.erstelleKopie();
+		
+		this.datum.getItem(this.datenArt.getName()).getItem("Güte"). //$NON-NLS-1$
+				getUnscaledValue("Index").set(guete); //$NON-NLS-1$
+	}
+	
+	
+	/**
+	 * Setzte den Gueteindex
+	 * 
+	 * @param guete der neue Gueteindex
+	 */
+	public final void setGueteVerfahren(int gueteVerfahren){
+		this.erstelleKopie();
+		
+		this.datum.getItem(this.datenArt.getName()).getItem("Güte"). //$NON-NLS-1$
+				getUnscaledValue("Verfahren").set(gueteVerfahren); //$NON-NLS-1$
+	}
+	
+	
+	/**
 	 * Erfragt den Wert <code>Status.MessWertErsetzung.Implausibel</code>
 	 * 
 	 * @return der Wert <code>Status.MessWertErsetzung.Implausibel</code>
@@ -201,6 +256,17 @@ public class UmfeldDatenSensorDatum {
 	public final int getStatusMessWertErsetzungImplausibel() {
 		return this.datum.getItem(this.datenArt.getName()).getItem("Status"). //$NON-NLS-1$
 		getItem("MessWertErsetzung").getUnscaledValue("Implausibel").intValue();  //$NON-NLS-1$//$NON-NLS-2$
+	}
+
+	
+	/**
+	 * Erfragt den Wert <code>Status.MessWertErsetzung.Interpoliert</code>
+	 * 
+	 * @return der Wert <code>Status.MessWertErsetzung.Interpoliert</code>
+	 */
+	public final int getStatusMessWertErsetzungInterpoliert() {
+		return this.datum.getItem(this.datenArt.getName()).getItem("Status"). //$NON-NLS-1$
+		getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").intValue();  //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 
@@ -217,7 +283,21 @@ public class UmfeldDatenSensorDatum {
 					set(statusMessWertErsetzungImplausibel);
 	}
 
+	
+	/**
+	 * Setzt den Wert <code>Status.MessWertErsetzung.Interpoliert</code>
+	 * 
+	 * @param statusMessWertErsetzungImplausibel der Wert <code>Status.MessWertErsetzung.Interpoliert</code>
+	 */
+	public final void setStatusMessWertErsetzungInterpoliert(
+								int statusMessWertErsetzungInterpoliert) {
+		this.erstelleKopie();
+		this.datum.getItem(this.datenArt.getName()).getItem("Status"). //$NON-NLS-1$
+					getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").  //$NON-NLS-1$//$NON-NLS-2$
+					set(statusMessWertErsetzungInterpoliert);
+	}
 
+	
 	/**
 	 * Erfragt den Wert selbst
 	 * 

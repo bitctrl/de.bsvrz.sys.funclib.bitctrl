@@ -94,6 +94,16 @@ public class AllgemeinerDatenContainer {
 					s += "unbekannt";   //$NON-NLS-1$
 				}
 				s += "\n";  //$NON-NLS-1$
+			}else
+			if(methode.getName().startsWith("is") &&  //$NON-NLS-1$
+			   methode.getDeclaringClass().equals(this.getClass())){
+				s += methode.getName().substring(2) + " = ";  //$NON-NLS-1$
+				try {
+					s += methode.invoke(this, new Object[0]);
+				} catch (Exception ex){
+					s += "unbekannt";   //$NON-NLS-1$
+				}
+				s += "\n";  //$NON-NLS-1${
 			}
 		}
 		

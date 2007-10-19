@@ -32,6 +32,8 @@ import java.util.Map;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.config.DataModel;
+import de.bsvrz.dav.daf.main.config.IntegerAttributeType;
+import de.bsvrz.dav.daf.main.config.IntegerValueRange;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dav.daf.main.config.SystemObjectType;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
@@ -61,6 +63,11 @@ public class UmfeldDatenArt{
 	 * Informationen zu seinem Namen und seiner Abkürzung
 	 */
 	private static Map<SystemObjectType, UmfeldDatenArt> TYP_AUF_ART = null;
+	
+	/**
+	 * Verbindung zum Datenverteiler
+	 */
+	private static ClientDavInterface DAV = null;
 	
 	/**
 	 * <code>typ.ufdsFahrBahnFeuchte</code>
@@ -192,6 +199,11 @@ public class UmfeldDatenArt{
 	 */
 	private String abkuerzung = null;
 	
+	/**
+	 * Die Skalierung von Werten dieses Typs im Datenkatalog
+	 */
+	private double skalierung = 1.0;		
+		
 	
 	/**
 	 * Erfragt die Umfelddatenart eines Systemobjekts
@@ -202,7 +214,7 @@ public class UmfeldDatenArt{
 	 */
 	public static final UmfeldDatenArt getUmfeldDatenArtVon(final SystemObject objekt){
 		if(TYP_AUF_ART == null){
-			throw new RuntimeException("UmfeldDatenArt wurde noch nicht initialisiert"); //$NON-NLS-1$
+			throw new RuntimeException("Umfelddatenarten wurden noch nicht initialisiert"); //$NON-NLS-1$
 		}
 		
 		UmfeldDatenArt umfeldDatenArt = null;
@@ -210,7 +222,7 @@ public class UmfeldDatenArt{
 		if(objekt != null){
 			umfeldDatenArt = TYP_AUF_ART.get(objekt.getType());	
 		}else{
-			LOGGER.error("Übergebenes Systemobjekt ist <<null>>"); //$NON-NLS-1$
+			LOGGER.error("Uebergebenes Systemobjekt ist <<null>>"); //$NON-NLS-1$
 		}
 		
 		return umfeldDatenArt;
@@ -224,7 +236,7 @@ public class UmfeldDatenArt{
 	 */
 	public static final Collection<UmfeldDatenArt> getInstanzen(){
 		if(TYP_AUF_ART == null){
-			throw new RuntimeException("UmfeldDatenArt wurde noch nicht initialisiert"); //$NON-NLS-1$
+			throw new RuntimeException("Umfelddatenarten wurden noch nicht initialisiert"); //$NON-NLS-1$
 		}
 
 		return TYP_AUF_ART.values();
@@ -240,8 +252,9 @@ public class UmfeldDatenArt{
 	public static final void initialisiere(final ClientDavInterface dav)
 	throws DUAInitialisierungsException{
 		if(TYP_AUF_ART != null){
-			throw new RuntimeException("UmfeldDatenArt darf nur einmal initialisiert werden"); //$NON-NLS-1$
+			throw new RuntimeException("Umfelddatenarten duerfen nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
+		DAV = dav;
 		TYP_AUF_ART = new HashMap<SystemObjectType, UmfeldDatenArt>();
 			
 		DataModel datenModell = dav.getDataModel();
@@ -312,16 +325,34 @@ public class UmfeldDatenArt{
 			throw new DUAInitialisierungsException("Umfelddatensensor-Typ ist <<null>>"); //$NON-NLS-1$
 		}
 		if(abkuerzung == null){
-			throw new DUAInitialisierungsException("Abkürzung ist <<null>> für " + typ); //$NON-NLS-1$
+			throw new DUAInitialisierungsException("Abkuerzung ist <<null>> fuer " + typ); //$NON-NLS-1$
 		}
+				
 		this.typ = typ;
 		this.abkuerzung = abkuerzung;
 		this.name = typ.getPid().substring("typ.ufds".length()); //$NON-NLS-1$
+				
+		IntegerAttributeType type = (IntegerAttributeType)
+					DAV.getDataModel().getAttributeType("att.ufds" + this.name); //$NON-NLS-1$
+		IntegerValueRange range = type.getRange();
+		if(range != null){
+			this.skalierung = range.getConversionFactor();			
+		}
 	}
 	
 	
 	/**
-	 * Erfragt den Name der Umfelddatenart
+	 * Erfragt die Skalierung von Werten dieses Typs im Datenkatalog
+	 * 
+	 * @return die Skalierung von Werten dieses Typs im Datenkatalog
+	 */
+	public final double getSkalierung(){
+		return this.skalierung;
+	}
+	
+	
+	/**
+	 * Erfragt den Nam
 	 * 
 	 * @return der Name der Umfelddatenart
 	 */
@@ -372,7 +403,7 @@ public class UmfeldDatenArt{
 	@Override
 	public String toString() {
 		return this.name + " (" + this.abkuerzung + //$NON-NLS-1$ 
-					") Typ: " + this.typ; //$NON-NLS-1$
+					") Typ: " + this.typ + ", Skalierung: " + this.skalierung; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 }

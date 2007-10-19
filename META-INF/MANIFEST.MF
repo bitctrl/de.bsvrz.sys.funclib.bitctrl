@@ -49,6 +49,7 @@ Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application"
    de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen,
    sys.funclib.debug",
  de.bsvrz.sys.funclib.bitctrl.dua.ufd;uses:="de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen,stauma.dav.clientside",
+ de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell,
  de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen;uses:="stauma.dav.configuration.interfaces,stauma.dav.clientside",
  de.bsvrz.sys.funclib.bitctrl.geolib,
  de.bsvrz.sys.funclib.bitctrl.geometrie,

@@ -93,24 +93,7 @@ implements Comparable<UmfeldDatenSensorWert>{
 	 * @return die Skalierung dieses Wertes
 	 */
 	private final double getWertSkalierung(){
-		double skalierung = 1;
-		
-		if(datenArt.equals(UmfeldDatenArt.TT1) ||
-		   datenArt.equals(UmfeldDatenArt.TT2) ||
-		   datenArt.equals(UmfeldDatenArt.TT3) ||
-		   datenArt.equals(UmfeldDatenArt.TPT) ||
-		   datenArt.equals(UmfeldDatenArt.LT) ||
-		   datenArt.equals(UmfeldDatenArt.GT) ||
-		   datenArt.equals(UmfeldDatenArt.FBT) ||
-		   datenArt.equals(UmfeldDatenArt.NI) ||
-		   datenArt.equals(UmfeldDatenArt.NM) ||
-		   datenArt.equals(UmfeldDatenArt.WFD) ||
-		   datenArt.equals(UmfeldDatenArt.WGM) ||
-		   datenArt.equals(UmfeldDatenArt.WGS)){
-			skalierung = 0.1;
-		}
-		
-		return skalierung;
+		return datenArt.getSkalierung();
 	}
 	
 	
