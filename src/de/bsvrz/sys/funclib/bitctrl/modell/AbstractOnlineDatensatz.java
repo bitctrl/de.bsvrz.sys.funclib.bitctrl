@@ -128,7 +128,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 */
 	@Override
 	public boolean isQuelle(Aspect asp) {
-		return quellen.get(asp);
+		return quellen.get(asp) == null ? false : quellen.get(asp);
 	}
 
 	/**
@@ -138,7 +138,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 */
 	@Override
 	public boolean isSenke(Aspect asp) {
-		return senken.get(asp);
+		return senken.get(asp) == null ? false : senken.get(asp);
 	}
 
 	/**

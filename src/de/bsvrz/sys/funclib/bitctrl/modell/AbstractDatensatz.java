@@ -86,7 +86,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 *            der betroffene Aspekt.
 		 */
 		public void abmelden(Aspect asp) {
-			if (angemeldet.get(asp)) {
+			if (angemeldet.get(asp) != null && angemeldet.get(asp)) {
 				DataDescription dbs = new DataDescription(getAttributGruppe(),
 						asp);
 				dav.unsubscribeReceiver(this, getObjekt().getSystemObject(),
@@ -170,7 +170,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 *            der betroffene Aspekt.
 		 */
 		public void abmelden(Aspect asp) {
-			if (angemeldet.get(asp)) {
+			if (angemeldet.get(asp) != null && angemeldet.get(asp)) {
 				DataDescription dbs = new DataDescription(getAttributGruppe(),
 						asp);
 				dav.unsubscribeSender(this, getObjekt().getSystemObject(), dbs);
