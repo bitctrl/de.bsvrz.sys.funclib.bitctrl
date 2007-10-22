@@ -39,7 +39,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.fachmodellglobal.GueteVerfahren;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StoerfallIndikator;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StoerfallSituation;
@@ -77,13 +76,13 @@ public class OdStoerfallZustand extends
 		StoerfallVerfahrenVKDiffKfz("asp.störfallVerfahrenVKDiffKfz"),
 
 		/** Der Aspekt {@code asp.störfallVerfahrenConstraint}. */
-		StoerfallVerfahrenConstraint("asp.st&ouml;rfallVerfahrenConstraint"),
+		StoerfallVerfahrenConstraint("asp.störfallVerfahrenConstraint"),
 
 		/** Der Aspekt {@code asp.störfallVerfahrenFuzzy}. */
-		StoerfallVerfahrenFuzzy("asp.st&ouml;rfallVerfahrenFuzzy"),
+		StoerfallVerfahrenFuzzy("asp.störfallVerfahrenFuzzy"),
 
 		/** Der Aspekt {@code asp.störfallVerfahrenMOBINET}. */
-		StoerfallVerfahrenMOBINET("asp.st&ouml;rfallVerfahrenMOBINET");
+		StoerfallVerfahrenMOBINET("asp.störfallVerfahrenMOBINET");
 
 		/** Der Aspekt, den das enum kapselt. */
 		private final Aspect aspekt;
@@ -129,11 +128,8 @@ public class OdStoerfallZustand extends
 		/** Das Flag f&uuml;r die G&uuml;ltigkeit des Datensatzes. */
 		private boolean valid;
 
-		/**
-		 * Infrastrukturobjekt, für den der St&ouml;rfallidikator ermittelt
-		 * wurde.
-		 */
-		private SystemObjekt infrastrukturObjekt;
+		/** Intervalldauer, mit dem die Werte erfasst wurden. */
+		private long t;
 
 		/** Verkehrssituation. */
 		private StoerfallSituation situation;
@@ -159,8 +155,8 @@ public class OdStoerfallZustand extends
 			klon.setGueteIndex(gueteIndex);
 			klon.setGueteVerfahren(gueteVerfahren);
 			klon.setHorizont(horizont);
-			klon.setInfrastrukturObjekt(infrastrukturObjekt);
 			klon.setSituation(situation);
+			klon.setT(t);
 			klon.setZeitstempel(getZeitstempel());
 			klon.valid = valid;
 			return klon;
@@ -194,21 +190,21 @@ public class OdStoerfallZustand extends
 		}
 
 		/**
-		 * Gibt den Wert der Eigenschaft {@code infrastrukturObjekt} wieder.
-		 * 
-		 * @return {@code infrastrukturObjekt}.
-		 */
-		public SystemObjekt getInfrastrukturObjekt() {
-			return infrastrukturObjekt;
-		}
-
-		/**
 		 * Gibt den Wert der Eigenschaft {@code situation} wieder.
 		 * 
 		 * @return {@code situation}.
 		 */
 		public StoerfallSituation getSituation() {
 			return situation;
+		}
+
+		/**
+		 * Gibt den Wert der Eigenschaft {@code t} wieder.
+		 * 
+		 * @return {@code t}.
+		 */
+		public long getT() {
+			return t;
 		}
 
 		/**
@@ -249,16 +245,6 @@ public class OdStoerfallZustand extends
 		}
 
 		/**
-		 * Legt den Wert der Eigenschaft {@code infrastrukturObjekt} fest.
-		 * 
-		 * @param infrastrukturObjekt
-		 *            der neue Wert von {@code infrastrukturObjekt}.
-		 */
-		public void setInfrastrukturObjekt(SystemObjekt infrastrukturObjekt) {
-			this.infrastrukturObjekt = infrastrukturObjekt;
-		}
-
-		/**
 		 * Legt den Wert der Eigenschaft {@code situation} fest.
 		 * 
 		 * @param situation
@@ -266,6 +252,29 @@ public class OdStoerfallZustand extends
 		 */
 		public void setSituation(StoerfallSituation situation) {
 			this.situation = situation;
+		}
+
+		/**
+		 * Legt den Wert der Eigenschaft {@code t} fest.
+		 * 
+		 * @param t
+		 *            der neue Wert von {@code t}.
+		 */
+		public void setT(long t) {
+			this.t = t;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return getClass() + "[zeitpunkt=" + getZeitpunkt() + ", valid="
+					+ isValid() + " , t=" + t + ", horizont=" + horizont
+					+ ", situation=" + situation + ", gueteIndex=" + gueteIndex
+					+ ", gueteVerfahren=" + gueteVerfahren + "]";
 		}
 
 		/**
@@ -346,18 +355,14 @@ public class OdStoerfallZustand extends
 		if (result.hasData()) {
 			Data daten = result.getData();
 
-			datum
-					.setGueteIndex(daten.getScaledValue("GüteIndex")
-							.doubleValue());
+			datum.setGueteIndex(daten.getItem("Güte").getScaledValue("Index")
+					.doubleValue());
 			datum.setGueteVerfahren(GueteVerfahren.getGueteVerfahren(daten
-					.getUnscaledValue("GüteVerfahren").intValue()));
+					.getItem("Güte").getUnscaledValue("Verfahren").intValue()));
 			datum.setHorizont(daten.getTimeValue("Horizont").getMillis());
-			datum.setInfrastrukturObjekt(ObjektFactory.getInstanz()
-					.getModellobjekt(
-							daten.getReferenceValue("InfrastrukturObjekt")
-									.getSystemObject()));
+			datum.setT(daten.getTimeValue("T").getMillis());
 			datum.setSituation(StoerfallSituation.getSituation(daten
-					.getUnscaledValue("StörfallSituation").intValue()));
+					.getUnscaledValue("Situation").intValue()));
 
 			datum.setValid(true);
 		} else {
@@ -379,14 +384,13 @@ public class OdStoerfallZustand extends
 	protected Data konvertiere(Daten datum) {
 		Data daten = erzeugeSendeCache();
 
-		daten.getScaledValue("GüteIndex").set(datum.getGueteIndex());
-		daten.getUnscaledValue("GüteVerfahren").set(
+		daten.getItem("Güte").getScaledValue("Index")
+				.set(datum.getGueteIndex());
+		daten.getItem("Güte").getUnscaledValue("Verfahren").set(
 				datum.getGueteVerfahren().getCode());
 		daten.getTimeValue("Horizont").setMillis(datum.getHorizont());
-		daten.getReferenceValue("InfrastrukturObjekt").setSystemObject(
-				datum.getInfrastrukturObjekt().getSystemObject());
-		daten.getUnscaledValue("StörfallSituation").set(
-				datum.getSituation().getCode());
+		daten.getTimeValue("T").setMillis(datum.getT());
+		daten.getUnscaledValue("Situation").set(datum.getSituation().getCode());
 
 		return daten;
 	}
