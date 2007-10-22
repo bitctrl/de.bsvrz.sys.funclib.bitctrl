@@ -384,8 +384,8 @@ public class OdStoerfallZustand extends
 	protected Data konvertiere(Daten datum) {
 		Data daten = erzeugeSendeCache();
 
-		daten.getItem("Güte").getScaledValue("Index")
-				.set(datum.getGueteIndex());
+		daten.getItem("Güte").getUnscaledValue("Index").set(
+				datum.getGueteIndex());
 		daten.getItem("Güte").getUnscaledValue("Verfahren").set(
 				datum.getGueteVerfahren().getCode());
 		daten.getTimeValue("Horizont").setMillis(datum.getHorizont());
