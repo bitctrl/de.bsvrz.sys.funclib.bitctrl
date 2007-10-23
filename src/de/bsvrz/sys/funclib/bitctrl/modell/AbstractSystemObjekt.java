@@ -50,13 +50,13 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * Menge der Parameterdatensaätze, deren Daten innerhalb des Objekts
 	 * verwaltet werden.
 	 */
-	private final Map<Class<? extends ParameterDatensatz<?>>, ParameterDatensatz<?>> parameter = new HashMap<Class<? extends ParameterDatensatz<?>>, ParameterDatensatz<?>>();
+	private final Map<Class<? extends ParameterDatensatz<? extends Datum>>, ParameterDatensatz<? extends Datum>> parameter;
 
 	/**
 	 * Menge der Onlinedatensätze, deren Daten innerhalb des Objekts verwaltet
 	 * werden.
 	 */
-	private final Map<Class<? extends OnlineDatensatz<?>>, OnlineDatensatz<?>> onlineDaten = new HashMap<Class<? extends OnlineDatensatz<?>>, OnlineDatensatz<?>>();
+	private final Map<Class<? extends OnlineDatensatz<? extends Datum>>, OnlineDatensatz<? extends Datum>> onlineDaten;
 
 	/**
 	 * Weist lediglich das Systemobjekt zu.
@@ -66,6 +66,8 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 */
 	protected AbstractSystemObjekt(SystemObject obj) {
 		objekt = obj;
+		parameter = new HashMap<Class<? extends ParameterDatensatz<? extends Datum>>, ParameterDatensatz<? extends Datum>>();
+		onlineDaten = new HashMap<Class<? extends OnlineDatensatz<? extends Datum>>, OnlineDatensatz<? extends Datum>>();
 	}
 
 	/**
@@ -104,18 +106,19 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getOnlineDatensatz()
 	 */
-	public Collection<? extends OnlineDatensatz<?>> getOnlineDatensatz() {
+	public Collection<? extends OnlineDatensatz<? extends Datum>> getOnlineDatensatz() {
 		return onlineDaten.values();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public <O extends OnlineDatensatz<?>> O getOnlineDatensatz(Class<O> typ) {
+	public <O extends OnlineDatensatz<? extends Datum>> O getOnlineDatensatz(
+			Class<O> typ) {
 		if (!onlineDaten.containsKey(typ)) {
-			OnlineDatensatz<?> od;
+			OnlineDatensatz<? extends Datum> od;
 
-			od = (OnlineDatensatz<?>) getDatensatz(typ);
+			od = (OnlineDatensatz<? extends Datum>) getDatensatz(typ);
 			if (od == null) {
 				throw new IllegalArgumentException(
 						"Datensatz "
@@ -141,19 +144,19 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getParameterDatensatz()
 	 */
-	public Collection<? extends ParameterDatensatz<?>> getParameterDatensatz() {
+	public Collection<? extends ParameterDatensatz<? extends Datum>> getParameterDatensatz() {
 		return parameter.values();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public <P extends ParameterDatensatz<?>> P getParameterDatensatz(
+	public <P extends ParameterDatensatz<? extends Datum>> P getParameterDatensatz(
 			Class<P> typ) {
 		if (!parameter.containsKey(typ)) {
-			ParameterDatensatz<?> pd;
+			ParameterDatensatz<? extends Datum> pd;
 
-			pd = (ParameterDatensatz<?>) getDatensatz(typ);
+			pd = (ParameterDatensatz<? extends Datum>) getDatensatz(typ);
 			if (pd == null) {
 				throw new IllegalArgumentException(
 						"Datensatz "
@@ -193,7 +196,8 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#hasOnlineDatensatz(java.lang.Class)
 	 */
-	public boolean hasOnlineDatensatz(Class<? extends OnlineDatensatz<?>> typ) {
+	public boolean hasOnlineDatensatz(
+			Class<? extends OnlineDatensatz<? extends Datum>> typ) {
 		return getDatensatz(typ) != null;
 	}
 
@@ -203,7 +207,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#hasParameterDatensatz(java.lang.Class)
 	 */
 	public boolean hasParameterDatensatz(
-			Class<? extends ParameterDatensatz<?>> typ) {
+			Class<? extends ParameterDatensatz<? extends Datum>> typ) {
 		return getDatensatz(typ) != null;
 	}
 
@@ -229,7 +233,8 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * @return ein Objekt der Klasse oder {@code null}, wenn der Datensatz am
 	 *         Systemobjekt nicht unterst&uuml;tzt wird..
 	 */
-	private Datensatz<?> getDatensatz(Class<? extends Datensatz<?>> typ) {
+	private Datensatz<? extends Datum> getDatensatz(
+			Class<? extends Datensatz<? extends Datum>> typ) {
 		if (Modifier.isAbstract(typ.getModifiers())
 				|| Modifier.isInterface(typ.getModifiers())) {
 			throw new IllegalArgumentException("Datensatz " + typ.getName()
@@ -237,7 +242,8 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 					+ "Schnittstelle oder abstrakte Klasse handelt.");
 		}
 
-		for (Constructor<? extends Datensatz<?>> c : typ.getConstructors()) {
+		for (Constructor<? extends Datensatz<? extends Datum>> c : typ
+				.getConstructors()) {
 			Class<?>[] parameterTypes = c.getParameterTypes();
 
 			if (Modifier.isPublic(c.getModifiers())

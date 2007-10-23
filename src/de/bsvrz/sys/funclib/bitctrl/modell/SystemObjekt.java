@@ -79,7 +79,7 @@ public interface SystemObjekt {
 	 * 
 	 * @return die Menge der aktuell verwendeten Onlinedatens&auml;tze.
 	 */
-	Collection<? extends OnlineDatensatz<?>> getOnlineDatensatz();
+	Collection<? extends OnlineDatensatz<? extends Datum>> getOnlineDatensatz();
 
 	/**
 	 * Gibt einen bestimmten Onlinedatensatz zur&uuml;ck. Es wird gepr&uuml;ft,
@@ -89,7 +89,8 @@ public interface SystemObjekt {
 	 *            der Typ des Datensatzes.
 	 * @return der Datensatz.
 	 */
-	<O extends OnlineDatensatz<?>> O getOnlineDatensatz(Class<O> typ);
+	<O extends OnlineDatensatz<? extends Datum>> O getOnlineDatensatz(
+			Class<O> typ);
 
 	/**
 	 * Gibt alle aktuell verwendeten Parameterdatens&auml;tze des Systemobjekts
@@ -101,7 +102,7 @@ public interface SystemObjekt {
 	 * 
 	 * @return die Menge der aktuell verwendeten Onlinedatens&auml;tze.
 	 */
-	Collection<? extends ParameterDatensatz<?>> getParameterDatensatz();
+	Collection<? extends ParameterDatensatz<? extends Datum>> getParameterDatensatz();
 
 	/**
 	 * Gibt einen bestimmten Parameterdatensatz zur&uuml;ck. Es wird
@@ -111,7 +112,8 @@ public interface SystemObjekt {
 	 *            der Typ des Datensatzes.
 	 * @return der Datensatz.
 	 */
-	<P extends ParameterDatensatz<?>> P getParameterDatensatz(Class<P> typ);
+	<P extends ParameterDatensatz<? extends Datum>> P getParameterDatensatz(
+			Class<P> typ);
 
 	/**
 	 * Gibt die PID des Systemobjekts zur&uuml;ck.
@@ -144,7 +146,8 @@ public interface SystemObjekt {
 	 * @return {@code true}, wenn der Onlinedatensatz am Systemobjekt verwendet
 	 *         werden kann.
 	 */
-	boolean hasOnlineDatensatz(Class<? extends OnlineDatensatz<?>> typ);
+	boolean hasOnlineDatensatz(
+			Class<? extends OnlineDatensatz<? extends Datum>> typ);
 
 	/**
 	 * Pr&uuml;ft ob das Systemobjekt einen bestimmten Parameterdatensatz
@@ -155,6 +158,7 @@ public interface SystemObjekt {
 	 * @return {@code true}, wenn der Parameterdatensatz am Systemobjekt
 	 *         verwendet werden kann.
 	 */
-	boolean hasParameterDatensatz(Class<? extends ParameterDatensatz<?>> typ);
+	boolean hasParameterDatensatz(
+			Class<? extends ParameterDatensatz<? extends Datum>> typ);
 
 }
