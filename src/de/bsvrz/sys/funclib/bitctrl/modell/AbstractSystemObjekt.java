@@ -118,7 +118,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 		if (!onlineDaten.containsKey(typ)) {
 			OnlineDatensatz<? extends Datum> od;
 
-			od = (OnlineDatensatz<? extends Datum>) getDatensatz(typ);
+			od = getDatensatz(typ);
 			if (od == null) {
 				throw new IllegalArgumentException(
 						"Datensatz "
@@ -156,7 +156,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 		if (!parameter.containsKey(typ)) {
 			ParameterDatensatz<? extends Datum> pd;
 
-			pd = (ParameterDatensatz<? extends Datum>) getDatensatz(typ);
+			pd = getDatensatz(typ);
 			if (pd == null) {
 				throw new IllegalArgumentException(
 						"Datensatz "
@@ -230,11 +230,12 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * 
 	 * @param typ
 	 *            die Klasse eines Datensatzes.
+	 * @param <D>
+	 *            Der Typ des Datensatzes.
 	 * @return ein Objekt der Klasse oder {@code null}, wenn der Datensatz am
 	 *         Systemobjekt nicht unterst&uuml;tzt wird..
 	 */
-	private Datensatz<? extends Datum> getDatensatz(
-			Class<? extends Datensatz<? extends Datum>> typ) {
+	private <D extends Datensatz<? extends Datum>> D getDatensatz(Class<D> typ) {
 		if (Modifier.isAbstract(typ.getModifiers())
 				|| Modifier.isInterface(typ.getModifiers())) {
 			throw new IllegalArgumentException("Datensatz " + typ.getName()
@@ -242,15 +243,14 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 					+ "Schnittstelle oder abstrakte Klasse handelt.");
 		}
 
-		for (Constructor<? extends Datensatz<? extends Datum>> c : typ
-				.getConstructors()) {
+		for (Constructor<?> c : typ.getConstructors()) {
 			Class<?>[] parameterTypes = c.getParameterTypes();
 
 			if (Modifier.isPublic(c.getModifiers())
 					&& parameterTypes.length == 1
 					&& parameterTypes[0].isAssignableFrom(getClass())) {
 				try {
-					return c.newInstance(this);
+					return (D) c.newInstance(this);
 				} catch (IllegalArgumentException ex) {
 					// Darf nicht mehr eintreten, weil geprüpft
 					throw new IllegalArgumentException("Datensatz "

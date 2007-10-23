@@ -87,6 +87,8 @@ public interface SystemObjekt {
 	 * 
 	 * @param typ
 	 *            der Typ des Datensatzes.
+	 * @param <O>
+	 *            Der Typ des Onlinedatensatzes.
 	 * @return der Datensatz.
 	 */
 	<O extends OnlineDatensatz<? extends Datum>> O getOnlineDatensatz(
@@ -110,10 +112,12 @@ public interface SystemObjekt {
 	 * 
 	 * @param typ
 	 *            der Typ des Datensatzes.
+	 * @param <D>
+	 *            Der Typ des Parameterdatensatzes.
 	 * @return der Datensatz.
 	 */
-	<P extends ParameterDatensatz<? extends Datum>> P getParameterDatensatz(
-			Class<P> typ);
+	<D extends ParameterDatensatz<? extends Datum>> D getParameterDatensatz(
+			Class<D> typ);
 
 	/**
 	 * Gibt die PID des Systemobjekts zur&uuml;ck.
