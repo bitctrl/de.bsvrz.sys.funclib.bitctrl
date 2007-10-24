@@ -63,8 +63,8 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 		 * <p>
 		 * {@inheritDoc}
 		 */
-		public int compare(MessQuerschnittAllgemein mq1,
-				MessQuerschnittAllgemein mq2) {
+		public int compare(final MessQuerschnittAllgemein mq1,
+				final MessQuerschnittAllgemein mq2) {
 			return Float.compare(mq1.getStrassenSegmentOffset(), mq2
 					.getStrassenSegmentOffset());
 		}
@@ -95,7 +95,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	 *            Ein Systemobjekt, welches ein MessQuerschnittAllgemein sein
 	 *            muss
 	 */
-	MessQuerschnittAllgemein(SystemObject obj) {
+	MessQuerschnittAllgemein(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
@@ -179,18 +179,20 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 		float offsetSS = 0;
 		StrassenTeilSegment sts = null;
 
-		// Das richtige STS ist letzte für das gilt offset(MQ) < offsetSS
-		for (StrassenTeilSegment s : strassenSegment.getStrassenTeilSegmente()) {
-			if (offsetSS < offset && offset < offsetSS + s.getLaenge()) {
-				sts = s;
-				break;
+		if (strassenSegment != null) {
+			// Das richtige STS ist letzte für das gilt offset(MQ) < offsetSS
+			for (StrassenTeilSegment s : strassenSegment
+					.getStrassenTeilSegmente()) {
+				if (offsetSS < offset && offset < offsetSS + s.getLaenge()) {
+					sts = s;
+					break;
+				}
+				offsetSS += s.getLaenge();
 			}
-			offsetSS += s.getLaenge();
+			strassenTeilSegment = sts;
 		}
-		assert sts != null;
 
-		strassenTeilSegment = sts;
-		return sts;
+		return strassenTeilSegment;
 	}
 
 	/**
