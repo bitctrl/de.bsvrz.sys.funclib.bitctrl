@@ -56,4 +56,7 @@ public class DaVKonstanten {
 	/** Der Typ Attributgruppe. */
 	public static final String TYP_ATTRIBUTGRUPPE = "typ.attributgruppe";
 
+	/** Der Typ Aspekt. */
+	public static final String TYP_ASPEKT = "typ.aspekt";
+
 }
