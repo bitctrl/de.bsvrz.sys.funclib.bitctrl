@@ -1,5 +1,5 @@
 /**
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.3 Pl-Prüfung logisch UFD
+ * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.x
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
  * This program is free software; you can redistribute it and/or modify it under
@@ -402,8 +402,7 @@ public class UmfeldDatenArt{
 	 */
 	@Override
 	public String toString() {
-		return this.name + " (" + this.abkuerzung + //$NON-NLS-1$ 
-					") Typ: " + this.typ + ", Skalierung: " + this.skalierung; //$NON-NLS-1$ //$NON-NLS-2$
+		return this.name + " (" + this.abkuerzung + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 }
