@@ -76,16 +76,6 @@ Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application"
    sys.funclib,
    sys.funclib.debug",
  de.bsvrz.sys.funclib.bitctrl.test.datagen;uses:="sys.funclib.application,stauma.dav.clientside,sys.funclib",
- de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten;
-  uses:="stauma.dav.configuration.interfaces,
-   javax.swing,
-   sys.funclib.application,
-   stauma.dav.clientside,
-   javax.swing.event,
-   sys.funclib,
-   sys.funclib.debug",
- de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten.umfelddaten;uses:="stauma.dav.configuration.interfaces,stauma.dav.clientside,de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten",
- de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten.verkehr;uses:="stauma.dav.configuration.interfaces,stauma.dav.clientside,de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten",
  de.bsvrz.sys.funclib.bitctrl.text,
  de.bsvrz.sys.funclib.bitctrl.util,
  de.bsvrz.sys.funclib.bitctrl.util.dav
