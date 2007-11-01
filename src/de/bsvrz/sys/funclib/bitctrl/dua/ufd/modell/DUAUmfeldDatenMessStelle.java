@@ -265,6 +265,16 @@ public class DUAUmfeldDatenMessStelle {
 
 	
 	/**
+	 * Erfragt das assoziierte Systemobjekt
+	 * 
+	 * @return das assoziierte Systemobjekt
+	 */
+	public final SystemObject getObjekt(){
+		return this.objekt;
+	}
+	
+	
+	/**
 	 * Speichert die Umfelddatensensoren einer Messstelle 
 	 * fuer <b>eine</b> bestimmte Umfelddatenart
 	 * 

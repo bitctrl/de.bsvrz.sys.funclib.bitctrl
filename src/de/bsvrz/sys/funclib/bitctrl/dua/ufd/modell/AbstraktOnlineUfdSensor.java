@@ -36,8 +36,8 @@ import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.ReceiveOptions;
 import de.bsvrz.dav.daf.main.ReceiverRole;
 import de.bsvrz.dav.daf.main.ResultData;
+import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 
 /**
@@ -71,15 +71,17 @@ implements ClientReceiverInterface{
 	 * 
 	 * @param dav Datenverteiler-Verbindung
 	 * @param objekt ein Systemobjekt eines Umfelddatensensors (muss <code>!= null</code> sein)
+	 * @param aspekt der Aspekt, aus dem die aktuellen Daten entnommen werden sollen
 	 */
 	protected void initialisiere(final ClientDavInterface dav, 
-								 final SystemObject objekt){
+								 final SystemObject objekt,
+								 final Aspect aspekt){
 		UmfeldDatenArt datenArt = UmfeldDatenArt.getUmfeldDatenArtVon(objekt);
 		this.objekt = objekt;
 		
 		DataDescription datenBeschreibung = new DataDescription(
 				dav.getDataModel().getAttributeGroup("atg.ufds" + datenArt.getName()), //$NON-NLS-1$
-				dav.getDataModel().getAspect(DUAKonstanten.ASP_PL_PRUEFUNG_LOGISCH),
+				aspekt,
 				(short)0);
 		
 		dav.subscribeReceiver(this, objekt, datenBeschreibung, ReceiveOptions.normal(), ReceiverRole.receiver());
