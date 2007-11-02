@@ -81,7 +81,7 @@ implements ClientReceiverInterface{
 	 * 
 	 */
 //	private long maxZeitMessWertFortschreibung = -1;
-	private long maxZeitMessWertFortschreibung = Konstante.SEKUNDE_IN_MS * 1;
+	private long maxZeitMessWertFortschreibung = Konstante.SEKUNDE_IN_MS * 3 * 60;
 	
 	/**
 	 * Die Umfelddatenmessstelle vorher
@@ -246,18 +246,9 @@ implements ClientReceiverInterface{
 					Data ufdsMessWertErsetzungData = resultat.getData();
 					this.maxZeitMessWertErsetzung = 
 						ufdsMessWertErsetzungData.getTimeValue("maxZeitMessWertErsetzung").getMillis(); //$NON-NLS-1$
-					
-					/**
-					 * 
-					 * 
-					 * 
-					 * TODO: Fortschreibeung auslesen
-					 * 
-					 * 
-					 * 
-					 */
-//					this.maxZeitMessWertFortschreibung = 
-//						ufdsMessWertErsetzungData.getTimeValue("maxZeitMessWertFortschreibung").getMillis(); //$NON-NLS-1$
+	
+					this.maxZeitMessWertFortschreibung = 
+						ufdsMessWertErsetzungData.getTimeValue("maxZeitMessWertFortschreibung").getMillis(); //$NON-NLS-1$
 				}
 			}
 		}
