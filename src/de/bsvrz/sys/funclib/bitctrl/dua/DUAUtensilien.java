@@ -488,15 +488,15 @@ public class DUAUtensilien {
 		} else if (!datenBeschreibung.getAttributeGroup().getAspects()
 				.contains(datenBeschreibung.getAspect())) {
 			result = "Aspekt " + datenBeschreibung.getAspect() + //$NON-NLS-1$
-					" ist für Attributgruppe "
-					+ datenBeschreibung.getAttributeGroup() + //$NON-NLS-1$
+					" ist für Attributgruppe " //$NON-NLS-1$
+					+ datenBeschreibung.getAttributeGroup() +
 					" nicht definiert"; //$NON-NLS-1$)
 		} else if (!(obj.getClass().equals(DafConfigurationObject.class)
 				|| obj.getClass().equals(DafDynamicObject.class) || obj
 				.getClass().equals(DafConfigurationAuthority.class))) {
 			result = "Es handelt sich weder um ein Konfigurationsobjekt, " + //$NON-NLS-1$
-					"ein dynamisches Objekt noch eine Konfigurationsautorität: "
-					+ obj; //$NON-NLS-1$
+					"ein dynamisches Objekt noch eine Konfigurationsautorität: " //$NON-NLS-1$
+					+ obj;
 		}
 
 		return result;
@@ -577,5 +577,18 @@ public class DUAUtensilien {
 
 		return ergebnis;
 	}
-		
+	
+	
+	/**
+	 * Erfragt den gerundeten Wert als Zeichenkette
+	 * 
+	 * @param wert ein Wert
+	 * @param nachkommastellen Rundungsstellen
+	 * @return der gerundete Wert als Zeichenkette
+	 */
+	public static final String runde(double wert, int nachkommastellen){
+		double nachkommaDouble = Math.pow(10, nachkommastellen);
+		return new Double(Math.round(wert * nachkommaDouble) / nachkommaDouble).toString();
+	}
+	
 }

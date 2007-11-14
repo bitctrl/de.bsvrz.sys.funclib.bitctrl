@@ -268,5 +268,10 @@ public class DUAKonstanten {
 		 "tNetto", //$NON-NLS-1$
 		 "sKfz", //$NON-NLS-1$
 		 "vgKfz"}; //$NON-NLS-1$
+
+	/**
+	 * Aspekt <code>asp.tlsAntwort</code> für Antworten von TLS-Daten eines DE-Blocks nach Abruf, nach Pufferabfrage oder spontan
+	 */
+	public static final String ASP_TLS_ANTWORT = "asp.tlsAntwort"; //$NON-NLS-1$
 	
 }
