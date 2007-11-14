@@ -37,6 +37,7 @@ import de.bsvrz.dav.daf.main.config.ConfigurationObject;
 import de.bsvrz.dav.daf.main.config.NonMutableSet;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Korrespondiert mit einem Objekt vom Typ <code>typ.umfeldDatenMessStelle</code>
@@ -47,6 +48,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
  */
 public class DUAUmfeldDatenMessStelle {
 
+	private static Debug LOGGER = Debug.getLogger();
 	/**
 	 * statische Instanzen dieser Klasse
 	 */
@@ -78,7 +80,7 @@ public class DUAUmfeldDatenMessStelle {
 			throw new NullPointerException("Menge der Umfelddaten-Messstellen ist <<null>>"); //$NON-NLS-1$
 		}
 		if(INSTANZEN != null){
-			throw new RuntimeException("UFD-Modell darf nur einmal initialisiert werden"); //$NON-NLS-1$
+			LOGGER.error("UFD-Modell darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
 
 		INSTANZEN = new HashMap<SystemObject, DUAUmfeldDatenMessStelle>();

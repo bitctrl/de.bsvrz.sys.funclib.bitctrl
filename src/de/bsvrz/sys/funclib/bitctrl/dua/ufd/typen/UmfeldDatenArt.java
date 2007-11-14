@@ -252,7 +252,7 @@ public class UmfeldDatenArt{
 	public static final void initialisiere(final ClientDavInterface dav)
 	throws DUAInitialisierungsException{
 		if(TYP_AUF_ART != null){
-			throw new RuntimeException("Umfelddatenarten duerfen nur einmal initialisiert werden"); //$NON-NLS-1$
+			LOGGER.error("Umfelddatenarten duerfen nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
 		DAV = dav;
 		TYP_AUF_ART = new HashMap<SystemObjectType, UmfeldDatenArt>();

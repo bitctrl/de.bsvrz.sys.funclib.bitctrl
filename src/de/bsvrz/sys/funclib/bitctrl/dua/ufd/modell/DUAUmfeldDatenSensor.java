@@ -56,7 +56,7 @@ implements ClientReceiverInterface{
 	/**
 	 * statische Instanzen dieser Klasse
 	 */
-	private static Map<SystemObject, DUAUmfeldDatenSensor> INSTANZEN = 
+	protected static Map<SystemObject, DUAUmfeldDatenSensor> INSTANZEN = 
 							new HashMap<SystemObject, DUAUmfeldDatenSensor>(); 
 	
 	/**
@@ -143,7 +143,7 @@ implements ClientReceiverInterface{
 	 * @param dav Datenverteiler-Verbindung
 	 * @param objekt das Systemobjekt des Umfelddatensensors
 	 */
-	private DUAUmfeldDatenSensor(final ClientDavInterface dav, final SystemObject objekt){
+	protected DUAUmfeldDatenSensor(final ClientDavInterface dav, final SystemObject objekt){
 		if(this.objekt != null){
 			throw new NullPointerException("Als Umfelddatensensor wurde <<null>> uebergeben"); //$NON-NLS-1$
 		}

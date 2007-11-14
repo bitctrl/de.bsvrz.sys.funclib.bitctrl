@@ -86,7 +86,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	 *             (nicht die geforderten Informationen bereit hält), bzw. keine
 	 *             Datenanmeldungen durchgeführt werden konnten
 	 */
-	public static final DatenFlussSteuerungsVersorger getInstanz(
+	public static DatenFlussSteuerungsVersorger getInstanz(
 			final IVerwaltung verwaltung) throws DUAInitialisierungsException {
 		if (INSTANZ == null) {
 			/**
@@ -151,7 +151,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	 *             (nicht die geforderten Informationen bereit hält), bzw. keine
 	 *             Datenanmeldungen durchgeführt werden konnten
 	 */
-	private DatenFlussSteuerungsVersorger(final IVerwaltung verwaltung,
+	protected DatenFlussSteuerungsVersorger(final IVerwaltung verwaltung,
 			final SystemObject dfsObjekt) throws DUAInitialisierungsException {
 		if (verwaltung == null) {
 			throw new DUAInitialisierungsException(STD_FEHLER
