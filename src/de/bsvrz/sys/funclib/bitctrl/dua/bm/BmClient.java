@@ -35,6 +35,7 @@ import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.ReceiveOptions;
 import de.bsvrz.dav.daf.main.ReceiverRole;
 import de.bsvrz.dav.daf.main.ResultData;
+import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
  * Empfaengt Betriebsmeldungen
@@ -118,9 +119,15 @@ implements ClientReceiverInterface{
 				if(result != null && result.getData() != null){
 					final long zeit = result.getDataTime();
 					final String text = result.getData().getTextValue("MeldungsText").getText(); //$NON-NLS-1$
+					SystemObject referenz = null;
+					if( result.getData().getReferenceArray("Referenz") != null && //$NON-NLS-1$
+						result.getData().getReferenceArray("Referenz").getLength() > 0 && //$NON-NLS-1$
+						result.getData().getReferenceArray("Referenz").getReferenceValue(0) != null){ //$NON-NLS-1$
+						referenz = result.getData().getReferenceArray("Referenz").getReferenceValue(0).getSystemObject(); //$NON-NLS-1$
+					}
 					synchronized (this.listeners) {
 						for(IBmListener listener:this.listeners){
-							listener.aktualisiere(zeit, text);
+							listener.aktualisiereBetriebsMeldungen(referenz, zeit, text);
 						}
 					}
 				}

@@ -25,6 +25,8 @@
  */
 package de.bsvrz.sys.funclib.bitctrl.dua.bm;
 
+import de.bsvrz.dav.daf.main.config.SystemObject;
+
 /**
  * Betriebsmeldungs-Beobachter
  * 
@@ -36,9 +38,10 @@ public interface IBmListener {
 	/**
 	 * Empfaengt eine Betriebsmeldung
 	 * 
+	 * @param obj das mit der Meldung assoziierte Systemobjekt
 	 * @param zeit Datenzeit der Betriebsmeldung
 	 * @param text Meldungstext
 	 */
-	public void aktualisiere(final long zeit, final String text);
+	public void aktualisiereBetriebsMeldungen(final SystemObject obj, final long zeit, final String text);
 
 }

@@ -143,6 +143,11 @@ public class DUAKonstanten {
 	public static final String ATG_MESS_STELLE = "atg.messStelle"; //$NON-NLS-1$
 	
 	/**
+	 * DAV-Atg-PID <code>atg.messStellenGruppe</code>
+	 */
+	public static final String ATG_MESS_STELLEN_GRUPPE = "atg.messStellenGruppe"; //$NON-NLS-1$
+	
+	/**
 	 * DAV-Atg-PID <code>atg.messQuerschnittAllgemein</code>
 	 */
 	public static final String ATG_MQ_ALLGEMEIN = "atg.messQuerschnittAllgemein"; //$NON-NLS-1$

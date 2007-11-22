@@ -62,6 +62,7 @@ public class DuaVerkehrsNetz {
 		MessQuerschnittVirtuell.initialisiere(dav);
 		MessStelle.initialisiere(dav);
 		ermittleErsatzUndNachbarFS();
+		MessStellenGruppe.initialisiere(dav);
 	}
 	
 	
