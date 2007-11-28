@@ -313,7 +313,7 @@ public class TreeProperties extends Properties {
 	 * @return der absolute Schlüssel.
 	 */
 	private String actualKey(String key) {
-		return trace + normalizedKey(key);
+		return trace + normalize(key);
 	}
 
 	/**
@@ -335,22 +335,28 @@ public class TreeProperties extends Properties {
 	 *            ein zu normalisierender Schlüssel.
 	 * @return der normalisierte Schlüssel.
 	 */
-	private String normalizedKey(String key) {
+	private String normalize(String key) {
 		String normalized = key;
 
+		// Alle Leerzeichen entfernen
+		normalized = normalized.replaceAll("\\s", "");
+
+		// Punkte in der Mitte zusammenfassen
 		while (normalized.contains("..")) {
-			normalized.replaceAll("..", ".");
+			normalized = normalized.replaceAll("\\.\\.", "\\.");
 		}
 
+		// Punkt am Anfang entfernen
 		if (normalized.startsWith(".")) {
 			normalized = normalized.substring(1);
 		}
 
+		// Punkt am Ende entfernen
 		if (normalized.endsWith(".")) {
-			normalized = normalized.substring(normalized.length() - 1);
+			normalized = normalized.substring(0, normalized.length() - 1);
 		}
 
-		return normalized.trim();
+		return normalized;
 	}
 
 }
