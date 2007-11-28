@@ -157,6 +157,28 @@ public class TreeProperties extends Properties {
 	}
 
 	/**
+	 * ÷ffnet ein neues Feld zum Lesen.
+	 * 
+	 * @param name
+	 *            der Name des Felds.
+	 * @return die L‰nge des Felds.
+	 */
+	public int beginReadArray(String name) {
+		beginGroupOrArray(new Group(name, false));
+		return Integer.valueOf(getProperty("size"));
+	}
+
+	/**
+	 * ÷ffnet ein neues Feld zum Schreiben.
+	 * 
+	 * @param name
+	 *            der Name des Felds.
+	 */
+	public void beginWriteArray(String name) {
+		beginWriteArray(name, -1);
+	}
+
+	/**
 	 * ÷ffnet ein neues Feld zum Schreiben.
 	 * 
 	 * @param name
@@ -181,7 +203,22 @@ public class TreeProperties extends Properties {
 	 *            der Name des Felds.
 	 */
 	public void endArray(String name) {
-		endGroupOrArray(name);
+		Group group = stack.poll();
+
+		if (group == null || !group.name.equals(name)) {
+			throw new IllegalArgumentException("no array \"" + name + "\"");
+		}
+
+		if (group.arraySizeGuess() != -1) {
+			setProperty(name + ".size", String.valueOf(group.arraySizeGuess()));
+		}
+
+		int length = group.toString().length();
+		if (stack.size() == 0) {
+			trace = "";
+		} else {
+			trace = trace.substring(0, trace.length() - length - 1);
+		}
 	}
 
 	/**
@@ -191,7 +228,18 @@ public class TreeProperties extends Properties {
 	 *            der Name der Gruppe.
 	 */
 	public void endGroup(String name) {
-		endGroupOrArray(name);
+		Group group = stack.poll();
+
+		if (group == null || !group.name.equals(name)) {
+			throw new IllegalArgumentException("no group \"" + name + "\"");
+		}
+
+		int length = group.toString().length();
+		if (stack.size() == 0) {
+			trace = "";
+		} else {
+			trace = trace.substring(0, trace.length() - length - 1);
+		}
 	}
 
 	/**
@@ -277,27 +325,6 @@ public class TreeProperties extends Properties {
 	private void beginGroupOrArray(Group group) {
 		stack.offer(group);
 		trace += group.name + '.';
-	}
-
-	/**
-	 * Schlieﬂt eine Gruppe oder ein Feld.
-	 * 
-	 * @param name
-	 *            der Name der Gruppe oder des Felds.
-	 */
-	private void endGroupOrArray(String name) {
-		if (!stack.peek().name.equals(name)) {
-			throw new IllegalArgumentException("no group or array \"" + name
-					+ "\"");
-		}
-
-		int length = stack.peek().toString().length();
-		if (stack.size() == 1) {
-			trace = "";
-		} else {
-			trace = trace.substring(0, trace.length() - length - 1);
-		}
-		stack.poll();
 	}
 
 	/**
