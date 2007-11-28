@@ -590,5 +590,90 @@ public class DUAUtensilien {
 		double nachkommaDouble = Math.pow(10, nachkommastellen);
 		return new Double(Math.round(wert * nachkommaDouble) / nachkommaDouble).toString();
 	}
+
+	
+	/**
+	 * Wandelt eine Zeitspanne in Millisekunden in einen Text um
+	 * 
+	 * @param vergleichsIntervallInMs zeit in Millisekunden
+	 * @return die uebergebene Zeitspanne in Millisekunden als Text
+	 */
+	public static final String getVergleichsIntervallInText(long vergleichsIntervallInMs){
+		StringBuffer text = new StringBuffer();
+			
+		try {
+			long val = vergleichsIntervallInMs;
+			int millis = (int)(val % 1000);
+			val /= 1000;
+			int seconds = (int)(val % 60);
+			val /= 60;
+			int minutes = (int)(val % 60);
+			val /= 60;
+			int hours = (int)(val % 24);
+			val /= 24;
+			long days = val;
+			if(days != 0) {
+				if(days == 1) {
+					text.append("1 Tag "); //$NON-NLS-1$
+				}
+				else if(days == -1) {
+					text.append("-1 Tag "); //$NON-NLS-1$
+				}
+				else {
+					text.append(days).append(" Tage "); //$NON-NLS-1$
+				}
+			}
+			if(hours != 0) {
+				if(hours == 1) {
+					text.append("1 Stunde "); //$NON-NLS-1$
+				}
+				else if(hours == -1) {
+					text.append("-1 Stunde "); //$NON-NLS-1$
+				}
+				else {
+					text.append(hours).append(" Stunden "); //$NON-NLS-1$
+				}
+			}
+			if(minutes != 0) {
+				if(minutes == 1) {
+					text.append("1 Minute "); //$NON-NLS-1$
+				}
+				else if(minutes == -1) {
+					text.append("-1 Minute "); //$NON-NLS-1$
+				}
+				else {
+					text.append(minutes).append(" Minuten "); //$NON-NLS-1$
+				}
+			}
+			if(seconds != 0 || (days == 0 && hours == 0 && minutes == 0 && millis == 0)) {
+				if(seconds == 1) {
+					text.append("1 Sekunde "); //$NON-NLS-1$
+				}
+				else if(seconds == -1) {
+					text.append("-1 Sekunde "); //$NON-NLS-1$
+				}
+				else {
+					text.append(seconds).append(" Sekunden "); //$NON-NLS-1$
+				}
+			}
+			if(millis != 0) {
+				if(millis == 1) {
+					text.append("1 Millisekunde "); //$NON-NLS-1$
+				}
+				else if(millis == -1) {
+					text.append("-1 Millisekunde "); //$NON-NLS-1$
+				}
+				else {
+					text.append(millis).append(" Millisekunden "); //$NON-NLS-1$
+				}
+			}
+			text.setLength(text.length() - 1);
+		}
+		catch(Exception e) {
+			return "[" + vergleichsIntervallInMs + "ms]";  //$NON-NLS-1$//$NON-NLS-2$
+		}
+	
+		return text.toString();
+	}
 	
 }

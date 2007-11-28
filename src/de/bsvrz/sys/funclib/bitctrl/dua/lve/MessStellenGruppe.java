@@ -27,7 +27,6 @@ package de.bsvrz.sys.funclib.bitctrl.dua.lve;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
@@ -68,9 +67,9 @@ extends AbstractSystemObjekt{
 	private static ClientDavInterface DAV = null;
 	
 	/**
-	 * Messstellen dieser Gruppe
+	 * Messstellen dieser Gruppe (sortiert wie in Konfiguration)
 	 */
-	private Collection<MessStelle> messStellen = new HashSet<MessStelle>();
+	private MessStelle[] messStellen = new MessStelle[0];
 	
 	/**
 	 * Legt fest, ob die Ermittlung systematischer Detektorfehler für diese MessStellenGruppe
@@ -101,13 +100,21 @@ extends AbstractSystemObjekt{
 					" konnten nicht ausgelesen werden"); //$NON-NLS-1$
 		}else{
 			if(eigenschaften.getReferenceArray("MessStellen") != null){ //$NON-NLS-1$
+				MessStelle[] dummy = new MessStelle[eigenschaften.getReferenceArray("MessStellen").getLength()]; //$NON-NLS-1$
+				int c = 0;
 				for(int i = 0; i < eigenschaften.getReferenceArray("MessStellen").getLength(); i++){ //$NON-NLS-1$
 					if(eigenschaften.getReferenceArray("MessStellen").getReferenceValue(i) != null && //$NON-NLS-1$
 						eigenschaften.getReferenceArray("MessStellen").getReferenceValue(i).getSystemObject() != null){ //$NON-NLS-1$
-							this.messStellen.add(
-									MessStelle.getInstanz(
+							dummy[c++] = MessStelle.getInstanz(
 											eigenschaften.getReferenceArray("MessStellen"). //$NON-NLS-1$
-											getReferenceValue(i).getSystemObject()));
+											getReferenceValue(i).getSystemObject());
+					}
+				}
+				
+				if(c > 0){
+					this.messStellen = new MessStelle[c];
+					for(int i = 0; i < c; i++){
+						this.messStellen[i] = dummy[i];
 					}
 				}
 			}
@@ -180,8 +187,9 @@ extends AbstractSystemObjekt{
 	 * Erfragt die Menge der Messstellen dieser Messstellengruppe
 	 * 
 	 * @return ggf. leere Menge der Messstellen dieser Messstellengruppe
+	 * (sortiert wie in Konfiguration)
 	 */
-	public final Collection<MessStelle> getMessStellen(){	
+	public final MessStelle[] getMessStellen(){	
 		return this.messStellen;
 	}
 	
