@@ -37,7 +37,7 @@ public interface IOnlineUfdSensorListener<G>{
 	/**
 	 * Empfaengt aktuelle Daten
 	 * 
-	 * @param resultat eine Datensatz (ist immer <code>!= null</code>)
+	 * @param daten eine Datensatz (ist immer <code>!= null</code>)
 	 */
 	public void aktualisiereDaten(final G daten);
 

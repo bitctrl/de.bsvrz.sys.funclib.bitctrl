@@ -88,7 +88,7 @@ extends AbstractDavZustand{
 	 * Erfragt den Wert dieses DAV-Enumerationstypen 
 	 * mit dem übergebenen Code
 	 *
-	 * @param der Code des Enumerations-Wertes
+	 * @param code der Code des Enumerations-Wertes
 	 */
 	public static final MesswertZustand getZustand(int code){
 		return WERTE_BEREICH.get(code);

@@ -238,7 +238,7 @@ public class UmfeldDatenSensorDatum {
 	/**
 	 * Setzte den Gueteindex
 	 * 
-	 * @param guete der neue Gueteindex
+	 * @param gueteVerfahren der neue Gueteindex
 	 */
 	public final void setGueteVerfahren(int gueteVerfahren){
 		this.erstelleKopie();
@@ -287,7 +287,7 @@ public class UmfeldDatenSensorDatum {
 	/**
 	 * Setzt den Wert <code>Status.MessWertErsetzung.Interpoliert</code>
 	 * 
-	 * @param statusMessWertErsetzungImplausibel der Wert <code>Status.MessWertErsetzung.Interpoliert</code>
+	 * @param statusMessWertErsetzungInterpoliert der Wert <code>Status.MessWertErsetzung.Interpoliert</code>
 	 */
 	public final void setStatusMessWertErsetzungInterpoliert(
 								int statusMessWertErsetzungInterpoliert) {

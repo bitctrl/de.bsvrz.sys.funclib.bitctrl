@@ -86,11 +86,11 @@ implements IKontrollProzessListener<Long>{
 	 * @param zuWeckendesObjekt ein Objekt
 	 * @return ob der Wecker für das übergebene Objekt gestellt ist
 	 */
-	public final boolean isWeckerGestelltFuer(final IObjektWeckerListener objekt){
+	public final boolean isWeckerGestelltFuer(final IObjektWeckerListener zuWeckendesObjekt){
 		boolean weckerGestellt = false;
 		
 		synchronized (this) {
-			weckerGestellt = this.objektAufWeckZeitpunkt.get(objekt) != null;			
+			weckerGestellt = this.objektAufWeckZeitpunkt.get(zuWeckendesObjekt) != null;			
 		}
 		
 		return weckerGestellt;

@@ -92,7 +92,7 @@ implements ClientReceiverInterface{
 	 * Berechnet aus dem aktuellen Sensor-Resultat einen Wert, der von dieser
 	 * Klasse den Listenern zur Verfuegung gestellt wird 
 	 * 
-	 * @param aktuellesResultat aktuelles Resultat
+	 * @param resultat aktuelles Resultat
 	 */
 	protected abstract void berechneOnlineWert(final ResultData resultat);
 	
