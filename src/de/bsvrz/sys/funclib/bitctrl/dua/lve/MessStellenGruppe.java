@@ -58,13 +58,13 @@ extends AbstractSystemObjekt{
 	/**
 	 * Mapt alle MessStelleGruppe-Systemobjekte auf Objekte dieser Klasse  
 	 */
-	private static Map<SystemObject, MessStellenGruppe> SYS_OBJ_MSG_OBJ_MAP = 
+	protected static Map<SystemObject, MessStellenGruppe> SYS_OBJ_MSG_OBJ_MAP = 
 											new HashMap<SystemObject, MessStellenGruppe>();
 	
 	/**
 	 * Datenverteiler-Verbindung
 	 */
-	private static ClientDavInterface DAV = null;
+	protected static ClientDavInterface DAV = null;
 	
 	/**
 	 * Messstellen dieser Gruppe (sortiert wie in Konfiguration)
@@ -86,7 +86,7 @@ extends AbstractSystemObjekt{
 	 * initialisiert werden konnte
 	 */
 	@SuppressWarnings("unused")
-	private MessStellenGruppe(final SystemObject msgObjekt)
+	protected MessStellenGruppe(final SystemObject msgObjekt)
 	throws DUAInitialisierungsException{
 		super(msgObjekt);
 		

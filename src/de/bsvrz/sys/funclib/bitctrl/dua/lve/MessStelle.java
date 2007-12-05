@@ -61,13 +61,13 @@ extends AbstractSystemObjekt{
 	/**
 	 * Mapt alle MessStelle-Systemobjekte auf Objekte dieser Klasse  
 	 */
-	private static Map<SystemObject, MessStelle> SYS_OBJ_MS_OBJ_MAP = 
+	protected static Map<SystemObject, MessStelle> SYS_OBJ_MS_OBJ_MAP = 
 											new HashMap<SystemObject, MessStelle>();
 	
 	/**
 	 * Datenverteiler-Verbindung
 	 */
-	private static ClientDavInterface DAV = null;
+	protected static ClientDavInterface DAV = null;
 	
 	/**
 	 * Zufahrten zu dieser Messstelle
@@ -94,7 +94,7 @@ extends AbstractSystemObjekt{
 	 * initialisiert werden konnte
 	 */
 	@SuppressWarnings("unused")
-	private MessStelle(final SystemObject msObjekt)
+	protected MessStelle(final SystemObject msObjekt)
 	throws DUAInitialisierungsException{
 		super(msObjekt);
 		

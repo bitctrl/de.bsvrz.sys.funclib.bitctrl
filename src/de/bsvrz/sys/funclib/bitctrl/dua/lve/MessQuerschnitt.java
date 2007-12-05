@@ -58,13 +58,13 @@ extends MessQuerschnittAllgemein{
 	/**
 	 * Mapt alle Messquerschnitt-Systemobjekte auf Objekte dieser Klasse  
 	 */
-	private static Map<SystemObject, MessQuerschnitt> SYS_OBJ_MQ_OBJ_MAP = 
+	protected static Map<SystemObject, MessQuerschnitt> SYS_OBJ_MQ_OBJ_MAP = 
 											new HashMap<SystemObject, MessQuerschnitt>();
 	
 	/**
 	 * Datenverteiler-Verbindung
 	 */
-	private static ClientDavInterface DAV = null;
+	protected static ClientDavInterface DAV = null;
 			
 	/**
 	 * Menge der an diesem Messquerschnitt definierten Fahstreifen
@@ -77,7 +77,7 @@ extends MessQuerschnittAllgemein{
 	 * 
 	 * @param mqObjekt ein Systemobjekt vom Typ <code>typ.messQuerschnitt</code>
 	 */
-	private MessQuerschnitt(final SystemObject mqObjekt){
+	protected MessQuerschnitt(final SystemObject mqObjekt){
 		super(DAV, mqObjekt);
 
 		if(mqObjekt == null){

@@ -59,13 +59,13 @@ extends MessQuerschnittAllgemein{
 	/**
 	 * Mapt alle MessQuerschnittVirtuell-Systemobjekte auf Objekte dieser Klasse  
 	 */
-	private static Map<SystemObject, MessQuerschnittVirtuell> SYS_OBJ_MQV_OBJ_MAP = 
+	protected static Map<SystemObject, MessQuerschnittVirtuell> SYS_OBJ_MQV_OBJ_MAP = 
 											new HashMap<SystemObject, MessQuerschnittVirtuell>();
 	
 	/**
 	 * Datenverteiler-Verbindung
 	 */
-	private static ClientDavInterface DAV = null;
+	protected static ClientDavInterface DAV = null;
 	
 	/**
 	 * Messquerschnitt VOR der Anschlussstelle
@@ -106,7 +106,7 @@ extends MessQuerschnittAllgemein{
 	 * @throws DUAInitialisierungsException wenn der virtuelle Messquerschnitt nicht 
 	 * initialisiert werden konnte
 	 */
-	private MessQuerschnittVirtuell(final SystemObject mqvObjekt)
+	protected MessQuerschnittVirtuell(final SystemObject mqvObjekt)
 	throws DUAInitialisierungsException{
 		super(DAV, mqvObjekt);
 

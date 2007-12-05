@@ -52,12 +52,12 @@ extends AbstractSystemObjekt{
 	/**
 	 * Mapt alle Fahrstreifen-Systemobjekte auf Objekte der Klasse <code>FahrStreifen</code>  
 	 */
-	private static Map<SystemObject, FahrStreifen> SYS_OBJ_FS_OBJ_MAP = new HashMap<SystemObject, FahrStreifen>();
+	protected static Map<SystemObject, FahrStreifen> SYS_OBJ_FS_OBJ_MAP = new HashMap<SystemObject, FahrStreifen>();
 	
 	/**
 	 * Datenverteiler-Verbindung
 	 */
-	private static ClientDavInterface DAV = null;
+	protected static ClientDavInterface DAV = null;
 			
 	/**
 	 * die Lage dieses Fahrtreifens
@@ -83,7 +83,7 @@ extends AbstractSystemObjekt{
 	 * @throws DUAInitialisierungsException wenn der Fahrstreifen nicht 
 	 * initialisiert werden konnte
 	 */
-	private FahrStreifen(final SystemObject fsObjekt)
+	protected FahrStreifen(final SystemObject fsObjekt)
 	throws DUAInitialisierungsException{
 		super(fsObjekt);
 
