@@ -24,7 +24,7 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.util;
+package de.bsvrz.sys.funclib.bitctrl.test;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
@@ -33,7 +33,6 @@ import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.application.StandardApplication;
 import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
-import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
 import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 
 /**
@@ -56,6 +55,19 @@ public class MqExporter implements StandardApplication {
 	}
 
 	/**
+	 * Ausgabe einer Zahl im Excelformat, d.h. mit Komma als Dezimalzeichen.
+	 * 
+	 * @param x
+	 *            die Zahl
+	 * @return der Ausgabestring
+	 */
+	private String excelZahl(final double x) {
+		String result = Double.toString(x);
+		result = result.replace('.', ',');
+		return result;
+	}
+
+	/**
 	 * {@inheritDoc}.<br>
 	 * 
 	 * @see de.bsvrz.sys.funclib.application.StandardApplication#initialize(de.bsvrz.dav.daf.main.ClientDavInterface)
@@ -63,7 +75,7 @@ public class MqExporter implements StandardApplication {
 	public void initialize(final ClientDavInterface connection)
 			throws Exception {
 
-		System.out.println("PidMQ" + "," + "x" + "," + "y");
+		System.out.println("PidMQ" + ";" + "x" + ";" + "y");
 
 		DataModel model = connection.getDataModel();
 		AttributeGroup atg = model.getAttributeGroup("atg.punktKoordinaten");
@@ -77,7 +89,8 @@ public class MqExporter implements StandardApplication {
 				y = datum.getScaledValue("y").doubleValue();
 			}
 
-			System.out.println(obj.getPid() + "," + x + "," + y);
+			System.out.println(obj.getPid() + ";" + excelZahl(x) + ";"
+					+ excelZahl(y));
 		}
 		System.exit(0);
 	}
