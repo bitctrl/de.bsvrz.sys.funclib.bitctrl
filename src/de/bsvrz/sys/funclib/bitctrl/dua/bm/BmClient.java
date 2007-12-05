@@ -49,7 +49,7 @@ implements ClientReceiverInterface{
 	/**
 	 * statische Instanz dieser Klasse
 	 */
-	private static BmClient INSTANZ = null;
+	protected static BmClient INSTANZ = null;
 	
 	/**
 	 * Beobachter
@@ -76,7 +76,7 @@ implements ClientReceiverInterface{
 	 * 
 	 * @param dav Datenverteiler-Verbindung
 	 */
-	private BmClient(final ClientDavInterface dav){
+	protected BmClient(final ClientDavInterface dav){
 		DataDescription datenBeschreibung = new DataDescription(
 				dav.getDataModel().getAttributeGroup("atg.betriebsMeldung"), //$NON-NLS-1$
 				dav.getDataModel().getAspect("asp.information"), //$NON-NLS-1$
