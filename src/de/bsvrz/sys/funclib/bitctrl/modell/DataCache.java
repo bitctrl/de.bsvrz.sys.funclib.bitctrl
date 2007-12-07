@@ -20,6 +20,7 @@ public final class DataCache {
 		if (set == null) {
 			set = new HashSet<AttributeGroup>();
 			instance.cachedData.put(type, set);
+			set.add(atg);
 			cache = true;
 		} else {
 			if (!set.contains(atg)) {
