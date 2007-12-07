@@ -120,7 +120,6 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 			strassenSegment = null;
 			offset = 0;
 		}
-
 	}
 
 	/**
