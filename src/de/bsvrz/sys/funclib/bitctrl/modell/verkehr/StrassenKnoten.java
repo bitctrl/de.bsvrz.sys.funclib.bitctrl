@@ -57,7 +57,7 @@ public class StrassenKnoten extends StoerfallIndikator {
 	/**
 	 * die Liste der inneren Straﬂensegmente des Knotens.
 	 */
-	private final Set<InneresStrassenSegment> innereSegmente = new HashSet<InneresStrassenSegment>();
+	private Set<InneresStrassenSegment> innereSegmente;
 
 	/**
 	 * Konstruktor.<br>
@@ -67,7 +67,7 @@ public class StrassenKnoten extends StoerfallIndikator {
 	 * @param obj
 	 *            das Systemobjekt
 	 */
-	StrassenKnoten(SystemObject obj) {
+	StrassenKnoten(final SystemObject obj) {
 		super(obj);
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
@@ -82,12 +82,6 @@ public class StrassenKnoten extends StoerfallIndikator {
 			knotenTyp = StrassenKnotenTyp.getTyp(daten.getUnscaledValue("Typ")
 					.intValue());
 		}
-
-		for (SystemObject o : ((ConfigurationObject) obj).getObjectSet(
-				"InnereStraﬂenSegmente").getElements()) {
-			innereSegmente.add((InneresStrassenSegment) ObjektFactory
-					.getInstanz().getModellobjekt(o));
-		}
 	}
 
 	/**
@@ -96,6 +90,14 @@ public class StrassenKnoten extends StoerfallIndikator {
 	 * @return die Liste der Segmente
 	 */
 	public Collection<InneresStrassenSegment> getInnereSegmente() {
+		if (innereSegmente == null) {
+			innereSegmente = new HashSet<InneresStrassenSegment>();
+			for (SystemObject o : ((ConfigurationObject) getSystemObject())
+					.getObjectSet("InnereStraﬂenSegmente").getElements()) {
+				innereSegmente.add((InneresStrassenSegment) ObjektFactory
+						.getInstanz().getModellobjekt(o));
+			}
+		}
 		return new ArrayList<InneresStrassenSegment>(innereSegmente);
 	}
 
@@ -111,12 +113,12 @@ public class StrassenKnoten extends StoerfallIndikator {
 	 * @return das ermittelte innere Straﬂensegment
 	 */
 	public InneresStrassenSegment getInnereVerbindungDanach(
-			AeusseresStrassenSegment segment) {
+			final AeusseresStrassenSegment segment) {
 		InneresStrassenSegment result = null;
 		InneresStrassenSegment candidate = null;
 		Strasse strasse = segment.getStrasse();
 		if ((segment != null) && (strasse != null)) {
-			for (InneresStrassenSegment innen : innereSegmente) {
+			for (InneresStrassenSegment innen : getInnereSegmente()) {
 				if (segment.equals(innen.getVonSegment())) {
 					AeusseresStrassenSegment ass = innen.getNachSegment();
 					if ((ass != null) && strasse.equals(ass.getStrasse())) {
@@ -153,12 +155,12 @@ public class StrassenKnoten extends StoerfallIndikator {
 	 * @return das ermittelte innere Straﬂensegment
 	 */
 	public InneresStrassenSegment getInnereVerbindungDavor(
-			AeusseresStrassenSegment segment) {
+			final AeusseresStrassenSegment segment) {
 		InneresStrassenSegment result = null;
 		InneresStrassenSegment candidate = null;
 		Strasse strasse = segment.getStrasse();
 		if ((segment != null) && (strasse != null)) {
-			for (InneresStrassenSegment innen : innereSegmente) {
+			for (InneresStrassenSegment innen : getInnereSegmente()) {
 				if (segment.equals(innen.getNachSegment())) {
 					AeusseresStrassenSegment ass = innen.getVonSegment();
 					if ((ass != null) && strasse.equals(ass.getStrasse())) {
@@ -203,7 +205,7 @@ public class StrassenKnoten extends StoerfallIndikator {
 		double sumY = 0;
 		int count = 0;
 
-		for (InneresStrassenSegment segment : innereSegmente) {
+		for (InneresStrassenSegment segment : getInnereSegmente()) {
 			Punkt pkt = segment.getAnfangsPunkt();
 			if (pkt != null) {
 				sumX += pkt.getX();
