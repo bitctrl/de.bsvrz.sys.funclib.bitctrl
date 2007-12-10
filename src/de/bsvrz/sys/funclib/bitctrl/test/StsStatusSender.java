@@ -26,6 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.test;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,6 +47,7 @@ import de.bsvrz.sys.funclib.application.StandardApplication;
 import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Exportiert die Koordinaten der definierten MQ.
@@ -58,6 +60,11 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 		ClientSenderInterface {
 
 	/**
+	 * Logger für Debug-Ausgaben.
+	 */
+	private static Debug logger = Debug.getLogger();
+
+	/**
 	 * Hauptfunktion der Anwendung.
 	 * 
 	 * @param args
@@ -67,29 +74,53 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 		StandardApplicationRunner.run(new StsStatusSender(), args);
 	}
 
-	private final String[] aspekte = { "asp.störfallVerfahrenStandard",
-			"asp.störfallVerfahrenMARZ", "asp.störfallVerfahrenNRW",
-			"asp.störfallVerfahrenRDS", "asp.störfallVerfahrenFD",
-			"asp.störfallVerfahrenVKDiffKfz",
-			"asp.störfallVerfahrenConstraint", "asp.störfallVerfahrenFuzzy",
-			"asp.störfallVerfahrenMOBINET" };
+	/**
+	 * Liste der PIDs für die Aspekte, für die eine Anmeldung erfolgen soll.
+	 */
+	private final String[] aspekte = { "asp.störfallVerfahrenFuzzy",
+			"asp.störfallVerfahrenStandard", "asp.störfallVerfahrenMARZ",
+			"asp.störfallVerfahrenNRW", "asp.störfallVerfahrenRDS",
+			"asp.störfallVerfahrenFD", "asp.störfallVerfahrenVKDiffKfz",
+			"asp.störfallVerfahrenConstraint", "asp.störfallVerfahrenMOBINET" };
 
+	/**
+	 * der letzte Status, der als Störzustand versendet werden sollte.
+	 */
 	int letzterStatus = 0;
 
 	/**
-	 * 
+	 * Timer für zyklische Datenversendung.
 	 */
 	Timer timer = new Timer();
-	private Collection<SystemObject> stsObjekte;
+
+	/**
+	 * die Liste der Straßenteilsegmente für die der StörfallZustand versendet
+	 * werden soll.
+	 */
+	private final Collection<SystemObject> stsObjekte = new ArrayList<SystemObject>();
+
+	/**
+	 * die verwendete Datenverteilerverbindung.
+	 */
 	private ClientDavInterface dav;
 
+	/**
+	 * die Attributgruppe zum Versand des Störfallzustandes.
+	 */
 	private AttributeGroup atg;
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.dav.daf.main.ClientSenderInterface#dataRequest(de.bsvrz.dav.daf.main.config.SystemObject,
+	 *      de.bsvrz.dav.daf.main.DataDescription, byte)
+	 */
 	public void dataRequest(final SystemObject object,
 			final DataDescription dataDescription, final byte state) {
-		// System.err.println("DataReq: " + object + ", " + dataDescription + ",
-		// "
-		// + state);
+		if (object.getPid().equals("sts.00001.BW")) {
+			logger.config("DataRequest: " + object + ", " + dataDescription
+					+ ", " + state);
+		}
 	}
 
 	/**
@@ -100,23 +131,36 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 	public void initialize(final ClientDavInterface connection)
 			throws Exception {
 
+		logger = Debug.getLogger();
+
 		this.dav = connection;
 		DataModel model = connection.getDataModel();
 		atg = model.getAttributeGroup("atg.störfallZustand");
-		stsObjekte = model.getType("typ.straßenTeilSegment").getElements();
+		stsObjekte
+				.addAll(model.getType("typ.straßenTeilSegment").getElements());
 
-		System.err.println("Starte Anmeldung");
+		logger.info("Starte Anmeldung");
 		for (String aspStr : aspekte) {
+			logger.info("Anmeldung für Aspekt: " + aspStr);
 			Aspect asp = model.getAspect(aspStr);
 			DataDescription desc = new DataDescription(atg, asp);
+
 			connection.subscribeSender(this, stsObjekte, desc, SenderRole
 					.source());
+
+			logger.info("Anmeldung für Aspekt: " + aspStr + " versendet");
 		}
-		System.err.println("Anmeldung fertig");
+		logger.info("Anmeldung fertig");
 
 		timer.schedule(this, 0L, 5000L);
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.dav.daf.main.ClientSenderInterface#isRequestSupported(de.bsvrz.dav.daf.main.config.SystemObject,
+	 *      de.bsvrz.dav.daf.main.DataDescription)
+	 */
 	public boolean isRequestSupported(final SystemObject object,
 			final DataDescription dataDescription) {
 		// TODO Auto-generated method stub
@@ -133,6 +177,11 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 		// keine zusätzlichen Argumente erwartet
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see java.util.TimerTask#run()
+	 */
 	@Override
 	public void run() {
 		ResultData[] daten = new ResultData[stsObjekte.size()];
@@ -158,13 +207,12 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 		letzterStatus++;
 
 		try {
-			System.err.println("Sende Daten");
+			logger.fine("Sende Daten");
 			dav.sendData(daten);
+			logger.fine("Gesendet");
 		} catch (DataNotSubscribedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SendSubscriptionNotConfirmed e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
