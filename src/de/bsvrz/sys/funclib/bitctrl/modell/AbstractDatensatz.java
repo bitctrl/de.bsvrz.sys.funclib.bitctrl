@@ -28,7 +28,9 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.event.EventListenerList;
 
@@ -148,18 +150,18 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		private final ClientDavInterface dav;
 
 		/** Der Zustand der Sendesteuerung. */
-		private final Map<Aspect, Boolean> sendenErlaubt;
+		private final Set<Aspect> sendenErlaubt;
 
 		/** Flag ob der Sender aktuell angemeldet ist. */
-		private final Map<Aspect, Boolean> angemeldet;
+		private final Set<Aspect> angemeldet;
 
 		/**
 		 * Konstruiert den Sender.
 		 */
 		public SynchronerSender() {
 			dav = ObjektFactory.getInstanz().getVerbindung();
-			sendenErlaubt = new HashMap<Aspect, Boolean>();
-			angemeldet = new HashMap<Aspect, Boolean>();
+			sendenErlaubt = new HashSet<Aspect>();
+			angemeldet = new HashSet<Aspect>();
 		}
 
 		/**
@@ -170,11 +172,11 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 *            der betroffene Aspekt.
 		 */
 		public void abmelden(Aspect asp) {
-			if (angemeldet.get(asp) != null && angemeldet.get(asp)) {
+			if (angemeldet.contains(asp)) {
 				DataDescription dbs = new DataDescription(getAttributGruppe(),
 						asp);
 				dav.unsubscribeSender(this, getObjekt().getSystemObject(), dbs);
-				angemeldet.put(asp, false);
+				angemeldet.remove(asp);
 			}
 		}
 
@@ -198,9 +200,9 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 					dav.subscribeSender(this, getObjekt().getSystemObject(),
 							dbs, SenderRole.sender());
 				}
-				angemeldet.put(asp, true);
+				angemeldet.add(asp);
 			} catch (OneSubscriptionPerSendData ex) {
-				angemeldet.put(asp, false);
+				angemeldet.remove(asp);
 				throw new AnmeldeException(ex);
 			}
 		}
@@ -215,9 +217,9 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 				DataDescription dataDescription, byte state) {
 			if (isRequestSupported(object, dataDescription)
 					&& state == ClientSenderInterface.START_SENDING) {
-				sendenErlaubt.put(dataDescription.getAspect(), true);
+				sendenErlaubt.add(dataDescription.getAspect());
 			} else {
-				sendenErlaubt.put(dataDescription.getAspect(), false);
+				sendenErlaubt.remove(dataDescription.getAspect());
 			}
 		}
 
@@ -229,7 +231,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 * @return der Wert.
 		 */
 		public boolean isAngemeldet(Aspect asp) {
-			return angemeldet.get(asp);
+			return angemeldet.contains(asp);
 		}
 
 		/**
@@ -265,12 +267,12 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public void sende(Data d, Aspect asp, long zeitstempel)
 				throws DatensendeException {
-			if (!angemeldet.get(asp)) {
+			if (!isAngemeldet(asp)) {
 				throw new DatensendeException(
 						"Der Datensatz wurde noch nicht zum Senden angemeldet.");
 			}
 
-			if (isQuelle(asp) || sendenErlaubt.get(asp)) {
+			if (isQuelle(asp) || sendenErlaubt.contains(asp)) {
 				long z = zeitstempel > 0 ? zeitstempel : dav.getTime();
 				DataDescription dbs = new DataDescription(getAttributGruppe(),
 						asp);
