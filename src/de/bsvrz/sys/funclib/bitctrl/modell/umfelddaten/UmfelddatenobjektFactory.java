@@ -47,7 +47,8 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * Jedes gekapselte Objekt wird als Singleton behandelt und zwischengespeichert.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
+ * @version $Id: UmfelddatenobjektFactory.java 4520 2007-10-18 08:26:03Z
+ *          Schumann $
  */
 public class UmfelddatenobjektFactory implements ModellObjektFactory {
 
@@ -75,7 +76,7 @@ public class UmfelddatenobjektFactory implements ModellObjektFactory {
 		} else if (objekt.isOfType(UmfelddatenModellTypen.UMFELDDATENSENSOR
 				.getPid())) {
 			// TODO Unbekannte Umfelddatensensoren ergänzen
-			Debug.getLogger().warning("Unbekannter Umfelddatensensor gefunden",
+			Debug.getLogger().fine("Unbekannter Umfelddatensensor gefunden",
 					objekt);
 			obj = new AbstractUmfeldDatenSensor(objekt) {
 
