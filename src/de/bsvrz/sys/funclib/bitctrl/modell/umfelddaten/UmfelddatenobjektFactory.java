@@ -47,8 +47,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * Jedes gekapselte Objekt wird als Singleton behandelt und zwischengespeichert.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: UmfelddatenobjektFactory.java 4520 2007-10-18 08:26:03Z
- *          Schumann $
+ * @version $Id$
  */
 public class UmfelddatenobjektFactory implements ModellObjektFactory {
 
