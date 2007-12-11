@@ -77,11 +77,12 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 	/**
 	 * Liste der PIDs für die Aspekte, für die eine Anmeldung erfolgen soll.
 	 */
-	private final String[] aspekte = { "asp.störfallVerfahrenFuzzy",
-			"asp.störfallVerfahrenStandard", "asp.störfallVerfahrenMARZ",
-			"asp.störfallVerfahrenNRW", "asp.störfallVerfahrenRDS",
-			"asp.störfallVerfahrenFD", "asp.störfallVerfahrenVKDiffKfz",
-			"asp.störfallVerfahrenConstraint", "asp.störfallVerfahrenMOBINET" };
+	private final String[] aspekte = { "asp.störfallVerfahrenFuzzy"
+	// , "asp.störfallVerfahrenStandard", "asp.störfallVerfahrenMARZ",
+	// "asp.störfallVerfahrenNRW", "asp.störfallVerfahrenRDS",
+	// "asp.störfallVerfahrenFD", "asp.störfallVerfahrenVKDiffKfz",
+	// "asp.störfallVerfahrenConstraint", "asp.störfallVerfahrenMOBINET"
+	};
 
 	/**
 	 * der letzte Status, der als Störzustand versendet werden sollte.
@@ -139,6 +140,11 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 		stsObjekte
 				.addAll(model.getType("typ.straßenTeilSegment").getElements());
 
+		for (SystemObject obj : stsObjekte) {
+			System.err.println(obj.getPid() + ": "
+					+ Math.abs(obj.getPid().hashCode()));
+		}
+
 		logger.info("Starte Anmeldung");
 		for (String aspStr : aspekte) {
 			logger.info("Anmeldung für Aspekt: " + aspStr);
@@ -152,7 +158,7 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 		}
 		logger.info("Anmeldung fertig");
 
-		timer.schedule(this, 0L, 5000L);
+		timer.schedule(this, 0L, 60000L);
 	}
 
 	/**
