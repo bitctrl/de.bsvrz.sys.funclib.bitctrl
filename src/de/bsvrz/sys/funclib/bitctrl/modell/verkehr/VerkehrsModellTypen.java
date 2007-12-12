@@ -48,6 +48,9 @@ public enum VerkehrsModellTypen implements SystemObjektTyp {
 	/** Ein Messquerschnitt. */
 	STOERFALLINDIKATOR("typ.störfallIndikator", StoerfallIndikator.class),
 
+	/** Ein Fahrstreifen. */
+	FAHRSTREIFEN("typ.fahrStreifen", FahrStreifen.class),
+
 	/** Ein allgemeiner Messquerschnitt. */
 	MESSQUERSCHNITTALLGEMEIN("typ.messQuerschnittAllgemein",
 			MessQuerschnittAllgemein.class),

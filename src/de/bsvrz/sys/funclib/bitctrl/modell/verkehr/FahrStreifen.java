@@ -26,64 +26,38 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import de.bsvrz.dav.daf.main.config.ConfigurationObject;
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
 /**
- * Repr&auml;ssentiert einen Messquerschnitt.
+ * Repr&auml;ssentiert einen Fahrstreifen.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class MessQuerschnitt extends MessQuerschnittAllgemein {
-
-	/** Die Liste der Fahrstreifen am MQ. */
-	private final List<FahrStreifen> fahrStreifen;
+public class FahrStreifen extends StoerfallIndikator {
 
 	/**
-	 * Erzeugt einen Messquerschnitt aus einem Systemobjekt.
+	 * Erzeugt einen Fahrstreifen aus einem Systemobjekt.
 	 * 
 	 * @param obj
-	 *            Ein Systemobjekt, welches ein Messquerschnitt sein muss
+	 *            Ein Systemobjekt, welches ein Fahrstreifen sein muss.
 	 */
-	MessQuerschnitt(SystemObject obj) {
+	FahrStreifen(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Messquerschnitt.");
-		}
-
-		fahrStreifen = new ArrayList<FahrStreifen>();
-		ConfigurationObject co = (ConfigurationObject) obj;
-		for (SystemObject so : co.getObjectSet("FahrStreifen").getElements()) {
-			fahrStreifen.add((FahrStreifen) ObjektFactory.getInstanz()
-					.getModellobjekt(so));
+					"Systemobjekt ist kein Fahrstreifen.");
 		}
 	}
 
 	/**
-	 * Gibt eine Read-Only-Liste der Fahrstreifen des Messquerschnitts
-	 * zur&uuml;ck.
-	 * 
-	 * @return die Liste der Fahrstreifen.
-	 */
-	public List<FahrStreifen> getFahrStreifen() {
-		return Collections.unmodifiableList(fahrStreifen);
-	}
-
-	/**
-	 * {@inheritDoc}.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public SystemObjektTyp getTyp() {
-		return VerkehrsModellTypen.MESSQUERSCHNITT;
+		return VerkehrsModellTypen.FAHRSTREIFEN;
 	}
 
 }
