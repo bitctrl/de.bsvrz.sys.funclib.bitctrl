@@ -44,7 +44,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 public class MessQuerschnitt extends MessQuerschnittAllgemein {
 
 	/** Die Liste der Fahrstreifen am MQ. */
-	private final List<FahrStreifen> fahrStreifen;
+	private List<FahrStreifen> fahrStreifen;
 
 	/**
 	 * Erzeugt einen Messquerschnitt aus einem Systemobjekt.
@@ -52,19 +52,12 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 	 * @param obj
 	 *            Ein Systemobjekt, welches ein Messquerschnitt sein muss
 	 */
-	MessQuerschnitt(SystemObject obj) {
+	MessQuerschnitt(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist kein Messquerschnitt.");
-		}
-
-		fahrStreifen = new ArrayList<FahrStreifen>();
-		ConfigurationObject co = (ConfigurationObject) obj;
-		for (SystemObject so : co.getObjectSet("FahrStreifen").getElements()) {
-			fahrStreifen.add((FahrStreifen) ObjektFactory.getInstanz()
-					.getModellobjekt(so));
 		}
 	}
 
@@ -75,6 +68,17 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 	 * @return die Liste der Fahrstreifen.
 	 */
 	public List<FahrStreifen> getFahrStreifen() {
+
+		if (fahrStreifen == null) {
+			fahrStreifen = new ArrayList<FahrStreifen>();
+			ConfigurationObject co = (ConfigurationObject) getSystemObject();
+			for (SystemObject so : co.getObjectSet("FahrStreifen")
+					.getElements()) {
+				fahrStreifen.add((FahrStreifen) ObjektFactory.getInstanz()
+						.getModellobjekt(so));
+			}
+		}
+
 		return Collections.unmodifiableList(fahrStreifen);
 	}
 
