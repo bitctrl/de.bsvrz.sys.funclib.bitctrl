@@ -74,12 +74,12 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	/**
 	 * Das Stra&szlig;ensegment auf dem der Messquerschnitt liegt.
 	 */
-	private final StrassenSegment strassenSegment;
+	private StrassenSegment strassenSegment;
 
 	/**
 	 * Der Offset auf dem Stra&szlig;ensegment.
 	 */
-	private final float offset;
+	private float offset;
 
 	/**
 	 * Das Stra&szlig;enteilsegment auf dem der Messquerschnitt liegt. Die
@@ -101,24 +101,6 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist kein MessquerschnittAllgemein.");
-		}
-
-		// Straﬂensegment und Offset bestimmen
-		DataModel modell = objekt.getDataModel();
-		AttributeGroup atg = modell
-				.getAttributeGroup("atg.punktLiegtAufLinienObjekt");
-		DataCache.cacheData(getSystemObject().getType(), atg);
-		Data datum = objekt.getConfigurationData(atg);
-		if (datum != null) {
-			SystemObject so;
-
-			so = datum.getReferenceValue("LinienReferenz").getSystemObject();
-			strassenSegment = (StrassenSegment) ObjektFactory.getInstanz()
-					.getModellobjekt(so);
-			offset = datum.getScaledValue("Offset").floatValue();
-		} else {
-			strassenSegment = null;
-			offset = 0;
 		}
 	}
 
@@ -151,6 +133,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	 * @return Ein Stra&szlig;ensegment
 	 */
 	public StrassenSegment getStrassenSegment() {
+		leseKonfigDaten();
 		return strassenSegment;
 	}
 
@@ -161,6 +144,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	 * @return Der Offset
 	 */
 	public float getStrassenSegmentOffset() {
+		leseKonfigDaten();
 		return offset;
 	}
 
@@ -200,6 +184,29 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 	@Override
 	public SystemObjektTyp getTyp() {
 		return VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN;
+	}
+
+	/**
+	 * Liest die konfigurierenden Daten des Messquerschnitts.
+	 */
+	private void leseKonfigDaten() {
+		if (strassenSegment == null) {
+			// Straﬂensegment und Offset bestimmen
+			DataModel modell = objekt.getDataModel();
+			AttributeGroup atg = modell
+					.getAttributeGroup("atg.punktLiegtAufLinienObjekt");
+			DataCache.cacheData(getSystemObject().getType(), atg);
+			Data datum = objekt.getConfigurationData(atg);
+			if (datum != null) {
+				SystemObject so;
+
+				so = datum.getReferenceValue("LinienReferenz")
+						.getSystemObject();
+				strassenSegment = (StrassenSegment) ObjektFactory.getInstanz()
+						.getModellobjekt(so);
+				offset = datum.getScaledValue("Offset").floatValue();
+			}
+		}
 	}
 
 }
