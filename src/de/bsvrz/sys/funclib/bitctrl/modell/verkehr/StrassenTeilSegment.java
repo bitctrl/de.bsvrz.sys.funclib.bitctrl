@@ -52,10 +52,10 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein.Mess
 public class StrassenTeilSegment extends StoerfallIndikator {
 
 	/** Die L&auml;nge des Stra&szlig;enteilsegments. */
-	private final float laenge;
+	private float laenge;
 
 	/** Die Anzahl der Fahrstreifen des Stra&szlig;enteilsegments. */
-	private final int anzahlFahrStreifen;
+	private int anzahlFahrStreifen = -1;
 
 	/**
 	 * Nach Offset sortierte Liste der Messquerschnitt auf dem Teilsegement. Die
@@ -76,29 +76,9 @@ public class StrassenTeilSegment extends StoerfallIndikator {
 	StrassenTeilSegment(final SystemObject obj) {
 		super(obj);
 
-		DataModel modell;
-		AttributeGroup atg;
-		Data datum;
-
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist kein Straﬂenteilsegment.");
-		}
-
-		// L‰nge bestimmen
-		modell = objekt.getDataModel();
-		atg = modell.getAttributeGroup("atg.straﬂenTeilSegment");
-
-		DataCache.cacheData(getSystemObject().getType(), atg);
-
-		datum = objekt.getConfigurationData(atg);
-		if (datum != null) {
-			laenge = datum.getScaledValue("L‰nge").floatValue();
-			anzahlFahrStreifen = datum.getUnscaledValue("AnzahlFahrStreifen")
-					.intValue();
-		} else {
-			laenge = 0;
-			anzahlFahrStreifen = 0;
 		}
 	}
 
@@ -108,6 +88,7 @@ public class StrassenTeilSegment extends StoerfallIndikator {
 	 * @return die Anzahl
 	 */
 	public int getAnzahlFahrstreifen() {
+		leseKonfigDaten();
 		return anzahlFahrStreifen;
 	}
 
@@ -146,6 +127,7 @@ public class StrassenTeilSegment extends StoerfallIndikator {
 	 * @return Die L&auml;nge
 	 */
 	public float getLaenge() {
+		leseKonfigDaten();
 		return laenge;
 	}
 
@@ -188,5 +170,31 @@ public class StrassenTeilSegment extends StoerfallIndikator {
 	@Override
 	public SystemObjektTyp getTyp() {
 		return VerkehrsModellTypen.STRASSENTEILSEGMENT;
+	}
+
+	/**
+	 * Ruft konfigurierende Daten vom Datenverteiler ab.
+	 */
+	private void leseKonfigDaten() {
+		if (anzahlFahrStreifen == -1) {
+			DataModel modell;
+			AttributeGroup atg;
+			Data datum;
+
+			modell = objekt.getDataModel();
+			atg = modell.getAttributeGroup("atg.straﬂenTeilSegment");
+
+			DataCache.cacheData(getSystemObject().getType(), atg);
+
+			datum = objekt.getConfigurationData(atg);
+			if (datum != null) {
+				laenge = datum.getScaledValue("L‰nge").floatValue();
+				anzahlFahrStreifen = datum.getUnscaledValue(
+						"AnzahlFahrStreifen").intValue();
+			} else {
+				laenge = 0;
+				anzahlFahrStreifen = 0;
+			}
+		}
 	}
 }

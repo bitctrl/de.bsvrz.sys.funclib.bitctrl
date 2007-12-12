@@ -51,13 +51,13 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein.Mess
 public class StrassenSegment extends StoerfallIndikator {
 
 	/** Die sortierte Liste der enthaltenen Stra&szlig;enteilsegmente. */
-	private final List<StrassenTeilSegment> strassenTeilSegment;
+	private List<StrassenTeilSegment> strassenTeilSegment;
 
 	/** Die L&auml;nge des Stra&szlig;ensegments. */
-	private final float laenge;
+	private float laenge;
 
 	/** Die Stra&szlig;e, zur der das Stra&zslig;ensegment gehˆrt. */
-	private final Strasse strasse;
+	private Strasse strasse;
 
 	/**
 	 * Nach Offset sortierte Liste der Messquerschnitt auf dem Segement. Die
@@ -80,48 +80,6 @@ public class StrassenSegment extends StoerfallIndikator {
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist kein Straﬂensegment.");
-		}
-
-		DataModel modell;
-		AttributeGroup atg;
-		Data datum;
-
-		modell = objekt.getDataModel();
-
-		// L‰nge bestimmen
-		atg = modell.getAttributeGroup("atg.straﬂenSegment");
-		DataCache.cacheData(getSystemObject().getType(), atg);
-		datum = objekt.getConfigurationData(atg);
-		if (datum != null) {
-			laenge = datum.getScaledValue("L‰nge").floatValue();
-			SystemObject strassenObjekt = datum.getReferenceValue(
-					"gehˆrtZuStraﬂe").getSystemObject();
-			if (strassenObjekt != null) {
-				strasse = (Strasse) ObjektFactory.getInstanz().getModellobjekt(
-						strassenObjekt);
-			} else {
-				strasse = null;
-			}
-		} else {
-			laenge = 0;
-			strasse = null;
-		}
-
-		// Straﬂenteilsegmente bestimmen
-		strassenTeilSegment = new ArrayList<StrassenTeilSegment>();
-		atg = modell.getAttributeGroup("atg.bestehtAusLinienObjekten");
-		DataCache.cacheData(getSystemObject().getType(), atg);
-		datum = objekt.getConfigurationData(atg);
-		if (datum != null) {
-			ReferenceArray ref;
-			SystemObject[] objekte;
-
-			ref = datum.getReferenceArray("LinienReferenz");
-			objekte = ref.getSystemObjectArray();
-			for (SystemObject so : objekte) {
-				strassenTeilSegment.add((StrassenTeilSegment) ObjektFactory
-						.getInstanz().getModellobjekt(so));
-			}
 		}
 	}
 
@@ -187,6 +145,7 @@ public class StrassenSegment extends StoerfallIndikator {
 	 * @return Die L&auml;nge
 	 */
 	public float getLaenge() {
+		leseKonfigDaten();
 		return laenge;
 	}
 
@@ -197,27 +156,26 @@ public class StrassenSegment extends StoerfallIndikator {
 	 * @return Menge aller Messquerschnitte des Stra&szlig;ensegments
 	 */
 	public List<MessQuerschnittAllgemein> getMessquerschnitte() {
-		if (messQuerschnitte != null) {
-			return messQuerschnitte;
-		}
+		if (messQuerschnitte == null) {
+			List<MessQuerschnittAllgemein> listeMQ;
+			List<SystemObjekt> listeSO;
 
-		List<MessQuerschnittAllgemein> listeMQ;
-		List<SystemObjekt> listeSO;
+			listeMQ = new ArrayList<MessQuerschnittAllgemein>();
+			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
+					VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
 
-		listeMQ = new ArrayList<MessQuerschnittAllgemein>();
-		listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
-				VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
-
-		for (SystemObjekt so : listeSO) {
-			MessQuerschnittAllgemein mq = (MessQuerschnittAllgemein) so;
-			if (this.equals(mq.getStrassenSegment())) {
-				listeMQ.add(mq);
+			for (SystemObjekt so : listeSO) {
+				MessQuerschnittAllgemein mq = (MessQuerschnittAllgemein) so;
+				if (this.equals(mq.getStrassenSegment())) {
+					listeMQ.add(mq);
+				}
 			}
+
+			Collections.sort(listeMQ, new MessQuerschnittComparator());
+			messQuerschnitte = listeMQ;
 		}
 
-		Collections.sort(listeMQ, new MessQuerschnittComparator());
-		messQuerschnitte = listeMQ;
-		return listeMQ;
+		return Collections.unmodifiableList(messQuerschnitte);
 	}
 
 	/**
@@ -227,6 +185,7 @@ public class StrassenSegment extends StoerfallIndikator {
 	 * @return die Stra&szlig;e oder <i>null</i>.
 	 */
 	public Strasse getStrasse() {
+		leseKonfigDaten();
 		return strasse;
 	}
 
@@ -236,7 +195,8 @@ public class StrassenSegment extends StoerfallIndikator {
 	 * @return Liste von Stra&szlig;enteilsegmenten
 	 */
 	public List<StrassenTeilSegment> getStrassenTeilSegmente() {
-		return new ArrayList<StrassenTeilSegment>(strassenTeilSegment);
+		leseKonfigDaten();
+		return Collections.unmodifiableList(strassenTeilSegment);
 	}
 
 	/**
@@ -246,4 +206,54 @@ public class StrassenSegment extends StoerfallIndikator {
 	public SystemObjektTyp getTyp() {
 		return VerkehrsModellTypen.STRASSENSEGMENT;
 	}
+
+	/**
+	 * Liest die konfigurierten Eigenschaften des Objekts.
+	 */
+	private void leseKonfigDaten() {
+		if (messQuerschnitte == null) {
+			DataModel modell;
+			AttributeGroup atg;
+			Data datum;
+
+			modell = objekt.getDataModel();
+
+			// L‰nge bestimmen
+			atg = modell.getAttributeGroup("atg.straﬂenSegment");
+			DataCache.cacheData(getSystemObject().getType(), atg);
+			datum = objekt.getConfigurationData(atg);
+			if (datum != null) {
+				laenge = datum.getScaledValue("L‰nge").floatValue();
+				SystemObject strassenObjekt = datum.getReferenceValue(
+						"gehˆrtZuStraﬂe").getSystemObject();
+				if (strassenObjekt != null) {
+					strasse = (Strasse) ObjektFactory.getInstanz()
+							.getModellobjekt(strassenObjekt);
+				} else {
+					strasse = null;
+				}
+			} else {
+				laenge = 0;
+				strasse = null;
+			}
+
+			// Straﬂenteilsegmente bestimmen
+			strassenTeilSegment = new ArrayList<StrassenTeilSegment>();
+			atg = modell.getAttributeGroup("atg.bestehtAusLinienObjekten");
+			DataCache.cacheData(getSystemObject().getType(), atg);
+			datum = objekt.getConfigurationData(atg);
+			if (datum != null) {
+				ReferenceArray ref;
+				SystemObject[] objekte;
+
+				ref = datum.getReferenceArray("LinienReferenz");
+				objekte = ref.getSystemObjectArray();
+				for (SystemObject so : objekte) {
+					strassenTeilSegment.add((StrassenTeilSegment) ObjektFactory
+							.getInstanz().getModellobjekt(so));
+				}
+			}
+		}
+	}
+
 }
