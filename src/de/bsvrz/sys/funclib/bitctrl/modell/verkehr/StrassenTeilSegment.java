@@ -65,6 +65,9 @@ public class StrassenTeilSegment extends StoerfallIndikator {
 	 */
 	private List<MessQuerschnittAllgemein> messQuerschnitte;
 
+	/** Das Stra&szlig;ensegment auf dem das Stra&szlig;enteilsegment liegt. */
+	private StrassenSegment strassenSegment;
+
 	/**
 	 * Erzeugt ein Stra&szlig;enteilsegment aus einem Systemobjekt.
 	 * 
@@ -162,6 +165,30 @@ public class StrassenTeilSegment extends StoerfallIndikator {
 		Collections.sort(listeMQ, new MessQuerschnittComparator());
 		messQuerschnitte = listeMQ;
 		return listeMQ;
+	}
+
+	/**
+	 * Gibt das Stra&szlig;ensegment zur&uuml;ck, auf das
+	 * Stra&szlig;enteilsegment liegt.
+	 * 
+	 * @return das Stra&szlig;ensegment.
+	 */
+	public StrassenSegment getStrassenSegment() {
+		if (strassenSegment == null) {
+			List<SystemObjekt> listeSO;
+
+			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
+					VerkehrsModellTypen.STRASSENSEGMENT.getPid());
+
+			for (SystemObjekt so : listeSO) {
+				StrassenSegment ss = (StrassenSegment) so;
+				if (ss.getStrassenTeilSegmente().contains(this)) {
+					strassenSegment = ss;
+					break;
+				}
+			}
+		}
+		return strassenSegment;
 	}
 
 	/**
