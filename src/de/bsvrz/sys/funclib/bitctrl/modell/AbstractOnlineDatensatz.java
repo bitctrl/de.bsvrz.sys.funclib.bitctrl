@@ -134,6 +134,16 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isSendenErlaubt(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	public boolean isSendenErlaubt(Aspect asp) {
+		return super.isSendenErlaubt(asp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isSenke(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override

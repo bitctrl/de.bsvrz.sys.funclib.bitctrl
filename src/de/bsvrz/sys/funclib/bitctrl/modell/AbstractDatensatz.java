@@ -26,9 +26,12 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -155,6 +158,12 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		/** Flag ob der Sender aktuell angemeldet ist. */
 		private final Set<Aspect> angemeldet;
 
+		/** Sendepuffer, wenn Datens&auml;tze asynchron versendet werden sollen. */
+		private final List<ResultData> sendePuffer = new ArrayList<ResultData>();
+
+		/** Die Eigenschaft {@code asynchron}. */
+		private boolean asynchron = false;
+
 		/**
 		 * Konstruiert den Sender.
 		 */
@@ -166,7 +175,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 
 		/**
 		 * Meldet eine vorhandene Sendeanmeldung wieder ab. Existiert keine
-		 * Anmeldung, passiert nichts.
+		 * Anmeldung, passiert nichts. Noch nicht gesendet Datens&auml;tze
+		 * werden aus dem Sendepuffer entfernt.
 		 * 
 		 * @param asp
 		 *            der betroffene Aspekt.
@@ -177,6 +187,18 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 						asp);
 				dav.unsubscribeSender(this, getObjekt().getSystemObject(), dbs);
 				angemeldet.remove(asp);
+
+				synchronized (sendePuffer) {
+					Iterator<ResultData> iterator = sendePuffer.iterator();
+
+					while (iterator.hasNext()) {
+						ResultData rd = iterator.next();
+
+						if (dbs.equals(rd.getDataDescription())) {
+							iterator.remove();
+						}
+					}
+				}
 			}
 		}
 
@@ -218,6 +240,28 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 			if (isRequestSupported(object, dataDescription)
 					&& state == ClientSenderInterface.START_SENDING) {
 				sendenErlaubt.add(dataDescription.getAspect());
+
+				if (isAsynchron()) {
+					synchronized (sendePuffer) {
+						Iterator<ResultData> iterator = sendePuffer.iterator();
+
+						while (iterator.hasNext()) {
+							ResultData datensatz = iterator.next();
+
+							if (datensatz.getDataDescription().equals(
+									dataDescription)) {
+								try {
+									dav.sendData(datensatz);
+									iterator.remove();
+								} catch (DataNotSubscribedException ex) {
+									throw new IllegalStateException(ex);
+								} catch (SendSubscriptionNotConfirmed ex) {
+									throw new IllegalStateException(ex);
+								}
+							}
+						}
+					}
+				}
 			} else {
 				sendenErlaubt.remove(dataDescription.getAspect());
 			}
@@ -232,6 +276,15 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public boolean isAngemeldet(Aspect asp) {
 			return angemeldet.contains(asp);
+		}
+
+		/**
+		 * Fragt, ob der Sender synchron oder asynchron arbeitet.
+		 * 
+		 * @return {@code true}, wenn der Sender asynchron arbeitet.
+		 */
+		public boolean isAsynchron() {
+			return asynchron;
 		}
 
 		/**
@@ -254,6 +307,17 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		}
 
 		/**
+		 * Gibt den Wert des Flags {@code sendenErlaubt} zur&uuml;ck.
+		 * 
+		 * @param asp
+		 *            der betroffene Aspekt.
+		 * @return der Wert.
+		 */
+		public boolean isSendenErlaubt(Aspect asp) {
+			return sendenErlaubt.contains(asp);
+		}
+
+		/**
 		 * F&uuml;gt ein Datum der Warteschlange des Senders hinzu.
 		 * 
 		 * @param d
@@ -272,23 +336,40 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 						"Der Datensatz wurde noch nicht zum Senden angemeldet.");
 			}
 
-			if (isQuelle(asp) || sendenErlaubt.contains(asp)) {
-				long z = zeitstempel > 0 ? zeitstempel : dav.getTime();
-				DataDescription dbs = new DataDescription(getAttributGruppe(),
-						asp);
-				ResultData datensatz = new ResultData(getObjekt()
-						.getSystemObject(), dbs, z, d);
-				try {
-					dav.sendData(datensatz);
-				} catch (DataNotSubscribedException ex) {
-					throw new DatensendeException(ex);
-				} catch (SendSubscriptionNotConfirmed ex) {
-					throw new DatensendeException(ex);
+			long z = zeitstempel > 0 ? zeitstempel : dav.getTime();
+			DataDescription dbs = new DataDescription(getAttributGruppe(), asp);
+			ResultData datensatz = new ResultData(
+					getObjekt().getSystemObject(), dbs, z, d);
+
+			if (isAsynchron()) {
+				synchronized (sendePuffer) {
+					sendePuffer.add(datensatz);
 				}
 			} else {
-				throw new DatensendeException(
-						"Die Sendesteuerung hat das Senden verboten.");
+				if (isQuelle(asp) || sendenErlaubt.contains(asp)) {
+					try {
+						dav.sendData(datensatz);
+					} catch (DataNotSubscribedException ex) {
+						throw new DatensendeException(ex);
+					} catch (SendSubscriptionNotConfirmed ex) {
+						throw new DatensendeException(ex);
+					}
+				} else {
+					throw new DatensendeException(
+							"Die Sendesteuerung hat das Senden verboten.");
+				}
 			}
+
+		}
+
+		/**
+		 * Legt fest, ob der Sender synchron oder asynchron arbeiten soll.
+		 * 
+		 * @param asynchron
+		 *            {@code true}, wenn der Sender asynchron arbeiten soll.
+		 */
+		public void setAsynchron(boolean asynchron) {
+			this.asynchron = asynchron;
 		}
 	}
 
@@ -353,6 +434,25 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	}
 
 	/**
+	 * Fragt, ob der Sender synchron oder asynchron arbeitet.
+	 * 
+	 * @return {@code true}, wenn der Sender asynchron arbeitet.
+	 */
+	public boolean isAsynchron() {
+		return sender.isAsynchron();
+	}
+
+	/**
+	 * Legt fest, ob der Sender synchron oder asynchron arbeiten soll.
+	 * 
+	 * @param asynchron
+	 *            {@code true}, wenn der Sender asynchron arbeiten soll.
+	 */
+	public void setAsynchron(boolean asynchron) {
+		sender.setAsynchron(asynchron);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see java.lang.Object#toString()
@@ -365,7 +465,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 
 	/**
 	 * Meldet eine eventuell vorhandene Anmeldung als Sender oder Quelle wieder
-	 * ab.
+	 * ab. Noch nicht gesendet Datens&auml;tze werden aus dem Sendepuffer
+	 * entfernt.
 	 * 
 	 * @param asp
 	 *            der betroffene Aspekt.
@@ -526,6 +627,18 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @return {@code true}, wenn die Anmeldung als Quelle erfolgen soll.
 	 */
 	protected abstract boolean isQuelle(Aspect asp);
+
+	/**
+	 * Fragt, ob der Datensatz als Sender oder Quelle Daten senden darf.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle Daten
+	 *         senden darf.
+	 */
+	protected boolean isSendenErlaubt(Aspect asp) {
+		return sender.isSendenErlaubt(asp);
+	}
 
 	/**
 	 * Gibt an, ob der Datensatz als Senke oder Empf&auml;ngher angemeldet

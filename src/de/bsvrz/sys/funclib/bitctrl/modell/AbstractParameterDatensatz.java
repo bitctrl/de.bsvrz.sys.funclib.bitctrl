@@ -125,6 +125,15 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#isSendenErlaubt()
+	 */
+	public boolean isSendenErlaubt() {
+		return super.isSendenErlaubt(senderAsp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#removeUpdateListener(de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener)
 	 */
 	public void removeUpdateListener(DatensatzUpdateListener l) {

@@ -26,6 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+
 /**
  * Tagging-Schnittstelle f&uuml;r Parameterdatens&auml;tze.
  * 
@@ -51,7 +52,7 @@ public interface ParameterDatensatz<T extends Datum> extends Datensatz<T> {
 	void addUpdateListener(DatensatzUpdateListener l);
 
 	/**
-	 * Meldet den Datensatz als Sender oder Quelle am Datenverteiler an.
+	 * Meldet den Parameter zum Senden an.
 	 * 
 	 * @throws AnmeldeException
 	 *             wenn die Anmeldung nicht erfolgreich war.
@@ -80,6 +81,14 @@ public interface ParameterDatensatz<T extends Datum> extends Datensatz<T> {
 	 *         Datenverteiler empf&auml;ngt.
 	 */
 	boolean isAutoUpdate();
+
+	/**
+	 * Fragt, ob der Parameter gesendet werden darf.
+	 * 
+	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle Daten
+	 *         senden darf.
+	 */
+	boolean isSendenErlaubt();
 
 	/**
 	 * Deregistriert einen Listener.
