@@ -1,20 +1,20 @@
 /*
- * Interpreter von logischen Ausdrücken
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -35,46 +35,58 @@ import de.bsvrz.sys.funclib.bitctrl.interpreter.InterpreterMessages;
  * Fuzzy-Logik verwendbar ist. Boolsche Logik wird intern durch die
  * Zugeh&ouml;rigkeitswerte "1" und "0" repr&auml;sentiert.
  * 
- * @author BitCtrl, Peuker
- * @author BitCtrl, Schumann
+ * @author BitCtrl Systems GmbH, Peuker
+ * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
 public class LogischerWert {
 
 	/**
-	 * Eine globale Instanz f&uuml;r den boolschen Wert <i>true</i>
+	 * Eine globale Instanz f&uuml;r den boolschen Wert <i>true</i>.
 	 */
-	public final static LogischerWert WAHR = new LogischerWert(true);
+	public static final LogischerWert WAHR = new LogischerWert(true);
 
 	/**
-	 * Eine globale Instanz f&uuml;r den boolschen Wert <i>false</i>
+	 * Eine globale Instanz f&uuml;r den boolschen Wert <i>false</i>.
 	 */
-	public final static LogischerWert FALSCH = new LogischerWert(false);
-
-	/**
-	 * Die Zugeh&ouml;rigkeit
-	 */
-	private float zugehoerigkeit;
-
-	/**
-	 * Gibt an, ob der Wert gerade ein logischer oder ein
-	 * Zugeh&ouml;rigkeitswert ist
-	 */
-	private boolean boolWert;
+	public static final LogischerWert FALSCH = new LogischerWert(false);
 
 	/**
 	 * liefert die statische Instanz eines logischen Wertes f&uuml;r die
 	 * Boolschen Werte WAHR und FALSCH.
 	 * 
 	 * @param wert
-	 *            der boolsche Wert
-	 * @return die Instanz
+	 *            der boolsche Wert.
+	 * @return die Instanz.
 	 */
-	public final static LogischerWert valueOf(boolean wert) {
+	public static final LogischerWert valueOf(boolean wert) {
 		if (wert) {
 			return WAHR;
 		}
 		return FALSCH;
+	}
+
+	/**
+	 * Die Zugeh&ouml;rigkeit.
+	 */
+	private Float zugehoerigkeit;
+
+	/**
+	 * Gibt an, ob der Wert gerade ein logischer oder ein
+	 * Zugeh&ouml;rigkeitswert ist.
+	 */
+	private boolean boolWert;
+
+	/**
+	 * Der Konstruktor erzeugt einen logischen Wert mit der Zugeh&ouml;rigkeit
+	 * "1" f&uuml;r <i>true</i> bzw "0" f&uuml;r <i>false</i>.
+	 * 
+	 * @param wert
+	 *            Der boolsche Wert, den der logische Wert repr&auml;sentieren
+	 *            soll
+	 */
+	public LogischerWert(boolean wert) {
+		set(wert);
 	}
 
 	/**
@@ -89,25 +101,35 @@ public class LogischerWert {
 	}
 
 	/**
-	 * Der Konstruktor erzeugt einen logischen Wert mit der Zugeh&ouml;rigkeit
-	 * "1" f&uuml;r <i>true</i> bzw "0" f&uuml;r <i>false</i>
+	 * Zwei logische Werte sind gleich, wenn sie beide den selben Typ (logischer
+	 * Wert oder Zugeh&ouml;rigkeit) und Wert besitzen.
 	 * 
-	 * @param wert
-	 *            Der boolsche Wert, den der logische Wert repr&auml;sentieren
-	 *            soll
+	 * {@inheritDoc}
 	 */
-	public LogischerWert(boolean wert) {
-		set(wert);
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof LogischerWert) {
+			LogischerWert lw = (LogischerWert) obj;
+			Float f1, f2;
+			f1 = zugehoerigkeit;
+			f2 = lw.zugehoerigkeit;
+			if (!(this.boolWert ^ lw.boolWert) && f1.equals(f2)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
-	 * Gibt den aktuellen Wert zur&uuml;ck
+	 * Gibt den aktuellen Wert zur&uuml;ck.
 	 * 
 	 * @return Wert vom Typ {@code Float} oder {@code Boolean}
 	 */
 	public Object get() {
-		if (!boolWert)
+		if (!boolWert) {
 			return zugehoerigkeit;
+		}
 
 		assert zugehoerigkeit == 0 || zugehoerigkeit == 1;
 
@@ -116,56 +138,6 @@ public class LogischerWert {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Setzt den Wert auf die angegebene Zugeh&ouml;rigkeit
-	 * 
-	 * @param zugehoerigkeit
-	 *            Zugeh&ouml;rigkeit
-	 */
-	public void set(float zugehoerigkeit) {
-		if (zugehoerigkeit < 0 || zugehoerigkeit > 1)
-			throw new InterpreterException(Messages.get(
-					InterpreterMessages.BadMembership, zugehoerigkeit));
-
-		this.zugehoerigkeit = zugehoerigkeit;
-		boolWert = false;
-	}
-
-	/**
-	 * Setzt den Wert auf den angegebenen booleschen Wert
-	 * 
-	 * @param wert
-	 *            boolescher Wert
-	 */
-	public void set(boolean wert) {
-		if (wert) {
-			set(1);
-		} else {
-			set(0);
-		}
-		boolWert = true;
-	}
-
-	/**
-	 * Pr&uuml;ft ob der logische Wert ein boolescher Wert ist
-	 * 
-	 * @return {@code true}, wenn der Wert ein boolescher Wert ist, sonst
-	 *         {@code false}
-	 */
-	public boolean isBoolWert() {
-		return boolWert;
-	}
-
-	/**
-	 * Liefert den Zugeh&ouml;rigkeitswert, der durch den logischen Wert
-	 * repr&auml;sentiert wird
-	 * 
-	 * @return Wert
-	 */
-	public float getZugehoerigkeit() {
-		return zugehoerigkeit;
 	}
 
 	/**
@@ -178,9 +150,10 @@ public class LogischerWert {
 	 * @return Den Wert
 	 */
 	public boolean getBoolWert() {
-		if (!boolWert)
+		if (!boolWert) {
 			throw new InterpreterException(Messages
 					.get(InterpreterMessages.NoBooleanValue));
+		}
 
 		assert zugehoerigkeit == 0 || zugehoerigkeit == 1;
 
@@ -192,32 +165,63 @@ public class LogischerWert {
 	}
 
 	/**
-	 * Zwei logische Werte sind gleich, wenn sie beide den selben Typ (logischer
-	 * Wert oder Zugeh&ouml;rigkeit) und Wert besitzen
+	 * Liefert den Zugeh&ouml;rigkeitswert, der durch den logischen Wert
+	 * repr&auml;sentiert wird.
 	 * 
-	 * {@inheritDoc}
+	 * @return Wert
 	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof LogischerWert) {
-			LogischerWert lw = (LogischerWert) obj;
-			Float f1, f2;
-			f1 = zugehoerigkeit;
-			f2 = lw.zugehoerigkeit;
-			if (!(this.boolWert ^ lw.boolWert) && f1.equals(f2))
-				return true;
+	public Float getZugehoerigkeit() {
+		return zugehoerigkeit;
+	}
+
+	/**
+	 * Pr&uuml;ft ob der logische Wert ein boolescher Wert ist.
+	 * 
+	 * @return {@code true}, wenn der Wert ein boolescher Wert ist, sonst
+	 *         {@code false}
+	 */
+	public boolean isBoolWert() {
+		return boolWert;
+	}
+
+	/**
+	 * Setzt den Wert auf den angegebenen booleschen Wert.
+	 * 
+	 * @param wert
+	 *            boolescher Wert
+	 */
+	public void set(boolean wert) {
+		if (wert) {
+			set(1f);
+		} else {
+			set(0f);
+		}
+		boolWert = true;
+	}
+
+	/**
+	 * Setzt den Wert auf die angegebene Zugeh&ouml;rigkeit.
+	 * 
+	 * @param zugehoerigkeit
+	 *            Zugeh&ouml;rigkeit.
+	 */
+	public void set(Float zugehoerigkeit) {
+		if (zugehoerigkeit != null
+				&& (zugehoerigkeit < 0 || zugehoerigkeit > 1)) {
+			throw new InterpreterException(Messages.get(
+					InterpreterMessages.BadMembership, zugehoerigkeit));
 		}
 
-		return false;
+		this.zugehoerigkeit = zugehoerigkeit;
+		boolWert = false;
 	}
 
 	/**
 	 * Wenn der logische Wert ein boolescher Wert ist, wird "wahr" oder "falsch"
-	 * zur&uuml;ckgegeben, sonst der Zahlenwert der Zugeh&ouml;rigkeit
+	 * zur&uuml;ckgegeben, sonst der Zahlenwert der Zugeh&ouml;rigkeit.
 	 * 
 	 * {@inheritDoc}
 	 */
-	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		String result;
@@ -228,8 +232,9 @@ public class LogischerWert {
 			} else {
 				result = "falsch";
 			}
-		} else
+		} else {
 			result = String.valueOf(getZugehoerigkeit());
+		}
 
 		return result;
 	}
