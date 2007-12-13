@@ -292,6 +292,30 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		}
 
 		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			String s = "Daten[";
+
+			s += "zeitpunkt=" + getZeitpunkt();
+			s += ", valid=" + valid;
+			s += ", ALkw=" + aLkw;
+			s += ", KB=" + kb;
+			s += ", QKfz=" + qKfz;
+			s += ", QLkw=" + qLkw;
+			s += ", QPkw=" + qPkw;
+			s += ", SKfz=" + sKfz;
+			s += ", VKfz=" + vKfz;
+			s += ", VLkw=" + vLkw;
+			s += ", VPkw" + vPkw;
+
+			return s + "]";
+		}
+
+		/**
 		 * Setzt das Flag {@code valid} des Datum.
 		 * 
 		 * @param valid
@@ -480,19 +504,21 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		for (int idx = 0; idx < valStrings.length; idx++) {
 			datum.getItem(valStrings[idx]).getUnscaledValue("Wert").setText(
 					"nicht ermittelbar");
+			datum.getItem(valStrings[idx]).getItem("Status").getItem(
+					"Erfassung").getUnscaledValue("NichtErfasst").setText(
+					"Nein");
 			datum.getItem(valStrings[idx]).getItem("Status")
-					.getItem("Erfassung").getUnscaledValue("NichtErfasst")
-					.setText("Nein");
-			datum.getItem(valStrings[idx]).getItem("Status").getItem("PlFormal")
-					.getUnscaledValue("WertMax").setText("Nein");
-			datum.getItem(valStrings[idx]).getItem("Status").getItem("PlFormal")
-					.getUnscaledValue("WertMin").setText("Nein");
+					.getItem("PlFormal").getUnscaledValue("WertMax").setText(
+							"Nein");
 			datum.getItem(valStrings[idx]).getItem("Status")
-					.getItem("PlLogisch").getUnscaledValue("WertMaxLogisch")
-					.setText("Nein");
-			datum.getItem(valStrings[idx]).getItem("Status")
-					.getItem("PlLogisch").getUnscaledValue("WertMinLogisch")
-					.setText("Nein");
+					.getItem("PlFormal").getUnscaledValue("WertMin").setText(
+							"Nein");
+			datum.getItem(valStrings[idx]).getItem("Status").getItem(
+					"PlLogisch").getUnscaledValue("WertMaxLogisch").setText(
+					"Nein");
+			datum.getItem(valStrings[idx]).getItem("Status").getItem(
+					"PlLogisch").getUnscaledValue("WertMinLogisch").setText(
+					"Nein");
 			datum.getItem(valStrings[idx]).getItem("Status").getItem(
 					"MessWertErsetzung").getUnscaledValue("Implausibel")
 					.setText("Nein");
@@ -532,8 +558,8 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		qPkw = Umrechung.getQPkw(qKfz, qLkw);
 		if (qPkw != null) {
 			datum.getItem("QPkw").getUnscaledValue("Wert").set(qPkw);
-			datum.getItem("QPkw").getItem("Güte").getUnscaledValue("Index").set(
-					10);
+			datum.getItem("QPkw").getItem("Güte").getUnscaledValue("Index")
+					.set(10);
 			datum.getItem("QPkw").getItem("Status").getItem("Erfassung")
 					.getUnscaledValue("NichtErfasst").setText("Ja");
 
@@ -542,8 +568,8 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		vKfz = Umrechung.getVKfz(qLkw, qKfz, vPkw, vLkw);
 		if (vKfz != null) {
 			datum.getItem("VKfz").getUnscaledValue("Wert").set(vKfz);
-			datum.getItem("VKfz").getItem("Güte").getUnscaledValue("Index").set(
-					10);
+			datum.getItem("VKfz").getItem("Güte").getUnscaledValue("Index")
+					.set(10);
 			datum.getItem("VKfz").getItem("Status").getItem("Erfassung")
 					.getUnscaledValue("NichtErfasst").setText("Ja");
 		}
@@ -551,8 +577,8 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		qb = Umrechung.getQB(qLkw, qKfz, vPkw, vLkw, 0.5f, 1);
 		if (qb != null) {
 			datum.getItem("QB").getUnscaledValue("Wert").set(qb);
-			datum.getItem("QB").getItem("Güte").getUnscaledValue("Index")
-					.set(10);
+			datum.getItem("QB").getItem("Güte").getUnscaledValue("Index").set(
+					10);
 			datum.getItem("QB").getItem("Status").getItem("Erfassung")
 					.getUnscaledValue("NichtErfasst").setText("Ja");
 		}
