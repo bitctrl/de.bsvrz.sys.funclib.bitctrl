@@ -271,10 +271,17 @@ public class OdStoerfallZustand extends
 		 */
 		@Override
 		public String toString() {
-			return getClass() + "[zeitpunkt=" + getZeitpunkt() + ", valid="
-					+ isValid() + " , t=" + t + ", horizont=" + horizont
-					+ ", situation=" + situation + ", gueteIndex=" + gueteIndex
-					+ ", gueteVerfahren=" + gueteVerfahren + "]";
+			String s = "Daten[";
+
+			s += "[zeitpunkt=" + getZeitpunkt();
+			s += ", valid=" + isValid();
+			s += " , t=" + t;
+			s += ", horizont=" + horizont;
+			s += ", situation=" + situation;
+			s += ", gueteIndex=" + gueteIndex;
+			s += ", gueteVerfahren=" + gueteVerfahren;
+
+			return s + "]";
 		}
 
 		/**

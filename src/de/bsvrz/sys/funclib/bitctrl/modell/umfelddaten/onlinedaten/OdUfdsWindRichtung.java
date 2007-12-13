@@ -188,6 +188,22 @@ public class OdUfdsWindRichtung extends
 		}
 
 		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			String s = "Daten[";
+
+			s += "zeitpunkt=" + getZeitpunkt();
+			s += ", valid=" + isValid();
+			s += ", WindRichtung=" + windRichtung;
+
+			return s + "]";
+		}
+
+		/**
 		 * Setzt das Flag {@code valid} des Datum.
 		 * 
 		 * @param valid

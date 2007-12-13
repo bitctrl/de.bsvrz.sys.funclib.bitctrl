@@ -301,7 +301,7 @@ public class OdVerkehrsDatenKurzZeitMq extends
 			String s = "Daten[";
 
 			s += "zeitpunkt=" + getZeitpunkt();
-			s += ", valid=" + valid;
+			s += ", valid=" + isValid();
 			s += ", ALkw=" + aLkw;
 			s += ", KB=" + kb;
 			s += ", QKfz=" + qKfz;

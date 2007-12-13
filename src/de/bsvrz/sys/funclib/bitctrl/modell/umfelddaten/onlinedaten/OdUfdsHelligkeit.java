@@ -188,6 +188,22 @@ public class OdUfdsHelligkeit extends
 		}
 
 		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			String s = "Daten[";
+
+			s += "zeitpunkt=" + getZeitpunkt();
+			s += ", valid=" + isValid();
+			s += ", Helligkeit=" + helligkeit;
+
+			return s + "]";
+		}
+
+		/**
 		 * Setzt das Flag {@code valid} des Datum.
 		 * 
 		 * @param valid
