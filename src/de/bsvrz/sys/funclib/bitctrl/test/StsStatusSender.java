@@ -77,12 +77,11 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 	/**
 	 * Liste der PIDs für die Aspekte, für die eine Anmeldung erfolgen soll.
 	 */
-	private final String[] aspekte = { "asp.störfallVerfahrenFuzzy"
-	// , "asp.störfallVerfahrenStandard", "asp.störfallVerfahrenMARZ",
-	// "asp.störfallVerfahrenNRW", "asp.störfallVerfahrenRDS",
-	// "asp.störfallVerfahrenFD", "asp.störfallVerfahrenVKDiffKfz",
-	// "asp.störfallVerfahrenConstraint", "asp.störfallVerfahrenMOBINET"
-	};
+	private final String[] aspekte = { "asp.störfallVerfahrenFuzzy",
+			"asp.störfallVerfahrenStandard", "asp.störfallVerfahrenMARZ",
+			"asp.störfallVerfahrenNRW", "asp.störfallVerfahrenRDS",
+			"asp.störfallVerfahrenFD", "asp.störfallVerfahrenVKDiffKfz",
+			"asp.störfallVerfahrenConstraint", "asp.störfallVerfahrenMOBINET" };
 
 	/**
 	 * der letzte Status, der als Störzustand versendet werden sollte.
@@ -120,6 +119,9 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 			final DataDescription dataDescription, final byte state) {
 		if (object.getPid().equals("sts.00001.BW")) {
 			logger.config("DataRequest: " + object + ", " + dataDescription
+					+ ", " + state);
+		} else {
+			logger.fine("DataRequest: " + object + ", " + dataDescription
 					+ ", " + state);
 		}
 	}
@@ -213,9 +215,9 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 		letzterStatus++;
 
 		try {
-			logger.fine("Sende Daten");
+			logger.info("Sende Daten");
 			dav.sendData(daten);
-			logger.fine("Gesendet");
+			logger.info("Gesendet");
 		} catch (DataNotSubscribedException e) {
 			e.printStackTrace();
 		} catch (SendSubscriptionNotConfirmed e) {

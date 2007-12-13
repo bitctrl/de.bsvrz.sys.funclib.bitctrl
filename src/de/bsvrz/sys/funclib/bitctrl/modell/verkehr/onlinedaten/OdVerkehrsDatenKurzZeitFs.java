@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.bsvrz.dav.daf.main.ClientDavParameters;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.Data.NumberValue;
@@ -43,19 +44,19 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.FahrStreifen;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten.OdVerkehrsDatenKurzZeitMq.Daten.Werte;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten.OdVerkehrsDatenKurzZeitFs.Daten.Werte;
 import de.bsvrz.sys.funclib.bitctrl.util.dav.Umrechung;
 
 /**
- * Kapselt die Attributgruppe {@code atg.verkehrsDatenKurzZeitMq}.
+ * Kapselt die Attributgruppe {@code atg.verkehrsDatenKurzZeitFs}.
  * 
- * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: OdVerkehrsDatenKurzZeitMq.java 5200 2007-12-10 16:52:19Z
- *          Schumann $
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
  */
-public class OdVerkehrsDatenKurzZeitMq extends
-		AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitMq.Daten> {
+public class OdVerkehrsDatenKurzZeitFs extends
+		AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitFs.Daten> {
 
 	/**
 	 * Die vorhandenen Aspekte des Datensatzes.
@@ -137,10 +138,7 @@ public class OdVerkehrsDatenKurzZeitMq extends
 			VLkw,
 
 			/** Standardabweichung der Kfz-Geschwindigkeiten SKfz in km/h. */
-			SKfz,
-
-			/** Belegungsgrad (mit Statusinformationen) in Prozent. */
-			B;
+			SKfz;
 
 		}
 
@@ -174,9 +172,6 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		/** Standardabweichung der Kfz-Geschwindigkeiten SKfz in km/h. */
 		private Integer sKfz;
 
-		/** Belegungsgrad (mit Statusinformationen) in Prozent. */
-		private Float b;
-
 		/** Das Flag f&uuml;r die G&uuml;ltigkeit des Datensatzes. */
 		private boolean valid;
 
@@ -199,7 +194,6 @@ public class OdVerkehrsDatenKurzZeitMq extends
 			klon.vPkw = vPkw;
 			klon.kb = kb;
 			klon.sKfz = sKfz;
-			klon.b = b;
 			klon.valid = valid;
 			return klon;
 		}
@@ -230,8 +224,6 @@ public class OdVerkehrsDatenKurzZeitMq extends
 				return vPkw;
 			case SKfz:
 				return sKfz;
-			case B:
-				return b;
 			default:
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + name + ".");
@@ -305,9 +297,6 @@ public class OdVerkehrsDatenKurzZeitMq extends
 			case SKfz:
 				sKfz = wert != null ? wert.intValue() : null;
 				break;
-			case B:
-				b = wert != null ? wert.floatValue() : null;
-				break;
 			default:
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + wert + ".");
@@ -317,7 +306,7 @@ public class OdVerkehrsDatenKurzZeitMq extends
 	}
 
 	/** Die PID der Attributgruppe. */
-	private static final String ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ = "atg.verkehrsDatenKurzZeitMq";
+	private static final String ATG_VERKEHRS_DATEN_KURZ_ZEIT_FS = "atg.verkehrsDatenKurzZeitFs";
 
 	/** Die Attributgruppe kann von allen Instanzen gemeinsam genutzt werden. */
 	private static AttributeGroup atg;
@@ -325,17 +314,16 @@ public class OdVerkehrsDatenKurzZeitMq extends
 	/**
 	 * Initialisiert den Onlinedatensatz.
 	 * 
-	 * @param mq
-	 *            der Messquerschnitt dessen Kurzzeitdaten hier betrachtet
-	 *            werden.
+	 * @param fs
+	 *            der Fahrstreifen dessen Kurzzeitdaten hier betrachtet werden.
 	 */
-	public OdVerkehrsDatenKurzZeitMq(final MessQuerschnittAllgemein mq) {
-		super(mq);
+	public OdVerkehrsDatenKurzZeitFs(final FahrStreifen fs) {
+		super(fs);
 
 		if (atg == null) {
 			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
-			atg = modell.getAttributeGroup(ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ);
+			atg = modell.getAttributeGroup(ATG_VERKEHRS_DATEN_KURZ_ZEIT_FS);
 			assert atg != null;
 		}
 	}
@@ -375,12 +363,12 @@ public class OdVerkehrsDatenKurzZeitMq extends
 	 * 
 	 * Alle Messwerte sind initial "nicht ermittelbar" und die Statuswerte
 	 * besitzen alle die gleichen Standardwerte. Die Messwerte aus
-	 * {@link OdVerkehrsDatenKurzZeitMq.Daten.Werte} werden &uuml;bernommen.
+	 * {@link OdVerkehrsDatenKurzZeitFs.Daten.Werte} werden &uuml;bernommen.
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
 	 */
 	@Override
-	protected Data konvertiere(final OdVerkehrsDatenKurzZeitMq.Daten d) {
+	protected Data konvertiere(final OdVerkehrsDatenKurzZeitFs.Daten d) {
 		Data datum = erzeugeSendeCache();
 		int qKfz, qLkw, vPkw, vLkw, sKfz, kb;
 		Integer qPkw, vKfz, qb, aLkw;
@@ -564,9 +552,6 @@ public class OdVerkehrsDatenKurzZeitMq extends
 				datum.setWert(Daten.Werte.ALkw.name(), wert.intValue());
 			}
 
-			wert = daten.getItem(Daten.Werte.B.name()).getScaledValue("Wert");
-			datum.setWert(Daten.Werte.B.name(), wert.floatValue());
-
 			datum.setValid(true);
 		} else {
 			datum.setValid(false);
@@ -577,5 +562,4 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
 	}
-
 }

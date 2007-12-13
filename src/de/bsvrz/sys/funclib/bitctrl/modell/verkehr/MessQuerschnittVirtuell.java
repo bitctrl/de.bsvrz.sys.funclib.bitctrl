@@ -26,6 +26,9 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
@@ -46,13 +49,23 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 	 * @param obj
 	 *            das Systemobjekt
 	 */
-	MessQuerschnittVirtuell(SystemObject obj) {
+	MessQuerschnittVirtuell(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist kein virtueller Messquerschnitt.");
 		}
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein#getFahrStreifen()
+	 */
+	@Override
+	public List<FahrStreifen> getFahrStreifen() {
+		return new ArrayList<FahrStreifen>();
 	}
 
 	/**

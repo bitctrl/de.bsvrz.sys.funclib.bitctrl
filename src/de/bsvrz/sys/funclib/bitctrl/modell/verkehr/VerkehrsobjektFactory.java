@@ -46,7 +46,7 @@ public class VerkehrsobjektFactory implements ModellObjektFactory {
 	/**
 	 * {@inheritDoc}
 	 */
-	public SystemObjekt getModellobjekt(SystemObject objekt) {
+	public SystemObjekt getModellobjekt(final SystemObject objekt) {
 		if (objekt == null) {
 			throw new IllegalArgumentException("Argument darf nicht null sein.");
 		}
@@ -81,6 +81,8 @@ public class VerkehrsobjektFactory implements ModellObjektFactory {
 			obj = new Strasse(objekt);
 		} else if (objekt.isOfType(VerkehrsModellTypen.BAUSTELLE.getPid())) {
 			obj = new Baustelle(objekt);
+		} else if (objekt.isOfType(VerkehrsModellTypen.FAHRSTREIFEN.getPid())) {
+			obj = new FahrStreifen(objekt);
 		}
 
 		return obj;
