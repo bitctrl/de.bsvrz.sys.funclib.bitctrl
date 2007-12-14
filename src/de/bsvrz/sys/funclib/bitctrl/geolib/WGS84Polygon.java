@@ -27,6 +27,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -168,7 +169,9 @@ public class WGS84Polygon {
 		
 		Line2D.Double l2d = new Line2D.Double(l1.get_utm_x(), l1.get_utm_y(), l2.get_utm_x(), l2.get_utm_y());
 		double abstand = l2d.ptSegDist(punkt.get_utm_x(), punkt.get_utm_y());
-		return abstand;
+		
+		// zur Vermeidung von numerischen Problemen mit 3 Nachkommastellen
+		return Math.round(abstand * 1000.0)/1000.0;	
 	}
 	
 	/**
@@ -323,8 +326,7 @@ public class WGS84Polygon {
 
 		// Ueberpruefung der Richtung
 		if( !richtungOK(line, ergebnis) ) { 
-			offset *=-1;
-			ergebnis = berecheneBildPunkt( line, alpha, offset);
+			ergebnis = berecheneBildPunkt( line, alpha, offset * -1);
 		}
 			
 		// Ruecktransformation in Winkelkoordinaten
@@ -369,7 +371,67 @@ public class WGS84Polygon {
 	}
 	
 	/**
-	 * Schneidet den Anfangsteil des Polygones bis zur Länge des angegebenen Offsets ab
+	 * Berechnet die Koordinaten der Abbildung eines Punktes auf das Polygon. Wenn der 
+	 * Punkt nicht auf dem Polygon liegt, wird die Bildpunkt-Koordinate durch das Lot vom 
+	 * Punkt auf den Streckenteil des Polygones mit dem kleinsten Abstand zum Punkt berechnet. 
+	 * Kann kein Lot gef&auml;llt werden, wird als Ergebnis der Punkt der Linie zur&uuml;ckgeliefert,
+	 * welcher dem Punkt am n&auml;chsten liegt, also entweder der Anfangs- oder der Endpunkt.
+	 * 
+	 * @param punkt der abzubildende Punkt 
+	 * 
+	 * @return Punkt bzw. IllegalArgumentException
+	 */
+	public WGS84Punkt bildPunkt(WGS84Punkt punkt) {
+		if(liegtAufPolygon(punkt))
+			return punkt;
+		
+		WGS84Polygon strecke = findeTeilstreckeKleinsterAbstand(punkt);
+		
+		if(strecke != null) {
+			WGS84Punkt bp = punkt;
+			int iterationen = 0;
+			// iteriere um numerische Fehler bei grossem Abstand zu eliminieren
+			do {
+				bp = WGS84Polygon.bildPunktAufStrecke(strecke._punkte.get(0), strecke._punkte.get(1), bp);
+				
+				if(++iterationen > 3)
+					throw new IllegalArgumentException ("Der Bildpunkt kann nicht genau bestimmt werden"); //$NON-NLS-1$
+			}
+			while(!liegtAufPolygon(bp));
+			
+			return bp;
+		}
+		
+		throw new IllegalArgumentException ("Der Bildpunkt kann nicht bestimmt werden"); //$NON-NLS-1$
+	}
+	
+	/**
+	 * Berechnet den Offset eines Punktes auf dem Polygon. 
+	 * 
+	 * @param punkt Punkt, f&uuml;r den der Offset berechnet werden soll
+	 * 
+	 * @return Offset (in m) bzw. IllegalArgumentException
+	 */
+	public double berecheneOffset(WGS84Punkt punkt) {
+		if(!liegtAufPolygon(punkt))
+			throw new IllegalArgumentException ("Der Offset kann nicht bestimmt werden"); //$NON-NLS-1$
+
+		double offset = 0.0;
+
+		for( int i=0; i< _punkte.size()-1; i++ ) {
+			if( WGS84Polygon.punktLiegtAufStrecke(_punkte.get(i), _punkte.get(i+1), punkt) ) {
+				offset += WGS84Punkt.Abstand(punkt, _punkte.get(i));
+				break;
+			}
+
+			offset += WGS84Punkt.Abstand(_punkte.get(i+1), _punkte.get(i));
+		}
+		
+		return offset;
+	}
+
+	/**
+	 * Schneidet den Anfangsteil des Polygones bis zur L&auml;nge des angegebenen Offsets ab
 	 * und gibt diesen Teil zurück. Das Polygon wird um den entsprechenden Teil gekürzt. 
 	 * Wenn der gegebene Offset gr&ouml;&szlig;er als die L&auml;nge des Polygones ist, 
 	 * wird eine IllegalArgumentException geworfen. 
@@ -420,14 +482,12 @@ public class WGS84Polygon {
 	}
 	
 	/**
-	 * Schneidet den Anfangsteil des Polygones bis zur Länge des angegebenen Offsets ab
+	 * Schneidet den Anfangsteil des Polygones bis zu einem gegebenen Punkt  ab
 	 * und gibt diesen Teil zurück. Das Polygon wird um den entsprechenden Teil gekürzt. 
-	 * Wenn der gegebene Offset gr&ouml;&szlig;er als die L&auml;nge des Polygones ist, 
-	 * wird eine IllegalArgumentException geworfen. 
+	 * Wenn der gegebene Punkt nicht auf dem Polygon liegt, wird eine 
+	 * IllegalArgumentException geworfen. 
 	 * 
-	 * @param offset der Offset beginnend vom Anfang des Polygones, bei dem der Schnitt- 
-	 * punkt liegen soll
-	 * 
+	 * @param punkt  Schnittpunkt
 	 * @return Teil des Polygones bis zum Offset-Punkt oder IllegalArgumentException
 	 */
 	public WGS84Polygon anfangAbschneiden(WGS84Punkt punkt) {
@@ -464,44 +524,6 @@ public class WGS84Polygon {
 	}
 		
 	/**
-	 * Berechnet die Koordinaten eines Punktes auf einer Linie mit einem Offset vom
-	 * Anfangspunkt.
-	 * 
-	 * @param line Line
-	 * @param alpha Anstiegswinkel
-	 * @param laenge Offset des Punktes auf der Linie
-	 * @return Punktkoordinaten
-	 */
-	private static Point2D.Double berecheneBildPunkt( Line2D.Double line, double alpha, double laenge) {
-		double yl = Math.sin(alpha) * laenge;
-		double xl = ((float) Math.cos(alpha)) * laenge;
-
-		return new Point2D.Double(line.x1 + xl, line.y1 + yl);
-	}
-	
-	
-	/**
-	 * Bestimmt, ob der Punkt auf die Strecke abbildbar ist, d.h. ob das Lot vom Punkt auf
-	 * die Strecke zwischen den beiden Streckenpunkten liegt.
-	 * 
-	 * @param line
-	 * @param point
-	 * @return abbildbar ja/nein
-	 */
-	private static boolean istAbbildbar(Line2D.Double line, Point2D.Double point) {
-		double ld = line.ptLineDist(point);
-		double l = line.ptSegDist(point);
-		
-		// Bei den obigen Berechnungen treten numerische Fehler auf. Hier wird deshalb ein
-		// zusaetzliches Kriterium definiert.
-		double max_diff = 0.000001;
-		double rel_fehler = (ld-l) / ld;
-		
-		return (line.ptLineDist(point) == line.ptSegDist(point)) || (rel_fehler < max_diff);
-	}
-
-	
-	/**
 	 * sortiert das Polygon
 	 */
 	public void sort() {
@@ -523,25 +545,106 @@ public class WGS84Polygon {
 		return ret;
 	}
 
+	/**
+	 * Gibt die Koordinaten des Polygons als Punktliste zur&uuml;ck.
+	 * 
+	 * @return Punktkoordinaten
+	 */
 	public ArrayList<WGS84Punkt> getKoordinaten() {
 		return _punkte;
 	}
 	
+	/**
+	 * Bestimmt den kleinsten Abstand eines Punktes vom Polygon
+	 * 
+	 * @param punkt Der Punkt, f&uuml;r den der Abstand bestimmt werden soll
+	 * @return der kleinste Abstand des Punktes vom Polygon (in m)
+	 */
+	public double kleinsterPunktAbstand(WGS84Punkt punkt) {
+		WGS84Polygon strecke = findeTeilstreckeKleinsterAbstand(punkt);
+		
+		if(strecke != null)
+			return WGS84Polygon.punktAbstandStrecke(strecke._punkte.get(0), strecke._punkte.get(1), punkt);
+		
+		throw new IllegalArgumentException ("Der Abstand des Punktes kann nicht bestimmt werden"); //$NON-NLS-1$
+	}
 	
+	
+	/**
+	 * Berechnet die Teilstrecke des Polygons, f&uuml;r die der Abstand eines gegebenen
+	 * Punktes von dieser Strecke minimal ist.
+	 * 
+	 * @param punkt Punkt 
+	 * @return gefundene Teilstrecke als Polygon oder null
+	 */
+	public WGS84Polygon findeTeilstreckeKleinsterAbstand(WGS84Punkt punkt) {
+		double abstand = Double.MAX_VALUE;
+		WGS84Punkt p1 = null, p2 = null;
+		WGS84Polygon strecke = null;
+		
+		for( int i=0; i< _punkte.size()-1; i++ ) {
+			double sabstand = WGS84Polygon.punktAbstandStrecke(_punkte.get(i), _punkte.get(i+1), punkt);
+			if(sabstand < abstand) {
+				abstand = sabstand;
+				p1 = _punkte.get(i);
+				p2 = _punkte.get(i+1);
+			}
+		}
+		
+		if( p1!=null && p2!=null) {
+			WGS84Punkt punkte[] = {p1, p2};
+			strecke = new WGS84Polygon(Arrays.asList(punkte));
+		}
+		
+		return strecke;
+	}
+
 	/**
 	 * Bestimmt, ob der Punkt in der korrekten Richtung erzeugt wurde.
 	 * 
 	 * @param line die Linie, auf die der Punkt abgebildet werden soll
-	 * @param pointder Bildpunkt
+	 * @param punkt der zu testende Punkt 
 	 * @return ja/nein
 	 */
-	private static boolean richtungOK(Line2D.Double line, Point2D.Double punkt){
+	private static boolean richtungOK(Line2D.Double line, Point2D.Double punkt) {
 		Rectangle2D r = line.getBounds2D();
 		
 		return r.contains(punkt);
 	}
 
-	public ArrayList<WGS84Punkt> getPunkte() {
-		return _punkte;
+	/**
+	 * Bestimmt, ob der Punkt auf die Strecke abbildbar ist, d.h. ob das Lot vom Punkt auf
+	 * die Strecke zwischen den beiden Streckenpunkten liegt.
+	 * 
+	 * @param line
+	 * @param point
+	 * @return abbildbar ja/nein
+	 */
+	private static boolean istAbbildbar(Line2D.Double line, Point2D.Double point) {
+		double ld = line.ptLineDist(point);
+		double l = line.ptSegDist(point);
+		
+		// Bei den obigen Berechnungen treten numerische Fehler auf. Hier wird deshalb ein
+		// zusaetzliches Kriterium definiert.
+		double max_diff = 0.000001;
+		double rel_fehler = (ld-l) / ld;
+		
+		return (line.ptLineDist(point) == line.ptSegDist(point)) || (rel_fehler < max_diff);
+	}
+
+	/**
+	 * Berechnet die Koordinaten eines Punktes auf einer Linie mit einem Offset vom
+	 * Anfangspunkt.
+	 * 
+	 * @param line Line
+	 * @param alpha Anstiegswinkel
+	 * @param laenge Offset des Punktes auf der Linie
+	 * @return Punktkoordinaten
+	 */
+	private static Point2D.Double berecheneBildPunkt( Line2D.Double line, double alpha, double laenge) {
+		double yl = Math.sin(alpha) * laenge;
+		double xl = ((float) Math.cos(alpha)) * laenge;
+	
+		return new Point2D.Double(line.x1 + xl, line.y1 + yl);
 	}
 }
