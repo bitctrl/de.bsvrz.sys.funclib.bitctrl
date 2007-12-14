@@ -523,7 +523,7 @@ public class WGS84Polygon {
 		return ret;
 	}
 
-	public ArrayList<WGS84Punkt> get_punkte() {
+	public ArrayList<WGS84Punkt> getKoordinaten() {
 		return _punkte;
 	}
 	
@@ -539,5 +539,9 @@ public class WGS84Polygon {
 		Rectangle2D r = line.getBounds2D();
 		
 		return r.contains(punkt);
+	}
+
+	public ArrayList<WGS84Punkt> getPunkte() {
+		return _punkte;
 	}
 }
