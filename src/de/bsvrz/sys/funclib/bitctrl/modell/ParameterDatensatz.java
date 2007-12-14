@@ -26,6 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import de.bsvrz.dav.daf.main.config.Aspect;
 
 /**
  * Tagging-Schnittstelle f&uuml;r Parameterdatens&auml;tze.
@@ -67,6 +68,16 @@ public interface ParameterDatensatz<T extends Datum> extends Datensatz<T> {
 	T getDatum();
 
 	/**
+	 * Fragt, ob der Datensatz als Sender oder Quelle Daten senden darf.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle Daten
+	 *         senden darf.
+	 */
+	Status getStatusSendesteuerung(Aspect asp);
+
+	/**
 	 * Fragt, ob der Datensatz als Sender oder Quelle angemeldet ist.
 	 * 
 	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle
@@ -81,14 +92,6 @@ public interface ParameterDatensatz<T extends Datum> extends Datensatz<T> {
 	 *         Datenverteiler empf&auml;ngt.
 	 */
 	boolean isAutoUpdate();
-
-	/**
-	 * Fragt, ob der Parameter gesendet werden darf.
-	 * 
-	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle Daten
-	 *         senden darf.
-	 */
-	boolean isSendenErlaubt();
 
 	/**
 	 * Deregistriert einen Listener.

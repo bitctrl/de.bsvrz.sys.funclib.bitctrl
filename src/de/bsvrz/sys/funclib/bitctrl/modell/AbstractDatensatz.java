@@ -132,7 +132,6 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		/**
 		 * {@inheritDoc}
 		 */
-		@SuppressWarnings("synthetic-access")
 		public void update(ResultData[] results) {
 			for (ResultData result : results) {
 				setDaten(result);
@@ -150,7 +149,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		private final ClientDavInterface dav;
 
 		/** Der Zustand der Sendesteuerung. */
-		private final Map<Aspect, Byte> sendesteuerung;
+		private final Map<Aspect, Status> sendesteuerung;
 
 		/** Flag ob der Sender aktuell angemeldet ist. */
 		private final Set<Aspect> angemeldet;
@@ -160,7 +159,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public SynchronerSender() {
 			dav = ObjektFactory.getInstanz().getVerbindung();
-			sendesteuerung = new HashMap<Aspect, Byte>();
+			sendesteuerung = new HashMap<Aspect, Status>();
 			angemeldet = new HashSet<Aspect>();
 		}
 
@@ -217,7 +216,19 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public void dataRequest(SystemObject object,
 				DataDescription dataDescription, byte state) {
-			sendesteuerung.put(dataDescription.getAspect(), state);
+			sendesteuerung.put(dataDescription.getAspect(), Status
+					.getStatus(state));
+		}
+
+		/**
+		 * Gibt den Staus der Sendesteuerung zur&uuml;ck.
+		 * 
+		 * @param asp
+		 *            der betroffene Aspekt.
+		 * @return der Wert.
+		 */
+		public Status getStatus(Aspect asp) {
+			return sendesteuerung.get(asp);
 		}
 
 		/**
@@ -251,17 +262,6 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		}
 
 		/**
-		 * Gibt den Wert des Flags {@code sendenErlaubt} zur&uuml;ck.
-		 * 
-		 * @param asp
-		 *            der betroffene Aspekt.
-		 * @return der Wert.
-		 */
-		public boolean isSendenErlaubt(Aspect asp) {
-			return sendesteuerung.get(asp) == START_SENDING;
-		}
-
-		/**
 		 * F&uuml;gt ein Datum der Warteschlange des Senders hinzu.
 		 * 
 		 * @param d
@@ -275,7 +275,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public void sende(Data d, Aspect asp, long zeitstempel)
 				throws DatensendeException {
-			byte status;
+			Status status;
 			long z;
 			DataDescription dbs;
 			ResultData datensatz;
@@ -286,23 +286,27 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 			}
 
 			if (sendesteuerung.get(asp) == null) {
-				throw new DatensendeException(
-						"Es liegt noch keine Sendeerlaubnis vor.");
+				if (isQuelle(asp)) {
+					status = Status.START;
+				} else {
+					throw new DatensendeException(
+							"Es liegt noch keine Sendeerlaubnis vor.");
+				}
+			} else {
+				status = sendesteuerung.get(asp);
 			}
 
-			status = sendesteuerung.get(asp);
-
 			switch (status) {
-			case STOP_SENDING:
+			case STOP:
 				if (!isQuelle(asp)) {
 					throw new DatensendeException(
 							"Die Sendesteuerung hat das Senden verboten.");
 				}
 				break;
-			case STOP_SENDING_NO_RIGHTS:
+			case KEINE_RECHTE:
 				throw new DatensendeException(
 						"Die Sendesteuerung hat das Senden verboten, weil keine ausreichenden Rechte vorhanden sind.");
-			case STOP_SENDING_NOT_A_VALID_SUBSCRIPTION:
+			case ANMELDUNG_UNGUELTIG:
 				throw new DatensendeException(
 						"Die Sendesteuerung hat das Senden verboten, weil die Anmeldung ungültig ist (doppelte Quelle?).");
 			default:
@@ -313,16 +317,13 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 			dbs = new DataDescription(getAttributGruppe(), asp);
 			datensatz = new ResultData(getObjekt().getSystemObject(), dbs, z, d);
 
-			if (isQuelle(asp) || sendesteuerung.get(asp) == START_SENDING) {
-				try {
-					dav.sendData(datensatz);
-				} catch (DataNotSubscribedException ex) {
-					throw new DatensendeException(ex);
-				} catch (SendSubscriptionNotConfirmed ex) {
-					throw new DatensendeException(ex);
-				}
+			try {
+				dav.sendData(datensatz);
+			} catch (DataNotSubscribedException ex) {
+				throw new DatensendeException(ex);
+			} catch (SendSubscriptionNotConfirmed ex) {
+				throw new DatensendeException(ex);
 			}
-
 		}
 
 	}
@@ -531,6 +532,18 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	}
 
 	/**
+	 * Fragt, ob der Datensatz als Sender oder Quelle Daten senden darf.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle Daten
+	 *         senden darf.
+	 */
+	protected Status getStatusSendesteuerung(Aspect asp) {
+		return sender.getStatus(asp);
+	}
+
+	/**
 	 * Fragt, ob der Datensatz als Sender oder Quelle angemeldet ist.
 	 * 
 	 * @param asp
@@ -562,18 +575,6 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @return {@code true}, wenn die Anmeldung als Quelle erfolgen soll.
 	 */
 	protected abstract boolean isQuelle(Aspect asp);
-
-	/**
-	 * Fragt, ob der Datensatz als Sender oder Quelle Daten senden darf.
-	 * 
-	 * @param asp
-	 *            der betroffene Aspekt.
-	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle Daten
-	 *         senden darf.
-	 */
-	protected boolean isSendenErlaubt(Aspect asp) {
-		return sender.isSendenErlaubt(asp);
-	}
 
 	/**
 	 * Gibt an, ob der Datensatz als Senke oder Empf&auml;ngher angemeldet

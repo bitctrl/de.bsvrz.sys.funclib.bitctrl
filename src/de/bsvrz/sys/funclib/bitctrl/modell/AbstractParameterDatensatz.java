@@ -107,6 +107,16 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getStatusSendesteuerung(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	public Status getStatusSendesteuerung(Aspect asp) {
+		return super.getStatusSendesteuerung(asp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#isAngemeldetSender()
 	 */
 	public boolean isAngemeldetSender() {
@@ -120,15 +130,6 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	 */
 	public boolean isAutoUpdate() {
 		return isAutoUpdate(receiverAsp);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#isSendenErlaubt()
-	 */
-	public boolean isSendenErlaubt() {
-		return super.isSendenErlaubt(senderAsp);
 	}
 
 	/**

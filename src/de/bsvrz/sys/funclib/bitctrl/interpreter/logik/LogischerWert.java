@@ -96,7 +96,7 @@ public class LogischerWert {
 	 * @param wert
 	 *            Der Zugeh&ouml;rigkeitswert
 	 */
-	public LogischerWert(float wert) {
+	public LogischerWert(Float wert) {
 		set(wert);
 	}
 

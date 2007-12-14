@@ -104,6 +104,16 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getStatusSendesteuerung(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	public Status getStatusSendesteuerung(Aspect asp) {
+		return super.getStatusSendesteuerung(asp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isAngemeldetSender(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override
@@ -129,16 +139,6 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	@Override
 	public boolean isQuelle(Aspect asp) {
 		return quellen.contains(asp);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isSendenErlaubt(de.bsvrz.dav.daf.main.config.Aspect)
-	 */
-	@Override
-	public boolean isSendenErlaubt(Aspect asp) {
-		return super.isSendenErlaubt(asp);
 	}
 
 	/**

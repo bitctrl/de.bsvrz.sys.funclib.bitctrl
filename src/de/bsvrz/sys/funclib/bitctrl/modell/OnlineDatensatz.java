@@ -86,6 +86,16 @@ public interface OnlineDatensatz<T extends Datum> extends Datensatz<T> {
 	T getDatum(Aspect asp);
 
 	/**
+	 * Fragt, ob der Datensatz als Sender oder Quelle Daten senden darf.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle Daten
+	 *         senden darf.
+	 */
+	Status getStatusSendesteuerung(Aspect asp);
+
+	/**
 	 * Fragt, ob der Datensatz als Sender oder Quelle angemeldet ist.
 	 * 
 	 * @param asp
@@ -114,16 +124,6 @@ public interface OnlineDatensatz<T extends Datum> extends Datensatz<T> {
 	 *         wenn er als Sender angemeldet werden soll.
 	 */
 	boolean isQuelle(Aspect asp);
-
-	/**
-	 * Fragt, ob der Datensatz als Sender oder Quelle Daten senden darf.
-	 * 
-	 * @param asp
-	 *            der betroffene Aspekt.
-	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle Daten
-	 *         senden darf.
-	 */
-	boolean isSendenErlaubt(Aspect asp);
 
 	/**
 	 * Gibt das Flag {@code senke} zur&uuml;ck.
