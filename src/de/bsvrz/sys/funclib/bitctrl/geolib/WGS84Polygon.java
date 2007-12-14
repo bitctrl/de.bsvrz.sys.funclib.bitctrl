@@ -386,15 +386,16 @@ public class WGS84Polygon {
 			return punkt;
 		
 		WGS84Polygon strecke = findeTeilstreckeKleinsterAbstand(punkt);
+		int iterationen = 0;	
 		
 		if(strecke != null) {
 			WGS84Punkt bp = punkt;
-			int iterationen = 0;
+
 			// iteriere um numerische Fehler bei grossem Abstand zu eliminieren
 			do {
 				bp = WGS84Polygon.bildPunktAufStrecke(strecke._punkte.get(0), strecke._punkte.get(1), bp);
 				
-				if(++iterationen > 3)
+				if(++iterationen > 10000)
 					throw new IllegalArgumentException ("Der Bildpunkt kann nicht genau bestimmt werden"); //$NON-NLS-1$
 			}
 			while(!liegtAufPolygon(bp));
