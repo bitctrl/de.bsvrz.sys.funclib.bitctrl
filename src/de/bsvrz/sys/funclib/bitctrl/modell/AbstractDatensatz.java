@@ -26,12 +26,9 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -73,14 +70,14 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		private final ClientDavInterface dav;
 
 		/** Flag ob der Sender aktuell angemeldet ist. */
-		private final Map<Aspect, Boolean> angemeldet;
+		private final Set<Aspect> angemeldet;
 
 		/**
 		 * Konstruiert den Sender.
 		 */
 		public AsynchronerReceiver() {
 			dav = ObjektFactory.getInstanz().getVerbindung();
-			angemeldet = new HashMap<Aspect, Boolean>();
+			angemeldet = new HashSet<Aspect>();
 		}
 
 		/**
@@ -91,12 +88,12 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 *            der betroffene Aspekt.
 		 */
 		public void abmelden(Aspect asp) {
-			if (angemeldet.get(asp) != null && angemeldet.get(asp)) {
+			if (angemeldet.contains(asp)) {
 				DataDescription dbs = new DataDescription(getAttributGruppe(),
 						asp);
 				dav.unsubscribeReceiver(this, getObjekt().getSystemObject(),
 						dbs);
-				angemeldet.put(asp, false);
+				angemeldet.remove(asp);
 			}
 		}
 
@@ -117,7 +114,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 				dav.subscribeReceiver(this, getObjekt().getSystemObject(), dbs,
 						ReceiveOptions.normal(), ReceiverRole.receiver());
 			}
-			angemeldet.put(asp, true);
+			angemeldet.add(asp);
 		}
 
 		/**
@@ -129,7 +126,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 * @return <code>true</code>, wenn die Anmeldung erfolgt ist.
 		 */
 		public boolean isAngemeldet(Aspect asp) {
-			return angemeldet.get(asp);
+			return angemeldet.contains(asp);
 		}
 
 		/**
@@ -153,23 +150,17 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		private final ClientDavInterface dav;
 
 		/** Der Zustand der Sendesteuerung. */
-		private final Set<Aspect> sendenErlaubt;
+		private final Map<Aspect, Byte> sendesteuerung;
 
 		/** Flag ob der Sender aktuell angemeldet ist. */
 		private final Set<Aspect> angemeldet;
-
-		/** Sendepuffer, wenn Datens&auml;tze asynchron versendet werden sollen. */
-		private final List<ResultData> sendePuffer = new ArrayList<ResultData>();
-
-		/** Die Eigenschaft {@code asynchron}. */
-		private boolean asynchron = false;
 
 		/**
 		 * Konstruiert den Sender.
 		 */
 		public SynchronerSender() {
 			dav = ObjektFactory.getInstanz().getVerbindung();
-			sendenErlaubt = new HashSet<Aspect>();
+			sendesteuerung = new HashMap<Aspect, Byte>();
 			angemeldet = new HashSet<Aspect>();
 		}
 
@@ -187,18 +178,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 						asp);
 				dav.unsubscribeSender(this, getObjekt().getSystemObject(), dbs);
 				angemeldet.remove(asp);
-
-				synchronized (sendePuffer) {
-					Iterator<ResultData> iterator = sendePuffer.iterator();
-
-					while (iterator.hasNext()) {
-						ResultData rd = iterator.next();
-
-						if (dbs.equals(rd.getDataDescription())) {
-							iterator.remove();
-						}
-					}
-				}
+				sendesteuerung.remove(asp);
 			}
 		}
 
@@ -237,34 +217,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public void dataRequest(SystemObject object,
 				DataDescription dataDescription, byte state) {
-			if (isRequestSupported(object, dataDescription)
-					&& state == ClientSenderInterface.START_SENDING) {
-				sendenErlaubt.add(dataDescription.getAspect());
-
-				if (isAsynchron()) {
-					synchronized (sendePuffer) {
-						Iterator<ResultData> iterator = sendePuffer.iterator();
-
-						while (iterator.hasNext()) {
-							ResultData datensatz = iterator.next();
-
-							if (datensatz.getDataDescription().equals(
-									dataDescription)) {
-								try {
-									dav.sendData(datensatz);
-									iterator.remove();
-								} catch (DataNotSubscribedException ex) {
-									throw new IllegalStateException(ex);
-								} catch (SendSubscriptionNotConfirmed ex) {
-									throw new IllegalStateException(ex);
-								}
-							}
-						}
-					}
-				}
-			} else {
-				sendenErlaubt.remove(dataDescription.getAspect());
-			}
+			sendesteuerung.put(dataDescription.getAspect(), state);
 		}
 
 		/**
@@ -276,15 +229,6 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public boolean isAngemeldet(Aspect asp) {
 			return angemeldet.contains(asp);
-		}
-
-		/**
-		 * Fragt, ob der Sender synchron oder asynchron arbeitet.
-		 * 
-		 * @return {@code true}, wenn der Sender asynchron arbeitet.
-		 */
-		public boolean isAsynchron() {
-			return asynchron;
 		}
 
 		/**
@@ -314,7 +258,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 * @return der Wert.
 		 */
 		public boolean isSendenErlaubt(Aspect asp) {
-			return sendenErlaubt.contains(asp);
+			return sendesteuerung.get(asp) == START_SENDING;
 		}
 
 		/**
@@ -331,46 +275,56 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public void sende(Data d, Aspect asp, long zeitstempel)
 				throws DatensendeException {
+			byte status;
+			long z;
+			DataDescription dbs;
+			ResultData datensatz;
+
 			if (!isAngemeldet(asp)) {
 				throw new DatensendeException(
 						"Der Datensatz wurde noch nicht zum Senden angemeldet.");
 			}
 
-			long z = zeitstempel > 0 ? zeitstempel : dav.getTime();
-			DataDescription dbs = new DataDescription(getAttributGruppe(), asp);
-			ResultData datensatz = new ResultData(
-					getObjekt().getSystemObject(), dbs, z, d);
+			if (sendesteuerung.get(asp) == null) {
+				throw new DatensendeException(
+						"Es liegt noch keine Sendeerlaubnis vor.");
+			}
 
-			if (isAsynchron()) {
-				synchronized (sendePuffer) {
-					sendePuffer.add(datensatz);
-				}
-			} else {
-				if (isQuelle(asp) || sendenErlaubt.contains(asp)) {
-					try {
-						dav.sendData(datensatz);
-					} catch (DataNotSubscribedException ex) {
-						throw new DatensendeException(ex);
-					} catch (SendSubscriptionNotConfirmed ex) {
-						throw new DatensendeException(ex);
-					}
-				} else {
+			status = sendesteuerung.get(asp);
+
+			switch (status) {
+			case STOP_SENDING:
+				if (!isQuelle(asp)) {
 					throw new DatensendeException(
 							"Die Sendesteuerung hat das Senden verboten.");
+				}
+				break;
+			case STOP_SENDING_NO_RIGHTS:
+				throw new DatensendeException(
+						"Die Sendesteuerung hat das Senden verboten, weil keine ausreichenden Rechte vorhanden sind.");
+			case STOP_SENDING_NOT_A_VALID_SUBSCRIPTION:
+				throw new DatensendeException(
+						"Die Sendesteuerung hat das Senden verboten, weil die Anmeldung ungültig ist (doppelte Quelle?).");
+			default:
+				// Sendesteuerung ist positiv
+			}
+
+			z = zeitstempel > 0 ? zeitstempel : dav.getTime();
+			dbs = new DataDescription(getAttributGruppe(), asp);
+			datensatz = new ResultData(getObjekt().getSystemObject(), dbs, z, d);
+
+			if (isQuelle(asp) || sendesteuerung.get(asp) == START_SENDING) {
+				try {
+					dav.sendData(datensatz);
+				} catch (DataNotSubscribedException ex) {
+					throw new DatensendeException(ex);
+				} catch (SendSubscriptionNotConfirmed ex) {
+					throw new DatensendeException(ex);
 				}
 			}
 
 		}
 
-		/**
-		 * Legt fest, ob der Sender synchron oder asynchron arbeiten soll.
-		 * 
-		 * @param asynchron
-		 *            {@code true}, wenn der Sender asynchron arbeiten soll.
-		 */
-		public void setAsynchron(boolean asynchron) {
-			this.asynchron = asynchron;
-		}
 	}
 
 	/** Der Empf&auml;nger dieses Datensatzes. */
@@ -425,31 +379,12 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	}
 
 	/**
-	 * {@inheritDoc}.<br>
+	 * {@inheritDoc}
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
 	 */
 	public SystemObjekt getObjekt() {
 		return objekt;
-	}
-
-	/**
-	 * Fragt, ob der Sender synchron oder asynchron arbeitet.
-	 * 
-	 * @return {@code true}, wenn der Sender asynchron arbeitet.
-	 */
-	public boolean isAsynchron() {
-		return sender.isAsynchron();
-	}
-
-	/**
-	 * Legt fest, ob der Sender synchron oder asynchron arbeiten soll.
-	 * 
-	 * @param asynchron
-	 *            {@code true}, wenn der Sender asynchron arbeiten soll.
-	 */
-	public void setAsynchron(boolean asynchron) {
-		sender.setAsynchron(asynchron);
 	}
 
 	/**
