@@ -111,34 +111,37 @@ public class OdVerkehrsDatenKurzZeitFs extends
 		public enum Werte {
 
 			/** Lkw-Anteil in Prozent. */
-			ALkw,
+			aLkw,
 
 			/** Bemessungsdichte KB in Fahrzeuge/km. */
-			KB,
+			kB,
 
 			/**
 			 * Verkehrsstärke QKfz (alle Fahrzeuge) in Anzahl pro
 			 * Messabschnittsdauer.
 			 */
-			QKfz,
+			qKfz,
 
 			/** Verkehrsstärke QPkw in Anzahl pro Messabschnittsdauer. */
-			QPkw,
+			qPkw,
 
 			/** Verkehrsstärke QLkw in Anzahl pro Messabschnittsdauer. */
-			QLkw,
+			qLkw,
 
 			/** Geschwindigkeit VKfz (Alle Fahrzeuge) in km/h. */
-			VKfz,
+			vKfz,
 
 			/** Geschwindigkeit VPkw in km/h. */
-			VPkw,
+			vPkw,
 
 			/** Geschwindigkeit VLkw in km/h. */
-			VLkw,
+			vLkw,
 
 			/** Standardabweichung der Kfz-Geschwindigkeiten SKfz in km/h. */
-			SKfz;
+			sKfz,
+
+			/** Belegungsgrad (mit Statusinformationen) in Prozent. */
+			b;
 
 		}
 
@@ -172,6 +175,9 @@ public class OdVerkehrsDatenKurzZeitFs extends
 		/** Standardabweichung der Kfz-Geschwindigkeiten SKfz in km/h. */
 		private Integer sKfz;
 
+		/** Belegungsgrad (mit Statusinformationen) in Prozent. */
+		private Float b;
+
 		/** Das Flag f&uuml;r die G&uuml;ltigkeit des Datensatzes. */
 		private boolean valid;
 
@@ -193,6 +199,7 @@ public class OdVerkehrsDatenKurzZeitFs extends
 			klon.vLkw = vLkw;
 			klon.vPkw = vPkw;
 			klon.kb = kb;
+			klon.b = b;
 			klon.sKfz = sKfz;
 			klon.valid = valid;
 			return klon;
@@ -206,24 +213,26 @@ public class OdVerkehrsDatenKurzZeitFs extends
 		public Number getWert(final String name) {
 			Werte wert = Werte.valueOf(name);
 			switch (wert) {
-			case ALkw:
+			case aLkw:
 				return aLkw;
-			case KB:
+			case kB:
 				return kb;
-			case QKfz:
+			case qKfz:
 				return qKfz;
-			case QLkw:
+			case qLkw:
 				return qLkw;
-			case QPkw:
+			case qPkw:
 				return qPkw;
-			case VKfz:
+			case vKfz:
 				return vKfz;
-			case VLkw:
+			case vLkw:
 				return vLkw;
-			case VPkw:
+			case vPkw:
 				return vPkw;
-			case SKfz:
+			case sKfz:
 				return sKfz;
+			case b:
+				return b;
 			default:
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + name + ".");
@@ -270,32 +279,35 @@ public class OdVerkehrsDatenKurzZeitFs extends
 		public void setWert(final String name, final Number wert) {
 			Werte w = Werte.valueOf(name);
 			switch (w) {
-			case ALkw:
+			case aLkw:
 				aLkw = wert != null ? wert.intValue() : null;
 				break;
-			case KB:
+			case kB:
 				kb = wert != null ? wert.intValue() : null;
 				break;
-			case QKfz:
+			case qKfz:
 				qKfz = wert != null ? wert.intValue() : null;
 				break;
-			case QLkw:
+			case qLkw:
 				qLkw = wert != null ? wert.intValue() : null;
 				break;
-			case QPkw:
+			case qPkw:
 				qPkw = wert != null ? wert.intValue() : null;
 				break;
-			case VKfz:
+			case vKfz:
 				vKfz = wert != null ? wert.intValue() : null;
 				break;
-			case VLkw:
+			case vLkw:
 				vLkw = wert != null ? wert.intValue() : null;
 				break;
-			case VPkw:
+			case vPkw:
 				vPkw = wert != null ? wert.intValue() : null;
 				break;
-			case SKfz:
+			case sKfz:
 				sKfz = wert != null ? wert.intValue() : null;
+				break;
+			case b:
+				b = wert != null ? wert.floatValue() : null;
 				break;
 			default:
 				throw new IllegalArgumentException("Das Datum " + getClass()
@@ -373,12 +385,12 @@ public class OdVerkehrsDatenKurzZeitFs extends
 		int qKfz, qLkw, vPkw, vLkw, sKfz, kb;
 		Integer qPkw, vKfz, qb, aLkw;
 
-		qKfz = d.getWert(Werte.QKfz.name()).intValue();
-		qLkw = d.getWert(Werte.QLkw.name()).intValue();
-		vPkw = d.getWert(Werte.VPkw.name()).intValue();
-		vLkw = d.getWert(Werte.VLkw.name()).intValue();
-		sKfz = d.getWert(Werte.SKfz.name()).intValue();
-		kb = d.getWert(Werte.KB.name()).intValue();
+		qKfz = d.getWert(Werte.qKfz.name()).intValue();
+		qLkw = d.getWert(Werte.qLkw.name()).intValue();
+		vPkw = d.getWert(Werte.vPkw.name()).intValue();
+		vLkw = d.getWert(Werte.vLkw.name()).intValue();
+		sKfz = d.getWert(Werte.sKfz.name()).intValue();
+		kb = d.getWert(Werte.kB.name()).intValue();
 
 		final String[] valStrings = { "QKfz", "VKfz", "QLkw", "VLkw", "QPkw",
 				"VPkw", "B", "SKfz", "BMax", "VgKfz", "ALkw", "KKfz", "KPkw",
@@ -480,76 +492,83 @@ public class OdVerkehrsDatenKurzZeitFs extends
 			Data daten = result.getData();
 			NumberValue wert;
 
-			wert = daten.getItem(Daten.Werte.QKfz.name()).getUnscaledValue(
+			wert = daten.getItem(Daten.Werte.qKfz.name()).getUnscaledValue(
 					"Wert");
 			if (wert.isState()) {
-				datum.setWert(Daten.Werte.QKfz.name(), null);
+				datum.setWert(Daten.Werte.qKfz.name(), null);
 			} else {
-				datum.setWert(Daten.Werte.QKfz.name(), wert.intValue());
+				datum.setWert(Daten.Werte.qKfz.name(), wert.intValue());
 			}
 
-			wert = daten.getItem(Daten.Werte.QLkw.name()).getUnscaledValue(
+			wert = daten.getItem(Daten.Werte.qLkw.name()).getUnscaledValue(
 					"Wert");
 			if (wert.isState()) {
-				datum.setWert(Daten.Werte.QLkw.name(), null);
+				datum.setWert(Daten.Werte.qLkw.name(), null);
 			} else {
-				datum.setWert(Daten.Werte.QLkw.name(), wert.intValue());
+				datum.setWert(Daten.Werte.qLkw.name(), wert.intValue());
 			}
 
-			wert = daten.getItem(Daten.Werte.QPkw.name()).getUnscaledValue(
+			wert = daten.getItem(Daten.Werte.qPkw.name()).getUnscaledValue(
 					"Wert");
 			if (wert.isState()) {
-				datum.setWert(Daten.Werte.QPkw.name(), null);
+				datum.setWert(Daten.Werte.qPkw.name(), null);
 			} else {
-				datum.setWert(Daten.Werte.QPkw.name(), wert.intValue());
+				datum.setWert(Daten.Werte.qPkw.name(), wert.intValue());
 			}
 
-			wert = daten.getItem(Daten.Werte.VKfz.name()).getUnscaledValue(
+			wert = daten.getItem(Daten.Werte.vKfz.name()).getUnscaledValue(
 					"Wert");
 			if (wert.isState()) {
-				datum.setWert(Daten.Werte.VKfz.name(), null);
+				datum.setWert(Daten.Werte.vKfz.name(), null);
 			} else {
-				datum.setWert(Daten.Werte.VKfz.name(), wert.intValue());
+				datum.setWert(Daten.Werte.vKfz.name(), wert.intValue());
 			}
 
-			wert = daten.getItem(Daten.Werte.VLkw.name()).getUnscaledValue(
+			wert = daten.getItem(Daten.Werte.vLkw.name()).getUnscaledValue(
 					"Wert");
 			if (wert.isState()) {
-				datum.setWert(Daten.Werte.VLkw.name(), null);
+				datum.setWert(Daten.Werte.vLkw.name(), null);
 			} else {
-				datum.setWert(Daten.Werte.VLkw.name(), wert.intValue());
+				datum.setWert(Daten.Werte.vLkw.name(), wert.intValue());
 			}
 
-			wert = daten.getItem(Daten.Werte.VPkw.name()).getUnscaledValue(
+			wert = daten.getItem(Daten.Werte.vPkw.name()).getUnscaledValue(
 					"Wert");
 			if (wert.isState()) {
-				datum.setWert(Daten.Werte.VPkw.name(), null);
+				datum.setWert(Daten.Werte.vPkw.name(), null);
 			} else {
-				datum.setWert(Daten.Werte.VPkw.name(), wert.intValue());
+				datum.setWert(Daten.Werte.vPkw.name(), wert.intValue());
 			}
 
-			wert = daten.getItem(Daten.Werte.SKfz.name()).getUnscaledValue(
+			wert = daten.getItem(Daten.Werte.sKfz.name()).getUnscaledValue(
 					"Wert");
 			if (wert.isState()) {
-				datum.setWert(Daten.Werte.SKfz.name(), null);
+				datum.setWert(Daten.Werte.sKfz.name(), null);
 			} else {
-				datum.setWert(Daten.Werte.SKfz.name(), wert.intValue());
+				datum.setWert(Daten.Werte.sKfz.name(), wert.intValue());
 			}
 
-			wert = daten.getItem(Daten.Werte.KB.name())
+			wert = daten.getItem(Daten.Werte.kB.name())
 					.getUnscaledValue("Wert");
 			if (wert.isState()) {
-				datum.setWert(Daten.Werte.KB.name(), null);
+				datum.setWert(Daten.Werte.kB.name(), null);
 			} else {
-				datum.setWert(Daten.Werte.KB.name(), wert.intValue());
+				datum.setWert(Daten.Werte.kB.name(), wert.intValue());
 			}
 
-			wert = daten.getItem(Daten.Werte.ALkw.name()).getUnscaledValue(
+			wert = daten.getItem(Daten.Werte.aLkw.name()).getUnscaledValue(
 					"Wert");
 			if (wert.isState()) {
-				datum.setWert(Daten.Werte.ALkw.name(), null);
+				datum.setWert(Daten.Werte.aLkw.name(), null);
 			} else {
-				datum.setWert(Daten.Werte.ALkw.name(), wert.intValue());
+				datum.setWert(Daten.Werte.aLkw.name(), wert.intValue());
+			}
+
+			wert = daten.getItem(Daten.Werte.b.name()).getScaledValue("Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.b.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.b.name(), wert.floatValue());
 			}
 
 			datum.setValid(true);

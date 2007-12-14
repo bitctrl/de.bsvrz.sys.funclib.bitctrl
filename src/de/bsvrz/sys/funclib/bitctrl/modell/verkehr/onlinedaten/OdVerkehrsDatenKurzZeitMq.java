@@ -565,7 +565,11 @@ public class OdVerkehrsDatenKurzZeitMq extends
 			}
 
 			wert = daten.getItem(Daten.Werte.B.name()).getScaledValue("Wert");
-			datum.setWert(Daten.Werte.B.name(), wert.floatValue());
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.B.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.B.name(), wert.floatValue());
+			}
 
 			datum.setValid(true);
 		} else {
