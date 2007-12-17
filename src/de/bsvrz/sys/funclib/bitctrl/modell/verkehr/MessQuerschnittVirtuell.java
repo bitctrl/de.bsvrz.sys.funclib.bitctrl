@@ -59,16 +59,6 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 	}
 
 	/**
-	 * {@inheritDoc}.<br>
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein#getFahrStreifen()
-	 */
-	@Override
-	public List<FahrStreifen> getFahrStreifen() {
-		return new ArrayList<FahrStreifen>();
-	}
-
-	/**
 	 * {@inheritDoc}.
 	 */
 	@Override

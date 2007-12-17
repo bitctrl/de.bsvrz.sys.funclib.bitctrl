@@ -27,7 +27,6 @@
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
 import java.util.Comparator;
-import java.util.List;
 
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
@@ -42,8 +41,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * Repr&auml;ssentiert einen allgemeinen Messquerschnitt.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann, Peuker
- * @version $Id: MessQuerschnittAllgemein.java 5215 2007-12-12 14:57:35Z
- *          Schumann $
+ * @version $Id$
  */
 public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 
@@ -106,8 +104,6 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 		}
 	}
 
-	public abstract List<FahrStreifen> getFahrStreifen();
-
 	/**
 	 * liefert die konfigurierten Koordinaten, an denen sich der Meßquerschnitt
 	 * befindet.
@@ -166,7 +162,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 		float offsetSS = 0;
 		StrassenTeilSegment sts = null;
 
-		if (strassenSegment != null) {
+		if (getStrassenSegment() != null) {
 			// Das richtige STS ist letzte für das gilt offset(MQ) < offsetSS
 			for (StrassenTeilSegment s : strassenSegment
 					.getStrassenTeilSegmente()) {
