@@ -53,7 +53,7 @@ public class Punkt {
 	 * @param y
 	 *            die Y-Koordinate
 	 */
-	public Punkt(double x, double y) {
+	public Punkt(final double x, final double y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -74,5 +74,15 @@ public class Punkt {
 	 */
 	public double getY() {
 		return y;
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "(" + x + ", " + y + ")";
 	}
 }
