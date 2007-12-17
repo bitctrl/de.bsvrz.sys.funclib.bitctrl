@@ -26,9 +26,6 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
