@@ -244,7 +244,7 @@ public class WGS84Polygon {
 	 * 
 	 * @return die Koordinaten des Bildpunktes
 	 */
-	public static WGS84Punkt bildPunktAufStrecke(WGS84Punkt s1, WGS84Punkt s2, WGS84Punkt punkt) {
+	public static WGS84Punkt bildPunktAufStrecke_old(WGS84Punkt s1, WGS84Punkt s2, WGS84Punkt punkt) {
 		
 		if(punktLiegtAufStrecke(s1, s2, punkt))
 			return punkt;
@@ -292,6 +292,59 @@ public class WGS84Polygon {
 	
 		return new WGS84Punkt(w);
 		
+	}
+
+	/**
+	 * Berechnet die Koordinaten der Abbildung eines Punktes auf eine Strecke. Die Strecke ist
+	 * definiert durch einen Anfangs- und Endpunkt. Wenn der Punkt nicht auf der Strecke liegt, 
+	 * wird die Bildpunkt-Koordinate durch das Lot vom Punkt auf die Strecke berechnet. Kann 
+	 * kein Lot gef&auml;llt werden, wird als Ergebnis der Punkt der Linie zur&uuml;ckgeliefert,
+	 * welcher dem Punkt am n&auml;chsten liegt, also entweder der Anfangs- oder der Endpunkt.
+	 * 
+	 * @param s1 der Anfangspunkt der Strecke
+	 * @param s2 der Endpunkt der Strecke
+	 * @param punkt der abzubildende Punkt
+	 * 
+	 * @return die Koordinaten des Bildpunktes
+	 */
+	public static WGS84Punkt bildPunktAufStrecke(WGS84Punkt s1, WGS84Punkt s2, WGS84Punkt punkt) {
+		
+		if(punktLiegtAufStrecke(s1, s2, punkt))
+			return punkt;
+		
+		// TODO: was passiert bei Zonenwechsel???
+
+		if(istAbbildbar(s1, s2, punkt) == false) {
+			// kann nicht abgebildet werden, benutze Anfangspunkt, der am naechsten liegt
+			if(WGS84Punkt.Abstand(s1, punkt) <= WGS84Punkt.Abstand(s2, punkt))
+				return new WGS84Punkt(s1);
+			
+			return new WGS84Punkt(s2);
+		}
+		
+		//	alle Berechnungen auf den kartesischen Koordinaten
+		Point2D.Double ergebnis;
+		Line2D.Double line = new Line2D.Double(s1.get_utm_x(), s1.get_utm_y(), s2.get_utm_x(), s2.get_utm_y());
+		Point2D.Double point = new Point2D.Double(punkt.get_utm_x(), punkt.get_utm_y());
+		
+		if (line.x1 == line.x2) {
+			//	die Strecke liegt auf der X-Koordinate, wir sparen uns die numerischen Ungenauigkeiten
+			ergebnis = new Point2D.Double(line.x1, point.y);
+			// Ruecktransformation in Winkelkoordinaten
+			// die Zone des ersten Streckenpunktes wird benutzt
+			WGS84Koordinate w = GeoTransformation.UTM_nach_WGS84Punkt(
+					new UTMKoordinate(ergebnis.x, ergebnis.y, s1.get_utm_zone()));
+		
+			return new WGS84Punkt(w);
+		} 
+		
+		double hoehe = line.ptLineDist(point);
+		double hypo = WGS84Punkt.AbstandExakt(s1, punkt);
+			
+		// Laenge auf der Strecke bis zum Punkt
+		double fusspunktlaenge = Math.sqrt(Math.pow(hypo, 2.0) - Math.pow(hoehe, 2.0));
+			
+		return WGS84Polygon.bildPunktAufStrecke(s1, s2, fusspunktlaenge);
 	}
 
 	
@@ -349,7 +402,7 @@ public class WGS84Polygon {
 	 * 
 	 * @return Punkt bzw. IllegalArgumentException
 	 */
-	public WGS84Punkt bildPunkt(double offset) {
+	public strictfp WGS84Punkt bildPunkt(double offset) {
 		if(laenge() < offset)
 			throw new IllegalArgumentException ("Der Offset ist größer als die Polygonlänge"); //$NON-NLS-1$
 		
@@ -394,6 +447,55 @@ public class WGS84Polygon {
 			// iteriere um numerische Fehler bei grossem Abstand zu eliminieren
 			do {
 				bp = WGS84Polygon.bildPunktAufStrecke(strecke._punkte.get(0), strecke._punkte.get(1), bp);
+				
+				if(++iterationen > 10)
+					throw new IllegalArgumentException ("Der Bildpunkt kann nicht genau bestimmt werden"); //$NON-NLS-1$
+			}
+			while(!liegtAufPolygon(bp));
+			
+			return bp;
+		}
+		
+		throw new IllegalArgumentException ("Der Bildpunkt kann nicht bestimmt werden"); //$NON-NLS-1$
+	}
+	
+	/**
+	 * Berechnet die Koordinaten der Abbildung eines Punktes auf das Polygon. Wenn der 
+	 * Punkt nicht auf dem Polygon liegt, wird die Bildpunkt-Koordinate durch das Lot vom 
+	 * Punkt auf den Streckenteil des Polygones mit dem kleinsten Abstand zum Punkt berechnet. 
+	 * Kann kein Lot gef&auml;llt werden, wird als Ergebnis der Punkt der Linie zur&uuml;ckgeliefert,
+	 * welcher dem Punkt am n&auml;chsten liegt, also entweder der Anfangs- oder der Endpunkt.
+	 * 
+	 * @param punkt der abzubildende Punkt 
+	 * 
+	 * @return Punkt bzw. IllegalArgumentException
+	 */
+	public WGS84Punkt bildPunktTest(WGS84Punkt punkt) {
+		if(liegtAufPolygon(punkt))
+			return punkt;
+		
+		WGS84Polygon strecke = findeTeilstreckeKleinsterAbstand(punkt);
+		int iterationen = 0;	
+		
+		if(strecke != null) {
+			WGS84Punkt bp = punkt;
+
+			// iteriere um numerische Fehler bei grossem Abstand zu eliminieren
+			do {
+				WGS84Punkt sp1 = strecke._punkte.get(0);
+				WGS84Punkt sp2 = strecke._punkte.get(1);
+				
+				System.out.println("Iterationen: " + iterationen);
+				System.out.println("Abstand: " + punktAbstandStrecke(sp1, sp2, bp));
+				
+//				if(punktAbstandStrecke(sp1, sp2, bp) < 10) {
+//					System.out.println("WGS");
+//					bp = WGS84Polygon.bildPunktAufStreckeTest(sp1, sp2, bp);
+//				}
+//				else {
+					System.out.println("UTM");
+					bp = WGS84Polygon.bildPunktAufStrecke(sp1, sp2, bp);
+//				}
 				
 				if(++iterationen > 10000)
 					throw new IllegalArgumentException ("Der Bildpunkt kann nicht genau bestimmt werden"); //$NON-NLS-1$
@@ -585,11 +687,19 @@ public class WGS84Polygon {
 		
 		for( int i=0; i< _punkte.size()-1; i++ ) {
 			double sabstand = WGS84Polygon.punktAbstandStrecke(_punkte.get(i), _punkte.get(i+1), punkt);
-			if(sabstand < abstand) {
-				abstand = sabstand;
-				p1 = _punkte.get(i);
-				p2 = _punkte.get(i+1);
-			}
+			if(sabstand > abstand) 
+				continue;
+			
+//			if(sabstand == abstand) {
+//				// die beiden aufeinanderfolgenden Strecken haben den gleichen Abstand, da sie
+//				// einen gemeinsamen Punkt haben
+//				if(!istAbbildbar(_punkte.get(i), _punkte.get(i+1), punkt))
+//					continue;
+//			}
+
+			abstand = sabstand;
+			p1 = _punkte.get(i);
+			p2 = _punkte.get(i+1);
 		}
 		
 		if( p1!=null && p2!=null) {
@@ -622,8 +732,8 @@ public class WGS84Polygon {
 	 * @return abbildbar ja/nein
 	 */
 	private static boolean istAbbildbar(Line2D.Double line, Point2D.Double point) {
-		double ld = line.ptLineDist(point);
-		double l = line.ptSegDist(point);
+		double ld = line.ptLineDistSq(point);
+		double l = line.ptSegDistSq(point);
 		
 		// Bei den obigen Berechnungen treten numerische Fehler auf. Hier wird deshalb ein
 		// zusaetzliches Kriterium definiert.
@@ -631,6 +741,30 @@ public class WGS84Polygon {
 		double rel_fehler = (ld-l) / ld;
 		
 		return (line.ptLineDist(point) == line.ptSegDist(point)) || (rel_fehler < max_diff);
+	}
+	
+	/**
+	 * Bestimmt, ob der Punkt auf die Strecke abbildbar ist, d.h. ob das Lot vom Punkt auf
+	 * die Strecke zwischen den beiden Streckenpunkten liegt.
+	 * @param s1 Anfangspunkt der Strecke 
+	 * @param s2 Endpunkt der Strecke
+	 * @param punkt abzubildender Punkt
+	 * 
+	 * @return abbildbar ja/nein
+	 */
+	private static boolean istAbbildbar(WGS84Punkt s1, WGS84Punkt s2, WGS84Punkt punkt) {
+		Line2D.Double line = new Line2D.Double(s1.get_utm_x(), s1.get_utm_y(), s2.get_utm_x(), s2.get_utm_y());
+		Point2D.Double point = new Point2D.Double(punkt.get_utm_x(), punkt.get_utm_y());
+
+		double hoehe = line.ptLineDist(point);
+		double hypo = WGS84Punkt.AbstandExakt(s1, punkt);
+		
+		// Laenge auf der Strecke bis zum Punkt
+		double fusspunktlaenge = Math.sqrt(Math.pow(hypo, 2.0) - Math.pow(hoehe, 2.0));
+
+		boolean abbildbar = fusspunktlaenge<=WGS84Punkt.AbstandExakt(s1, s2);
+		
+		return abbildbar;
 	}
 
 	/**
@@ -642,9 +776,13 @@ public class WGS84Polygon {
 	 * @param laenge Offset des Punktes auf der Linie
 	 * @return Punktkoordinaten
 	 */
-	private static Point2D.Double berecheneBildPunkt( Line2D.Double line, double alpha, double laenge) {
+	private static strictfp Point2D.Double berecheneBildPunkt( Line2D.Double line, double alpha, double laenge) {
 		double yl = Math.sin(alpha) * laenge;
 		double xl = ((float) Math.cos(alpha)) * laenge;
+		
+		// Test
+//		yl = Math.round(yl * 100000000.0)/100000000.0;	
+//		xl = Math.round(xl * 100000000.0)/100000000.0;
 	
 		return new Point2D.Double(line.x1 + xl, line.y1 + yl);
 	}
