@@ -1,20 +1,20 @@
 /*
- * Segment 5 Intelligente Analyseverfahren, SWE 5.1 Ganglinienprognose
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -61,7 +61,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class Kalender {
+public final class Kalender {
 
 	/**
 	 * Wickelt die Kommunikation mit dem Datenverteiler ab. L&auml;ft als
@@ -137,6 +137,34 @@ public class Kalender {
 		}
 
 		/**
+		 * {@inheritDoc}
+		 */
+		public void dataRequest(SystemObject object,
+				DataDescription dataDescription, byte state) {
+			if (object.equals(soKalender) && dataDescription.equals(dbsAnfrage)) {
+				if (state == ClientSenderInterface.START_SENDING) {
+					sendenErlaubt = true;
+					sendeAnfragen();
+				} else {
+					sendenErlaubt = false;
+				}
+			}
+		}
+
+		/**
+		 * Sendesteuerung wird verwendet.
+		 * <p>
+		 * {@inheritDoc}
+		 */
+		public boolean isRequestSupported(SystemObject object,
+				DataDescription dataDescription) {
+			if (object.equals(soKalender) && dataDescription.equals(dbsAnfrage)) {
+				return true;
+			}
+			return false;
+		}
+
+		/**
 		 * Sendet eine Anfrage an den Kalender.
 		 * 
 		 * @param anfrage
@@ -145,6 +173,39 @@ public class Kalender {
 		public void sendeAnfrage(KalenderAnfrage anfrage) {
 			anfragen.add(anfrage);
 			sendeAnfragen();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public void update(ResultData[] results) {
+			for (ResultData datensatz : results) {
+				if (datensatz.getDataDescription().equals(dbsAntwort)
+						&& datensatz.hasData()) {
+					SystemObject so;
+
+					so = datensatz.getObject();
+					kommLogger.finer("Kalenderantwort erhalten für die "
+							+ "Anfrage von", so);
+					fireAntwort((ClientApplication) so, datensatz.getData());
+					synchronized (anmeldungen) {
+						anmeldungen.remove(so);
+						if (!anmeldungen.contains(so)) {
+							verbindung
+									.unsubscribeReceiver(this, so, dbsAntwort);
+						}
+					}
+				}
+			}
+		}
+
+		/**
+		 * Gibt den Wert der Eigenschaft sendenErlaubt wieder.
+		 * 
+		 * @return the sendenErlaubt
+		 */
+		boolean isSendenErlaubt() {
+			return sendenErlaubt;
 		}
 
 		/**
@@ -197,77 +258,7 @@ public class Kalender {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
-		public void dataRequest(SystemObject object,
-				DataDescription dataDescription, byte state) {
-			if (object.equals(soKalender) && dataDescription.equals(dbsAnfrage)) {
-				if (state == ClientSenderInterface.START_SENDING) {
-					sendenErlaubt = true;
-					sendeAnfragen();
-				} else {
-					sendenErlaubt = false;
-				}
-			}
-		}
-
-		/**
-		 * Sendesteuerung wird verwendet.
-		 * <p>
-		 * {@inheritDoc}
-		 */
-		public boolean isRequestSupported(SystemObject object,
-				DataDescription dataDescription) {
-			if (object.equals(soKalender) && dataDescription.equals(dbsAnfrage)) {
-				return true;
-			}
-			return false;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		public void update(ResultData[] results) {
-			for (ResultData datensatz : results) {
-				if (datensatz.getDataDescription().equals(dbsAntwort)
-						&& datensatz.hasData()) {
-					SystemObject so;
-
-					so = datensatz.getObject();
-					kommLogger.finer("Kalenderantwort erhalten für die "
-							+ "Anfrage von", so);
-					fireAntwort((ClientApplication) so, datensatz.getData());
-					synchronized (anmeldungen) {
-						anmeldungen.remove(so);
-						if (!anmeldungen.contains(so)) {
-							verbindung
-									.unsubscribeReceiver(this, so, dbsAntwort);
-						}
-					}
-				}
-			}
-		}
-
-		/**
-		 * Gibt den Wert der Eigenschaft sendenErlaubt wieder.
-		 * 
-		 * @return the sendenErlaubt
-		 */
-		boolean isSendenErlaubt() {
-			return sendenErlaubt;
-		}
-
 	}
-
-	/** Der Logger. */
-	private final Debug logger = Debug.getLogger();
-
-	/** Angemeldete Listener. */
-	private final EventListenerList listeners;
-
-	/** Die Kommunikationsinstanz. */
-	private final Kommunikation kommunikation;
 
 	/** Sichert die Liste des Singletons pro Datenverteilerverbindung. */
 	private static Map<ClientDavInterface, Kalender> singleton;
@@ -289,6 +280,15 @@ public class Kalender {
 		}
 		return singleton.get(verbindung);
 	}
+
+	/** Der Logger. */
+	private final Debug logger = Debug.getLogger();
+
+	/** Angemeldete Listener. */
+	private final EventListenerList listeners;
+
+	/** Die Kommunikationsinstanz. */
+	private final Kommunikation kommunikation;
 
 	/**
 	 * Initialisert die Anfrageschnittstelle.
@@ -314,6 +314,16 @@ public class Kalender {
 	}
 
 	/**
+	 * Mit dieser Methode kann getestet werden, ob im Augenblick der
+	 * Ereigniskalender Anfragen entgegennimmt.
+	 * 
+	 * @return {@code true}, wennn der Kalender Anfragen entgegennimmt.
+	 */
+	public boolean isKalenderBereit() {
+		return kommunikation.isSendenErlaubt();
+	}
+
+	/**
 	 * Entfernt einen Listener wieder aus der Liste registrierter Listener.
 	 * 
 	 * @param listener
@@ -333,16 +343,6 @@ public class Kalender {
 	public void sendeAnfrage(KalenderAnfrage anfrage) {
 		logger.fine("Neue Anfrage entgegengenommen", anfrage);
 		kommunikation.sendeAnfrage(anfrage);
-	}
-
-	/**
-	 * Mit dieser Methode kann getestet werden, ob im Augenblick der
-	 * Ereigniskalender Anfragen entgegennimmt.
-	 * 
-	 * @return {@code true}, wennn der Kalender Anfragen entgegennimmt.
-	 */
-	public boolean isKalenderBereit() {
-		return kommunikation.isSendenErlaubt();
 	}
 
 	/**
