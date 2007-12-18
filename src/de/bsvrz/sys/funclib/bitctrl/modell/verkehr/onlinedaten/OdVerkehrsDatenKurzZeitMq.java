@@ -499,17 +499,40 @@ public class OdVerkehrsDatenKurzZeitMq extends
 	 */
 	@Override
 	protected Data konvertiere(final OdVerkehrsDatenKurzZeitMq.Daten d) {
-		Data datum = erzeugeSendeCache();
-		int qKfz, qLkw, vPkw, vLkw, sKfz, kb, b;
-		Integer qPkw, vKfz, qb, aLkw;
+		final Data datum = erzeugeSendeCache();
+		final Integer qKfz;
+		final Integer qLkw;
+		final Integer vPkw;
+		final Integer vLkw;
+		final Integer sKfz;
+		final Integer kb;
+		final Integer b;
+		final Integer qPkw;
+		final Integer vKfz;
+		final Integer qb;
+		final Integer aLkw;
+		Number n;
 
-		qKfz = d.getWert(Werte.QKfz.name()).intValue();
-		qLkw = d.getWert(Werte.QLkw.name()).intValue();
-		vPkw = d.getWert(Werte.VPkw.name()).intValue();
-		vLkw = d.getWert(Werte.VLkw.name()).intValue();
-		sKfz = d.getWert(Werte.SKfz.name()).intValue();
-		kb = d.getWert(Werte.KB.name()).intValue();
-		b = d.getWert(Werte.B.name()).intValue();
+		n = d.getWert(Werte.QKfz.name());
+		qKfz = n != null ? n.intValue() : null;
+
+		n = d.getWert(Werte.QLkw.name());
+		qLkw = n != null ? n.intValue() : null;
+
+		n = d.getWert(Werte.VPkw.name());
+		vPkw = n != null ? n.intValue() : null;
+
+		n = d.getWert(Werte.VLkw.name());
+		vLkw = n != null ? n.intValue() : null;
+
+		n = d.getWert(Werte.SKfz.name());
+		sKfz = n != null ? n.intValue() : null;
+
+		n = d.getWert(Werte.KB.name());
+		kb = n != null ? n.intValue() : null;
+
+		n = d.getWert(Werte.B.name());
+		b = n != null ? n.intValue() : null;
 
 		final String[] valStrings = { "QKfz", "VKfz", "QLkw", "VLkw", "QPkw",
 				"VPkw", "B", "SKfz", "BMax", "VgKfz", "ALkw", "KKfz", "KPkw",
@@ -545,31 +568,47 @@ public class OdVerkehrsDatenKurzZeitMq extends
 					"Verfahren").set(0);
 		}
 
-		datum.getItem("QKfz").getUnscaledValue("Wert").set(qKfz);
+		if (qKfz != null) {
+			datum.getItem("QKfz").getUnscaledValue("Wert").set(qKfz);
+		}
 		datum.getItem("QKfz").getItem("Güte").getUnscaledValue("Index").set(10);
 
-		datum.getItem("QLkw").getUnscaledValue("Wert").set(qLkw);
+		if (qLkw != null) {
+			datum.getItem("QLkw").getUnscaledValue("Wert").set(qLkw);
+		}
 		datum.getItem("QLkw").getItem("Güte").getUnscaledValue("Index").set(10);
 
-		datum.getItem("VPkw").getUnscaledValue("Wert").set(vPkw);
+		if (vPkw != null) {
+			datum.getItem("VPkw").getUnscaledValue("Wert").set(vPkw);
+		}
 		datum.getItem("VPkw").getItem("Güte").getUnscaledValue("Index").set(10);
 
-		datum.getItem("VLkw").getUnscaledValue("Wert").set(vLkw);
+		if (vLkw != null) {
+			datum.getItem("VLkw").getUnscaledValue("Wert").set(vLkw);
+		}
 		datum.getItem("VLkw").getItem("Güte").getUnscaledValue("Index").set(10);
 
-		datum.getItem("SKfz").getUnscaledValue("Wert").set(sKfz);
+		if (sKfz != null) {
+			datum.getItem("SKfz").getUnscaledValue("Wert").set(sKfz);
+		}
 		datum.getItem("SKfz").getItem("Güte").getUnscaledValue("Index").set(10);
 
-		datum.getItem("KB").getUnscaledValue("Wert").set(kb);
+		if (kb != null) {
+			datum.getItem("KB").getUnscaledValue("Wert").set(kb);
+		}
 		datum.getItem("KB").getItem("Güte").getUnscaledValue("Index").set(10);
 
-		datum.getItem("B").getUnscaledValue("Wert").set(b);
+		if (b != null) {
+			datum.getItem("B").getUnscaledValue("Wert").set(b);
+		}
 		datum.getItem("B").getItem("Güte").getUnscaledValue("Index").set(10);
 
 		// Nicht erfasste Werte berechnen
 
 		aLkw = Umrechung.getALkw(qLkw, qKfz);
-		datum.getItem("ALkw").getUnscaledValue("Wert").set(aLkw);
+		if (aLkw != null) {
+			datum.getItem("ALkw").getUnscaledValue("Wert").set(aLkw);
+		}
 		datum.getItem("ALkw").getItem("Güte").getUnscaledValue("Index").set(10);
 
 		qPkw = Umrechung.getQPkw(qKfz, qLkw);
