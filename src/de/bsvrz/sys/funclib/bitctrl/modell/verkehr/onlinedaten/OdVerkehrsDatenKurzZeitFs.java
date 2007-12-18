@@ -32,7 +32,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import de.bsvrz.dav.daf.main.ClientDavParameters;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.Data.NumberValue;
@@ -45,7 +44,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.FahrStreifen;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten.OdVerkehrsDatenKurzZeitFs.Daten.Werte;
 import de.bsvrz.sys.funclib.bitctrl.util.dav.Umrechung;
 
@@ -261,16 +259,6 @@ public class OdVerkehrsDatenKurzZeitFs extends
 		}
 
 		/**
-		 * Setzt das Flag {@code valid} des Datum.
-		 * 
-		 * @param valid
-		 *            der neue Wert des Flags.
-		 */
-		protected void setValid(final boolean valid) {
-			this.valid = valid;
-		}
-
-		/**
 		 * {@inheritDoc}
 		 * 
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#setWert(java.lang.String,
@@ -313,6 +301,16 @@ public class OdVerkehrsDatenKurzZeitFs extends
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + wert + ".");
 			}
+		}
+
+		/**
+		 * Setzt das Flag {@code valid} des Datum.
+		 * 
+		 * @param valid
+		 *            der neue Wert des Flags.
+		 */
+		protected void setValid(final boolean valid) {
+			this.valid = valid;
 		}
 
 	}
@@ -368,117 +366,6 @@ public class OdVerkehrsDatenKurzZeitFs extends
 	 */
 	public AttributeGroup getAttributGruppe() {
 		return atg;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * Alle Messwerte sind initial "nicht ermittelbar" und die Statuswerte
-	 * besitzen alle die gleichen Standardwerte. Die Messwerte aus
-	 * {@link OdVerkehrsDatenKurzZeitFs.Daten.Werte} werden &uuml;bernommen.
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
-	 */
-	@Override
-	protected Data konvertiere(final OdVerkehrsDatenKurzZeitFs.Daten d) {
-		Data datum = erzeugeSendeCache();
-		int qKfz, qLkw, vPkw, vLkw, sKfz, kb;
-		Integer qPkw, vKfz, qb, aLkw;
-
-		qKfz = d.getWert(Werte.qKfz.name()).intValue();
-		qLkw = d.getWert(Werte.qLkw.name()).intValue();
-		vPkw = d.getWert(Werte.vPkw.name()).intValue();
-		vLkw = d.getWert(Werte.vLkw.name()).intValue();
-		sKfz = d.getWert(Werte.sKfz.name()).intValue();
-		kb = d.getWert(Werte.kB.name()).intValue();
-
-		final String[] valStrings = { "QKfz", "VKfz", "QLkw", "VLkw", "QPkw",
-				"VPkw", "B", "SKfz", "BMax", "VgKfz", "ALkw", "KKfz", "KPkw",
-				"KLkw", "QB", "KB", "VDelta" };
-
-		for (int idx = 0; idx < valStrings.length; idx++) {
-			datum.getItem(valStrings[idx]).getUnscaledValue("Wert").setText(
-					"nicht ermittelbar");
-			datum.getItem(valStrings[idx]).getItem("Status").getItem(
-					"Erfassung").getUnscaledValue("NichtErfasst").setText(
-					"Nein");
-			datum.getItem(valStrings[idx]).getItem("Status")
-					.getItem("PlFormal").getUnscaledValue("WertMax").setText(
-							"Nein");
-			datum.getItem(valStrings[idx]).getItem("Status")
-					.getItem("PlFormal").getUnscaledValue("WertMin").setText(
-							"Nein");
-			datum.getItem(valStrings[idx]).getItem("Status").getItem(
-					"PlLogisch").getUnscaledValue("WertMaxLogisch").setText(
-					"Nein");
-			datum.getItem(valStrings[idx]).getItem("Status").getItem(
-					"PlLogisch").getUnscaledValue("WertMinLogisch").setText(
-					"Nein");
-			datum.getItem(valStrings[idx]).getItem("Status").getItem(
-					"MessWertErsetzung").getUnscaledValue("Implausibel")
-					.setText("Nein");
-			datum.getItem(valStrings[idx]).getItem("Status").getItem(
-					"MessWertErsetzung").getUnscaledValue("Interpoliert")
-					.setText("Nein");
-			datum.getItem(valStrings[idx]).getItem("Güte").getUnscaledValue(
-					"Index").set(-1);
-			datum.getItem(valStrings[idx]).getItem("Güte").getUnscaledValue(
-					"Verfahren").set(0);
-		}
-
-		datum.getItem("QKfz").getUnscaledValue("Wert").set(qKfz);
-		datum.getItem("QKfz").getItem("Güte").getUnscaledValue("Index").set(10);
-
-		datum.getItem("QLkw").getUnscaledValue("Wert").set(qLkw);
-		datum.getItem("QLkw").getItem("Güte").getUnscaledValue("Index").set(10);
-
-		datum.getItem("VPkw").getUnscaledValue("Wert").set(vPkw);
-		datum.getItem("VPkw").getItem("Güte").getUnscaledValue("Index").set(10);
-
-		datum.getItem("VLkw").getUnscaledValue("Wert").set(vLkw);
-		datum.getItem("VLkw").getItem("Güte").getUnscaledValue("Index").set(10);
-
-		datum.getItem("SKfz").getUnscaledValue("Wert").set(sKfz);
-		datum.getItem("SKfz").getItem("Güte").getUnscaledValue("Index").set(10);
-
-		datum.getItem("KB").getUnscaledValue("Wert").set(kb);
-		datum.getItem("KB").getItem("Güte").getUnscaledValue("Index").set(10);
-
-		// Nicht erfasste Werte berechnen
-
-		aLkw = Umrechung.getALkw(qLkw, qKfz);
-		datum.getItem("ALkw").getUnscaledValue("Wert").set(aLkw);
-		datum.getItem("ALkw").getItem("Güte").getUnscaledValue("Index").set(10);
-
-		qPkw = Umrechung.getQPkw(qKfz, qLkw);
-		if (qPkw != null) {
-			datum.getItem("QPkw").getUnscaledValue("Wert").set(qPkw);
-			datum.getItem("QPkw").getItem("Güte").getUnscaledValue("Index")
-					.set(10);
-			datum.getItem("QPkw").getItem("Status").getItem("Erfassung")
-					.getUnscaledValue("NichtErfasst").setText("Ja");
-
-		}
-
-		vKfz = Umrechung.getVKfz(qLkw, qKfz, vPkw, vLkw);
-		if (vKfz != null) {
-			datum.getItem("VKfz").getUnscaledValue("Wert").set(vKfz);
-			datum.getItem("VKfz").getItem("Güte").getUnscaledValue("Index")
-					.set(10);
-			datum.getItem("VKfz").getItem("Status").getItem("Erfassung")
-					.getUnscaledValue("NichtErfasst").setText("Ja");
-		}
-
-		qb = Umrechung.getQB(qLkw, qKfz, vPkw, vLkw, 0.5f, 1);
-		if (qb != null) {
-			datum.getItem("QB").getUnscaledValue("Wert").set(qb);
-			datum.getItem("QB").getItem("Güte").getUnscaledValue("Index").set(
-					10);
-			datum.getItem("QB").getItem("Status").getItem("Erfassung")
-					.getUnscaledValue("NichtErfasst").setText("Ja");
-		}
-
-		return datum;
 	}
 
 	/**
@@ -581,4 +468,120 @@ public class OdVerkehrsDatenKurzZeitFs extends
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * Alle Messwerte sind initial "nicht ermittelbar" und die Statuswerte
+	 * besitzen alle die gleichen Standardwerte. Die Messwerte aus
+	 * {@link OdVerkehrsDatenKurzZeitFs.Daten.Werte} werden &uuml;bernommen.
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	@Override
+	protected Data konvertiere(final OdVerkehrsDatenKurzZeitFs.Daten d) {
+		Data datum = erzeugeSendeCache();
+		int qKfz, qLkw, vPkw, vLkw, sKfz, kb, b;
+		Integer qPkw, vKfz, qb, aLkw;
+
+		qKfz = d.getWert(Werte.qKfz.name()).intValue();
+		qLkw = d.getWert(Werte.qLkw.name()).intValue();
+		vPkw = d.getWert(Werte.vPkw.name()).intValue();
+		vLkw = d.getWert(Werte.vLkw.name()).intValue();
+		sKfz = d.getWert(Werte.sKfz.name()).intValue();
+		kb = d.getWert(Werte.kB.name()).intValue();
+		b = d.getWert(Werte.b.name()).intValue();
+
+		final String[] valStrings = { "qKfz", "vKfz", "qLkw", "vLkw", "qPkw",
+				"vPkw", "b", "sKfz", "bMax", "vgKfz", "aLkw", "kKfz", "kPkw",
+				"kLkw", "qB", "kB", "vDelta" };
+
+		for (int idx = 0; idx < valStrings.length; idx++) {
+			datum.getItem(valStrings[idx]).getUnscaledValue("Wert").setText(
+					"nicht ermittelbar");
+			datum.getItem(valStrings[idx]).getItem("Status").getItem(
+					"Erfassung").getUnscaledValue("NichtErfasst").setText(
+					"Nein");
+			datum.getItem(valStrings[idx]).getItem("Status")
+					.getItem("PlFormal").getUnscaledValue("WertMax").setText(
+							"Nein");
+			datum.getItem(valStrings[idx]).getItem("Status")
+					.getItem("PlFormal").getUnscaledValue("WertMin").setText(
+							"Nein");
+			datum.getItem(valStrings[idx]).getItem("Status").getItem(
+					"PlLogisch").getUnscaledValue("WertMaxLogisch").setText(
+					"Nein");
+			datum.getItem(valStrings[idx]).getItem("Status").getItem(
+					"PlLogisch").getUnscaledValue("WertMinLogisch").setText(
+					"Nein");
+			datum.getItem(valStrings[idx]).getItem("Status").getItem(
+					"MessWertErsetzung").getUnscaledValue("Implausibel")
+					.setText("Nein");
+			datum.getItem(valStrings[idx]).getItem("Status").getItem(
+					"MessWertErsetzung").getUnscaledValue("Interpoliert")
+					.setText("Nein");
+			datum.getItem(valStrings[idx]).getItem("Güte").getUnscaledValue(
+					"Index").set(-1);
+			datum.getItem(valStrings[idx]).getItem("Güte").getUnscaledValue(
+					"Verfahren").set(0);
+		}
+
+		datum.getItem("qKfz").getUnscaledValue("Wert").set(qKfz);
+		datum.getItem("qKfz").getItem("Güte").getUnscaledValue("Index").set(10);
+
+		datum.getItem("qLkw").getUnscaledValue("Wert").set(qLkw);
+		datum.getItem("qLkw").getItem("Güte").getUnscaledValue("Index").set(10);
+
+		datum.getItem("vPkw").getUnscaledValue("Wert").set(vPkw);
+		datum.getItem("vPkw").getItem("Güte").getUnscaledValue("Index").set(10);
+
+		datum.getItem("vLkw").getUnscaledValue("Wert").set(vLkw);
+		datum.getItem("vLkw").getItem("Güte").getUnscaledValue("Index").set(10);
+
+		datum.getItem("sKfz").getUnscaledValue("Wert").set(sKfz);
+		datum.getItem("sKfz").getItem("Güte").getUnscaledValue("Index").set(10);
+
+		datum.getItem("kB").getUnscaledValue("Wert").set(kb);
+		datum.getItem("kB").getItem("Güte").getUnscaledValue("Index").set(10);
+
+		datum.getItem("b").getUnscaledValue("Wert").set(b);
+		datum.getItem("b").getItem("Güte").getUnscaledValue("Index").set(10);
+
+		// Nicht erfasste Werte berechnen
+
+		aLkw = Umrechung.getALkw(qLkw, qKfz);
+		datum.getItem("aLkw").getUnscaledValue("Wert").set(aLkw);
+		datum.getItem("aLkw").getItem("Güte").getUnscaledValue("Index").set(10);
+
+		qPkw = Umrechung.getQPkw(qKfz, qLkw);
+		if (qPkw != null) {
+			datum.getItem("qPkw").getUnscaledValue("Wert").set(qPkw);
+			datum.getItem("qPkw").getItem("Güte").getUnscaledValue("Index")
+					.set(10);
+			datum.getItem("qPkw").getItem("Status").getItem("Erfassung")
+					.getUnscaledValue("NichtErfasst").setText("Ja");
+
+		}
+
+		vKfz = Umrechung.getVKfz(qLkw, qKfz, vPkw, vLkw);
+		if (vKfz != null) {
+			datum.getItem("vKfz").getUnscaledValue("Wert").set(vKfz);
+			datum.getItem("vKfz").getItem("Güte").getUnscaledValue("Index")
+					.set(10);
+			datum.getItem("vKfz").getItem("Status").getItem("Erfassung")
+					.getUnscaledValue("NichtErfasst").setText("Ja");
+		}
+
+		qb = Umrechung.getQB(qLkw, qKfz, vPkw, vLkw, 0.5f, 1);
+		if (qb != null) {
+			datum.getItem("qB").getUnscaledValue("Wert").set(qb);
+			datum.getItem("qB").getItem("Güte").getUnscaledValue("Index").set(
+					10);
+			datum.getItem("qB").getItem("Status").getItem("Erfassung")
+					.getUnscaledValue("NichtErfasst").setText("Ja");
+		}
+
+		return datum;
+	}
+
 }
