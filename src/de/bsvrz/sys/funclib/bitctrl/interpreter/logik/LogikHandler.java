@@ -181,6 +181,10 @@ public class LogikHandler extends AbstractHandler {
 			return new LogischerWert(!wert.getBoolWert());
 		}
 
+		if (wert.getZugehoerigkeit() == null) {
+			return new LogischerWert(null);
+		}
+
 		Double d = Math.abs(1.0 - wert.getZugehoerigkeit());
 		return new LogischerWert(d.floatValue());
 	}
@@ -208,6 +212,10 @@ public class LogikHandler extends AbstractHandler {
 			operand = (LogischerWert) obj;
 			if (!operand.isBoolWert()) {
 				boolWert = false;
+				if (operand.getZugehoerigkeit() == null) {
+					// Einer der Operanden ist null => Ergebnis = null
+					return new LogischerWert(null);
+				}
 			}
 			if (wert == null) {
 				// Erster Operand
@@ -255,6 +263,10 @@ public class LogikHandler extends AbstractHandler {
 			operand = (LogischerWert) obj;
 			if (!operand.isBoolWert()) {
 				boolWert = false;
+				if (operand.getZugehoerigkeit() == null) {
+					// Einer der Operanden ist null => Ergebnis = null
+					return new LogischerWert(null);
+				}
 			}
 			if (wert == null) {
 				// Erster Operand

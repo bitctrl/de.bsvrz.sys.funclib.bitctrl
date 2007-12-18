@@ -1,20 +1,20 @@
 /*
- * Interpreter von logischen Ausdrücken
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -33,20 +33,20 @@ import de.bsvrz.sys.funclib.bitctrl.interpreter.Kontext;
 import de.bsvrz.sys.funclib.bitctrl.interpreter.Literal;
 
 /**
- * Ein boolesches Terminalsymbol (Literal)
+ * Ein boolesches Terminalsymbol (Literal).
  * 
- * @author BitCtrl, Schumann
+ * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
 public class LogischesLiteral implements Literal {
 
 	/**
-	 * Repr&auml;sentiert den logischen Wert des Literals
+	 * Repr&auml;sentiert den logischen Wert des Literals.
 	 */
 	private final LogischerWert wert;
 
 	/**
-	 * Konstruiert ein Terminalsymbol mit dem angegebenen Wert
+	 * Konstruiert ein Terminalsymbol mit dem angegebenen Wert.
 	 * 
 	 * @param wert
 	 *            Wert
@@ -56,17 +56,17 @@ public class LogischesLiteral implements Literal {
 	}
 
 	/**
-	 * Konstruiert ein Terminalsymbol mit dem angegebenen Wert
+	 * Konstruiert ein Terminalsymbol mit dem angegebenen Wert.
 	 * 
 	 * @param wert
 	 *            Wert
 	 */
-	public LogischesLiteral(float wert) {
+	public LogischesLiteral(Float wert) {
 		this.wert = new LogischerWert(wert);
 	}
 
 	/**
-	 * Konstruiert ein Terminalsymbol mit dem angegebenen Wert
+	 * Konstruiert ein Terminalsymbol mit dem angegebenen Wert.
 	 * 
 	 * @param wert
 	 *            Wert
@@ -80,15 +80,6 @@ public class LogischesLiteral implements Literal {
 	}
 
 	/**
-	 * Nennt den Wert des Terminalsymbols
-	 * 
-	 * @return Wert des Literal
-	 */
-	public LogischerWert getWert() {
-		return wert;
-	}
-
-	/**
 	 * Gibt immer {@code null} zur&uuml;ck, da dies ein Terminalsymbol ist.
 	 * <p>
 	 * {@inheritDoc}
@@ -98,14 +89,24 @@ public class LogischesLiteral implements Literal {
 	}
 
 	/**
+	 * Nennt den Wert des Terminalsymbols.
+	 * 
+	 * @return Wert des Literal
+	 */
+	public LogischerWert getWert() {
+		return wert;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
-	@SuppressWarnings("unused")
 	public Object interpret(Kontext kontext) {
 		return wert;
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

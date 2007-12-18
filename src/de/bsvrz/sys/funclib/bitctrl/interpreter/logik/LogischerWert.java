@@ -202,17 +202,16 @@ public class LogischerWert {
 	/**
 	 * Setzt den Wert auf die angegebene Zugeh&ouml;rigkeit.
 	 * 
-	 * @param zugehoerigkeit
+	 * @param z
 	 *            Zugeh&ouml;rigkeit.
 	 */
-	public void set(Float zugehoerigkeit) {
-		if (zugehoerigkeit != null
-				&& (zugehoerigkeit < 0 || zugehoerigkeit > 1)) {
+	public void set(Float z) {
+		if (z != null && (z < 0 || z > 1)) {
 			throw new InterpreterException(Messages.get(
-					InterpreterMessages.BadMembership, zugehoerigkeit));
+					InterpreterMessages.BadMembership, z));
 		}
 
-		this.zugehoerigkeit = zugehoerigkeit;
+		this.zugehoerigkeit = z;
 		boolWert = false;
 	}
 

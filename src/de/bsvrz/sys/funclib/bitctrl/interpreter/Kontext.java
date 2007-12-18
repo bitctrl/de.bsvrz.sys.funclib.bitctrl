@@ -1,20 +1,20 @@
 /*
- * Interpreter, allgemeine Struktur zum Auswerten von Ausdrücken
- * Copyright (C) 2007 BitCtrl Systems GmbH
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -34,12 +34,12 @@ import de.bsvrz.sys.funclib.bitctrl.i18n.Messages;
 /**
  * Kontext eines Ausdrucks. Speichert alle Variablen in einer Menge.
  * 
- * @author BitCtrl, Schumann
+ * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
 public class Kontext {
 
-	/** Pr&uuml;fklasse die Symbolnamen auf ihre G&uuml;ltigkeit testet */
+	/** Pr&uuml;fklasse die Symbolnamen auf ihre G&uuml;ltigkeit testet. */
 	public static Namenspruefer pruefer = new StandardNamenspruefer();
 
 	/**
@@ -60,7 +60,7 @@ public class Kontext {
 		}
 	}
 
-	/** Die Menge der im Kontext enthaltenen Name/Wert-Paare */
+	/** Die Menge der im Kontext enthaltenen Name/Wert-Paare. */
 	private final HashMap<String, Object> kontext;
 
 	/**
@@ -92,7 +92,7 @@ public class Kontext {
 	}
 
 	/**
-	 * Schaut nach, ob im Kontext eine bestimmte Variable existiert
+	 * Schaut nach, ob im Kontext eine bestimmte Variable existiert.
 	 * 
 	 * @param name
 	 *            Name der Variable
@@ -103,7 +103,7 @@ public class Kontext {
 	}
 
 	/**
-	 * Liefert den Wert einer Variable
+	 * Liefert den Wert einer Variable.
 	 * 
 	 * @param name
 	 *            Name der Variablen
@@ -127,7 +127,7 @@ public class Kontext {
 	}
 
 	/**
-	 * Liefert den Wert einer Variable und pr&uuml;ft gleichzeitig deren Typ
+	 * Liefert den Wert einer Variable und pr&uuml;ft gleichzeitig deren Typ.
 	 * 
 	 * @param name
 	 *            Name der Variablen
@@ -171,7 +171,7 @@ public class Kontext {
 	}
 
 	/**
-	 * Setzt den Wert einer Variable
+	 * Setzt den Wert einer Variable.
 	 * 
 	 * @param name
 	 *            Name der Variable
@@ -181,7 +181,7 @@ public class Kontext {
 	 *             Wenn der Variablenname oder der Wert {@code null} ist oder
 	 *             der Variablenname nur aus Whitespaces besteht
 	 */
-	synchronized public void set(String name, Object wert) {
+	public synchronized void set(String name, Object wert) {
 		pruefeName(name);
 
 		if (wert == null) {
