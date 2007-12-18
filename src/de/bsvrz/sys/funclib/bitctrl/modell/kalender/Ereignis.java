@@ -57,29 +57,9 @@ public class Ereignis extends AbstractSystemObjekt {
 	public Ereignis(SystemObject obj) {
 		super(obj);
 
-		DataModel modell;
-		AttributeGroup atg;
-		Data datum;
-
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist kein Ereignis.");
-		}
-
-		modell = objekt.getDataModel();
-		atg = modell.getAttributeGroup("atg.ereignisEigenschaften");
-		datum = objekt.getConfigurationData(atg);
-		if (datum != null) {
-			SystemObject so;
-
-			beschreibung = datum.getTextValue("Ereignisbeschreibung").getText();
-			so = datum.getReferenceValue("EreignisTypReferenz")
-					.getSystemObject();
-			ereignisTyp = (EreignisTyp) ObjektFactory.getInstanz()
-					.getModellobjekt(so);
-		} else {
-			beschreibung = null;
-			ereignisTyp = null;
 		}
 	}
 
@@ -89,6 +69,7 @@ public class Ereignis extends AbstractSystemObjekt {
 	 * @return der Beschreibungstext.
 	 */
 	public String getBeschreibung() {
+		leseKonfigEigenschaften();
 		return beschreibung;
 	}
 
@@ -98,6 +79,7 @@ public class Ereignis extends AbstractSystemObjekt {
 	 * @return der Typ dieses Ereignisses.
 	 */
 	public EreignisTyp getEreignisTyp() {
+		leseKonfigEigenschaften();
 		return ereignisTyp;
 	}
 
@@ -116,6 +98,37 @@ public class Ereignis extends AbstractSystemObjekt {
 		return getClass().getName() + "[name=" + getSystemObject().getName()
 				+ ", pid=" + getSystemObject().getPid() + ", beschreibung="
 				+ beschreibung + ", ereignisTyp=" + ereignisTyp + "]";
+	}
+
+	/**
+	 * Liest die konfigurierenden Daten des Objekts bei Bedarf.
+	 */
+	private void leseKonfigEigenschaften() {
+		if (ereignisTyp != null) {
+			// Konfiurationsdaten wurden bereits gelesen
+			return;
+		}
+
+		DataModel modell;
+		AttributeGroup atg;
+		Data datum;
+
+		modell = objekt.getDataModel();
+		atg = modell.getAttributeGroup("atg.ereignisEigenschaften");
+		datum = objekt.getConfigurationData(atg);
+
+		if (datum != null) {
+			SystemObject so;
+
+			beschreibung = datum.getTextValue("Ereignisbeschreibung").getText();
+			so = datum.getReferenceValue("EreignisTypReferenz")
+					.getSystemObject();
+			ereignisTyp = (EreignisTyp) ObjektFactory.getInstanz()
+					.getModellobjekt(so);
+		} else {
+			beschreibung = null;
+			ereignisTyp = null;
+		}
 	}
 
 }
