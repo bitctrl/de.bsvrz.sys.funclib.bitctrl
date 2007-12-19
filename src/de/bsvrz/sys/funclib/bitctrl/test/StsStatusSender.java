@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ClientSenderInterface;
@@ -77,7 +78,8 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 	/**
 	 * Liste der PIDs für die Aspekte, für die eine Anmeldung erfolgen soll.
 	 */
-	private final String[] aspekte = { "asp.störfallVerfahrenFuzzy",
+	private final String[] aspekte = {
+			// "asp.störfallVerfahrenFuzzy",
 			"asp.störfallVerfahrenStandard", "asp.störfallVerfahrenMARZ",
 			"asp.störfallVerfahrenNRW", "asp.störfallVerfahrenRDS",
 			"asp.störfallVerfahrenFD", "asp.störfallVerfahrenVKDiffKfz",
@@ -118,7 +120,7 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 	public void dataRequest(final SystemObject object,
 			final DataDescription dataDescription, final byte state) {
 		if (object.getPid().equals("sts.00001.BW")) {
-			logger.config("DataRequest: " + object + ", " + dataDescription
+			logger.info("DataRequest: " + object + ", " + dataDescription
 					+ ", " + state);
 		} else {
 			logger.fine("DataRequest: " + object + ", " + dataDescription
@@ -141,6 +143,7 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 		atg = model.getAttributeGroup("atg.störfallZustand");
 		stsObjekte
 				.addAll(model.getType("typ.straßenTeilSegment").getElements());
+		// stsObjekte.add(model.getObject("sts.00001.BW"));
 
 		for (SystemObject obj : stsObjekte) {
 			System.err.println(obj.getPid() + ": "
@@ -160,7 +163,10 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 		}
 		logger.info("Anmeldung fertig");
 
-		timer.schedule(this, 0L, 60000L);
+		SystemObject obj = model.getObject("typ.straße");
+		System.err.println("Hallo: " + obj);
+
+		// timer.schedule(this, 0L, 60000L);
 	}
 
 	/**
@@ -210,18 +216,20 @@ public class StsStatusSender extends TimerTask implements StandardApplication,
 						.currentTimeMillis(), data);
 				idx++;
 			}
-		}
 
-		letzterStatus++;
-
-		try {
-			logger.info("Sende Daten");
-			dav.sendData(daten);
-			logger.info("Gesendet");
-		} catch (DataNotSubscribedException e) {
-			e.printStackTrace();
-		} catch (SendSubscriptionNotConfirmed e) {
-			e.printStackTrace();
+			try {
+				logger.info("Sende Daten");
+				for (ResultData datenSatz : daten) {
+					logger.fine("Daten: " + datenSatz);
+				}
+				dav.sendData(daten);
+				logger.info("Gesendet");
+			} catch (DataNotSubscribedException e) {
+				e.printStackTrace();
+			} catch (SendSubscriptionNotConfirmed e) {
+				e.printStackTrace();
+			}
+			letzterStatus++;
 		}
 	}
 }

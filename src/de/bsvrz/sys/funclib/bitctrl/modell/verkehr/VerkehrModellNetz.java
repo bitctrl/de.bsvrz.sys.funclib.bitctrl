@@ -80,7 +80,7 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 *            Ein Systemobjekt, welches ein Netz darstellt
 	 * @throws IllegalArgumentException
 	 */
-	VerkehrModellNetz(SystemObject obj) {
+	VerkehrModellNetz(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(PID_TYP)) {
@@ -110,7 +110,37 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 		listeners.add(BaustellenListener.class, listener);
 
 		if (registerListener) {
+			System.err.println("Anmeldung für Baustellen == "
+					+ baustellenMenge.getElements().size());
 			baustellenMenge.addChangeListener(this);
+		}
+	}
+
+	/**
+	 * benachrichtigt alle BaustellenListener über hinzugefügte oder entfernte
+	 * Baustellen.
+	 * 
+	 * @param addedObjects
+	 *            die Systemobjekte, die die hinzugefügten Baustellen definieren
+	 * @param removedObjects
+	 *            die Systemobjekte, die die entfernten Baustellen definieren
+	 */
+	private void aktualisiereBaustellen(final SystemObject[] addedObjects,
+			final SystemObject[] removedObjects) {
+		for (BaustellenListener listener : listeners
+				.getListeners(BaustellenListener.class)) {
+			for (SystemObject obj : removedObjects) {
+				Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
+						.getModellobjekt(obj);
+				bst.removeNetzReferenz(this);
+				listener.baustelleEntfernt(this, bst);
+			}
+			for (SystemObject obj : addedObjects) {
+				Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
+						.getModellobjekt(obj);
+				bst.addNetzReferenz(this);
+				listener.baustelleAngelegt(this, bst);
+			}
 		}
 	}
 
@@ -125,7 +155,7 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 *            werden
 	 * @return die Liste der ermittelten Straßensegmente
 	 */
-	public List<AeusseresStrassenSegment> getAssListe(Strasse strasse) {
+	public List<AeusseresStrassenSegment> getAssListe(final Strasse strasse) {
 		List<AeusseresStrassenSegment> result = new ArrayList<AeusseresStrassenSegment>();
 		for (StrassenSegment segment : getNetzSegmentListe()) {
 			if (segment instanceof AeusseresStrassenSegment) {
@@ -174,7 +204,7 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 * @param obj
 	 *            das zu entfernende Stauobjekt
 	 */
-	public void stauEntfernen(SystemObject obj) {
+	public void stauEntfernen(final SystemObject obj) {
 		ObjectSet set = ((ConfigurationObject) getSystemObject())
 				.getObjectSet(MENGENNAME_STAUS);
 		if (set.getElements().contains(obj)) {
@@ -193,7 +223,7 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 * @param obj
 	 *            das neue Stauobjekt
 	 */
-	public void stauHinzufuegen(SystemObject obj) {
+	public void stauHinzufuegen(final SystemObject obj) {
 		ObjectSet set = ((ConfigurationObject) getSystemObject())
 				.getObjectSet(MENGENNAME_STAUS);
 		if (!set.getElements().contains(obj)) {
@@ -213,38 +243,12 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 *      de.bsvrz.dav.daf.main.config.SystemObject[],
 	 *      de.bsvrz.dav.daf.main.config.SystemObject[])
 	 */
-	public void update(MutableSet set, SystemObject[] addedObjects,
-			SystemObject[] removedObjects) {
+	public void update(final MutableSet set, final SystemObject[] addedObjects,
+			final SystemObject[] removedObjects) {
+		System.err.println("Anzahl der Baustellen == "
+				+ set.getElements().size());
 		if (set.equals(baustellenMenge)) {
 			aktualisiereBaustellen(addedObjects, removedObjects);
-		}
-	}
-
-	/**
-	 * benachrichtigt alle BaustellenListener über hinzugefügte oder entfernte
-	 * Baustellen.
-	 * 
-	 * @param addedObjects
-	 *            die Systemobjekte, die die hinzugefügten Baustellen definieren
-	 * @param removedObjects
-	 *            die Systemobjekte, die die entfernten Baustellen definieren
-	 */
-	private void aktualisiereBaustellen(SystemObject[] addedObjects,
-			SystemObject[] removedObjects) {
-		for (BaustellenListener listener : listeners
-				.getListeners(BaustellenListener.class)) {
-			for (SystemObject obj : removedObjects) {
-				Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
-						.getModellobjekt(obj);
-				bst.removeNetzReferenz(this);
-				listener.baustelleEntfernt(this, bst);
-			}
-			for (SystemObject obj : addedObjects) {
-				Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
-						.getModellobjekt(obj);
-				bst.addNetzReferenz(this);
-				listener.baustelleAngelegt(this, bst);
-			}
 		}
 	}
 }
