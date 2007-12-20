@@ -55,8 +55,7 @@ public class DAVTest {
 
 	
 	/**
-	 * Erfragt bzw. initialisiert eine
-	 * Datenverteiler-Verbindung
+	 * Erfragt bzw. initialisiert eine Datenverteiler-Verbindung
 	 * 
 	 * @param kommandoZeile String-Array mit den Daten, die normalerweise in
 	 * der Kommandozeile stehen
@@ -68,20 +67,38 @@ public class DAVTest {
 	throws Exception {
 		
 		if(VERBINDUNG == null) {
-			StandardApplicationRunner.run(new StandardApplication() {
-	
-				public void initialize(ClientDavInterface connection)
-						throws Exception {
-					DAVTest.VERBINDUNG = connection;
-				}
-	
-				public void parseArguments(ArgumentList argumentList)
-						throws Exception {
-					//
-				}
-	
-			}, kommandoZeile);
+			VERBINDUNG = newDav(kommandoZeile);
 		}
+		
+		return VERBINDUNG;
+	}
+	
+	
+	/**
+	 * Stellt eine neue Datenverteiler-Verbindung her
+	 * 
+	 * @param kommandoZeile String-Array mit den Daten, die normalerweise in
+	 * der Kommandozeile stehen
+	 * @return die Datenverteiler-Verbindung
+	 * @throws Exception falls die Verbindung nicht
+	 * hergestellt werden konnte
+	 */
+	public static final ClientDavInterface newDav(final String[] kommandoZeile)
+	throws Exception {
+		
+		StandardApplicationRunner.run(new StandardApplication() {
+	
+			public void initialize(ClientDavInterface connection)
+					throws Exception {
+				DAVTest.VERBINDUNG = connection;
+			}
+	
+			public void parseArguments(ArgumentList argumentList)
+					throws Exception {
+				//
+			}
+	
+		}, kommandoZeile);
 		
 		return VERBINDUNG;
 	}

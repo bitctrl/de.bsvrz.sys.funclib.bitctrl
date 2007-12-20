@@ -45,6 +45,11 @@ public class DuaVerkehrsNetz {
 	 */
 	private static final Debug LOGGER = Debug.getLogger();
 
+	/**
+	 * Flag: Wurde das statische DUA-Verkehrsnetz bereits initialisiert? 
+	 */
+	private static boolean INITIALISIERT = false;
+	
 	
 	/**
 	 * Initialisiert das gesamte Verkehrs-Netz aus Sicht der DUA<br>
@@ -55,14 +60,19 @@ public class DuaVerkehrsNetz {
 	 * @throws DUAInitialisierungsException wenn es Probleme geben sollte, die
 	 * die Initialisierung des Netzes (im Sinne der DUA) nicht möglich machen
 	 */
-	public static final void initialisiere(final ClientDavInterface dav)
+	public static final synchronized void initialisiere(final ClientDavInterface dav)
 	throws DUAInitialisierungsException{
-		FahrStreifen.initialisiere(dav);
-		MessQuerschnitt.initialisiere(dav);
-		MessQuerschnittVirtuell.initialisiere(dav);
-		MessStelle.initialisiere(dav);
-		ermittleErsatzUndNachbarFS();
-		MessStellenGruppe.initialisiere(dav);
+		if(INITIALISIERT){
+			LOGGER.warning("Das DUA-Verkehrsnetz wurde bereits initialisiert"); //$NON-NLS-1$
+		}else{
+			INITIALISIERT = true;
+			FahrStreifen.initialisiere(dav);
+			MessQuerschnitt.initialisiere(dav);
+			MessQuerschnittVirtuell.initialisiere(dav);
+			MessStelle.initialisiere(dav);
+			ermittleErsatzUndNachbarFS();
+			MessStellenGruppe.initialisiere(dav);
+		}
 	}
 	
 	
