@@ -82,7 +82,7 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 	 *            Ein Systemobjekt, welches ein StörfallIndikator sein muss
 	 * @throws IllegalArgumentException
 	 */
-	StoerfallIndikator(SystemObject obj) {
+	StoerfallIndikator(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
@@ -103,7 +103,7 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 	 * @param aspekte
 	 *            die Liste der unterstützten Verfahren.
 	 */
-	public void bereinigeSituationsListe(Aspect... aspekte) {
+	public void bereinigeSituationsListe(final Aspect... aspekte) {
 		Map<Aspect, StoerfallSituation> alteSituationen = new HashMap<Aspect, StoerfallSituation>(
 				situationen);
 		situationen.clear();
@@ -128,6 +128,16 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 				situation = s;
 			}
 		}
+		return situation;
+	}
+
+	public StoerfallSituation getSituation(final Aspect aspekt) {
+		StoerfallSituation situation = situationen.get(aspekt);
+
+		if (situation == null) {
+			situation = StoerfallSituation.STOERUNG;
+		}
+
 		return situation;
 	}
 
