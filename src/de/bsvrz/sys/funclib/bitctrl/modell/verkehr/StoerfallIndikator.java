@@ -135,7 +135,7 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 		StoerfallSituation situation = situationen.get(aspekt);
 
 		if (situation == null) {
-			situation = StoerfallSituation.STOERUNG;
+			situation = StoerfallSituation.UNBEKANNT;
 		}
 
 		return situation;

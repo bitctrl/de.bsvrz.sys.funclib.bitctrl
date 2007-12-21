@@ -36,6 +36,10 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
  */
 public enum StoerfallSituation implements Zustand {
 	/**
+	 * der Datenverteiler hat keine Daten zum Indikator geliefert.
+	 */
+	UNBEKANNT("Unbekannt", -1),
+	/**
 	 * der Störfallindikator ist gestört.
 	 */
 	STOERUNG("Störung", 0),
@@ -69,6 +73,25 @@ public enum StoerfallSituation implements Zustand {
 	STAU("Stau", 7);
 
 	/**
+	 * liefert den Störfallzustand mit dem übergebenen Code.
+	 * 
+	 * @param gesuchterCode
+	 *            der Code für den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *         wird eine {@link IllegalArgumentException} geworfen.
+	 */
+	public static StoerfallSituation getSituation(final int gesuchterCode) {
+		for (StoerfallSituation situation : values()) {
+			if (situation.getCode() == gesuchterCode) {
+				return situation;
+			}
+		}
+
+		throw new IllegalArgumentException("Ungültiger Situation mit Code: "
+				+ gesuchterCode);
+	}
+
+	/**
 	 * der Code des Zustandes.
 	 */
 	private int code;
@@ -90,7 +113,7 @@ public enum StoerfallSituation implements Zustand {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private StoerfallSituation(String name, int code) {
+	private StoerfallSituation(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}
@@ -111,25 +134,6 @@ public enum StoerfallSituation implements Zustand {
 	 */
 	public String getName() {
 		return name;
-	}
-
-	/**
-	 * liefert den Störfallzustand mit dem übergebenen Code.
-	 * 
-	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
-	 *         wird eine {@link IllegalArgumentException} geworfen.
-	 */
-	public static StoerfallSituation getSituation(int gesuchterCode) {
-		for (StoerfallSituation situation : values()) {
-			if (situation.getCode() == gesuchterCode) {
-				return situation;
-			}
-		}
-
-		throw new IllegalArgumentException("Ungültiger Situation mit Code: "
-				+ gesuchterCode);
 	}
 
 	/**

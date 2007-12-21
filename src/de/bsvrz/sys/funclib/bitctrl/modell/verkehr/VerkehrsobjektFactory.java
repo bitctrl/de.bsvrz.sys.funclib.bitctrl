@@ -81,6 +81,8 @@ public class VerkehrsobjektFactory implements ModellObjektFactory {
 			obj = new Strasse(objekt);
 		} else if (objekt.isOfType(VerkehrsModellTypen.BAUSTELLE.getPid())) {
 			obj = new Baustelle(objekt);
+		} else if (objekt.isOfType(VerkehrsModellTypen.STAU.getPid())) {
+			obj = new Stau(objekt);
 		} else if (objekt.isOfType(VerkehrsModellTypen.FAHRSTREIFEN.getPid())) {
 			obj = new FahrStreifen(objekt);
 		}

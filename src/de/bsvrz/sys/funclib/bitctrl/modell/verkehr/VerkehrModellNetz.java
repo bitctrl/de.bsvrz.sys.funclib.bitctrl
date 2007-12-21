@@ -74,6 +74,11 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	private final MutableSet baustellenMenge;
 
 	/**
+	 * das Systemobjekt, das die Liste der Staus definiert.
+	 */
+	private final MutableSet stauMenge;
+
+	/**
 	 * Konstruiert aus einem Systemobjekt ein Netz.
 	 * 
 	 * @param obj
@@ -90,6 +95,7 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 
 		baustellenMenge = ((ConfigurationObject) obj)
 				.getMutableSet("Baustellen");
+		stauMenge = ((ConfigurationObject) obj).getMutableSet("Staus");
 
 	}
 
@@ -117,6 +123,29 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	}
 
 	/**
+	 * fügt dem Netz einen BaustellenListener hinzu.
+	 * 
+	 * @param listener
+	 *            der hinzuzufügende Listener
+	 */
+	public void addStauListener(final StauListener listener) {
+		if (listener == null) {
+			throw new IllegalArgumentException(
+					"null beim registrieren eines Listeners ist nicht erlaubt");
+		}
+
+		boolean registerListener = (listeners
+				.getListenerCount(StauListener.class) == 0);
+		listeners.add(StauListener.class, listener);
+
+		if (registerListener) {
+			System.err.println("Anmeldung für Staus == "
+					+ stauMenge.getElements().size());
+			stauMenge.addChangeListener(this);
+		}
+	}
+
+	/**
 	 * benachrichtigt alle BaustellenListener über hinzugefügte oder entfernte
 	 * Baustellen.
 	 * 
@@ -140,6 +169,32 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 						.getModellobjekt(obj);
 				bst.addNetzReferenz(this);
 				listener.baustelleAngelegt(this, bst);
+			}
+		}
+	}
+
+	/**
+	 * benachrichtigt alle StauListener über hinzugefügte oder entfernte Staus.
+	 * 
+	 * @param addedObjects
+	 *            die Systemobjekte, die die hinzugefügten Staus definieren
+	 * @param removedObjects
+	 *            die Systemobjekte, die die entfernten Staus definieren
+	 */
+	private void aktualisiereStaus(final SystemObject[] addedObjects,
+			final SystemObject[] removedObjects) {
+		for (StauListener listener : listeners.getListeners(StauListener.class)) {
+			for (SystemObject obj : removedObjects) {
+				Stau stau = (Stau) ObjektFactory.getInstanz().getModellobjekt(
+						obj);
+				stau.removeNetzReferenz(this);
+				listener.stauEntfernt(this, stau);
+			}
+			for (SystemObject obj : addedObjects) {
+				Stau stau = (Stau) ObjektFactory.getInstanz().getModellobjekt(
+						obj);
+				stau.addNetzReferenz(this);
+				listener.stauAngelegt(this, stau);
 			}
 		}
 	}
@@ -178,6 +233,20 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 		for (SystemObject obj : baustellenMenge.getElements()) {
 			result.add((Baustelle) ObjektFactory.getInstanz().getModellobjekt(
 					obj));
+		}
+		return result;
+	}
+
+	/**
+	 * liefert eine Liste der aktuell innerhalb des VerkehrsmodellNetzes
+	 * eingetragenen Staus.
+	 * 
+	 * @return die Liste der Staus
+	 */
+	public Collection<Stau> getStaus() {
+		Collection<Stau> result = new ArrayList<Stau>();
+		for (SystemObject obj : stauMenge.getElements()) {
+			result.add((Stau) ObjektFactory.getInstanz().getModellobjekt(obj));
 		}
 		return result;
 	}
@@ -249,6 +318,8 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 				+ set.getElements().size());
 		if (set.equals(baustellenMenge)) {
 			aktualisiereBaustellen(addedObjects, removedObjects);
+		} else if (set.equals(stauMenge)) {
+			aktualisiereStaus(addedObjects, removedObjects);
 		}
 	}
 }

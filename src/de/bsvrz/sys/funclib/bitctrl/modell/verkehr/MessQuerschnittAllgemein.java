@@ -163,11 +163,12 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
 		StrassenTeilSegment sts = null;
 
 		if (getStrassenSegment() != null) {
-			// Das richtige STS ist letzte für das gilt offset(MQ) < offsetSS
+			// Das richtige STS ist letzte für das gilt offset(MQ) < offsetSS,
+			// wenn keines gefunden wird wird das letzte geliefert
 			for (StrassenTeilSegment s : strassenSegment
 					.getStrassenTeilSegmente()) {
+				sts = s;
 				if (offsetSS < offset && offset < offsetSS + s.getLaenge()) {
-					sts = s;
 					break;
 				}
 				offsetSS += s.getLaenge();

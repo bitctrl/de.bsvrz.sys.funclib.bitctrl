@@ -84,7 +84,10 @@ public enum VerkehrsModellTypen implements SystemObjektTyp {
 	ROUTENSTUECK("typ.routenStück", RoutenStueck.class),
 
 	/** Eine Baustelle. */
-	BAUSTELLE("typ.baustelle", Baustelle.class);
+	BAUSTELLE("typ.baustelle", Baustelle.class),
+
+	/** Ein Stau. */
+	STAU("typ.stau", Stau.class);
 
 	/** PID des Objekttyps im Datenverteiler. */
 	private final String pid;
@@ -100,7 +103,8 @@ public enum VerkehrsModellTypen implements SystemObjektTyp {
 	 * @param klasse
 	 *            Die Klasse des Modellobjekts
 	 */
-	private VerkehrsModellTypen(String pid, Class<? extends SystemObjekt> klasse) {
+	private VerkehrsModellTypen(final String pid,
+			final Class<? extends SystemObjekt> klasse) {
 		this.pid = pid;
 		this.klasse = klasse;
 	}
