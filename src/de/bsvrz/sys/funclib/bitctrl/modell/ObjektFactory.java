@@ -250,6 +250,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 			}
 		}
 
+		assert so != null;
 		return so;
 	}
 
