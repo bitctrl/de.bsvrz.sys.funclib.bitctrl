@@ -96,7 +96,6 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 		baustellenMenge = ((ConfigurationObject) obj)
 				.getMutableSet("Baustellen");
 		stauMenge = ((ConfigurationObject) obj).getMutableSet("Staus");
-
 	}
 
 	/**
@@ -245,9 +244,29 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 */
 	public Collection<Stau> getStaus() {
 		Collection<Stau> result = new ArrayList<Stau>();
+		Collection<SystemObject> invalidStaus = new ArrayList<SystemObject>();
 		for (SystemObject obj : stauMenge.getElements()) {
-			result.add((Stau) ObjektFactory.getInstanz().getModellobjekt(obj));
+			if (obj.isValid()) {
+				result.add((Stau) ObjektFactory.getInstanz().getModellobjekt(
+						obj));
+			} else {
+				invalidStaus.add(obj);
+			}
 		}
+
+		if (invalidStaus.size() > 0) {
+			LOGGER.warning("Stauliste des Netzes: " + getName() + " enthält "
+					+ invalidStaus.size() + " ungültige Objekte");
+
+			try {
+				stauMenge.remove(invalidStaus
+						.toArray(new SystemObject[invalidStaus.size()]));
+			} catch (ConfigurationChangeException e) {
+				LOGGER.error("Stauliste bereinigen ist fehlgeschlagen: "
+						+ e.getMessage());
+			}
+		}
+
 		return result;
 	}
 
