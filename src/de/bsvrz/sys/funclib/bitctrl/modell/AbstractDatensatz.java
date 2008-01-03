@@ -216,8 +216,11 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public void dataRequest(SystemObject object,
 				DataDescription dataDescription, byte state) {
-			sendesteuerung.put(dataDescription.getAspect(), Status
-					.getStatus(state));
+			synchronized (AbstractDatensatz.this) {
+				sendesteuerung.put(dataDescription.getAspect(), Status
+						.getStatus(state));
+				AbstractDatensatz.this.notify();
+			}
 		}
 
 		/**
@@ -628,6 +631,40 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 */
 	protected void sendeDaten(Aspect asp, T datum) throws DatensendeException {
 		sender.sende(konvertiere(datum), asp, datum.getZeitstempel());
+	}
+
+	/**
+	 * Veranlasst den Datensatz ein Datum an den Datenverteiler zusenden. Ist
+	 * der Zeitstempel des Datums nicht gesetzt oder gleich 0, wird automatisch
+	 * der aktuelle Zeitstempel beim Versand verwendet.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @param datum
+	 *            das zu sendende Datum.
+	 * @param timeout
+	 *            die Zeitspanne in der die Daten gesendet werden m&uuml;ssen.
+	 * @throws DatensendeException
+	 *             wenn die Daten nicht gesendet werden konnten. Der Sendecache
+	 *             wird in dem Fall nicht geleert.
+	 * @see #erzeugeDatum()
+	 */
+	protected void sendeDaten(Aspect asp, T datum, long timeout)
+			throws DatensendeException {
+		synchronized (this) {
+			if (getStatusSendesteuerung(asp) != Datensatz.Status.START) {
+				try {
+					wait(timeout);
+				} catch (InterruptedException ex) {
+					// TODO Auto-generated catch block
+					ex.printStackTrace();
+				}
+			}
+			if (getStatusSendesteuerung(asp) != Datensatz.Status.START) {
+				throw new DatensendeException("Timeout");
+			}
+			sender.sende(konvertiere(datum), asp, datum.getZeitstempel());
+		}
 	}
 
 	/**

@@ -162,6 +162,25 @@ public interface OnlineDatensatz<T extends Datum> extends Datensatz<T> {
 	void sendeDaten(Aspect asp, T datum) throws DatensendeException;
 
 	/**
+	 * Veranlasst den Datensatz ein Datum an den Datenverteiler zusenden. Ist
+	 * der Zeitstempel des Datums nicht gesetzt oder gleich 0, wird automatisch
+	 * der aktuelle Zeitstempel beim Versand verwendet.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @param datum
+	 *            das zu sendende Datum.
+	 * @param timeout
+	 *            die Zeit in der der Datensatz gesendet werden muss.
+	 * @throws DatensendeException
+	 *             wenn die Daten nicht gesendet werden konnten. Der Sendecache
+	 *             wird in dem Fall nicht geleert.
+	 * @see #erzeugeDatum()
+	 */
+	void sendeDaten(Aspect asp, T datum, long timeout)
+			throws DatensendeException;
+
+	/**
 	 * Legt fest, ob Anmeldungen als Quelle durchgef&uuml;hrt werden sollen.
 	 * Eine bereits bestehende Anmeldung wird dadurch nicht beeinflusst.
 	 * 

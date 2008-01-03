@@ -177,6 +177,18 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#sendeDaten(de.bsvrz.dav.daf.main.config.Aspect,
+	 *      de.bsvrz.sys.funclib.bitctrl.modell.Datum, long)
+	 */
+	@Override
+	public void sendeDaten(Aspect asp, T datum, long timeout)
+			throws DatensendeException {
+		super.sendeDaten(asp, datum, timeout);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.OnlineDatensatz#setQuelle(de.bsvrz.dav.daf.main.config.Aspect,
 	 *      boolean)
 	 */
