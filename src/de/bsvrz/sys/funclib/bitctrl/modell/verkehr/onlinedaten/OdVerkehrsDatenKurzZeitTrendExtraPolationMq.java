@@ -63,8 +63,14 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 	 */
 	public enum Aspekte implements Aspekt {
 
-		/** Der Aspekt {@code asp.analyse}. */
-		Analyse("asp.analyse");
+		/** Der Aspekt {@code asp.prognoseNormal}. */
+		PrognoseNormal("asp.prognoseNormal"),
+
+		/** Der Aspekt {@code asp.prognoseFlink}. */
+		PrognoseFlink("asp.prognoseFlink"),
+
+		/** Der Aspekt {@code asp.prognoseNormal}. */
+		PrognoseTraege("asp.prognoseTräge");
 
 		/** Der Aspekt, den das enum kapselt. */
 		private final Aspect aspekt;
