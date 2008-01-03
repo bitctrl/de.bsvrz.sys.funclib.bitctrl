@@ -28,7 +28,9 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.event.EventListenerList;
 
@@ -73,10 +75,7 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 */
 	private final MutableSet baustellenMenge;
 
-	/**
-	 * das Systemobjekt, das die Liste der Staus definiert.
-	 */
-	private final MutableSet stauMenge;
+	private final Set<Stau> stauListe = new HashSet<Stau>();
 
 	/**
 	 * Konstruiert aus einem Systemobjekt ein Netz.
@@ -95,7 +94,14 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 
 		baustellenMenge = ((ConfigurationObject) obj)
 				.getMutableSet("Baustellen");
-		stauMenge = ((ConfigurationObject) obj).getMutableSet("Staus");
+		Collection<SystemObject> stauElemente = ((ConfigurationObject) obj)
+				.getMutableSet(MENGENNAME_STAUS).getElements();
+		for (SystemObject stauObj : stauElemente) {
+			if (stauObj.isValid()) {
+				stauListe.add((Stau) ObjektFactory.getInstanz()
+						.getModellobjekt(stauObj));
+			}
+		}
 	}
 
 	/**
@@ -138,6 +144,8 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 		listeners.add(StauListener.class, listener);
 
 		if (registerListener) {
+			MutableSet stauMenge = (MutableSet) ((ConfigurationObject) getSystemObject())
+					.getObjectSet(MENGENNAME_STAUS);
 			System.err.println("Anmeldung für Staus == "
 					+ stauMenge.getElements().size());
 			stauMenge.addChangeListener(this);
@@ -182,18 +190,23 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 */
 	private void aktualisiereStaus(final SystemObject[] addedObjects,
 			final SystemObject[] removedObjects) {
+
 		for (StauListener listener : listeners.getListeners(StauListener.class)) {
-			for (SystemObject obj : removedObjects) {
+			for (SystemObject stauObj : removedObjects) {
 				Stau stau = (Stau) ObjektFactory.getInstanz().getModellobjekt(
-						obj);
+						stauObj);
 				stau.removeNetzReferenz(this);
+				stauListe.remove(stau);
 				listener.stauEntfernt(this, stau);
 			}
-			for (SystemObject obj : addedObjects) {
-				Stau stau = (Stau) ObjektFactory.getInstanz().getModellobjekt(
-						obj);
-				stau.addNetzReferenz(this);
-				listener.stauAngelegt(this, stau);
+			for (SystemObject stauObj : addedObjects) {
+				if (stauObj.isValid()) {
+					Stau stau = (Stau) ObjektFactory.getInstanz()
+							.getModellobjekt(stauObj);
+					stauListe.add(stau);
+					stau.addNetzReferenz(this);
+					listener.stauAngelegt(this, stau);
+				}
 			}
 		}
 	}
@@ -243,31 +256,7 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 * @return die Liste der Staus
 	 */
 	public Collection<Stau> getStaus() {
-		Collection<Stau> result = new ArrayList<Stau>();
-		Collection<SystemObject> invalidStaus = new ArrayList<SystemObject>();
-		for (SystemObject obj : stauMenge.getElements()) {
-			if (obj.isValid()) {
-				result.add((Stau) ObjektFactory.getInstanz().getModellobjekt(
-						obj));
-			} else {
-				invalidStaus.add(obj);
-			}
-		}
-
-		if (invalidStaus.size() > 0) {
-			LOGGER.warning("Stauliste des Netzes: " + getName() + " enthält "
-					+ invalidStaus.size() + " ungültige Objekte");
-
-			try {
-				stauMenge.remove(invalidStaus
-						.toArray(new SystemObject[invalidStaus.size()]));
-			} catch (ConfigurationChangeException e) {
-				LOGGER.error("Stauliste bereinigen ist fehlgeschlagen: "
-						+ e.getMessage());
-			}
-		}
-
-		return result;
+		return new ArrayList<Stau>(stauListe);
 	}
 
 	/**
@@ -321,7 +310,6 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 				LOGGER.error(e.getMessage());
 			}
 		}
-
 	}
 
 	/**
@@ -333,11 +321,14 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 */
 	public void update(final MutableSet set, final SystemObject[] addedObjects,
 			final SystemObject[] removedObjects) {
-		System.err.println("Anzahl der Baustellen == "
-				+ set.getElements().size());
 		if (set.equals(baustellenMenge)) {
+			System.err.println("Anzahl der Baustellen == "
+					+ set.getElements().size());
 			aktualisiereBaustellen(addedObjects, removedObjects);
-		} else if (set.equals(stauMenge)) {
+		} else if (set.getName().equals(MENGENNAME_STAUS)) {
+			System.err.println("Anzahl der Staus == "
+					+ set.getElements().size() + " NEU: " + addedObjects.length
+					+ " ENTFERNT: " + removedObjects.length);
 			aktualisiereStaus(addedObjects, removedObjects);
 		}
 	}
