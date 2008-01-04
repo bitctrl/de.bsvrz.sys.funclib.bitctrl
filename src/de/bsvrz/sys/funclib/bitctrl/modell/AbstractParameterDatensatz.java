@@ -29,10 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
 import java.util.Arrays;
 import java.util.Collection;
 
-import de.bsvrz.dav.daf.main.Data;
-import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.Aspect;
-import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
 
@@ -40,8 +37,7 @@ import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
  * Implementiert gemeinsame Funktionen von Parametern.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: AbstractParameterDatensatz.java 5391 2008-01-04 13:02:18Z
- *          peuker $
+ * @version $Id$
  * @param <T>
  *            Der Typ des Datums den der Datensatz sichert.
  */
@@ -108,37 +104,6 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 		anmeldenSender(senderAsp);
 	}
 
-	public T erzeugeDatum() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * Informiert angemeldete Listener &uuml;ber ein neues Datum.
-	 * 
-	 * @param datum
-	 *            das neue Datum.
-	 * @see AbstractDatensatz#fireDatensatzAktualisiert(Aspect, Datum)
-	 */
-	protected void fireDatensatzAktualisiert(final T datum) {
-		fireDatensatzAktualisiert(receiverAsp, datum);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getAspekte()
-	 */
-	@Override
-	protected Collection<Aspect> getAspekte() {
-		return Arrays.asList(new Aspect[] { receiverAsp, senderAsp });
-	}
-
-	public AttributeGroup getAttributGruppe() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -178,32 +143,6 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isQuelle(de.bsvrz.dav.daf.main.config.Aspect)
-	 */
-	@Override
-	protected boolean isQuelle(final Aspect asp) {
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isSenke(de.bsvrz.dav.daf.main.config.Aspect)
-	 */
-	@Override
-	protected boolean isSenke(final Aspect asp) {
-		return false;
-	}
-
-	@Override
-	protected Data konvertiere(final T datum) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#removeUpdateListener(de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener)
 	 */
 	public void removeUpdateListener(final DatensatzUpdateListener l) {
@@ -229,9 +168,54 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 		sendeDaten(senderAsp, datum, timeout);
 	}
 
-	public void setDaten(final ResultData daten) {
-		// TODO Auto-generated method stub
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#update()
+	 */
+	public void update() {
+		update(receiverAsp);
+	}
 
+	/**
+	 * Informiert angemeldete Listener &uuml;ber ein neues Datum.
+	 * 
+	 * @param datum
+	 *            das neue Datum.
+	 * @see AbstractDatensatz#fireDatensatzAktualisiert(Aspect, Datum)
+	 */
+	protected void fireDatensatzAktualisiert(final T datum) {
+		fireDatensatzAktualisiert(receiverAsp, datum);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getAspekte()
+	 */
+	@Override
+	protected Collection<Aspect> getAspekte() {
+		return Arrays.asList(new Aspect[] { receiverAsp, senderAsp });
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isQuelle(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	protected boolean isQuelle(final Aspect asp) {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isSenke(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	protected boolean isSenke(final Aspect asp) {
+		return false;
 	}
 
 	/**
@@ -243,15 +227,6 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	 */
 	protected void setDatum(final T datum) {
 		setDatum(receiverAsp, datum);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#update()
-	 */
-	public void update() {
-		update(receiverAsp);
 	}
 
 }
