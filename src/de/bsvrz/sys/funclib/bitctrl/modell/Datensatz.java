@@ -82,7 +82,7 @@ public interface Datensatz<T extends Datum> {
 		 *            ein Code.
 		 * @return der gesuchte Status.
 		 */
-		public static Status getStatus(int code) {
+		public static Status getStatus(final int code) {
 			for (Status s : values()) {
 				if (s.getCode() == code) {
 					return s;
@@ -107,7 +107,7 @@ public interface Datensatz<T extends Datum> {
 		 * @param beschreibung
 		 *            die Beschreibung des Status.
 		 */
-		private Status(int code, String beschreibung) {
+		private Status(final int code, final String beschreibung) {
 			this.code = code;
 			this.beschreibung = beschreibung;
 		}

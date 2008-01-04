@@ -87,7 +87,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 * @param asp
 		 *            der betroffene Aspekt.
 		 */
-		public void abmelden(Aspect asp) {
+		public void abmelden(final Aspect asp) {
 			if (angemeldet.contains(asp)) {
 				DataDescription dbs = new DataDescription(getAttributGruppe(),
 						asp);
@@ -104,7 +104,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 * @param asp
 		 *            der betroffene Aspekt.
 		 */
-		public void anmelden(Aspect asp) {
+		public void anmelden(final Aspect asp) {
 			abmelden(asp);
 			DataDescription dbs = new DataDescription(getAttributGruppe(), asp);
 			if (isSenke(asp)) {
@@ -125,16 +125,18 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 *            der betroffene Aspekt.
 		 * @return <code>true</code>, wenn die Anmeldung erfolgt ist.
 		 */
-		public boolean isAngemeldet(Aspect asp) {
+		public boolean isAngemeldet(final Aspect asp) {
 			return angemeldet.contains(asp);
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
-		public void update(ResultData[] results) {
-			for (ResultData result : results) {
-				setDaten(result);
+		public void update(final ResultData[] results) {
+			synchronized (AbstractDatensatz.this) {
+				for (ResultData result : results) {
+					setDaten(result);
+				}
 			}
 		}
 
@@ -171,7 +173,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 * @param asp
 		 *            der betroffene Aspekt.
 		 */
-		public void abmelden(Aspect asp) {
+		public void abmelden(final Aspect asp) {
 			if (angemeldet.contains(asp)) {
 				DataDescription dbs = new DataDescription(getAttributGruppe(),
 						asp);
@@ -190,7 +192,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 * @throws AnmeldeException
 		 *             wenn die Anmeldung schief ging.
 		 */
-		public void anmelden(Aspect asp) throws AnmeldeException {
+		public void anmelden(final Aspect asp) throws AnmeldeException {
 			abmelden(asp);
 			DataDescription dbs = new DataDescription(getAttributGruppe(), asp);
 			try {
@@ -214,8 +216,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 * @see de.bsvrz.dav.daf.main.ClientSenderInterface#dataRequest(de.bsvrz.dav.daf.main.config.SystemObject,
 		 *      de.bsvrz.dav.daf.main.DataDescription, byte)
 		 */
-		public void dataRequest(SystemObject object,
-				DataDescription dataDescription, byte state) {
+		public void dataRequest(final SystemObject object,
+				final DataDescription dataDescription, final byte state) {
 			synchronized (AbstractDatensatz.this) {
 				sendesteuerung.put(dataDescription.getAspect(), Status
 						.getStatus(state));
@@ -230,7 +232,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 *            der betroffene Aspekt.
 		 * @return der Wert.
 		 */
-		public Status getStatus(Aspect asp) {
+		public Status getStatus(final Aspect asp) {
 			return sendesteuerung.get(asp);
 		}
 
@@ -241,7 +243,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 *            der betroffene Aspekt.
 		 * @return der Wert.
 		 */
-		public boolean isAngemeldet(Aspect asp) {
+		public boolean isAngemeldet(final Aspect asp) {
 			return angemeldet.contains(asp);
 		}
 
@@ -254,8 +256,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 * @see de.bsvrz.dav.daf.main.ClientSenderInterface#isRequestSupported(de.bsvrz.dav.daf.main.config.SystemObject,
 		 *      de.bsvrz.dav.daf.main.DataDescription)
 		 */
-		public boolean isRequestSupported(SystemObject object,
-				DataDescription dataDescription) {
+		public boolean isRequestSupported(final SystemObject object,
+				final DataDescription dataDescription) {
 			if (object.equals(getObjekt().getSystemObject())
 					&& dataDescription.getAttributeGroup().equals(
 							getAttributGruppe())) {
@@ -276,7 +278,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 * @throws DatensendeException
 		 *             wenn die Daten nicht gesendet werden konnten.
 		 */
-		public void sende(Data d, Aspect asp, long zeitstempel)
+		public void sende(final Data d, final Aspect asp, final long zeitstempel)
 				throws DatensendeException {
 			Status status;
 			long z;
@@ -352,54 +354,13 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @param objekt
 	 *            das Systemobjekt, dem der Datensatz zugeordnet ist.
 	 */
-	public AbstractDatensatz(SystemObjekt objekt) {
+	public AbstractDatensatz(final SystemObjekt objekt) {
 		super();
 		this.objekt = objekt;
 		receiver = new AsynchronerReceiver();
 		sender = new SynchronerSender();
 		listeners = new HashMap<Aspect, EventListenerList>();
 		daten = new HashMap<Aspect, T>();
-	}
-
-	/**
-	 * Zwei Datens&auml;tze sind gleich, wenn sie die selbe Attributgruppe am
-	 * gleichen Systemobjekt abbilden.
-	 * <p>
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) {
-			return true;
-		}
-		if (obj instanceof Datensatz) {
-			Datensatz<?> ds = (Datensatz<?>) obj;
-			return getObjekt().equals(ds.getObjekt())
-					&& getAttributGruppe().equals(ds.getAttributGruppe());
-		}
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
-	 */
-	public SystemObjekt getObjekt() {
-		return objekt;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return getAttributGruppe() + "[objekt=" + getObjekt() + ", daten="
-				+ daten + "]";
 	}
 
 	/**
@@ -410,8 +371,32 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @param asp
 	 *            der betroffene Aspekt.
 	 */
-	protected void abmeldenSender(Aspect asp) {
+	protected void abmeldenSender(final Aspect asp) {
 		sender.abmelden(asp);
+	}
+
+	/**
+	 * liefert die aktuellen Daten des Datensatzes. Es wird der für den Aspekt
+	 * gespeicherte Datensatz geliefert, falls keiner existiert werden die Daten
+	 * mittels
+	 * {@link ClientDavInterface#getData(SystemObject, DataDescription, long)}
+	 * abgerufen, gespeichert und geliefert.
+	 * 
+	 * @param asp
+	 *            der betroffene Aspekt.
+	 * @return ein Datum, welches die Daten des Datensatzes kapselt.
+	 */
+	protected T abrufenDatum(final Aspect asp) {
+		synchronized (this) {
+			T result = daten.get(asp);
+			if (result == null) {
+				setDaten(ObjektFactory.getInstanz().getVerbindung().getData(
+						getObjekt().getSystemObject(),
+						new DataDescription(getAttributGruppe(), asp), 0));
+				result = daten.get(asp);
+			}
+			return result;
+		}
 	}
 
 	/**
@@ -422,8 +407,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @param listener
 	 *            ein interessierte Listener.
 	 */
-	protected void addUpdateListener(Aspect asp,
-			DatensatzUpdateListener listener) {
+	protected void addUpdateListener(final Aspect asp,
+			final DatensatzUpdateListener listener) {
 		boolean anmelden;
 
 		// Falls notwenig Initialisierung
@@ -450,7 +435,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @throws AnmeldeException
 	 *             wenn die Anmeldung nicht erfolgreich war.
 	 */
-	protected void anmeldenSender(Aspect asp) throws AnmeldeException {
+	protected void anmeldenSender(final Aspect asp) throws AnmeldeException {
 		sender.anmelden(asp);
 	}
 
@@ -467,7 +452,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 *            ein {@code ResultSet}.
 	 * @see Datensatz#getAttributGruppe()
 	 */
-	protected void check(ResultData result) {
+	protected void check(final ResultData result) {
 		if (!result.getDataDescription().getAttributeGroup().equals(
 				getAttributGruppe())) {
 			throw new IllegalArgumentException(
@@ -482,6 +467,27 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 							+ result.getDataDescription().getAspect()
 							+ ", bekannt: " + getAspekte() + ")");
 		}
+	}
+
+	/**
+	 * Zwei Datens&auml;tze sind gleich, wenn sie die selbe Attributgruppe am
+	 * gleichen Systemobjekt abbilden.
+	 * <p>
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj instanceof Datensatz) {
+			Datensatz<?> ds = (Datensatz<?>) obj;
+			return getObjekt().equals(ds.getObjekt())
+					&& getAttributGruppe().equals(ds.getAttributGruppe());
+		}
+		return false;
 	}
 
 	/**
@@ -508,7 +514,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @see Datensatz#setDaten(ResultData)
 	 * @see #setDatum(Aspect, Datum)
 	 */
-	protected synchronized void fireDatensatzAktualisiert(Aspect asp, T datum) {
+	protected synchronized void fireDatensatzAktualisiert(final Aspect asp,
+			final T datum) {
 		DatensatzUpdateEvent event = new DatensatzUpdateEvent(this, asp, datum);
 		for (DatensatzUpdateListener listener : listeners.get(asp)
 				.getListeners(DatensatzUpdateListener.class)) {
@@ -530,8 +537,17 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 *            der betroffene Aspekt.
 	 * @return ein Datum, welches die Daten des Datensatzes kapselt.
 	 */
-	protected T getDatum(Aspect asp) {
+	protected T getDatum(final Aspect asp) {
 		return daten.get(asp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
+	 */
+	public SystemObjekt getObjekt() {
+		return objekt;
 	}
 
 	/**
@@ -542,7 +558,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle Daten
 	 *         senden darf.
 	 */
-	protected Status getStatusSendesteuerung(Aspect asp) {
+	protected Status getStatusSendesteuerung(final Aspect asp) {
 		return sender.getStatus(asp);
 	}
 
@@ -554,7 +570,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @return {@code true}, wenn der Datensatz als Sender oder Quelle
 	 *         angemeldet ist.
 	 */
-	protected boolean isAngemeldetSender(Aspect asp) {
+	protected boolean isAngemeldetSender(final Aspect asp) {
 		return sender.isAngemeldet(asp);
 	}
 
@@ -566,7 +582,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @return {@code true}, wenn der Datensatz neue Daten automatisch vom
 	 *         Datenverteiler empf&auml;ngt.
 	 */
-	protected boolean isAutoUpdate(Aspect asp) {
+	protected boolean isAutoUpdate(final Aspect asp) {
 		return receiver.isAngemeldet(asp);
 	}
 
@@ -607,8 +623,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @param listener
 	 *            ein nicht mehr interessierten Listener.
 	 */
-	protected void removeUpdateListener(Aspect asp,
-			DatensatzUpdateListener listener) {
+	protected void removeUpdateListener(final Aspect asp,
+			final DatensatzUpdateListener listener) {
 		listeners.get(asp).remove(DatensatzUpdateListener.class, listener);
 		if (listeners.get(asp).getListenerCount(DatensatzUpdateListener.class) <= 0) {
 			receiver.abmelden(asp);
@@ -629,7 +645,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 *             wird in dem Fall nicht geleert.
 	 * @see #erzeugeDatum()
 	 */
-	protected void sendeDaten(Aspect asp, T datum) throws DatensendeException {
+	protected void sendeDaten(final Aspect asp, final T datum)
+			throws DatensendeException {
 		sender.sende(konvertiere(datum), asp, datum.getZeitstempel());
 	}
 
@@ -649,8 +666,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 *             wird in dem Fall nicht geleert.
 	 * @see #erzeugeDatum()
 	 */
-	protected void sendeDaten(Aspect asp, T datum, long timeout)
-			throws DatensendeException {
+	protected void sendeDaten(final Aspect asp, final T datum,
+			final long timeout) throws DatensendeException {
 		synchronized (this) {
 			if (getStatusSendesteuerung(asp) != Datensatz.Status.START) {
 				try {
@@ -678,8 +695,19 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @see Datensatz#setDaten(ResultData)
 	 * @see #fireDatensatzAktualisiert(Aspect, Datum)
 	 */
-	protected void setDatum(Aspect asp, T datum) {
+	protected void setDatum(final Aspect asp, final T datum) {
 		daten.put(asp, datum);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return getAttributGruppe() + "[objekt=" + getObjekt() + ", daten="
+				+ daten + "]";
 	}
 
 	/**
@@ -688,7 +716,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @param asp
 	 *            der betroffene Aspekt.
 	 */
-	protected void update(Aspect asp) {
+	protected void update(final Aspect asp) {
 		if (!receiver.isAngemeldet(asp)) {
 			ClientDavInterface dav;
 			ResultData datensatz;
