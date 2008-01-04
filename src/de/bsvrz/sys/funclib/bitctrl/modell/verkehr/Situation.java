@@ -26,6 +26,9 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdSituationsEigenschaften;
@@ -39,6 +42,11 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdSituationsEigensc
 public abstract class Situation extends AbstractSystemObjekt {
 
 	/**
+	 * die Menge der Netze in denen die Situation referenziert wird.
+	 */
+	private final Set<VerkehrModellNetz> netze = new HashSet<VerkehrModellNetz>();
+
+	/**
 	 * Konstruktor.<br>
 	 * Die Funktion erzeugt eine Instanz eines Situation auf der Basis des
 	 * übergebenen Systemobjekts.
@@ -46,11 +54,46 @@ public abstract class Situation extends AbstractSystemObjekt {
 	 * @param obj
 	 *            das Systemobjekt, das die Situation definiert
 	 */
-	Situation(SystemObject obj) {
+	Situation(final SystemObject obj) {
 		super(obj);
 	}
 
-	public PdSituationsEigenschaften getSituationsEigenschaften() {
-		return (PdSituationsEigenschaften) getParameterDatensatz(PdSituationsEigenschaften.class);
+	/**
+	 * fügt der Situation eine Netzreferenz hinzu.
+	 * 
+	 * @param netz
+	 *            das Netz für das eine Referenz hinzugefügt wird.
+	 */
+	public void addNetzReferenz(final VerkehrModellNetz netz) {
+		netze.add(netz);
 	}
+
+	/**
+	 * liefert die Menge der Netze in denen die Situation referenziert wird.
+	 * 
+	 * @return die Menge der Netze
+	 */
+	public Set<VerkehrModellNetz> getNetze() {
+		return netze;
+	}
+
+	/**
+	 * liefert den Datensatz zum Speichern der Sitautionseigenschaften.
+	 * 
+	 * @return den Datensatz
+	 */
+	public PdSituationsEigenschaften getSituationsEigenschaften() {
+		return getParameterDatensatz(PdSituationsEigenschaften.class);
+	}
+
+	/**
+	 * entfernt eine Netzreferenz von der Situation.
+	 * 
+	 * @param netz
+	 *            das Netz auf das die Referenz entfernt wird.
+	 */
+	public void removeNetzReferenz(final VerkehrModellNetz netz) {
+		netze.remove(netz);
+	}
+
 }

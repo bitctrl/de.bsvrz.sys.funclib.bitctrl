@@ -389,7 +389,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	protected T abrufenDatum(final Aspect asp) {
 		synchronized (this) {
 			T result = daten.get(asp);
-			if (result == null) {
+			if ((!isAngemeldetSender(asp)) || (result == null)) {
 				setDaten(ObjektFactory.getInstanz().getVerbindung().getData(
 						getObjekt().getSystemObject(),
 						new DataDescription(getAttributGruppe(), asp), 0));

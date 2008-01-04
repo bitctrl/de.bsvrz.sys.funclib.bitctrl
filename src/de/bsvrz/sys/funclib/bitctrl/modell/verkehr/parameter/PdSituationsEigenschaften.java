@@ -37,6 +37,10 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.AeusseresStrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.InneresStrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.Strasse;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StrassenKnoten;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StrassenSegment;
 
 /**
@@ -63,11 +67,11 @@ public class PdSituationsEigenschaften extends
 		 * Dauer des Situation (sofern bekannt). Eintrag von 0 ms bedeutet //
 		 * unbekannte (unendliche) Dauer. ("Dauer")
 		 */
-		private final long dauer;
+		private long dauer;
 		/**
 		 * Position des Situationsendes im letzten Straßensegment. ("EndOffset")
 		 */
-		private final long endOffset;
+		private long endOffset;
 		/**
 		 * Referenzen auf alle Straßensegmente, über die sich die Situation
 		 * ausbreitet. ("StraßenSegment")
@@ -77,13 +81,13 @@ public class PdSituationsEigenschaften extends
 		 * Position des Situationsanfangs im ersten Straßensegment.
 		 * ("StartOffset")
 		 */
-		private final long startOffset;
+		private long startOffset;
 
 		/**
 		 * Startzeitpunkt der Situation (Staubeginn, Baustellenbeginn, // etc.).
 		 * ("StartZeit")
 		 */
-		private final long startZeit;
+		private long startZeit;
 
 		/**
 		 * markiert die Gültigkeit des Datums. ("StartZeit")
@@ -109,7 +113,7 @@ public class PdSituationsEigenschaften extends
 		 * @param daten
 		 *            das zu kopierende Datum
 		 */
-		Daten(Daten daten) {
+		Daten(final Daten daten) {
 			this.valid = daten.valid;
 			setZeitstempel(daten.getZeitstempel());
 			startZeit = daten.startZeit;
@@ -127,7 +131,7 @@ public class PdSituationsEigenschaften extends
 		 * @param result
 		 *            die vom Datenverteiler empfangenen Dtaen
 		 */
-		Daten(ResultData result) {
+		Daten(final ResultData result) {
 			setZeitstempel(result.getDataTime());
 			Data daten = result.getData();
 			if (daten != null) {
@@ -218,6 +222,60 @@ public class PdSituationsEigenschaften extends
 			return valid;
 		}
 
+		/**
+		 * setzt die Dauer der Situation.
+		 * 
+		 * @param dauer
+		 *            die Dauer in Millisekunden
+		 */
+		protected void setDauer(final long dauer) {
+			this.dauer = dauer;
+		}
+
+		/**
+		 * setzt den Offset des Endes der Situation bezüglich des letzten
+		 * beteiligten Segments.
+		 * 
+		 * @param endOffset
+		 *            der Offset in Metern
+		 */
+		protected void setEndOffset(final long endOffset) {
+			this.endOffset = endOffset;
+		}
+
+		/**
+		 * füllt die Liste der beteiligten Straßensegmente mit den übergebenen
+		 * Segmenten.
+		 * 
+		 * @param liste
+		 *            die Liste der Segmente
+		 */
+		public void setSegmente(final List<StrassenSegment> liste) {
+			segmente.clear();
+			segmente.addAll(liste);
+		}
+
+		/**
+		 * setzt den Offset des Anfangs der Situation bezüglich des ersten
+		 * beteiligten Segments.
+		 * 
+		 * @param startOffset
+		 *            der Offset in Metern
+		 */
+		protected void setStartOffset(final long startOffset) {
+			this.startOffset = startOffset;
+		}
+
+		/**
+		 * setzt die Startzeit der Situation.
+		 * 
+		 * @param startZeit
+		 *            der Zeitpunkt in Millisekunden seit 1.1.1970 0 Uhr GMT
+		 */
+		protected void setStartZeit(final long startZeit) {
+			this.startZeit = startZeit;
+		}
+
 	}
 
 	/**
@@ -233,7 +291,7 @@ public class PdSituationsEigenschaften extends
 	 * @param objekt
 	 *            das Systemobjekt
 	 */
-	public PdSituationsEigenschaften(SystemObjekt objekt) {
+	public PdSituationsEigenschaften(final SystemObjekt objekt) {
 		super(objekt);
 		if (attributGruppe == null) {
 			attributGruppe = objekt.getSystemObject().getDataModel()
@@ -260,13 +318,71 @@ public class PdSituationsEigenschaften extends
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * liefert den in Fahrtrichtung auf die Situation folgenden Straßenknoten.
+	 * Wird kein Knoten gefunden liefert die Funktion den Wert <code>null</code>
+	 * zurück.
 	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.ResultData)
+	 * @return den Knoten oder <code>null</code>
 	 */
-	public void setDaten(ResultData result) {
-		check(result);
-		setDatum(new Daten(result));
+	public StrassenKnoten getFolgeKnoten() {
+		StrassenKnoten result = null;
+
+		if (getDatum() != null) {
+			List<StrassenSegment> segmente = getDatum().getSegmente();
+			if (segmente.size() > 0) {
+				StrassenSegment segment = segmente.get(0);
+				if (segment instanceof InneresStrassenSegment) {
+					segment = ((InneresStrassenSegment) segment)
+							.getNachSegment();
+				}
+				if (segment instanceof AeusseresStrassenSegment) {
+					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
+							.getNachKnoten();
+					if (knoten != null) {
+						result = knoten;
+					}
+				}
+
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * liefert die Länge der Situation als Summe der Längen der beteiligten
+	 * Straßensegemente abzüglich des Endoffsets und des Startoffsets.
+	 * 
+	 * @return die Länge
+	 */
+	public double getLaenge() {
+		double result = 0;
+		if (getDatum() != null) {
+			for (StrassenSegment segment : getDatum().getSegmente()) {
+				result += segment.getLaenge();
+			}
+
+			result -= (getDatum().getStartOffset() + getDatum().getEndOffset());
+		}
+		return result;
+	}
+
+	/**
+	 * liefert die Strasse auf der die Situation beginnt. Kann keine Strasse
+	 * ermittelt werden , wird der Wert <code>null</code> geliefert.
+	 * 
+	 * @return die Strasse oder <code>null</code>, wenn keine ermittelt
+	 *         werden konnte.
+	 */
+	public Strasse getStrasse() {
+		Strasse result = null;
+		if (getDatum() != null) {
+			List<StrassenSegment> segmente = getDatum().getSegmente();
+			if (segmente.size() > 0) {
+				StrassenSegment segment = segmente.get(0);
+				result = segment.getStrasse();
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -275,8 +391,30 @@ public class PdSituationsEigenschaften extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
 	 */
 	@Override
-	protected Data konvertiere(Daten datum) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Data konvertiere(final Daten datum) {
+		Data result = erzeugeSendeCache();
+		result.getTimeValue("StartZeit").setMillis(datum.getStartZeit());
+		result.getTimeValue("Dauer").setMillis(datum.getDauer());
+		List<StrassenSegment> segmente = datum.getSegmente();
+		result.getArray("StraßenSegment").setLength(segmente.size());
+		for (int idx = 0; idx < segmente.size(); idx++) {
+			result.getArray("StraßenSegment").getReferenceValue(idx)
+					.setSystemObject(segmente.get(idx).getSystemObject());
+		}
+		result.getUnscaledValue("StartOffset").set(datum.getStartOffset());
+		result.getUnscaledValue("EndOffset").set(datum.getEndOffset());
+
+		return result;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.ResultData)
+	 */
+	public void setDaten(final ResultData result) {
+		check(result);
+		setDatum(new Daten(result));
+	}
+
 }

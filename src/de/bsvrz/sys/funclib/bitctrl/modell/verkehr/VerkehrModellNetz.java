@@ -75,6 +75,9 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 */
 	private final MutableSet baustellenMenge;
 
+	/**
+	 * Liste der Staus, die für das Netz definiert sind.
+	 */
 	private final Set<Stau> stauListe = new HashSet<Stau>();
 
 	/**
@@ -310,6 +313,38 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 				LOGGER.error(e.getMessage());
 			}
 		}
+	}
+
+	/**
+	 * entfernt alle Staus aus dem Netz. Wird der Parameter
+	 * <code>nurUngueltige</code> auf <code>true</code> gesetzt, werden nur
+	 * Objekte mit dem Status "invalid" entfernt.
+	 * 
+	 * @param nurUngueltige
+	 *            nur ungültige Objekte entfernen ?
+	 */
+	public void stausBereinigen(final boolean nurUngueltige) {
+		ObjectSet set = ((ConfigurationObject) getSystemObject())
+				.getObjectSet(MENGENNAME_STAUS);
+
+		LOGGER.info("Bereinige Stauliste für Netz: " + getName()
+				+ ", nur ungültige: " + nurUngueltige + ", Anzahl: "
+				+ set.getElements().size());
+
+		int removed = 0;
+		for (SystemObject stauObject : set.getElements()) {
+			if ((!nurUngueltige) || (!stauObject.isValid())) {
+				try {
+					set.remove(stauObject);
+					removed++;
+				} catch (ConfigurationChangeException e) {
+					LOGGER.error(e.getMessage());
+				}
+			}
+		}
+
+		LOGGER.info("Stauliste bereinigt für Netz: " + getName()
+				+ ", Anzahl ist jetzt: " + set.getElements().size());
 	}
 
 	/**
