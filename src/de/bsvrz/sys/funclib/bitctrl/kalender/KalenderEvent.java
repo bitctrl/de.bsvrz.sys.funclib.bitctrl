@@ -37,7 +37,7 @@ import de.bsvrz.dav.daf.main.Data.Array;
 import de.bsvrz.dav.daf.main.config.ClientApplication;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.kalender.Ereignis;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Ereignis;
 
 /**
  * Das Event wird vom Ereigniskalender ausgel&ouml;st.
@@ -45,7 +45,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.Ereignis;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-@SuppressWarnings("serial")
 public class KalenderEvent extends EventObject {
 
 	/**
@@ -141,6 +140,9 @@ public class KalenderEvent extends EventObject {
 		}
 
 	}
+
+	/** Die Eigenschaft {@code serialVersionUID}. */
+	private static final long serialVersionUID = 1L;
 
 	/** Die anfragende Applikation. */
 	private final ClientApplication anfrager;

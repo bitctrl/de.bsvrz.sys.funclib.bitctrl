@@ -26,8 +26,12 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.kalender.onlinedaten;
 
+import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import de.bsvrz.dav.daf.main.Data;
@@ -36,25 +40,22 @@ import de.bsvrz.dav.daf.main.Data.Array;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
+import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
-import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTyp;
-import de.bsvrz.sys.funclib.bitctrl.modell.kalender.zustaende.EreignisTypenOption;
-import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.Applikation;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.NetzBestandTeil;
-import de.bsvrz.sys.funclib.bitctrl.util.Intervall;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Ereignis;
 
 /**
- * Kapselt die Attributgruppe {@code atg.ereignisKalenderAnfrage}.
+ * Kapselt die Attributgruppe {@code atg.ereignisKalenderAntwort}.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class OdEreignisKalenderAnfrage extends
-		AbstractOnlineDatensatz<OdEreignisKalenderAnfrage.Daten> {
+public class OdEreignisKalenderAntwort extends
+		AbstractOnlineDatensatz<OdEreignisKalenderAntwort.Daten> {
 
 	/**
 	 * Die vorhandenen Aspekte des Datensatzes.
@@ -62,7 +63,7 @@ public class OdEreignisKalenderAnfrage extends
 	public enum Aspekte implements Aspekt {
 
 		/** Der Aspekt {@code asp.anfrage}. */
-		Anfrage("asp.anfrage");
+		Antwort("asp.antwort");
 
 		/** Der Aspekt, den das enum kapselt. */
 		private final Aspect aspekt;
@@ -106,39 +107,109 @@ public class OdEreignisKalenderAnfrage extends
 	public static class Daten extends AbstractDatum {
 
 		/**
-		 * Menge von Ereignistypen, die entsprechend der gesetzten Auswahloption
-		 * ber&uuml;cksichtigt werden.
-		 * 
-		 * @see #ereignisTypenOption
+		 * Struktur f&uuml;r die Zustandswechsel der Ereignisse.
 		 */
-		private final Set<EreignisTyp> ereignisTypen = new HashSet<EreignisTyp>();
+		public static class Zustand {
 
-		/** Menge der Netzbestandteile, dessen Ereignisse angefragt werden. */
-		private final Set<NetzBestandTeil> raeumlicheGueltigkeit = new HashSet<NetzBestandTeil>();
+			/** Zeitpunkt des Zustandswechsel. */
+			private final long zeitstempel;
 
-		/** Der Absender der Anfrage. */
-		private Applikation absender;
+			/** Das Ereignis dessen Zustand sich &auml;ndert. */
+			private final Ereignis ereignis;
+
+			/** Ist das Ereignis nun zeitlich g&uuml;ltig. */
+			private final boolean zeitlichGueltig;
+
+			/** Ist das Ereignis nun verkehrlich g&uuml;ltig. */
+			private final boolean verkehrlichGueltig;
+
+			/**
+			 * Konstruiert den Zustand.
+			 * <p>
+			 * <em>Hinweis:</em> Der Konstruktior ist nicht Teil der
+			 * &ouml;ffentlichen API und sollte nicht verwendet werden.
+			 * 
+			 * @param zeitstempel
+			 *            der Zeitpunkt des Zustandwechsels.
+			 * @param ereignis
+			 *            das sich &anuml;ndernde Ereignis.
+			 * @param zeitlichGueltig
+			 *            die neue zeitliche G&uuml;ltigkeit.
+			 * @param verkehrlichGueltig
+			 *            die neue verkehrliche G&uuml;ltigkeit.
+			 */
+			public Zustand(long zeitstempel, Ereignis ereignis,
+					boolean zeitlichGueltig, boolean verkehrlichGueltig) {
+				this.zeitstempel = zeitstempel;
+				this.ereignis = ereignis;
+				this.zeitlichGueltig = zeitlichGueltig;
+				this.verkehrlichGueltig = verkehrlichGueltig;
+			}
+
+			/**
+			 * Gibt das Ereignis zur&uuml;ck, dessen Zustand sich &auml;ndert.
+			 * 
+			 * @return ein Ereignis.
+			 */
+			public Ereignis getEreignis() {
+				return ereignis;
+			}
+
+			/**
+			 * Gibt den Zeitstempel der Zustands&auml;nderung zur&uuml;ck.
+			 * 
+			 * @return ein Zeitstempel.
+			 */
+			public long getZeitstempel() {
+				return zeitstempel;
+			}
+
+			/**
+			 * Flag f&uuml;r die neue verkehrliche G&uuml;ltigkeit.
+			 * 
+			 * @return der Zustand der neuen verkehrlichen G&uuml;ltigkeit.
+			 */
+			public boolean isVerkehrlichGueltig() {
+				return verkehrlichGueltig;
+			}
+
+			/**
+			 * Flag f&uuml;r die neue zeitliche G&uuml;ltigkeit.
+			 * 
+			 * @return der Zustand der neuen zeitlichen G&uuml;ltigkeit.
+			 */
+			public boolean isZeitlichGueltig() {
+				return zeitlichGueltig;
+			}
+
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public String toString() {
+				return getClass().getName()
+						+ "[zeitstempel="
+						+ DateFormat.getDateTimeInstance().format(
+								new Date(zeitstempel)) + ", ereignis="
+						+ ereignis + ", zeitlichGueltig=" + zeitlichGueltig
+						+ ", verkehrlichGueltig=" + verkehrlichGueltig + "]";
+			}
+
+		}
+
+		/** Die Liste der Ereignisse und deren Zustandswechsel. */
+		private final List<Zustand> zustandswechsel = new ArrayList<Zustand>();
 
 		/** Das Absenderzeichen des Anfragers. */
 		private String absenderZeichen;
 
-		/** Das Zeitintervall, indem Ereignisse angefragt werden. */
-		private Intervall intervall;
-
-		/**
-		 * Auswahloption f&uuml;r die Liste der Ereignistypen. Standard ist
-		 * {@link EreignisTypenOption#ALLE}.
-		 * 
-		 * @see #ereignisTypen
-		 */
-		private EreignisTypenOption ereignisTypenOption = EreignisTypenOption.ALLE;
+		/** Signalisiert das Event eine &Auml;nderung? */
+		private boolean aenderung;
 
 		/** Flag ob der Datensatz g&uuml;ltige Daten enth&auml;lt. */
 		private boolean valid;
 
 		/**
-		 * Erzeugt eine flache Kopie.
-		 * 
 		 * {@inheritDoc}
 		 * 
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum#clone()
@@ -149,23 +220,11 @@ public class OdEreignisKalenderAnfrage extends
 
 			klon.setZeitstempel(getZeitstempel());
 			klon.valid = valid;
-			klon.absender = absender;
 			klon.absenderZeichen = absenderZeichen;
-			klon.ereignisTypen.addAll(ereignisTypen);
-			klon.ereignisTypenOption = ereignisTypenOption;
-			klon.intervall = new Intervall(intervall);
-			klon.raeumlicheGueltigkeit.addAll(raeumlicheGueltigkeit);
+			klon.aenderung = aenderung;
+			klon.zustandswechsel.addAll(zustandswechsel);
 
 			return klon;
-		}
-
-		/**
-		 * Gibt den Wert der Eigenschaft {@code absender} wieder.
-		 * 
-		 * @return {@code absender}.
-		 */
-		public Applikation getAbsender() {
-			return absender;
 		}
 
 		/**
@@ -178,39 +237,22 @@ public class OdEreignisKalenderAnfrage extends
 		}
 
 		/**
-		 * Gibt den Wert der Eigenschaft {@code ereignisTypen} wieder.
+		 * Gibt den Wert der Eigenschaft {@code zustandswechsel} wieder.
 		 * 
-		 * @return {@code ereignisTypen}.
+		 * @return {@code zustandswechsel}.
 		 */
-		public Set<EreignisTyp> getEreignisTypen() {
-			return ereignisTypen;
+		public List<Zustand> getZustandswechsel() {
+			return zustandswechsel;
 		}
 
 		/**
-		 * Gibt den Wert der Eigenschaft {@code ereignisTypenOption} wieder.
+		 * Flag, ob es sich um die erste Antwort handelt oder ob es sich um eine
+		 * Aktualisierung handelt.
 		 * 
-		 * @return {@code ereignisTypenOption}.
+		 * @return {@code true}, wenn das Event eine Aktualisierung darstellt.
 		 */
-		public EreignisTypenOption getEreignisTypenOption() {
-			return ereignisTypenOption;
-		}
-
-		/**
-		 * Gibt den Wert der Eigenschaft {@code intervall} wieder.
-		 * 
-		 * @return {@code intervall}.
-		 */
-		public Intervall getIntervall() {
-			return intervall;
-		}
-
-		/**
-		 * Gibt den Wert der Eigenschaft {@code raeumlicheGueltigkeit} wieder.
-		 * 
-		 * @return {@code raeumlicheGueltigkeit}.
-		 */
-		public Set<NetzBestandTeil> getRaeumlicheGueltigkeit() {
-			return raeumlicheGueltigkeit;
+		public boolean isAenderung() {
+			return aenderung;
 		}
 
 		/**
@@ -220,16 +262,6 @@ public class OdEreignisKalenderAnfrage extends
 		 */
 		public boolean isValid() {
 			return valid;
-		}
-
-		/**
-		 * Legt den Wert der Eigenschaft {@code absender} fest.
-		 * 
-		 * @param absender
-		 *            der neue Wert von {@code absender}.
-		 */
-		public void setAbsender(Applikation absender) {
-			this.absender = absender;
 		}
 
 		/**
@@ -243,24 +275,13 @@ public class OdEreignisKalenderAnfrage extends
 		}
 
 		/**
-		 * Legt den Wert der Eigenschaft {@code ereignisTypenOption} fest.
+		 * Legt fest, ob das Event eine Aktualisierung darstellt.
 		 * 
-		 * @param ereignisTypenOption
-		 *            der neue Wert von {@code ereignisTypenOption}.
+		 * @param aenderung
+		 *            {@code true}, wenn es eine Aktualissierung ist.
 		 */
-		public void setEreignisTypenOption(
-				EreignisTypenOption ereignisTypenOption) {
-			this.ereignisTypenOption = ereignisTypenOption;
-		}
-
-		/**
-		 * Legt den Wert der Eigenschaft {@code intervall} fest.
-		 * 
-		 * @param intervall
-		 *            der neue Wert von {@code intervall}.
-		 */
-		public void setIntervall(Intervall intervall) {
-			this.intervall = intervall;
+		public void setAenderung(boolean aenderung) {
+			this.aenderung = aenderung;
 		}
 
 		/**
@@ -274,12 +295,9 @@ public class OdEreignisKalenderAnfrage extends
 
 			s += "zeitpunkt=" + getZeitpunkt();
 			s += ", valid=" + valid;
-			s += ", absenderId=" + absender;
 			s += ", absenderZeichen=" + absenderZeichen;
-			s += ", intervall=" + intervall;
-			s += ", ereignisTypenOption=" + ereignisTypenOption;
-			s += ", ereignisTypen=" + ereignisTypen;
-			s += ", raeumlicheGueltigkeit=" + raeumlicheGueltigkeit;
+			s += ", aenderung=" + aenderung;
+			s += ", zustandswechsel=" + zustandswechsel;
 
 			return s + "]";
 		}
@@ -298,7 +316,7 @@ public class OdEreignisKalenderAnfrage extends
 	}
 
 	/** Die PID der Attributgruppe. */
-	public static final String ATG_EREIGNIS_KALENDER_ANFRAGE = "atg.ereignisKalenderAnfrage";
+	public static final String ATG_EREIGNIS_KALENDER_ANTWORT = "atg.ereignisKalenderAntwort";
 
 	/** Die Attributgruppe, in der die Eigenschaften enthalten sind. */
 	private static AttributeGroup atg;
@@ -307,15 +325,15 @@ public class OdEreignisKalenderAnfrage extends
 	 * Initialisiert das Objekt.
 	 * 
 	 * @param objekt
-	 *            der Kalender.
+	 *            die Applikation f&uuml;r die die Antwort bestimmt ist.
 	 */
-	public OdEreignisKalenderAnfrage(SystemObjekt objekt) {
+	public OdEreignisKalenderAntwort(SystemObjekt objekt) {
 		super(objekt);
 
 		if (atg == null) {
 			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
-			atg = modell.getAttributeGroup(ATG_EREIGNIS_KALENDER_ANFRAGE);
+			atg = modell.getAttributeGroup(ATG_EREIGNIS_KALENDER_ANTWORT);
 			assert atg != null;
 		}
 	}
@@ -362,37 +380,37 @@ public class OdEreignisKalenderAnfrage extends
 
 		Daten datum = new Daten();
 		if (result.hasData()) {
-			ObjektFactory factory;
 			Data daten;
 			Array feld;
 
-			factory = ObjektFactory.getInstanz();
-
 			daten = result.getData();
 
-			datum.setAbsender((Applikation) factory.getModellobjekt(daten
-					.getReferenceValue("absenderId").getSystemObject()));
 			datum.setAbsenderZeichen(daten.getTextValue("absenderZeichen")
 					.getText());
-			datum.setIntervall(new Intervall(daten.getTimeValue(
-					"Anfangszeitpunkt").getMillis(), daten.getTimeValue(
-					"Endzeitpunkt").getMillis()));
-			datum.setEreignisTypenOption(EreignisTypenOption.getTyp(daten
-					.getUnscaledValue("EreignisTypenOption").intValue()));
+			datum
+					.setAenderung(daten.getUnscaledValue("änderung").intValue() == 1);
 
-			feld = daten.getArray("RäumlicheGültigkeit");
+			feld = daten.getArray("Ereignis");
 			for (int i = 0; i < feld.getLength(); i++) {
-				datum.getRaeumlicheGueltigkeit().add(
-						(NetzBestandTeil) factory.getModellobjekt(feld.getItem(
-								i++).asReferenceValue().getSystemObject()));
-			}
+				long zeitstempel;
+				SystemObject ereignisSO;
+				Ereignis ereignis;
+				boolean zeitlichGueltig;
+				boolean verkehrlichGueltig;
 
-			feld = daten.getArray("EreignisTypReferenz");
-			feld.setLength(datum.getEreignisTypen().size());
-			for (int i = 0; i < feld.getLength(); i++) {
-				datum.getEreignisTypen().add(
-						(EreignisTyp) factory.getModellobjekt(feld.getItem(i++)
-								.asReferenceValue().getSystemObject()));
+				zeitstempel = feld.getItem(i).getTimeValue("Zeitpunkt")
+						.getMillis();
+				ereignisSO = feld.getItem(i).getReferenceValue(
+						"EreignisReferenz").getSystemObject();
+				ereignis = (Ereignis) ObjektFactory.getInstanz()
+						.getModellobjekt(ereignisSO);
+				zeitlichGueltig = feld.getItem(i).getUnscaledValue(
+						"zeitlichGültig").intValue() != 0;
+				verkehrlichGueltig = feld.getItem(i).getUnscaledValue(
+						"verkehrlichGültig").intValue() != 0;
+				datum.getZustandswechsel().add(
+						new Daten.Zustand(zeitstempel, ereignis,
+								zeitlichGueltig, verkehrlichGueltig));
 			}
 
 			datum.setValid(true);
@@ -418,31 +436,32 @@ public class OdEreignisKalenderAnfrage extends
 		int i;
 
 		daten = erzeugeSendeCache();
-		daten.getReferenceValue("absenderId").setSystemObject(
-				datum.getAbsender().getSystemObject());
 		daten.getTextValue("absenderZeichen").setText(
 				datum.getAbsenderZeichen());
-		daten.getTimeValue("Anfangszeitpunkt").setMillis(
-				datum.getIntervall().getStart());
-		daten.getTimeValue("Endzeitpunkt").setMillis(
-				datum.getIntervall().getEnde());
-		daten.getUnscaledValue("EreignisTypenOption").set(
-				datum.getEreignisTypenOption().getCode());
-
-		feld = daten.getArray("RäumlicheGültigkeit");
-		feld.setLength(datum.getRaeumlicheGueltigkeit().size());
-		i = 0;
-		for (NetzBestandTeil nbt : datum.getRaeumlicheGueltigkeit()) {
-			feld.getItem(i++).asReferenceValue().setSystemObject(
-					nbt.getSystemObject());
+		if (datum.isAenderung()) {
+			daten.getUnscaledValue("änderung").set(1);
+		} else {
+			daten.getUnscaledValue("änderung").set(0);
 		}
 
-		feld = daten.getArray("EreignisTypReferenz");
-		feld.setLength(datum.getEreignisTypen().size());
+		feld = daten.getArray("Ereignis");
+		feld.setLength(datum.getZustandswechsel().size());
 		i = 0;
-		for (EreignisTyp typ : datum.getEreignisTypen()) {
-			feld.getItem(i++).asReferenceValue().setSystemObject(
-					typ.getSystemObject());
+		for (Daten.Zustand z : datum.getZustandswechsel()) {
+			feld.getItem(i++).getTimeValue("Zeitpunkt").setMillis(
+					z.getZeitstempel());
+			feld.getItem(i++).getReferenceValue("").setSystemObject(
+					z.getEreignis().getSystemObject());
+			if (z.isZeitlichGueltig()) {
+				feld.getItem(i++).getUnscaledValue("zeitlichGültig").set(1);
+			} else {
+				feld.getItem(i++).getUnscaledValue("zeitlichGültig").set(0);
+			}
+			if (z.isVerkehrlichGueltig()) {
+				feld.getItem(i++).getUnscaledValue("verkehrlichGültig").set(1);
+			} else {
+				feld.getItem(i++).getUnscaledValue("verkehrlichGültig").set(0);
+			}
 		}
 
 		return daten;

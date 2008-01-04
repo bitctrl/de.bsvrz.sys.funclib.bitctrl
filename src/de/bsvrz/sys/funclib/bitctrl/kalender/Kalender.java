@@ -26,32 +26,22 @@
 
 package de.bsvrz.sys.funclib.bitctrl.kalender;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-
 import javax.swing.event.EventListenerList;
 
-import de.bsvrz.dav.daf.main.ClientDavInterface;
-import de.bsvrz.dav.daf.main.ClientReceiverInterface;
-import de.bsvrz.dav.daf.main.ClientSenderInterface;
 import de.bsvrz.dav.daf.main.Data;
-import de.bsvrz.dav.daf.main.DataDescription;
-import de.bsvrz.dav.daf.main.DataNotSubscribedException;
-import de.bsvrz.dav.daf.main.OneSubscriptionPerSendData;
-import de.bsvrz.dav.daf.main.ReceiveOptions;
-import de.bsvrz.dav.daf.main.ReceiverRole;
-import de.bsvrz.dav.daf.main.ResultData;
-import de.bsvrz.dav.daf.main.SendSubscriptionNotConfirmed;
-import de.bsvrz.dav.daf.main.SenderRole;
 import de.bsvrz.dav.daf.main.config.Aspect;
-import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.ClientApplication;
-import de.bsvrz.dav.daf.main.config.DataModel;
-import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.bitctrl.modell.AnmeldeException;
+import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent;
+import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
+import de.bsvrz.sys.funclib.bitctrl.modell.DatensendeException;
+import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datensatz.Status;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderobjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.onlinedaten.OdEreignisKalenderAnfrage;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.onlinedaten.OdEreignisKalenderAntwort;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.Applikation;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalObjektFactory;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
@@ -61,246 +51,73 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public final class Kalender {
-
-	/**
-	 * Wickelt die Kommunikation mit dem Datenverteiler ab. L&auml;ft als
-	 * eigenst&auml;ndiger Thread.
-	 * 
-	 * @author BitCtrl Systems GmbH, Schumann
-	 * @version $Id$
-	 */
-	private class Kommunikation implements ClientSenderInterface,
-			ClientReceiverInterface {
-
-		/** Der Logger. */
-		private final Debug kommLogger;
-
-		/** Die zu verwendende Datenverteilerverbindung. */
-		private final ClientDavInterface verbindung;
-
-		/** Cached die gestellte Anfragen. */
-		private final List<KalenderAnfrage> anfragen;
-
-		/** Das Systemobjekt, an dass die Anfragen geschickt werden. */
-		private final SystemObject soKalender;
-
-		/** Datenbeschreibung, mit der Anfragen gestellt werden. */
-		private final DataDescription dbsAnfrage;
-
-		/** Datenbeschreibung, mit der Antworten empfangen werden. */
-		private final DataDescription dbsAntwort;
-
-		/** Verwaltet die Anmeldungen als Senke der Antworten. */
-		private final List<SystemObject> anmeldungen = new ArrayList<SystemObject>();
-
-		/** D&uuml;rfen Anfragen gesendet werden? */
-		private boolean sendenErlaubt;
-
-		/**
-		 * Initialisiert die Kommunikationsverbindung.
-		 * 
-		 * @param verbindung
-		 *            die f&uuml;r Anfragen zu verwendende
-		 *            Datenverteilerverbindung.
-		 */
-		Kommunikation(ClientDavInterface verbindung) {
-			DataModel modell;
-			AttributeGroup atg;
-			Aspect asp;
-
-			this.verbindung = verbindung;
-			anfragen = Collections
-					.synchronizedList(new ArrayList<KalenderAnfrage>());
-			kommLogger = Debug.getLogger();
-
-			modell = verbindung.getDataModel();
-
-			soKalender = modell.getConfigurationAuthority();
-			atg = modell.getAttributeGroup("atg.ereignisKalenderAnfrage");
-			asp = modell.getAspect("asp.anfrage");
-			dbsAnfrage = new DataDescription(atg, asp);
-
-			atg = modell.getAttributeGroup("atg.ereignisKalenderAntwort");
-			asp = modell.getAspect("asp.antwort");
-			dbsAntwort = new DataDescription(atg, asp);
-
-			try {
-				verbindung.subscribeSender(this, soKalender, dbsAnfrage,
-						SenderRole.sender());
-			} catch (OneSubscriptionPerSendData ex) {
-				// throw new IllegalStateException(ex.getLocalizedMessage());
-				kommLogger.error("Datum ist bereits angemeldet.");
-			}
-
-			kommLogger.config("Kommunikationschnittstelle bereit.");
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		public void dataRequest(SystemObject object,
-				DataDescription dataDescription, byte state) {
-			if (object.equals(soKalender) && dataDescription.equals(dbsAnfrage)) {
-				if (state == ClientSenderInterface.START_SENDING) {
-					sendenErlaubt = true;
-					sendeAnfragen();
-				} else {
-					sendenErlaubt = false;
-				}
-			}
-		}
-
-		/**
-		 * Sendesteuerung wird verwendet.
-		 * <p>
-		 * {@inheritDoc}
-		 */
-		public boolean isRequestSupported(SystemObject object,
-				DataDescription dataDescription) {
-			if (object.equals(soKalender) && dataDescription.equals(dbsAnfrage)) {
-				return true;
-			}
-			return false;
-		}
-
-		/**
-		 * Sendet eine Anfrage an den Kalender.
-		 * 
-		 * @param anfrage
-		 *            die Nachricht mit den Anfragen.
-		 */
-		public void sendeAnfrage(KalenderAnfrage anfrage) {
-			anfragen.add(anfrage);
-			sendeAnfragen();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		public void update(ResultData[] results) {
-			for (ResultData datensatz : results) {
-				if (datensatz.getDataDescription().equals(dbsAntwort)
-						&& datensatz.hasData()) {
-					SystemObject so;
-
-					so = datensatz.getObject();
-					kommLogger.finer("Kalenderantwort erhalten für die "
-							+ "Anfrage von", so);
-					fireAntwort((ClientApplication) so, datensatz.getData());
-					synchronized (anmeldungen) {
-						anmeldungen.remove(so);
-						if (!anmeldungen.contains(so)) {
-							verbindung
-									.unsubscribeReceiver(this, so, dbsAntwort);
-						}
-					}
-				}
-			}
-		}
-
-		/**
-		 * Gibt den Wert der Eigenschaft sendenErlaubt wieder.
-		 * 
-		 * @return the sendenErlaubt
-		 */
-		boolean isSendenErlaubt() {
-			return sendenErlaubt;
-		}
-
-		/**
-		 * Sendet alle gecachten Anfragen, solange es erlaubt. Erfolgreich
-		 * gesendete Anfragen werden aus dem Cache entfernt.
-		 */
-		private void sendeAnfragen() {
-			ListIterator<KalenderAnfrage> iterator;
-
-			iterator = anfragen.listIterator();
-			while (sendenErlaubt && iterator.hasNext()) {
-				Data daten;
-				ResultData datensatz;
-				SystemObject so;
-				KalenderAnfrage anfrage;
-
-				anfrage = iterator.next();
-
-				// Als Empfänger der Antwort anmelden
-				so = anfrage.getAbsender();
-				synchronized (anmeldungen) {
-					if (!anmeldungen.contains(so)) {
-						verbindung.subscribeReceiver(this, so, dbsAntwort,
-								ReceiveOptions.normal(), ReceiverRole.drain());
-					}
-					anmeldungen.add(so);
-				}
-				kommLogger.finer("Als Empfänger der Antwort angemeldet für "
-						+ "die Anfrage von", so);
-
-				// Anfrage senden
-				daten = verbindung.createData(dbsAnfrage.getAttributeGroup());
-				anfrage.getDaten(daten);
-				datensatz = new ResultData(soKalender, dbsAnfrage, System
-						.currentTimeMillis(), daten);
-				try {
-					verbindung.sendData(datensatz);
-					iterator.remove(); // Anfrage erfolgreich gesendet
-				} catch (DataNotSubscribedException e) {
-					sendenErlaubt = false;
-					System.out.println(e.getMessage());
-					continue;
-				} catch (SendSubscriptionNotConfirmed e) {
-					sendenErlaubt = false;
-					System.out.println(e.getMessage());
-					continue;
-				}
-
-				kommLogger.finer("Anfrage wurde gesendet", anfrage);
-			}
-		}
-
-	}
+public final class Kalender implements DatensatzUpdateListener {
 
 	/** Sichert die Liste des Singletons pro Datenverteilerverbindung. */
-	private static Map<ClientDavInterface, Kalender> singleton;
+	private static Kalender singleton;
 
 	/**
-	 * Gibt einen Kalender als Singleton pro Datenverteilerverbindung
-	 * zur&uuml;ck.
+	 * Gibt einen Kalender als Singleton zur&uuml;ck.
 	 * 
-	 * @param verbindung
-	 *            eine Datenverteilerverbindung.
 	 * @return der Kalender als Singleton.
 	 */
-	public static Kalender getInstanz(ClientDavInterface verbindung) {
+	public static Kalender getInstanz() {
 		if (singleton == null) {
-			singleton = new HashMap<ClientDavInterface, Kalender>();
+			singleton = new Kalender();
 		}
-		if (!singleton.containsKey(verbindung)) {
-			singleton.put(verbindung, new Kalender(verbindung));
-		}
-		return singleton.get(verbindung);
+		return singleton;
 	}
 
 	/** Der Logger. */
-	private final Debug logger = Debug.getLogger();
+	private final Debug log = Debug.getLogger();
 
 	/** Angemeldete Listener. */
-	private final EventListenerList listeners;
+	private final EventListenerList listeners = new EventListenerList();
 
-	/** Die Kommunikationsinstanz. */
-	private final Kommunikation kommunikation;
+	/** Der Anfragedatensatz. */
+	private final OdEreignisKalenderAnfrage odAnfrage;
+
+	/** Der Aspekt zum Senden der Anfrage. */
+	private final Aspect aspAnfrage;
 
 	/**
 	 * Initialisert die Anfrageschnittstelle.
-	 * 
-	 * @param verbindung
-	 *            die f&uuml;r Anfragen zu verwendende Datenverteilerverbindung.
 	 */
-	private Kalender(ClientDavInterface verbindung) {
-		kommunikation = new Kommunikation(verbindung);
-		listeners = new EventListenerList();
+	private Kalender() {
+		ObjektFactory factory;
+		OdEreignisKalenderAntwort odAntwort;
+		Aspect aspAntwort;
+		de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender kalender;
+		Applikation klient;
 
-		logger.info("Schnittstelle zum Kalender bereit.");
+		factory = ObjektFactory.getInstanz();
+		factory.registerFactory(new KalenderobjektFactory(),
+				new SystemModellGlobalObjektFactory());
+		factory.registerFactory(new KalenderobjektFactory());
+
+		kalender = (de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender) factory
+				.getModellobjekt(factory.getVerbindung()
+						.getLocalConfigurationAuthority());
+		aspAnfrage = OdEreignisKalenderAnfrage.Aspekte.Anfrage.getAspekt();
+		odAnfrage = kalender
+				.getOnlineDatensatz(OdEreignisKalenderAnfrage.class);
+
+		klient = (Applikation) factory.getModellobjekt(factory.getVerbindung()
+				.getLocalApplicationObject());
+		odAntwort = klient.getOnlineDatensatz(OdEreignisKalenderAntwort.class);
+		aspAntwort = OdEreignisKalenderAntwort.Aspekte.Antwort.getAspekt();
+		odAntwort.addUpdateListener(aspAntwort, this);
+
+		try {
+			odAnfrage.anmeldenSender(aspAnfrage);
+		} catch (AnmeldeException ex) {
+			log
+					.error(
+							"Anmeldung zum Senden von Anfragen an die Ganglinienprognose konnte nicht durchgeführt werden",
+							ex);
+		}
+
+		log.info("Schnittstelle zum Kalender bereit.");
 	}
 
 	/**
@@ -314,13 +131,22 @@ public final class Kalender {
 	}
 
 	/**
-	 * Mit dieser Methode kann getestet werden, ob im Augenblick der
-	 * Ereigniskalender Anfragen entgegennimmt.
+	 * {@inheritDoc}
 	 * 
-	 * @return {@code true}, wennn der Kalender Anfragen entgegennimmt.
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener#datensatzAktualisiert(de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent)
 	 */
-	public boolean isKalenderBereit() {
-		return kommunikation.isSendenErlaubt();
+	public void datensatzAktualisiert(DatensatzUpdateEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * Fragt, ob der Kalender Anfragen entgegennimmt.
+	 * 
+	 * @return {@code true}, wenn der Kalender verwendet werden kann.
+	 */
+	public boolean isBereit() {
+		return odAnfrage.getStatusSendesteuerung(aspAnfrage) == Status.START;
 	}
 
 	/**
@@ -337,12 +163,41 @@ public final class Kalender {
 	 * Sendet eine Anfrage an den Kalender. Die anfragende Applikation wird
 	 * &uuml;ber ein Event &uuml;ber die eingetroffene Antwort informiert.
 	 * 
+	 * @param absenderZeichen
+	 *            ein beliebiger Text.
 	 * @param anfrage
-	 *            die Nachricht mit den Anfragen.
+	 *            die Anfragen.
+	 * @throws DatensendeException
+	 *             wenn beim Senden ein Fehler passiert ist.
 	 */
-	public void sendeAnfrage(KalenderAnfrage anfrage) {
-		logger.fine("Neue Anfrage entgegengenommen", anfrage);
-		kommunikation.sendeAnfrage(anfrage);
+	public void sendeAnfrage(String absenderZeichen, KalenderAnfrage anfrage)
+			throws DatensendeException {
+		OdEreignisKalenderAnfrage.Daten datum;
+		ObjektFactory factory;
+		ClientApplication klient;
+
+		if (!isBereit()) {
+			throw new DatensendeException(
+					"Ereigniskalender (noch) nicht bereit.");
+		}
+		factory = ObjektFactory.getInstanz();
+		factory.registerFactory(new KalenderobjektFactory(),
+				new SystemModellGlobalObjektFactory());
+		factory.registerFactory(new KalenderobjektFactory());
+		klient = factory.getVerbindung().getLocalApplicationObject();
+
+		datum = odAnfrage.erzeugeDatum();
+		datum.setAbsender((Applikation) factory.getModellobjekt(klient));
+		datum.setAbsenderZeichen(absenderZeichen);
+		datum.setEreignisTypenOption(anfrage.getEreignisTypenOption());
+		datum.setIntervall(anfrage.getIntervall());
+		datum.getRaeumlicheGueltigkeit().addAll(
+				anfrage.getRaeumlicheGueltigkeit());
+		datum.getEreignisTypen().addAll(anfrage.getEreignisTypen());
+
+		odAnfrage.sendeDaten(aspAnfrage, datum);
+
+		log.fine("Anfrage \"" + absenderZeichen + "\" wurde gesendet");
 	}
 
 	/**
@@ -363,7 +218,7 @@ public final class Kalender {
 			l.antwortEingetroffen(e);
 		}
 
-		logger.fine("Kalenderantwort wurde verteilt: " + e);
+		log.fine("Kalenderantwort wurde verteilt: " + e);
 	}
 
 }
