@@ -200,17 +200,6 @@ public class PdBaustellenEigenschaften extends
 	/**
 	 * {@inheritDoc}.<br>
 	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#abmeldenSender()
-	 */
-	@Override
-	public void abmeldenSender() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * {@inheritDoc}.<br>
-	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#erzeugeDatum()
 	 */
 	public Daten erzeugeDatum() {
@@ -227,13 +216,13 @@ public class PdBaustellenEigenschaften extends
 	}
 
 	/**
-	 * {@inheritDoc}.<br>
+	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getDatum()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.ResultData)
 	 */
-	@Override
-	public Daten getDatum() {
-		return super.getDatum();
+	public void setDaten(ResultData daten) {
+		check(daten);
+		setDatum(new Daten(daten));
 	}
 
 	/**
@@ -245,15 +234,5 @@ public class PdBaustellenEigenschaften extends
 	protected Data konvertiere(Daten datum) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	/**
-	 * {@inheritDoc}.<br>
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.Data)
-	 */
-	public void setDaten(ResultData daten) {
-		check(daten);
-		setDatum(new Daten(daten));
 	}
 }
