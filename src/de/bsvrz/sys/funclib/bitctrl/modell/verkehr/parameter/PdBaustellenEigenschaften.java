@@ -60,15 +60,15 @@ public class PdBaustellenEigenschaften extends
 		 * Restkapazität während der Gültigkeitsdauer der Baustelle.
 		 * ("RestKapazität")
 		 */
-		private final long restKapazitaet;
+		private long restKapazitaet;
 		/**
 		 * Zustand der Baustelle. ("Status")
 		 */
-		private final BaustellenStatus status;
+		private BaustellenStatus status;
 		/**
 		 * Veranlasser der Baustelle (BIS-System oder VRZ). ("Veranlasser")
 		 */
-		private final BaustellenVeranlasser veranlasser;
+		private BaustellenVeranlasser veranlasser;
 
 		/**
 		 * markiert die Gültigkeit des Datensatzes.
@@ -147,6 +147,15 @@ public class PdBaustellenEigenschaften extends
 		public long getRestKapazitaet() {
 			return restKapazitaet;
 		}
+		
+		/**
+		 * liefert den Veranlassser der Baustelle.
+		 * 
+		 * @return den Veranlasser
+		 */
+		public BaustellenVeranlasser getVeranlasser() {
+			return veranlasser;
+		}
 
 		/**
 		 * liefert den Status der Baustelle.
@@ -157,13 +166,32 @@ public class PdBaustellenEigenschaften extends
 			return status;
 		}
 
+
 		/**
-		 * liefert den Veranlassser der Baustelle.
+		 * setzt den Status der Baustelle.
+		 * @param _status neuer Status
 		 * 
-		 * @return den Veranlasser
 		 */
-		public BaustellenVeranlasser getVeranlasser() {
-			return veranlasser;
+		public void setStatus(BaustellenStatus _status) {
+			status = _status;
+		}
+
+		/**
+		 * setzt den Veranlasser der Baustelle.
+		 * @param _veranlasser neuer Veranlasser
+		 * 
+		 */
+		public void setVeranlasser(BaustellenVeranlasser _veranlasser) {
+			veranlasser = _veranlasser;
+		}
+
+		/**
+		 * liefert die Restkapazität der Baustelle.
+		 * @param _restKapazitaet die neue Restkapazit&auml;t
+		 * 
+		 */
+		public void setRestKapazitaet(long _restKapazitaet) {
+			restKapazitaet = _restKapazitaet;
 		}
 
 		/**
@@ -197,6 +225,7 @@ public class PdBaustellenEigenschaften extends
 		}
 	}
 
+
 	/**
 	 * {@inheritDoc}.<br>
 	 * 
@@ -215,16 +244,7 @@ public class PdBaustellenEigenschaften extends
 		return attributGruppe;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.ResultData)
-	 */
-	public void setDaten(ResultData daten) {
-		check(daten);
-		setDatum(new Daten(daten));
-	}
-
+	
 	/**
 	 * {@inheritDoc}.<br>
 	 * 
@@ -232,7 +252,22 @@ public class PdBaustellenEigenschaften extends
 	 */
 	@Override
 	protected Data konvertiere(Daten datum) {
-		// TODO Auto-generated method stub
-		return null;
+		Data daten = erzeugeSendeCache();
+
+		daten.getUnscaledValue("Status").set(datum.getStatus().ordinal());
+		daten.getScaledValue("RestKapazität").set(datum.getRestKapazitaet());
+		daten.getUnscaledValue("Veranlasser").set(datum.getVeranlasser().ordinal());
+		
+		return daten;	
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.Data)
+	 */
+	public void setDaten(ResultData daten) {
+		check(daten);
+		setDatum(new Daten(daten));
 	}
 }
