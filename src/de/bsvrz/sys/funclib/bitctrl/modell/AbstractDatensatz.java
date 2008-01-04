@@ -386,7 +386,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 *            der betroffene Aspekt.
 	 * @return ein Datum, welches die Daten des Datensatzes kapselt.
 	 */
-	protected T abrufenDatum(final Aspect asp) {
+	public T abrufenDatum(final Aspect asp) {
 		synchronized (this) {
 			T result = daten.get(asp);
 			if ((!isAngemeldetSender(asp)) || (result == null)) {
