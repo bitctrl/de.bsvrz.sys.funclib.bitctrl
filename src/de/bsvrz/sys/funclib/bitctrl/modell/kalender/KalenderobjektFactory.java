@@ -56,6 +56,8 @@ public class KalenderobjektFactory implements ModellObjektFactory {
 			obj = new EreignisTyp(objekt);
 		} else if (objekt.isOfType(KalenderModellTypen.EREIGNIS.getPid())) {
 			obj = new Ereignis(objekt);
+		} else if (objekt.isOfType(KalenderModellTypen.KALENDER.getPid())) {
+			obj = new Kalender(objekt);
 		}
 
 		return obj;

@@ -26,57 +26,40 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.kalender;
 
-import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
 /**
- * Fasst alle Objekttypen im Kalendermodell zusammen.
+ * Repr&auml;sentiert den Ereigniskalender.
  * 
- * @author BitCtrl Systems GmbH, Schumann
+ * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public enum KalenderModellTypen implements SystemObjektTyp {
-
-	/** Ein Kalender. */
-	KALENDER("typ.kalender", Kalender.class),
-
-	/** Ein Ereignistyp. */
-	EREIGNISTYP("typ.ereignisTyp", EreignisTyp.class),
-
-	/** Ein Ereignis. */
-	EREIGNIS("typ.ereignis", Ereignis.class);
-
-	/** PID des Objekttyps im Datenverteiler. */
-	private final String pid;
-
-	/** Klasse des Systemobjekts im Modell. */
-	private final Class<? extends SystemObjekt> klasse;
+public class Kalender extends AbstractSystemObjekt {
 
 	/**
-	 * Privater Konstruktor.
+	 * Initialisiert das Objekt.
 	 * 
-	 * @param pid
-	 *            Die PID des Typs
-	 * @param klasse
-	 *            Die Klasse des Modellobjekts
+	 * @param obj
+	 *            ein Systemobjekt, welches ein Kalender sein muss.
 	 */
-	private KalenderModellTypen(String pid, Class<? extends SystemObjekt> klasse) {
-		this.pid = pid;
-		this.klasse = klasse;
+	public Kalender(SystemObject obj) {
+		super(obj);
+
+		if (!obj.isOfType(getTyp().getPid())) {
+			throw new IllegalArgumentException(
+					"Systemobjekt ist kein Kalender.");
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getTyp()
 	 */
-	public Class<? extends SystemObjekt> getKlasse() {
-		return klasse;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getPid() {
-		return pid;
+	public SystemObjektTyp getTyp() {
+		return KalenderModellTypen.KALENDER;
 	}
 
 }

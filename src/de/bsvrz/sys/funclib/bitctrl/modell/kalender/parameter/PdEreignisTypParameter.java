@@ -133,18 +133,14 @@ public class PdEreignisTypParameter extends
 	/** Die PID der Attributgruppe. */
 	public static final String ATG_EREIGNIS_TYP_PARAMETER = "atg.ereignisTypParameter";
 
-	/**
-	 * die Attributgruppe, in der die Eigenschaften enthalten sind.
-	 */
+	/** Die Attributgruppe, in der die Eigenschaften enthalten sind. */
 	private static AttributeGroup atg;
 
 	/**
-	 * Konstruktor.<br>
-	 * Die Funktion erzeigt eine Instanz eines
-	 * Baustellen-Eigenschaften-Parameterdatensatzes.
+	 * Konstruktor.
 	 * 
 	 * @param objekt
-	 *            das der Baustelle zugrundliegende Systemobjekt.
+	 *            der Ereignistyp.
 	 */
 	public PdEreignisTypParameter(SystemObjekt objekt) {
 		super(objekt);
