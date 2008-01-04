@@ -29,7 +29,10 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
 import java.util.Arrays;
 import java.util.Collection;
 
+import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.Aspect;
+import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
 
@@ -37,7 +40,8 @@ import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
  * Implementiert gemeinsame Funktionen von Parametern.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
+ * @version $Id: AbstractParameterDatensatz.java 5391 2008-01-04 13:02:18Z
+ *          peuker $
  * @param <T>
  *            Der Typ des Datums den der Datensatz sichert.
  */
@@ -78,6 +82,15 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	}
 
 	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#abrufenDatum()
+	 */
+	public T abrufenDatum() {
+		return super.abrufenDatum(receiverAsp);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#addUpdateListener(de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener)
@@ -93,6 +106,11 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	 */
 	public void anmeldenSender() throws AnmeldeException {
 		anmeldenSender(senderAsp);
+	}
+
+	public T erzeugeDatum() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
@@ -116,6 +134,11 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 		return Arrays.asList(new Aspect[] { receiverAsp, senderAsp });
 	}
 
+	public AttributeGroup getAttributGruppe() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -126,9 +149,9 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc}.<br>
 	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getStatusSendesteuerung(de.bsvrz.dav.daf.main.config.Aspect)
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#getStatusSendesteuerung()
 	 */
 	public Status getStatusSendesteuerung() {
 		return super.getStatusSendesteuerung(senderAsp);
@@ -172,6 +195,12 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 		return false;
 	}
 
+	@Override
+	protected Data konvertiere(final T datum) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -198,6 +227,11 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	public void sendeDaten(final T datum, final long timeout)
 			throws DatensendeException {
 		sendeDaten(senderAsp, datum, timeout);
+	}
+
+	public void setDaten(final ResultData daten) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/**

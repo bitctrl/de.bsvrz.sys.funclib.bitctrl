@@ -43,6 +43,14 @@ public interface ParameterDatensatz<T extends Datum> extends Datensatz<T> {
 	void abmeldenSender();
 
 	/**
+	 * Gibt die aktuellen Daten des Datensatzes zur&uuml;ck, ohne einen
+	 * Updatelistener zu installieren.
+	 * 
+	 * @return ein Datum, welches die Daten des Datensatzes kapselt.
+	 */
+	T abrufenDatum();
+
+	/**
 	 * Registriert einen Listener.
 	 * 
 	 * @param l
