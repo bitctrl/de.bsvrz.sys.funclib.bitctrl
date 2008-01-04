@@ -33,6 +33,7 @@ import java.util.Set;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdBaustellenEigenschaften;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdBaustellenVerantwortlicher;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdSituationsEigenschaften;
 
 /**
@@ -100,6 +101,15 @@ public class Baustelle extends Situation {
 	 */
 	public PdBaustellenEigenschaften getBaustellenEigenschaften() {
 		return (PdBaustellenEigenschaften) getParameterDatensatz(PdBaustellenEigenschaften.class);
+	}
+
+	/**
+	 * liefert den Datensatz der den Verantwortlichen einer Baustelle definiert.
+	 * 
+	 * @return den Datensatz
+	 */
+	public PdBaustellenVerantwortlicher getBaustellenVerantwortlicher() {
+		return getParameterDatensatz(PdBaustellenVerantwortlicher.class);
 	}
 
 	/**
