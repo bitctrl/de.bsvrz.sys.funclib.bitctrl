@@ -169,7 +169,8 @@ public class PdBaustellenEigenschaften extends
 
 		/**
 		 * setzt den Status der Baustelle.
-		 * @param _status neuer Status
+		 * 
+		 * @param _status zu setzender Status
 		 * 
 		 */
 		public void setStatus(BaustellenStatus _status) {
@@ -178,7 +179,8 @@ public class PdBaustellenEigenschaften extends
 
 		/**
 		 * setzt den Veranlasser der Baustelle.
-		 * @param _veranlasser neuer Veranlasser
+		 * 
+		 * @param _veranlasser zu setzender Veranlasser
 		 * 
 		 */
 		public void setVeranlasser(BaustellenVeranlasser _veranlasser) {
@@ -186,8 +188,9 @@ public class PdBaustellenEigenschaften extends
 		}
 
 		/**
-		 * liefert die Restkapazität der Baustelle.
-		 * @param _restKapazitaet die neue Restkapazit&auml;t
+		 * setzt die Restkapazität der Baustelle.
+		 * 
+		 * @param _restKapazitaet die zu setzende Restkapazit&auml;t
 		 * 
 		 */
 		public void setRestKapazitaet(long _restKapazitaet) {
