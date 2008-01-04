@@ -28,6 +28,9 @@ package de.bsvrz.sys.funclib.bitctrl.modell.kalender;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Ereignis;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender;
 
 /**
  * Fasst alle Objekttypen im Kalendermodell zusammen.

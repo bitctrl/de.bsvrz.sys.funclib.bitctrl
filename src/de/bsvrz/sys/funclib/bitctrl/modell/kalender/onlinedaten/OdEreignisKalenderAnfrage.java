@@ -40,8 +40,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.kalender.EreignisTyp;
-import de.bsvrz.sys.funclib.bitctrl.modell.kalender.Kalender;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.NetzBestandTeil;
 import de.bsvrz.sys.funclib.bitctrl.util.Intervall;
 
