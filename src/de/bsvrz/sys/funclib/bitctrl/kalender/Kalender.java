@@ -28,7 +28,6 @@ package de.bsvrz.sys.funclib.bitctrl.kalender;
 
 import javax.swing.event.EventListenerList;
 
-import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.ClientApplication;
 import de.bsvrz.sys.funclib.bitctrl.modell.AnmeldeException;
@@ -90,11 +89,12 @@ public final class Kalender implements DatensatzUpdateListener {
 		de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender kalender;
 		Applikation klient;
 
+		// Modellobjektfactory initialisieren
 		factory = ObjektFactory.getInstanz();
 		factory.registerFactory(new KalenderobjektFactory(),
 				new SystemModellGlobalObjektFactory());
-		factory.registerFactory(new KalenderobjektFactory());
 
+		// Anfragedatensatz bestimmen
 		kalender = (de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender) factory
 				.getModellobjekt(factory.getVerbindung()
 						.getLocalConfigurationAuthority());
@@ -102,12 +102,12 @@ public final class Kalender implements DatensatzUpdateListener {
 		odAnfrage = kalender
 				.getOnlineDatensatz(OdEreignisKalenderAnfrage.class);
 
+		// Anmelden als Empfänger der Kalenderantworten
 		klient = (Applikation) factory.getModellobjekt(factory.getVerbindung()
 				.getLocalApplicationObject());
 		odAntwort = klient.getOnlineDatensatz(OdEreignisKalenderAntwort.class);
 		aspAntwort = OdEreignisKalenderAntwort.Aspekte.Antwort.getAspekt();
 		odAntwort.addUpdateListener(aspAntwort, this);
-
 		try {
 			odAnfrage.anmeldenSender(aspAnfrage);
 		} catch (AnmeldeException ex) {
@@ -117,7 +117,7 @@ public final class Kalender implements DatensatzUpdateListener {
 							ex);
 		}
 
-		log.info("Schnittstelle zum Kalender bereit.");
+		log.info("Schnittstelle zum Kalender initialisiert.");
 	}
 
 	/**
@@ -136,8 +136,7 @@ public final class Kalender implements DatensatzUpdateListener {
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener#datensatzAktualisiert(de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent)
 	 */
 	public void datensatzAktualisiert(DatensatzUpdateEvent event) {
-		// TODO Auto-generated method stub
-
+		fireAntwort((OdEreignisKalenderAntwort.Daten) event.getDatum());
 	}
 
 	/**
@@ -203,15 +202,13 @@ public final class Kalender implements DatensatzUpdateListener {
 	/**
 	 * Informiert alle registrierten Listener &uuml;ber eine Antwort.
 	 * 
-	 * @param anfrager
-	 *            die anfragende Applikation.
-	 * @param daten
-	 *            ein Datum mit der Antwort auf eine Kalenderanfrage.
+	 * @param datum
+	 *            das Datum mit der Antwort.
 	 */
-	protected synchronized void fireAntwort(ClientApplication anfrager,
-			Data daten) {
-		KalenderEvent e = new KalenderEvent(this, anfrager);
-		e.setDaten(daten);
+	protected synchronized void fireAntwort(
+			OdEreignisKalenderAntwort.Daten datum) {
+		KalenderEvent e = new KalenderEvent(this, datum.getAbsenderZeichen(),
+				datum.isAenderung(), datum.getZustandswechsel());
 
 		for (KalenderListener l : listeners
 				.getListeners(KalenderListener.class)) {

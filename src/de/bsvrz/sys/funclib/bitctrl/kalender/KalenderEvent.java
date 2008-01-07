@@ -26,18 +26,12 @@
 
 package de.bsvrz.sys.funclib.bitctrl.kalender;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.EventObject;
 import java.util.List;
 
-import de.bsvrz.dav.daf.main.Data;
-import de.bsvrz.dav.daf.main.Data.Array;
-import de.bsvrz.dav.daf.main.config.ClientApplication;
-import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Ereignis;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.onlinedaten.OdEreignisKalenderAntwort;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.onlinedaten.OdEreignisKalenderAntwort.Daten.Zustandswechsel;
 
 /**
  * Das Event wird vom Ereigniskalender ausgel&ouml;st.
@@ -47,216 +41,53 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Ereignis;
  */
 public class KalenderEvent extends EventObject {
 
-	/**
-	 * Struktur f&uuml;r die Zustandswechsel der Ereignisse.
-	 * 
-	 * @author BitCtrl Systems GmbH, Schumann
-	 * @version $Id$
-	 */
-	public static class Zustand {
-
-		/** Zeitpunkt des Zustandswechsel. */
-		private final long zeitstempel;
-
-		/** Das Ereignis dessen Zustand sich &auml;ndert. */
-		private final Ereignis ereignis;
-
-		/** Ist das Ereignis nun zeitlich g&uuml;ltig. */
-		private final boolean zeitlichGueltig;
-
-		/** Ist das Ereignis nun verkehrlich g&uuml;ltig. */
-		private final boolean verkehrlichGueltig;
-
-		/**
-		 * Konstruiert den Zustand.
-		 * <p>
-		 * <em>Hinweis:</em> Der Konstruktior ist nicht Teil der
-		 * &ouml;ffentlichen API und sollte nicht verwendet werden.
-		 * 
-		 * @param zeitstempel
-		 *            der Zeitpunkt des Zustandwechsels.
-		 * @param ereignis
-		 *            das sich &anuml;ndernde Ereignis.
-		 * @param zeitlichGueltig
-		 *            die neue zeitliche G&uuml;ltigkeit.
-		 * @param verkehrlichGueltig
-		 *            die neue verkehrliche G&uuml;ltigkeit.
-		 */
-		public Zustand(long zeitstempel, Ereignis ereignis,
-				boolean zeitlichGueltig, boolean verkehrlichGueltig) {
-			this.zeitstempel = zeitstempel;
-			this.ereignis = ereignis;
-			this.zeitlichGueltig = zeitlichGueltig;
-			this.verkehrlichGueltig = verkehrlichGueltig;
-		}
-
-		/**
-		 * Gibt das Ereignis zur&uuml;ck, dessen Zustand sich &auml;ndert.
-		 * 
-		 * @return ein Ereignis.
-		 */
-		public Ereignis getEreignis() {
-			return ereignis;
-		}
-
-		/**
-		 * Gibt den Zeitstempel der Zustands&auml;nderung zur&uuml;ck.
-		 * 
-		 * @return ein Zeitstempel.
-		 */
-		public long getZeitstempel() {
-			return zeitstempel;
-		}
-
-		/**
-		 * Flag f&uuml;r die neue verkehrliche G&uuml;ltigkeit.
-		 * 
-		 * @return der Zustand der neuen verkehrlichen G&uuml;ltigkeit.
-		 */
-		public boolean isVerkehrlichGueltig() {
-			return verkehrlichGueltig;
-		}
-
-		/**
-		 * Flag f&uuml;r die neue zeitliche G&uuml;ltigkeit.
-		 * 
-		 * @return der Zustand der neuen zeitlichen G&uuml;ltigkeit.
-		 */
-		public boolean isZeitlichGueltig() {
-			return zeitlichGueltig;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String toString() {
-			return getClass().getName()
-					+ "[zeitstempel="
-					+ DateFormat.getDateTimeInstance().format(
-							new Date(zeitstempel)) + ", ereignis=" + ereignis
-					+ ", zeitlichGueltig=" + zeitlichGueltig
-					+ ", verkehrlichGueltig=" + verkehrlichGueltig + "]";
-		}
-
-	}
-
 	/** Die Eigenschaft {@code serialVersionUID}. */
 	private static final long serialVersionUID = 1L;
 
-	/** Die anfragende Applikation. */
-	private final ClientApplication anfrager;
-
-	/** Das Absenderzeichen des Anfragers. */
-	private String absenderZeichen;
-
-	/** Signalisiert das Event eine &Auml;nderung? */
-	private boolean aenderung;
-
-	/** Die Liste der Ereignisse und deren Zustandswechsel. */
-	private final List<Zustand> zustandswechsel;
+	/** Kapselt die Daten des Events. */
+	private final OdEreignisKalenderAntwort.Daten datum;
 
 	/**
 	 * Konstruiert das Event.
 	 * 
 	 * @param source
 	 *            die Quelle des Events.
-	 * @param anfrager
-	 *            die anfragende Applikation.
+	 * @param absenderZeichen
+	 *            das Zeichen des Absenders.
+	 * @param aenderung
+	 *            ist die Antwort eine Aktualisierung?
+	 * @param zustandswechsel
+	 *            die Liste der Zustandswechsel.
 	 */
-	public KalenderEvent(Object source, ClientApplication anfrager) {
+	public KalenderEvent(
+			Object source,
+			String absenderZeichen,
+			boolean aenderung,
+			List<OdEreignisKalenderAntwort.Daten.Zustandswechsel> zustandswechsel) {
 		super(source);
-		this.anfrager = anfrager;
-		zustandswechsel = new ArrayList<Zustand>();
+
+		datum = new OdEreignisKalenderAntwort.Daten();
+		datum.setAbsenderZeichen(absenderZeichen);
+		datum.setAenderung(aenderung);
+		datum.getZustandswechsel().addAll(zustandswechsel);
 	}
 
 	/**
-	 * F&uuml;gt der Liste der Zustandswechsel einen neuen hinzu.
-	 * <p>
-	 * <em>Hinweis:</em> Diese Methode ist nicht Teil der öffentlichen API und
-	 * sollte nicht außerhalb der Ganglinie-API verwendet werden.
+	 * Gibt den Wert der Eigenschaft {@code absenderZeichen} wieder.
 	 * 
-	 * @param zustand
-	 *            ein Zustandswechsel.
-	 */
-	public void add(Zustand zustand) {
-		if (zustand == null) {
-			throw new IllegalArgumentException();
-		}
-		zustandswechsel.add(zustand);
-	}
-
-	/**
-	 * Gibt das Absenderzeichen zur&uuml;ck.
-	 * 
-	 * @return ein beliebiger String.
+	 * @return {@code absenderZeichen}.
 	 */
 	public String getAbsenderZeichen() {
-		return absenderZeichen;
+		return datum.getAbsenderZeichen();
 	}
 
 	/**
-	 * Gibt die anfragende Applikation zur&uuml;ck.
+	 * Gibt den Wert der Eigenschaft {@code zustandswechsel} wieder.
 	 * 
-	 * @return die Applikation.
+	 * @return {@code zustandswechsel}.
 	 */
-	public ClientApplication getAnfrager() {
-		return anfrager;
-	}
-
-	/**
-	 * Baut aus den Informationen der Anfrage ein Datum.
-	 * <p>
-	 * Hinweis: Das Ergebnis wird auch im Parameter abgelegt!
-	 * <p>
-	 * <em>Hinweis:</em> Diese Methode ist nicht Teil der öffentlichen API und
-	 * sollte nicht außerhalb der Ganglinie-API verwendet werden.
-	 * 
-	 * @param daten
-	 *            ein Datum, welches eine (leere) Anfrage darstellt.
-	 * @return das ausgef&uuml;llte Datum.
-	 */
-	public Data getDaten(Data daten) {
-		Array feld;
-		int i;
-
-		daten.getTextValue("absenderZeichen").setText(absenderZeichen);
-		if (aenderung) {
-			daten.getUnscaledValue("änderung").set(1);
-		} else {
-			daten.getUnscaledValue("änderung").set(0);
-		}
-
-		feld = daten.getArray("Ereignis");
-		feld.setLength(zustandswechsel.size());
-		i = 0;
-		for (Zustand z : zustandswechsel) {
-			feld.getItem(i++).getTimeValue("Zeitpunkt").setMillis(
-					z.getZeitstempel());
-			feld.getItem(i++).getReferenceValue("").setSystemObject(
-					z.getEreignis().getSystemObject());
-			if (z.isZeitlichGueltig()) {
-				feld.getItem(i++).getUnscaledValue("zeitlichGültig").set(1);
-			} else {
-				feld.getItem(i++).getUnscaledValue("zeitlichGültig").set(0);
-			}
-			if (z.isVerkehrlichGueltig()) {
-				feld.getItem(i++).getUnscaledValue("verkehrlichGültig").set(1);
-			} else {
-				feld.getItem(i++).getUnscaledValue("verkehrlichGültig").set(0);
-			}
-		}
-
-		return daten;
-	}
-
-	/**
-	 * Gibt die Liste der Zustandswechsel zur&uuml;ck.
-	 * 
-	 * @return die nach Zeitstempel sortierte Liste der Zustandswechsel.
-	 */
-	public List<Zustand> getZustandswechsel() {
-		return new ArrayList<Zustand>(zustandswechsel);
+	public List<Zustandswechsel> getZustandswechsel() {
+		return Collections.unmodifiableList(datum.getZustandswechsel());
 	}
 
 	/**
@@ -266,71 +97,7 @@ public class KalenderEvent extends EventObject {
 	 * @return {@code true}, wenn das Event eine Aktualisierung darstellt.
 	 */
 	public boolean isAenderung() {
-		return aenderung;
-	}
-
-	/**
-	 * Legt das Absenderzeichen fest.
-	 * <p>
-	 * <em>Hinweis:</em> Diese Methode ist nicht Teil der öffentlichen API und
-	 * sollte nicht außerhalb der Ganglinie-API verwendet werden.
-	 * 
-	 * @param absenderZeichen
-	 *            ein beliebiger String.
-	 */
-	public void setAbsenderZeichen(String absenderZeichen) {
-		this.absenderZeichen = absenderZeichen;
-	}
-
-	/**
-	 * Legt fest, ob das Event eine Aktualisierung darstellt.
-	 * <p>
-	 * <em>Hinweis:</em> Diese Methode ist nicht Teil der öffentlichen API und
-	 * sollte nicht außerhalb der Ganglinie-API verwendet werden.
-	 * 
-	 * @param aenderung
-	 *            {@code true}, wenn es eine Aktualissierung ist.
-	 */
-	public void setAenderung(boolean aenderung) {
-		this.aenderung = aenderung;
-	}
-
-	/**
-	 * &Uuml;bernimmt die Informationen aus dem Datum als inneren Zustand.
-	 * <p>
-	 * <em>Hinweis:</em> Diese Methode ist nicht Teil der öffentlichen API und
-	 * sollte nicht außerhalb der Ganglinie-API verwendet werden.
-	 * 
-	 * @param daten
-	 *            ein Datum, welches eine Anfrage darstellt.
-	 */
-	public void setDaten(Data daten) {
-		Array feld;
-
-		absenderZeichen = daten.getTextValue("absenderZeichen").getText();
-		aenderung = daten.getUnscaledValue("änderung").intValue() != 0;
-
-		zustandswechsel.clear();
-		feld = daten.getArray("Ereignis");
-		for (int i = 0; i < feld.getLength(); i++) {
-			long zeitstempel;
-			SystemObject ereignisSO;
-			Ereignis ereignis;
-			boolean zeitlichGueltig;
-			boolean verkehrlichGueltig;
-
-			zeitstempel = feld.getItem(i).getTimeValue("Zeitpunkt").getMillis();
-			ereignisSO = feld.getItem(i).getReferenceValue("EreignisReferenz")
-					.getSystemObject();
-			ereignis = (Ereignis) ObjektFactory.getInstanz().getModellobjekt(
-					ereignisSO);
-			zeitlichGueltig = feld.getItem(i)
-					.getUnscaledValue("zeitlichGültig").intValue() != 0;
-			verkehrlichGueltig = feld.getItem(i).getUnscaledValue(
-					"verkehrlichGültig").intValue() != 0;
-			zustandswechsel.add(new Zustand(zeitstempel, ereignis,
-					zeitlichGueltig, verkehrlichGueltig));
-		}
+		return datum.isAenderung();
 	}
 
 	/**
@@ -338,9 +105,12 @@ public class KalenderEvent extends EventObject {
 	 */
 	@Override
 	public String toString() {
-		return getClass().getName() + "[anfrager=" + anfrager
-				+ ", absenderZeichen=" + absenderZeichen + ", aenderung="
-				+ aenderung + ", zustandswechsel=" + zustandswechsel + "]";
+		String s = getClass().getName() + "[";
+
+		s = "absenderZeichen=" + datum.getAbsenderZeichen();
+		s += ", zustandswechsel=" + datum.getZustandswechsel() + "]";
+
+		return s + "]";
 	}
 
 }

@@ -107,9 +107,12 @@ public class OdEreignisKalenderAntwort extends
 	public static class Daten extends AbstractDatum {
 
 		/**
-		 * Struktur f&uuml;r die Zustandswechsel der Ereignisse.
+		 * Beschreibt einen Zustandswechsel in der Kalenderantwort.
+		 * 
+		 * @author BitCtrl Systems GmbH, Falko Schumann
+		 * @version $Id$
 		 */
-		public static class Zustand {
+		public static class Zustandswechsel {
 
 			/** Zeitpunkt des Zustandswechsel. */
 			private final long zeitstempel;
@@ -138,7 +141,7 @@ public class OdEreignisKalenderAntwort extends
 			 * @param verkehrlichGueltig
 			 *            die neue verkehrliche G&uuml;ltigkeit.
 			 */
-			public Zustand(long zeitstempel, Ereignis ereignis,
+			public Zustandswechsel(long zeitstempel, Ereignis ereignis,
 					boolean zeitlichGueltig, boolean verkehrlichGueltig) {
 				this.zeitstempel = zeitstempel;
 				this.ereignis = ereignis;
@@ -198,7 +201,7 @@ public class OdEreignisKalenderAntwort extends
 		}
 
 		/** Die Liste der Ereignisse und deren Zustandswechsel. */
-		private final List<Zustand> zustandswechsel = new ArrayList<Zustand>();
+		private final List<Zustandswechsel> zustandswechsel = new ArrayList<Zustandswechsel>();
 
 		/** Das Absenderzeichen des Anfragers. */
 		private String absenderZeichen;
@@ -241,7 +244,7 @@ public class OdEreignisKalenderAntwort extends
 		 * 
 		 * @return {@code zustandswechsel}.
 		 */
-		public List<Zustand> getZustandswechsel() {
+		public List<Zustandswechsel> getZustandswechsel() {
 			return zustandswechsel;
 		}
 
@@ -409,7 +412,7 @@ public class OdEreignisKalenderAntwort extends
 				verkehrlichGueltig = feld.getItem(i).getUnscaledValue(
 						"verkehrlichGültig").intValue() != 0;
 				datum.getZustandswechsel().add(
-						new Daten.Zustand(zeitstempel, ereignis,
+						new Daten.Zustandswechsel(zeitstempel, ereignis,
 								zeitlichGueltig, verkehrlichGueltig));
 			}
 
@@ -447,7 +450,7 @@ public class OdEreignisKalenderAntwort extends
 		feld = daten.getArray("Ereignis");
 		feld.setLength(datum.getZustandswechsel().size());
 		i = 0;
-		for (Daten.Zustand z : datum.getZustandswechsel()) {
+		for (Daten.Zustandswechsel z : datum.getZustandswechsel()) {
 			feld.getItem(i++).getTimeValue("Zeitpunkt").setMillis(
 					z.getZeitstempel());
 			feld.getItem(i++).getReferenceValue("").setSystemObject(
