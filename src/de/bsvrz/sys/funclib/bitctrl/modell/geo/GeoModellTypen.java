@@ -18,9 +18,9 @@ public enum GeoModellTypen implements SystemObjektTyp {
 	/** die Grenzen eines Kreise. */
 	KREISGRENZEN("typ.Kreis", Kreisgrenzen.class),
 	/** die Grenzen eines Ortes. */
-	ORTSLAGE("typ.ortsLage", Ortslage.class),
+	ORTSLAGE("typ.Ortslage", Ortslage.class),
 	/** Eine Ortsbezeichung. */
-	ORTSNAME("typ.ortsName", Ortsname.class);
+	ORTSNAME("typ.Ortsname", Ortsname.class);
 
 	/** PID des Objekttyps im Datenverteiler. */
 	private final String pid;
