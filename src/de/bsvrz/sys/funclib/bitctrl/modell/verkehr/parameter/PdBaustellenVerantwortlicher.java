@@ -264,7 +264,7 @@ public class PdBaustellenVerantwortlicher extends
 		super(objekt);
 		if (attributGruppe == null) {
 			attributGruppe = objekt.getSystemObject().getDataModel()
-					.getAttributeGroup("atg.baustellenEigenschaften");
+					.getAttributeGroup("atg.baustellenVerantwortlicher");
 		}
 	}
 
