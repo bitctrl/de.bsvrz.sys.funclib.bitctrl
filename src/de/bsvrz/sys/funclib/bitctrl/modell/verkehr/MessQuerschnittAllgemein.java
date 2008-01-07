@@ -36,6 +36,8 @@ import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
 import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktLiegtAufLinienObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXY;
 
 /**
  * Repr&auml;ssentiert einen allgemeinen Messquerschnitt.
@@ -43,7 +45,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Falko Schumann, Peuker
  * @version $Id$
  */
-public abstract class MessQuerschnittAllgemein extends StoerfallIndikator {
+public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
+		implements PunktXY, PunktLiegtAufLinienObjekt {
 
 	/**
 	 * Definiert eine Ordung auf Messquerschnitte nach deren Offset. Die Ordnung

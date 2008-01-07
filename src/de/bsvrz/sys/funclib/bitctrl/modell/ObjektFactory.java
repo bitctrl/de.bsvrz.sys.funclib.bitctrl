@@ -217,14 +217,41 @@ public final class ObjektFactory implements ModellObjektFactory {
 			return cache.get(obj.getId());
 		}
 
-		// Objekt muss erzeugt werden
-		for (ModellObjektFactory f : factories.values()) {
-			so = f.getModellobjekt(obj);
-			if (so != null) {
-				// Wir haben eine passende Fabrik gefunden
-				break;
+		// Objekt muss erzeugt werden, dazu wird über die Typhierachie des
+		// übergebenen SystemObjects eine passende Factory gesucht.
+		Collection<SystemObjectType> objTypen = new ArrayList<SystemObjectType>();
+		objTypen.add(obj.getType());
+		do {
+			for (ModellObjektFactory f : factories.values()) {
+				boolean factoryGefunden = false;
+				Collection<? extends SystemObjektTyp> unterstuetzteTypen = f
+						.getTypen();
+				for (SystemObjectType type : objTypen) {
+					for (SystemObjektTyp factoryTyp : unterstuetzteTypen) {
+						if (type.getPid().equals(factoryTyp.getPid())) {
+							factoryGefunden = true;
+						}
+					}
+					if (factoryGefunden) {
+						break;
+					}
+				}
+				if (factoryGefunden) {
+					so = f.getModellobjekt(obj);
+					if (so != null) {
+						// Wir haben eine passende Fabrik gefunden
+						break;
+					}
+				}
 			}
-		}
+			if (so == null) {
+				Collection<SystemObjectType> basisTypen = new ArrayList<SystemObjectType>();
+				for (SystemObjectType type : objTypen) {
+					basisTypen.addAll(type.getSuperTypes());
+				}
+				objTypen = basisTypen;
+			}
+		} while ((objTypen.size() > 0) && (so == null));
 
 		// Objekt im Cache ablegen, falls es erstellt werden konnte
 		if (so != null) {

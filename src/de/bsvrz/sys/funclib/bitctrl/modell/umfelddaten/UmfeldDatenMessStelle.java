@@ -40,6 +40,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXY;
 
 /**
  * Repr&auml;sentiert eine Umfelddatenmessstelle.
@@ -47,7 +48,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class UmfeldDatenMessStelle extends AbstractSystemObjekt {
+public class UmfeldDatenMessStelle extends AbstractSystemObjekt implements
+		PunktXY {
 
 	/** Liste der Umfelddatensensoren dieser Umfelddatenmessstelle. */
 	private final List<UmfeldDatenSensor> umfelddatensensoren;

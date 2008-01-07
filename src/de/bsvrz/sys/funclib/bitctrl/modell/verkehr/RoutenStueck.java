@@ -39,6 +39,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.BestehtAusLinienobjekten;
 
 /**
  * Repräsentation eines Routenstücks innerhalb der Datenmodellabbildung.
@@ -46,7 +47,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public class RoutenStueck extends StoerfallIndikator {
+public class RoutenStueck extends StoerfallIndikator implements
+		BestehtAusLinienobjekten {
 
 	/**
 	 * die Liste der Straßensegmente, die das Routenstück bilden.

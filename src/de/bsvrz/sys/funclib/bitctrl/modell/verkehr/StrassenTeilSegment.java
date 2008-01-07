@@ -39,6 +39,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.LinieXY;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein.MessQuerschnittComparator;
 
 /**
@@ -49,7 +50,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein.Mess
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class StrassenTeilSegment extends StoerfallIndikator {
+public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 
 	/** Die L&auml;nge des Stra&szlig;enteilsegments. */
 	private float laenge;

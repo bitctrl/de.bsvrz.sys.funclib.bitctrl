@@ -40,6 +40,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.BestehtAusLinienobjekten;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein.MessQuerschnittComparator;
 
 /**
@@ -48,7 +49,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein.Mess
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class StrassenSegment extends StoerfallIndikator {
+public class StrassenSegment extends StoerfallIndikator implements
+		BestehtAusLinienobjekten {
 
 	/** Die sortierte Liste der enthaltenen Stra&szlig;enteilsegmente. */
 	private List<StrassenTeilSegment> strassenTeilSegmente;

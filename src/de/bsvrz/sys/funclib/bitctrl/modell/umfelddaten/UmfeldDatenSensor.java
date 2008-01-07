@@ -29,6 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten;
 import java.util.List;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXY;
 
 /**
  * Dient der einheitlichen Behandlung aller Umfelddatensensoren.
@@ -36,7 +37,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public interface UmfeldDatenSensor extends SystemObjekt {
+public interface UmfeldDatenSensor extends SystemObjekt, PunktXY {
 
 	/**
 	 * Gibt die Umfelddatenmessstellen zur&uuml;ck, zu der der Umfelddatensensor
