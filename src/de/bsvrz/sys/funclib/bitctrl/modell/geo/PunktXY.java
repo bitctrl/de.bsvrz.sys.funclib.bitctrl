@@ -26,6 +26,19 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.geo;
 
+/**
+ * Schnittstelle für die Repräsentation eines Objekts vom Typ "typ.punktXY"
+ * innerhalb der Datenverteiler-Konfiguration.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
 public interface PunktXY extends Punkt {
-
+	/**
+	 * liefert die Koordinate des Punktes. Wenn keine definiert ist wird der
+	 * Wert <code>null</code> geliefert.
+	 * 
+	 * @return die Koordinate oder <code>null</code>
+	 */
+	de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt getKoordinate();
 }

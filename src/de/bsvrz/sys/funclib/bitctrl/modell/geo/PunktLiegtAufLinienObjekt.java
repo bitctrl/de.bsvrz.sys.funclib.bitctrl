@@ -26,6 +26,19 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.geo;
 
+/**
+ * Schnittstelle für die Repräsentation eines Objekts vom Typ
+ * "typ.punktLiegtAufLinienobjekt" innerhalb der Datenverteiler-Konfiguration.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
 public interface PunktLiegtAufLinienObjekt extends Punkt {
-
+	/**
+	 * liefert die Linie, auf der der Punkt liegt. Wenn keine Linie zugeordnet
+	 * wurde, wird der Wert <code>null</code> geliefert.
+	 * 
+	 * @return die Linie oder <code>null</code>
+	 */
+	Linie getLinie();
 }

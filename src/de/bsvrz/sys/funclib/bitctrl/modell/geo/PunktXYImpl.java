@@ -26,19 +26,61 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.geo;
 
+import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.config.AttributeGroup;
+import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
+/**
+ * Instanz eines Punktes mit Koordinaten, der als Systemobjekt in der
+ * Konfiguration des Datenverteilers definiert ist.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
 public class PunktXYImpl extends AbstractSystemObjekt implements PunktXY {
 
-	protected PunktXYImpl(SystemObject obj) {
+	/**
+	 * Konstruktor.
+	 * 
+	 * @param obj
+	 *            das Objekt, mit dem der Punkt innerhalb der
+	 *            Datenverteiler-Konfiguration repräsentiert ist.
+	 */
+	public PunktXYImpl(SystemObject obj) {
 		super(obj);
-		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXY#getKoordinate()
+	 */
+	public Punkt getKoordinate() {
+		Punkt position = null;
+		DataModel model = getSystemObject().getDataModel();
+		AttributeGroup atg = model.getAttributeGroup("atg.punktKoordinaten");
+		DataCache.cacheData(getSystemObject().getType(), atg);
+		Data datum = objekt.getConfigurationData(atg);
+		if (datum != null) {
+			double x = datum.getScaledValue("x").doubleValue();
+			double y = datum.getScaledValue("y").doubleValue();
+			position = new Punkt(x, y);
+		}
+
+		return position;
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getTyp()
+	 */
 	public SystemObjektTyp getTyp() {
-		// TODO Auto-generated method stub
 		return GeoModellTypen.PUNKT_XY;
 	}
 }

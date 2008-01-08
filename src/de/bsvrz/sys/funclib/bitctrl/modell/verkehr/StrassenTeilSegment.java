@@ -40,6 +40,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.LinieXY;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.LinieXYImpl;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein.MessQuerschnittComparator;
 
 /**
@@ -51,6 +52,12 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein.Mess
  * @version $Id$
  */
 public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
+
+	/**
+	 * das Objekt, mit dem die Linieneigenschaften des Straﬂenteilsegments
+	 * repr‰sentiert werden.
+	 */
+	private LinieXY linie;
 
 	/** Die L&auml;nge des Stra&szlig;enteilsegments. */
 	private float laenge;
@@ -80,6 +87,8 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	StrassenTeilSegment(final SystemObject obj) {
 		super(obj);
 
+		linie = new LinieXYImpl(obj);
+
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist kein Straﬂenteilsegment.");
@@ -102,27 +111,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 * @return die Koordinaten
 	 */
 	public List<Punkt> getKoordinaten() {
-		List<Punkt> result = new ArrayList<Punkt>();
-		AttributeGroup atg = getSystemObject().getDataModel()
-				.getAttributeGroup("atg.linienKoordinaten");
-
-		DataCache.cacheData(getSystemObject().getType(), atg);
-
-		Data datum = getSystemObject().getConfigurationData(atg);
-		if (datum != null) {
-			Data.Array xArray = datum.getArray("x");
-			Data.Array yArray = datum.getArray("y");
-			if ((xArray != null) && (yArray != null)) {
-				int size = Math.max(xArray.getLength(), yArray.getLength());
-				for (int idx = 0; idx < size; idx++) {
-					result.add(new Punkt(xArray.getItem(idx).asScaledValue()
-							.doubleValue(), yArray.getItem(idx).asScaledValue()
-							.doubleValue()));
-				}
-			}
-		}
-
-		return result;
+		return linie.getKoordinaten();
 	}
 
 	/**

@@ -44,20 +44,49 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * @author BitCtrl Systems GmbH, Uwe Peuker
  * @version $Id$
  */
-public class KomplexXYImpl extends AbstractSystemObjekt implements Komplex {
+public class KomplexXYImpl extends AbstractSystemObjekt implements KomplexXY {
 
-	private final static Debug LOGGER = Debug.getLogger();
+	/**
+	 * Logger für Debugausgaben.
+	 */
+	private static final Debug LOGGER = Debug.getLogger();
 
+	/**
+	 * die Liste der Punkte des Objekts.
+	 */
 	List<Punkt> punkte;
+
+	/**
+	 * die Liste der Linien des Objekts.
+	 */
 	List<Linie> linien;
+
+	/**
+	 * die Liste der Flächen des Objekts.
+	 */
 	List<Flaeche> flaechen;
+
+	/**
+	 * die Liste der komplexen Objekte des Objekts.
+	 */
 	List<Komplex> komplexe;
 
+	/**
+	 * Konstruktor. Die Funktion erstellt ein Komplexes Objekt, das durch das
+	 * übergebenen Objekt innerhalb der Datenverteilerkonfiguration
+	 * repräsentiert ist.
+	 * 
+	 * @param obj
+	 *            das Objekt
+	 */
 	protected KomplexXYImpl(SystemObject obj) {
 		super(obj);
-		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * liest die Objekte von der Datenverteiler-Konfiguration aus und füllt die
+	 * internen Strukturen.
+	 */
 	private void fuelleObjektListen() {
 		flaechen = new ArrayList<Flaeche>();
 		punkte = new ArrayList<Punkt>();
@@ -125,8 +154,8 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements Komplex {
 			array = daten.getArray("KomplexReferenz");
 			if (array != null) {
 				for (int idx = 0; idx < array.getLength(); idx++) {
-					KomplexXYImpl neuesObjekt = (KomplexXYImpl) ObjektFactory
-							.getInstanz().getModellobjekt(
+					Komplex neuesObjekt = (Komplex) ObjektFactory.getInstanz()
+							.getModellobjekt(
 									array.getReferenceValue(idx)
 											.getSystemObject());
 					if (neuesObjekt != null) {
@@ -142,6 +171,11 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements Komplex {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.KomplexXY#getFlaechen()
+	 */
 	public List<Flaeche> getFlaechen() {
 		if (flaechen == null) {
 			fuelleObjektListen();
@@ -149,6 +183,11 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements Komplex {
 		return flaechen;
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.KomplexXY#getKomplexe()
+	 */
 	public List<Komplex> getKomplexe() {
 		if (komplexe == null) {
 			fuelleObjektListen();
@@ -156,6 +195,11 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements Komplex {
 		return komplexe;
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.KomplexXY#getLinien()
+	 */
 	public List<Linie> getLinien() {
 		if (linien == null) {
 			fuelleObjektListen();
@@ -163,6 +207,11 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements Komplex {
 		return linien;
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.KomplexXY#getPunkte()
+	 */
 	public List<Punkt> getPunkte() {
 		if (punkte == null) {
 			fuelleObjektListen();
@@ -170,6 +219,11 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements Komplex {
 		return punkte;
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getTyp()
+	 */
 	public SystemObjektTyp getTyp() {
 		return GeoModellTypen.KOMPLEX_XY;
 	}

@@ -41,6 +41,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.BestehtAusLinienobjekten;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.Linie;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein.MessQuerschnittComparator;
 
 /**
@@ -149,6 +150,15 @@ public class StrassenSegment extends StoerfallIndikator implements
 	public float getLaenge() {
 		leseKonfigDaten();
 		return laenge;
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.BestehtAusLinienobjekten#getLinien()
+	 */
+	public List<Linie> getLinien() {
+		return new ArrayList<Linie>(getStrassenTeilSegmente());
 	}
 
 	/**

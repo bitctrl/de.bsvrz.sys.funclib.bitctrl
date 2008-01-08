@@ -26,6 +26,13 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.geo;
 
+/**
+ * Schnittstelle für die Repräsentation eines Objekts vom Typ "typ.punkt"
+ * innerhalb der Datenverteiler-Konfiguration.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
 public interface Punkt extends GeoReferenzObjekt {
-
+	// das Objekt dient lediglich zur Abbildung der Datenverteiler-Objekthierarchie.
 }

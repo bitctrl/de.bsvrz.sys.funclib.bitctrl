@@ -27,16 +27,35 @@
 package de.bsvrz.sys.funclib.bitctrl.modell.geo;
 
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
-public class Ortsname extends AbstractSystemObjekt implements PunktXY {
+/**
+ * Repräsentation eine Objekts vom Typ "typ.Ortsname" innerhalb der
+ * Datenverteilerkonfiguration.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
+public class Ortsname extends PunktXYImpl {
 
+	/**
+	 * Konstruktor.
+	 * 
+	 * @param obj
+	 *            das Objekt mit dem der Ortsname innerhalb der Konfguration des
+	 *            Datenverteilers repräsentiert ist.
+	 */
 	protected Ortsname(SystemObject obj) {
 		super(obj);
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getTyp()
+	 */
+	@Override
 	public SystemObjektTyp getTyp() {
 		return GeoModellTypen.ORTSNAME;
 	}

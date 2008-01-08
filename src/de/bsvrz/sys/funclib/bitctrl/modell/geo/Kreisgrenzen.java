@@ -29,13 +29,32 @@ package de.bsvrz.sys.funclib.bitctrl.modell.geo;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
+/**
+ * Implementierung eines Objekts vom Typ "typ.KreisGrenzen", mit dem die Grenzen
+ * eines Landkreises innerhalb der Datenverteiler-Konfiguration abgelegt sind.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
 public class Kreisgrenzen extends KomplexXYImpl {
 
+	/**
+	 * Standardkonstruktor.
+	 * 
+	 * @param obj
+	 *            das Objekt mit dem der Kreis innerhalb der
+	 *            Datenverteiler-Konfiguration repräsentiert ist
+	 */
 	protected Kreisgrenzen(SystemObject obj) {
 		super(obj);
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.KomplexXYImpl#getTyp()
+	 */
 	@Override
 	public SystemObjektTyp getTyp() {
 		return GeoModellTypen.KREISGRENZEN;

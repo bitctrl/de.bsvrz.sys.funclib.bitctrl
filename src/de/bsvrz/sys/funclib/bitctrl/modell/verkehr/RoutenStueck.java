@@ -29,6 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import de.bsvrz.dav.daf.main.Data;
@@ -40,6 +41,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.BestehtAusLinienobjekten;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.Linie;
 
 /**
  * Repräsentation eines Routenstücks innerhalb der Datenmodellabbildung.
@@ -89,6 +91,15 @@ public class RoutenStueck extends StoerfallIndikator implements
 						.getInstanz().getModellobjekt(so));
 			}
 		}
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.BestehtAusLinienobjekten#getLinien()
+	 */
+	public List<Linie> getLinien() {
+		return new ArrayList<Linie>(getStrassenSegmente());
 	}
 
 	/**

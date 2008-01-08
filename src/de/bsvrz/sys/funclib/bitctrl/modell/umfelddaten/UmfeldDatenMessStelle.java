@@ -29,18 +29,15 @@ package de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.bsvrz.dav.daf.main.Data;
-import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.ConfigurationObject;
-import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.NonMutableSet;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
-import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXY;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXYImpl;
 
 /**
  * Repr&auml;sentiert eine Umfelddatenmessstelle.
@@ -55,6 +52,12 @@ public class UmfeldDatenMessStelle extends AbstractSystemObjekt implements
 	private final List<UmfeldDatenSensor> umfelddatensensoren;
 
 	/**
+	 * das Objekt mit dem die Punkteigenschaften des Objekts repräsentiert
+	 * werden.
+	 */
+	private PunktXY punkt;
+
+	/**
 	 * Erzeugt eine Umfelddatenmessstelle aus einem Systemobjekt.
 	 * 
 	 * @param so
@@ -63,6 +66,8 @@ public class UmfeldDatenMessStelle extends AbstractSystemObjekt implements
 	 */
 	UmfeldDatenMessStelle(SystemObject so) {
 		super(so);
+
+		punkt = new PunktXYImpl(so);
 
 		ConfigurationObject co;
 		NonMutableSet menge;
@@ -97,19 +102,8 @@ public class UmfeldDatenMessStelle extends AbstractSystemObjekt implements
 	 * @return die Position oder <code>null</code>, wenn keine konfiguriert
 	 *         wurde
 	 */
-	public Punkt getLocation() {
-		Punkt position = null;
-		DataModel model = getSystemObject().getDataModel();
-		AttributeGroup atg = model.getAttributeGroup("atg.punktKoordinaten");
-		DataCache.cacheData(getSystemObject().getType(), atg);
-		Data datum = objekt.getConfigurationData(atg);
-		if (datum != null) {
-			double x = datum.getScaledValue("x").doubleValue();
-			double y = datum.getScaledValue("y").doubleValue();
-			position = new Punkt(x, y);
-		}
-
-		return position;
+	public Punkt getKoordinate() {
+		return punkt.getKoordinate();
 	}
 
 	/**

@@ -36,8 +36,10 @@ import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
 import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.Linie;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktLiegtAufLinienObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXY;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXYImpl;
 
 /**
  * Repr&auml;ssentiert einen allgemeinen Messquerschnitt.
@@ -92,6 +94,11 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	private StrassenTeilSegment strassenTeilSegment;
 
 	/**
+	 * das Objekt, mit dem die Punkteigenschaften dess MQ repräsentiert werden.
+	 */
+	private PunktXY punkt;
+
+	/**
 	 * Erzeugt einen allgemeinen Messquerschnitt aus einem Systemobjekt.
 	 * 
 	 * @param obj
@@ -100,6 +107,8 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	 */
 	MessQuerschnittAllgemein(final SystemObject obj) {
 		super(obj);
+
+		punkt = new PunktXYImpl(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
@@ -114,19 +123,17 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	 * @return die Position oder <code>null</code>, wenn keine konfiguriert
 	 *         wurde
 	 */
-	public Punkt getLocation() {
-		Punkt position = null;
-		DataModel model = getSystemObject().getDataModel();
-		AttributeGroup atg = model.getAttributeGroup("atg.punktKoordinaten");
-		DataCache.cacheData(getSystemObject().getType(), atg);
-		Data datum = objekt.getConfigurationData(atg);
-		if (datum != null) {
-			double x = datum.getScaledValue("x").doubleValue();
-			double y = datum.getScaledValue("y").doubleValue();
-			position = new Punkt(x, y);
-		}
+	public Punkt getKoordinate() {
+		return punkt.getKoordinate();
+	}
 
-		return position;
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktLiegtAufLinienObjekt#getLinie()
+	 */
+	public Linie getLinie() {
+		return getStrassenSegment();
 	}
 
 	/**

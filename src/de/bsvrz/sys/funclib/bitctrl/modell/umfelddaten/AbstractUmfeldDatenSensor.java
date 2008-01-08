@@ -31,17 +31,26 @@ import java.util.List;
 
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.daf.Konfigurationsbereich;
+import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXY;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXYImpl;
 
 /**
  * Implementtiert die gemeinsame Logik von Umfelddatensensoren.
  * 
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id$
+ * @version $Id: AbstractUmfeldDatenSensor.java 4417 2007-10-16 09:16:28Z
+ *          Schumann $
  */
 public abstract class AbstractUmfeldDatenSensor extends AbstractSystemObjekt
 		implements UmfeldDatenSensor {
+
+	/**
+	 * Objekt, das die Punkt-Eigenschaften des Objekts repräsentiert.
+	 */
+	private PunktXY punkt;
 
 	/**
 	 * Ruft den Superkonstruktor auf.
@@ -51,6 +60,16 @@ public abstract class AbstractUmfeldDatenSensor extends AbstractSystemObjekt
 	 */
 	AbstractUmfeldDatenSensor(SystemObject obj) {
 		super(obj);
+		punkt = new PunktXYImpl(obj);
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXY#getKoordinate()
+	 */
+	public Punkt getKoordinate() {
+		return punkt.getKoordinate();
 	}
 
 	/**

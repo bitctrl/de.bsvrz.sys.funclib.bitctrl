@@ -26,6 +26,14 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.geo;
 
+/**
+ * Schnittstelle für die Repräsentation eines Linien-Objektes ("typ.linie").
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
 public interface Linie extends GeoReferenzObjekt {
-
+	// Die Schnittstelle hat keine spezielle Funktionalität und dient lediglich
+	// der Abbildung der Objektstruktur entsprechend der
+	// Datenverteiler-Konfiguration.
 }

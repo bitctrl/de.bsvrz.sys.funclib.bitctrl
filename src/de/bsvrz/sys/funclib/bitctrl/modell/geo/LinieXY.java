@@ -26,6 +26,22 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.geo;
 
-public interface LinieXY extends Linie {
+import java.util.List;
 
+import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
+
+/**
+ * Schnittstelle für die Repräsentation eines Linien-Objektes mit Koordinaten
+ * ("typ.linieXY").
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
+public interface LinieXY extends Linie {
+	/**
+	 * liefert die Liste der Koordinaten. mit denen die Linie beschrieben wird.
+	 * 
+	 * @return die Koordinatenliste
+	 */
+	List<Punkt> getKoordinaten();
 }

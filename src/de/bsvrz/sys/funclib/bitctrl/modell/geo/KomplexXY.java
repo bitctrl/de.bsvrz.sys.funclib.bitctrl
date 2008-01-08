@@ -26,37 +26,46 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.geo;
 
-import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import java.util.List;
 
 /**
- * Repräsentation eine Objekts vom Typ "typ.Ortslage" innerhalb der
- * Datenverteilerkonfiguration.
+ * Schnittstelle für die Repräsentation eines Komplex-Objektes
+ * ("typ.komplexXY").
  * 
  * @author BitCtrl Systems GmbH, Uwe Peuker
  * @version $Id$
  */
-public class Ortslage extends KomplexXYImpl {
+public interface KomplexXY extends Komplex {
 
 	/**
-	 * Konstruktor.
+	 * liefert die Liste der Flächen aus denen das komplexe Element
+	 * zusammengesetzt ist.
 	 * 
-	 * @param obj
-	 *            das Objekt mit dem die Ortslage innerhalb der Konfguration des
-	 *            Datenverteilers repräsentiert ist.
+	 * @return die Liste der Flächen
 	 */
-	protected Ortslage(SystemObject obj) {
-		super(obj);
-		// TODO Auto-generated constructor stub
-	}
+	List<Flaeche> getFlaechen();
 
 	/**
-	 * {@inheritDoc}.<br>
+	 * liefert die Liste der komplexen Element aus denen das komplexe Element
+	 * zusammengesetzt ist.
 	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.KomplexXYImpl#getTyp()
+	 * @return die Liste der komplexen Elemente
 	 */
-	@Override
-	public SystemObjektTyp getTyp() {
-		return GeoModellTypen.ORTSLAGE;
-	}
+	List<Komplex> getKomplexe();
+
+	/**
+	 * liefert die Liste der Linien aus denen das komplexe Element
+	 * zusammengesetzt ist.
+	 * 
+	 * @return die Liste der Linien
+	 */
+	List<Linie> getLinien();
+
+	/**
+	 * liefert die Liste der Punkte aus denen das komplexe Element
+	 * zusammengesetzt ist.
+	 * 
+	 * @return die Liste der Punkte
+	 */
+	List<Punkt> getPunkte();
 }
