@@ -41,8 +41,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * Jedes gekapselte Objekt wird als Singleton behandelt und zwischengespeichert.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: UmfelddatenobjektFactory.java 5207 2007-12-11 16:30:40Z
- *          Schumann $
+ * @version $Id$
  */
 public class SystemModellGlobalObjektFactory implements ModellObjektFactory {
 

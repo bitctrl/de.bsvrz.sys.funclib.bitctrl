@@ -147,15 +147,6 @@ public class PdBaustellenEigenschaften extends
 		public long getRestKapazitaet() {
 			return restKapazitaet;
 		}
-		
-		/**
-		 * liefert den Veranlassser der Baustelle.
-		 * 
-		 * @return den Veranlasser
-		 */
-		public BaustellenVeranlasser getVeranlasser() {
-			return veranlasser;
-		}
 
 		/**
 		 * liefert den Status der Baustelle.
@@ -166,35 +157,13 @@ public class PdBaustellenEigenschaften extends
 			return status;
 		}
 
-
 		/**
-		 * setzt den Status der Baustelle.
+		 * liefert den Veranlassser der Baustelle.
 		 * 
-		 * @param _status zu setzender Status
-		 * 
+		 * @return den Veranlasser
 		 */
-		public void setStatus(BaustellenStatus _status) {
-			status = _status;
-		}
-
-		/**
-		 * setzt den Veranlasser der Baustelle.
-		 * 
-		 * @param _veranlasser zu setzender Veranlasser
-		 * 
-		 */
-		public void setVeranlasser(BaustellenVeranlasser _veranlasser) {
-			veranlasser = _veranlasser;
-		}
-
-		/**
-		 * setzt die Restkapazität der Baustelle.
-		 * 
-		 * @param _restKapazitaet die zu setzende Restkapazit&auml;t
-		 * 
-		 */
-		public void setRestKapazitaet(long _restKapazitaet) {
-			restKapazitaet = _restKapazitaet;
+		public BaustellenVeranlasser getVeranlasser() {
+			return veranlasser;
 		}
 
 		/**
@@ -204,6 +173,39 @@ public class PdBaustellenEigenschaften extends
 		 */
 		public boolean isValid() {
 			return valid;
+		}
+
+		/**
+		 * setzt die Restkapazität der Baustelle.
+		 * 
+		 * @param restKapazitaet
+		 *            die zu setzende Restkapazit&auml;t
+		 * 
+		 */
+		public void setRestKapazitaet(long restKapazitaet) {
+			this.restKapazitaet = restKapazitaet;
+		}
+
+		/**
+		 * setzt den Status der Baustelle.
+		 * 
+		 * @param status
+		 *            zu setzender Status
+		 * 
+		 */
+		public void setStatus(BaustellenStatus status) {
+			this.status = status;
+		}
+
+		/**
+		 * setzt den Veranlasser der Baustelle.
+		 * 
+		 * @param veranlasser
+		 *            zu setzender Veranlasser
+		 * 
+		 */
+		public void setVeranlasser(BaustellenVeranlasser veranlasser) {
+			this.veranlasser = veranlasser;
 		}
 	}
 
@@ -228,7 +230,6 @@ public class PdBaustellenEigenschaften extends
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}.<br>
 	 * 
@@ -247,7 +248,6 @@ public class PdBaustellenEigenschaften extends
 		return attributGruppe;
 	}
 
-	
 	/**
 	 * {@inheritDoc}.<br>
 	 * 
@@ -259,9 +259,10 @@ public class PdBaustellenEigenschaften extends
 
 		daten.getUnscaledValue("Status").set(datum.getStatus().ordinal());
 		daten.getScaledValue("RestKapazität").set(datum.getRestKapazitaet());
-		daten.getUnscaledValue("Veranlasser").set(datum.getVeranlasser().ordinal());
-		
-		return daten;	
+		daten.getUnscaledValue("Veranlasser").set(
+				datum.getVeranlasser().ordinal());
+
+		return daten;
 	}
 
 	/**

@@ -41,8 +41,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXYImpl;
  * Implementtiert die gemeinsame Logik von Umfelddatensensoren.
  * 
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: AbstractUmfeldDatenSensor.java 4417 2007-10-16 09:16:28Z
- *          Schumann $
+ * @version $Id$
  */
 public abstract class AbstractUmfeldDatenSensor extends AbstractSystemObjekt
 		implements UmfeldDatenSensor {

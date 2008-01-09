@@ -90,6 +90,7 @@ public class Baustelle extends Situation {
 	 * @param netz
 	 *            das Netz für das eine Referenz hinzugefügt wird.
 	 */
+	@Override
 	public void addNetzReferenz(VerkehrModellNetz netz) {
 		netze.add(netz);
 	}
@@ -100,7 +101,7 @@ public class Baustelle extends Situation {
 	 * @return den Datensatz
 	 */
 	public PdBaustellenEigenschaften getBaustellenEigenschaften() {
-		return (PdBaustellenEigenschaften) getParameterDatensatz(PdBaustellenEigenschaften.class);
+		return getParameterDatensatz(PdBaustellenEigenschaften.class);
 	}
 
 	/**
@@ -163,6 +164,7 @@ public class Baustelle extends Situation {
 	 * 
 	 * @return die Menge der Netze
 	 */
+	@Override
 	public Set<VerkehrModellNetz> getNetze() {
 		return netze;
 	}
@@ -200,6 +202,7 @@ public class Baustelle extends Situation {
 	 * @param netz
 	 *            das Netz auf das die Referenz entfernt wird.
 	 */
+	@Override
 	public void removeNetzReferenz(VerkehrModellNetz netz) {
 		netze.remove(netz);
 	}

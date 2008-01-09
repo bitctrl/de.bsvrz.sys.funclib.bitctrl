@@ -185,6 +185,51 @@ public class PdSituationsEigenschaften extends
 		}
 
 		/**
+		 * liefert den in Fahrtrichtung auf die Situation folgenden
+		 * Straßenknoten. Wird kein Knoten gefunden liefert die Funktion den
+		 * Wert <code>null</code> zurück.
+		 * 
+		 * @return den Knoten oder <code>null</code>
+		 */
+		public StrassenKnoten getFolgeKnoten() {
+			StrassenKnoten result = null;
+
+			List<StrassenSegment> segmentListe = getSegmente();
+			if (segmentListe.size() > 0) {
+				StrassenSegment segment = segmentListe.get(0);
+				if (segment instanceof InneresStrassenSegment) {
+					segment = ((InneresStrassenSegment) segment)
+							.getNachSegment();
+				}
+				if (segment instanceof AeusseresStrassenSegment) {
+					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
+							.getNachKnoten();
+					if (knoten != null) {
+						result = knoten;
+					}
+				}
+
+			}
+			return result;
+		}
+
+		/**
+		 * liefert die Länge der Situation als Summe der Längen der beteiligten
+		 * Straßensegemente abzüglich des Endoffsets und des Startoffsets.
+		 * 
+		 * @return die Länge
+		 */
+		public double getLaenge() {
+			double result = 0;
+			for (StrassenSegment segment : getSegmente()) {
+				result += segment.getLaenge();
+			}
+
+			result -= (getStartOffset() + getEndOffset());
+			return result;
+		}
+
+		/**
 		 * Referenzen auf alle Straßensegmente, über die sich die Situation
 		 * ausbreitet.
 		 * 
@@ -211,6 +256,23 @@ public class PdSituationsEigenschaften extends
 		 */
 		public long getStartZeit() {
 			return startZeit;
+		}
+
+		/**
+		 * liefert die Strasse auf der die Situation beginnt. Kann keine Strasse
+		 * ermittelt werden , wird der Wert <code>null</code> geliefert.
+		 * 
+		 * @return die Strasse oder <code>null</code>, wenn keine ermittelt
+		 *         werden konnte.
+		 */
+		public Strasse getStrasse() {
+			Strasse result = null;
+			List<StrassenSegment> segmentListe = getSegmente();
+			if (segmentListe.size() > 0) {
+				StrassenSegment segment = segmentListe.get(0);
+				result = segment.getStrasse();
+			}
+			return result;
 		}
 
 		/**
@@ -315,74 +377,6 @@ public class PdSituationsEigenschaften extends
 	 */
 	public AttributeGroup getAttributGruppe() {
 		return attributGruppe;
-	}
-
-	/**
-	 * liefert den in Fahrtrichtung auf die Situation folgenden Straßenknoten.
-	 * Wird kein Knoten gefunden liefert die Funktion den Wert <code>null</code>
-	 * zurück.
-	 * 
-	 * @return den Knoten oder <code>null</code>
-	 */
-	public StrassenKnoten getFolgeKnoten() {
-		StrassenKnoten result = null;
-
-		if (getDatum() != null) {
-			List<StrassenSegment> segmente = getDatum().getSegmente();
-			if (segmente.size() > 0) {
-				StrassenSegment segment = segmente.get(0);
-				if (segment instanceof InneresStrassenSegment) {
-					segment = ((InneresStrassenSegment) segment)
-							.getNachSegment();
-				}
-				if (segment instanceof AeusseresStrassenSegment) {
-					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
-							.getNachKnoten();
-					if (knoten != null) {
-						result = knoten;
-					}
-				}
-
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * liefert die Länge der Situation als Summe der Längen der beteiligten
-	 * Straßensegemente abzüglich des Endoffsets und des Startoffsets.
-	 * 
-	 * @return die Länge
-	 */
-	public double getLaenge() {
-		double result = 0;
-		if (getDatum() != null) {
-			for (StrassenSegment segment : getDatum().getSegmente()) {
-				result += segment.getLaenge();
-			}
-
-			result -= (getDatum().getStartOffset() + getDatum().getEndOffset());
-		}
-		return result;
-	}
-
-	/**
-	 * liefert die Strasse auf der die Situation beginnt. Kann keine Strasse
-	 * ermittelt werden , wird der Wert <code>null</code> geliefert.
-	 * 
-	 * @return die Strasse oder <code>null</code>, wenn keine ermittelt
-	 *         werden konnte.
-	 */
-	public Strasse getStrasse() {
-		Strasse result = null;
-		if (getDatum() != null) {
-			List<StrassenSegment> segmente = getDatum().getSegmente();
-			if (segmente.size() > 0) {
-				StrassenSegment segment = segmente.get(0);
-				result = segment.getStrasse();
-			}
-		}
-		return result;
 	}
 
 	/**

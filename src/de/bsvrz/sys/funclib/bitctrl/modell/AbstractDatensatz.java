@@ -364,47 +364,6 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	}
 
 	/**
-	 * Zwei Datens&auml;tze sind gleich, wenn sie die selbe Attributgruppe am
-	 * gleichen Systemobjekt abbilden.
-	 * <p>
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(final Object obj) {
-		if (obj == this) {
-			return true;
-		}
-		if (obj instanceof Datensatz) {
-			Datensatz<?> ds = (Datensatz<?>) obj;
-			return getObjekt().equals(ds.getObjekt())
-					&& getAttributGruppe().equals(ds.getAttributGruppe());
-		}
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
-	 */
-	public SystemObjekt getObjekt() {
-		return objekt;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return getClass().getName() + "[objekt=" + getObjekt() + ", daten="
-				+ daten + "]";
-	}
-
-	/**
 	 * Meldet eine eventuell vorhandene Anmeldung als Sender oder Quelle wieder
 	 * ab. Noch nicht gesendet Datens&auml;tze werden aus dem Sendepuffer
 	 * entfernt.
@@ -511,6 +470,27 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	}
 
 	/**
+	 * Zwei Datens&auml;tze sind gleich, wenn sie die selbe Attributgruppe am
+	 * gleichen Systemobjekt abbilden.
+	 * <p>
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj instanceof Datensatz) {
+			Datensatz<?> ds = (Datensatz<?>) obj;
+			return getObjekt().equals(ds.getObjekt())
+					&& getAttributGruppe().equals(ds.getAttributGruppe());
+		}
+		return false;
+	}
+
+	/**
 	 * Gibt einen leeren Sendecache zur&uuml;ck.
 	 * 
 	 * @return ein leeres {@code Data}.
@@ -559,6 +539,15 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 */
 	protected T getDatum(final Aspect asp) {
 		return daten.get(asp);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
+	 */
+	public SystemObjekt getObjekt() {
+		return objekt;
 	}
 
 	/**
@@ -627,7 +616,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	protected abstract Data konvertiere(T datum);
 
 	/**
-	 * Deregistriert einen Listener.
+	 * Deregistriert einen Listener. Beim Versuch einen nicht registrierten
+	 * Listener zu entfernen, wird keine Aktion ausgeführt.
 	 * 
 	 * @param asp
 	 *            der betroffene Aspekt.
@@ -636,9 +626,12 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 */
 	protected void removeUpdateListener(final Aspect asp,
 			final DatensatzUpdateListener listener) {
-		listeners.get(asp).remove(DatensatzUpdateListener.class, listener);
-		if (listeners.get(asp).getListenerCount(DatensatzUpdateListener.class) <= 0) {
-			receiver.abmelden(asp);
+		EventListenerList listenerListe = listeners.get(asp);
+		if (listenerListe != null) {
+			listenerListe.remove(DatensatzUpdateListener.class, listener);
+			if (listenerListe.getListenerCount(DatensatzUpdateListener.class) <= 0) {
+				receiver.abmelden(asp);
+			}
 		}
 	}
 
@@ -708,6 +701,17 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 */
 	protected void setDatum(final Aspect asp, final T datum) {
 		daten.put(asp, datum);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return getClass().getName() + "[objekt=" + getObjekt() + ", daten="
+				+ daten + "]";
 	}
 
 	/**

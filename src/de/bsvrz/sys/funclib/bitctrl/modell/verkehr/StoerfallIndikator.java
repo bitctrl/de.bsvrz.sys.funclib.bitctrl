@@ -131,6 +131,14 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 		return situation;
 	}
 
+	/**
+	 * liefert die für diesen Aspekt, d.h. die damit repräsentierte Methode,
+	 * bekannte Situation.
+	 * 
+	 * @param aspekt
+	 *            der Aspekt, für den die Situation ermittelt werden soll
+	 * @return die ermittelte Situation
+	 */
 	public StoerfallSituation getSituation(final Aspect aspekt) {
 		StoerfallSituation situation = situationen.get(aspekt);
 
