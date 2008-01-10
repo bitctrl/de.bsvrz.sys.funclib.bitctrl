@@ -132,7 +132,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktLiegtAufLinienObjekt#getLinie()
 	 */
-	public Linie getLinie() {
+	public StrassenSegment getLinie() {
 		return getStrassenSegment();
 	}
 
