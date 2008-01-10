@@ -26,8 +26,15 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte;
 
+import de.bsvrz.dav.daf.main.ClientDavInterface;
+import de.bsvrz.dav.daf.main.config.ConfigurationArea;
+import de.bsvrz.dav.daf.main.config.ConfigurationChangeException;
+import de.bsvrz.dav.daf.main.config.DataModel;
+import de.bsvrz.dav.daf.main.config.DynamicObject;
+import de.bsvrz.dav.daf.main.config.DynamicObjectType;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderModellTypen;
 
@@ -38,6 +45,37 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderModellTypen;
  * @version $Id$
  */
 public class EreignisTyp extends AbstractSystemObjekt {
+
+	/**
+	 * Legt einen neuen Ereignistyp an.
+	 * 
+	 * @param pid
+	 *            die PID.
+	 * @param name
+	 *            der Name.
+	 * @return der angelegte Ereignistyp.
+	 * @throws ConfigurationChangeException
+	 *             wenn das Anlegen unzulässig ist.
+	 */
+	public static EreignisTyp anlegen(String pid, String name)
+			throws ConfigurationChangeException {
+		ObjektFactory factory;
+		ClientDavInterface dav;
+		DataModel modell;
+		ConfigurationArea kb;
+		DynamicObjectType typ;
+		SystemObject so;
+
+		factory = ObjektFactory.getInstanz();
+		dav = factory.getVerbindung();
+		modell = dav.getDataModel();
+		typ = (DynamicObjectType) modell
+				.getType(KalenderModellTypen.EREIGNISTYP.getPid());
+		kb = dav.getLocalConfigurationAuthority().getConfigurationArea();
+		so = kb.createDynamicObject(typ, pid, name);
+
+		return (EreignisTyp) factory.getModellobjekt(so);
+	}
 
 	/**
 	 * Erzeugt einen Messquerschnitt aus einem Systemobjekt.
@@ -53,6 +91,16 @@ public class EreignisTyp extends AbstractSystemObjekt {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist kein Ereignistyp.");
 		}
+	}
+
+	/**
+	 * Löscht das Objekt in dem es auf "ungültig" gesetzt wird.
+	 * 
+	 * @throws ConfigurationChangeException
+	 *             wenn das Löschen nicht zulässig ist.
+	 */
+	public void entfernen() throws ConfigurationChangeException {
+		((DynamicObject) getSystemObject()).invalidate();
 	}
 
 	/**

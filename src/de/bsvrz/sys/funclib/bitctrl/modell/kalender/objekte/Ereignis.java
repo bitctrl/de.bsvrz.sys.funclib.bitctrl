@@ -26,9 +26,13 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte;
 
+import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
+import de.bsvrz.dav.daf.main.config.ConfigurationArea;
+import de.bsvrz.dav.daf.main.config.ConfigurationChangeException;
 import de.bsvrz.dav.daf.main.config.DataModel;
+import de.bsvrz.dav.daf.main.config.DynamicObjectType;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
@@ -42,6 +46,37 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderModellTypen;
  * @version $Id$
  */
 public class Ereignis extends AbstractSystemObjekt {
+
+	/**
+	 * Legt ein neues Ereignis an.
+	 * 
+	 * @param pid
+	 *            die PID.
+	 * @param name
+	 *            der Name.
+	 * @return das angelegte Ereignis.
+	 * @throws ConfigurationChangeException
+	 *             wenn das Anlegen unzulässig ist.
+	 */
+	public static Ereignis anlegen(String pid, String name)
+			throws ConfigurationChangeException {
+		ObjektFactory factory;
+		ClientDavInterface dav;
+		DataModel modell;
+		ConfigurationArea kb;
+		DynamicObjectType typ;
+		SystemObject so;
+
+		factory = ObjektFactory.getInstanz();
+		dav = factory.getVerbindung();
+		modell = dav.getDataModel();
+		typ = (DynamicObjectType) modell.getType(KalenderModellTypen.EREIGNIS
+				.getPid());
+		kb = dav.getLocalConfigurationAuthority().getConfigurationArea();
+		so = kb.createDynamicObject(typ, pid, name);
+
+		return (Ereignis) factory.getModellobjekt(so);
+	}
 
 	/** Ein beschreibender Text des Ereignisses. */
 	private String beschreibung;
