@@ -60,7 +60,7 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 	public enum Aspekte implements Aspekt {
 
 		/** Der Aspekt {@code asp.prognoseNormal}. */
-		StoerfallVerfahrenStandard("asp.prognoseNormal");
+		PrognoseNormal("asp.prognoseNormal");
 
 		/** Der Aspekt, den das enum kapselt. */
 		private final Aspect aspekt;
