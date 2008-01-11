@@ -200,12 +200,12 @@ public class Kalender extends AbstractSystemObjekt {
 	 * 
 	 * @return die Ereignismenge.
 	 */
-	public Set<EreignisTyp> getEreignisse() {
-		Set<EreignisTyp> result;
+	public Set<Ereignis> getEreignisse() {
+		Set<Ereignis> result;
 
-		result = new HashSet<EreignisTyp>();
+		result = new HashSet<Ereignis>();
 		for (SystemObject so : ereignisse.getElements()) {
-			result.add((EreignisTyp) ObjektFactory.getInstanz()
+			result.add((Ereignis) ObjektFactory.getInstanz()
 					.getModellobjekt(so));
 		}
 

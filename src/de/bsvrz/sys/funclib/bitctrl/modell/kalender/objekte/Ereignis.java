@@ -26,12 +26,18 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte;
 
+import java.util.Collections;
+
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.DataAndATGUsageInformation;
+import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
+import de.bsvrz.dav.daf.main.config.AttributeGroupUsage;
 import de.bsvrz.dav.daf.main.config.ConfigurationArea;
 import de.bsvrz.dav.daf.main.config.ConfigurationChangeException;
 import de.bsvrz.dav.daf.main.config.DataModel;
+import de.bsvrz.dav.daf.main.config.DynamicObject;
 import de.bsvrz.dav.daf.main.config.DynamicObjectType;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
@@ -54,11 +60,16 @@ public class Ereignis extends AbstractSystemObjekt {
 	 *            die PID.
 	 * @param name
 	 *            der Name.
+	 * @param beschreibung
+	 *            die Ereignisbeschreibung.
+	 * @param ereignisTyp
+	 *            der Typ des Ereignisses.
 	 * @return das angelegte Ereignis.
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen unzulässig ist.
 	 */
-	public static Ereignis anlegen(String pid, String name)
+	public static Ereignis anlegen(String pid, String name,
+			String beschreibung, EreignisTyp ereignisTyp)
 			throws ConfigurationChangeException {
 		ObjektFactory factory;
 		ClientDavInterface dav;
@@ -66,6 +77,11 @@ public class Ereignis extends AbstractSystemObjekt {
 		ConfigurationArea kb;
 		DynamicObjectType typ;
 		SystemObject so;
+		DataAndATGUsageInformation datenUndVerwendung;
+		AttributeGroupUsage atgVerwendung;
+		Data daten;
+		AttributeGroup atg;
+		Aspect asp;
 
 		factory = ObjektFactory.getInstanz();
 		dav = factory.getVerbindung();
@@ -73,7 +89,18 @@ public class Ereignis extends AbstractSystemObjekt {
 		typ = (DynamicObjectType) modell.getType(KalenderModellTypen.EREIGNIS
 				.getPid());
 		kb = dav.getLocalConfigurationAuthority().getConfigurationArea();
-		so = kb.createDynamicObject(typ, pid, name);
+		atg = modell.getAttributeGroup("atg.ereignisEigenschaften");
+		asp = modell.getAspect("asp.eigenschaften");
+		atgVerwendung = atg.getAttributeGroupUsage(asp);
+		daten = dav.createData(atg);
+		daten.getTextValue("Ereignisbeschreibung").setText(beschreibung);
+		daten.getReferenceValue("EreignisTypReferenz").setSystemObject(
+				ereignisTyp.getSystemObject());
+		datenUndVerwendung = new DataAndATGUsageInformation(atgVerwendung,
+				daten);
+
+		so = kb.createDynamicObject(typ, pid, name, Collections
+				.singleton(datenUndVerwendung));
 
 		return (Ereignis) factory.getModellobjekt(so);
 	}
@@ -97,6 +124,16 @@ public class Ereignis extends AbstractSystemObjekt {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist kein Ereignis.");
 		}
+	}
+
+	/**
+	 * Löscht das Objekt in dem es auf "ungültig" gesetzt wird.
+	 * 
+	 * @throws ConfigurationChangeException
+	 *             wenn das Löschen nicht zulässig ist.
+	 */
+	public void entfernen() throws ConfigurationChangeException {
+		((DynamicObject) getSystemObject()).invalidate();
 	}
 
 	/**
@@ -124,16 +161,6 @@ public class Ereignis extends AbstractSystemObjekt {
 	 */
 	public SystemObjektTyp getTyp() {
 		return KalenderModellTypen.EREIGNIS;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString() {
-		return getClass().getName() + "[name=" + getSystemObject().getName()
-				+ ", pid=" + getSystemObject().getPid() + ", beschreibung="
-				+ beschreibung + ", ereignisTyp=" + ereignisTyp + "]";
 	}
 
 	/**
