@@ -196,19 +196,25 @@ public class PdSituationsEigenschaften extends
 
 			List<StrassenSegment> segmentListe = getSegmente();
 			if (segmentListe.size() > 0) {
-				StrassenSegment segment = segmentListe.get(0);
+				StrassenSegment segment = segmentListe
+						.get(segmentListe.size() - 1);
 				if (segment instanceof InneresStrassenSegment) {
-					segment = ((InneresStrassenSegment) segment)
-							.getNachSegment();
-				}
-				if (segment instanceof AeusseresStrassenSegment) {
+					InneresStrassenSegment iss = (InneresStrassenSegment) segment;
+					if (iss.getVonSegment() != null) {
+						result = iss.getNachSegment().getNachKnoten();
+					}
+					if (result == null) {
+						if (iss.getNachSegment() != null) {
+							result = iss.getNachSegment().getVonKnoten();
+						}
+					}
+				} else if (segment instanceof AeusseresStrassenSegment) {
 					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
 							.getNachKnoten();
 					if (knoten != null) {
 						result = knoten;
 					}
 				}
-
 			}
 			return result;
 		}
@@ -271,6 +277,41 @@ public class PdSituationsEigenschaften extends
 			if (segmentListe.size() > 0) {
 				StrassenSegment segment = segmentListe.get(0);
 				result = segment.getStrasse();
+			}
+			return result;
+		}
+
+		/**
+		 * liefert den in Fahrtrichtung auf die Situation folgenden
+		 * Straßenknoten. Wird kein Knoten gefunden liefert die Funktion den
+		 * Wert <code>null</code> zurück.
+		 * 
+		 * @return den Knoten oder <code>null</code>
+		 */
+		public StrassenKnoten getVorgaengerKnoten() {
+			StrassenKnoten result = null;
+
+			List<StrassenSegment> segmentListe = getSegmente();
+			if (segmentListe.size() > 0) {
+				StrassenSegment segment = segmentListe.get(0);
+				if (segment instanceof InneresStrassenSegment) {
+					InneresStrassenSegment iss = (InneresStrassenSegment) segment;
+					if (iss.getNachSegment() != null) {
+						result = iss.getNachSegment().getVonKnoten();
+					}
+					if (result == null) {
+						if (iss.getVonSegment() != null) {
+							result = iss.getNachSegment().getNachKnoten();
+						}
+					}
+				} else if (segment instanceof AeusseresStrassenSegment) {
+					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
+							.getVonKnoten();
+					if (knoten != null) {
+						result = knoten;
+					}
+				}
+
 			}
 			return result;
 		}
