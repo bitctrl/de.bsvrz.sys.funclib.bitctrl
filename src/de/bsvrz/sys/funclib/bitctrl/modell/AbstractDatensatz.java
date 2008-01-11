@@ -364,6 +364,47 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	}
 
 	/**
+	 * Zwei Datens&auml;tze sind gleich, wenn sie die selbe Attributgruppe am
+	 * gleichen Systemobjekt abbilden.
+	 * <p>
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj instanceof Datensatz) {
+			Datensatz<?> ds = (Datensatz<?>) obj;
+			return getObjekt().equals(ds.getObjekt())
+					&& getAttributGruppe().equals(ds.getAttributGruppe());
+		}
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
+	 */
+	public SystemObjekt getObjekt() {
+		return objekt;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return getClass().getName() + "[objekt=" + getObjekt() + ", daten="
+				+ daten + "]";
+	}
+
+	/**
 	 * Meldet eine eventuell vorhandene Anmeldung als Sender oder Quelle wieder
 	 * ab. Noch nicht gesendet Datens&auml;tze werden aus dem Sendepuffer
 	 * entfernt.
@@ -470,27 +511,6 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	}
 
 	/**
-	 * Zwei Datens&auml;tze sind gleich, wenn sie die selbe Attributgruppe am
-	 * gleichen Systemobjekt abbilden.
-	 * <p>
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(final Object obj) {
-		if (obj == this) {
-			return true;
-		}
-		if (obj instanceof Datensatz) {
-			Datensatz<?> ds = (Datensatz<?>) obj;
-			return getObjekt().equals(ds.getObjekt())
-					&& getAttributGruppe().equals(ds.getAttributGruppe());
-		}
-		return false;
-	}
-
-	/**
 	 * Gibt einen leeren Sendecache zur&uuml;ck.
 	 * 
 	 * @return ein leeres {@code Data}.
@@ -517,9 +537,11 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	protected synchronized void fireDatensatzAktualisiert(final Aspect asp,
 			final T datum) {
 		DatensatzUpdateEvent event = new DatensatzUpdateEvent(this, asp, datum);
-		for (DatensatzUpdateListener listener : listeners.get(asp)
-				.getListeners(DatensatzUpdateListener.class)) {
-			listener.datensatzAktualisiert(event);
+		if (listeners.get(asp) != null) {
+			for (DatensatzUpdateListener listener : listeners.get(asp)
+					.getListeners(DatensatzUpdateListener.class)) {
+				listener.datensatzAktualisiert(event);
+			}
 		}
 	}
 
@@ -539,15 +561,6 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 */
 	protected T getDatum(final Aspect asp) {
 		return daten.get(asp);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
-	 */
-	public SystemObjekt getObjekt() {
-		return objekt;
 	}
 
 	/**
@@ -701,17 +714,6 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 */
 	protected void setDatum(final Aspect asp, final T datum) {
 		daten.put(asp, datum);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return getClass().getName() + "[objekt=" + getObjekt() + ", daten="
-				+ daten + "]";
 	}
 
 	/**
