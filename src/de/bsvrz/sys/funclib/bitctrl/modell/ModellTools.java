@@ -44,12 +44,14 @@ public final class ModellTools {
 	 * Sortiert eine Liste von Systemobjekten nach deren Namen. Beim Sortieren
 	 * werden deutsche Umlaute ber&uuml;cksichtigt.
 	 * <p>
-	 * <em>Hinweis:</em> Das Ergebnis wird im Parameter abgelegt.
+	 * <em>Hinweis:</em> Das Ergebnis wird auch im Parameter abgelegt.
 	 * 
 	 * @param objekte
 	 *            die zu sortierende Liste.
+	 * @return die sortierte Liste.
 	 */
-	public static void sortiere(List<? extends SystemObjekt> objekte) {
+	public static List<? extends SystemObjekt> sortiere(
+			List<? extends SystemObjekt> objekte) {
 		Collections.sort(objekte, new Comparator<SystemObjekt>() {
 
 			public int compare(SystemObjekt so1, SystemObjekt so2) {
@@ -58,6 +60,7 @@ public final class ModellTools {
 			}
 
 		});
+		return objekte;
 	}
 
 	/**

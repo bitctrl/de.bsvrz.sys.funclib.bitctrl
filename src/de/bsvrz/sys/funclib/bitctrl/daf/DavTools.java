@@ -78,12 +78,14 @@ public class DavTools {
 	 * Sortiert eine Liste von Systemobjekten nach deren Namen. Beim Sortieren
 	 * werden deutsche Umlaute ber&uuml;cksichtigt.
 	 * <p>
-	 * <em>Hinweis:</em> Das Ergebnis wird im Parameter abgelegt.
+	 * <em>Hinweis:</em> Das Ergebnis wird auch im Parameter abgelegt.
 	 * 
 	 * @param objekte
 	 *            die zu sortierende Liste.
+	 * @return die sortierte Liste.
 	 */
-	public static void sortiere(List<? extends SystemObject> objekte) {
+	public static List<? extends SystemObject> sortiere(
+			List<? extends SystemObject> objekte) {
 		Collections.sort(objekte, new Comparator<SystemObject>() {
 
 			public int compare(SystemObject so1, SystemObject so2) {
@@ -92,6 +94,7 @@ public class DavTools {
 			}
 
 		});
+		return objekte;
 	}
 
 	/**
