@@ -23,8 +23,15 @@
 
 package de.bsvrz.sys.funclib.bitctrl.daf;
 
+import java.text.Collator;
 import java.text.DateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
  * Allgemeine Funktionen im Zusammenhang mit
@@ -65,6 +72,26 @@ public class DavTools {
 	}
 
 	/**
+	 * Sortiert eine Liste von Systemobjekten nach deren Namen. Beim Sortieren
+	 * werden deutsche Umlaute ber&uuml;cksichtigt.
+	 * <p>
+	 * <em>Hinweis:</em> Das Ergebnis wird im Parameter abgelegt.
+	 * 
+	 * @param objekte
+	 *            die zu sortierende Liste.
+	 */
+	public static void sortiere(List<? extends SystemObject> objekte) {
+		Collections.sort(objekte, new Comparator<SystemObject>() {
+
+			public int compare(SystemObject so1, SystemObject so2) {
+				Collator de = Collator.getInstance(Locale.GERMANY);
+				return de.compare(so1.toString(), so2.toString());
+			}
+
+		});
+	}
+
+	/**
 	 * überprüft die Gültigkeit der übergebenen Simulationsvariante.<br>
 	 * Liegt die Simulationsvariante nicht im Bereich 0 ... 999, wird eine
 	 * RuntimeException augelöst.
@@ -85,7 +112,7 @@ public class DavTools {
 	 * Liegt die Simulationsvariante nicht im Bereich 0 ... 999, wird eine
 	 * RuntimeException augelöst.<br>
 	 * Wird der Parameter <i>simulation</i> auf den Wert <i>true</i> gesetzt,
-	 * werdedn nur echte Simulationen, d.h. Simulationsvarianten &gt; 0
+	 * werden nur echte Simulationen, d.h. Simulationsvarianten &gt; 0
 	 * zugelassen.
 	 * 
 	 * @param sim
