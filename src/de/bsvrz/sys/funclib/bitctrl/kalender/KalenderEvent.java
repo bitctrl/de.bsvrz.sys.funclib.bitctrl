@@ -82,6 +82,15 @@ public class KalenderEvent extends EventObject {
 	}
 
 	/**
+	 * Gibt den Kalender zurück, der das Event ausgelöst hat.
+	 * 
+	 * @return der Kalender.
+	 */
+	public Kalender getKalender() {
+		return (Kalender) source;
+	}
+
+	/**
 	 * Gibt den Wert der Eigenschaft {@code zustandswechsel} wieder.
 	 * 
 	 * @return {@code zustandswechsel}.

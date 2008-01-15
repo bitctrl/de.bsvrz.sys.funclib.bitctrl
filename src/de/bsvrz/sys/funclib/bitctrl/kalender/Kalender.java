@@ -107,6 +107,7 @@ public final class Kalender implements DatensatzUpdateListener {
 				.getLocalApplicationObject());
 		odAntwort = klient.getOnlineDatensatz(OdEreignisKalenderAntwort.class);
 		aspAntwort = OdEreignisKalenderAntwort.Aspekte.Antwort.getAspekt();
+		odAntwort.setSenke(aspAntwort, true);
 		odAntwort.addUpdateListener(aspAntwort, this);
 		try {
 			odAnfrage.anmeldenSender(aspAnfrage);
@@ -136,7 +137,9 @@ public final class Kalender implements DatensatzUpdateListener {
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener#datensatzAktualisiert(de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent)
 	 */
 	public void datensatzAktualisiert(DatensatzUpdateEvent event) {
-		fireAntwort((OdEreignisKalenderAntwort.Daten) event.getDatum());
+		if (event.getDatum().isValid()) {
+			fireAntwort((OdEreignisKalenderAntwort.Daten) event.getDatum());
+		}
 	}
 
 	/**
