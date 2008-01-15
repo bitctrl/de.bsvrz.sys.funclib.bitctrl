@@ -42,12 +42,13 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderModellTypen;
 
 /**
- * Repr&auml;sentiert den Ereigniskalender.
+ * Implementiert den Ereigniskalender. Anstelle dieser Klasse, sollte immer die
+ * Schnittstelle {@link Kalender} verwendet werden.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class KalenderImpl extends AbstractSystemObjekt {
+public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 
 	/**
 	 * Kapselt die Datenverteilerlogik.
@@ -131,24 +132,18 @@ public class KalenderImpl extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Fügt ein Ereignis in die Ereignismenge des Kalenders ein.
+	 * {@inheritDoc}
 	 * 
-	 * @param ereignis
-	 *            das Ereignis.
-	 * @throws ConfigurationChangeException
-	 *             wenn das Einfügen unzulässig ist.
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#add(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Ereignis)
 	 */
 	public void add(Ereignis ereignis) throws ConfigurationChangeException {
 		ereignisse.add(ereignis.getSystemObject());
 	}
 
 	/**
-	 * Fügt einen Ereignistyp in die Ereignistypmenge des Kalenders ein.
+	 * {@inheritDoc}
 	 * 
-	 * @param ereignisTyp
-	 *            der Ereignistyp.
-	 * @throws ConfigurationChangeException
-	 *             wenn das Einfügen unzulässig ist.
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#add(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTyp)
 	 */
 	public void add(EreignisTyp ereignisTyp)
 			throws ConfigurationChangeException {
@@ -156,10 +151,9 @@ public class KalenderImpl extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Registriert einen Listener für die Änderung der Ereignismenge.
+	 * {@inheritDoc}
 	 * 
-	 * @param l
-	 *            der neue Listener.
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#addEreignisListener(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisListener)
 	 */
 	public void addEreignisListener(EreignisListener l) {
 		boolean anmelden = false;
@@ -176,10 +170,9 @@ public class KalenderImpl extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Registriert einen Listener für die Änderung der Ereignistypmenge.
+	 * {@inheritDoc}
 	 * 
-	 * @param l
-	 *            der neue Listener.
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#addEreignisTypListener(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTypListener)
 	 */
 	public void addEreignisTypListener(EreignisTypListener l) {
 		boolean anmelden = false;
@@ -196,9 +189,9 @@ public class KalenderImpl extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt die aktuelle Menge der Ereignisse zurück.
+	 * {@inheritDoc}
 	 * 
-	 * @return die Ereignismenge.
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#getEreignisse()
 	 */
 	public Set<Ereignis> getEreignisse() {
 		Set<Ereignis> result;
@@ -213,9 +206,9 @@ public class KalenderImpl extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt die aktuelle Menge der Ereignistypen zurück.
+	 * {@inheritDoc}
 	 * 
-	 * @return die Ereignistypmenge.
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#getEreignisTypen()
 	 */
 	public Set<EreignisTyp> getEreignisTypen() {
 		Set<EreignisTyp> result;
@@ -232,31 +225,25 @@ public class KalenderImpl extends AbstractSystemObjekt {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getTyp()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#getTyp()
 	 */
 	public SystemObjektTyp getTyp() {
 		return KalenderModellTypen.KALENDER;
 	}
 
 	/**
-	 * Entfernt ein Ereignis aus der Ereignismenge des Kalenders.
+	 * {@inheritDoc}
 	 * 
-	 * @param ereignis
-	 *            das Ereignis.
-	 * @throws ConfigurationChangeException
-	 *             wenn das Entfernen unzulässig ist.
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#remove(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Ereignis)
 	 */
 	public void remove(Ereignis ereignis) throws ConfigurationChangeException {
 		ereignisse.remove(ereignis.getSystemObject());
 	}
 
 	/**
-	 * Entfernt einen Ereignistyp aus der Ereignistypmenge des Kalenders.
+	 * {@inheritDoc}
 	 * 
-	 * @param ereignisTyp
-	 *            der Ereignistyp.
-	 * @throws ConfigurationChangeException
-	 *             wenn das Entfernen unzulässig ist.
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#remove(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTyp)
 	 */
 	public void remove(EreignisTyp ereignisTyp)
 			throws ConfigurationChangeException {
@@ -264,10 +251,9 @@ public class KalenderImpl extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Entfernet einen Listener, der auf die Änderung der Ereignismenge lauscht.
+	 * {@inheritDoc}
 	 * 
-	 * @param l
-	 *            der zu entfernende Listener.
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#removeEreignisListener(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisListener)
 	 */
 	public void removeEreignisListener(EreignisListener l) {
 		listener.remove(EreignisListener.class, l);
@@ -278,11 +264,9 @@ public class KalenderImpl extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Entfernet einen Listener, der auf die Änderung der Ereignistypmenge
-	 * lauscht.
+	 * {@inheritDoc}
 	 * 
-	 * @param l
-	 *            der zu entfernende Listener.
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#removeEreignisTypListener(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTypListener)
 	 */
 	public void removeEreignisTypListener(EreignisTypListener l) {
 		listener.remove(EreignisTypListener.class, l);
