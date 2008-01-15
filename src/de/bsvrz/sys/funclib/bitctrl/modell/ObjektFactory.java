@@ -277,7 +277,8 @@ public final class ObjektFactory implements ModellObjektFactory {
 			}
 		}
 
-		assert so != null;
+		assert so != null : "Das Modellobjekt zu " + obj
+				+ " konnte nicht angelegt werden.";
 		return so;
 	}
 
