@@ -56,7 +56,7 @@ public class EreignisTypenAktualisiertEvent extends EventObject {
 	 * @param entfernt
 	 *            die entfernten Ereignistypen.
 	 */
-	public EreignisTypenAktualisiertEvent(Kalender source,
+	public EreignisTypenAktualisiertEvent(KalenderImpl source,
 			Set<EreignisTyp> hinzugefuegt, Set<EreignisTyp> entfernt) {
 		super(source);
 		this.hinzugefuegt = hinzugefuegt;
@@ -88,8 +88,8 @@ public class EreignisTypenAktualisiertEvent extends EventObject {
 	 * 
 	 * @return der Kalender.
 	 */
-	public Kalender getKalender() {
-		return (Kalender) source;
+	public KalenderImpl getKalender() {
+		return (KalenderImpl) source;
 	}
 
 }

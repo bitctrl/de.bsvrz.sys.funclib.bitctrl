@@ -47,7 +47,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderModellTypen;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class Kalender extends AbstractSystemObjekt {
+public class KalenderImpl extends AbstractSystemObjekt {
 
 	/**
 	 * Kapselt die Datenverteilerlogik.
@@ -115,7 +115,7 @@ public class Kalender extends AbstractSystemObjekt {
 	 * @param obj
 	 *            ein Systemobjekt, welches ein Kalender sein muss.
 	 */
-	public Kalender(SystemObject obj) {
+	public KalenderImpl(SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {

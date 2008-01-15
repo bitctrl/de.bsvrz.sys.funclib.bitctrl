@@ -30,7 +30,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Ereignis;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTyp;
-import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.KalenderImpl;
 
 /**
  * Fasst alle Objekttypen im Kalendermodell zusammen.
@@ -41,7 +41,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender;
 public enum KalenderModellTypen implements SystemObjektTyp {
 
 	/** Ein Kalender. */
-	KALENDER("typ.kalender", Kalender.class),
+	KALENDER("typ.kalender", KalenderImpl.class),
 
 	/** Ein Ereignistyp. */
 	EREIGNISTYP("typ.ereignisTyp", EreignisTyp.class),
