@@ -26,7 +26,6 @@
 
 package de.bsvrz.sys.funclib.bitctrl.kalender;
 
-import java.util.Collections;
 import java.util.EventObject;
 import java.util.List;
 
@@ -96,7 +95,7 @@ public class KalenderEvent extends EventObject {
 	 * @return {@code zustandswechsel}.
 	 */
 	public List<Zustandswechsel> getZustandswechsel() {
-		return Collections.unmodifiableList(datum.getZustandswechsel());
+		return datum.getZustandswechsel();
 	}
 
 	/**
