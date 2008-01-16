@@ -193,6 +193,16 @@ public class DUAKonstanten {
 	public static final String ATG_KURZZEIT_MQ = "atg.verkehrsDatenKurzZeitMq"; //$NON-NLS-1$
 
 	/**
+	 * DAV-Atg-PID <code>atg.verkehrsDatenDtvFs</code>
+	 */
+	public static final String ATG_DTV_FS = "atg.verkehrsDatenDtvFs"; //$NON-NLS-1$		
+	
+	/**
+	 * DAV-Atg-PID <code>atg.verkehrsDatenDtvMq</code>
+	 */
+	public static final String ATG_DTV_MQ = "atg.verkehrsDatenDtvMq"; //$NON-NLS-1$
+	
+	/**
 	 * Wert <b>Ja</b> von Attribut-Typ <code>att.jaNein</code>
 	 */
 	public static final int JA = 1;

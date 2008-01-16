@@ -95,7 +95,7 @@ public class DAVTest {
 	
 			public void parseArguments(ArgumentList argumentList)
 					throws Exception {
-				//
+				argumentList.fetchUnusedArguments();
 			}
 	
 		}, kommandoZeile);
