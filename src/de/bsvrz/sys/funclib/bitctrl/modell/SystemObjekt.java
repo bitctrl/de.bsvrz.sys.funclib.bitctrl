@@ -27,6 +27,7 @@
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
 import java.util.Collection;
+import java.util.Comparator;
 
 import de.bsvrz.dav.daf.main.config.SystemObject;
 
@@ -41,6 +42,42 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
  * 
  */
 public interface SystemObjekt {
+
+	/**
+	 * Klasse zum Vergleich zweier Systemobjekte per PID.
+	 * 
+	 * @author BitCtrl Systems GmbH, Uwe Peuker
+	 * @version $Id$
+	 */
+	public class PidComparator implements Comparator<SystemObjekt> {
+
+		/**
+		 * vergleicht zwei Systemobjekte bezüglich ihrer PID.
+		 * 
+		 * @param o1
+		 *            erstes Objekt
+		 * @param o2
+		 *            zweites Objekt
+		 * @return &lt;0, wenn o1 kleiner als o2 ist; 0, &gt;0, wenn o1 grösser
+		 *         als o2 ist; 0 sonst.
+		 * 
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
+		public int compare(SystemObjekt o1, SystemObjekt o2) {
+
+			int result = 0;
+
+			if (o1 == null) {
+				result = -1;
+			} else if (o2 == null) {
+				result = 1;
+			} else {
+				result = o1.getPid().compareTo(o2.getPid());
+			}
+
+			return result;
+		}
+	}
 
 	/**
 	 * Gibt die ID des Systemobjekts zur&uuml;ck.
