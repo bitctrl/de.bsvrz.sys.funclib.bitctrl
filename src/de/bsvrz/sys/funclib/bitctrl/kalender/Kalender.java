@@ -36,11 +36,9 @@ import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensendeException;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datensatz.Status;
-import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderobjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.onlinedaten.OdEreignisKalenderAnfrage;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.onlinedaten.OdEreignisKalenderAntwort;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.Applikation;
-import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalObjektFactory;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
@@ -91,8 +89,7 @@ public final class Kalender implements DatensatzUpdateListener {
 
 		// Modellobjektfactory initialisieren
 		factory = ObjektFactory.getInstanz();
-		factory.registerFactory(new KalenderobjektFactory(),
-				new SystemModellGlobalObjektFactory());
+		factory.registerStandardFactories();
 
 		// Anfragedatensatz bestimmen
 		kalender = (de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender) factory
@@ -183,9 +180,6 @@ public final class Kalender implements DatensatzUpdateListener {
 					"Ereigniskalender (noch) nicht bereit.");
 		}
 		factory = ObjektFactory.getInstanz();
-		factory.registerFactory(new KalenderobjektFactory(),
-				new SystemModellGlobalObjektFactory());
-		factory.registerFactory(new KalenderobjektFactory());
 		klient = factory.getVerbindung().getLocalApplicationObject();
 
 		datum = odAnfrage.erzeugeDatum();
