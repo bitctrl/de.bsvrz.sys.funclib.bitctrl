@@ -40,6 +40,12 @@ import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dav.daf.main.config.SystemObjectType;
 import de.bsvrz.sys.funclib.bitctrl.daf.Konfigurationsbereich;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.GeoModellFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderobjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellaoe.SystemModellAoeObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenobjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsobjektFactory;
 
 /**
  * Eine "Super-Factory" f&uuml;r Modellobjekte. Dient dem Erzeugen von Objekten
@@ -325,6 +331,25 @@ public final class ObjektFactory implements ModellObjektFactory {
 		for (ModellObjektFactory f : factory) {
 			factories.put(f.getClass(), f);
 		}
+	}
+
+	/**
+	 * Registriert alle Factories, die sich in dieser Bibliothek befinden
+	 * befinden. Folgende Factories werden registriert:
+	 * <ul>
+	 * <li>{@link GeoModellFactory}</li>
+	 * <li>{@link KalenderobjektFactory}</li>
+	 * <li>{@link SystemModellAoeObjektFactory}</li>
+	 * <li>{@link SystemModellGlobalObjektFactory}</li>
+	 * <li>{@link UmfelddatenobjektFactory}</li>
+	 * <li>{@link VerkehrsobjektFactory}</li>
+	 * </ul>
+	 */
+	public void registerStandardFactories() {
+		registerFactory(new GeoModellFactory(), new KalenderobjektFactory(),
+				new SystemModellAoeObjektFactory(),
+				new SystemModellGlobalObjektFactory(),
+				new UmfelddatenobjektFactory(), new VerkehrsobjektFactory());
 	}
 
 	/**

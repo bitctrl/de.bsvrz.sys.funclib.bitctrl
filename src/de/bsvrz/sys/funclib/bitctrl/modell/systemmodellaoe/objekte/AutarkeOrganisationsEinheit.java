@@ -67,6 +67,13 @@ public class AutarkeOrganisationsEinheit extends AbstractSystemObjekt implements
 					"Systemobjekt ist keine autarke Organisationseinheit.");
 		}
 
+		// Test auf Ganglinienprognose, das wir nur das Interface nutzen ohne
+		// ein konkretes Objekt.
+		if (!obj.isOfType(getTyp().getPid())) {
+			throw new IllegalArgumentException(
+					"Systemobjekt ist keine Ganglinienprognose.");
+		}
+
 		kalender = new KalenderImpl(obj);
 	}
 
