@@ -417,7 +417,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	}
 
 	/**
-	 * liefert die aktuellen Daten des Datensatzes. Es wird der für den Aspekt
+	 * Liefert die aktuellen Daten des Datensatzes. Es wird der für den Aspekt
 	 * gespeicherte Datensatz geliefert, falls keiner existiert werden die Daten
 	 * mittels
 	 * {@link ClientDavInterface#getData(SystemObject, DataDescription, long)}
@@ -430,10 +430,16 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	protected T abrufenDatum(final Aspect asp) {
 		synchronized (this) {
 			T result = daten.get(asp);
-			if ((!isAngemeldetSender(asp)) || (result == null)) {
-				setDaten(ObjektFactory.getInstanz().getVerbindung().getData(
-						getObjekt().getSystemObject(),
-						new DataDescription(getAttributGruppe(), asp), 0));
+			if (result == null || !isAutoUpdate(asp)) {
+				ClientDavInterface dav;
+				ResultData datensatz;
+				DataDescription dbs;
+
+				dav = ObjektFactory.getInstanz().getVerbindung();
+				dbs = new DataDescription(getAttributGruppe(), asp);
+				datensatz = dav.getData(getObjekt().getSystemObject(), dbs, 0);
+				setDaten(datensatz);
+
 				result = daten.get(asp);
 			}
 			return result;
@@ -719,9 +725,12 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	/**
 	 * Ruft die aktuellen Daten ab und setzt die internen Daten.
 	 * 
+	 * @todo deprecated Methode löschen
 	 * @param asp
 	 *            der betroffene Aspekt.
+	 * @deprecated identisch mit {@link #abrufenDatum(Aspect)}
 	 */
+	@Deprecated
 	protected void update(final Aspect asp) {
 		if (!receiver.isAngemeldet(asp)) {
 			ClientDavInterface dav;
