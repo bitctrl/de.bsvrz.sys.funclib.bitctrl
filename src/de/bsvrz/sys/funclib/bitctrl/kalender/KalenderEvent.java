@@ -116,7 +116,6 @@ public class KalenderEvent extends EventObject {
 		String s = getClass().getName() + "[";
 
 		s = "absenderZeichen=" + datum.getAbsenderZeichen();
-		s += ", zustandswechsel=" + datum.getZustandswechsel() + "]";
 
 		return s + "]";
 	}
