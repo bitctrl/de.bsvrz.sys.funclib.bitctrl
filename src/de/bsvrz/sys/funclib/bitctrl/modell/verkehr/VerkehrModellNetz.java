@@ -56,6 +56,12 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 */
 	public static final String MENGENNAME_STAUS = "Staus"; //$NON-NLS-1$ 
 
+	/**
+	 * Name der Menge, in der die Baustellen des VerkehrsmodellNetz abgelegt
+	 * werden.
+	 */
+	public static final String MENGENNAME_BAUSTELLEN = "Baustellen"; //$NON-NLS-1$ 
+
 	/** PID des Typs eines VerkehrsModellNetz. */
 	@SuppressWarnings("hiding")
 	public static final String PID_TYP = "typ.verkehrsModellNetz"; //$NON-NLS-1$
@@ -215,6 +221,26 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	}
 
 	/**
+	 * entfernt ein Baustellenobjekt mit dem übergeben Systemobjekt vom Netz.
+	 * Das Objekt wird aus der Menge der Baustellen des VerkehrsmodellNetz
+	 * ausgetragen.
+	 * 
+	 * @param obj
+	 *            das zu entfernende Stauobjekt
+	 */
+	public void baustelleEntfernen(final SystemObject obj) {
+		ObjectSet set = ((ConfigurationObject) getSystemObject())
+				.getObjectSet(MENGENNAME_BAUSTELLEN);
+		if (set.getElements().contains(obj)) {
+			try {
+				set.remove(obj);
+			} catch (ConfigurationChangeException e) {
+				LOGGER.error(e.getMessage());
+			}
+		}
+	}
+
+	/**
 	 * liefert die Liste der äußeren Straßensegmente, die das Netz bilden und
 	 * zur übergebenen Straße gehören. Die Liste enthält alle äußeren
 	 * Straßensegmente, die innerhalb des Netzes selbst konfiguriert sind und
@@ -246,8 +272,11 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	public Collection<Baustelle> getBaustellen() {
 		Collection<Baustelle> result = new ArrayList<Baustelle>();
 		for (SystemObject obj : baustellenMenge.getElements()) {
-			result.add((Baustelle) ObjektFactory.getInstanz().getModellobjekt(
-					obj));
+			Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
+					.getModellobjekt(obj);
+			bst.addNetzReferenz(this);
+			result.add(bst);
+
 		}
 		return result;
 	}
