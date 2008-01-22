@@ -241,6 +241,26 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	}
 
 	/**
+	 * fügt den Netz eine Baustelle mit dem übergeben Systemobjekt hinzu. Das
+	 * Objekt wird in die Menge der Baustellen des VerkehrsmodellNetz
+	 * eingetragen.
+	 * 
+	 * @param obj
+	 *            das neue Baustellen
+	 */
+	public void baustelleHinzufuegen(final SystemObject obj) {
+		ObjectSet set = ((ConfigurationObject) getSystemObject())
+				.getObjectSet(MENGENNAME_BAUSTELLEN);
+		if (!set.getElements().contains(obj)) {
+			try {
+				set.add(obj);
+			} catch (ConfigurationChangeException e) {
+				LOGGER.error(e.getMessage());
+			}
+		}
+	}
+
+	/**
 	 * liefert die Liste der äußeren Straßensegmente, die das Netz bilden und
 	 * zur übergebenen Straße gehören. Die Liste enthält alle äußeren
 	 * Straßensegmente, die innerhalb des Netzes selbst konfiguriert sind und

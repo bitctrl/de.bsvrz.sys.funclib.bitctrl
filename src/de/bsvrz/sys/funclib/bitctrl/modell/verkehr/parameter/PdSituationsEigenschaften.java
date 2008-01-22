@@ -331,7 +331,7 @@ public class PdSituationsEigenschaften extends
 		 * @param dauer
 		 *            die Dauer in Millisekunden
 		 */
-		protected void setDauer(final long dauer) {
+		public void setDauer(final long dauer) {
 			this.dauer = dauer;
 		}
 
@@ -342,7 +342,7 @@ public class PdSituationsEigenschaften extends
 		 * @param endOffset
 		 *            der Offset in Metern
 		 */
-		protected void setEndOffset(final long endOffset) {
+		public void setEndOffset(final long endOffset) {
 			this.endOffset = endOffset;
 		}
 
@@ -365,7 +365,7 @@ public class PdSituationsEigenschaften extends
 		 * @param startOffset
 		 *            der Offset in Metern
 		 */
-		protected void setStartOffset(final long startOffset) {
+		public void setStartOffset(final long startOffset) {
 			this.startOffset = startOffset;
 		}
 
@@ -375,7 +375,7 @@ public class PdSituationsEigenschaften extends
 		 * @param startZeit
 		 *            der Zeitpunkt in Millisekunden seit 1.1.1970 0 Uhr GMT
 		 */
-		protected void setStartZeit(final long startZeit) {
+		public void setStartZeit(final long startZeit) {
 			this.startZeit = startZeit;
 		}
 
