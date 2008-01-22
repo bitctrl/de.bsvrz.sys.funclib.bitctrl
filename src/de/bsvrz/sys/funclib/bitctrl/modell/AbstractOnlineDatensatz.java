@@ -218,8 +218,10 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * {@inheritDoc}
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#update(de.bsvrz.dav.daf.main.config.Aspect)
+	 * @deprecated identisch mit {@link #abrufenDatum(Aspect)}
 	 */
 	@Override
+	@Deprecated
 	public void update(Aspect asp) {
 		super.update(asp);
 	}
