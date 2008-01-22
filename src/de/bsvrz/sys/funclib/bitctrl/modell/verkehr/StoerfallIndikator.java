@@ -29,11 +29,14 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 import java.util.HashMap;
 import java.util.Map;
 
+import sun.jdbc.odbc.OdbcDef;
+
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten.OdStoerfallZustand;
 
 /**
  * Repr&auml;ssentiert einen Störfallindikator innerhalb der
@@ -128,24 +131,6 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 				situation = s;
 			}
 		}
-		return situation;
-	}
-
-	/**
-	 * liefert die für diesen Aspekt, d.h. die damit repräsentierte Methode,
-	 * bekannte Situation.
-	 * 
-	 * @param aspekt
-	 *            der Aspekt, für den die Situation ermittelt werden soll
-	 * @return die ermittelte Situation
-	 */
-	public StoerfallSituation getSituation(final Aspect aspekt) {
-		StoerfallSituation situation = situationen.get(aspekt);
-
-		if (situation == null) {
-			situation = StoerfallSituation.UNBEKANNT;
-		}
-
 		return situation;
 	}
 

@@ -265,6 +265,16 @@ public class OdStoerfallZustand extends
 		}
 
 		/**
+		 * Setzt das Flag {@code valid} des Datum.
+		 * 
+		 * @param valid
+		 *            der neue Wert des Flags.
+		 */
+		protected void setValid(boolean valid) {
+			this.valid = valid;
+		}
+
+		/**
 		 * {@inheritDoc}
 		 * 
 		 * @see java.lang.Object#toString()
@@ -282,16 +292,6 @@ public class OdStoerfallZustand extends
 			s += ", gueteVerfahren=" + gueteVerfahren;
 
 			return s + "]";
-		}
-
-		/**
-		 * Setzt das Flag {@code valid} des Datum.
-		 * 
-		 * @param valid
-		 *            der neue Wert des Flags.
-		 */
-		protected void setValid(boolean valid) {
-			this.valid = valid;
 		}
 
 	}
@@ -316,6 +316,11 @@ public class OdStoerfallZustand extends
 			atg = modell.getAttributeGroup(ATG_STOERFALL_ZUSTAND);
 			assert atg != null;
 		}
+	}
+
+	@Override
+	public OdStoerfallZustand.Daten abrufenDatum(Aspect asp) {
+		return super.abrufenDatum(asp);
 	}
 
 	/**
@@ -350,6 +355,36 @@ public class OdStoerfallZustand extends
 		return atg;
 	}
 
+	public StoerfallSituation getSituation(Aspect aspekt) {
+		StoerfallSituation result = StoerfallSituation.UNBEKANNT;
+		OdStoerfallZustand.Daten daten = getDatum(aspekt);
+		if ((daten != null) && daten.isValid()) {
+			result = daten.getSituation();
+		}
+
+		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	@Override
+	protected Data konvertiere(Daten datum) {
+		Data daten = erzeugeSendeCache();
+
+		daten.getItem("Güte").getUnscaledValue("Index").set(
+				datum.getGueteIndex());
+		daten.getItem("Güte").getUnscaledValue("Verfahren").set(
+				datum.getGueteVerfahren().getCode());
+		daten.getTimeValue("Horizont").setMillis(datum.getHorizont());
+		daten.getTimeValue("T").setMillis(datum.getT());
+		daten.getUnscaledValue("Situation").set(datum.getSituation().getCode());
+
+		return daten;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -381,25 +416,4 @@ public class OdStoerfallZustand extends
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
 	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
-	 */
-	@Override
-	protected Data konvertiere(Daten datum) {
-		Data daten = erzeugeSendeCache();
-
-		daten.getItem("Güte").getUnscaledValue("Index").set(
-				datum.getGueteIndex());
-		daten.getItem("Güte").getUnscaledValue("Verfahren").set(
-				datum.getGueteVerfahren().getCode());
-		daten.getTimeValue("Horizont").setMillis(datum.getHorizont());
-		daten.getTimeValue("T").setMillis(datum.getT());
-		daten.getUnscaledValue("Situation").set(datum.getSituation().getCode());
-
-		return daten;
-	}
-
 }
