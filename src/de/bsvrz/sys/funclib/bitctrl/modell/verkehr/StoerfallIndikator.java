@@ -26,17 +26,9 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import sun.jdbc.odbc.OdbcDef;
-
-import de.bsvrz.dav.daf.main.config.Aspect;
-import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten.OdStoerfallZustand;
 
 /**
  * Repr&auml;ssentiert einen Störfallindikator innerhalb der
@@ -54,31 +46,6 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 	public static final String ATT_NAME_SITUATION = "Situation"; //$NON-NLS-1$
 
 	/**
-	 * die PID der Attributgruppe, unter der der Störfallzustand des Indikators
-	 * veröffentlicht wird.
-	 */
-	private static final String PID_ATG_STOERFALL_ZUSTAND = "atg.störfallZustand"; //$NON-NLS-1$
-
-	/**
-	 * die Attributgruppe, unter der der Störfallzustand des Indikators
-	 * veröffentlicht wird.
-	 */
-	private static AttributeGroup situationsAtg = null;
-
-	/**
-	 * liefert die Attributgruppe unter der der Störfallzustand eines Indikators
-	 * innerhald des Datenverteilers publiziert wird.
-	 * 
-	 * @return die Attributgruppe
-	 */
-	public static AttributeGroup getSituationsAtg() {
-		return situationsAtg;
-	}
-
-	/** die aktuelle Situation des Indikators. */
-	private final Map<Aspect, StoerfallSituation> situationen = new HashMap<Aspect, StoerfallSituation>();
-
-	/**
 	 * Erzeugt einen Störfallindikator aus einem Systemobjekt.
 	 * 
 	 * @param obj
@@ -92,46 +59,6 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist kein Störfallindikator."); //$NON-NLS-1$
 		}
-
-		if (situationsAtg == null) {
-			situationsAtg = obj.getDataModel().getAttributeGroup(
-					PID_ATG_STOERFALL_ZUSTAND);
-		}
-	}
-
-	/**
-	 * entfernt alle Verfahren (Aspekte) aus der Situationsliste, die nicht in
-	 * der angegebenen Liste enthalten sind.
-	 * 
-	 * @param aspekte
-	 *            die Liste der unterstützten Verfahren.
-	 */
-	public void bereinigeSituationsListe(final Aspect... aspekte) {
-		Map<Aspect, StoerfallSituation> alteSituationen = new HashMap<Aspect, StoerfallSituation>(
-				situationen);
-		situationen.clear();
-		for (Aspect aspekt : aspekte) {
-			if (alteSituationen.containsKey(aspekt)) {
-				situationen.put(aspekt, alteSituationen.get(aspekt));
-			}
-		}
-	}
-
-	/**
-	 * liefert den aktuellen Zustand des Indikators.<br>
-	 * Es wird das Maximum aus allen mit den verschiedenen Aspekten ermittelten
-	 * Zustandswerten ermittelt und geliefert.
-	 * 
-	 * @return der aktuelle Störfallzustand des Indikators.
-	 */
-	public StoerfallSituation getSituation() {
-		StoerfallSituation situation = StoerfallSituation.STOERUNG;
-		for (StoerfallSituation s : situationen.values()) {
-			if (s.getCode() > situation.getCode()) {
-				situation = s;
-			}
-		}
-		return situation;
 	}
 
 	/**
@@ -139,18 +66,5 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 	 */
 	public SystemObjektTyp getTyp() {
 		return VerkehrsModellTypen.STOERFALLINDIKATOR;
-	}
-
-	/**
-	 * setzt den Situationswert für den angegebenen Aspekt.
-	 * 
-	 * @param situation
-	 *            der neue Störfallzustand des Indikators.
-	 * @param aspekt
-	 *            der Aspekt, unter dem der Zustand ermittelt wurde
-	 */
-	public void setSituation(final StoerfallSituation situation,
-			final Aspect aspekt) {
-		situationen.put(aspekt, situation);
 	}
 }
