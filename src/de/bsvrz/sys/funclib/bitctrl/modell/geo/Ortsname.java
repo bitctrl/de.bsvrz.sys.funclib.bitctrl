@@ -45,7 +45,7 @@ public class Ortsname extends PunktXYImpl {
 	 *            das Objekt mit dem der Ortsname innerhalb der Konfguration des
 	 *            Datenverteilers repräsentiert ist.
 	 */
-	protected Ortsname(SystemObject obj) {
+	public Ortsname(SystemObject obj) {
 		super(obj);
 		// TODO Auto-generated constructor stub
 	}

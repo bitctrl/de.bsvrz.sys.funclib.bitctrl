@@ -79,7 +79,7 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements KomplexXY {
 	 * @param obj
 	 *            das Objekt
 	 */
-	protected KomplexXYImpl(SystemObject obj) {
+	public KomplexXYImpl(SystemObject obj) {
 		super(obj);
 	}
 

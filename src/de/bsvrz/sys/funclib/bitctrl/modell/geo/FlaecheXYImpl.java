@@ -61,7 +61,7 @@ public class FlaecheXYImpl extends AbstractSystemObjekt implements FlaecheXY {
 	 *            das zu Grunde liegende Objekt aus der
 	 *            Datenverteilerkonfiguration
 	 */
-	protected FlaecheXYImpl(SystemObject obj) {
+	public FlaecheXYImpl(SystemObject obj) {
 		super(obj);
 	}
 

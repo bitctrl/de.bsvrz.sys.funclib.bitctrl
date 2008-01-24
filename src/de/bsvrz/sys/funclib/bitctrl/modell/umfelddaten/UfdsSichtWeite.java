@@ -43,7 +43,7 @@ public class UfdsSichtWeite extends AbstractUmfeldDatenSensor {
 	 * @param obj
 	 *            Ein Systemobjekt, was ein Sichtweitesensor darstellt
 	 */
-	UfdsSichtWeite(SystemObject obj) {
+	public UfdsSichtWeite(SystemObject obj) {
 		super(obj);
 	}
 

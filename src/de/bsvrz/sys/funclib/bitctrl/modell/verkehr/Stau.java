@@ -45,7 +45,7 @@ public class Stau extends Situation {
 	 * @param obj
 	 *            das Systemobjekt, das die Baustelle definiert
 	 */
-	Stau(final SystemObject obj) {
+	public Stau(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {

@@ -62,7 +62,7 @@ public class InneresStrassenSegment extends StrassenSegment {
 	 * @param obj
 	 *            das Systemobjekt
 	 */
-	InneresStrassenSegment(SystemObject obj) {
+	public InneresStrassenSegment(SystemObject obj) {
 		super(obj);
 
 		AttributeGroup atg = obj.getDataModel().getAttributeGroup(

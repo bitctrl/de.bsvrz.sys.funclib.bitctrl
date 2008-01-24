@@ -43,7 +43,7 @@ public class FahrStreifen extends StoerfallIndikator {
 	 * @param obj
 	 *            Ein Systemobjekt, welches ein Fahrstreifen sein muss.
 	 */
-	FahrStreifen(final SystemObject obj) {
+	public FahrStreifen(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {

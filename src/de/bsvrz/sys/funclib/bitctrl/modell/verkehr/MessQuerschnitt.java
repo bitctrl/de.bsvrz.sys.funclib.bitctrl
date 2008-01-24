@@ -52,7 +52,7 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 	 * @param obj
 	 *            Ein Systemobjekt, welches ein Messquerschnitt sein muss
 	 */
-	MessQuerschnitt(final SystemObject obj) {
+	public MessQuerschnitt(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {

@@ -57,7 +57,7 @@ public class Baustelle extends Situation {
 	 * @param obj
 	 *            das Systemobjekt, das die Baustelle definiert
 	 */
-	Baustelle(SystemObject obj) {
+	public Baustelle(SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {

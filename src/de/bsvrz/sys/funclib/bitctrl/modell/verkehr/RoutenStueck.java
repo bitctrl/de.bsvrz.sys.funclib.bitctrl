@@ -65,7 +65,7 @@ public class RoutenStueck extends StoerfallIndikator implements
 	 * @param obj
 	 *            das Systemobjekt
 	 */
-	RoutenStueck(SystemObject obj) {
+	public RoutenStueck(SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {

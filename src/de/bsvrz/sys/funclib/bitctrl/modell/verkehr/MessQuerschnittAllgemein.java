@@ -105,7 +105,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	 *            Ein Systemobjekt, welches ein MessQuerschnittAllgemein sein
 	 *            muss
 	 */
-	MessQuerschnittAllgemein(final SystemObject obj) {
+	public MessQuerschnittAllgemein(final SystemObject obj) {
 		super(obj);
 
 		punkt = new PunktXYImpl(obj);

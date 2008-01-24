@@ -45,7 +45,7 @@ public class Ortslage extends KomplexXYImpl {
 	 *            das Objekt mit dem die Ortslage innerhalb der Konfguration des
 	 *            Datenverteilers repräsentiert ist.
 	 */
-	protected Ortslage(SystemObject obj) {
+	public Ortslage(SystemObject obj) {
 		super(obj);
 		// TODO Auto-generated constructor stub
 	}

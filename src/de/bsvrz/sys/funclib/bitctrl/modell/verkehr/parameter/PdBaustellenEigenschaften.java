@@ -31,7 +31,6 @@ import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
-import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.BaustellenStatus;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.BaustellenVeranlasser;
@@ -135,7 +134,7 @@ public class PdBaustellenEigenschaften extends
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum#clone()
 		 */
 		@Override
-		public Datum clone() {
+		public Daten clone() {
 			return new Daten(this);
 		}
 
@@ -272,6 +271,9 @@ public class PdBaustellenEigenschaften extends
 	 */
 	public void setDaten(ResultData daten) {
 		check(daten);
-		setDatum(new Daten(daten));
+		Daten datum = new Daten(daten);
+		setDatum(datum);
+		fireDatensatzAktualisiert(datum.clone());
+
 	}
 }

@@ -64,7 +64,7 @@ public class UmfeldDatenMessStelle extends AbstractSystemObjekt implements
 	 *            Ein Systemobjekt, welches eine Umfelddatenmessstelle sein muss
 	 * @throws IllegalArgumentException
 	 */
-	UmfeldDatenMessStelle(SystemObject so) {
+	public UmfeldDatenMessStelle(SystemObject so) {
 		super(so);
 
 		punkt = new PunktXYImpl(so);

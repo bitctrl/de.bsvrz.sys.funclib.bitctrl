@@ -93,7 +93,7 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 *            Ein Systemobjekt, welches ein Netz darstellt
 	 * @throws IllegalArgumentException
 	 */
-	VerkehrModellNetz(final SystemObject obj) {
+	public VerkehrModellNetz(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(PID_TYP)) {

@@ -45,7 +45,7 @@ public class Kreisgrenzen extends KomplexXYImpl {
 	 *            das Objekt mit dem der Kreis innerhalb der
 	 *            Datenverteiler-Konfiguration repräsentiert ist
 	 */
-	protected Kreisgrenzen(SystemObject obj) {
+	public Kreisgrenzen(SystemObject obj) {
 		super(obj);
 		// TODO Auto-generated constructor stub
 	}

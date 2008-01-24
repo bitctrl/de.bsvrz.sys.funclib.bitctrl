@@ -84,7 +84,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 *            muss
 	 * @throws IllegalArgumentException
 	 */
-	StrassenTeilSegment(final SystemObject obj) {
+	public StrassenTeilSegment(final SystemObject obj) {
 		super(obj);
 
 		linie = new LinieXYImpl(obj);

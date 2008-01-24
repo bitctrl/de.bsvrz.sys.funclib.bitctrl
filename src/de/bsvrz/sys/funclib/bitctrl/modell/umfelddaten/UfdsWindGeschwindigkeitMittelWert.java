@@ -35,7 +35,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class UfdsWindGeschwindigkeitMittelWert extends AbstractUmfeldDatenSensor {
+public class UfdsWindGeschwindigkeitMittelWert extends
+		AbstractUmfeldDatenSensor {
 
 	/**
 	 * Ruft den Superkonstruktor auf.
@@ -43,7 +44,7 @@ public class UfdsWindGeschwindigkeitMittelWert extends AbstractUmfeldDatenSensor
 	 * @param obj
 	 *            Ein Systemobjekt, was ein Windgeschwindigkeitssensor darstellt
 	 */
-	UfdsWindGeschwindigkeitMittelWert(SystemObject obj) {
+	public UfdsWindGeschwindigkeitMittelWert(SystemObject obj) {
 		super(obj);
 	}
 

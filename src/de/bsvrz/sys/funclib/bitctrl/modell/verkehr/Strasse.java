@@ -68,7 +68,7 @@ public class Strasse extends AbstractSystemObjekt {
 	 * @param obj
 	 *            das Systemobjekt
 	 */
-	Strasse(SystemObject obj) {
+	public Strasse(SystemObject obj) {
 		super(obj);
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException("Systemobjekt ist keine Straﬂe.");

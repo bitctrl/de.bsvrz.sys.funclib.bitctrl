@@ -77,7 +77,7 @@ public class StrassenSegment extends StoerfallIndikator implements
 	 *            Ein Systemobjekt, welches ein Stra&szlig;ensegment darstellt
 	 * @throws IllegalArgumentException
 	 */
-	StrassenSegment(SystemObject obj) {
+	public StrassenSegment(SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {

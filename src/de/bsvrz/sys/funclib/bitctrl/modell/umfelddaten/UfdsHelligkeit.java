@@ -43,7 +43,7 @@ public class UfdsHelligkeit extends AbstractUmfeldDatenSensor {
 	 * @param obj
 	 *            Ein Systemobjekt, was ein Helligkeitssensor darstellt
 	 */
-	UfdsHelligkeit(SystemObject obj) {
+	public UfdsHelligkeit(SystemObject obj) {
 		super(obj);
 	}
 

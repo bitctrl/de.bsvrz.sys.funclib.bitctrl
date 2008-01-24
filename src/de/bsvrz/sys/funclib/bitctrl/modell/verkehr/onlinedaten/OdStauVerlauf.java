@@ -110,10 +110,10 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 		private long schrittweite;
 
 		/** Dauer des Staus. */
-		private long dauer;
+		private long dauer = Long.MAX_VALUE;
 
 		/** Auflösungszeit. */
-		private long aufloesungsZeit;
+		private long aufloesungsZeit = Long.MAX_VALUE;
 
 		/** Maximale Länge. */
 		private long maxLaenge;

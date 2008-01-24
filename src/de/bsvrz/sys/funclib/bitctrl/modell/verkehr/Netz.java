@@ -61,7 +61,7 @@ public class Netz extends StoerfallIndikator implements NetzBestandTeil {
 	 *            Ein Systemobjekt, welches ein Netz darstellt
 	 * @throws IllegalArgumentException
 	 */
-	Netz(final SystemObject obj) {
+	public Netz(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {

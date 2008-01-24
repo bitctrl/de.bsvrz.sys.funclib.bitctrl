@@ -54,7 +54,7 @@ public abstract class Situation extends AbstractSystemObjekt {
 	 * @param obj
 	 *            das Systemobjekt, das die Situation definiert
 	 */
-	Situation(final SystemObject obj) {
+	public Situation(final SystemObject obj) {
 		super(obj);
 	}
 
