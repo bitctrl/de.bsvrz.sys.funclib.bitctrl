@@ -24,7 +24,7 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten;
+package de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten.verkehr;
 
 import static de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten.OdVerkehrsDatenKurzZeitMq.Daten.Werte.KB;
 import static de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten.OdVerkehrsDatenKurzZeitMq.Daten.Werte.QKfz;
@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Random;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten.OdVerkehrsDatenKurzZeitMq;
+import de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten.TestDatenGenerator;
 
 /**
  * Testdatengenerator f&uuml;r Verkehrskurzzeitdaten am Messquerschnitt.
