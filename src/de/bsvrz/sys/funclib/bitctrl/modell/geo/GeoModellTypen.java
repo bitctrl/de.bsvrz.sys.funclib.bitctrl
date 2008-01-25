@@ -56,6 +56,9 @@ public enum GeoModellTypen implements SystemObjektTyp {
 	/** die Grenzen eines Ortes. */
 	ORTSLAGE("typ.Ortslage", Ortslage.class),
 
+	/** die Grenzen eines Gewässers. */
+	GEWAESSER("typ.gewässer", Gewaesser.class),
+
 	/** Eine Ortsbezeichung. */
 	ORTSNAME("typ.Ortsname", Ortsname.class);
 

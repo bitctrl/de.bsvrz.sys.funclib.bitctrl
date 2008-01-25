@@ -63,6 +63,8 @@ public class GeoModellFactory implements ModellObjektFactory {
 			obj = new Kreisgrenzen(objekt);
 		} else if (objekt.isOfType(GeoModellTypen.ORTSLAGE.getPid())) {
 			obj = new Ortslage(objekt);
+		} else if (objekt.isOfType(GeoModellTypen.GEWAESSER.getPid())) {
+			obj = new Gewaesser(objekt);
 		} else if (objekt.isOfType(GeoModellTypen.ORTSNAME.getPid())) {
 			obj = new Ortsname(objekt);
 		} else if (objekt.isOfType(GeoModellTypen.KOMPLEX_XY.getPid())) {
