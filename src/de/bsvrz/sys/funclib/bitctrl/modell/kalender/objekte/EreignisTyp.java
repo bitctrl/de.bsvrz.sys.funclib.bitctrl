@@ -26,7 +26,18 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import de.bsvrz.dav.daf.main.ClientDavInterface;
+import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.DataAndATGUsageInformation;
+import de.bsvrz.dav.daf.main.Data.Array;
+import de.bsvrz.dav.daf.main.config.Aspect;
+import de.bsvrz.dav.daf.main.config.AttributeGroup;
+import de.bsvrz.dav.daf.main.config.AttributeGroupUsage;
 import de.bsvrz.dav.daf.main.config.ConfigurationArea;
 import de.bsvrz.dav.daf.main.config.ConfigurationChangeException;
 import de.bsvrz.dav.daf.main.config.DataModel;
@@ -59,12 +70,37 @@ public class EreignisTyp extends AbstractSystemObjekt {
 	 */
 	public static EreignisTyp anlegen(String pid, String name)
 			throws ConfigurationChangeException {
+		return anlegen(pid, name, new HashMap<String, String>());
+	}
+
+	/**
+	 * Legt einen neuen Ereignistyp an.
+	 * 
+	 * @param pid
+	 *            die PID.
+	 * @param name
+	 *            der Name.
+	 * @param attribute
+	 *            eine Liste von zusätzlichen Attributname/Attributwert-Paaren.
+	 * @return der angelegte Ereignistyp.
+	 * @throws ConfigurationChangeException
+	 *             wenn das Anlegen unzulässig ist.
+	 */
+	public static EreignisTyp anlegen(String pid, String name,
+			Map<String, String> attribute) throws ConfigurationChangeException {
 		ObjektFactory factory;
 		ClientDavInterface dav;
 		DataModel modell;
 		ConfigurationArea kb;
 		DynamicObjectType typ;
 		SystemObject so;
+		DataAndATGUsageInformation datenUndVerwendung;
+		AttributeGroupUsage atgVerwendung;
+		Data daten;
+		AttributeGroup atg;
+		Aspect asp;
+		Array feld;
+		int i;
 
 		factory = ObjektFactory.getInstanz();
 		dav = factory.getVerbindung();
@@ -72,7 +108,26 @@ public class EreignisTyp extends AbstractSystemObjekt {
 		typ = (DynamicObjectType) modell
 				.getType(KalenderModellTypen.EREIGNISTYP.getPid());
 		kb = dav.getLocalConfigurationAuthority().getConfigurationArea();
-		so = kb.createDynamicObject(typ, pid, name);
+		atg = modell.getAttributeGroup("atg.ereignisTypEigenschaften");
+		asp = modell.getAspect("asp.eigenschaften");
+		atgVerwendung = atg.getAttributeGroupUsage(asp);
+
+		daten = dav.createData(atg);
+		feld = daten.getArray("ZusätzlicheAttribute");
+		feld.setLength(attribute.size());
+		i = 0;
+		for (Entry<String, String> entry : attribute.entrySet()) {
+			feld.getItem(i).getTextValue("Attributname")
+					.setText(entry.getKey());
+			feld.getItem(i).getTextValue("Attributwert").setText(
+					entry.getValue());
+			++i;
+		}
+
+		datenUndVerwendung = new DataAndATGUsageInformation(atgVerwendung,
+				daten);
+		so = kb.createDynamicObject(typ, pid, name, Collections
+				.singleton(datenUndVerwendung));
 
 		return (EreignisTyp) factory.getModellobjekt(so);
 	}
