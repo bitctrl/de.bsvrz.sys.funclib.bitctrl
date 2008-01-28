@@ -151,7 +151,7 @@ public class PdBaustellenVerantwortlicher extends
 		 * 
 		 * @return die Firma
 		 */
-		protected String getFirma() {
+		public String getFirma() {
 			return firma;
 		}
 
@@ -160,7 +160,7 @@ public class PdBaustellenVerantwortlicher extends
 		 * 
 		 * @return Name des BaustellenVerantwortlichen
 		 */
-		protected String getNameBaustellenVerantwortlicher() {
+		public String getNameBaustellenVerantwortlicher() {
 			return nameBaustellenVerantwortlicher;
 		}
 
@@ -169,7 +169,7 @@ public class PdBaustellenVerantwortlicher extends
 		 * 
 		 * @return Telefonnummer Baustellenverantwortlicher
 		 */
-		protected String getTelefonBaustellenVerantwortlicher() {
+		public String getTelefonBaustellenVerantwortlicher() {
 			return telefonBaustellenVerantwortlicher;
 		}
 
@@ -178,7 +178,7 @@ public class PdBaustellenVerantwortlicher extends
 		 * 
 		 * @return Telefonnummer der Firma des Baustellenverantwortlichen
 		 */
-		protected String getTelefonFirma() {
+		public String getTelefonFirma() {
 			return telefonFirma;
 		}
 
@@ -187,7 +187,7 @@ public class PdBaustellenVerantwortlicher extends
 		 * 
 		 * @return Mobil-Telefonnummer Baustellenverantwortlicher
 		 */
-		protected String getTelefonMobilBaustellenVerantwortlicher() {
+		public String getTelefonMobilBaustellenVerantwortlicher() {
 			return telefonMobilBaustellenVerantwortlicher;
 		}
 
@@ -206,7 +206,7 @@ public class PdBaustellenVerantwortlicher extends
 		 * @param firma
 		 *            zu setzende Firma
 		 */
-		protected void setFirma(String firma) {
+		public void setFirma(String firma) {
 			this.firma = firma;
 		}
 
@@ -216,7 +216,7 @@ public class PdBaustellenVerantwortlicher extends
 		 * @param nameBaustellenVerantwortlicher
 		 *            zu setzender Baustellenverantwortlicher
 		 */
-		protected void setNameBaustellenVerantwortlicher(
+		public void setNameBaustellenVerantwortlicher(
 				String nameBaustellenVerantwortlicher) {
 			this.nameBaustellenVerantwortlicher = nameBaustellenVerantwortlicher;
 		}
@@ -227,7 +227,7 @@ public class PdBaustellenVerantwortlicher extends
 		 * @param telefonBaustellenVerantwortlicher
 		 *            zu setzende Telefonnummer des Baustellenverantwortlichen
 		 */
-		protected void setTelefonBaustellenVerantwortlicher(
+		public void setTelefonBaustellenVerantwortlicher(
 				String telefonBaustellenVerantwortlicher) {
 			this.telefonBaustellenVerantwortlicher = telefonBaustellenVerantwortlicher;
 		}
@@ -238,7 +238,7 @@ public class PdBaustellenVerantwortlicher extends
 		 * @param telefonFirma
 		 *            zu setzende Telefonnummer
 		 */
-		protected void setTelefonFirma(String telefonFirma) {
+		public void setTelefonFirma(String telefonFirma) {
 			this.telefonFirma = telefonFirma;
 		}
 
@@ -248,7 +248,7 @@ public class PdBaustellenVerantwortlicher extends
 		 * @param telefonMobilBaustellenVerantwortlicher
 		 *            zu setzende Mobil-Telefonnummer Baustellenverantwortlicher
 		 */
-		protected void setTelefonMobilBaustellenVerantwortlicher(
+		public void setTelefonMobilBaustellenVerantwortlicher(
 				String telefonMobilBaustellenVerantwortlicher) {
 			this.telefonMobilBaustellenVerantwortlicher = telefonMobilBaustellenVerantwortlicher;
 		}
