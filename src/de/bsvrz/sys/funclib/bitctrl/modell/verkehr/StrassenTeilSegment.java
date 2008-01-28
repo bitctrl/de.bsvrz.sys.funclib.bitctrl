@@ -140,8 +140,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 
 	/**
 	 * Gibt die Menge der Messquerschnitte dieses Stra&szlig;enteilsegment
-	 * zur&uuml;ck. Das Stra&szlig;enteilsegment und seine Messquerschnitte
-	 * m&uuml;ssen im selben Konfigurationsbereich definiert sein.
+	 * zur&uuml;ck.
 	 * 
 	 * @return Menge von Messquerschnitten
 	 */
@@ -158,8 +157,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 				VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
 
 		for (SystemObjekt so : listeSO) {
-			MessQuerschnittAllgemein mq = (MessQuerschnittAllgemein) ObjektFactory
-					.getInstanz().getModellobjekt(so.getSystemObject());
+			MessQuerschnittAllgemein mq = (MessQuerschnittAllgemein) so;
 			StrassenTeilSegment sts = mq.getStrassenTeilSegment();
 			if (this.equals(sts)) {
 				listeMQ.add(mq);
