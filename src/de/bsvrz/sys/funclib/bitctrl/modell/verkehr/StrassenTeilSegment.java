@@ -65,6 +65,10 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	/** Die Anzahl der Fahrstreifen des Stra&szlig;enteilsegments. */
 	private int anzahlFahrStreifen = -1;
 
+	/** Steigung (positiv) oder Gef&auml;lle (negativ) des Segments. */
+	private double steigungGefaelle = -200;	// undefiniert
+
+
 	/**
 	 * Nach Offset sortierte Liste der Messquerschnitt auf dem Teilsegement. Die
 	 * Liste besteht zwar aus konfigurierenden Daten, diese m&uuml;ssen aber
@@ -103,6 +107,16 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	public int getAnzahlFahrstreifen() {
 		leseKonfigDaten();
 		return anzahlFahrStreifen;
+	}
+
+	/**
+	 * liefert die Steigung/Gef&auml;lle des Strassenteilsegments.
+	 * 
+	 * @return Steigung (positiv) oder Gef&auml;lle (negativ) des Segments.
+	 */
+	public double getSteigungGefaelle() {
+		leseKonfigDaten();
+		return steigungGefaelle;
 	}
 
 	/**
@@ -208,9 +222,12 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 				laenge = datum.getScaledValue("Länge").floatValue();
 				anzahlFahrStreifen = datum.getUnscaledValue(
 						"AnzahlFahrStreifen").intValue();
+				steigungGefaelle = datum.getScaledValue(
+						"SteigungGefälle").doubleValue();
 			} else {
 				laenge = 0;
 				anzahlFahrStreifen = 0;
+				steigungGefaelle = 0;
 			}
 		}
 	}
