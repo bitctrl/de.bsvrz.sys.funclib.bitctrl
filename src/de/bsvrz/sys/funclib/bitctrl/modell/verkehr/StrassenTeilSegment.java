@@ -66,7 +66,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	private int anzahlFahrStreifen = -1;
 
 	/** Steigung (positiv) oder Gef&auml;lle (negativ) des Segments. */
-	private double steigungGefaelle = -200;	// undefiniert
+	private int steigungGefaelle = -200;	// undefiniert
 
 
 	/**
@@ -222,8 +222,8 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 				laenge = datum.getScaledValue("Länge").floatValue();
 				anzahlFahrStreifen = datum.getUnscaledValue(
 						"AnzahlFahrStreifen").intValue();
-				steigungGefaelle = datum.getScaledValue(
-						"SteigungGefälle").doubleValue();
+				steigungGefaelle = datum.getUnscaledValue(
+						"SteigungGefälle").intValue();
 			} else {
 				laenge = 0;
 				anzahlFahrStreifen = 0;
