@@ -114,7 +114,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 * 
 	 * @return Steigung (positiv) oder Gef&auml;lle (negativ) des Segments.
 	 */
-	public double getSteigungGefaelle() {
+	public int getSteigungGefaelle() {
 		leseKonfigDaten();
 		return steigungGefaelle;
 	}
