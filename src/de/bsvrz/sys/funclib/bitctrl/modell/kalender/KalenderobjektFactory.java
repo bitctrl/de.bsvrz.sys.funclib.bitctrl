@@ -36,6 +36,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Ereignis;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.KalenderImpl;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintrag;
 
 /**
  * Fabrikmethode f&uuml;r gekapselte Systemobjekte aus dem Verkehrsmodell. Jedes
@@ -61,6 +62,9 @@ public class KalenderobjektFactory implements ModellObjektFactory {
 			obj = new Ereignis(objekt);
 		} else if (objekt.isOfType(KalenderModellTypen.KALENDER.getPid())) {
 			obj = new KalenderImpl(objekt);
+		} else if (objekt.isOfType(KalenderModellTypen.SYSTEM_KALENDER_EINTRAG
+				.getPid())) {
+			obj = new SystemKalenderEintrag(objekt);
 		}
 
 		return obj;

@@ -39,6 +39,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTypListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.KalenderImpl;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintrag;
+import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintragListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellaoe.SystemModellAoeTypen;
 
 /**
@@ -99,6 +101,16 @@ public class AutarkeOrganisationsEinheit extends AbstractSystemObjekt implements
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#add(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintrag)
+	 */
+	public void add(SystemKalenderEintrag eintrag)
+			throws ConfigurationChangeException {
+		kalender.add(eintrag);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#addEreignisListener(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisListener)
 	 */
 	public void addEreignisListener(EreignisListener l) {
@@ -117,6 +129,15 @@ public class AutarkeOrganisationsEinheit extends AbstractSystemObjekt implements
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#addSystemKalenderEintragListener(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintragListener)
+	 */
+	public void addSystemKalenderEintragListener(SystemKalenderEintragListener l) {
+		kalender.addSystemKalenderEintragListener(l);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#getEreignisse()
 	 */
 	public Set<Ereignis> getEreignisse() {
@@ -130,6 +151,15 @@ public class AutarkeOrganisationsEinheit extends AbstractSystemObjekt implements
 	 */
 	public Set<EreignisTyp> getEreignisTypen() {
 		return kalender.getEreignisTypen();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#getSystemKalenderEintraege()
+	 */
+	public Set<SystemKalenderEintrag> getSystemKalenderEintraege() {
+		return kalender.getSystemKalenderEintraege();
 	}
 
 	/**
@@ -163,6 +193,16 @@ public class AutarkeOrganisationsEinheit extends AbstractSystemObjekt implements
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#remove(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintrag)
+	 */
+	public void remove(SystemKalenderEintrag eintrag)
+			throws ConfigurationChangeException {
+		kalender.remove(eintrag);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#removeEreignisListener(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisListener)
 	 */
 	public void removeEreignisListener(EreignisListener l) {
@@ -176,6 +216,16 @@ public class AutarkeOrganisationsEinheit extends AbstractSystemObjekt implements
 	 */
 	public void removeEreignisTypListener(EreignisTypListener l) {
 		kalender.removeEreignisTypListener(l);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#removeSystemKalenderEintragListener(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintragListener)
+	 */
+	public void removeSystemKalenderEintragListener(
+			SystemKalenderEintragListener l) {
+		kalender.removeSystemKalenderEintragListener(l);
 	}
 
 }

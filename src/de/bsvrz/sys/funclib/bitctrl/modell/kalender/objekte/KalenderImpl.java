@@ -94,6 +94,22 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 				}
 
 				fireEreignisTypenAktualisiert(hinzu, entfernt);
+			} else if (set.equals(systemKalenderEintraege)) {
+				Set<SystemKalenderEintrag> hinzu, entfernt;
+
+				hinzu = new HashSet<SystemKalenderEintrag>();
+				for (SystemObject so : addedObjects) {
+					hinzu.add((SystemKalenderEintrag) factory
+							.getModellobjekt(so));
+				}
+
+				entfernt = new HashSet<SystemKalenderEintrag>();
+				for (SystemObject so : removedObjects) {
+					entfernt.add((SystemKalenderEintrag) factory
+							.getModellobjekt(so));
+				}
+
+				fireSystemKalenderEintragAktualisiert(hinzu, entfernt);
 			}
 		}
 	}
@@ -109,6 +125,9 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 
 	/** Die Eigenschaft {@code ereignisse}. */
 	private final MutableSet ereignisse;
+
+	/** Die Eigenschaft {@code systemKalenderEintraege}. */
+	private final MutableSet systemKalenderEintraege;
 
 	/**
 	 * Initialisiert das Objekt.
@@ -129,6 +148,7 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 		co = (ConfigurationObject) getSystemObject();
 		ereignisTypen = co.getMutableSet("EreignisTypen");
 		ereignisse = co.getMutableSet("Ereignisse");
+		systemKalenderEintraege = co.getMutableSet("SystemKalenderEinträge");
 	}
 
 	/**
@@ -148,6 +168,16 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 	public void add(EreignisTyp ereignisTyp)
 			throws ConfigurationChangeException {
 		ereignisTypen.add(ereignisTyp.getSystemObject());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#add(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintrag)
+	 */
+	public void add(SystemKalenderEintrag eintrag)
+			throws ConfigurationChangeException {
+		systemKalenderEintraege.add(eintrag.getSystemObject());
 	}
 
 	/**
@@ -191,6 +221,25 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#addSystemKalenderEintragListener(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintragListener)
+	 */
+	public void addSystemKalenderEintragListener(SystemKalenderEintragListener l) {
+		boolean anmelden = false;
+
+		if (listener.getListenerCount(SystemKalenderEintragListener.class) == 0) {
+			anmelden = true;
+		}
+
+		listener.add(SystemKalenderEintragListener.class, l);
+
+		if (anmelden) {
+			systemKalenderEintraege.addChangeListener(mengenObserver);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#getEreignisse()
 	 */
 	public Set<Ereignis> getEreignisse() {
@@ -216,6 +265,23 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 		result = new HashSet<EreignisTyp>();
 		for (SystemObject so : ereignisTypen.getElements()) {
 			result.add((EreignisTyp) ObjektFactory.getInstanz()
+					.getModellobjekt(so));
+		}
+
+		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#getSystemKalenderEintraege()
+	 */
+	public Set<SystemKalenderEintrag> getSystemKalenderEintraege() {
+		Set<SystemKalenderEintrag> result;
+
+		result = new HashSet<SystemKalenderEintrag>();
+		for (SystemObject so : systemKalenderEintraege.getElements()) {
+			result.add((SystemKalenderEintrag) ObjektFactory.getInstanz()
 					.getModellobjekt(so));
 		}
 
@@ -253,6 +319,16 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#remove(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintrag)
+	 */
+	public void remove(SystemKalenderEintrag eintrag)
+			throws ConfigurationChangeException {
+		systemKalenderEintraege.remove(eintrag.getSystemObject());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#removeEreignisListener(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisListener)
 	 */
 	public void removeEreignisListener(EreignisListener l) {
@@ -273,6 +349,20 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 
 		if (listener.getListenerCount(EreignisTypListener.class) == 0) {
 			ereignisTypen.removeChangeListener(mengenObserver);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Kalender#removeSystemKalenderEintragListener(de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintragListener)
+	 */
+	public void removeSystemKalenderEintragListener(
+			SystemKalenderEintragListener l) {
+		listener.remove(SystemKalenderEintragListener.class, l);
+
+		if (listener.getListenerCount(SystemKalenderEintragListener.class) == 0) {
+			systemKalenderEintraege.removeChangeListener(mengenObserver);
 		}
 	}
 
@@ -310,6 +400,27 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 		for (EreignisTypListener l : listener
 				.getListeners(EreignisTypListener.class)) {
 			l.ereignisTypenAktualisiert(e);
+		}
+	}
+
+	/**
+	 * Teilt den angemeldeten Listener die Änderung der Menge der
+	 * Systemkalendereinträge mit.
+	 * 
+	 * @param hinzu
+	 *            die Menge der hinzugefügten Systemkalendereinträge.
+	 * @param entfernt
+	 *            die Menge der entfernten Systemkalendereinträge.
+	 */
+	protected void fireSystemKalenderEintragAktualisiert(
+			Set<SystemKalenderEintrag> hinzu,
+			Set<SystemKalenderEintrag> entfernt) {
+		SystemKalenderEintraegeAktualisiertEvent e;
+
+		e = new SystemKalenderEintraegeAktualisiertEvent(this, hinzu, entfernt);
+		for (SystemKalenderEintragListener l : listener
+				.getListeners(SystemKalenderEintragListener.class)) {
+			l.systemKalenderEintraegeAktualisiert(e);
 		}
 	}
 

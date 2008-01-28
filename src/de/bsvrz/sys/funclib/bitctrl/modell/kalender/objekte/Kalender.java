@@ -30,7 +30,6 @@ import java.util.Set;
 
 import de.bsvrz.dav.daf.main.config.ConfigurationChangeException;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
-import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
 /**
  * Repr&auml;sentiert den Ereigniskalender.
@@ -61,6 +60,17 @@ public interface Kalender extends SystemObjekt {
 	void add(EreignisTyp ereignisTyp) throws ConfigurationChangeException;
 
 	/**
+	 * Fügt ein Systemkalendereintrag in die Systemkalendereintragsmenge des
+	 * Kalenders ein.
+	 * 
+	 * @param eintrag
+	 *            das Systemkalendereintrag.
+	 * @throws ConfigurationChangeException
+	 *             wenn das Einfügen unzulässig ist.
+	 */
+	void add(SystemKalenderEintrag eintrag) throws ConfigurationChangeException;
+
+	/**
 	 * Registriert einen Listener für die Änderung der Ereignismenge.
 	 * 
 	 * @param l
@@ -77,6 +87,15 @@ public interface Kalender extends SystemObjekt {
 	void addEreignisTypListener(EreignisTypListener l);
 
 	/**
+	 * Registriert einen Listener für die Änderung der Menge
+	 * Systemkalendereinträge.
+	 * 
+	 * @param l
+	 *            der neue Listener.
+	 */
+	void addSystemKalenderEintragListener(SystemKalenderEintragListener l);
+
+	/**
 	 * Gibt die aktuelle Menge der Ereignisse zurück.
 	 * 
 	 * @return die Ereignismenge.
@@ -91,11 +110,11 @@ public interface Kalender extends SystemObjekt {
 	Set<EreignisTyp> getEreignisTypen();
 
 	/**
-	 * {@inheritDoc}
+	 * Gibt die aktuelle Menge der Systemkalendereinträge zurück.
 	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getTyp()
+	 * @return die Menge der Systemkalendereinträge.
 	 */
-	SystemObjektTyp getTyp();
+	Set<SystemKalenderEintrag> getSystemKalenderEintraege();
 
 	/**
 	 * Entfernt ein Ereignis aus der Ereignismenge des Kalenders.
@@ -118,6 +137,18 @@ public interface Kalender extends SystemObjekt {
 	void remove(EreignisTyp ereignisTyp) throws ConfigurationChangeException;
 
 	/**
+	 * Entfernt einen Systemkalendereintrag aus der Systemkalendereintragsmenge
+	 * des Kalenders.
+	 * 
+	 * @param eintrag
+	 *            das Systemkalendereintrag.
+	 * @throws ConfigurationChangeException
+	 *             wenn das Einfügen unzulässig ist.
+	 */
+	void remove(SystemKalenderEintrag eintrag)
+			throws ConfigurationChangeException;
+
+	/**
 	 * Entfernet einen Listener, der auf die Änderung der Ereignismenge lauscht.
 	 * 
 	 * @param l
@@ -133,5 +164,14 @@ public interface Kalender extends SystemObjekt {
 	 *            der zu entfernende Listener.
 	 */
 	void removeEreignisTypListener(EreignisTypListener l);
+
+	/**
+	 * Entfernet einen Listener, der auf die Änderung der Menge
+	 * Systemkalendereinträge lauscht.
+	 * 
+	 * @param l
+	 *            der zu entfernende Listener.
+	 */
+	void removeSystemKalenderEintragListener(SystemKalenderEintragListener l);
 
 }
