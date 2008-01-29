@@ -33,6 +33,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.bsvrz.dav.daf.main.config.SystemObject;
 
@@ -44,7 +46,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class DavTools {
+public final class DavTools {
 
 	/**
 	 * Konvertiert einen Zeitstempel in eine lesbare absolute Zeit.
@@ -55,6 +57,42 @@ public class DavTools {
 	 */
 	public static String absoluteZeit(long zeitstempel) {
 		return DateFormat.getDateTimeInstance().format(new Date(zeitstempel));
+	}
+
+	/**
+	 * Generiert aus einem Objektnamen eine gültige PID. Es wird jedes Zeichen
+	 * vor einem Leerzeichen in einen Großbuchstaben verwandelt, danach alle
+	 * Leerzeichen entfernt und der erste Buchstabe des Namens in einen
+	 * Kleinbuchstaben umgewandelt.
+	 * 
+	 * @param name
+	 *            der Objektname.
+	 * @param praefix
+	 *            der Präfix für die PID (mit Punkt abgeschlossen).
+	 * @return die gültige PID zum Objektnamen.
+	 */
+	public static String generierePID(String name, String praefix) {
+		String pid, regex;
+		Matcher matcher;
+
+		regex = "(\\S)+(\\s)";
+		matcher = Pattern.compile(regex).matcher(name);
+		if (matcher.find()) {
+			pid = matcher.group(0).trim();
+
+			regex = "(\\s)+(\\S)+";
+			matcher = Pattern.compile(regex).matcher(name);
+			while (matcher.find()) {
+				String s = matcher.group(0).trim();
+				pid += s.substring(0, 1).toUpperCase();
+				pid += s.substring(1);
+			}
+		} else {
+			pid = name;
+		}
+		pid = pid.substring(0, 1).toLowerCase() + pid.substring(1);
+
+		return praefix + pid;
 	}
 
 	/**
@@ -126,6 +164,7 @@ public class DavTools {
 	 * @param simulation
 	 *            nur echte Simulation ?
 	 * @throws NoSimulationException
+	 *             wenn die Simulationsvariante 0 ist.
 	 */
 	public static void validiereSimulationsVariante(short sim,
 			boolean simulation) throws NoSimulationException {
@@ -147,7 +186,7 @@ public class DavTools {
 	/**
 	 * Defaultkonstruktor verstecken.
 	 */
-	protected DavTools() {
+	private DavTools() {
 		// nix
 	}
 
