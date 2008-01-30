@@ -87,6 +87,16 @@ public class PdEreignisParameter extends
 			private int bezugEnde;
 
 			/**
+			 * Initialisiert das Objekt.
+			 */
+			public VerkehrlicheGueltigkeit() {
+				dauerAnfang = 0;
+				bezugAnfang = VOR_ANFANG;
+				dauerEnde = 0;
+				bezugEnde = NACH_ENDE;
+			}
+
+			/**
 			 * Gibt den Wert der Eigenschaft {@code bezugAnfang} wieder.
 			 * 
 			 * @return {@code bezugAnfang}.
@@ -183,6 +193,8 @@ public class PdEreignisParameter extends
 		private String quelle;
 
 		/**
+		 * Erzeugt eine flache Kopie.
+		 * 
 		 * {@inheritDoc}
 		 * 
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum#clone()
@@ -193,6 +205,11 @@ public class PdEreignisParameter extends
 
 			klon.setZeitstempel(getZeitstempel());
 			klon.valid = valid;
+			klon.quelle = quelle;
+			klon.raeumlicheGueltigkeit.addAll(raeumlicheGueltigkeit);
+			klon.systemKalenderEintrag = systemKalenderEintrag;
+			klon.zeitlicheGueltigkeit = zeitlicheGueltigkeit;
+			klon.verkehrlicheGueltigkeit.addAll(verkehrlicheGueltigkeit);
 
 			return klon;
 		}
