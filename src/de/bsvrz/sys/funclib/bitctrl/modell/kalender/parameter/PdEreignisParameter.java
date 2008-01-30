@@ -168,7 +168,7 @@ public class PdEreignisParameter extends
 		private boolean valid;
 
 		/** Die Eigenschaft {@code raeumlicheGueltigkeit}. */
-		private List<NetzBestandTeil> raeumlicheGueltigkeit = new ArrayList<NetzBestandTeil>();
+		private final List<NetzBestandTeil> raeumlicheGueltigkeit = new ArrayList<NetzBestandTeil>();
 
 		/** Die Eigenschaft {@code zeitlicheGueltigkeit}. */
 		private Intervall zeitlicheGueltigkeit;
@@ -177,7 +177,7 @@ public class PdEreignisParameter extends
 		private SystemKalenderEintrag systemKalenderEintrag;
 
 		/** Die Eigenschaft {@code verkehrlicheGueltigkeit}. */
-		private List<VerkehrlicheGueltigkeit> verkehrlicheGueltigkeit = new ArrayList<VerkehrlicheGueltigkeit>();
+		private final List<VerkehrlicheGueltigkeit> verkehrlicheGueltigkeit = new ArrayList<VerkehrlicheGueltigkeit>();
 
 		/** Die Eigenschaft {@code quelle}. */
 		private String quelle;
@@ -265,17 +265,6 @@ public class PdEreignisParameter extends
 		}
 
 		/**
-		 * Legt den Wert der Eigenschaft {@code raeumlicheGueltigkeit} fest.
-		 * 
-		 * @param raeumlicheGueltigkeit
-		 *            der neue Wert von {@code raeumlicheGueltigkeit}.
-		 */
-		public void setRaeumlicheGueltigkeit(
-				List<NetzBestandTeil> raeumlicheGueltigkeit) {
-			this.raeumlicheGueltigkeit = raeumlicheGueltigkeit;
-		}
-
-		/**
 		 * Legt den Wert der Eigenschaft {@code systemKalenderEintrag} fest.
 		 * 
 		 * @param systemKalenderEintrag
@@ -284,17 +273,6 @@ public class PdEreignisParameter extends
 		public void setSystemKalenderEintrag(
 				SystemKalenderEintrag systemKalenderEintrag) {
 			this.systemKalenderEintrag = systemKalenderEintrag;
-		}
-
-		/**
-		 * Legt den Wert der Eigenschaft {@code verkehrlicheGueltigkeit} fest.
-		 * 
-		 * @param verkehrlicheGueltigkeit
-		 *            der neue Wert von {@code verkehrlicheGueltigkeit}.
-		 */
-		public void setVerkehrlicheGueltigkeit(
-				List<VerkehrlicheGueltigkeit> verkehrlicheGueltigkeit) {
-			this.verkehrlicheGueltigkeit = verkehrlicheGueltigkeit;
 		}
 
 		/**
