@@ -30,6 +30,7 @@ import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.config.ConfigurationArea;
 import de.bsvrz.dav.daf.main.config.ConfigurationChangeException;
 import de.bsvrz.dav.daf.main.config.DataModel;
+import de.bsvrz.dav.daf.main.config.DynamicObject;
 import de.bsvrz.dav.daf.main.config.DynamicObjectType;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
@@ -90,6 +91,16 @@ public class SystemKalenderEintrag extends AbstractSystemObjekt {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist kein Systemkalendereintrag.");
 		}
+	}
+
+	/**
+	 * Löscht das Objekt in dem es auf "ungültig" gesetzt wird.
+	 * 
+	 * @throws ConfigurationChangeException
+	 *             wenn das Löschen nicht zulässig ist.
+	 */
+	public void entfernen() throws ConfigurationChangeException {
+		((DynamicObject) getSystemObject()).invalidate();
 	}
 
 	/**
