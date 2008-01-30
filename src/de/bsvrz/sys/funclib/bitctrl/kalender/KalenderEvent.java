@@ -85,8 +85,8 @@ public class KalenderEvent extends EventObject {
 	 * 
 	 * @return der Kalender.
 	 */
-	public Kalender getKalender() {
-		return (Kalender) source;
+	public Ereigniskalender getKalender() {
+		return (Ereigniskalender) source;
 	}
 
 	/**
