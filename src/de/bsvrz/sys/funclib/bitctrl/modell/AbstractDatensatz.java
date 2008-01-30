@@ -219,9 +219,13 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		public void dataRequest(final SystemObject object,
 				final DataDescription dataDescription, final byte state) {
 			synchronized (AbstractDatensatz.this) {
-				sendesteuerung.put(dataDescription.getAspect(), Status
-						.getStatus(state));
-				AbstractDatensatz.this.notify();
+				Status status;
+
+				status = Status.getStatus(state);
+				sendesteuerung.put(dataDescription.getAspect(), status);
+				if (status == Status.START) {
+					AbstractDatensatz.this.notify();
+				}
 			}
 		}
 
