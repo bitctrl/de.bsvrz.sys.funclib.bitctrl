@@ -197,9 +197,8 @@ public class Intervall {
 	 *         schneidet
 	 */
 	public boolean schneidet(Intervall i) {
-		return (start < i.start && i.start < ende)
-				|| (start < i.ende && i.ende < ende)
-				|| (start > i.start && ende < i.ende);
+		return i.isInnerhalb(start) || i.isInnerhalb(ende)
+				|| (start == i.start && ende == i.ende);
 	}
 
 	/**
