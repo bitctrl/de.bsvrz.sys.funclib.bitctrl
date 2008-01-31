@@ -161,6 +161,8 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 *            das Intervall in dem das Ereignis gültig sein soll. Das
 	 *            Intervall bezieht sich auf die zeitliche und verkehrliche
 	 *            Gültigkeit.
+	 * @param quelle
+	 *            die Quelle.
 	 * @return der angeleget Ereignistyp.
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen fehlerhaft verlief.
@@ -171,9 +173,9 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 *             war.
 	 */
 	public Ereignis anlegenEreignis(String pid, String name,
-			String beschreibung, EreignisTyp typ, Intervall intervall)
-			throws ConfigurationChangeException, AnmeldeException,
-			DatensendeException {
+			String beschreibung, EreignisTyp typ, Intervall intervall,
+			String quelle) throws ConfigurationChangeException,
+			AnmeldeException, DatensendeException {
 		Ereignis erg;
 		PdEreignisParameter param;
 		PdEreignisParameter.Daten datum;
@@ -187,6 +189,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		datum.setZeitlicheGueltigkeit(intervall);
 		datum.getVerkehrlicheGueltigkeit().add(
 				new PdEreignisParameter.Daten.VerkehrlicheGueltigkeit());
+		datum.setQuelle(quelle);
 		param.sendeDaten(datum, TIMEOUT);
 
 		return erg;
@@ -208,6 +211,8 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 *            ein Systemkalendereintrag, der die Gültigkeit des Ereignisses
 	 *            beschreibt. Die zeitliche und verkehrliche Gültigkeit wird als
 	 *            identisch angenommen.
+	 * @param quelle
+	 *            die Quelle.
 	 * @return der angeleget Ereignistyp.
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen fehlerhaft verlief.
@@ -218,9 +223,9 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 *             war.
 	 */
 	public Ereignis anlegenEreignis(String pid, String name,
-			String beschreibung, EreignisTyp typ, SystemKalenderEintrag ske)
-			throws ConfigurationChangeException, AnmeldeException,
-			DatensendeException {
+			String beschreibung, EreignisTyp typ, SystemKalenderEintrag ske,
+			String quelle) throws ConfigurationChangeException,
+			AnmeldeException, DatensendeException {
 		Ereignis erg;
 		PdEreignisParameter param;
 		PdEreignisParameter.Daten datum;
@@ -234,6 +239,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		datum.setSystemKalenderEintrag(ske);
 		datum.getVerkehrlicheGueltigkeit().add(
 				new PdEreignisParameter.Daten.VerkehrlicheGueltigkeit());
+		datum.setQuelle(quelle);
 		param.sendeDaten(datum, TIMEOUT);
 
 		return erg;
@@ -378,7 +384,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 *             wenn das Löschen schief ging.
 	 */
 	public void loeschen(Ereignis erg) throws ConfigurationChangeException {
-		kalender.add(erg);
+		kalender.remove(erg);
 		erg.entfernen();
 	}
 
@@ -392,7 +398,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 *             wenn das Löschen schief ging.
 	 */
 	public void loeschen(EreignisTyp typ) throws ConfigurationChangeException {
-		kalender.add(typ);
+		kalender.remove(typ);
 		typ.entfernen();
 	}
 
@@ -407,7 +413,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 */
 	public void loeschen(SystemKalenderEintrag typ)
 			throws ConfigurationChangeException {
-		kalender.add(typ);
+		kalender.remove(typ);
 		typ.entfernen();
 	}
 
