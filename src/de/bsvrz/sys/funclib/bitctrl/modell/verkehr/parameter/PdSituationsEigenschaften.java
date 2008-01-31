@@ -38,6 +38,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.AeusseresStrassenSegment;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.InneresStrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.Strasse;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StrassenKnoten;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StrassenSegment;
@@ -184,6 +185,20 @@ public class PdSituationsEigenschaften extends
 		}
 
 		/**
+		 * liefert die Endzeit der Situation, wenn die Dauer bekannt ist.
+		 * Anderenfalls wird der Wert Long.MAX_VALUE geliefert.
+		 * 
+		 * @return die Endzeit
+		 */
+		public long getEndZeit() {
+			long result = Long.MAX_VALUE;
+			if (dauer > 0) {
+				result = startZeit + dauer;
+			}
+			return result;
+		}
+
+		/**
 		 * liefert den in Fahrtrichtung auf die Situation folgenden
 		 * Straßenknoten. Wird kein Knoten gefunden liefert die Funktion den
 		 * Wert <code>null</code> zurück.
@@ -231,6 +246,76 @@ public class PdSituationsEigenschaften extends
 			}
 
 			result -= (getStartOffset() + getEndOffset());
+			return result;
+		}
+
+		/**
+		 * liefert den vor der Situation liegenden Messquerschnitt. Wird kein
+		 * Messquerschnitt gefunden, wird der Wert <code>null</code>
+		 * geliefert.
+		 * 
+		 * @return den Messquerschnitt oder <code>null</code>
+		 */
+		public MessQuerschnittAllgemein getMessquerschnittDavor() {
+			StrassenSegment segment = getSegment(0);
+			StrassenSegment usedSegment = segment;
+			MessQuerschnittAllgemein mqDavor = null;
+			while ((mqDavor == null) && (usedSegment != null)) {
+				List<MessQuerschnittAllgemein> mqs = usedSegment
+						.getMessquerschnitte();
+				if (segment == usedSegment) {
+					for (int idx = mqs.size(); idx > 0; idx--) {
+						MessQuerschnittAllgemein mq = mqs.get(idx - 1);
+						if (mq.getStrassenSegmentOffset() < getStartOffset()) {
+							mqDavor = mq;
+							break;
+						}
+					}
+				} else if (mqs.size() > 0) {
+					mqDavor = mqs.get(mqs.size() - 1);
+					break;
+				}
+				if (usedSegment instanceof AeusseresStrassenSegment) {
+					StrassenKnoten vonKnoten = ((AeusseresStrassenSegment) usedSegment)
+							.getVonKnoten();
+					StrassenSegment result = null;
+					if (vonKnoten != null) {
+						for (InneresStrassenSegment innen : vonKnoten
+								.getInnereSegmente()) {
+							if (usedSegment.equals(innen.getNachSegment())) {
+								result = innen;
+								Strasse strasse = segment.getStrasse();
+								if ((strasse != null)
+										&& (strasse.equals(innen.getStrasse()))) {
+									break;
+								}
+							}
+						}
+					}
+					usedSegment = result;
+				} else if (usedSegment instanceof InneresStrassenSegment) {
+					usedSegment = ((InneresStrassenSegment) usedSegment)
+							.getVonSegment();
+				} else {
+					usedSegment = null;
+				}
+			}
+			return mqDavor;
+		}
+
+		/**
+		 * liefert das Segment mit dem übergebenen Index aus der Liste der
+		 * Segmente, die die Situation bilden.
+		 * 
+		 * @param idx
+		 *            der gesuchte Index
+		 * @return die Liste der Segmente
+		 */
+		public StrassenSegment getSegment(int idx) {
+			StrassenSegment result = null;
+			if ((idx >= 0) && (segmente.size() > idx)) {
+				result = segmente.get(idx);
+			}
 			return result;
 		}
 
