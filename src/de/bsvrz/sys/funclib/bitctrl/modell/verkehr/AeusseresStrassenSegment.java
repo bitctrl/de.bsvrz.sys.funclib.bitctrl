@@ -45,8 +45,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
  * Modellobjektverwaltung.
  * 
  * @author BitCtrl Systems GmbH, Peuker
- * @version $Id: AeusseresStrassenSegment.java 4416 2007-10-16 09:15:29Z
- *          Schumann $
+ * @version $Id$
  */
 public class AeusseresStrassenSegment extends StrassenSegment implements
 		NetzBestandTeil {

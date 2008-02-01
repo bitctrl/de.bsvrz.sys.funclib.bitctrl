@@ -41,16 +41,13 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.fachmodellglobal.GueteVerfahren;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.Stau;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StoerfallIndikator;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StoerfallSituation;
 
 /**
  * Kapselt die Attributgruppe {@code atg.st&ouml;rfallZustand}.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: OdStoerfallZustand.java 5226 2007-12-13 14:28:46Z Schumann $
+ * @version $Id$
  */
 public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 
@@ -121,14 +118,26 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 		/** Zeitpunkt der maximalen Länge. */
 		private long zeitMaxLaenge;
 
+		/**
+		 * die Einzelschritte der Prognose.
+		 */
 		private List<PrognoseSchritt> schritte = new ArrayList<PrognoseSchritt>();
 
-		public void addSchritte(PrognoseSchritt... schritte) {
-			for (PrognoseSchritt schritt : schritte) {
+		/**
+		 * fügt die übergebenen Prognoseschritte hinzu.
+		 * 
+		 * @param neueSchritte
+		 *            die hinzuzufügenden Schritte
+		 */
+		public void addSchritte(PrognoseSchritt... neueSchritte) {
+			for (PrognoseSchritt schritt : neueSchritte) {
 				this.schritte.add(schritt);
 			}
 		}
 
+		/**
+		 * löscht alle Schritte des Stauverlaufs.
+		 */
 		public void clearSchritte() {
 			this.schritte.clear();
 		}
@@ -156,30 +165,68 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 			return klon;
 		}
 
+		/**
+		 * liefert die prognostizierte Auflösungszeit.
+		 * 
+		 * @return die Zeit
+		 */
 		public long getAufloesungsZeit() {
 			return aufloesungsZeit;
 		}
 
+		/**
+		 * liefert die prognostizierte Dauer.
+		 * 
+		 * @return die Dauer
+		 */
 		public long getDauer() {
 			return dauer;
 		}
 
+		/**
+		 * liefert die maximale Länge im Prognosebereich.
+		 * 
+		 * @return die Länge
+		 */
 		public long getMaxLaenge() {
 			return maxLaenge;
 		}
 
+		/**
+		 * liefert den mit dem Index spezifizierten Prognoseschritt.
+		 * 
+		 * @param idx
+		 *            der gewünschte Index
+		 * @return den Prignoseschritt
+		 */
 		public PrognoseSchritt getSchritt(int idx) {
 			return schritte.get(idx);
 		}
 
+		/**
+		 * liefert die Liste aller Prognoseschritte.
+		 * 
+		 * @return die Schritte
+		 */
 		public List<PrognoseSchritt> getSchritte() {
 			return schritte;
 		}
 
+		/**
+		 * liefert die für die Prognose verwendete Schrittweite.
+		 * 
+		 * @return die Schrittweite
+		 */
 		public long getSchrittweite() {
 			return schrittweite;
 		}
 
+		/**
+		 * liefert den Zeitpunkt zu dem im Prognosezeitraun die größte Länge des
+		 * Staus auftritt.
+		 * 
+		 * @return den Zeitpunkt
+		 */
 		public long getZeitMaxLaenge() {
 			return zeitMaxLaenge;
 		}
@@ -191,18 +238,42 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 			return valid;
 		}
 
+		/**
+		 * setzt die Auflösungszeit des Staus.
+		 * 
+		 * @param aufloesungsZeit
+		 *            der Zeitpunkt
+		 */
 		public void setAufloesungsZeit(long aufloesungsZeit) {
 			this.aufloesungsZeit = aufloesungsZeit;
 		}
 
+		/**
+		 * setzt die Dauer des Staus.
+		 * 
+		 * @param dauer
+		 *            die Dauer
+		 */
 		public void setDauer(long dauer) {
 			this.dauer = dauer;
 		}
 
+		/**
+		 * setzt die maximale Länge des Staus im Prognosezeitraum.
+		 * 
+		 * @param maxLaenge
+		 *            die Länge
+		 */
 		public void setMaxLaenge(long maxLaenge) {
 			this.maxLaenge = maxLaenge;
 		}
 
+		/**
+		 * setzt die für die Prognose verwendete Schrittweite.
+		 * 
+		 * @param schrittweite
+		 *            die Schrittweite
+		 */
 		public void setSchrittweite(long schrittweite) {
 			this.schrittweite = schrittweite;
 		}
@@ -217,11 +288,24 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 			this.valid = valid;
 		}
 
+		/**
+		 * setzt den Zeitpunkt, zu dem im Prognosezeitraum die maximale Länge
+		 * des Staus aufgetreten ist.
+		 * 
+		 * @param zeitMaxLaenge
+		 *            der Zeitpunkt
+		 */
 		public void setZeitMaxLaenge(long zeitMaxLaenge) {
 			this.zeitMaxLaenge = zeitMaxLaenge;
 		}
 	}
 
+	/**
+	 * Die Repräsentation eines Schritts innerhalb einer Stauprognose.
+	 * 
+	 * @author BitCtrl Systems GmbH, Uwe Peuker
+	 * @version $Id$
+	 */
 	public class PrognoseSchritt implements Cloneable {
 		/** Zufluß an Fahrzeugen in Fz/h. */
 		long zufluss;
@@ -234,6 +318,11 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 		/** vKfz in Km/h. */
 		long vKfz;
 
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see java.lang.Object#clone()
+		 */
 		@Override
 		public PrognoseSchritt clone() {
 
@@ -248,42 +337,97 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 			return neuerSchritt;
 		}
 
+		/**
+		 * liefert die freie Kapazität innerhalb des Prognoseschritts.
+		 * 
+		 * @return die Kapazität
+		 */
 		public long getKapazitaet() {
 			return kapazitaet;
 		}
 
+		/**
+		 * liefert die im Prognoseschritt erwartetet Staulänge.
+		 * 
+		 * @return die Länge
+		 */
 		public long getLaenge() {
 			return laenge;
 		}
 
+		/**
+		 * liefert die im Schritt berechnete Verlustzeit.
+		 * 
+		 * @return die Zeit
+		 */
 		public long getVerlustZeit() {
 			return verlustZeit;
 		}
 
+		/**
+		 * liefert den VKfz-Wert für den Schritt.
+		 * 
+		 * @return den Wert
+		 */
 		public long getVKfz() {
 			return vKfz;
 		}
 
+		/**
+		 * liefert den Zufluss zum Zeitpunkt des Prognoseschritts.
+		 * 
+		 * @return den Zuflusswert
+		 */
 		public long getZufluss() {
 			return zufluss;
 		}
 
+		/**
+		 * setzt die Kapazität zum Zeitpunkt des Schritts.
+		 * 
+		 * @param kapazitaet
+		 *            die Kapazität
+		 */
 		public void setKapazitaet(long kapazitaet) {
 			this.kapazitaet = kapazitaet;
 		}
 
+		/**
+		 * setzt die Länge des Staus zum Zeitpunkt des Prognoseschritts.
+		 * 
+		 * @param laenge
+		 *            die Länge
+		 */
 		public void setLaenge(long laenge) {
 			this.laenge = laenge;
 		}
 
+		/**
+		 * setzt die Verlustzeit zum Zeitpunkt des Prognoseschritts.
+		 * 
+		 * @param verlustZeit
+		 *            die Zeit
+		 */
 		public void setVerlustZeit(long verlustZeit) {
 			this.verlustZeit = verlustZeit;
 		}
 
+		/**
+		 * setzt den VKfz-Wert zum Zeitpunkt des prognoseschritts.
+		 * 
+		 * @param vKfz
+		 *            der Wert
+		 */
 		public void setVKfz(long vKfz) {
 			this.vKfz = vKfz;
 		}
 
+		/**
+		 * setzt den Zuflusswert für den Prognoseschritt.
+		 * 
+		 * @param zufluss
+		 *            dr Wert
+		 */
 		public void setZufluss(long zufluss) {
 			this.zufluss = zufluss;
 		}
@@ -297,8 +441,8 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 	/**
 	 * Initialisiert den Datensatz.
 	 * 
-	 * @param si
-	 *            ein St&ouml;rfallindikator.
+	 * @param stau
+	 *            der Stau.
 	 */
 	public OdStauVerlauf(Stau stau) {
 		super(stau);

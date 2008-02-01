@@ -66,8 +66,13 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	private int anzahlFahrStreifen = -1;
 
 	/** Steigung (positiv) oder Gef&auml;lle (negativ) des Segments. */
-	private int steigungGefaelle = -200;	// undefiniert
+	private int steigungGefaelle = -200; // undefiniert
 
+	/** Liste der ASB-Stationierungs-Einträge. */
+	private List<AsbStationierung> asbStationierung;
+
+	/** Liste der Betriebskilometer-Einträge. */
+	private List<BetriebsKilometer> betriebsKilometer;
 
 	/**
 	 * Nach Offset sortierte Liste der Messquerschnitt auf dem Teilsegement. Die
@@ -110,13 +115,57 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	}
 
 	/**
-	 * liefert die Steigung/Gef&auml;lle des Strassenteilsegments.
+	 * liefert die konfigurierte Liste der AsbStationierungen. Es wird auf jeden
+	 * Fall eine Liste geliefert, die gegebenenfalls leer ist, auch wenn der
+	 * Datensatz nicht konfiguriert ist.
 	 * 
-	 * @return Steigung (positiv) oder Gef&auml;lle (negativ) des Segments.
+	 * @return die Liste der Stationierungen
 	 */
-	public int getSteigungGefaelle() {
-		leseKonfigDaten();
-		return steigungGefaelle;
+	public List<AsbStationierung> getAsbStationierung() {
+		if (asbStationierung == null) {
+			asbStationierung = new ArrayList<AsbStationierung>();
+			AttributeGroup atg = getSystemObject().getDataModel()
+					.getAttributeGroup("atg.asbStationierung");
+
+			DataCache.cacheData(getSystemObject().getType(), atg);
+			Data datum = getSystemObject().getConfigurationData(atg);
+
+			if (datum != null) {
+				Data.Array array = datum.getArray("AsbStationierung");
+				for (int idx = 0; idx < array.getLength(); idx++) {
+					asbStationierung.add(new AsbStationierung(array
+							.getItem(idx)));
+				}
+			}
+		}
+		return asbStationierung;
+	}
+
+	/**
+	 * liefert die konfigurierte Liste der Betriebskilometer. Es wird auf jeden
+	 * Fall eine Liste geliefert, die gegebenenfalls leer ist, auch wenn der
+	 * Datensatz nicht konfiguriert ist.
+	 * 
+	 * @return die Liste der Betriebskilometer
+	 */
+	public List<AsbStationierung> getBetriebsKilometer() {
+		if (betriebsKilometer == null) {
+			betriebsKilometer = new ArrayList<BetriebsKilometer>();
+			AttributeGroup atg = getSystemObject().getDataModel()
+					.getAttributeGroup("atg.betriebsKilometer");
+
+			DataCache.cacheData(getSystemObject().getType(), atg);
+			Data datum = getSystemObject().getConfigurationData(atg);
+
+			if (datum != null) {
+				Data.Array array = datum.getArray("BetriebsKilometer");
+				for (int idx = 0; idx < array.getLength(); idx++) {
+					betriebsKilometer.add(new BetriebsKilometer(array
+							.getItem(idx)));
+				}
+			}
+		}
+		return asbStationierung;
 	}
 
 	/**
@@ -170,6 +219,16 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	}
 
 	/**
+	 * liefert die Steigung/Gef&auml;lle des Strassenteilsegments.
+	 * 
+	 * @return Steigung (positiv) oder Gef&auml;lle (negativ) des Segments.
+	 */
+	public int getSteigungGefaelle() {
+		leseKonfigDaten();
+		return steigungGefaelle;
+	}
+
+	/**
 	 * Gibt das Stra&szlig;ensegment zur&uuml;ck, auf das
 	 * Stra&szlig;enteilsegment liegt.
 	 * 
@@ -220,8 +279,8 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 				laenge = datum.getScaledValue("Länge").floatValue();
 				anzahlFahrStreifen = datum.getUnscaledValue(
 						"AnzahlFahrStreifen").intValue();
-				steigungGefaelle = datum.getUnscaledValue(
-						"SteigungGefälle").intValue();
+				steigungGefaelle = datum.getUnscaledValue("SteigungGefälle")
+						.intValue();
 			} else {
 				laenge = 0;
 				anzahlFahrStreifen = 0;
