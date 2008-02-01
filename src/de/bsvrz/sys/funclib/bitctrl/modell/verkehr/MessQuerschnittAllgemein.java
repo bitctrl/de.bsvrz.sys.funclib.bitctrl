@@ -28,16 +28,11 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
 import java.util.Comparator;
 
-import de.bsvrz.dav.daf.main.Data;
-import de.bsvrz.dav.daf.main.config.AttributeGroup;
-import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
-import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
-import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
-import de.bsvrz.sys.funclib.bitctrl.modell.geo.Linie;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktLiegtAufLinienObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktLiegtAufLinienObjektmpl;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXY;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktXYImpl;
 
@@ -77,16 +72,6 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	}
 
 	/**
-	 * Das Stra&szlig;ensegment auf dem der Messquerschnitt liegt.
-	 */
-	private StrassenSegment strassenSegment;
-
-	/**
-	 * Der Offset auf dem Stra&szlig;ensegment.
-	 */
-	private float offset;
-
-	/**
 	 * Das Stra&szlig;enteilsegment auf dem der Messquerschnitt liegt. Die
 	 * Information ist konfigurierend, muss aber aufwendig zusammengesucht
 	 * werden, weswegen die Liste nur bei Bedarf erstellt wird.
@@ -99,6 +84,12 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	private PunktXY punkt;
 
 	/**
+	 * das Objekt, mit dem die PunktLiegtAufLinie-Eigenschaften dess MQ
+	 * repräsentiert werden.
+	 */
+	private PunktLiegtAufLinienObjekt punktLiegtAufLinie;
+
+	/**
 	 * Erzeugt einen allgemeinen Messquerschnitt aus einem Systemobjekt.
 	 * 
 	 * @param obj
@@ -109,6 +100,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 		super(obj);
 
 		punkt = new PunktXYImpl(obj);
+		punktLiegtAufLinie = new PunktLiegtAufLinienObjektmpl(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
@@ -133,7 +125,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktLiegtAufLinienObjekt#getLinie()
 	 */
 	public StrassenSegment getLinie() {
-		return getStrassenSegment();
+		return (StrassenSegment) punktLiegtAufLinie.getLinie();
 	}
 
 	/**
@@ -142,7 +134,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktLiegtAufLinienObjekt#getOffset()
 	 */
 	public float getOffset() {
-		return offset;
+		return punktLiegtAufLinie.getOffset();
 	}
 
 	/**
@@ -152,8 +144,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	 * @return Ein Stra&szlig;ensegment
 	 */
 	public StrassenSegment getStrassenSegment() {
-		leseKonfigDaten();
-		return strassenSegment;
+		return getLinie();
 	}
 
 	/**
@@ -163,8 +154,7 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	 * @return Der Offset
 	 */
 	public float getStrassenSegmentOffset() {
-		leseKonfigDaten();
-		return offset;
+		return getOffset();
 	}
 
 	/**
@@ -184,10 +174,11 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 		if (getStrassenSegment() != null) {
 			// Das richtige STS ist letzte für das gilt offset(MQ) < offsetSS,
 			// wenn keines gefunden wird wird das letzte geliefert
-			for (StrassenTeilSegment s : strassenSegment
+			for (StrassenTeilSegment s : getStrassenSegment()
 					.getStrassenTeilSegmente()) {
 				sts = s;
-				if (offsetSS < offset && offset < offsetSS + s.getLaenge()) {
+				if (offsetSS < getOffset()
+						&& getOffset() < offsetSS + s.getLaenge()) {
 					break;
 				}
 				offsetSS += s.getLaenge();
@@ -205,28 +196,4 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	public SystemObjektTyp getTyp() {
 		return VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN;
 	}
-
-	/**
-	 * Liest die konfigurierenden Daten des Messquerschnitts.
-	 */
-	private void leseKonfigDaten() {
-		if (strassenSegment == null) {
-			// Straßensegment und Offset bestimmen
-			DataModel modell = objekt.getDataModel();
-			AttributeGroup atg = modell
-					.getAttributeGroup("atg.punktLiegtAufLinienObjekt");
-			DataCache.cacheData(getSystemObject().getType(), atg);
-			Data datum = objekt.getConfigurationData(atg);
-			if (datum != null) {
-				SystemObject so;
-
-				so = datum.getReferenceValue("LinienReferenz")
-						.getSystemObject();
-				strassenSegment = (StrassenSegment) ObjektFactory.getInstanz()
-						.getModellobjekt(so);
-				offset = datum.getScaledValue("Offset").floatValue();
-			}
-		}
-	}
-
 }

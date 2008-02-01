@@ -50,6 +50,10 @@ public enum GeoModellTypen implements SystemObjektTyp {
 	/** Eine Linie. */
 	LINIE_XY("typ.linieXY", LinieXYImpl.class),
 
+	/** Eine Linie. */
+	PUNKT_LIEGT_AUF_LINIEN_OBJEKT("typ.punktLiegtAufLinienObjekt",
+			PunktLiegtAufLinienObjektmpl.class),
+
 	/** die Grenzen eines Kreise. */
 	KREISGRENZEN("typ.Kreis", Kreisgrenzen.class),
 
