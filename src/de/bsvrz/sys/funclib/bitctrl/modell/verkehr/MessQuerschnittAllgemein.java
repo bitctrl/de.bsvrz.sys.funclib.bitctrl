@@ -137,6 +137,15 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 	}
 
 	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.geo.PunktLiegtAufLinienObjekt#getOffset()
+	 */
+	public float getOffset() {
+		return offset;
+	}
+
+	/**
 	 * Gibt das Stra&szlig;ensegment zur&uuml;ck, auf dem der Messquerschnitt
 	 * liegt.
 	 * 

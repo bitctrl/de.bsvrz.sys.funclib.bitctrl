@@ -41,4 +41,11 @@ public interface PunktLiegtAufLinienObjekt extends Punkt {
 	 * @return die Linie oder <code>null</code>
 	 */
 	Linie getLinie();
+
+	/**
+	 * liefert den Offset des Punktes auf dem Linienobjekt.
+	 * 
+	 * @return den Offset
+	 */
+	float getOffset();
 }
