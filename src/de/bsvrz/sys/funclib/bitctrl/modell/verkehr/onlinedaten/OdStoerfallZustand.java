@@ -318,6 +318,11 @@ public class OdStoerfallZustand extends
 		}
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#abrufenDatum(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
 	@Override
 	public OdStoerfallZustand.Daten abrufenDatum(Aspect asp) {
 		return super.abrufenDatum(asp);
@@ -355,6 +360,15 @@ public class OdStoerfallZustand extends
 		return atg;
 	}
 
+	/**
+	 * liefert den Störfallzustand, der mit dem übergebenen Aspekt berechnet
+	 * wurde. Wenn keine daten für den Aspekt verfügbar sind wird der Zustand
+	 * UNBEKANNT geliefert.
+	 * 
+	 * @param aspekt
+	 *            der Aspekt
+	 * @return der Zustand
+	 */
 	public StoerfallSituation getSituation(Aspect aspekt) {
 		StoerfallSituation result = StoerfallSituation.UNBEKANNT;
 		OdStoerfallZustand.Daten daten = getDatum(aspekt);

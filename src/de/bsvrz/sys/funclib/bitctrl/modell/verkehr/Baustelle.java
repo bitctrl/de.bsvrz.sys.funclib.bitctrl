@@ -31,7 +31,11 @@ import java.util.List;
 import java.util.Set;
 
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
+import de.bsvrz.sys.funclib.bitctrl.modell.AnmeldeException;
+import de.bsvrz.sys.funclib.bitctrl.modell.DatensendeException;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten.OdBaustellenSimulationStarten;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdBaustellenEigenschaften;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdBaustellenVerantwortlicher;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdSituationsEigenschaften;
@@ -65,24 +69,6 @@ public class Baustelle extends Situation {
 					"Systemobjekt ist keine Baustelle.");
 		}
 	}
-
-	// public void addBaustellenUpdateListener(BaustellenUpdateListener
-	// listener) {
-	// boolean registerListeners = listeners
-	// .getListenerCount(BaustellenUpdateListener.class) == 0;
-	//
-	// listeners.add(BaustellenUpdateListener.class, listener);
-	//
-	// if (registerListeners) {
-	// getSituationsEigenschaften().update();
-	// getSituationsEigenschaften().addUpdateListener(this);
-	// getSituationsEigenschaften().setAutoUpdate(true);
-	//
-	// getBaustellenEigenschaften().update();
-	// getBaustellenEigenschaften().addUpdateListener(this);
-	// getBaustellenEigenschaften().setAutoUpdate(true);
-	// }
-	// }
 
 	/**
 	 * fügt der Baustelle eine Netzreferenz hinzu.
@@ -205,5 +191,47 @@ public class Baustelle extends Situation {
 	@Override
 	public void removeNetzReferenz(VerkehrModellNetz netz) {
 		netze.remove(netz);
+	}
+
+	/**
+	 * die Funktion versendet eine Anforderung zum Simulieren einer Baustelle.
+	 * Der Versand erfolgt mit einem Timeout von 1 Minute, d.h. wenn innerhalb
+	 * einer Minute keine Empfangsbereitschaft durch die Baustellensimulation
+	 * besteht wird der Versand abgebrochen.
+	 * 
+	 * @param name
+	 *            der Name des Auftraggebers
+	 * @param bemerkung
+	 *            eine Bemerkung zum Simulationsauftrag
+	 * @throws AnmeldeException
+	 *             die Anmeldung zum Versand der Auftragsdaten ist
+	 *             fehlgeschlagen
+	 * @throws DatensendeException
+	 *             der Auftrag konnte innerhalb der vorgegebenen Zeit nicht
+	 *             versendet werden
+	 */
+	void simuliereBaustelle(String name, String bemerkung)
+			throws AnmeldeException, DatensendeException {
+
+		getOnlineDatensatz(OdBaustellenSimulationStarten.class).anmeldenSender(
+				OdBaustellenSimulationStarten.Aspekte.Senden.getAspekt());
+		OdBaustellenSimulationStarten.Daten datum = getOnlineDatensatz(
+				OdBaustellenSimulationStarten.class).erzeugeDatum();
+		datum.setName(name);
+		datum.setBemerkung(bemerkung);
+		try {
+			getOnlineDatensatz(OdBaustellenSimulationStarten.class).sendeDaten(
+					OdBaustellenSimulationStarten.Aspekte.Senden.getAspekt(),
+					datum, Konstante.MINUTE_IN_MS);
+		} catch (DatensendeException e) {
+			getOnlineDatensatz(OdBaustellenSimulationStarten.class)
+					.abmeldenSender(
+							OdBaustellenSimulationStarten.Aspekte.Senden
+									.getAspekt());
+			throw e;
+		}
+
+		getOnlineDatensatz(OdBaustellenSimulationStarten.class).abmeldenSender(
+				OdBaustellenSimulationStarten.Aspekte.Senden.getAspekt());
 	}
 }

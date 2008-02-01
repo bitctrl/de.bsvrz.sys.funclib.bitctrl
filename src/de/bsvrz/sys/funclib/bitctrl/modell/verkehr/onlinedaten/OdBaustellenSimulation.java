@@ -41,12 +41,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.fachmodellglobal.GueteVerfahren;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.Baustelle;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.Stau;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StoerfallIndikator;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StoerfallSituation;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten.OdStauVerlauf.PrognoseSchritt;
 
 /**
  * Kapselt die Attributgruppe {@code atg.st&ouml;rfallZustand}.
@@ -106,10 +101,17 @@ public class OdBaustellenSimulation extends
 	 */
 	public static class Daten extends AbstractDatum {
 
+		/**
+		 * ein Staueintrag in der Liste der für eine Baustelle prognostizierten
+		 * Staus.
+		 * 
+		 * @author BitCtrl Systems GmbH, Uwe Peuker
+		 * @version $Id$
+		 */
 		public static class StauEintrag implements Cloneable {
 			/** Startzeit des Staus. */
 			long startZeit;
-			/** Dauer */
+			/** Dauer. */
 			long dauer;
 			/** maximale Länge in Metern. */
 			long maxLaenge;
@@ -118,6 +120,11 @@ public class OdBaustellenSimulation extends
 			/** Verlustzeit in Sekunden. */
 			long verlustZeit;
 
+			/**
+			 * {@inheritDoc}.<br>
+			 * 
+			 * @see java.lang.Object#clone()
+			 */
 			@Override
 			public StauEintrag clone() {
 
@@ -132,58 +139,129 @@ public class OdBaustellenSimulation extends
 				return neuerSchritt;
 			}
 
+			/**
+			 * liefert die Dauer des Staus.
+			 * 
+			 * @return die Dauer
+			 */
 			public long getDauer() {
 				return dauer;
 			}
 
+			/**
+			 * liefert die maximale Länge des Staus.
+			 * 
+			 * @return die Länge
+			 */
 			public long getMaxLaenge() {
 				return maxLaenge;
 			}
 
+			/**
+			 * liefert den Zeitpunkt für den die maximale Länge des Staus
+			 * ermittelt wurde.
+			 * 
+			 * @return den Zeitpunkt
+			 */
 			public long getMaxLaengeZeit() {
 				return maxLaengeZeit;
 			}
 
+			/**
+			 * liefert den Anfangszeitpunkt des Staus.
+			 * 
+			 * @return den Zeitpunkt
+			 */
 			public long getStartZeit() {
 				return startZeit;
 			}
 
+			/**
+			 * liefert die maximale Verlustzeit des Staus.
+			 * 
+			 * @return die Zeit
+			 */
 			public long getVerlustZeit() {
 				return verlustZeit;
 			}
 
+			/**
+			 * setzt die Dauer des Staus.
+			 * 
+			 * @param dauer
+			 *            die Dauer
+			 */
 			public void setDauer(long dauer) {
 				this.dauer = dauer;
 			}
 
+			/**
+			 * setzt die maximale Dauer des Staus.
+			 * 
+			 * @param maxLaenge
+			 *            die Länge
+			 */
 			public void setMaxLaenge(long maxLaenge) {
 				this.maxLaenge = maxLaenge;
 			}
 
+			/**
+			 * setz den Zeitpunkt der maximalen Staulänge.
+			 * 
+			 * @param maxLaengeZeit
+			 *            der Zeitpunkt
+			 */
 			public void setMaxLaengeZeit(long maxLaengeZeit) {
 				this.maxLaengeZeit = maxLaengeZeit;
 			}
 
+			/**
+			 * setzt den Anfangszeitpunkt des Staus.
+			 * 
+			 * @param startZeit
+			 *            der Zeitpunkt
+			 */
 			public void setStartZeit(long startZeit) {
 				this.startZeit = startZeit;
 			}
 
+			/**
+			 * setzt die maximale Verlustzeit des Staus.
+			 * 
+			 * @param verlustZeit
+			 *            die Zeit
+			 */
 			public void setVerlustZeit(long verlustZeit) {
 				this.verlustZeit = verlustZeit;
 			}
 		}
 
+		/**
+		 * markiert die Gültigkeit der Daten des Datensatzes.
+		 */
 		boolean valid;
 
+		/**
+		 * die Liste der Staueinträge.
+		 */
 		private List<StauEintrag> staus = new ArrayList<StauEintrag>();
 
-		public void addSchritte(StauEintrag... schritte) {
-			for (StauEintrag schritt : schritte) {
+		/**
+		 * fügt diue übergebenen Staueinträge hinzu.
+		 * 
+		 * @param neueStaus
+		 *            die Staueinträge
+		 */
+		public void addSchritte(StauEintrag... neueStaus) {
+			for (StauEintrag schritt : neueStaus) {
 				this.staus.add(schritt);
 			}
 		}
 
-		public void clearSchritte() {
+		/**
+		 * entfernt alle Staueinträge.
+		 */
+		public void clearStaus() {
 			this.staus.clear();
 		}
 
@@ -204,10 +282,23 @@ public class OdBaustellenSimulation extends
 			return klon;
 		}
 
+		/**
+		 * liefert den an der übergebenen Position befindlichen Stau aus der
+		 * Liste der Staueinträge.
+		 * 
+		 * @param idx
+		 *            der Index
+		 * @return den ermittelten Staueintrag
+		 */
 		public StauEintrag getStau(int idx) {
 			return staus.get(idx);
 		}
 
+		/**
+		 * liefert die Liste der Staueinträge.
+		 * 
+		 * @return die Liste
+		 */
 		public List<StauEintrag> getStaus() {
 			return staus;
 		}
