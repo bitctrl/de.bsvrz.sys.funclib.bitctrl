@@ -281,7 +281,7 @@ public class PdBaustellenVerantwortlicher extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#erzeugeDatum()
 	 */
 	public Daten erzeugeDatum() {
-		return new Daten((ResultData) null);
+		return new Daten();
 	}
 
 	/**
