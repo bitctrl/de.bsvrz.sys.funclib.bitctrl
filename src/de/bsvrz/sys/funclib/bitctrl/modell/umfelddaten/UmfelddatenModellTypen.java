@@ -28,6 +28,13 @@ package de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsHelligkeit;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsNiederschlagsIntensitaet;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsSichtWeite;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsWindGeschwindigkeitMittelWert;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsWindRichtung;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UmfeldDatenMessStelle;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UmfeldDatenSensor;
 
 /**
  * Fasst alle Objekttypen im Umfelddatenmodell zusammen.

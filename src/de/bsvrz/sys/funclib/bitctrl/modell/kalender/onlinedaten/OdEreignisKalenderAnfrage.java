@@ -43,8 +43,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.zustaende.EreignisTypenOption;
-import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.Applikation;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.NetzBestandTeil;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.NetzBestandTeil;
 import de.bsvrz.sys.funclib.bitctrl.util.Intervall;
 
 /**

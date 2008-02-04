@@ -43,7 +43,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UfdsWindGeschwindigkeitMittelWert;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsWindGeschwindigkeitMittelWert;
 
 /**
  * Kapselt die Attriburgruppe {@code atg.ufdsWindGeschwindleitMittelWert}.

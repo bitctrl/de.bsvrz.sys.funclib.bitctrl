@@ -43,7 +43,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.FahrStreifen;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.FahrStreifen;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten.OdVerkehrsDatenKurzZeitFs.Daten.Werte;
 import de.bsvrz.sys.funclib.bitctrl.util.dav.Umrechung;
 

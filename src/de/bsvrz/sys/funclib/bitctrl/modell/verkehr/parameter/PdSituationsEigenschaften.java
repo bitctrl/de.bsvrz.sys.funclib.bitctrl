@@ -36,12 +36,12 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.AeusseresStrassenSegment;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.InneresStrassenSegment;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.MessQuerschnittAllgemein;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.Strasse;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StrassenKnoten;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.AeusseresStrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.InneresStrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.MessQuerschnittAllgemein;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Strasse;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenKnoten;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenSegment;
 
 /**
  * Ein Parameterdatensatz, die Eigenschaften einer Situation beinhaltet. Der

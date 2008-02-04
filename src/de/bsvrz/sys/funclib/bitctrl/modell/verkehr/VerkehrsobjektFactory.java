@@ -33,6 +33,19 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.AeusseresStrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Baustelle;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.FahrStreifen;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.InneresStrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.MessQuerschnitt;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.MessQuerschnittVirtuell;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Netz;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Stau;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Strasse;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenKnoten;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenTeilSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.VerkehrModellNetz;
 
 /**
  * Fabrikmethode f&uuml;r gekapselte Systemobjekte aus dem Verkehrsmodell. Jedes

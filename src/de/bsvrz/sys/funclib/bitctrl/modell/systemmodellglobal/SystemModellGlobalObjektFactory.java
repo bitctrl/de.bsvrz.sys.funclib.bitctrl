@@ -35,6 +35,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
 
 /**
  * Fabrikmethode f&uuml;r gekapselte Systemobjekte aus dem Umfelddatenmodell.

@@ -49,7 +49,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.onlinedaten.OdEreignisKalend
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.parameter.PdEreignisParameter;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.parameter.PdEreignisTypParameter;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.parameter.PdSystemKalenderEintrag;
-import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.Applikation;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
 import de.bsvrz.sys.funclib.bitctrl.util.Intervall;
 import de.bsvrz.sys.funclib.debug.Debug;
 

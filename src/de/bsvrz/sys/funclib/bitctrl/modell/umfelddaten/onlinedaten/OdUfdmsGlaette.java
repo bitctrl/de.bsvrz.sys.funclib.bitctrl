@@ -43,7 +43,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfeldDatenMessStelle;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UmfeldDatenMessStelle;
 
 /**
  * Kapselt die Attriburgruppe {@code atg.ufdmsGl&auml;tte}.

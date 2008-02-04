@@ -32,8 +32,8 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.BaustellenStatus;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.BaustellenVeranlasser;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende.BaustellenStatus;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende.BaustellenVeranlasser;
 
 /**
  * Ein Parameterdatensatz, die Eigenschaften einer Baustelle beinhaltet. Der

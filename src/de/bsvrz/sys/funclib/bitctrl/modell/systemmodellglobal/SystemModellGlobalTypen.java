@@ -28,6 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
 
 /**
  * Fasst alle Objekttypen im globalen Systemmodell zusammen.

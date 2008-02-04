@@ -39,9 +39,9 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.fachmodellglobal.GueteVerfahren;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StoerfallIndikator;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.StoerfallSituation;
+import de.bsvrz.sys.funclib.bitctrl.modell.fachmodellglobal.zustaende.GueteVerfahren;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StoerfallIndikator;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende.StoerfallSituation;
 
 /**
  * Kapselt die Attributgruppe {@code atg.st&ouml;rfallZustand}.

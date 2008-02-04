@@ -28,6 +28,15 @@ package de.bsvrz.sys.funclib.bitctrl.modell.geo;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.FlaecheXYImpl;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.KomplexXYImpl;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.LinieXYImpl;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.PunktLiegtAufLinienObjektmpl;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.PunktXYImpl;
+import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Gewaesser;
+import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Kreisgrenzen;
+import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Ortslage;
+import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Ortsname;
 
 /**
  * Definition der Typen, die von {@link GeoModellFactory} angelegt werden
@@ -52,19 +61,7 @@ public enum GeoModellTypen implements SystemObjektTyp {
 
 	/** Eine Linie. */
 	PUNKT_LIEGT_AUF_LINIEN_OBJEKT("typ.punktLiegtAufLinienObjekt",
-			PunktLiegtAufLinienObjektmpl.class),
-
-	/** die Grenzen eines Kreise. */
-	KREISGRENZEN("typ.Kreis", Kreisgrenzen.class),
-
-	/** die Grenzen eines Ortes. */
-	ORTSLAGE("typ.Ortslage", Ortslage.class),
-
-	/** die Grenzen eines Gewässers. */
-	GEWAESSER("typ.gewässer", Gewaesser.class),
-
-	/** Eine Ortsbezeichung. */
-	ORTSNAME("typ.Ortsname", Ortsname.class);
+			PunktLiegtAufLinienObjektmpl.class);
 
 	/** PID des Objekttyps im Datenverteiler. */
 	private final String pid;

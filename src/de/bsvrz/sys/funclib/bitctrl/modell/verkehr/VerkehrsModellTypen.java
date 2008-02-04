@@ -28,6 +28,22 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.AeusseresStrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Baustelle;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.FahrStreifen;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.InneresStrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.MessQuerschnitt;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.MessQuerschnittAllgemein;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.MessQuerschnittVirtuell;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Netz;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.RoutenStueck;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Stau;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StoerfallIndikator;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Strasse;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenKnoten;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenTeilSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.VerkehrModellNetz;
 
 /**
  * Fasst alle Objekttypen im Verkehrsmodell zusammen.

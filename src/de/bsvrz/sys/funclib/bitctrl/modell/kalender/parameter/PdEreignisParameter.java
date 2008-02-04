@@ -40,7 +40,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintrag;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.parameter.PdEreignisParameter.Daten.VerkehrlicheGueltigkeit;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.NetzBestandTeil;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.NetzBestandTeil;
 import de.bsvrz.sys.funclib.bitctrl.util.Intervall;
 
 /**

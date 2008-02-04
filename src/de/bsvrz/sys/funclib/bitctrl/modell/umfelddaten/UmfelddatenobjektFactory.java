@@ -40,6 +40,13 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.AbstractUmfeldDatenSensor;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsHelligkeit;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsNiederschlagsIntensitaet;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsSichtWeite;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsWindGeschwindigkeitMittelWert;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsWindRichtung;
+import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UmfeldDatenMessStelle;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**

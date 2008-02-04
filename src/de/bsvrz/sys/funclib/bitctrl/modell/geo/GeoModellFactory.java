@@ -33,6 +33,14 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.FlaecheXYImpl;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.KomplexXYImpl;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.LinieXYImpl;
+import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.PunktXYImpl;
+import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Gewaesser;
+import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Kreisgrenzen;
+import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Ortslage;
+import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Ortsname;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
@@ -59,15 +67,7 @@ public class GeoModellFactory implements ModellObjektFactory {
 		}
 
 		SystemObjekt obj = null;
-		if (objekt.isOfType(GeoModellTypen.KREISGRENZEN.getPid())) {
-			obj = new Kreisgrenzen(objekt);
-		} else if (objekt.isOfType(GeoModellTypen.ORTSLAGE.getPid())) {
-			obj = new Ortslage(objekt);
-		} else if (objekt.isOfType(GeoModellTypen.GEWAESSER.getPid())) {
-			obj = new Gewaesser(objekt);
-		} else if (objekt.isOfType(GeoModellTypen.ORTSNAME.getPid())) {
-			obj = new Ortsname(objekt);
-		} else if (objekt.isOfType(GeoModellTypen.KOMPLEX_XY.getPid())) {
+		if (objekt.isOfType(GeoModellTypen.KOMPLEX_XY.getPid())) {
 			obj = new KomplexXYImpl(objekt);
 		} else if (objekt.isOfType(GeoModellTypen.PUNKT_XY.getPid())) {
 			obj = new PunktXYImpl(objekt);

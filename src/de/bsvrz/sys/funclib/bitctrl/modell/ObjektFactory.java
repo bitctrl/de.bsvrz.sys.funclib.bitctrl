@@ -42,6 +42,7 @@ import de.bsvrz.dav.daf.main.config.SystemObjectType;
 import de.bsvrz.sys.funclib.bitctrl.daf.Konfigurationsbereich;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.GeoModellFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderobjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.mif.MifModellFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellaoe.SystemModellAoeObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenobjektFactory;
@@ -349,7 +350,8 @@ public final class ObjektFactory implements ModellObjektFactory {
 		registerFactory(new GeoModellFactory(), new KalenderobjektFactory(),
 				new SystemModellAoeObjektFactory(),
 				new SystemModellGlobalObjektFactory(),
-				new UmfelddatenobjektFactory(), new VerkehrsobjektFactory());
+				new UmfelddatenobjektFactory(), new VerkehrsobjektFactory(),
+				new MifModellFactory());
 	}
 
 	/**
