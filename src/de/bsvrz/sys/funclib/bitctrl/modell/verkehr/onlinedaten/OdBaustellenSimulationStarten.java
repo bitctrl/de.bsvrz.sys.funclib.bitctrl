@@ -39,6 +39,7 @@ import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Baustelle;
 
@@ -103,11 +104,6 @@ public class OdBaustellenSimulationStarten extends
 	public static class Daten extends AbstractDatum {
 
 		/**
-		 * markiert die Gültigkeit der Daten des Datensatzes.
-		 */
-		boolean valid;
-
-		/**
 		 * der Name des Auftragsgebers.
 		 */
 		private String name = Konstante.LEERSTRING;
@@ -116,6 +112,11 @@ public class OdBaustellenSimulationStarten extends
 		 * eine Bemerkung zum Versand des Auftrags.
 		 */
 		private String bemerkung = Konstante.LEERSTRING;
+
+		/**
+		 * der aktuelle Status des Datensatzes.
+		 */
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
 		 * {@inheritDoc}
@@ -127,7 +128,7 @@ public class OdBaustellenSimulationStarten extends
 			Daten klon = new Daten();
 			klon.name = name;
 			klon.bemerkung = bemerkung;
-			klon.valid = valid;
+			klon.datenStatus = datenStatus;
 			return klon;
 		}
 
@@ -141,19 +142,21 @@ public class OdBaustellenSimulationStarten extends
 		}
 
 		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
+		}
+
+		/**
 		 * liefert den Namen.
 		 * 
 		 * @return der Text
 		 */
 		public String getName() {
 			return name;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		public boolean isValid() {
-			return valid;
 		}
 
 		/**
@@ -171,6 +174,16 @@ public class OdBaustellenSimulationStarten extends
 		}
 
 		/**
+		 * setzt den aktuellen Status des Datensatzes.
+		 * 
+		 * @param neuerStatus
+		 *            der neue Status
+		 */
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
+		}
+
+		/**
 		 * setzt den Name.
 		 * 
 		 * @param name
@@ -182,16 +195,6 @@ public class OdBaustellenSimulationStarten extends
 			} else {
 				this.name = Konstante.LEERSTRING;
 			}
-		}
-
-		/**
-		 * Setzt das Flag {@code valid} des Datum.
-		 * 
-		 * @param valid
-		 *            der neue Wert des Flags.
-		 */
-		protected void setValid(boolean valid) {
-			this.valid = valid;
 		}
 	}
 
@@ -278,14 +281,12 @@ public class OdBaustellenSimulationStarten extends
 
 			datum.setName(daten.getTextValue("Name").getText());
 			datum.setBemerkung(daten.getTextValue("Bemerkung").getText());
-
-			datum.setValid(true);
-		} else {
-			datum.setValid(false);
 		}
 
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
+				.getCode()));
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
 	}

@@ -31,6 +31,7 @@ import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
 /**
@@ -69,9 +70,9 @@ public class PdBaustellenVerantwortlicher extends
 		private String telefonMobilBaustellenVerantwortlicher;
 
 		/**
-		 * markiert die G&uuml;ltigkeit des Datensatzes.
+		 * der aktuelle Status des Datensatzes.
 		 */
-		private boolean valid;
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
 		 * Standardkonstruktor.<br>
@@ -83,7 +84,6 @@ public class PdBaustellenVerantwortlicher extends
 			telefonBaustellenVerantwortlicher = "";
 			telefonFirma = "";
 			telefonMobilBaustellenVerantwortlicher = "";
-			valid = false;
 			setZeitstempel(0);
 		}
 
@@ -101,7 +101,7 @@ public class PdBaustellenVerantwortlicher extends
 			this.telefonFirma = daten.telefonFirma;
 			this.telefonMobilBaustellenVerantwortlicher = daten.telefonMobilBaustellenVerantwortlicher;
 
-			this.valid = daten.valid;
+			this.datenStatus = daten.datenStatus;
 			setZeitstempel(daten.getZeitstempel());
 		}
 
@@ -117,7 +117,6 @@ public class PdBaustellenVerantwortlicher extends
 			setZeitstempel(result.getDataTime());
 			Data daten = result.getData();
 			if (daten == null) {
-				valid = false;
 				firma = "";
 				nameBaustellenVerantwortlicher = "";
 				telefonBaustellenVerantwortlicher = "";
@@ -132,8 +131,10 @@ public class PdBaustellenVerantwortlicher extends
 						"TelefonBaustellenVerantwortlicher").getText();
 				telefonMobilBaustellenVerantwortlicher = daten.getTextValue(
 						"TelefonMobilBaustellenVerantwortlicher").getText();
-				valid = true;
 			}
+
+			datenStatus = Datum.Status.getStatus(result.getDataState()
+					.getCode());
 		}
 
 		/**
@@ -144,6 +145,15 @@ public class PdBaustellenVerantwortlicher extends
 		@Override
 		public Daten clone() {
 			return new Daten(this);
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
 		}
 
 		/**
@@ -192,12 +202,13 @@ public class PdBaustellenVerantwortlicher extends
 		}
 
 		/**
-		 * {@inheritDoc}.<br>
+		 * setzt den aktuellen Status des Datensatzes.
 		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#isValid()
+		 * @param neuerStatus
+		 *            der neue Status
 		 */
-		public boolean isValid() {
-			return valid;
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 
 		/**
@@ -323,6 +334,8 @@ public class PdBaustellenVerantwortlicher extends
 		check(daten);
 		Daten datum = new Daten(daten);
 		setDatum(datum);
+		datum.setDatenStatus(Datum.Status.getStatus(daten.getDataState()
+				.getCode()));
 		fireDatensatzAktualisiert(datum.clone());
 	}
 }

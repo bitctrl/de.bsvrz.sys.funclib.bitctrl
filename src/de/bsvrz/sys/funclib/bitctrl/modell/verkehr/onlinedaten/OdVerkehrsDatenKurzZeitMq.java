@@ -41,6 +41,7 @@ import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.MessQuerschnittAllgemein;
@@ -176,8 +177,10 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		/** Belegungsgrad (mit Statusinformationen) in Prozent. */
 		private Float b;
 
-		/** Das Flag f&uuml;r die G&uuml;ltigkeit des Datensatzes. */
-		private boolean valid;
+		/**
+		 * der aktuelle Status des Datensatzes.
+		 */
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
 		 * {@inheritDoc}
@@ -199,8 +202,17 @@ public class OdVerkehrsDatenKurzZeitMq extends
 			klon.kb = kb;
 			klon.sKfz = sKfz;
 			klon.b = b;
-			klon.valid = valid;
+			klon.datenStatus = datenStatus;
 			return klon;
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
 		}
 
 		/**
@@ -252,10 +264,13 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		}
 
 		/**
-		 * {@inheritDoc}
+		 * setzt den aktuellen Status des Datensatzes.
+		 * 
+		 * @param neuerStatus
+		 *            der neue Status
 		 */
-		public boolean isValid() {
-			return valid;
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 
 		/**
@@ -321,16 +336,6 @@ public class OdVerkehrsDatenKurzZeitMq extends
 			return s + "]";
 		}
 
-		/**
-		 * Setzt das Flag {@code valid} des Datum.
-		 * 
-		 * @param valid
-		 *            der neue Wert des Flags.
-		 */
-		protected void setValid(final boolean valid) {
-			this.valid = valid;
-		}
-
 	}
 
 	/** Die PID der Attributgruppe. */
@@ -385,107 +390,6 @@ public class OdVerkehrsDatenKurzZeitMq extends
 	 */
 	public AttributeGroup getAttributGruppe() {
 		return atg;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public synchronized void setDaten(final ResultData result) {
-		check(result);
-
-		Daten datum = new Daten();
-		if (result.hasData()) {
-			Data daten = result.getData();
-			NumberValue wert;
-
-			wert = daten.getItem(Daten.Werte.QKfz.name()).getUnscaledValue(
-					"Wert");
-			if (wert.isState()) {
-				datum.setWert(Daten.Werte.QKfz.name(), null);
-			} else {
-				datum.setWert(Daten.Werte.QKfz.name(), wert.intValue());
-			}
-
-			wert = daten.getItem(Daten.Werte.QLkw.name()).getUnscaledValue(
-					"Wert");
-			if (wert.isState()) {
-				datum.setWert(Daten.Werte.QLkw.name(), null);
-			} else {
-				datum.setWert(Daten.Werte.QLkw.name(), wert.intValue());
-			}
-
-			wert = daten.getItem(Daten.Werte.QPkw.name()).getUnscaledValue(
-					"Wert");
-			if (wert.isState()) {
-				datum.setWert(Daten.Werte.QPkw.name(), null);
-			} else {
-				datum.setWert(Daten.Werte.QPkw.name(), wert.intValue());
-			}
-
-			wert = daten.getItem(Daten.Werte.VKfz.name()).getUnscaledValue(
-					"Wert");
-			if (wert.isState()) {
-				datum.setWert(Daten.Werte.VKfz.name(), null);
-			} else {
-				datum.setWert(Daten.Werte.VKfz.name(), wert.intValue());
-			}
-
-			wert = daten.getItem(Daten.Werte.VLkw.name()).getUnscaledValue(
-					"Wert");
-			if (wert.isState()) {
-				datum.setWert(Daten.Werte.VLkw.name(), null);
-			} else {
-				datum.setWert(Daten.Werte.VLkw.name(), wert.intValue());
-			}
-
-			wert = daten.getItem(Daten.Werte.VPkw.name()).getUnscaledValue(
-					"Wert");
-			if (wert.isState()) {
-				datum.setWert(Daten.Werte.VPkw.name(), null);
-			} else {
-				datum.setWert(Daten.Werte.VPkw.name(), wert.intValue());
-			}
-
-			wert = daten.getItem(Daten.Werte.SKfz.name()).getUnscaledValue(
-					"Wert");
-			if (wert.isState()) {
-				datum.setWert(Daten.Werte.SKfz.name(), null);
-			} else {
-				datum.setWert(Daten.Werte.SKfz.name(), wert.intValue());
-			}
-
-			wert = daten.getItem(Daten.Werte.KB.name())
-					.getUnscaledValue("Wert");
-			if (wert.isState()) {
-				datum.setWert(Daten.Werte.KB.name(), null);
-			} else {
-				datum.setWert(Daten.Werte.KB.name(), wert.intValue());
-			}
-
-			wert = daten.getItem(Daten.Werte.ALkw.name()).getUnscaledValue(
-					"Wert");
-			if (wert.isState()) {
-				datum.setWert(Daten.Werte.ALkw.name(), null);
-			} else {
-				datum.setWert(Daten.Werte.ALkw.name(), wert.intValue());
-			}
-
-			wert = daten.getItem(Daten.Werte.B.name()).getScaledValue("Wert");
-			if (wert.isState()) {
-				datum.setWert(Daten.Werte.B.name(), null);
-			} else {
-				datum.setWert(Daten.Werte.B.name(), wert.floatValue());
-			}
-
-			datum.setValid(true);
-		} else {
-			datum.setValid(false);
-		}
-
-		datum.setZeitstempel(result.getDataTime());
-		setDatum(result.getDataDescription().getAspect(), datum);
-		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
-				datum.clone());
 	}
 
 	/**
@@ -640,6 +544,105 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		}
 
 		return datum;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public synchronized void setDaten(final ResultData result) {
+		check(result);
+
+		Daten datum = new Daten();
+		if (result.hasData()) {
+			Data daten = result.getData();
+			NumberValue wert;
+
+			wert = daten.getItem(Daten.Werte.QKfz.name()).getUnscaledValue(
+					"Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.QKfz.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.QKfz.name(), wert.intValue());
+			}
+
+			wert = daten.getItem(Daten.Werte.QLkw.name()).getUnscaledValue(
+					"Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.QLkw.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.QLkw.name(), wert.intValue());
+			}
+
+			wert = daten.getItem(Daten.Werte.QPkw.name()).getUnscaledValue(
+					"Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.QPkw.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.QPkw.name(), wert.intValue());
+			}
+
+			wert = daten.getItem(Daten.Werte.VKfz.name()).getUnscaledValue(
+					"Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.VKfz.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.VKfz.name(), wert.intValue());
+			}
+
+			wert = daten.getItem(Daten.Werte.VLkw.name()).getUnscaledValue(
+					"Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.VLkw.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.VLkw.name(), wert.intValue());
+			}
+
+			wert = daten.getItem(Daten.Werte.VPkw.name()).getUnscaledValue(
+					"Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.VPkw.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.VPkw.name(), wert.intValue());
+			}
+
+			wert = daten.getItem(Daten.Werte.SKfz.name()).getUnscaledValue(
+					"Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.SKfz.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.SKfz.name(), wert.intValue());
+			}
+
+			wert = daten.getItem(Daten.Werte.KB.name())
+					.getUnscaledValue("Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.KB.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.KB.name(), wert.intValue());
+			}
+
+			wert = daten.getItem(Daten.Werte.ALkw.name()).getUnscaledValue(
+					"Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.ALkw.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.ALkw.name(), wert.intValue());
+			}
+
+			wert = daten.getItem(Daten.Werte.B.name()).getScaledValue("Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.B.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.B.name(), wert.floatValue());
+			}
+		}
+
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
+				.getCode()));
+		datum.setZeitstempel(result.getDataTime());
+		setDatum(result.getDataDescription().getAspect(), datum);
+		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
+				datum.clone());
 	}
 
 }

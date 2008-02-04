@@ -36,6 +36,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintrag;
@@ -193,6 +194,11 @@ public class PdEreignisParameter extends
 		private String quelle;
 
 		/**
+		 * der aktuelle Status des Datensatzes.
+		 */
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
+
+		/**
 		 * Erzeugt eine flache Kopie.
 		 * 
 		 * {@inheritDoc}
@@ -212,6 +218,15 @@ public class PdEreignisParameter extends
 			klon.verkehrlicheGueltigkeit.addAll(verkehrlicheGueltigkeit);
 
 			return klon;
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
 		}
 
 		/**
@@ -263,12 +278,13 @@ public class PdEreignisParameter extends
 		}
 
 		/**
-		 * {@inheritDoc}
+		 * setzt den aktuellen Datensatzstatus.
 		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#isValid()
+		 * @param neuerStatus
+		 *            der neue Status
 		 */
-		public boolean isValid() {
-			return valid;
+		protected void setDatenStatus(Status neuerStatus) {
+			datenStatus = neuerStatus;
 		}
 
 		/**
@@ -317,17 +333,6 @@ public class PdEreignisParameter extends
 			return s + "]";
 		}
 
-		/**
-		 * Setzt das Flag f&uuml;r g&uuml;ltige Daten.
-		 * 
-		 * @param valid
-		 *            {@code true}, wenn das Datum g&uuml;ltige Daten
-		 *            enth&auml;lt.
-		 */
-		protected void setValid(boolean valid) {
-			this.valid = valid;
-		}
-
 	}
 
 	/** Die PID der Attributgruppe. */
@@ -369,6 +374,62 @@ public class PdEreignisParameter extends
 	 */
 	public AttributeGroup getAttributGruppe() {
 		return atg;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	@Override
+	protected Data konvertiere(Daten datum) {
+		Data daten = erzeugeSendeCache();
+
+		Array feld;
+
+		feld = daten.getArray("RäumlicheGültigkeit");
+		feld.setLength(datum.getRaeumlicheGueltigkeit().size());
+		for (int i = 0; i < feld.getLength(); i++) {
+			feld.getItem(i).asReferenceValue().setSystemObject(
+					datum.getRaeumlicheGueltigkeit().get(i).getSystemObject());
+		}
+
+		if (datum.getZeitlicheGueltigkeit() == null) {
+			daten.getTimeValue("BeginnZeitlicheGültigkeit").setMillis(1);
+			daten.getTimeValue("EndeZeitlicheGültigkeit").setMillis(1);
+		} else {
+			daten.getTimeValue("BeginnZeitlicheGültigkeit").setMillis(
+					datum.getZeitlicheGueltigkeit().getStart());
+			daten.getTimeValue("EndeZeitlicheGültigkeit").setMillis(
+					datum.getZeitlicheGueltigkeit().getEnde());
+		}
+
+		if (datum.getSystemKalenderEintrag() != null) {
+			daten.getReferenceValue("SystemKalenderEintragReferenz")
+					.setSystemObject(
+							datum.getSystemKalenderEintrag().getSystemObject());
+		}
+
+		feld = daten.getArray("VerkehrlicheGültigkeit");
+		feld.setLength(datum.getVerkehrlicheGueltigkeit().size());
+		for (int i = 0; i < feld.getLength(); i++) {
+			VerkehrlicheGueltigkeit vg;
+
+			vg = datum.getVerkehrlicheGueltigkeit().get(i);
+
+			feld.getItem(i).getTimeValue("ZeitDauerAnfangIntervall").setMillis(
+					vg.getDauerAnfang());
+			feld.getItem(i).getUnscaledValue("ZeitBezugAnfangIntervall").set(
+					vg.getBezugAnfang());
+			feld.getItem(i).getTimeValue("ZeitDauerEndeIntervall").setMillis(
+					vg.getDauerEnde());
+			feld.getItem(i).getUnscaledValue("ZeitBezugEndeIntervall").set(
+					vg.getBezugEnde());
+		}
+
+		daten.getTextValue("Quelle").setText(datum.getQuelle());
+
+		return daten;
 	}
 
 	/**
@@ -430,72 +491,13 @@ public class PdEreignisParameter extends
 			}
 
 			datum.setQuelle(daten.getTextValue("Quelle").getText());
-
-			datum.setValid(true);
-		} else {
-			datum.setValid(false);
 		}
 
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
+				.getCode()));
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
 	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
-	 */
-	@Override
-	protected Data konvertiere(Daten datum) {
-		Data daten = erzeugeSendeCache();
-
-		Array feld;
-
-		feld = daten.getArray("RäumlicheGültigkeit");
-		feld.setLength(datum.getRaeumlicheGueltigkeit().size());
-		for (int i = 0; i < feld.getLength(); i++) {
-			feld.getItem(i).asReferenceValue().setSystemObject(
-					datum.getRaeumlicheGueltigkeit().get(i).getSystemObject());
-		}
-
-		if (datum.getZeitlicheGueltigkeit() == null) {
-			daten.getTimeValue("BeginnZeitlicheGültigkeit").setMillis(1);
-			daten.getTimeValue("EndeZeitlicheGültigkeit").setMillis(1);
-		} else {
-			daten.getTimeValue("BeginnZeitlicheGültigkeit").setMillis(
-					datum.getZeitlicheGueltigkeit().getStart());
-			daten.getTimeValue("EndeZeitlicheGültigkeit").setMillis(
-					datum.getZeitlicheGueltigkeit().getEnde());
-		}
-
-		if (datum.getSystemKalenderEintrag() != null) {
-			daten.getReferenceValue("SystemKalenderEintragReferenz")
-					.setSystemObject(
-							datum.getSystemKalenderEintrag().getSystemObject());
-		}
-
-		feld = daten.getArray("VerkehrlicheGültigkeit");
-		feld.setLength(datum.getVerkehrlicheGueltigkeit().size());
-		for (int i = 0; i < feld.getLength(); i++) {
-			VerkehrlicheGueltigkeit vg;
-
-			vg = datum.getVerkehrlicheGueltigkeit().get(i);
-
-			feld.getItem(i).getTimeValue("ZeitDauerAnfangIntervall").setMillis(
-					vg.getDauerAnfang());
-			feld.getItem(i).getUnscaledValue("ZeitBezugAnfangIntervall").set(
-					vg.getBezugAnfang());
-			feld.getItem(i).getTimeValue("ZeitDauerEndeIntervall").setMillis(
-					vg.getDauerEnde());
-			feld.getItem(i).getUnscaledValue("ZeitBezugEndeIntervall").set(
-					vg.getBezugEnde());
-		}
-
-		daten.getTextValue("Quelle").setText(datum.getQuelle());
-
-		return daten;
-	}
-
 }

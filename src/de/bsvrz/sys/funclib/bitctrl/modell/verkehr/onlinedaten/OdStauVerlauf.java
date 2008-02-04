@@ -40,6 +40,7 @@ import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Stau;
 
@@ -100,9 +101,6 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 	 */
 	public static class Daten extends AbstractDatum {
 
-		/** Das Flag f&uuml;r die G&uuml;ltigkeit des Datensatzes. */
-		private boolean valid;
-
 		/** Schrittweite der Prognose in Sekunden. */
 		private long schrittweite;
 
@@ -122,6 +120,11 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 		 * die Einzelschritte der Prognose.
 		 */
 		private List<PrognoseSchritt> schritte = new ArrayList<PrognoseSchritt>();
+
+		/**
+		 * der aktuelle Status des Datensatzes.
+		 */
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
 		 * fügt die übergebenen Prognoseschritte hinzu.
@@ -161,7 +164,7 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 				klon.schritte.add(schritt.clone());
 			}
 
-			klon.valid = valid;
+			klon.datenStatus = datenStatus;
 			return klon;
 		}
 
@@ -172,6 +175,15 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 		 */
 		public long getAufloesungsZeit() {
 			return aufloesungsZeit;
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
 		}
 
 		/**
@@ -232,13 +244,6 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 		}
 
 		/**
-		 * {@inheritDoc}
-		 */
-		public boolean isValid() {
-			return valid;
-		}
-
-		/**
 		 * setzt die Auflösungszeit des Staus.
 		 * 
 		 * @param aufloesungsZeit
@@ -246,6 +251,16 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 		 */
 		public void setAufloesungsZeit(long aufloesungsZeit) {
 			this.aufloesungsZeit = aufloesungsZeit;
+		}
+
+		/**
+		 * setzt den aktuellen Status des Datensatzes.
+		 * 
+		 * @param neuerStatus
+		 *            der neue Status
+		 */
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 
 		/**
@@ -276,16 +291,6 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 		 */
 		public void setSchrittweite(long schrittweite) {
 			this.schrittweite = schrittweite;
-		}
-
-		/**
-		 * Setzt das Flag {@code valid} des Datum.
-		 * 
-		 * @param valid
-		 *            der neue Wert des Flags.
-		 */
-		protected void setValid(boolean valid) {
-			this.valid = valid;
 		}
 
 		/**
@@ -559,12 +564,10 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 				schritt.setVKfz(array.getItem(idx).getUnscaledValue("vKfz")
 						.longValue());
 			}
-
-			datum.setValid(true);
-		} else {
-			datum.setValid(false);
 		}
 
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
+				.getCode()));
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),

@@ -31,6 +31,7 @@ import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende.BaustellenStatus;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende.BaustellenVeranlasser;
@@ -70,9 +71,9 @@ public class PdBaustellenEigenschaften extends
 		private BaustellenVeranlasser veranlasser;
 
 		/**
-		 * markiert die Gültigkeit des Datensatzes.
+		 * der aktuelle Status des Datensatzes.
 		 */
-		private boolean valid;
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
 		 * Standardkonstruktor.<br>
@@ -82,7 +83,6 @@ public class PdBaustellenEigenschaften extends
 			status = BaustellenStatus.ENTWORFEN;
 			veranlasser = BaustellenVeranlasser.UNDEFINIERT;
 			restKapazitaet = 0;
-			valid = false;
 			setZeitstempel(0);
 		}
 
@@ -97,7 +97,7 @@ public class PdBaustellenEigenschaften extends
 			this.restKapazitaet = daten.restKapazitaet;
 			this.status = daten.status;
 			this.veranlasser = daten.veranlasser;
-			this.valid = daten.valid;
+			this.datenStatus = daten.datenStatus;
 			setZeitstempel(daten.getZeitstempel());
 		}
 
@@ -113,7 +113,6 @@ public class PdBaustellenEigenschaften extends
 			setZeitstempel(result.getDataTime());
 			Data daten = result.getData();
 			if (daten == null) {
-				valid = false;
 				status = BaustellenStatus.ENTWORFEN;
 				veranlasser = BaustellenVeranlasser.UNDEFINIERT;
 				restKapazitaet = 0;
@@ -124,8 +123,9 @@ public class PdBaustellenEigenschaften extends
 						.longValue();
 				veranlasser = BaustellenVeranlasser.getVeranlasser(daten
 						.getUnscaledValue("Veranlasser").intValue());
-				valid = true;
 			}
+			datenStatus = Datum.Status.getStatus(result.getDataState()
+					.getCode());
 		}
 
 		/**
@@ -139,21 +139,30 @@ public class PdBaustellenEigenschaften extends
 		}
 
 		/**
+		 * liefert den Status der Baustelle.
+		 * 
+		 * @return der Status
+		 */
+		public BaustellenStatus getBaustellenStatus() {
+			return status;
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
+		}
+
+		/**
 		 * liefert die Restkapazität der Baustelle.
 		 * 
 		 * @return die Restkapazität
 		 */
 		public long getRestKapazitaet() {
 			return restKapazitaet;
-		}
-
-		/**
-		 * liefert den Status der Baustelle.
-		 * 
-		 * @return der Status
-		 */
-		public BaustellenStatus getStatus() {
-			return status;
 		}
 
 		/**
@@ -166,12 +175,13 @@ public class PdBaustellenEigenschaften extends
 		}
 
 		/**
-		 * {@inheritDoc}.<br>
+		 * setzt den aktuellen Status des Datensatzes.
 		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#isValid()
+		 * @param neuerStatus
+		 *            der neue Status
 		 */
-		public boolean isValid() {
-			return valid;
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 
 		/**
@@ -256,7 +266,8 @@ public class PdBaustellenEigenschaften extends
 	protected Data konvertiere(Daten datum) {
 		Data daten = erzeugeSendeCache();
 
-		daten.getUnscaledValue("Status").set(datum.getStatus().ordinal());
+		daten.getUnscaledValue("Status").set(
+				datum.getBaustellenStatus().ordinal());
 		daten.getScaledValue("RestKapazität").set(datum.getRestKapazitaet());
 		daten.getUnscaledValue("Veranlasser").set(
 				datum.getVeranlasser().ordinal());
@@ -273,6 +284,8 @@ public class PdBaustellenEigenschaften extends
 		check(daten);
 		Daten datum = new Daten(daten);
 		setDatum(datum);
+		datum.setDatenStatus(Datum.Status.getStatus(daten.getDataState()
+				.getCode()));
 		fireDatensatzAktualisiert(datum.clone());
 
 	}

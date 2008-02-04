@@ -26,6 +26,8 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import de.bsvrz.dav.daf.main.DataState;
+
 /**
  * Kapselt die Daten eines Datensatzes.
  * 
@@ -35,12 +37,130 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
 public interface Datum {
 
 	/**
+	 * Der Status eines Datensatzes. Kapselt die Instanzen der DAF-Klasse
+	 * {@link DataState} als ENUM.
+	 * 
+	 * @author BitCtrl Systems GmbH, Uwe Peuker
+	 * @version $Id$
+	 */
+	public enum Status {
+		/**
+		 * Datensatztyp für ungültige Datensätze (Initialwert).
+		 */
+		UNDEFINIERT(null),
+		/**
+		 * Datensatztyp für Datensätze die Nutzdaten enthalten (siehe Technische
+		 * Anforderungen Archivsystem).
+		 */
+		DATEN(DataState.DATA),
+		/**
+		 * Datensatztyp für leere Datensätze, die vom Archivsystem in den
+		 * Antwort-Datensatzstrom von Teilanfragen eingefügt wird, um Bereiche
+		 * zu markieren, die gelöscht (und nicht gesichert) wurden.
+		 */
+		GELOESCHTER_BLOCK(DataState.DELETED_BLOCK),
+		/**
+		 * Datensatztyp für leere Datensätze, die vom Archivsystem in jeden
+		 * Datensatzstrom eingefügt werden, um das Ende eines Datensatzstroms
+		 * einer Teilanfrage zu markieren.
+		 */
+		ARCHIV_ENDE(DataState.END_OF_ARCHIVE),
+		/**
+		 * Datensatztyp für leere Datensätze, die vom Datenverteiler versendet
+		 * werden können, wenn eine Anmeldung von Daten im Konflikt mit anderen
+		 * Anmeldungen steht (z.B. mehrere Senken für die gleichen Daten).
+		 */
+		UNGUELTIGE_ANMELDUNG(DataState.INVALID_SUBSCRIPTION),
+		/**
+		 * Datensatztyp für leere Datensätze, die von der Quelle ohne
+		 * Attributwerte versendet wurden (siehe Technische Anforderungen
+		 * Archivsystem).
+		 */
+		KEINE_DATEN(DataState.NO_DATA),
+		/**
+		 * Datensatztyp für leere Datensätze, die vom Datenverteiler generiert
+		 * wurden, weil nicht die erforderlichen Rechte zum Empfang der Daten
+		 * vorliegen.
+		 */
+		KEINE_RECHTE(DataState.NO_RIGHTS),
+		/**
+		 * Datensatztyp für leere Datensätze, die vom Datenverteiler generiert
+		 * wurden, weil keine Quelle für die entsprechenden Daten existiert.
+		 */
+		KEINE_QUELLE(DataState.NO_SOURCE),
+		/**
+		 * Datensatztyp für leere Datensätze, die vom Archivsystem generiert
+		 * wurden, um eine potentielle Datenlücke zu markieren.
+		 */
+		MOEGLICHE_LUECKE(DataState.POSSIBLE_GAP),
+		/**
+		 * Datensatztyp für leere Datensätze, die vom Archivsystem in den
+		 * Antwort-Datensatzstrom von Teilanfragen eingefügt wird, um Bereiche
+		 * zu markieren, die ausgelagert (d.h. gesichert und gelöscht) wurden.
+		 */
+		BLOCK_NICHT_VERFUEGBAR(DataState.UNAVAILABLE_BLOCK);
+
+		/**
+		 * Bestimmt den Status zu einem Code.
+		 * 
+		 * @param code
+		 *            ein Code.
+		 * @return der gesuchte Status.
+		 */
+		public static Status getStatus(final int code) {
+			Status result = UNDEFINIERT;
+
+			for (Status status : values()) {
+				if (status.getCode() == code) {
+					result = status;
+				}
+			}
+			return result;
+		}
+
+		/** Die Eigenschaft {@code code}. */
+		private final DataState code;
+
+		/**
+		 * Initialisiert das Objekt.
+		 * 
+		 * @param code
+		 *            der Statuscode in den
+		 *            Datenverteilerapplikationsfunktionen.
+		 */
+		private Status(final DataState code) {
+			this.code = code;
+		}
+
+		/**
+		 * Gibt den passenden Statuscode in den
+		 * Datenverteilerapplikationsfunktionen wieder.
+		 * 
+		 * @return {@code code}.
+		 */
+		public int getCode() {
+			int result = 0;
+			if (code != null) {
+				result = code.getCode();
+			}
+			return result;
+		}
+	}
+
+	/**
 	 * Klont das Objekt, in dem der Zeitstempel und alle Daten hart kopiert
 	 * werden.
 	 * 
 	 * @return ein Klon des Datum.
 	 */
 	Datum clone();
+
+	/**
+	 * liefert den aktuellen Status des Datensatzes.
+	 * 
+	 * @return den Status
+	 */
+	Status getDatenStatus();
 
 	/**
 	 * Gibt den Zeitstempel des Datums als lesbaren Text zur&uuml;ck.
@@ -59,8 +179,7 @@ public interface Datum {
 	/**
 	 * Liste das Flag {@code valid}.
 	 * 
-	 * @return {@code false}, wenn der Datensatz ung&uuml;ltig ist (z.&nbsp;B.
-	 *         "keine Daten" oder "keine Quelle").
+	 * @return {@code true}, wenn der Datensatz Daten enthält.
 	 */
 	boolean isValid();
 

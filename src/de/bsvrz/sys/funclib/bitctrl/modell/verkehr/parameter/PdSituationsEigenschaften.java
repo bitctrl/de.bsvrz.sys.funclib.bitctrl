@@ -34,6 +34,7 @@ import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.AeusseresStrassenSegment;
@@ -90,16 +91,15 @@ public class PdSituationsEigenschaften extends
 		private long startZeit;
 
 		/**
-		 * markiert die Gültigkeit des Datums. ("StartZeit")
+		 * der aktuelle Status des Datensatzes.
 		 */
-		private boolean valid;
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
 		 * Standard-Konstruktor zum Erstellen eines leeren Datensatzes.
 		 * 
 		 */
 		Daten() {
-			valid = false;
 			setZeitstempel(0);
 			startZeit = Long.MAX_VALUE;
 			dauer = 0;
@@ -114,7 +114,7 @@ public class PdSituationsEigenschaften extends
 		 *            das zu kopierende Datum
 		 */
 		Daten(final Daten daten) {
-			this.valid = daten.valid;
+			this.datenStatus = daten.datenStatus;
 			setZeitstempel(daten.getZeitstempel());
 			startZeit = daten.startZeit;
 			dauer = daten.dauer;
@@ -135,7 +135,6 @@ public class PdSituationsEigenschaften extends
 			setZeitstempel(result.getDataTime());
 			Data daten = result.getData();
 			if (daten != null) {
-				valid = true;
 				startZeit = daten.getTimeValue("StartZeit").getMillis();
 				dauer = daten.getTimeValue("Dauer").getMillis();
 				Data.Array segmentArray = daten.getArray("StraßenSegment");
@@ -148,12 +147,14 @@ public class PdSituationsEigenschaften extends
 				startOffset = daten.getUnscaledValue("StartOffset").longValue();
 				endOffset = daten.getUnscaledValue("EndOffset").longValue();
 			} else {
-				valid = false;
 				startZeit = Long.MAX_VALUE;
 				dauer = 0;
 				startOffset = 0;
 				endOffset = 0;
 			}
+
+			datenStatus = Datum.Status.getStatus(result.getDataState()
+					.getCode());
 		}
 
 		/**
@@ -164,6 +165,15 @@ public class PdSituationsEigenschaften extends
 		@Override
 		public Daten clone() {
 			return new Daten(this);
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
 		}
 
 		/**
@@ -401,12 +411,13 @@ public class PdSituationsEigenschaften extends
 		}
 
 		/**
-		 * {@inheritDoc}.<br>
+		 * setzt den aktuellen Status des Datensatzes.
 		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#isValid()
+		 * @param neuerStatus
+		 *            der neue Status
 		 */
-		public boolean isValid() {
-			return valid;
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 
 		/**
@@ -535,6 +546,9 @@ public class PdSituationsEigenschaften extends
 		check(result);
 		Daten daten = new Daten(result);
 		setDatum(daten);
+		daten.setDatenStatus(Datum.Status.getStatus(result.getDataState()
+				.getCode()));
+
 		fireDatensatzAktualisiert(daten.clone());
 	}
 

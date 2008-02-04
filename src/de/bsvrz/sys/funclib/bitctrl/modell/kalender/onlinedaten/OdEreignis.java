@@ -38,6 +38,7 @@ import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
@@ -114,6 +115,11 @@ public class OdEreignis extends AbstractOnlineDatensatz<OdEreignis.Daten> {
 		private long naechsterWechsel;
 
 		/**
+		 * aktueller Zustand des Datensatzes.
+		 */
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
+
+		/**
 		 * {@inheritDoc}
 		 * 
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum#clone()
@@ -133,6 +139,15 @@ public class OdEreignis extends AbstractOnlineDatensatz<OdEreignis.Daten> {
 		}
 
 		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
+		}
+
+		/**
 		 * Gibt den Wert der Eigenschaft {@code naechsterWechsel} wieder.
 		 * 
 		 * @return {@code naechsterWechsel}.
@@ -148,15 +163,6 @@ public class OdEreignis extends AbstractOnlineDatensatz<OdEreignis.Daten> {
 		 */
 		public boolean isAttributAenderung() {
 			return attributAenderung;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#isValid()
-		 */
-		public boolean isValid() {
-			return valid;
 		}
 
 		/**
@@ -185,6 +191,16 @@ public class OdEreignis extends AbstractOnlineDatensatz<OdEreignis.Daten> {
 		 */
 		public void setAttributAenderung(boolean attributAenderung) {
 			this.attributAenderung = attributAenderung;
+		}
+
+		/**
+		 * setzt den aktuellen Status des Datensatzes.
+		 * 
+		 * @param neuerStatus
+		 *            der neue Status
+		 */
+		protected void setDatenStatus(Status neuerStatus) {
+			datenStatus = neuerStatus;
 		}
 
 		/**
@@ -234,17 +250,6 @@ public class OdEreignis extends AbstractOnlineDatensatz<OdEreignis.Daten> {
 			s += ", naechsterWechsel=" + naechsterWechsel;
 
 			return s + "]";
-		}
-
-		/**
-		 * Setzt das Flag f&uuml;r g&uuml;ltige Daten.
-		 * 
-		 * @param valid
-		 *            {@code true}, wenn das Datum g&uuml;ltige Daten
-		 *            enth&auml;lt.
-		 */
-		protected void setValid(boolean valid) {
-			this.valid = valid;
 		}
 
 	}
@@ -307,6 +312,27 @@ public class OdEreignis extends AbstractOnlineDatensatz<OdEreignis.Daten> {
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	@Override
+	protected Data konvertiere(Daten datum) {
+		Data daten;
+
+		daten = erzeugeSendeCache();
+		daten.getUnscaledValue("zeitlichGültig").set(
+				datum.isZeitlichGueltig() ? 1 : 0);
+		daten.getUnscaledValue("verkehrlichGültig").set(
+				datum.isVerkehrlichGueltig() ? 1 : 0);
+		daten.getUnscaledValue("AttributÄnderung").set(
+				datum.isAttributAenderung() ? 1 : 0);
+		daten.getTimeValue("Zeitpunkt").setMillis(datum.getNaechsterWechsel());
+
+		return daten;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.ResultData)
 	 */
 	public void setDaten(ResultData result) {
@@ -326,36 +352,14 @@ public class OdEreignis extends AbstractOnlineDatensatz<OdEreignis.Daten> {
 			datum.setNaechsterWechsel(daten.getTimeValue("Zeitpunkt")
 					.getMillis());
 
-			datum.setValid(true);
-		} else {
-			datum.setValid(false);
 		}
 
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
+				.getCode()));
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
-	 */
-	@Override
-	protected Data konvertiere(Daten datum) {
-		Data daten;
-
-		daten = erzeugeSendeCache();
-		daten.getUnscaledValue("zeitlichGültig").set(
-				datum.isZeitlichGueltig() ? 1 : 0);
-		daten.getUnscaledValue("verkehrlichGültig").set(
-				datum.isVerkehrlichGueltig() ? 1 : 0);
-		daten.getUnscaledValue("AttributÄnderung").set(
-				datum.isAttributAenderung() ? 1 : 0);
-		daten.getTimeValue("Zeitpunkt").setMillis(datum.getNaechsterWechsel());
-
-		return daten;
 	}
 
 }

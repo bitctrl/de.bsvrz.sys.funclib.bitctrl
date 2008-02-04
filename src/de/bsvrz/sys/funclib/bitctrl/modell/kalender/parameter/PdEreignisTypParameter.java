@@ -32,6 +32,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
@@ -54,8 +55,10 @@ public class PdEreignisTypParameter extends
 		/** Die Priorit&auml;t des Ereignistyps. */
 		private long prioritaet;
 
-		/** Flag ob der Datensatz g&uuml;ltige Daten enth&auml;lt. */
-		private boolean valid;
+		/**
+		 * der aktuelle Status des Datensatzes.
+		 */
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
 		 * {@inheritDoc}
@@ -67,10 +70,19 @@ public class PdEreignisTypParameter extends
 			Daten klon = new Daten();
 
 			klon.prioritaet = prioritaet;
-			klon.valid = valid;
+			klon.datenStatus = datenStatus;
 			klon.setZeitstempel(getZeitstempel());
 
 			return klon;
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
 		}
 
 		/**
@@ -83,12 +95,13 @@ public class PdEreignisTypParameter extends
 		}
 
 		/**
-		 * {@inheritDoc}
+		 * setzt den aktuellen Status des Datensatzes.
 		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#isValid()
+		 * @param neuerStatus
+		 *            der neue Status
 		 */
-		public boolean isValid() {
-			return valid;
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 
 		/**
@@ -111,21 +124,10 @@ public class PdEreignisTypParameter extends
 			String s = getClass().getSimpleName() + "[";
 
 			s += "zeitpunkt=" + getZeitpunkt();
-			s += ", valid=" + valid;
+			s += ", valid=" + isValid();
 			s += ", prioritaet=" + prioritaet;
 
 			return s + "]";
-		}
-
-		/**
-		 * Setzt das Flag f&uuml;r g&uuml;ltige Daten.
-		 * 
-		 * @param valid
-		 *            {@code true}, wenn das Datum g&uuml;ltige Daten
-		 *            enth&auml;lt.
-		 */
-		protected void setValid(boolean valid) {
-			this.valid = valid;
 		}
 
 	}
@@ -174,6 +176,21 @@ public class PdEreignisTypParameter extends
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	@Override
+	protected Data konvertiere(Daten datum) {
+		Data daten = erzeugeSendeCache();
+
+		daten.getUnscaledValue("EreignisTypPriorität").set(
+				datum.getPrioritaet());
+
+		return daten;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.ResultData)
 	 */
 	public void setDaten(ResultData result) {
@@ -186,30 +203,14 @@ public class PdEreignisTypParameter extends
 			datum.setPrioritaet(daten.getUnscaledValue("EreignisTypPriorität")
 					.longValue());
 
-			datum.setValid(true);
-		} else {
-			datum.setValid(false);
 		}
 
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
+				.getCode()));
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
-	 */
-	@Override
-	protected Data konvertiere(Daten datum) {
-		Data daten = erzeugeSendeCache();
-
-		daten.getUnscaledValue("EreignisTypPriorität").set(
-				datum.getPrioritaet());
-
-		return daten;
 	}
 
 }

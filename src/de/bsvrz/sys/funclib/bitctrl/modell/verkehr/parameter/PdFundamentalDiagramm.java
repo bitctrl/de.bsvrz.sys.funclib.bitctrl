@@ -31,6 +31,7 @@ import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
 /**
@@ -70,16 +71,15 @@ public class PdFundamentalDiagramm extends
 		private Short vFrei;
 
 		/**
-		 * markiert die Gültigkeit des Datums. ("StartZeit")
+		 * der aktuelle Status des Datensatzes.
 		 */
-		private boolean valid;
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
 		 * Standard-Konstruktor zum Erstellen eines leeren Datensatzes.
 		 * 
 		 */
 		Daten() {
-			valid = false;
 			setZeitstempel(0);
 			q0 = null;
 			k0 = null;
@@ -94,7 +94,7 @@ public class PdFundamentalDiagramm extends
 		 *            das zu kopierende Datum
 		 */
 		Daten(final Daten daten) {
-			this.valid = daten.valid;
+			this.datenStatus = daten.datenStatus;
 			q0 = daten.q0;
 			k0 = daten.k0;
 			v0 = daten.v0;
@@ -113,18 +113,18 @@ public class PdFundamentalDiagramm extends
 			setZeitstempel(result.getDataTime());
 			Data daten = result.getData();
 			if (daten != null) {
-				valid = true;
 				q0 = daten.getUnscaledValue("Q0").intValue();
 				k0 = daten.getUnscaledValue("K0").shortValue();
 				v0 = daten.getUnscaledValue("V0").shortValue();
 				vFrei = daten.getUnscaledValue("VFrei").shortValue();
 			} else {
-				valid = false;
 				q0 = null;
 				k0 = null;
 				v0 = null;
 				vFrei = null;
 			}
+			datenStatus = Datum.Status.getStatus(result.getDataState()
+					.getCode());
 		}
 
 		/**
@@ -135,6 +135,15 @@ public class PdFundamentalDiagramm extends
 		@Override
 		public Daten clone() {
 			return new Daten(this);
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
 		}
 
 		/**
@@ -174,12 +183,13 @@ public class PdFundamentalDiagramm extends
 		}
 
 		/**
-		 * {@inheritDoc}.<br>
+		 * setzt den aktuellen Status des Datensatzes.
 		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#isValid()
+		 * @param neuerStatus
+		 *            der neue Status
 		 */
-		public boolean isValid() {
-			return valid;
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 
 		/**
@@ -287,6 +297,8 @@ public class PdFundamentalDiagramm extends
 		check(result);
 		Daten daten = new Daten(result);
 		setDatum(daten);
+		daten.setDatenStatus(Datum.Status.getStatus(result.getDataState()
+				.getCode()));
 		fireDatensatzAktualisiert(daten.clone());
 
 	}

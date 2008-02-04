@@ -38,6 +38,7 @@ import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.fachmodellglobal.zustaende.GueteVerfahren;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StoerfallIndikator;
@@ -125,9 +126,6 @@ public class OdStoerfallZustand extends
 	 */
 	public static class Daten extends AbstractDatum {
 
-		/** Das Flag f&uuml;r die G&uuml;ltigkeit des Datensatzes. */
-		private boolean valid;
-
 		/** Intervalldauer, mit dem die Werte erfasst wurden. */
 		private long t;
 
@@ -144,6 +142,11 @@ public class OdStoerfallZustand extends
 		private GueteVerfahren gueteVerfahren;
 
 		/**
+		 * der aktuelle Status des Datensatzes.
+		 */
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
+
+		/**
 		 * {@inheritDoc}
 		 * 
 		 * @see java.lang.Object#clone()
@@ -158,8 +161,17 @@ public class OdStoerfallZustand extends
 			klon.setSituation(situation);
 			klon.setT(t);
 			klon.setZeitstempel(getZeitstempel());
-			klon.valid = valid;
+			klon.datenStatus = datenStatus;
 			return klon;
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
 		}
 
 		/**
@@ -208,10 +220,13 @@ public class OdStoerfallZustand extends
 		}
 
 		/**
-		 * {@inheritDoc}
+		 * setzt den aktuellen Status des Datensatzes.
+		 * 
+		 * @param neuerStatus
+		 *            der neue Status
 		 */
-		public boolean isValid() {
-			return valid;
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 
 		/**
@@ -262,16 +277,6 @@ public class OdStoerfallZustand extends
 		 */
 		public void setT(long t) {
 			this.t = t;
-		}
-
-		/**
-		 * Setzt das Flag {@code valid} des Datum.
-		 * 
-		 * @param valid
-		 *            der neue Wert des Flags.
-		 */
-		protected void setValid(boolean valid) {
-			this.valid = valid;
 		}
 
 		/**
@@ -419,12 +424,10 @@ public class OdStoerfallZustand extends
 			datum.setT(daten.getTimeValue("T").getMillis());
 			datum.setSituation(StoerfallSituation.getSituation(daten
 					.getUnscaledValue("Situation").intValue()));
-
-			datum.setValid(true);
-		} else {
-			datum.setValid(false);
 		}
 
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
+				.getCode()));
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),

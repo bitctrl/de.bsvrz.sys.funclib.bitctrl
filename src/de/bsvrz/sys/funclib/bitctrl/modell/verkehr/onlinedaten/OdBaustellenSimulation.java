@@ -40,6 +40,7 @@ import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Baustelle;
 
@@ -106,7 +107,8 @@ public class OdBaustellenSimulation extends
 		 * Staus.
 		 * 
 		 * @author BitCtrl Systems GmbH, Uwe Peuker
-		 * @version $Id$
+		 * @version $Id: OdBaustellenSimulation.java 6188 2008-02-04 10:27:08Z
+		 *          peuker $
 		 */
 		public static class StauEintrag implements Cloneable {
 			/** Startzeit des Staus. */
@@ -237,14 +239,14 @@ public class OdBaustellenSimulation extends
 		}
 
 		/**
-		 * markiert die Gültigkeit der Daten des Datensatzes.
-		 */
-		boolean valid;
-
-		/**
 		 * die Liste der Staueinträge.
 		 */
 		private List<StauEintrag> staus = new ArrayList<StauEintrag>();
+
+		/**
+		 * der aktuelle Status des Datensatzes.
+		 */
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
 		 * fügt diue übergebenen Staueinträge hinzu.
@@ -278,8 +280,17 @@ public class OdBaustellenSimulation extends
 				klon.staus.add(schritt.clone());
 			}
 
-			klon.valid = valid;
+			klon.datenStatus = datenStatus;
 			return klon;
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
 		}
 
 		/**
@@ -304,20 +315,13 @@ public class OdBaustellenSimulation extends
 		}
 
 		/**
-		 * {@inheritDoc}
-		 */
-		public boolean isValid() {
-			return valid;
-		}
-
-		/**
-		 * Setzt das Flag {@code valid} des Datum.
+		 * setzt den aktuellen Status des Datensatzes.
 		 * 
-		 * @param valid
-		 *            der neue Wert des Flags.
+		 * @param neuerStatus
+		 *            der neue Status
 		 */
-		protected void setValid(boolean valid) {
-			this.valid = valid;
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 	}
 
@@ -431,12 +435,10 @@ public class OdBaustellenSimulation extends
 				schritt.setVerlustZeit(array.getItem(idx).getTimeValue(
 						"VerlustZeit").getMillis());
 			}
-
-			datum.setValid(true);
-		} else {
-			datum.setValid(false);
 		}
 
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
+				.getCode()));
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),

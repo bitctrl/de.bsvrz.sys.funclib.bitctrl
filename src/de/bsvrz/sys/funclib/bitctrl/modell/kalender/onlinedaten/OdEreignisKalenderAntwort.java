@@ -44,6 +44,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Ereignis;
@@ -110,7 +111,8 @@ public class OdEreignisKalenderAntwort extends
 		 * Beschreibt einen Zustandswechsel in der Kalenderantwort.
 		 * 
 		 * @author BitCtrl Systems GmbH, Falko Schumann
-		 * @version $Id$
+		 * @version $Id: OdEreignisKalenderAntwort.java 5427 2008-01-07
+		 *          14:26:11Z Schumann $
 		 */
 		public static class Zustandswechsel {
 
@@ -209,8 +211,10 @@ public class OdEreignisKalenderAntwort extends
 		/** Signalisiert das Event eine &Auml;nderung? */
 		private boolean aenderung;
 
-		/** Flag ob der Datensatz g&uuml;ltige Daten enth&auml;lt. */
-		private boolean valid;
+		/**
+		 * der aktuelle Status des Datensatzes.
+		 */
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
 		 * {@inheritDoc}
@@ -222,7 +226,7 @@ public class OdEreignisKalenderAntwort extends
 			Daten klon = new Daten();
 
 			klon.setZeitstempel(getZeitstempel());
-			klon.valid = valid;
+			klon.datenStatus = datenStatus;
 			klon.absenderZeichen = absenderZeichen;
 			klon.aenderung = aenderung;
 			klon.zustandswechsel.addAll(zustandswechsel);
@@ -237,6 +241,15 @@ public class OdEreignisKalenderAntwort extends
 		 */
 		public String getAbsenderZeichen() {
 			return absenderZeichen;
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
 		}
 
 		/**
@@ -256,15 +269,6 @@ public class OdEreignisKalenderAntwort extends
 		 */
 		public boolean isAenderung() {
 			return aenderung;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#isValid()
-		 */
-		public boolean isValid() {
-			return valid;
 		}
 
 		/**
@@ -288,6 +292,16 @@ public class OdEreignisKalenderAntwort extends
 		}
 
 		/**
+		 * setzt den aktuellen Status des Datensatzes.
+		 * 
+		 * @param neuerStatus
+		 *            der neue Status
+		 */
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
+		}
+
+		/**
 		 * {@inheritDoc}
 		 * 
 		 * @see java.lang.Object#toString()
@@ -297,23 +311,12 @@ public class OdEreignisKalenderAntwort extends
 			String s = getClass().getSimpleName() + "[";
 
 			s += "zeitpunkt=" + getZeitpunkt();
-			s += ", valid=" + valid;
+			s += ", valid=" + isValid();
 			s += ", absenderZeichen=" + absenderZeichen;
 			s += ", aenderung=" + aenderung;
 			s += ", zustandswechsel=" + zustandswechsel;
 
 			return s + "]";
-		}
-
-		/**
-		 * Setzt das Flag f&uuml;r g&uuml;ltige Daten.
-		 * 
-		 * @param valid
-		 *            {@code true}, wenn das Datum g&uuml;ltige Daten
-		 *            enth&auml;lt.
-		 */
-		protected void setValid(boolean valid) {
-			this.valid = valid;
 		}
 
 	}
@@ -376,6 +379,49 @@ public class OdEreignisKalenderAntwort extends
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	@Override
+	protected Data konvertiere(Daten datum) {
+		Data daten;
+		Array feld;
+		int i;
+
+		daten = erzeugeSendeCache();
+		daten.getTextValue("absenderZeichen").setText(
+				datum.getAbsenderZeichen());
+		if (datum.isAenderung()) {
+			daten.getUnscaledValue("änderung").set(1);
+		} else {
+			daten.getUnscaledValue("änderung").set(0);
+		}
+
+		feld = daten.getArray("Ereignis");
+		feld.setLength(datum.getZustandswechsel().size());
+		i = 0;
+		for (Daten.Zustandswechsel z : datum.getZustandswechsel()) {
+			feld.getItem(i++).getTimeValue("Zeitpunkt").setMillis(
+					z.getZeitstempel());
+			feld.getItem(i++).getReferenceValue("").setSystemObject(
+					z.getEreignis().getSystemObject());
+			if (z.isZeitlichGueltig()) {
+				feld.getItem(i++).getUnscaledValue("zeitlichGültig").set(1);
+			} else {
+				feld.getItem(i++).getUnscaledValue("zeitlichGültig").set(0);
+			}
+			if (z.isVerkehrlichGueltig()) {
+				feld.getItem(i++).getUnscaledValue("verkehrlichGültig").set(1);
+			} else {
+				feld.getItem(i++).getUnscaledValue("verkehrlichGültig").set(0);
+			}
+		}
+
+		return daten;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.ResultData)
 	 */
 	public void setDaten(ResultData result) {
@@ -416,58 +462,14 @@ public class OdEreignisKalenderAntwort extends
 								zeitlichGueltig, verkehrlichGueltig));
 			}
 
-			datum.setValid(true);
-		} else {
-			datum.setValid(false);
 		}
 
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
+				.getCode()));
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
-	 */
-	@Override
-	protected Data konvertiere(Daten datum) {
-		Data daten;
-		Array feld;
-		int i;
-
-		daten = erzeugeSendeCache();
-		daten.getTextValue("absenderZeichen").setText(
-				datum.getAbsenderZeichen());
-		if (datum.isAenderung()) {
-			daten.getUnscaledValue("änderung").set(1);
-		} else {
-			daten.getUnscaledValue("änderung").set(0);
-		}
-
-		feld = daten.getArray("Ereignis");
-		feld.setLength(datum.getZustandswechsel().size());
-		i = 0;
-		for (Daten.Zustandswechsel z : datum.getZustandswechsel()) {
-			feld.getItem(i++).getTimeValue("Zeitpunkt").setMillis(
-					z.getZeitstempel());
-			feld.getItem(i++).getReferenceValue("").setSystemObject(
-					z.getEreignis().getSystemObject());
-			if (z.isZeitlichGueltig()) {
-				feld.getItem(i++).getUnscaledValue("zeitlichGültig").set(1);
-			} else {
-				feld.getItem(i++).getUnscaledValue("zeitlichGültig").set(0);
-			}
-			if (z.isVerkehrlichGueltig()) {
-				feld.getItem(i++).getUnscaledValue("verkehrlichGültig").set(1);
-			} else {
-				feld.getItem(i++).getUnscaledValue("verkehrlichGültig").set(0);
-			}
-		}
-
-		return daten;
 	}
 
 }

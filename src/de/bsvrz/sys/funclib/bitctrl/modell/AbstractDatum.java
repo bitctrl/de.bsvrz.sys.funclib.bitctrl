@@ -66,6 +66,15 @@ public abstract class AbstractDatum implements Datum {
 	}
 
 	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#isValid()
+	 */
+	public final boolean isValid() {
+		return getDatenStatus() == Datum.Status.DATEN;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#setZeitstempel(long)

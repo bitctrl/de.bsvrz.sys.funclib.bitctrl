@@ -32,6 +32,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
@@ -52,8 +53,10 @@ public class PdSystemKalenderEintrag extends
 		/** Die Definition des Systemkalendereintrags. */
 		private String definition;
 
-		/** Flag ob der Datensatz g&uuml;ltige Daten enth&auml;lt. */
-		private boolean valid;
+		/**
+		 * der aktuelle Status des Datensatzes.
+		 */
+		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
 		 * {@inheritDoc}
@@ -65,10 +68,19 @@ public class PdSystemKalenderEintrag extends
 			Daten klon = new Daten();
 
 			klon.definition = definition;
-			klon.valid = valid;
+			klon.datenStatus = datenStatus;
 			klon.setZeitstempel(getZeitstempel());
 
 			return klon;
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 */
+		public Status getDatenStatus() {
+			return datenStatus;
 		}
 
 		/**
@@ -81,12 +93,13 @@ public class PdSystemKalenderEintrag extends
 		}
 
 		/**
-		 * {@inheritDoc}
+		 * setzt den aktuellen Status des Datensatzes.
 		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#isValid()
+		 * @param neuerStatus
+		 *            der neue Status
 		 */
-		public boolean isValid() {
-			return valid;
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 
 		/**
@@ -109,21 +122,10 @@ public class PdSystemKalenderEintrag extends
 			String s = getClass().getSimpleName() + "[";
 
 			s += "zeitpunkt=" + getZeitpunkt();
-			s += ", valid=" + valid;
+			s += ", valid=" + isValid();
 			s += ", definition=" + definition;
 
 			return s + "]";
-		}
-
-		/**
-		 * Setzt das Flag f&uuml;r g&uuml;ltige Daten.
-		 * 
-		 * @param valid
-		 *            {@code true}, wenn das Datum g&uuml;ltige Daten
-		 *            enth&auml;lt.
-		 */
-		protected void setValid(boolean valid) {
-			this.valid = valid;
 		}
 
 	}
@@ -172,6 +174,20 @@ public class PdSystemKalenderEintrag extends
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	@Override
+	protected Data konvertiere(Daten datum) {
+		Data daten = erzeugeSendeCache();
+
+		daten.getTextValue("Definition").setText(datum.getDefinition());
+
+		return daten;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.ResultData)
 	 */
 	public void setDaten(ResultData result) {
@@ -182,30 +198,14 @@ public class PdSystemKalenderEintrag extends
 			Data daten = result.getData();
 
 			datum.setDefinition(daten.getTextValue("Definition").getText());
-
-			datum.setValid(true);
-		} else {
-			datum.setValid(false);
 		}
 
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
+				.getCode()));
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
-	 */
-	@Override
-	protected Data konvertiere(Daten datum) {
-		Data daten = erzeugeSendeCache();
-
-		daten.getTextValue("Definition").setText(datum.getDefinition());
-
-		return daten;
 	}
 
 }
