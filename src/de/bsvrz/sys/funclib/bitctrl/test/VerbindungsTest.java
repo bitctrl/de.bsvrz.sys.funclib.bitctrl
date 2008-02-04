@@ -51,7 +51,7 @@ import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
  * Exportiert die Koordinaten der definierten MQ.
  * 
  * @author BitCtrl Systems GmbH, Peuker
- * @version $Id: MqConfigTest.java 5170 2007-12-07 15:10:54Z peuker $
+ * @version $Id$
  * 
  */
 public class VerbindungsTest implements StandardApplication {

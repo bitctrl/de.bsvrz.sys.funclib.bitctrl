@@ -37,7 +37,7 @@ import de.bsvrz.sys.funclib.bitctrl.i18n.Messages;
  * Testet den Message-Handler der Fuzzy-Bibliothek
  * 
  * @author BitCtrl, Schumann
- * @version $Id: TestFuzzyLibMessages.java 517 2007-03-29 15:16:24Z Schumann $
+ * @version $Id$
  */
 public class TestInterpreterMessages {
 
