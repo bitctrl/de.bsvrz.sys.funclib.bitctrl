@@ -111,7 +111,8 @@ public interface Datum {
 			Status result = UNDEFINIERT;
 
 			for (Status status : values()) {
-				if (status.getDatenStatus().equals(dataState)) {
+				DataState state = status.getDatenStatus();
+				if ((state != null) && state.equals(dataState)) {
 					result = status;
 					break;
 				}
