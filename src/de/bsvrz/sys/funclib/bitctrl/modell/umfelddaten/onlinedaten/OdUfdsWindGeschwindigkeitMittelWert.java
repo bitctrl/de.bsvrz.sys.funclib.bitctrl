@@ -50,7 +50,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsWindGeschwind
  * Kapselt die Attriburgruppe {@code atg.ufdsWindGeschwindleitMittelWert}.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
+ * @version $Id: OdUfdsWindGeschwindigkeitMittelWert.java 6198 2008-02-04
+ *          16:30:04Z peuker $
  */
 public class OdUfdsWindGeschwindigkeitMittelWert extends
 		AbstractOnlineDatensatz<OdUfdsWindGeschwindigkeitMittelWert.Daten> {
@@ -310,8 +311,7 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 			}
 		}
 
-		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
-				.getCode()));
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()));
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),

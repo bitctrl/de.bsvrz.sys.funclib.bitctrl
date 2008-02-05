@@ -123,8 +123,7 @@ public class PdFundamentalDiagramm extends
 				v0 = null;
 				vFrei = null;
 			}
-			datenStatus = Datum.Status.getStatus(result.getDataState()
-					.getCode());
+			datenStatus = Datum.Status.getStatus(result.getDataState());
 		}
 
 		/**
@@ -297,8 +296,7 @@ public class PdFundamentalDiagramm extends
 		check(result);
 		Daten daten = new Daten(result);
 		setDatum(daten);
-		daten.setDatenStatus(Datum.Status.getStatus(result.getDataState()
-				.getCode()));
+		daten.setDatenStatus(Datum.Status.getStatus(result.getDataState()));
 		fireDatensatzAktualisiert(daten.clone());
 
 	}

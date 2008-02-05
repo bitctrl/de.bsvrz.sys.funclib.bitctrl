@@ -103,23 +103,24 @@ public interface Datum {
 		/**
 		 * Bestimmt den Status zu einem Code.
 		 * 
-		 * @param code
-		 *            ein Code.
+		 * @param dataState
+		 *            ein Datenstatus.
 		 * @return der gesuchte Status.
 		 */
-		public static Status getStatus(final int code) {
+		public static Status getStatus(final DataState dataState) {
 			Status result = UNDEFINIERT;
 
 			for (Status status : values()) {
-				if (status.getCode() == code) {
+				if (status.getDatenStatus().equals(dataState)) {
 					result = status;
+					break;
 				}
 			}
 			return result;
 		}
 
-		/** Die Eigenschaft {@code code}. */
-		private final DataState code;
+		/** der Datenstatus, der dem Wert zu Grunde liegt. */
+		private final DataState datenStatus;
 
 		/**
 		 * Initialisiert das Objekt.
@@ -129,7 +130,7 @@ public interface Datum {
 		 *            Datenverteilerapplikationsfunktionen.
 		 */
 		private Status(final DataState code) {
-			this.code = code;
+			this.datenStatus = code;
 		}
 
 		/**
@@ -140,10 +141,20 @@ public interface Datum {
 		 */
 		public int getCode() {
 			int result = 0;
-			if (code != null) {
-				result = code.getCode();
+			if (datenStatus != null) {
+				result = datenStatus.getCode();
 			}
 			return result;
+		}
+
+		/**
+		 * liefert den zugeordneten Datenstatus des ENUM-Wertes. Der Wert kann
+		 * <code>null</code> sein, wenn kein Status zugeordnet wurde.
+		 * 
+		 * @return den Datenstatus
+		 */
+		private DataState getDatenStatus() {
+			return datenStatus;
 		}
 	}
 

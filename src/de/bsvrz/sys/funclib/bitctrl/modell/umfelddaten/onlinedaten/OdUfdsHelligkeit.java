@@ -304,8 +304,7 @@ public class OdUfdsHelligkeit extends
 			}
 		}
 
-		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
-				.getCode()));
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()));
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),

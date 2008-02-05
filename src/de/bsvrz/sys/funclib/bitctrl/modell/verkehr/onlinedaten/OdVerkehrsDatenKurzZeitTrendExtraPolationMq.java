@@ -53,7 +53,8 @@ import de.bsvrz.sys.funclib.bitctrl.util.dav.Umrechung;
  * {@code atg.verkehrsDatenKurzZeitTrendExtraPolationMq}.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
+ * @version $Id: OdVerkehrsDatenKurzZeitTrendExtraPolationMq.java 6198
+ *          2008-02-04 16:30:04Z peuker $
  */
 public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 		extends
@@ -620,8 +621,7 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 			}
 		}
 
-		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
-				.getCode()));
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()));
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),

@@ -49,7 +49,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Baustelle;
  * Baustellensimulation manuell aktiviert werden.
  * 
  * @author BitCtrl Systems GmbH, Uwe Peuker
- * @version $Id$
+ * @version $Id: OdBaustellenSimulationStarten.java 6198 2008-02-04 16:30:04Z
+ *          peuker $
  */
 public class OdBaustellenSimulationStarten extends
 		AbstractOnlineDatensatz<OdBaustellenSimulationStarten.Daten> {
@@ -285,8 +286,7 @@ public class OdBaustellenSimulationStarten extends
 
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
-		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()
-				.getCode()));
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()));
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
 	}

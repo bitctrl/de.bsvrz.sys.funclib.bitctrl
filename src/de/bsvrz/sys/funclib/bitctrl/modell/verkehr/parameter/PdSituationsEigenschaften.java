@@ -153,8 +153,7 @@ public class PdSituationsEigenschaften extends
 				endOffset = 0;
 			}
 
-			datenStatus = Datum.Status.getStatus(result.getDataState()
-					.getCode());
+			datenStatus = Datum.Status.getStatus(result.getDataState());
 		}
 
 		/**
@@ -546,8 +545,7 @@ public class PdSituationsEigenschaften extends
 		check(result);
 		Daten daten = new Daten(result);
 		setDatum(daten);
-		daten.setDatenStatus(Datum.Status.getStatus(result.getDataState()
-				.getCode()));
+		daten.setDatenStatus(Datum.Status.getStatus(result.getDataState()));
 
 		fireDatensatzAktualisiert(daten.clone());
 	}

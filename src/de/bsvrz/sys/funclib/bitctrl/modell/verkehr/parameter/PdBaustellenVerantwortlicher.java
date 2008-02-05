@@ -40,7 +40,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
  * "atg.baustellenVerantwortlicher".
  * 
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id$
+ * @version $Id: PdBaustellenVerantwortlicher.java 6198 2008-02-04 16:30:04Z
+ *          peuker $
  */
 public class PdBaustellenVerantwortlicher extends
 		AbstractParameterDatensatz<PdBaustellenVerantwortlicher.Daten> {
@@ -133,8 +134,7 @@ public class PdBaustellenVerantwortlicher extends
 						"TelefonMobilBaustellenVerantwortlicher").getText();
 			}
 
-			datenStatus = Datum.Status.getStatus(result.getDataState()
-					.getCode());
+			datenStatus = Datum.Status.getStatus(result.getDataState());
 		}
 
 		/**
@@ -334,8 +334,7 @@ public class PdBaustellenVerantwortlicher extends
 		check(daten);
 		Daten datum = new Daten(daten);
 		setDatum(datum);
-		datum.setDatenStatus(Datum.Status.getStatus(daten.getDataState()
-				.getCode()));
+		datum.setDatenStatus(Datum.Status.getStatus(daten.getDataState()));
 		fireDatensatzAktualisiert(datum.clone());
 	}
 }

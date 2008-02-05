@@ -124,8 +124,7 @@ public class PdBaustellenEigenschaften extends
 				veranlasser = BaustellenVeranlasser.getVeranlasser(daten
 						.getUnscaledValue("Veranlasser").intValue());
 			}
-			datenStatus = Datum.Status.getStatus(result.getDataState()
-					.getCode());
+			datenStatus = Datum.Status.getStatus(result.getDataState());
 		}
 
 		/**
@@ -284,8 +283,7 @@ public class PdBaustellenEigenschaften extends
 		check(daten);
 		Daten datum = new Daten(daten);
 		setDatum(datum);
-		datum.setDatenStatus(Datum.Status.getStatus(daten.getDataState()
-				.getCode()));
+		datum.setDatenStatus(Datum.Status.getStatus(daten.getDataState()));
 		fireDatensatzAktualisiert(datum.clone());
 
 	}
