@@ -48,7 +48,7 @@ public class DuaVerkehrsNetz {
 	/**
 	 * Flag: Wurde das statische DUA-Verkehrsnetz bereits initialisiert? 
 	 */
-	private static boolean INITIALISIERT = false;
+	protected static boolean INITIALISIERT = false;
 	
 	
 	/**
