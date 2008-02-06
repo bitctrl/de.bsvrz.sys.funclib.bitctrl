@@ -356,12 +356,14 @@ public final class ObjektFactory implements ModellObjektFactory {
 	}
 
 	/**
-	 * ordnet der Factory eine Datenverteilerverbindung zu.
+	 * Ordnet der Factory eine Datenverteilerverbindung zu und löscht den
+	 * Systemobjektcache.
 	 * 
 	 * @param verbindung
 	 *            die Verbindung
 	 */
 	public void setVerbindung(ClientDavInterface verbindung) {
 		this.verbindung = verbindung;
+		cache.clear();
 	}
 }
