@@ -370,7 +370,7 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 							.getText();
 					ausfahrtNummer = item.getTextValue("AusfahrtNummer")
 							.getText();
-					tmcOrtsTyp = item.getUnscaledValue("TMCOrtsTyp").intValue();
+					tmcOrtsTyp = item.getUnscaledValue("TmcOrtsTyp").intValue();
 					koordinaten = new RdsLocationKoordinaten(item
 							.getItem("Koordinaten"));
 					locationKilometrierung = item.getTextValue(
@@ -381,11 +381,11 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 							"LocationCodeGebietsReferenz").intValue();
 					;
 					locationNextNegativ = item.getUnscaledValue(
-							"LocationNextNegative").intValue();
+							"LocationNextNegativ").intValue();
 					locationNextPositiv = item.getUnscaledValue(
-							"LocationNextPositive").intValue();
+							"LocationNextPositiv").intValue();
 					locationNachricht = new RdsNachrichten(item
-							.getItem("LocationNachrichten"));
+							.getItem("LocationNachricht"));
 				}
 			}
 
@@ -536,8 +536,10 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 
 			public RdsLocationKoordinaten(final Data item) {
 				if (item != null) {
-					laenge = item.getScaledValue("Länge").doubleValue();
-					breite = item.getScaledValue("Breite").doubleValue();
+					laenge = item.getScaledValue("RDSLocationKoordinateX")
+							.doubleValue();
+					breite = item.getScaledValue("RDSLocationKoordinateY")
+							.doubleValue();
 				}
 			}
 
@@ -1091,6 +1093,10 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 		for (Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}
+		aspekte.add(ObjektFactory.getInstanz().getVerbindung().getDataModel()
+				.getAspect(DaVKonstanten.ASP_PARAMETER_SOLL));
+		aspekte.add(ObjektFactory.getInstanz().getVerbindung().getDataModel()
+				.getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE));
 		return aspekte;
 	}
 

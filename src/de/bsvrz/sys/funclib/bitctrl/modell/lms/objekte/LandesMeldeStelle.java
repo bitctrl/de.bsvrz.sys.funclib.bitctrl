@@ -98,7 +98,7 @@ public class LandesMeldeStelle extends AbstractSystemObjekt implements
 	 * @param listener
 	 *            der hinzuzufügende Listener
 	 */
-	public void addBaustellenListener(final MeldungsListener listener) {
+	public void addMeldungsListener(final MeldungsListener listener) {
 		if (listener == null) {
 			throw new IllegalArgumentException(
 					"null beim registrieren eines Listeners ist nicht erlaubt");
