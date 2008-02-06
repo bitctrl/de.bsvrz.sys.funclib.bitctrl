@@ -1062,6 +1062,16 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 				.getDataModel().getAspect(DaVKonstanten.ASP_PARAMETER_SOLL));
 	}
 
+	/**
+	 * {@inheritDoc}.<br>
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#abrufenDatum(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	public Daten abrufenDatum(Aspect asp) {
+		return super.abrufenDatum(asp);
+	}
+
 	public void addUpdateListener(DatensatzUpdateListener l) {
 		addUpdateListener(ObjektFactory.getInstanz().getVerbindung()
 				.getDataModel().getAspect(DaVKonstanten.ASP_PARAMETER_SOLL), l);
