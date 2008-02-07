@@ -1,20 +1,20 @@
 /*
- * Mathemathische Hilfsfunktionen
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -43,11 +43,31 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	/** Serialisierungs-ID. */
 	private static final long serialVersionUID = 1L;
 
-	/** Z&auml;hler der rationalen Zahl. */
-	private final long zaehler;
+	/**
+	 * Addiert zwei ganze Zahlen.
+	 * 
+	 * @param a
+	 *            Erste ganze Zahl
+	 * @param b
+	 *            Zweite ganze Zahl
+	 * @return Das Ergebnis der Addition
+	 */
+	public static RationaleZahl addiere(long a, long b) {
+		return addiere(new RationaleZahl(a), new RationaleZahl(b));
+	}
 
-	/** Nenner der rationalen Zahl. */
-	private final long nenner;
+	/**
+	 * Addiert eine rationale mit einer ganzen Zahl.
+	 * 
+	 * @param a
+	 *            Eine rationale Zahl
+	 * @param b
+	 *            Eine ganze Zahl
+	 * @return Das Ergebnis der Addition
+	 */
+	public static RationaleZahl addiere(RationaleZahl a, long b) {
+		return addiere(a, new RationaleZahl(b));
+	}
 
 	/**
 	 * Addiert zwei rationale Zahlen.
@@ -68,156 +88,16 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	}
 
 	/**
-	 * Addiert eine rationale mit einer ganzen Zahl.
-	 * 
-	 * @param a
-	 *            Eine rationale Zahl
-	 * @param b
-	 *            Eine ganze Zahl
-	 * @return Das Ergebnis der Addition
-	 */
-	public static RationaleZahl addiere(RationaleZahl a, long b) {
-		return addiere(a, new RationaleZahl(b));
-	}
-
-	/**
-	 * Addiert zwei ganze Zahlen.
+	 * Dividiert zwei ganze Zahlen.
 	 * 
 	 * @param a
 	 *            Erste ganze Zahl
 	 * @param b
 	 *            Zweite ganze Zahl
-	 * @return Das Ergebnis der Addition
-	 */
-	public static RationaleZahl addiere(long a, long b) {
-		return addiere(new RationaleZahl(a), new RationaleZahl(b));
-	}
-
-	/**
-	 * Subtrahiert zwei rationale Zahlen.
-	 * 
-	 * @param a
-	 *            Erste rationale Zahl
-	 * @param b
-	 *            Zweite rationale Zahl
-	 * @return Das Ergebnis der Subtraktion
-	 */
-	public static RationaleZahl subtrahiere(RationaleZahl a, RationaleZahl b) {
-		long z, n;
-
-		z = a.zaehler * b.nenner - b.zaehler * a.nenner;
-		n = a.nenner * b.nenner;
-
-		return kuerze(new RationaleZahl(z, n));
-	}
-
-	/**
-	 * Subtrahiert eine ganze von einer rationalen Zahl.
-	 * 
-	 * @param a
-	 *            Eine rationale Zahl
-	 * @param b
-	 *            Eine ganze Zahl
-	 * @return Das Ergebnis der Subtraktion
-	 */
-	public static RationaleZahl subtrahiere(RationaleZahl a, long b) {
-		return subtrahiere(a, new RationaleZahl(b));
-	}
-
-	/**
-	 * Subtrahiert eine rationale von einer ganzen Zahl.
-	 * 
-	 * @param a
-	 *            Eine ganze Zahl
-	 * @param b
-	 *            Eine rationale Zahl
-	 * @return Das Ergebnis der Subtraktion
-	 */
-	public static RationaleZahl subtrahiere(long a, RationaleZahl b) {
-		return subtrahiere(new RationaleZahl(a), b);
-	}
-
-	/**
-	 * Subtrahiert zwei ganze Zahlen.
-	 * 
-	 * @param a
-	 *            Erste ganze Zahl
-	 * @param b
-	 *            Zweite ganze Zahl
-	 * @return Das Ergebnis der Subtraktion
-	 */
-	public static RationaleZahl subtrahiere(long a, long b) {
-		return subtrahiere(new RationaleZahl(a), new RationaleZahl(b));
-	}
-
-	/**
-	 * Multipliziert zwei rationale Zahlen.
-	 * 
-	 * @param a
-	 *            Erste rationale Zahl
-	 * @param b
-	 *            Zweite rationale Zahl
-	 * @return Das Ergebnis der Multiplikation
-	 */
-	public static RationaleZahl multipliziere(RationaleZahl a, RationaleZahl b) {
-		long z, n;
-
-		z = a.zaehler * b.zaehler;
-		n = a.nenner * b.nenner;
-
-		return kuerze(new RationaleZahl(z, n));
-	}
-
-	/**
-	 * Multipliziert eine rationale Zahlen mit einer ganzen Zahl.
-	 * 
-	 * @param a
-	 *            Eine rationale Zahl
-	 * @param b
-	 *            Eine ganze Zahl
-	 * @return Das Ergebnis der Multiplikation
-	 */
-	public static RationaleZahl multipliziere(RationaleZahl a, long b) {
-		return multipliziere(a, new RationaleZahl(b));
-	}
-
-	/**
-	 * Multipliziert zwei ganze Zahlen.
-	 * 
-	 * @param a
-	 *            Erste ganze Zahl
-	 * @param b
-	 *            Zweite ganze Zahl
-	 * @return Das Ergebnis der Multiplikation
-	 */
-	public static RationaleZahl multipliziere(long a, long b) {
-		return multipliziere(new RationaleZahl(a), new RationaleZahl(b));
-	}
-
-	/**
-	 * Dividiert zwei rationale Zahlen.
-	 * 
-	 * @param a
-	 *            Erste rationale Zahl
-	 * @param b
-	 *            Zweite rationale Zahl
 	 * @return Das Ergebnis der Division
 	 */
-	public static RationaleZahl dividiere(RationaleZahl a, RationaleZahl b) {
-		return multipliziere(a, b.kehrwert());
-	}
-
-	/**
-	 * Dividiert eine rationale durch eine ganze Zahl.
-	 * 
-	 * @param a
-	 *            Eine rationale Zahl
-	 * @param b
-	 *            Eine ganze Zahl
-	 * @return Das Ergebnis der Division
-	 */
-	public static RationaleZahl dividiere(RationaleZahl a, long b) {
-		return dividiere(a, new RationaleZahl(b));
+	public static RationaleZahl dividiere(long a, long b) {
+		return dividiere(new RationaleZahl(a), new RationaleZahl(b));
 	}
 
 	/**
@@ -234,37 +114,29 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	}
 
 	/**
-	 * Dividiert zwei ganze Zahlen.
+	 * Dividiert eine rationale durch eine ganze Zahl.
 	 * 
 	 * @param a
-	 *            Erste ganze Zahl
+	 *            Eine rationale Zahl
 	 * @param b
-	 *            Zweite ganze Zahl
+	 *            Eine ganze Zahl
 	 * @return Das Ergebnis der Division
 	 */
-	public static RationaleZahl dividiere(long a, long b) {
-		return dividiere(new RationaleZahl(a), new RationaleZahl(b));
+	public static RationaleZahl dividiere(RationaleZahl a, long b) {
+		return dividiere(a, new RationaleZahl(b));
 	}
 
 	/**
-	 * Berechnet die Potenz einer rationalen Basis mit einem ganzzahligen
-	 * Exponenten.
+	 * Dividiert zwei rationale Zahlen.
 	 * 
-	 * @param basis
-	 *            Die Basis
-	 * @param exponent
-	 *            Der Exponent
-	 * @return Die Potenz
+	 * @param a
+	 *            Erste rationale Zahl
+	 * @param b
+	 *            Zweite rationale Zahl
+	 * @return Das Ergebnis der Division
 	 */
-	public static RationaleZahl potenz(RationaleZahl basis, int exponent) {
-		RationaleZahl potenz;
-
-		potenz = new RationaleZahl(basis);
-		for (int i = 1; i < exponent; i++) {
-			potenz = RationaleZahl.multipliziere(potenz, basis);
-		}
-
-		return potenz;
+	public static RationaleZahl dividiere(RationaleZahl a, RationaleZahl b) {
+		return multipliziere(a, b.kehrwert());
 	}
 
 	/**
@@ -313,14 +185,132 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	}
 
 	/**
-	 * Konstruiert eine rationale Zahl als ganze Zahl. Der Nenner ist hier 1.
+	 * Multipliziert zwei ganze Zahlen.
 	 * 
-	 * @param zaehler
-	 *            Der Z&auml;hler
+	 * @param a
+	 *            Erste ganze Zahl
+	 * @param b
+	 *            Zweite ganze Zahl
+	 * @return Das Ergebnis der Multiplikation
 	 */
-	public RationaleZahl(long zaehler) {
-		this(zaehler, 1);
+	public static RationaleZahl multipliziere(long a, long b) {
+		return multipliziere(new RationaleZahl(a), new RationaleZahl(b));
 	}
+
+	/**
+	 * Multipliziert eine rationale Zahlen mit einer ganzen Zahl.
+	 * 
+	 * @param a
+	 *            Eine rationale Zahl
+	 * @param b
+	 *            Eine ganze Zahl
+	 * @return Das Ergebnis der Multiplikation
+	 */
+	public static RationaleZahl multipliziere(RationaleZahl a, long b) {
+		return multipliziere(a, new RationaleZahl(b));
+	}
+
+	/**
+	 * Multipliziert zwei rationale Zahlen.
+	 * 
+	 * @param a
+	 *            Erste rationale Zahl
+	 * @param b
+	 *            Zweite rationale Zahl
+	 * @return Das Ergebnis der Multiplikation
+	 */
+	public static RationaleZahl multipliziere(RationaleZahl a, RationaleZahl b) {
+		long z, n;
+
+		z = a.zaehler * b.zaehler;
+		n = a.nenner * b.nenner;
+
+		return kuerze(new RationaleZahl(z, n));
+	}
+
+	/**
+	 * Berechnet die Potenz einer rationalen Basis mit einem ganzzahligen
+	 * Exponenten.
+	 * 
+	 * @param basis
+	 *            Die Basis
+	 * @param exponent
+	 *            Der Exponent
+	 * @return Die Potenz
+	 */
+	public static RationaleZahl potenz(RationaleZahl basis, int exponent) {
+		RationaleZahl potenz;
+
+		potenz = new RationaleZahl(basis);
+		for (int i = 1; i < exponent; i++) {
+			potenz = RationaleZahl.multipliziere(potenz, basis);
+		}
+
+		return potenz;
+	}
+
+	/**
+	 * Subtrahiert zwei ganze Zahlen.
+	 * 
+	 * @param a
+	 *            Erste ganze Zahl
+	 * @param b
+	 *            Zweite ganze Zahl
+	 * @return Das Ergebnis der Subtraktion
+	 */
+	public static RationaleZahl subtrahiere(long a, long b) {
+		return subtrahiere(new RationaleZahl(a), new RationaleZahl(b));
+	}
+
+	/**
+	 * Subtrahiert eine rationale von einer ganzen Zahl.
+	 * 
+	 * @param a
+	 *            Eine ganze Zahl
+	 * @param b
+	 *            Eine rationale Zahl
+	 * @return Das Ergebnis der Subtraktion
+	 */
+	public static RationaleZahl subtrahiere(long a, RationaleZahl b) {
+		return subtrahiere(new RationaleZahl(a), b);
+	}
+
+	/**
+	 * Subtrahiert eine ganze von einer rationalen Zahl.
+	 * 
+	 * @param a
+	 *            Eine rationale Zahl
+	 * @param b
+	 *            Eine ganze Zahl
+	 * @return Das Ergebnis der Subtraktion
+	 */
+	public static RationaleZahl subtrahiere(RationaleZahl a, long b) {
+		return subtrahiere(a, new RationaleZahl(b));
+	}
+
+	/**
+	 * Subtrahiert zwei rationale Zahlen.
+	 * 
+	 * @param a
+	 *            Erste rationale Zahl
+	 * @param b
+	 *            Zweite rationale Zahl
+	 * @return Das Ergebnis der Subtraktion
+	 */
+	public static RationaleZahl subtrahiere(RationaleZahl a, RationaleZahl b) {
+		long z, n;
+
+		z = a.zaehler * b.nenner - b.zaehler * a.nenner;
+		n = a.nenner * b.nenner;
+
+		return kuerze(new RationaleZahl(z, n));
+	}
+
+	/** Z&auml;hler der rationalen Zahl. */
+	private final long zaehler;
+
+	/** Nenner der rationalen Zahl. */
+	private final long nenner;
 
 	/**
 	 * Erzeugt aus einer endlichen reelen Zahl eine rationale Zahl. Da alle
@@ -343,6 +333,16 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 		s2 = s.substring(s.indexOf('.') + 1);
 		zaehler = Long.valueOf(s1 + s2);
 		nenner = (long) Math.pow(10, Long.valueOf(s2.length()));
+	}
+
+	/**
+	 * Konstruiert eine rationale Zahl als ganze Zahl. Der Nenner ist hier 1.
+	 * 
+	 * @param zaehler
+	 *            Der Z&auml;hler
+	 */
+	public RationaleZahl(long zaehler) {
+		this(zaehler, 1);
 	}
 
 	/**
@@ -378,31 +378,19 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	}
 
 	/**
-	 * Gibt den Z&auml;hler der rationalen Zahl zur&uuml;ck.
+	 * {@inheritDoc}
 	 * 
-	 * @return Der Z&auml;hler
+	 * @see java.lang.Comparable#compareTo(Object)
 	 */
-	public long getZaehler() {
-		return zaehler;
-	}
+	public int compareTo(RationaleZahl zahl) {
+		long kgv;
+		Long a, b;
 
-	/**
-	 * Gibt den Nenner der rationalen Zahl zur&uuml;ck.
-	 * 
-	 * @return Der Nenner
-	 */
-	public long getNenner() {
-		return nenner;
-	}
+		kgv = kgV(nenner, zahl.nenner);
+		a = zaehler * kgv;
+		b = zahl.zaehler * kgv;
 
-	/**
-	 * Bildet den Kehrwert der rationalen Zahl. Es werden Z&auml;hler und Nenner
-	 * vertauscht.
-	 * 
-	 * @return Der Kehrwert der rationalen Zahl
-	 */
-	public RationaleZahl kehrwert() {
-		return new RationaleZahl(nenner, zaehler);
+		return a.compareTo(b);
 	}
 
 	/**
@@ -418,57 +406,6 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 		b = nenner;
 
 		return a / b;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Number#floatValue()
-	 */
-	@Override
-	public float floatValue() {
-		float a, b;
-
-		a = zaehler;
-		b = nenner;
-
-		return a / b;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Number#intValue()
-	 */
-	@Override
-	public int intValue() {
-		return Math.round(floatValue());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Number#longValue()
-	 */
-	@Override
-	public long longValue() {
-		return Math.round(doubleValue());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Comparable#compareTo(Object)
-	 */
-	public int compareTo(RationaleZahl zahl) {
-		long kgv;
-		Long a, b;
-
-		kgv = kgV(nenner, zahl.nenner);
-		a = zaehler * kgv;
-		b = zahl.zaehler * kgv;
-
-		return a.compareTo(b);
 	}
 
 	/**
@@ -489,6 +426,69 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 		}
 
 		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Number#floatValue()
+	 */
+	@Override
+	public float floatValue() {
+		float a, b;
+
+		a = zaehler;
+		b = nenner;
+
+		return a / b;
+	}
+
+	/**
+	 * Gibt den Nenner der rationalen Zahl zur&uuml;ck.
+	 * 
+	 * @return Der Nenner
+	 */
+	public long getNenner() {
+		return nenner;
+	}
+
+	/**
+	 * Gibt den Z&auml;hler der rationalen Zahl zur&uuml;ck.
+	 * 
+	 * @return Der Z&auml;hler
+	 */
+	public long getZaehler() {
+		return zaehler;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Number#intValue()
+	 */
+	@Override
+	public int intValue() {
+		return Math.round(floatValue());
+	}
+
+	/**
+	 * Bildet den Kehrwert der rationalen Zahl. Es werden Z&auml;hler und Nenner
+	 * vertauscht.
+	 * 
+	 * @return Der Kehrwert der rationalen Zahl
+	 */
+	public RationaleZahl kehrwert() {
+		return new RationaleZahl(nenner, zaehler);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Number#longValue()
+	 */
+	@Override
+	public long longValue() {
+		return Math.round(doubleValue());
 	}
 
 	/**
