@@ -33,6 +33,7 @@ import org.junit.Test;
 /**
  * Testet relevante Funktionen der Klasse.
  * 
+ * @todo Mehr Tests machen.
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */

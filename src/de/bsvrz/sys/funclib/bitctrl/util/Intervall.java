@@ -36,7 +36,7 @@ import java.util.Date;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class Intervall {
+public class Intervall implements Cloneable {
 
 	/** Startzeitpunkt des Intervall. */
 	public final long start;
@@ -108,6 +108,16 @@ public class Intervall {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
+
+	/**
 	 * Zwei Intervalle sind gleich, wenn sie den selben Start- und Endwert
 	 * besitzen.
 	 * 
@@ -154,6 +164,18 @@ public class Intervall {
 	}
 
 	/**
+	 * Prüftft ob ein anderes Intervall in diesem Intervall enhalten ist.
+	 * 
+	 * @param intervall
+	 *            ein Intervall.
+	 * @return {@code true}, wenn das andere Intervall innerhalb dieses
+	 *         Intervalls liegt oder mit ihm identisch ist.
+	 */
+	public boolean isEnthalten(Intervall intervall) {
+		return start <= intervall.start && intervall.ende <= ende;
+	}
+
+	/**
 	 * Pr&uuml;ft ob ein Wert im Intervall enhalten ist.
 	 * 
 	 * @param wert
@@ -163,6 +185,19 @@ public class Intervall {
 	 */
 	public boolean isEnthalten(long wert) {
 		return start <= wert && wert <= ende;
+	}
+
+	/**
+	 * Prüft ob sich ein anderes Intervall innerhalb der Intervallgrenzen dieses
+	 * Intervalls befindet.
+	 * 
+	 * @param intervall
+	 *            ein Intervall.
+	 * @return {@code true}, wenn das andere Intervall innerhalb dieses
+	 *         Intervalls liegt, aber nicht mit ihm identisch ist.
+	 */
+	public boolean isInnerhalb(Intervall intervall) {
+		return start < intervall.start && intervall.ende < ende;
 	}
 
 	/**
