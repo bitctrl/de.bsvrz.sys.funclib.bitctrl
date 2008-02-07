@@ -211,7 +211,7 @@ public class Baustelle extends Situation {
 	 *             der Auftrag konnte innerhalb der vorgegebenen Zeit nicht
 	 *             versendet werden
 	 */
-	void simuliereBaustelle(String name, String bemerkung)
+	public void simuliereBaustelle(String name, String bemerkung)
 			throws AnmeldeException, DatensendeException {
 
 		getOnlineDatensatz(OdBaustellenSimulationStarten.class).anmeldenSender(
