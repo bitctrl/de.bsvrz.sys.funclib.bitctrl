@@ -43,7 +43,7 @@ public interface Datum {
 	 * @author BitCtrl Systems GmbH, Uwe Peuker
 	 * @version $Id$
 	 */
-	public enum Status {
+	public enum Status implements Zustand {
 		/**
 		 * Datensatztyp für ungültige Datensätze (Initialwert).
 		 */
@@ -156,6 +156,21 @@ public interface Datum {
 		 */
 		private DataState getDatenStatus() {
 			return datenStatus;
+		}
+
+		/**
+		 * {@inheritDoc}.<br>
+		 * 
+		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Zustand#getName()
+		 */
+		public String getName() {
+			String result;
+			if (datenStatus != null) {
+				result = datenStatus.toString();
+			} else {
+				result = "Undefiniert";
+			}
+			return result;
 		}
 	}
 
