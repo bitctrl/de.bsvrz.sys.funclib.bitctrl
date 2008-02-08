@@ -269,7 +269,7 @@ public class PdBaustellenEigenschaften extends
 				datum.getBaustellenStatus().ordinal());
 		daten.getScaledValue("RestKapazität").set(datum.getRestKapazitaet());
 		daten.getUnscaledValue("Veranlasser").set(
-				datum.getVeranlasser().ordinal());
+				datum.getVeranlasser().getCode());
 
 		return daten;
 	}
