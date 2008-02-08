@@ -29,7 +29,9 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.Aspect;
+import de.bsvrz.dav.daf.main.config.AttributeGroup;
 
 /**
  * Implementiert gemeinsame Funktionen von Onlinedatens&auml;tzen.
@@ -224,6 +226,39 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	@Deprecated
 	public void update(Aspect asp) {
 		super.update(asp);
+	}
+
+	/* (non-Javadoc)
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#abrufenDatum(de.bsvrz.dav.daf.main.config.Aspect)
+	 */
+	@Override
+	public T abrufenDatum(Aspect asp) {
+		// TODO Auto-generated method stub
+		return super.abrufenDatum(asp);
+	}
+
+	/* (non-Javadoc)
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#erzeugeDatum()
+	 */
+	public T erzeugeDatum() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getAttributGruppe()
+	 */
+	public AttributeGroup getAttributGruppe() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.ResultData)
+	 */
+	public void setDaten(ResultData daten) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
