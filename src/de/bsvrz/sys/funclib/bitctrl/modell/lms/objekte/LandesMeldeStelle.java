@@ -41,7 +41,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.LmsModellTypen;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.BaustellenListener;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
@@ -69,7 +68,7 @@ public class LandesMeldeStelle extends AbstractSystemObjekt implements
 	private final EventListenerList listeners = new EventListenerList();
 
 	/**
-	 * das Systemobjekt, das die Liste der Baustellen definiert.
+	 * das Systemobjekt, das die Liste der Meldungen definiert.
 	 */
 	private final MutableSet meldungsMenge;
 
@@ -109,20 +108,20 @@ public class LandesMeldeStelle extends AbstractSystemObjekt implements
 		listeners.add(MeldungsListener.class, listener);
 
 		if (registerListener) {
-			System.err.println("Anmeldung für Baustellen == "
+			System.err.println("Anmeldung für Meldungen == "
 					+ meldungsMenge.getElements().size());
 			meldungsMenge.addChangeListener(this);
 		}
 	}
 
 	/**
-	 * benachrichtigt alle BaustellenListener über hinzugefügte oder entfernte
-	 * Baustellen.
+	 * benachrichtigt alle MeldungsListener über hinzugefügte oder entfernte
+	 * Meldungen.
 	 * 
 	 * @param addedObjects
-	 *            die Systemobjekte, die die hinzugefügten Baustellen definieren
+	 *            die Systemobjekte, die die hinzugefügten Meldungen definieren
 	 * @param removedObjects
-	 *            die Systemobjekte, die die entfernten Baustellen definieren
+	 *            die Systemobjekte, die die entfernten Meldungen definieren
 	 */
 	private void aktualisiereMeldungen(final SystemObject[] addedObjects,
 			final SystemObject[] removedObjects) {
@@ -145,9 +144,9 @@ public class LandesMeldeStelle extends AbstractSystemObjekt implements
 
 	/**
 	 * liefert eine Liste der aktuell innerhalb des VerkehrsmodellNetzes
-	 * eingetragenen Baustellen.
+	 * eingetragenen Meldungen
 	 * 
-	 * @return die Liste der Baustellen
+	 * @return die Liste der Meldungen
 	 */
 	public Collection<RdsMeldung> getMeldungen() {
 		Collection<RdsMeldung> result = new ArrayList<RdsMeldung>();
@@ -171,8 +170,8 @@ public class LandesMeldeStelle extends AbstractSystemObjekt implements
 	}
 
 	/**
-	 * entfernt ein Baustellenobjekt mit dem übergeben Systemobjekt vom Netz.
-	 * Das Objekt wird aus der Menge der Baustellen des VerkehrsmodellNetz
+	 * entfernt ein Meldungsobjekt mit dem übergeben Systemobjekt vom Netz.
+	 * Das Objekt wird aus der Menge der Meldungen des VerkehrsmodellNetz
 	 * ausgetragen.
 	 * 
 	 * @param obj
@@ -191,12 +190,12 @@ public class LandesMeldeStelle extends AbstractSystemObjekt implements
 	}
 
 	/**
-	 * fügt den Netz eine Baustelle mit dem übergeben Systemobjekt hinzu. Das
-	 * Objekt wird in die Menge der Baustellen des VerkehrsmodellNetz
+	 * fügt den Netz eine Meldung mit dem übergeben Systemobjekt hinzu. Das
+	 * Objekt wird in die Menge der Meldungen des VerkehrsmodellNetz
 	 * eingetragen.
 	 * 
 	 * @param obj
-	 *            das neue Baustellen
+	 *            die neue Meldung
 	 */
 	public void meldungHinzufuegen(final SystemObject obj) {
 		ObjectSet set = ((ConfigurationObject) getSystemObject())
@@ -211,15 +210,15 @@ public class LandesMeldeStelle extends AbstractSystemObjekt implements
 	}
 
 	/**
-	 * entfernt einen Baustellenlistener vom Netz.
+	 * entfernt einen Meldungslistener vom Netz.
 	 * 
 	 * @param listener
-	 *            der zu entfernende Baustellenlistener
+	 *            der zu entfernende Meldungslistener
 	 */
 	public void removeMeldungsListener(final MeldungsListener listener) {
 		if (listener != null) {
 			listeners.remove(MeldungsListener.class, listener);
-			if (listeners.getListenerCount(BaustellenListener.class) == 0) {
+			if (listeners.getListenerCount(MeldungsListener.class) == 0) {
 				meldungsMenge.removeChangeListener(this);
 			}
 		}
@@ -235,7 +234,7 @@ public class LandesMeldeStelle extends AbstractSystemObjekt implements
 	public void update(final MutableSet set, final SystemObject[] addedObjects,
 			final SystemObject[] removedObjects) {
 		if (set.equals(meldungsMenge)) {
-			System.err.println("Anzahl der Baustellen == "
+			System.err.println("Anzahl der Meldungen == "
 					+ set.getElements().size());
 			aktualisiereMeldungen(addedObjects, removedObjects);
 		}
