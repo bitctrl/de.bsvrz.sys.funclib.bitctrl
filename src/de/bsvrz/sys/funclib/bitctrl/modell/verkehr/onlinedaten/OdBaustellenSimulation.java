@@ -249,7 +249,7 @@ public class OdBaustellenSimulation extends
 		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
-		 * fügt diue übergebenen Staueinträge hinzu.
+		 * fügt die übergebenen Staueinträge hinzu.
 		 * 
 		 * @param neueStaus
 		 *            die Staueinträge
@@ -280,6 +280,7 @@ public class OdBaustellenSimulation extends
 				klon.staus.add(schritt.clone());
 			}
 
+			klon.setZeitstempel(getZeitstempel());
 			klon.datenStatus = datenStatus;
 			return klon;
 		}
@@ -417,6 +418,7 @@ public class OdBaustellenSimulation extends
 		check(result);
 
 		Daten datum = new Daten();
+	
 		if (result.hasData()) {
 			Data daten = result.getData();
 
