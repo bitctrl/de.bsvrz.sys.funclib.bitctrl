@@ -57,6 +57,9 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderModellTypen;
  */
 public class EreignisTyp extends AbstractSystemObjekt {
 
+	/** Der Standardpräfix für die PID eines neuen Ereignistyps. */
+	public static final String PRAEFIX_PID = "ergeignisTyp.";
+
 	/**
 	 * Legt einen neuen Ereignistyp an.
 	 * 
