@@ -43,7 +43,7 @@ public interface Datum {
 	 * @author BitCtrl Systems GmbH, Uwe Peuker
 	 * @version $Id$
 	 */
-	public enum Status implements Zustand {
+	public enum Status {
 		/**
 		 * Datensatztyp für ungültige Datensätze (Initialwert).
 		 */
