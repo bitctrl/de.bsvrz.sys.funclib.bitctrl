@@ -25,6 +25,8 @@
  */
 package de.bsvrz.sys.funclib.bitctrl.dua;
 
+import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
+
 /**
  * Klasse, die alle Markierungen eines Messwertes speichert
  * 
@@ -113,7 +115,7 @@ implements Cloneable{
 	 */
 	public final void setImplausibel(boolean implausibel){
 		this.veraendert = true;
-		this.implausibel = nichtErfasst;
+		this.implausibel = implausibel;
 	}
 	
 	
@@ -234,15 +236,37 @@ implements Cloneable{
 	
 	/**
 	 * {@inheritDoc}
+	 */	
+	@Override
+	public boolean equals(Object obj) {
+		boolean gleich = false;
+		
+		if(obj instanceof MesswertMarkierung){
+			MesswertMarkierung that = (MesswertMarkierung)obj;
+			gleich = this.nichtErfasst == that.nichtErfasst &&
+					 this.implausibel == that.implausibel && 
+					 this.interpoliert == that.interpoliert &&
+					 this.formalMax == that.formalMax &&
+					 this.formalMin == that.formalMin &&
+					 this.logischMax == that.logischMax && 
+					 this.logischMin == that.logischMin; 					
+		}
+		
+		return gleich;
+	}
+
+
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
-		return   "Nicht Erfasst:    " + (this.nichtErfasst?"Ja":"Nein") +  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
-			   "\nFormal.Max:       " + (this.formalMax?"Ja":"Nein") +  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
-			   "\nFormal.Min:       " + (this.formalMin?"Ja":"Nein") +  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
-			   "\nLogisch.Max:      " + (this.logischMax?"Ja":"Nein") +  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
-			   "\nLogisch.Min:      " + (this.logischMin?"Ja":"Nein") +  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
-			   "\nMwe.Implausibel:  " + (this.implausibel?"Ja":"Nein") +  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
-			   "\nMwe.Interpoliert: " + (this.interpoliert?"Ja":"Nein");  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
+		return  (this.nichtErfasst?"nErf ":Konstante.LEERSTRING) +  //$NON-NLS-1$
+			    (this.formalMax?"fMax ":Konstante.LEERSTRING) +  //$NON-NLS-1$
+			    (this.formalMin?"fMin ":Konstante.LEERSTRING) +  //$NON-NLS-1$
+			    (this.logischMax?"lMax ":Konstante.LEERSTRING) +  //$NON-NLS-1$
+			    (this.logischMin?"lMin ":Konstante.LEERSTRING) +  //$NON-NLS-1$
+			    (this.implausibel?"Impl ":Konstante.LEERSTRING) +  //$NON-NLS-1$
+			    (this.interpoliert?"Intp ":Konstante.LEERSTRING);  //$NON-NLS-1$
 	}
 }

@@ -57,6 +57,11 @@ public class CSVImporter{
 	 * der Reader für die CSV-Datei
 	 */
 	private BufferedReader leser = null;
+	
+	/**
+	 * die Zeile, auf der im Moment der Datei-Zeier steht
+	 */
+	private int zeilenNummer = -1;
 
 
 	/**
@@ -101,6 +106,7 @@ public class CSVImporter{
 
 		try{
 			String red = leser.readLine();
+			this.zeilenNummer++;
 
 			if(red != null){
 				result = red.split(";"); //$NON-NLS-1$
@@ -112,6 +118,17 @@ public class CSVImporter{
 		return result;
 	}
 
+	
+	/**
+	 * Erfragt die Zeilennummer, auf der im Moment der Datei-Zeiger steht
+	 * 
+	 * @return die Zeilennummer, auf der im Moment der Datei-Zeiger steht
+	 * <code>-1</code> indiziert, dass noch nicht aus der Datei gelesen wurde
+	 */
+	public final int getZeilenNummer(){
+		return this.zeilenNummer;
+	}
+	
 	
 	/**
 	 * {@inheritDoc}

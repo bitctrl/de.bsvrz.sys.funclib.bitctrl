@@ -267,19 +267,36 @@ implements Comparable<AbstraktMesswert>{
 		datum.getItem(attName).getItem("Güte").getUnscaledValue("Verfahren").set(this.verfahren); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	
+		
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		boolean gleich = false;
+		
+		if(obj instanceof AbstraktMesswert){
+			AbstraktMesswert that = (AbstraktMesswert)obj;
+			
+			gleich = super.equals(obj) && 
+					this.getWertUnskaliert() == that.getWertUnskaliert() &&
+					this.guete.equals(that.guete);
+		}
+		
+		return gleich;
+	}
+
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
-		return "Attribut(" + (this.isSkaliert()?"skaliert":"unskaliert") + "): " + this.attName + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			   "\nWert:             " + (this.isSkaliert()?this.getWertSkaliert():this.getWertUnskaliert()) + //$NON-NLS-1$
-			   "\nGuete.Index:      " + this.guete +   //$NON-NLS-1$
-			   "\nGuete.Verfahren:  " + this.verfahren + //$NON-NLS-1$
-			   "\n" + super.toString(); //$NON-NLS-1$
+		return (this.isSkaliert()?this.getWertSkaliert():this.getWertUnskaliert()) +
+				" " + super.toString() + " " + this.guete.getSkaliertenWert() +   //$NON-NLS-1$ //$NON-NLS-2$
+			   " (" + this.verfahren + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
-
+		
 
 	/**
 	 * Erfragt den Namen dieses Messwertes
