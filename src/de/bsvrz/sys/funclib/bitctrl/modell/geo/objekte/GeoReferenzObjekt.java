@@ -26,6 +26,8 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte;
 
+import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+
 /**
  * Schnittstelle für die Repräsentation eines Georeferenzobjekts
  * ("typ.geoReferenzObjekt").
@@ -33,7 +35,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte;
  * @author BitCtrl Systems GmbH, Uwe Peuker
  * @version $Id$
  */
-public interface GeoReferenzObjekt {
+public interface GeoReferenzObjekt extends SystemObjekt {
 	// Die Schnittstelle hat keine spezielle Funktionalität und dient lediglich
 	// der Abbildung der Objektstruktur entsprechend der
 	// Datenverteiler-Konfiguration.
