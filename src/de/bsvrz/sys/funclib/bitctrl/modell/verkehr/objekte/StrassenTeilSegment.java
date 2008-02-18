@@ -290,8 +290,8 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 */
 	private List<MessQuerschnittAllgemein> messQuerschnitte;
 
-	/** Das Stra&szlig;ensegment auf dem das Stra&szlig;enteilsegment liegt. */
-	private StrassenSegment strassenSegment;
+	/** Die Stra&szlig;ensegmente auf denen das Stra&szlig;enteilsegment liegt. */
+	private List<StrassenSegment> strassenSegmente = null;
 
 	/**
 	 * Erzeugt ein Stra&szlig;enteilsegment aus einem Systemobjekt.
@@ -434,15 +434,15 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 *         das Teilsegment beginnt
 	 */
 	public double getSegmentOffsetAnfang() {
-		if (strassenSegment == null) {
+		if (strassenSegmente == null) {
 			getStrassenSegment();
 		}
 
 		double offset = -1;
 
-		if (strassenSegment != null) {
+		if (strassenSegmente != null) {
 			offset = 0;
-			for (StrassenTeilSegment teilsegment : strassenSegment
+			for (StrassenTeilSegment teilsegment : strassenSegmente.get(0)
 					.getStrassenTeilSegmente()) {
 				if (teilsegment == this) {
 					break;
@@ -466,13 +466,14 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	}
 
 	/**
-	 * Gibt das Stra&szlig;ensegment zur&uuml;ck, auf dem das
+	 * Gibt die Stra&szlig;ensegmente zur&uuml;ck, auf denen das
 	 * Stra&szlig;enteilsegment liegt.
 	 * 
-	 * @return das Stra&szlig;ensegment.
+	 * @return die Liste der Stra&szlig;ensegmente.
 	 */
-	public StrassenSegment getStrassenSegment() {
-		if (strassenSegment == null) {
+	public List<StrassenSegment> getStrassenSegment() {
+		if (strassenSegmente == null) {
+			strassenSegmente = new ArrayList<StrassenSegment>();
 			List<SystemObjekt> listeSO;
 
 			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
@@ -481,12 +482,11 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 			for (SystemObjekt so : listeSO) {
 				StrassenSegment ss = (StrassenSegment) so;
 				if (ss.getStrassenTeilSegmente().contains(this)) {
-					strassenSegment = ss;
-					break;
+					strassenSegmente.add(ss);
 				}
 			}
 		}
-		return strassenSegment;
+		return strassenSegmente;
 	}
 
 	/**
