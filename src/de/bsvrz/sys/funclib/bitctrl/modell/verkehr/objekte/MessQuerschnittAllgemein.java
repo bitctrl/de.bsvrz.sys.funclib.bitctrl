@@ -169,22 +169,9 @@ public abstract class MessQuerschnittAllgemein extends StoerfallIndikator
 			return strassenTeilSegment;
 		}
 
-		float offsetSS = 0;
-		StrassenTeilSegment sts = null;
-
 		if (getStrassenSegment() != null) {
-			// Das richtige STS ist letzte für das gilt offset(MQ) < offsetSS,
-			// wenn keines gefunden wird wird das letzte geliefert
-			for (StrassenTeilSegment s : getStrassenSegment()
-					.getStrassenTeilSegmente()) {
-				sts = s;
-				if (offsetSS < getOffset()
-						&& getOffset() < offsetSS + s.getLaenge()) {
-					break;
-				}
-				offsetSS += s.getLaenge();
-			}
-			strassenTeilSegment = sts;
+			strassenTeilSegment = getStrassenSegment().getStrassenTeilSegment(
+					getOffset());
 		}
 
 		return strassenTeilSegment;

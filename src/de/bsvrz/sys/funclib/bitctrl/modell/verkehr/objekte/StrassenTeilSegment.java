@@ -427,6 +427,35 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	}
 
 	/**
+	 * Gibt den Offset auf dem Stra&szlig;ensegment zur&uuml;ck, bei dem das
+	 * Stra&szlig;enteilsegment beginnt.
+	 * 
+	 * @return der Offset des zugeh&ouml;rigen Stra&szlig;ensegmentes, bei dem
+	 *         das Teilsegment beginnt
+	 */
+	public long getSegmentOffsetAnfang() {
+		if (strassenSegment == null) {
+			getStrassenSegment();
+		}
+
+		long offset = -1;
+
+		if (strassenSegment != null) {
+			offset = 0;
+			for (StrassenTeilSegment teilsegment : strassenSegment
+					.getStrassenTeilSegmente()) {
+				if (teilsegment == this) {
+					break;
+				}
+
+				offset += teilsegment.getLaenge();
+			}
+		}
+
+		return offset;
+	}
+
+	/**
 	 * liefert die Steigung/Gef&auml;lle des Strassenteilsegments.
 	 * 
 	 * @return Steigung (positiv) oder Gef&auml;lle (negativ) des Segments.
@@ -437,7 +466,8 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	}
 
 	/**
-	 * Gibt das Stra&szlig;ensegment zur&uuml;ck, auf dem das Stra&szlig;enteilsegment liegt.
+	 * Gibt das Stra&szlig;ensegment zur&uuml;ck, auf dem das
+	 * Stra&szlig;enteilsegment liegt.
 	 * 
 	 * @return das Stra&szlig;ensegment.
 	 */
@@ -458,33 +488,6 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 		}
 		return strassenSegment;
 	}
-
-	/**
-	 * Gibt den Offset auf dem Stra&szlig;ensegment zur&uuml;ck, bei dem das 
-	 * Stra&szlig;enteilsegment beginnt.
-	 * 
-	 * @return der Offset des zugeh&ouml;rigen Stra&szlig;ensegmentes, bei dem das
-	 * Teilsegment beginnt
-	 */
-	public long getSegmentOffsetAnfang() {
-		if (strassenSegment == null)
-			getStrassenSegment();
-
-		long offset = -1;
-		
-		if(strassenSegment != null) {
-			offset = 0;
-			for(StrassenTeilSegment teilsegment : strassenSegment.getStrassenTeilSegmente()) {
-				if(teilsegment == this) 
-					break;
-				
-				offset += teilsegment.getLaenge();
-			}
-		}
-
-		return offset;
-	}
-
 
 	/**
 	 * {@inheritDoc}.
