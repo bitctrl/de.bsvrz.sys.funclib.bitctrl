@@ -234,6 +234,35 @@ public class StrassenSegment extends StoerfallIndikator implements
 	}
 
 	/**
+	 * Gibt das Stra&szlig;enteilsegment zur&uuml;ck, das das Segment an einem bestimmten
+	 * Offset bildet.
+	 * @param offset der Offset (in m) auf dem Segment
+	 * 
+	 * @return Stra&szlig;enteilsegment am Offset
+	 */
+	public StrassenTeilSegment getStrassenTeilSegment(long offset) {
+		if (strassenTeilSegmente == null)
+			getStrassenTeilSegmente();
+		
+		StrassenTeilSegment teilsegmentoffset = null;
+		
+		if(strassenTeilSegmente != null) {
+			int teiloffset = 0;
+			for(StrassenTeilSegment teilsegment : strassenTeilSegmente ) {
+				if((teiloffset+teilsegment.getLaenge()) > offset) {
+					teilsegmentoffset = teilsegment;
+					break;
+				}
+				teiloffset += teilsegment.getLaenge();
+			}
+		}
+		
+		return teilsegmentoffset;
+	}
+
+	
+	
+	/**
 	 * {@inheritDoc}.
 	 */
 	@Override
