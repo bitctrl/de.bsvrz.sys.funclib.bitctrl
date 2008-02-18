@@ -433,12 +433,12 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 * @return der Offset des zugeh&ouml;rigen Stra&szlig;ensegmentes, bei dem
 	 *         das Teilsegment beginnt
 	 */
-	public long getSegmentOffsetAnfang() {
+	public double getSegmentOffsetAnfang() {
 		if (strassenSegment == null) {
 			getStrassenSegment();
 		}
 
-		long offset = -1;
+		double offset = -1;
 
 		if (strassenSegment != null) {
 			offset = 0;
