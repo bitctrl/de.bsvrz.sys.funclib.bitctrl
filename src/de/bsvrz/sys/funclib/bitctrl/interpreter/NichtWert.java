@@ -26,7 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.interpreter;
 
-import de.bsvrz.sys.funclib.bitctrl.i18n.Messages;
+import com.bitctrl.i18n.Messages;
 
 /**
  * Die Klasse repräsentiert den Nichtwert "undefiniert", den jedes Element in

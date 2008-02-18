@@ -26,55 +26,34 @@
 
 package de.bsvrz.sys.funclib.bitctrl.interpreter;
 
-import static de.bsvrz.sys.funclib.bitctrl.text.Check.isDruckbar;
+import static com.bitctrl.text.CheckText.isPrintable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import de.bsvrz.sys.funclib.bitctrl.i18n.Messages;
+import com.bitctrl.i18n.Messages;
 
 /**
  * Implementiert jedes Operatorsymbol als Entwurfsmuster Singleton. Jedes
  * Operatorsymbol kann abh&auml;ngig vom Kontext im Ausdruck eine andere
  * Operation darstellen. Deshalb f&uuml;hrt jeder Operator eine Liste von
  * {@link Handler} die ihn behandeln können.
- *
+ * 
  * @author BitCtrl, Schumann
  * @version $Id$
  */
 public class Operator {
-	/**
-	 * Das Symbol des Operators
-	 */
-	private final String symbol;
-
-	/**
-	 * Menge aller Handler dieses Operators
-	 */
-	private List<Handler> handler = new ArrayList<Handler>();
-
 	/**
 	 * Statische Menge aller Operatoren
 	 */
 	private static HashMap<String, Operator> operatorMenge = new HashMap<String, Operator>();
 
 	/**
-	 * Konstruktor verstecken
-	 *
-	 * @param symbol
-	 *            Die Zeichenkette, die das Operatorsymbol darstellt
-	 */
-	private Operator(String symbol) {
-		this.symbol = symbol;
-		operatorMenge.put(symbol, this);
-	}
-
-	/**
 	 * ermiitelt, ob in der Menge der Operatoren ein Operator mit dem gegebenen
 	 * Namen existiert..
-	 *
+	 * 
 	 * @param symbol
 	 *            Operationsymbol
 	 * @return true, wenn der Operator existiert
@@ -88,15 +67,16 @@ public class Operator {
 	/**
 	 * Gibt den Operator zu einem Symbol zur&uuml;ck. Der Operator wird neu
 	 * erzeugt, wenn das Symbol noch unbekannt ist.
-	 *
+	 * 
 	 * @param symbol
 	 *            Operationsymbol
 	 * @return Operator
 	 */
 	public static Operator getOperator(String symbol) {
-		if (!isDruckbar(symbol))
+		if (!isPrintable(symbol)) {
 			throw new InterpreterException(Messages
 					.get(InterpreterMessages.BadSymbol));
+		}
 
 		String sym = symbol.trim();
 
@@ -110,14 +90,15 @@ public class Operator {
 	/**
 	 * Registriert einen Handler. Der Handler wird in die jeweiligen Listen der
 	 * von ihm unterst&uuml;tzten Operatoren eingetragen.
-	 *
+	 * 
 	 * @param handler
 	 *            Handler
 	 */
 	public static void registerHandler(Handler handler) {
-		if (handler == null)
+		if (handler == null) {
 			throw new InterpreterException(Messages
 					.get(InterpreterMessages.BadHandlerNull));
+		}
 
 		for (Operator o : handler.getHandledOperators()) {
 			o.addHandler(handler);
@@ -125,60 +106,29 @@ public class Operator {
 	}
 
 	/**
-	 * Gibt das Symbol des Operators zur&uuml;ck
-	 *
-	 * @return Operatorsymbol
+	 * Das Symbol des Operators
 	 */
-	public String getSymbol() {
-		assert symbol != null;
-
-		return symbol;
-	}
+	private final String symbol;
 
 	/**
-	 * Wendet den Operator auf die Liste der Operanden an. Die Operanden werden
-	 * von links nach rechts bzw. in der Reihenfolge der Iteration abgearbeitet.
-	 *
-	 * @param werte
-	 *            Menge von Operanden
-	 * @return Ergebnis der Operation
-	 * @throws InterpreterException
-	 *             Wird geworfen, wenn kein passender Handler f&uuml;r die
-	 *             Operation gefunden werden konnte
+	 * Menge aller Handler dieses Operators
 	 */
-	public Object execute(Object... werte) throws InterpreterException {
-		return execute(Arrays.asList(werte));
-	}
+	private List<Handler> handler = new ArrayList<Handler>();
 
 	/**
-	 * Wendet den Operator auf die Menge der Operanden an. Die Operanden werden
-	 * von links nach rechts bzw. in der Reihenfolge der Iteration abgearbeitet.
-	 *
-	 * @param werte
-	 *            Menge von Operanden
-	 * @return Ergebnis der Operation
-	 * @throws InterpreterException
-	 *             Wird geworfen, wenn kein passender Handler f&uuml;r die
-	 *             Operation gefunden werden konnte
+	 * Konstruktor verstecken
+	 * 
+	 * @param symbol
+	 *            Die Zeichenkette, die das Operatorsymbol darstellt
 	 */
-	public Object execute(List<Object> werte) throws InterpreterException {
-		if (handler.size() == 0)
-			throw new InterpreterException(Messages.get(
-					InterpreterMessages.HandlerNotFound, getSymbol()));
-
-		for (Handler h : handler) {
-			if (h.validiereHandler(this, werte).isValid()) {
-				return h.perform(this, werte);
-			}
-		}
-
-		throw new HandlerNotFoundException(Messages.get(
-				InterpreterMessages.HandlerNotFound, getAufrufString(werte)));
+	private Operator(String symbol) {
+		this.symbol = symbol;
+		operatorMenge.put(symbol, this);
 	}
 
 	/**
 	 * Zwei Operatoren sind gleich, wenn sie das selbe Symbol darstellen
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -195,8 +145,61 @@ public class Operator {
 	}
 
 	/**
+	 * Wendet den Operator auf die Menge der Operanden an. Die Operanden werden
+	 * von links nach rechts bzw. in der Reihenfolge der Iteration abgearbeitet.
+	 * 
+	 * @param werte
+	 *            Menge von Operanden
+	 * @return Ergebnis der Operation
+	 * @throws InterpreterException
+	 *             Wird geworfen, wenn kein passender Handler f&uuml;r die
+	 *             Operation gefunden werden konnte
+	 */
+	public Object execute(List<Object> werte) throws InterpreterException {
+		if (handler.size() == 0) {
+			throw new InterpreterException(Messages.get(
+					InterpreterMessages.HandlerNotFound, getSymbol()));
+		}
+
+		for (Handler h : handler) {
+			if (h.validiereHandler(this, werte).isValid()) {
+				return h.perform(this, werte);
+			}
+		}
+
+		throw new HandlerNotFoundException(Messages.get(
+				InterpreterMessages.HandlerNotFound, getAufrufString(werte)));
+	}
+
+	/**
+	 * Wendet den Operator auf die Liste der Operanden an. Die Operanden werden
+	 * von links nach rechts bzw. in der Reihenfolge der Iteration abgearbeitet.
+	 * 
+	 * @param werte
+	 *            Menge von Operanden
+	 * @return Ergebnis der Operation
+	 * @throws InterpreterException
+	 *             Wird geworfen, wenn kein passender Handler f&uuml;r die
+	 *             Operation gefunden werden konnte
+	 */
+	public Object execute(Object... werte) throws InterpreterException {
+		return execute(Arrays.asList(werte));
+	}
+
+	/**
 	 * Gibt das Symbol des Operators zur&uuml;ck
-	 *
+	 * 
+	 * @return Operatorsymbol
+	 */
+	public String getSymbol() {
+		assert symbol != null;
+
+		return symbol;
+	}
+
+	/**
+	 * Gibt das Symbol des Operators zur&uuml;ck
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -208,7 +211,7 @@ public class Operator {
 
 	/**
 	 * Liste der Handler dieses Operators erg&auml;nzen
-	 *
+	 * 
 	 * @param h
 	 *            Ein neuer Handler
 	 */
@@ -233,7 +236,7 @@ public class Operator {
 
 	/**
 	 * Liefert den Name des Symbols mit den Typen der Operanden
-	 *
+	 * 
 	 * @param werte
 	 *            Die Operanden
 	 * @return Den Text
@@ -245,10 +248,11 @@ public class Operator {
 			if (meldung.length() > 1) {
 				meldung.append(',');
 			}
-			if (wert != null)
+			if (wert != null) {
 				meldung.append(wert.getClass().getSimpleName());
-			else
+			} else {
 				meldung.append(wert);
+			}
 		}
 		meldung.append(')');
 		meldung.insert(0, getSymbol());

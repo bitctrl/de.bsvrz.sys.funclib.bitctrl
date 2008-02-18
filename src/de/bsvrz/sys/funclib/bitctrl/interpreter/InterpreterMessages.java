@@ -1,20 +1,20 @@
 /*
- * Interpreter, allgemeine Struktur zum Auswerten von Ausdrücken
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -28,82 +28,55 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter;
 
 import java.util.ResourceBundle;
 
-import de.bsvrz.sys.funclib.bitctrl.i18n.MessageHandler;
+import com.bitctrl.i18n.MessageHandler;
 
 /**
  * Versorgt das Package de.bwl.rpt.ref95.common.interpreter, samt Subpackages,
- * mit lokalisierten Meldungen
+ * mit lokalisierten Meldungen.
  * 
- * @author BitCtrl, Schumann
+ * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
 public enum InterpreterMessages implements MessageHandler {
 
-	/**
-	 * Der Nichtwert bzw. "undefiniert"
-	 */
+	/** Keine Parameter. */
 	Undefined,
 
-	/**
-	 * Wert ist nicht vom Typ boolean
-	 */
+	/** Keine Parameter. */
 	NoBooleanValue,
 
-	/**
-	 * Zugeh&ouml;rigkeit muss zwischen 0 und 1 liegen
-	 */
+	/** Parameter: 1) Zugehörigkeit. */
 	BadMembership,
 
-	/**
-	 * Kein Handler f&uuml;r Operator gefunden, Argumente: Operator
-	 */
+	/** Parameter: 1) Operator. */
 	HandlerNotFound,
 
-	/**
-	 * Variablenname ist ungültig
-	 */
+	/** Parameter: 1) Variablenname. */
 	BadVariableName,
 
-	/**
-	 * Variable mit Name/Typ nicht im Kontext gefunden, Argumente:
-	 * Variablenname, Typname
-	 */
+	/** Parameter: 1) Variablenname, 2) Variablentyp. */
 	NoVariableWithNameAndTyp,
 
-	/**
-	 * Variable mit Name nicht im Kontext gefunden, Argumente: Variablenname
-	 */
+	/** Parameter: 1) Variablenname. */
 	NoVariableWithName,
 
-	/**
-	 * {@code null} als Variablenwert ist unzulässig
-	 */
+	/** Keine Parameter. */
 	BadValueNull,
 
-	/**
-	 * Operationssymbol muss lesbar sein (nicht null usw.)
-	 */
+	/** Keine Parameter. */
 	BadSymbol,
 
-	/**
-	 * {@code null} als Handler ist nicht zugelassen
-	 */
+	/** Keine Parameter. */
 	BadHandlerNull,
 
-	/**
-	 * Die Angabe eines Typs darf nicht null sein
-	 */
+	/** Keine Parameter. */
 	BadTypNull;
 
-	/**
-	 * Name des Bundles
-	 */
+	/** Die Eigenschaft {@code BUNDLE_NAME}. */
 	private static final String BUNDLE_NAME = InterpreterMessages.class
 			.getCanonicalName();
 
-	/**
-	 * Das Resourcenbundle
-	 */
+	/** Die Eigenschaft {@code RESOURCE_BUNDLE}. */
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
 			.getBundle(BUNDLE_NAME);
 
@@ -114,6 +87,11 @@ public enum InterpreterMessages implements MessageHandler {
 		return RESOURCE_BUNDLE;
 	}
 
+	/**
+	 * Gibt den Text der Nachricht zurück.
+	 * 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString() {
 		return getResourceBundle().getString(name());

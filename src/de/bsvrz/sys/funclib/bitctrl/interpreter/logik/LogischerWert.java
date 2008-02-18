@@ -26,7 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.interpreter.logik;
 
-import de.bsvrz.sys.funclib.bitctrl.i18n.Messages;
+import com.bitctrl.i18n.Messages;
 import de.bsvrz.sys.funclib.bitctrl.interpreter.InterpreterException;
 import de.bsvrz.sys.funclib.bitctrl.interpreter.InterpreterMessages;
 

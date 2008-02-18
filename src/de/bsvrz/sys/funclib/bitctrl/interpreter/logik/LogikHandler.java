@@ -28,7 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter.logik;
 
 import java.util.List;
 
-import de.bsvrz.sys.funclib.bitctrl.i18n.Messages;
+import com.bitctrl.i18n.Messages;
 import de.bsvrz.sys.funclib.bitctrl.interpreter.AbstractHandler;
 import de.bsvrz.sys.funclib.bitctrl.interpreter.HandlerValidation;
 import de.bsvrz.sys.funclib.bitctrl.interpreter.InterpreterException;

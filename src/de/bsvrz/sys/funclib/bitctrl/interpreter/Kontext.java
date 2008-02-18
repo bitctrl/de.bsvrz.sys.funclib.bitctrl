@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter;
 import java.util.HashMap;
 import java.util.Set;
 
-import de.bsvrz.sys.funclib.bitctrl.i18n.Messages;
+import com.bitctrl.i18n.Messages;
 
 /**
  * Kontext eines Ausdrucks. Speichert alle Variablen in einer Menge.
