@@ -8,7 +8,12 @@ import de.bsvrz.sys.funclib.application.StandardApplication;
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
+ * @deprecated Für die Ausgabe beim Starten und dem Auslesen Applikationsdaten
+ *             kann nun
+ *             {@link com.bitctrl.util.jar.JarTools#printVersionInfo(Class)} und
+ *             {@link com.bitctrl.VersionInfo} verwendet werden.
  */
+@Deprecated
 public abstract class AbstractStandardApplication implements
 		StandardApplication {
 
@@ -37,13 +42,6 @@ public abstract class AbstractStandardApplication implements
 	protected abstract String getApplikationName();
 
 	/**
-	 * Gibt die Version der Applikation zur&uuml;ck.
-	 * 
-	 * @return Versionsnummer bzw. Kennzeichen der Version
-	 */
-	protected abstract String getVersion();
-
-	/**
 	 * Gibt den Copyrighthinweis der Applikation zur&uuml;ck.
 	 * <p>
 	 * Muster: Copyright (C) {Jahr} {Firma}
@@ -51,5 +49,12 @@ public abstract class AbstractStandardApplication implements
 	 * @return Copyrighthinweis
 	 */
 	protected abstract String getCopyright();
+
+	/**
+	 * Gibt die Version der Applikation zur&uuml;ck.
+	 * 
+	 * @return Versionsnummer bzw. Kennzeichen der Version
+	 */
+	protected abstract String getVersion();
 
 }

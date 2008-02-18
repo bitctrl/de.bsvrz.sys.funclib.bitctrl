@@ -31,7 +31,11 @@ package de.bsvrz.sys.funclib.bitctrl.util;
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
+ * @deprecated Überschneidet sich sich mit
+ *             {@link de.bsvrz.sys.funclib.bitctrl.util.Konstanten} und
+ *             {@link com.bitctrl.Constants}.
  */
+@Deprecated
 public class Konstanten {
 
 	/** Anzahl Millisekunden pro Tag. */

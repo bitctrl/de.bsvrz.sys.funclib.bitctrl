@@ -34,11 +34,14 @@ import java.util.ResourceBundle;
  * 
  * @author BitCtrl, Schumann
  * @version $Id$
+ * @deprecated Die Klasse wurde nach {@link com.bitctrl.i18n.MessageHandler}
+ *             ausgelagert.
  */
+@Deprecated
 public interface MessageHandler {
 
 	/**
-	 * Gibt das Ressource-Bundle f&uuml;r diesen Message-Handler zur&uuml;ck
+	 * Gibt das Ressource-Bundle f&uuml;r diesen Message-Handler zur&uuml;ck.
 	 * 
 	 * @return Ressource-Bundle
 	 */

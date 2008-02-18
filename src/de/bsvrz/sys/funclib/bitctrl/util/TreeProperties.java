@@ -41,7 +41,9 @@ import java.util.TreeSet;
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
+ * @deprecated Wurde nach {@link com.bitctrl.util.Interval} ausgelagert.
  */
+@Deprecated
 public class TreeProperties extends Properties {
 
 	// TODO typed Properties (int, boolean, double, ...)

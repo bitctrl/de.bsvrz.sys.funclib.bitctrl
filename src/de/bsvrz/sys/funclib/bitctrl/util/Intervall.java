@@ -35,7 +35,9 @@ import java.util.Date;
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
+ * @deprecated Wurde nach {@link com.bitctrl.util.Interval} ausgelagert.
  */
+@Deprecated
 public class Intervall implements Cloneable {
 
 	/** Startzeitpunkt des Intervall. */

@@ -30,15 +30,18 @@ import java.text.MessageFormat;
 
 /**
  * Liefert lokalisierte Meldungen
- *
+ * 
  * @author BitCtrl, Schumann
  * @version $Id:Messages.java 559 2007-04-02 12:25:14Z peuker $
+ * @deprecated Die Klasse wurde nach {@link com.bitctrl.i18n.Messages}
+ *             ausgelagert.
  */
+@Deprecated
 public class Messages {
 
 	/**
 	 * Gibt eine lokalisierte Meldung zur&uuml;ck
-	 *
+	 * 
 	 * @param key
 	 *            Typ der Meldung
 	 * @return Lokalisierte Meldung
@@ -53,7 +56,7 @@ public class Messages {
 	 * lokalisiert zur&uuml;ck. Eine Meldung mit Variablen hat die Form
 	 * <code>text {0} text {1}"</code>. <code>{...}</code> wird durch den
 	 * Inhalt der &uuml;bergebenen Argumente ersetzt.
-	 *
+	 * 
 	 * @param key
 	 *            Typ der Meldung
 	 * @param arguments

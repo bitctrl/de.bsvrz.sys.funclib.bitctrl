@@ -31,7 +31,9 @@ package de.bsvrz.sys.funclib.bitctrl.text;
  * 
  * @author BitCtrl, Schumann
  * @version $Id$
+ * @deprecated Nach {@link com.bitctrl.text.CheckText} ausgelagert.
  */
+@Deprecated
 public class Check {
 
 	/**
@@ -46,12 +48,15 @@ public class Check {
 	 * @see java.lang.Character#isWhitespace(char)
 	 */
 	public static boolean enthaeltLeerzeichen(String s) {
-		if (s == null)
+		if (s == null) {
 			throw new NullPointerException();
+		}
 
-		for (char z : s.toCharArray())
-			if (Character.isWhitespace(z))
+		for (char z : s.toCharArray()) {
+			if (Character.isWhitespace(z)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
@@ -67,12 +72,15 @@ public class Check {
 	 *             Wenn der &uuml;bergebene String {@code null} ist
 	 */
 	public static boolean enthaeltZeilenumbruch(String s) {
-		if (s == null)
+		if (s == null) {
 			throw new NullPointerException();
+		}
 
-		for (Character z : s.toCharArray())
-			if (z.equals('\n') || z.equals('\r'))
+		for (Character z : s.toCharArray()) {
+			if (z.equals('\n') || z.equals('\r')) {
 				return true;
+			}
+		}
 
 		return false;
 	}
@@ -86,13 +94,15 @@ public class Check {
 	 * @return {@code true}, wenn der String druckbar bzw. anzeigbar ist
 	 */
 	public static boolean isDruckbar(String s) {
-		if (s == null)
+		if (s == null) {
 			return false;
+		}
 
 		String t = s.trim();
 
-		if (t.equals("")) //$NON-NLS-1$
+		if (t.equals("")) {
 			return false;
+		}
 
 		return true;
 	}

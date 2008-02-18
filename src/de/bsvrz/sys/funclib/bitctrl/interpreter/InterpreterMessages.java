@@ -33,7 +33,7 @@ import de.bsvrz.sys.funclib.bitctrl.i18n.MessageHandler;
 /**
  * Versorgt das Package de.bwl.rpt.ref95.common.interpreter, samt Subpackages,
  * mit lokalisierten Meldungen
- *
+ * 
  * @author BitCtrl, Schumann
  * @version $Id$
  */
@@ -78,7 +78,6 @@ public enum InterpreterMessages implements MessageHandler {
 	/**
 	 * {@code null} als Variablenwert ist unzulässig
 	 */
-	// TODO Wert fehlt im Properties-File
 	BadValueNull,
 
 	/**
@@ -113,6 +112,11 @@ public enum InterpreterMessages implements MessageHandler {
 	 */
 	public ResourceBundle getResourceBundle() {
 		return RESOURCE_BUNDLE;
+	}
+
+	@Override
+	public String toString() {
+		return getResourceBundle().getString(name());
 	}
 
 }

@@ -29,8 +29,11 @@ package de.bsvrz.sys.funclib.bitctrl.konstante;
  */
 /**
  * @author peuker
- * 
+ * @deprecated Überschneidet sich sich mit
+ *             {@link de.bsvrz.sys.funclib.bitctrl.util.Konstanten} und
+ *             {@link com.bitctrl.Constants}.
  */
+@Deprecated
 public final class Konstante {
 
 	/**

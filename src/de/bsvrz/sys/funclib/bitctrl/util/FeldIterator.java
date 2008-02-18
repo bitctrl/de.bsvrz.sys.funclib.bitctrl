@@ -35,7 +35,9 @@ import java.util.NoSuchElementException;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  * @param <T>
+ * @deprecated Wurde nach {@link com.bitctrl.util.FeldIterator} ausgelagert.
  */
+@Deprecated
 public class FeldIterator<T> implements Iterator<T> {
 
 	/** Das Feld. */
