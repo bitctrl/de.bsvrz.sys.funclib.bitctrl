@@ -210,7 +210,7 @@ public class StrassenSegment extends StoerfallIndikator implements
 	 * 
 	 * @return Stra&szlig;enteilsegment am Offset
 	 */
-	public StrassenTeilSegment getStrassenTeilSegment(long offset) {
+	public StrassenTeilSegment getStrassenTeilSegment(double offset) {
 		if (strassenTeilSegmente == null) {
 			getStrassenTeilSegmente();
 		}
@@ -218,7 +218,7 @@ public class StrassenSegment extends StoerfallIndikator implements
 		StrassenTeilSegment teilsegmentoffset = null;
 
 		if (strassenTeilSegmente != null) {
-			int teiloffset = 0;
+			double teiloffset = 0;
 			for (StrassenTeilSegment teilsegment : strassenTeilSegmente) {
 				if ((teiloffset + teilsegment.getLaenge()) > offset) {
 					teilsegmentoffset = teilsegment;
