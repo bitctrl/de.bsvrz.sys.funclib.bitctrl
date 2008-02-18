@@ -84,20 +84,6 @@ public final class LogTools {
 	 *            der Logger.
 	 * @param nachricht
 	 *            die Nachricht.
-	 */
-	public static void log(Debug log, LogNachricht nachricht) {
-		log(log, nachricht.getLogLevel(), nachricht.getBmvLevel(), nachricht
-				.toString());
-	}
-
-	/**
-	 * Gibt die Meldung auf dem Logger aus. Wenn es die Nachricht verlangt, wird
-	 * ebenfalls eine Betriebsmeldung versandt.
-	 * 
-	 * @param log
-	 *            der Logger.
-	 * @param nachricht
-	 *            die Nachricht.
 	 * @param arguments
 	 *            die Argumente für die Platzhalter in der Nachricht.
 	 */
@@ -105,7 +91,11 @@ public final class LogTools {
 			Object... arguments) {
 		String txt;
 
-		txt = MessageFormat.format(nachricht.toString(), arguments);
+		if (arguments != null) {
+			txt = MessageFormat.format(nachricht.toString(), arguments);
+		} else {
+			txt = nachricht.toString();
+		}
 		log(log, nachricht.getLogLevel(), nachricht.getBmvLevel(), txt);
 	}
 
