@@ -176,16 +176,6 @@ public class OdUfdsHelligkeit extends
 		}
 
 		/**
-		 * setzt den aktuellen Status des Datensatzes.
-		 * 
-		 * @param neuerStatus
-		 *            der neue Status
-		 */
-		protected void setDatenStatus(Status neuerStatus) {
-			this.datenStatus = neuerStatus;
-		}
-
-		/**
 		 * {@inheritDoc}
 		 * 
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#setWert(java.lang.String,
@@ -210,13 +200,27 @@ public class OdUfdsHelligkeit extends
 		 */
 		@Override
 		public String toString() {
-			String s = "Daten[";
+			String s;
 
+			s = getClass().getName() + "[";
 			s += "zeitpunkt=" + getZeitpunkt();
-			s += ", valid=" + isValid();
-			s += ", Helligkeit=" + helligkeit;
+			s += ", isValid" + isValid();
+			for (Werte w : Werte.values()) {
+				s += ", " + w.name() + "=" + getWert(w.name());
+			}
+			s += "]";
 
-			return s + "]";
+			return s;
+		}
+
+		/**
+		 * setzt den aktuellen Status des Datensatzes.
+		 * 
+		 * @param neuerStatus
+		 *            der neue Status
+		 */
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 
 	}
@@ -276,16 +280,6 @@ public class OdUfdsHelligkeit extends
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
-	 */
-	@Override
-	protected Data konvertiere(Daten d) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * {@inheritDoc}
 	 */
 	public synchronized void setDaten(ResultData result) {
 		check(result);
@@ -309,6 +303,16 @@ public class OdUfdsHelligkeit extends
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	@Override
+	protected Data konvertiere(Daten d) {
+		throw new UnsupportedOperationException();
 	}
 
 }

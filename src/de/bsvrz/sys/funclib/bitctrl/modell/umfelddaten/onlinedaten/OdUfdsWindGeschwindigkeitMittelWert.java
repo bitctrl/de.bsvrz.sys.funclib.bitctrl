@@ -50,8 +50,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsWindGeschwind
  * Kapselt die Attriburgruppe {@code atg.ufdsWindGeschwindleitMittelWert}.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: OdUfdsWindGeschwindigkeitMittelWert.java 6198 2008-02-04
- *          16:30:04Z peuker $
+ * @version $Id$
  */
 public class OdUfdsWindGeschwindigkeitMittelWert extends
 		AbstractOnlineDatensatz<OdUfdsWindGeschwindigkeitMittelWert.Daten> {
@@ -177,16 +176,6 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 		}
 
 		/**
-		 * setzt den aktuellen Status des Datensatzes.
-		 * 
-		 * @param neuerStatus
-		 *            der neue Status
-		 */
-		protected void setDatenStatus(Status neuerStatus) {
-			this.datenStatus = neuerStatus;
-		}
-
-		/**
 		 * {@inheritDoc}
 		 * 
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#setWert(java.lang.String,
@@ -212,14 +201,27 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 		 */
 		@Override
 		public String toString() {
-			String s = "Daten[";
+			String s;
 
+			s = getClass().getName() + "[";
 			s += "zeitpunkt=" + getZeitpunkt();
-			s += ", valid=" + isValid();
-			s += ", WindGeschwindigkeitMittelWert="
-					+ windGeschwindigkeitMittelWert;
+			s += ", isValid" + isValid();
+			for (Werte w : Werte.values()) {
+				s += ", " + w.name() + "=" + getWert(w.name());
+			}
+			s += "]";
 
-			return s + "]";
+			return s;
+		}
+
+		/**
+		 * setzt den aktuellen Status des Datensatzes.
+		 * 
+		 * @param neuerStatus
+		 *            der neue Status
+		 */
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 
 	}
@@ -280,16 +282,6 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
-	 */
-	@Override
-	protected Data konvertiere(Daten d) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * {@inheritDoc}
 	 */
 	public void setDaten(ResultData result) {
 		check(result);
@@ -316,6 +308,16 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	@Override
+	protected Data konvertiere(Daten d) {
+		throw new UnsupportedOperationException();
 	}
 
 }

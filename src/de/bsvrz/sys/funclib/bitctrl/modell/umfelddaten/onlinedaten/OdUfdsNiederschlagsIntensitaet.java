@@ -50,8 +50,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte.UfdsNiederschlags
  * Kapselt die Attriburgruppe {@code atg.ufdsNiederschlagsIntensit&auml;t}.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: OdUfdsNiederschlagsIntensitaet.java 6198 2008-02-04 16:30:04Z
- *          peuker $
+ * @version $Id$
  */
 public class OdUfdsNiederschlagsIntensitaet extends
 		AbstractOnlineDatensatz<OdUfdsNiederschlagsIntensitaet.Daten> {
@@ -177,16 +176,6 @@ public class OdUfdsNiederschlagsIntensitaet extends
 		}
 
 		/**
-		 * setzt den aktuellen Status des Datensatzes.
-		 * 
-		 * @param neuerStatus
-		 *            der neue Status
-		 */
-		protected void setDatenStatus(Status neuerStatus) {
-			this.datenStatus = neuerStatus;
-		}
-
-		/**
 		 * {@inheritDoc}
 		 * 
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#setWert(java.lang.String,
@@ -212,13 +201,27 @@ public class OdUfdsNiederschlagsIntensitaet extends
 		 */
 		@Override
 		public String toString() {
-			String s = "Daten[";
+			String s;
 
+			s = getClass().getName() + "[";
 			s += "zeitpunkt=" + getZeitpunkt();
-			s += ", valid=" + isValid();
-			s += ", NiederschlagsIntensitaet=" + niederschlagsIntensitaet;
+			s += ", isValid" + isValid();
+			for (Werte w : Werte.values()) {
+				s += ", " + w.name() + "=" + getWert(w.name());
+			}
+			s += "]";
 
-			return s + "]";
+			return s;
+		}
+
+		/**
+		 * setzt den aktuellen Status des Datensatzes.
+		 * 
+		 * @param neuerStatus
+		 *            der neue Status
+		 */
+		protected void setDatenStatus(Status neuerStatus) {
+			this.datenStatus = neuerStatus;
 		}
 	}
 
@@ -277,16 +280,6 @@ public class OdUfdsNiederschlagsIntensitaet extends
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
-	 */
-	@Override
-	protected Data konvertiere(Daten d) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * {@inheritDoc}
 	 */
 	public synchronized void setDaten(ResultData result) {
 		check(result);
@@ -311,6 +304,16 @@ public class OdUfdsNiederschlagsIntensitaet extends
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 */
+	@Override
+	protected Data konvertiere(Daten d) {
+		throw new UnsupportedOperationException();
 	}
 
 }
