@@ -31,7 +31,9 @@ package de.bsvrz.sys.funclib.bitctrl.math;
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
+ * @deprecated verschoben nach {@link com.bitctrl.math.MathTools}.
  */
+@Deprecated
 public final class Vergleich {
 
 	/**
