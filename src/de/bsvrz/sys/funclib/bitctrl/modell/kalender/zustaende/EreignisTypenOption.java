@@ -34,7 +34,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public enum EreignisTypenOption implements Zustand {
+public enum EreignisTypenOption implements Zustand<Integer> {
 
 	/** Es sollen alle Ereignistypen betrachtet werden. */
 	ALLE("Alle", 0),
@@ -99,7 +99,7 @@ public enum EreignisTypenOption implements Zustand {
 	 * 
 	 * @return den Code.
 	 */
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 

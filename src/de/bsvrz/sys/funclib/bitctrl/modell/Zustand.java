@@ -31,15 +31,16 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
+ * @param <T>
  */
-public interface Zustand {
+public interface Zustand<T extends Number> {
 
 	/**
 	 * Liefert den Code des Zustandes.
 	 * 
 	 * @return Der Code
 	 */
-	int getCode();
+	T getCode();
 
 	/**
 	 * Liefert den Namen des Zustandes.

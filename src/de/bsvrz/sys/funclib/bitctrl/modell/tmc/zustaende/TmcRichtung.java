@@ -34,7 +34,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public enum TmcRichtung implements Zustand {
+public enum TmcRichtung implements Zustand<Integer> {
 	/**
 	 * die Richtung ist nicht definiert.
 	 */
@@ -51,6 +51,25 @@ public enum TmcRichtung implements Zustand {
 	 * die Richtung ist Positiv.
 	 */
 	NEGATIV("negativ", -1);
+
+	/**
+	 * liefert den Typ, der dem übergebenen Code entspricht.
+	 * 
+	 * @param gesuchterCode
+	 *            der Code für den ein Zustand gesucht wird
+	 * @return den gefundenen Zustand, wenn ein ungültiger Code übergeben wurde,
+	 *         wird eine {@link IllegalArgumentException} geworfen.
+	 */
+	public static TmcRichtung getTyp(int gesuchterCode) {
+		for (TmcRichtung typ : values()) {
+			if (typ.getCode() == gesuchterCode) {
+				return typ;
+			}
+		}
+
+		throw new IllegalArgumentException("Ungültiger Typ mit Code: "
+				+ gesuchterCode);
+	}
 
 	/**
 	 * der Code des Zustandes.
@@ -84,27 +103,8 @@ public enum TmcRichtung implements Zustand {
 	 * 
 	 * @return den Code.
 	 */
-	public int getCode() {
+	public Integer getCode() {
 		return code;
-	}
-
-	/**
-	 * liefert den Typ, der dem übergebenen Code entspricht.
-	 * 
-	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird
-	 * @return den gefundenen Zustand, wenn ein ungültiger Code übergeben wurde,
-	 *         wird eine {@link IllegalArgumentException} geworfen.
-	 */
-	public static TmcRichtung getTyp(int gesuchterCode) {
-		for (TmcRichtung typ : values()) {
-			if (typ.getCode() == gesuchterCode) {
-				return typ;
-			}
-		}
-
-		throw new IllegalArgumentException("Ungültiger Typ mit Code: "
-				+ gesuchterCode);
 	}
 
 	/**

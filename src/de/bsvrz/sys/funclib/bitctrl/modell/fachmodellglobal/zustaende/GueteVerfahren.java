@@ -34,7 +34,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public enum GueteVerfahren implements Zustand {
+public enum GueteVerfahren implements Zustand<Integer> {
 
 	/** Standardverfahren. */
 	Standard("Standard", 0);
@@ -81,7 +81,7 @@ public enum GueteVerfahren implements Zustand {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Zustand#getCode()
 	 */
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 

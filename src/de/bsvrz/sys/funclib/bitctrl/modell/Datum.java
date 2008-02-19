@@ -149,19 +149,9 @@ public interface Datum {
 		}
 
 		/**
-		 * liefert den zugeordneten Datenstatus des ENUM-Wertes. Der Wert kann
-		 * <code>null</code> sein, wenn kein Status zugeordnet wurde.
+		 * Gibt den Namen des Status zurück.
 		 * 
-		 * @return den Datenstatus
-		 */
-		private DataState getDatenStatus() {
-			return datenStatus;
-		}
-
-		/**
-		 * {@inheritDoc}.<br>
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Zustand#getName()
+		 * @return der Statusname.
 		 */
 		public String getName() {
 			String result;
@@ -171,6 +161,16 @@ public interface Datum {
 				result = "Undefiniert";
 			}
 			return result;
+		}
+
+		/**
+		 * liefert den zugeordneten Datenstatus des ENUM-Wertes. Der Wert kann
+		 * <code>null</code> sein, wenn kein Status zugeordnet wurde.
+		 * 
+		 * @return den Datenstatus
+		 */
+		private DataState getDatenStatus() {
+			return datenStatus;
 		}
 	}
 
