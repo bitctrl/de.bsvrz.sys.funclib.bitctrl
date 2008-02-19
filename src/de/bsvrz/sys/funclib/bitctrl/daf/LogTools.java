@@ -78,65 +78,55 @@ public final class LogTools {
 
 	/**
 	 * Gibt die Meldung auf dem Logger aus. Wenn es die Nachricht verlangt, wird
-	 * ebenfalls eine Betriebsmeldung versandt.
+	 * ebenfalls eine Betriebsmeldung versandt. Wenn der Logger {@code null}
+	 * ist, dann wird nur eine Betriebsmeldung versandt.
 	 * 
 	 * @param log
 	 *            der Logger.
 	 * @param nachricht
 	 *            die Nachricht.
 	 * @param arguments
-	 *            die Argumente für die Platzhalter in der Nachricht.
+	 *            optional eine beliebige Anzahl Argumente, falls Platzhalter in
+	 *            der Nachricht vorkommen.
 	 */
 	public static void log(Debug log, LogNachricht nachricht,
 			Object... arguments) {
-		String txt;
+		final MessageSender msg = MessageSender.getInstance();
+		final String txt;
+		final Level logLevel;
+		final MessageGrade bmvLevel;
 
 		if (arguments != null) {
 			txt = MessageFormat.format(nachricht.toString(), arguments);
 		} else {
 			txt = nachricht.toString();
 		}
-		log(log, nachricht.getLogLevel(), nachricht.getBmvLevel(), txt);
-	}
-
-	/**
-	 * Verarbeitet die Nachricht.
-	 * 
-	 * @param log
-	 *            der Logger für die Logausgabe.
-	 * @param logLevel
-	 *            der Log-Level.
-	 * @param bmvLevel
-	 *            der Level für die Betriebsmeldungsverwaltung.
-	 * @param txt
-	 *            der Nachrichtentext (mit ersetzten Platzhaltern).
-	 */
-	private static void log(Debug log, Level logLevel, MessageGrade bmvLevel,
-			String txt) {
-		final MessageSender msg = MessageSender.getInstance();
 
 		// Ausgabe Logger
-		if (logLevel.equals(Debug.ERROR)) {
-			log.error(txt);
-		} else if (logLevel.equals(Debug.WARNING)) {
-			log.warning(txt);
-		} else if (logLevel.equals(Debug.INFO)) {
-			log.info(txt);
-		} else if (logLevel.equals(Debug.CONFIG)) {
-			log.config(txt);
-		} else if (logLevel.equals(Debug.FINE)) {
-			log.fine(txt);
-		} else if (logLevel.equals(Debug.FINER)) {
-			log.finer(txt);
-		} else if (logLevel.equals(Debug.FINEST)) {
-			log.finest(txt);
+		if (log != null) {
+			logLevel = nachricht.getLogLevel();
+			if (logLevel.equals(Debug.ERROR)) {
+				log.error(txt);
+			} else if (logLevel.equals(Debug.WARNING)) {
+				log.warning(txt);
+			} else if (logLevel.equals(Debug.INFO)) {
+				log.info(txt);
+			} else if (logLevel.equals(Debug.CONFIG)) {
+				log.config(txt);
+			} else if (logLevel.equals(Debug.FINE)) {
+				log.fine(txt);
+			} else if (logLevel.equals(Debug.FINER)) {
+				log.finer(txt);
+			} else if (logLevel.equals(Debug.FINEST)) {
+				log.finest(txt);
+			}
 		}
 
 		// Ausgabe Betriebsmeldung
+		bmvLevel = nachricht.getBmvLevel();
 		if (bmvLevel != null) {
 			msg.sendMessage(MessageType.APPLICATION_DOMAIN, bmvLevel, txt);
 		}
-
 	}
 
 	/**
