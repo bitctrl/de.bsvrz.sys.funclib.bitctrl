@@ -1,20 +1,20 @@
 /*
- * Segment 14 (‹Vi), SWE 14.BW-‹bergangsvisualisierung 
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -28,16 +28,68 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
-public enum RdsNachrichtenKlasse implements Zustand {
-	STRASSEN_NUMMER("Straﬂennummer", 0), SEGMENT("Segment", 1), INHALT(
-			"Inhalt", 2), FREIER_TEXT("freier Text", 3), ERGAENZUNG(
-			"Erg‰nzung", 4), SEGMENT_VON("Segment von", 20), SEGMENT_NACH(
-			"Segment nach", 21), BUNDESLAND("Bundesland", 22), STADT("Stadt",
-			23), NAME("Name", 40), STRASSEN_NAME("Straﬂenname", 41), ZWEITER_NAME(
-			"2. Name", 42), GEBIETS_NAME("Gebietsname", 43), LINEARER_ERSTER_NAME(
-			"linearer erster Name", 44), LINEARER_ZWEITER_NAME(
-			"linearer zweiter Name", 45), KREIS("Kreis", 46), PLZ("PLZ", 47), HAUSNUMMER(
-			"Hausnummer", 48);
+/**
+ * Definitionen f¸r die Klassen der Informationsbestandteile einer Nachricht
+ * innerhalb einer RDS-Meldung.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
+public enum RdsNachrichtenKlasse implements Zustand<Integer> {
+
+	/** Straﬂennummer, Wert 0. */
+	STRASSEN_NUMMER("Straﬂennummer", 0),
+
+	/** Segment, Wert 1. */
+	SEGMENT("Segment", 1),
+
+	/** Inhalt, Wert 2. */
+	INHALT("Inhalt", 2),
+
+	/** freier Text, Wert 3. */
+	FREIER_TEXT("freier Text", 3),
+
+	/** Erg‰nzung, Wert 4. */
+	ERGAENZUNG("Erg‰nzung", 4),
+
+	/** Segment von, Wert 20. */
+	SEGMENT_VON("Segment von", 20),
+
+	/** Segment nach, Wert 21. */
+	SEGMENT_NACH("Segment nach", 21),
+
+	/** Bundesland, Wert 22. */
+	BUNDESLAND("Bundesland", 22),
+
+	/** Stadt, Wert 23). */
+	STADT("Stadt", 23),
+
+	/** Name, Wert 40. */
+	NAME("Name", 40),
+
+	/** Straﬂenname, Wert 41. */
+	STRASSEN_NAME("Straﬂenname", 41),
+
+	/** 2. Name, Wert 42. */
+	ZWEITER_NAME("2. Name", 42),
+
+	/** Gebietsname, Wert 43. */
+	GEBIETS_NAME("Gebietsname", 43),
+
+	/** linearer erster Name, Wert 44. */
+	LINEARER_ERSTER_NAME("linearer erster Name", 44),
+
+	/** linearer zweiter Name, Wert 45. */
+	LINEARER_ZWEITER_NAME("linearer zweiter Name", 45),
+
+	/** Kreis, Wert 46. */
+	KREIS("Kreis", 46),
+
+	/** PLZ, Wert 47. */
+	PLZ("PLZ", 47),
+
+	/** Hausnummer, Wert 48. */
+	HAUSNUMMER("Hausnummer", 48);
 
 	/**
 	 * liefert den Rds-Nachrichtenklasse mit dem ¸bergebenen Code.
@@ -91,7 +143,7 @@ public enum RdsNachrichtenKlasse implements Zustand {
 	 * 
 	 * @return den Code.
 	 */
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 

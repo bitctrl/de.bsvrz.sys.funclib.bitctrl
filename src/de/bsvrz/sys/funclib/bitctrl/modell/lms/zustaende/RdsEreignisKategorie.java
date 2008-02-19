@@ -1,20 +1,20 @@
 /*
- * Segment 14 (ÜVi), SWE 14.BW-Übergangsvisualisierung 
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -28,32 +28,111 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
-public enum RdsEreignisKategorie implements Zustand {
+/**
+ * Definition der Kategorien für Ereignisse in RDS-Meldungen.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
+public enum RdsEreignisKategorie implements Zustand<Integer> {
 
-	VERKEHRSLAGE("Verkehrslage", 1), ERWARTETE_VERKEHRSLAGE(
-			"erwartete Verkehrslage", 2), UNFAELLE("Unfälle", 3), VORFAELLE(
-			"Vorfälle", 4), SPERRUNGEN("Straßen- und Fahrbahnsperrungen", 5), FAHRBAHN_BESCHRAENKUNGEN(
-			"Fahrbahnbeschränkungen", 6), AUSFAHRT_BESCHRAENKUNGEN(
-			"Beschränkungen der Ausfahrt", 7), EINFAHRT_BESCHRAENKUNGEN(
-			"Beschränkungen der Einfahrt", 8), VERKEHRS_BESCHRAENKUNGEN(
-			"Verkehrsbeschränkungen", 9), FAHRGEMEINSCHAFT_INFO(
-			"Informationen für Fahrgemeinschaften", 10), BAUARBEITEN(
-			"Bauarbeiten", 11), FAHRBAHN_BEHINDERUNGEN(
-			"Behinderungen auf der Fahrbahn", 12), GEFAEHRLICHE_SITUATION(
-			"Gefährliche Situationen", 13), STRASSENZUSTAND("Straßenzustand",
-			14), TEMPERATUREN("Temperaturen", 15), NIEDERSCHLAG_UND_SICHT(
-			"Niederschlag und Sichtbehinderungen", 16), WIND_UND_LUFT(
-			"Wind und Luftqualität", 17), VERANSTALTUNG("Veranstaltungen", 18), SICHERHEIT(
-			"Sicherheitsvorfälle", 19), ZEITVERLUST("Zeitverluste", 20), AUSFAELLE(
-			"Ausfälle", 21), REISEINFORMATIONEN("Reiseinformation", 22), GEFAEHRLICHE_FAHRZEUGE(
-			"Gefährliche Fahrzeuge", 23), AUSSERGEWÖHNLICHE_FAHRZEUGE(
-			"Außergewöhnliche Ladungen und Fahrzeuge", 24), LSA_STOERUNG(
+	/** Verkehrslage. */
+	VERKEHRSLAGE("Verkehrslage", 1),
+
+	/** erwartete Verkehrslage. */
+	ERWARTETE_VERKEHRSLAGE("erwartete Verkehrslage", 2),
+
+	/** Unfälle. */
+	UNFAELLE("Unfälle", 3),
+
+	/** Vorfälle. */
+	VORFAELLE("Vorfälle", 4),
+
+	/** Straßen- und Fahrbahnsperrungen. */
+	SPERRUNGEN("Straßen- und Fahrbahnsperrungen", 5),
+
+	/** Fahrbahnbeschränkungen. */
+	FAHRBAHN_BESCHRAENKUNGEN("Fahrbahnbeschränkungen", 6),
+
+	/** Beschränkungen der Ausfahrt. */
+	AUSFAHRT_BESCHRAENKUNGEN("Beschränkungen der Ausfahrt", 7),
+
+	/** Beschränkungen der Einfahrt. */
+	EINFAHRT_BESCHRAENKUNGEN("Beschränkungen der Einfahrt", 8),
+
+	/** Verkehrsbeschränkungen. */
+	VERKEHRS_BESCHRAENKUNGEN("Verkehrsbeschränkungen", 9),
+
+	/** Informationen für Fahrgemeinschaften. */
+	FAHRGEMEINSCHAFT_INFO("Informationen für Fahrgemeinschaften", 10),
+
+	/** Bauarbeiten. */
+	BAUARBEITEN("Bauarbeiten", 11),
+
+	/** Behinderungen auf der Fahrbahn. */
+	FAHRBAHN_BEHINDERUNGEN("Behinderungen auf der Fahrbahn", 12),
+
+	/** Gefährliche Situationen. */
+	GEFAEHRLICHE_SITUATION("Gefährliche Situationen", 13),
+
+	/** Straßenzustand. */
+	STRASSENZUSTAND("Straßenzustand", 14),
+
+	/** Temperaturen. */
+	TEMPERATUREN("Temperaturen", 15),
+
+	/** Niederschlag und Sichtbehinderungen. */
+	NIEDERSCHLAG_UND_SICHT("Niederschlag und Sichtbehinderungen", 16),
+
+	/** Wind und Luftqualität. */
+	WIND_UND_LUFT("Wind und Luftqualität", 17),
+
+	/** Veranstaltungen. */
+	VERANSTALTUNG("Veranstaltungen", 18),
+
+	/** Sicherheitsvorfälle. */
+	SICHERHEIT("Sicherheitsvorfälle", 19),
+
+	/** Zeitverluste. */
+	ZEITVERLUST("Zeitverluste", 20),
+
+	/** Ausfälle. */
+	AUSFAELLE("Ausfälle", 21),
+
+	/** Reiseinformation. */
+	REISEINFORMATIONEN("Reiseinformation", 22),
+
+	/** Gefährliche Fahrzeuge. */
+	GEFAEHRLICHE_FAHRZEUGE("Gefährliche Fahrzeuge", 23),
+
+	/** Außergewöhnliche Ladungen und Fahrzeuge. */
+	AUSSERGEWÖHNLICHE_FAHRZEUGE("Außergewöhnliche Ladungen und Fahrzeuge", 24),
+
+	/** Störungen an Lichtsignalanlagen und sonstigen Straßenausrüstungen. */
+	LSA_STOERUNG(
 			"Störungen an Lichtsignalanlagen und sonstigen Straßenausrüstungen",
-			25), MASSE_UND_GEWICHTE(
-			"Beschränkungen der Fahrzeugmaße und -gewichte", 26), PARKREGELUNG(
-			"Parkregelungen", 27), PARKEN("Parken", 28), INFORMATION(
-			"Information", 29), SERVICE("Service-Meldung", 30), SPEZIELL(
-			"spezielle Meldung", 31), EMPFEHLUNG("Empfehlung", 50);
+			25),
+
+	/** Beschränkungen der Fahrzeugmaße und -gewichte. */
+	MASSE_UND_GEWICHTE("Beschränkungen der Fahrzeugmaße und -gewichte", 26),
+
+	/** Parkregelungen. */
+	PARKREGELUNG("Parkregelungen", 27),
+
+	/** Parken. */
+	PARKEN("Parken", 28),
+
+	/** Information. */
+	INFORMATION("Information", 29),
+
+	/** Service-Meldung. */
+	SERVICE("Service-Meldung", 30),
+
+	/** spezielle Meldung. */
+	SPEZIELL("spezielle Meldung", 31),
+
+	/** Empfehlung. */
+	EMPFEHLUNG("Empfehlung", 50);
 
 	/**
 	 * liefert die Rds-Ereigniskategorie mit dem übergebenen Code.
@@ -107,7 +186,7 @@ public enum RdsEreignisKategorie implements Zustand {
 	 * 
 	 * @return den Code.
 	 */
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 

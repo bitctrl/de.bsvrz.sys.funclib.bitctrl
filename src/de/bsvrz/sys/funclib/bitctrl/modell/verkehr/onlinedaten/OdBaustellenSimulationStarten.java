@@ -30,12 +30,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
@@ -49,8 +50,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Baustelle;
  * Baustellensimulation manuell aktiviert werden.
  * 
  * @author BitCtrl Systems GmbH, Uwe Peuker
- * @version $Id: OdBaustellenSimulationStarten.java 6198 2008-02-04 16:30:04Z
- *          peuker $
+ * @version $Id$
  */
 public class OdBaustellenSimulationStarten extends
 		AbstractOnlineDatensatz<OdBaustellenSimulationStarten.Daten> {
@@ -107,12 +107,12 @@ public class OdBaustellenSimulationStarten extends
 		/**
 		 * der Name des Auftragsgebers.
 		 */
-		private String name = Konstante.LEERSTRING;
+		private String name = Constants.LEERSTRING;
 
 		/**
 		 * eine Bemerkung zum Versand des Auftrags.
 		 */
-		private String bemerkung = Konstante.LEERSTRING;
+		private String bemerkung = Constants.LEERSTRING;
 
 		/**
 		 * der aktuelle Status des Datensatzes.
@@ -170,7 +170,7 @@ public class OdBaustellenSimulationStarten extends
 			if (bemerkung != null) {
 				this.bemerkung = bemerkung;
 			} else {
-				this.bemerkung = Konstante.LEERSTRING;
+				this.bemerkung = Constants.LEERSTRING;
 			}
 		}
 
@@ -194,7 +194,7 @@ public class OdBaustellenSimulationStarten extends
 			if (name != null) {
 				this.name = name;
 			} else {
-				this.name = Konstante.LEERSTRING;
+				this.name = Constants.LEERSTRING;
 			}
 		}
 	}

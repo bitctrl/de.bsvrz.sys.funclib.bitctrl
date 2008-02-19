@@ -30,8 +30,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 import de.bsvrz.sys.funclib.bitctrl.modell.AnmeldeException;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensendeException;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
@@ -223,7 +224,7 @@ public class Baustelle extends Situation {
 		try {
 			getOnlineDatensatz(OdBaustellenSimulationStarten.class).sendeDaten(
 					OdBaustellenSimulationStarten.Aspekte.Senden.getAspekt(),
-					datum, Konstante.MINUTE_IN_MS);
+					datum, Constants.MILLIS_PER_MINUTE);
 		} catch (DatensendeException e) {
 			getOnlineDatensatz(OdBaustellenSimulationStarten.class)
 					.abmeldenSender(

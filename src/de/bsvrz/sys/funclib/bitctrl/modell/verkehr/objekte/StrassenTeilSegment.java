@@ -30,12 +30,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
@@ -127,9 +128,9 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 						.getUnscaledValue("VerkehrsRichtung").shortValue());
 			} else {
 				anfang = 0;
-				anfangsKnoten = Konstante.LEERSTRING;
+				anfangsKnoten = Constants.LEERSTRING;
 				ende = 0;
-				endKnoten = Konstante.LEERSTRING;
+				endKnoten = Constants.LEERSTRING;
 				offset = 0;
 				verkehrsRichtung = Verkehrsrichtung.UNBEKANNT;
 			}
@@ -229,7 +230,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 			} else {
 				offset = 0;
 				wert = 0;
-				blockNummer = Konstante.LEERSTRING;
+				blockNummer = Constants.LEERSTRING;
 			}
 		}
 

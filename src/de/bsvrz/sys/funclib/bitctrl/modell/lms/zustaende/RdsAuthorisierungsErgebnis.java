@@ -1,20 +1,20 @@
 /*
- * Segment 14 (ÜVi), SWE 14.BW-Übergangsvisualisierung 
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -28,11 +28,23 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
-public enum RdsAuthorisierungsErgebnis implements Zustand {
+/**
+ * Die Definitionen zur Abbildung des Authorisirungszustands einer RDS-Meldung.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
+public enum RdsAuthorisierungsErgebnis implements Zustand<Integer> {
 
-	NOCH_NICHT_AUTHORISIERT("(Noch) nicht authorisiert", 0), AUTHORISIERT(
-			"authorisiert", 1), ZURUECKGEWIESEN("zurückgewiesen", 2), ZURUECKGEWIESEN_UND_FOLGENDE(
-			"zurückgewiesen und Zurückweisung folgender", 3);
+	/** Meldung wurde noch nicht authorisiert. */
+	NOCH_NICHT_AUTHORISIERT("(Noch) nicht authorisiert", 0),
+	/** Meldung wurde authorisiert. */
+	AUTHORISIERT("authorisiert", 1),
+	/** Meldung wurde zurückgewiesen. */
+	ZURUECKGEWIESEN("zurückgewiesen", 2),
+	/** Meldung und die ihr folgenden Meldungen wurden zurückgewiesen. */
+	ZURUECKGEWIESEN_UND_FOLGENDE("zurückgewiesen und Zurückweisung folgender",
+			3);
 
 	/**
 	 * liefert das Authorisierungsergebnis mit dem übergebenen Code.
@@ -86,7 +98,7 @@ public enum RdsAuthorisierungsErgebnis implements Zustand {
 	 * 
 	 * @return den Code.
 	 */
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
