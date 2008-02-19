@@ -356,7 +356,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 * 
 	 * @return die Liste der Betriebskilometer
 	 */
-	public List<AsbStationierung> getBetriebsKilometer() {
+	public List<BetriebsKilometer> getBetriebsKilometer() {
 		if (betriebsKilometer == null) {
 			betriebsKilometer = new ArrayList<BetriebsKilometer>();
 			AttributeGroup atg = getSystemObject().getDataModel()
@@ -373,7 +373,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 				}
 			}
 		}
-		return asbStationierung;
+		return betriebsKilometer;
 	}
 
 	/**
