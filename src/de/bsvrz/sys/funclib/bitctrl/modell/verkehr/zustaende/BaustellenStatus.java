@@ -34,7 +34,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public enum BaustellenStatus implements Zustand {
+public enum BaustellenStatus implements Zustand<Integer> {
 	/**
 	 * Baustelle befindet sich noch im Entwurfsstadium.
 	 */
@@ -106,7 +106,7 @@ public enum BaustellenStatus implements Zustand {
 	 * 
 	 * @return den Code.
 	 */
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 

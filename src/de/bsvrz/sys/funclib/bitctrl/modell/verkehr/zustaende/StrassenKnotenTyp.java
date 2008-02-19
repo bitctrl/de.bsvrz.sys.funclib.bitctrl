@@ -34,7 +34,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public enum StrassenKnotenTyp implements Zustand {
+public enum StrassenKnotenTyp implements Zustand<Integer> {
 	/**
 	 * Allgemeiner nicht näher definierter Knoten.
 	 */
@@ -55,6 +55,25 @@ public enum StrassenKnotenTyp implements Zustand {
 	 * ein Autobahnende.
 	 */
 	AUTOBAHNENDE("AutobahnEnde", 4);
+
+	/**
+	 * liefert den Straßenknotentyp, der dem übergebenen Code entspricht.
+	 * 
+	 * @param gesuchterCode
+	 *            der Code, für den ein Straßenknoten
+	 * @return den gefundenen Typ, wenn ein ungültiger Code übergeben wurde,
+	 *         wird eine {@link IllegalArgumentException} geworfen.
+	 */
+	public static StrassenKnotenTyp getTyp(int gesuchterCode) {
+		for (StrassenKnotenTyp typ : values()) {
+			if (typ.getCode() == gesuchterCode) {
+				return typ;
+			}
+		}
+
+		throw new IllegalArgumentException("Ungültiger Typ mit Code: "
+				+ gesuchterCode);
+	}
 
 	/**
 	 * der Code des Zustandes.
@@ -87,27 +106,8 @@ public enum StrassenKnotenTyp implements Zustand {
 	 * 
 	 * @return den Code.
 	 */
-	public int getCode() {
+	public Integer getCode() {
 		return code;
-	}
-
-	/**
-	 * liefert den Straßenknotentyp, der dem übergebenen Code entspricht.
-	 * 
-	 * @param gesuchterCode
-	 *            der Code, für den ein Straßenknoten
-	 * @return den gefundenen Typ, wenn ein ungültiger Code übergeben wurde,
-	 *         wird eine {@link IllegalArgumentException} geworfen.
-	 */
-	public static StrassenKnotenTyp getTyp(int gesuchterCode) {
-		for (StrassenKnotenTyp typ : values()) {
-			if (typ.getCode() == gesuchterCode) {
-				return typ;
-			}
-		}
-
-		throw new IllegalArgumentException("Ungültiger Typ mit Code: "
-				+ gesuchterCode);
 	}
 
 	/**

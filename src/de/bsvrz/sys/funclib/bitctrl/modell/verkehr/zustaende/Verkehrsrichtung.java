@@ -34,7 +34,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public enum Verkehrsrichtung implements Zustand {
+public enum Verkehrsrichtung implements Zustand<Integer> {
 	/**
 	 * Richtungsbezug unbekannt.
 	 */
@@ -100,7 +100,7 @@ public enum Verkehrsrichtung implements Zustand {
 	 * 
 	 * @return den Code.
 	 */
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 

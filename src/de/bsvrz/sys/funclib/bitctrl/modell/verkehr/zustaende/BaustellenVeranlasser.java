@@ -34,7 +34,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public enum BaustellenVeranlasser implements Zustand {
+public enum BaustellenVeranlasser implements Zustand<Integer> {
 	/**
 	 * der Veranlasser ist nicht definiert.
 	 */
@@ -104,7 +104,7 @@ public enum BaustellenVeranlasser implements Zustand {
 	 * 
 	 * @return den Code.
 	 */
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 

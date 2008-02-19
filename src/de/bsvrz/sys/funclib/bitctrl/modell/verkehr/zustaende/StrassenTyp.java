@@ -34,7 +34,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public enum StrassenTyp implements Zustand {
+public enum StrassenTyp implements Zustand<Integer> {
 	/**
 	 * Allgemeiner nicht n‰her definierte Straﬂe.
 	 */
@@ -122,7 +122,7 @@ public enum StrassenTyp implements Zustand {
 	 * 
 	 * @return den Code.
 	 */
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 

@@ -34,7 +34,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
  * @author BitCtrl Systems GmbH, Peuker
  * @version $Id$
  */
-public enum StoerfallSituation implements Zustand {
+public enum StoerfallSituation implements Zustand<Integer> {
 	/**
 	 * der Datenverteiler hat keine Daten zum Indikator geliefert.
 	 */
@@ -123,7 +123,7 @@ public enum StoerfallSituation implements Zustand {
 	 * 
 	 * @return den Code.
 	 */
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
