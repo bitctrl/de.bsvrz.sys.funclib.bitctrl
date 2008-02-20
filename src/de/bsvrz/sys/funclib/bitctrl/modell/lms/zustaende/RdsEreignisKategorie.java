@@ -26,6 +26,12 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import de.bsvrz.dav.daf.main.config.IntegerAttributeType;
+import de.bsvrz.dav.daf.main.config.IntegerValueState;
+import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
@@ -34,124 +40,102 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
  * @author BitCtrl Systems GmbH, Uwe Peuker
  * @version $Id$
  */
-public enum RdsEreignisKategorie implements Zustand<Integer> {
+public final class RdsEreignisKategorie implements Zustand<Integer> {
 
-	/** Verkehrslage. */
-	VERKEHRSLAGE("Verkehrslage", 1),
+	/** Name des Attributtyps der die Ereigniskategorie definiert. */
+	private static final String ATT_RDS_EREIGNIS_KATEGORIE = "att.rdsEreignisKategorie";
 
-	/** erwartete Verkehrslage. */
-	ERWARTETE_VERKEHRSLAGE("erwartete Verkehrslage", 2),
+	/** der Attributtyp der die Ereigbniskategorie definiert. */
+	private static IntegerAttributeType attribut = null;
 
-	/** Unfälle. */
-	UNFAELLE("Unfälle", 3),
+	/** der Menge der Locationtabellen geordnet nach dem Code. */
+	private static final Map<Integer, RdsEreignisKategorie> TABELLE_PER_CODE = new HashMap<Integer, RdsEreignisKategorie>();
 
-	/** Vorfälle. */
-	VORFAELLE("Vorfälle", 4),
-
-	/** Straßen- und Fahrbahnsperrungen. */
-	SPERRUNGEN("Straßen- und Fahrbahnsperrungen", 5),
-
-	/** Fahrbahnbeschränkungen. */
-	FAHRBAHN_BESCHRAENKUNGEN("Fahrbahnbeschränkungen", 6),
-
-	/** Beschränkungen der Ausfahrt. */
-	AUSFAHRT_BESCHRAENKUNGEN("Beschränkungen der Ausfahrt", 7),
-
-	/** Beschränkungen der Einfahrt. */
-	EINFAHRT_BESCHRAENKUNGEN("Beschränkungen der Einfahrt", 8),
-
-	/** Verkehrsbeschränkungen. */
-	VERKEHRS_BESCHRAENKUNGEN("Verkehrsbeschränkungen", 9),
-
-	/** Informationen für Fahrgemeinschaften. */
-	FAHRGEMEINSCHAFT_INFO("Informationen für Fahrgemeinschaften", 10),
-
-	/** Bauarbeiten. */
-	BAUARBEITEN("Bauarbeiten", 11),
-
-	/** Behinderungen auf der Fahrbahn. */
-	FAHRBAHN_BEHINDERUNGEN("Behinderungen auf der Fahrbahn", 12),
-
-	/** Gefährliche Situationen. */
-	GEFAEHRLICHE_SITUATION("Gefährliche Situationen", 13),
-
-	/** Straßenzustand. */
-	STRASSENZUSTAND("Straßenzustand", 14),
-
-	/** Temperaturen. */
-	TEMPERATUREN("Temperaturen", 15),
-
-	/** Niederschlag und Sichtbehinderungen. */
-	NIEDERSCHLAG_UND_SICHT("Niederschlag und Sichtbehinderungen", 16),
-
-	/** Wind und Luftqualität. */
-	WIND_UND_LUFT("Wind und Luftqualität", 17),
-
-	/** Veranstaltungen. */
-	VERANSTALTUNG("Veranstaltungen", 18),
-
-	/** Sicherheitsvorfälle. */
-	SICHERHEIT("Sicherheitsvorfälle", 19),
-
-	/** Zeitverluste. */
-	ZEITVERLUST("Zeitverluste", 20),
-
-	/** Ausfälle. */
-	AUSFAELLE("Ausfälle", 21),
-
-	/** Reiseinformation. */
-	REISEINFORMATIONEN("Reiseinformation", 22),
-
-	/** Gefährliche Fahrzeuge. */
-	GEFAEHRLICHE_FAHRZEUGE("Gefährliche Fahrzeuge", 23),
-
-	/** Außergewöhnliche Ladungen und Fahrzeuge. */
-	AUSSERGEWÖHNLICHE_FAHRZEUGE("Außergewöhnliche Ladungen und Fahrzeuge", 24),
-
-	/** Störungen an Lichtsignalanlagen und sonstigen Straßenausrüstungen. */
-	LSA_STOERUNG(
-			"Störungen an Lichtsignalanlagen und sonstigen Straßenausrüstungen",
-			25),
-
-	/** Beschränkungen der Fahrzeugmaße und -gewichte. */
-	MASSE_UND_GEWICHTE("Beschränkungen der Fahrzeugmaße und -gewichte", 26),
-
-	/** Parkregelungen. */
-	PARKREGELUNG("Parkregelungen", 27),
-
-	/** Parken. */
-	PARKEN("Parken", 28),
-
-	/** Information. */
-	INFORMATION("Information", 29),
-
-	/** Service-Meldung. */
-	SERVICE("Service-Meldung", 30),
-
-	/** spezielle Meldung. */
-	SPEZIELL("spezielle Meldung", 31),
-
-	/** Empfehlung. */
-	EMPFEHLUNG("Empfehlung", 50);
+	/** der Menge der Locationtabellen geordnet nach dem Name. */
+	private static final Map<String, RdsEreignisKategorie> TABELLE_PER_NAME = new HashMap<String, RdsEreignisKategorie>();
 
 	/**
-	 * liefert die Rds-Ereigniskategorie mit dem übergebenen Code.
+	 * liefert die EreignisKategorie mit dem übergebenen Code.
 	 * 
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
-	 *         wird eine der Status VERKEHRSLAGE geliefert.
+	 *            der Code für den eine Kategorie gesucht wird.
+	 * @return die ermittelte Kategorie, wenn ein ungültiger Code übergeben
+	 *         wurde, wird eine {@link IllegalArgumentException} geworfen
 	 */
-	public static RdsEreignisKategorie getStatus(final int gesuchterCode) {
-		RdsEreignisKategorie result = RdsEreignisKategorie.VERKEHRSLAGE;
-		for (RdsEreignisKategorie status : values()) {
-			if (status.getCode() == gesuchterCode) {
-				result = status;
-				break;
+	public static RdsEreignisKategorie getKategorie(final int gesuchterCode) {
+
+		RdsEreignisKategorie result = TABELLE_PER_CODE.get(gesuchterCode);
+
+		if (result == null) {
+			if (attribut == null) {
+				attribut = (IntegerAttributeType) ObjektFactory.getInstanz()
+						.getVerbindung().getDataModel().getAttributeType(
+								ATT_RDS_EREIGNIS_KATEGORIE);
+			}
+
+			if (attribut != null) {
+				for (IntegerValueState state : attribut.getStates()) {
+					if (state.getValue() == gesuchterCode) {
+						result = new RdsEreignisKategorie(state.getName(),
+								(int) state.getValue());
+						TABELLE_PER_CODE.put((int) state.getValue(), result);
+						TABELLE_PER_NAME.put(state.getName(), result);
+						break;
+					}
+				}
 			}
 		}
-		return result;
 
+		if (result == null) {
+			throw new IllegalArgumentException(
+					"Für den Code \""
+							+ gesuchterCode
+							+ "\" ist keine Ereigniskategorie im Datenkatalog definiert");
+		}
+
+		return result;
+	}
+
+	/**
+	 * liefert die Ereigniskategorie mit dem übergebenen Name.
+	 * 
+	 * @param gesuchterName
+	 *            der Name für den eine Kategorie gesucht wird.
+	 * @return die ermittelte Kategorie, wenn ein ungültiger Name übergeben
+	 *         wurde, wird eine {@link IllegalArgumentException} geworfen.
+	 */
+	public static RdsEreignisKategorie getKategorie(final String gesuchterName) {
+
+		RdsEreignisKategorie result = TABELLE_PER_NAME.get(gesuchterName);
+
+		if (result == null) {
+			if (attribut == null) {
+				attribut = (IntegerAttributeType) ObjektFactory.getInstanz()
+						.getVerbindung().getDataModel().getAttributeType(
+								ATT_RDS_EREIGNIS_KATEGORIE);
+			}
+
+			if (attribut != null) {
+				for (IntegerValueState state : attribut.getStates()) {
+					if (state.getName().equals(gesuchterName)) {
+						result = new RdsEreignisKategorie(state.getName(),
+								(int) state.getValue());
+						TABELLE_PER_CODE.put((int) state.getValue(), result);
+						TABELLE_PER_NAME.put(state.getName(), result);
+						break;
+					}
+				}
+			}
+		}
+
+		if (result == null) {
+			throw new IllegalArgumentException(
+					"Für den Name \""
+							+ gesuchterName
+							+ "\" ist keine Ereigniskategorie im Datenkatalog definiert");
+		}
+
+		return result;
 	}
 
 	/**
@@ -198,5 +182,4 @@ public enum RdsEreignisKategorie implements Zustand<Integer> {
 	public String getName() {
 		return name;
 	}
-
 }

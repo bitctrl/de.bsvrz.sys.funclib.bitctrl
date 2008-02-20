@@ -107,12 +107,12 @@ public class OdBaustellenSimulationStarten extends
 		/**
 		 * der Name des Auftragsgebers.
 		 */
-		private String name = Constants.LEERSTRING;
+		private String name = Constants.EMPTY_STRING;
 
 		/**
 		 * eine Bemerkung zum Versand des Auftrags.
 		 */
-		private String bemerkung = Constants.LEERSTRING;
+		private String bemerkung = Constants.EMPTY_STRING;
 
 		/**
 		 * der aktuelle Status des Datensatzes.
@@ -170,7 +170,7 @@ public class OdBaustellenSimulationStarten extends
 			if (bemerkung != null) {
 				this.bemerkung = bemerkung;
 			} else {
-				this.bemerkung = Constants.LEERSTRING;
+				this.bemerkung = Constants.EMPTY_STRING;
 			}
 		}
 
@@ -194,7 +194,7 @@ public class OdBaustellenSimulationStarten extends
 			if (name != null) {
 				this.name = name;
 			} else {
-				this.name = Constants.LEERSTRING;
+				this.name = Constants.EMPTY_STRING;
 			}
 		}
 	}

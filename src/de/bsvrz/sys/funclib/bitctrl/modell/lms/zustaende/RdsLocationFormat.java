@@ -28,10 +28,22 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
+/**
+ * Definitionen für das Attribut LocationFormat innerhalb einer RDS-Meldung.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
 public enum RdsLocationFormat implements Zustand<Integer> {
 
-	TMC("TMC Location", 0), TIC("TIC Location", 1), UNFORMATIERT(
-			"Unformatiert", 2);
+	/** TMC Location, Wert 0. */
+	TMC("TMC Location", 0),
+
+	/** TIC Location, Wert 1. */
+	TIC("TIC Location", 1),
+
+	/** Unformatiert, Wert 2. */
+	UNFORMATIERT("Unformatiert", 2);
 
 	/**
 	 * liefert das Rds-Locationformat mit dem übergebenen Code.

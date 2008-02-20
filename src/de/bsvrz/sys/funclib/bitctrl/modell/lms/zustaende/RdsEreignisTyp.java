@@ -28,9 +28,25 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
+/**
+ * Definitionen für das Attribut Ereignistyp innerhalb einer RDS-Meldung.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
 public enum RdsEreignisTyp implements Zustand<Integer> {
-	STOERUNG("Störung", 0), BAUSTELLE("Bauarbeiten", 1), STRASSENZUSTAND(
-			"Strassenzustand", 8), WETTER("Wetter", 9);
+
+	/** Störung, Wert 0. */
+	STOERUNG("Störung", 0),
+
+	/** Bauarbeiten, Wert 1. */
+	BAUSTELLE("Bauarbeiten", 1),
+
+	/** Strassenzustand, Wert 8. */
+	STRASSENZUSTAND("Strassenzustand", 8),
+
+	/** Wetter, Wert 9. */
+	WETTER("Wetter", 9);
 
 	/**
 	 * liefert den Rds-Ereignistyp mit dem übergebenen Code.

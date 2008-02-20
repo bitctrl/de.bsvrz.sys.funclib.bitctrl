@@ -28,12 +28,38 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
+/**
+ * Definitionen für das Attribut Erinnerungstyp innerhalb einer RDS-Meldung.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
 public enum RdsErinnerungsTyp implements Zustand<Integer> {
-	KEINE("Keine Erinnerung. ErinnerungsZeit wird ignoriert.", 0), PLUS_OFFSET(
+
+	/** Keine Erinnerung. ErinnerungsZeit wird ignoriert, Wert 0. */
+	KEINE("Keine Erinnerung. ErinnerungsZeit wird ignoriert.", 0),
+
+	/**
+	 * ErinnerungsZeitOffset enthält den Offset seit AktivierungsZeit.
+	 * ErinnerungsZeit = AktivierungsZeit + ErinnerungsZeitOffset, Wert 1.
+	 */
+	PLUS_OFFSET(
 			"ErinnerungsZeitOffset enthält den Offset seit AktivierungsZeit. ErinnerungsZeit = AktivierungsZeit + ErinnerungsZeitOffset.",
-			1), MINUS_OFFSET(
+			1),
+
+	/**
+	 * ErinnerungsZeitOffset enthält den Offset bis AblaufZeit. ErinnerungsZeit =
+	 * AblaufZeit - ErinnerungsZeitOffset, Wert 2.
+	 */
+	MINUS_OFFSET(
 			"ErinnerungsZeitOffset enthält den Offset bis AblaufZeit. ErinnerungsZeit = AblaufZeit - ErinnerungsZeitOffset.",
-			2), ABSOLUT(
+			2),
+
+	/**
+	 * ErinnerungsZeit enthält den absoluten Zeitpunkt. ErinnerungsZeitOffset
+	 * wird ignoriert, Wert 3.
+	 */
+	ABSOLUT(
 			"ErinnerungsZeit enthält den absoluten Zeitpunkt. ErinnerungsZeitOffset wird ignoriert.",
 			3);
 

@@ -28,14 +28,42 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
+/**
+ * Definitionen für das Attribut Geografische Relevanz innerhalb einer
+ * RDS-Meldung.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
 public enum RdsGeographischeRelevanz implements Zustand<Integer> {
 
-	LOKAL("Lokal", 0), REGIONAL("Regional", 1), UEBERREGIONAL("Überregional", 2), NATIONAL(
-			"National", 3), AUSLAND("Ausland", 4), LOKAL_UND_ANGRENZENDES_AUSLAND(
-			"Lokal und angrenzendes Ausland", 5), REGIONAL_UND_ANGRENZENDES_AUSLAND(
-			"Regional und angrenzendes Ausland", 6), UEBERREGIONAL_UND_ANGRENZENDES_AUSLAND(
-			"Überregional und angrenzendes Ausland", 7), LAND_UND_ANGRENZENDES_AUSLAND(
-			"Land und angrenzendes Ausland", 8);
+	/** Lokal, Wert 0. */
+	LOKAL("Lokal", 0),
+
+	/** Regional, Wert 1. */
+	REGIONAL("Regional", 1),
+
+	/** Überregional, Wert 2. */
+	UEBERREGIONAL("Überregional", 2),
+
+	/** National, Wert 3. */
+	NATIONAL("National", 3),
+
+	/** Ausland, Wert 4. */
+	AUSLAND("Ausland", 4),
+
+	/** Lokal und angrenzendes Ausland, Wert 5. */
+	LOKAL_UND_ANGRENZENDES_AUSLAND("Lokal und angrenzendes Ausland", 5),
+
+	/** Regional und angrenzendes Ausland, Wert 6. */
+	REGIONAL_UND_ANGRENZENDES_AUSLAND("Regional und angrenzendes Ausland", 6),
+
+	/** Überregional und angrenzendes Ausland, Wert 7. */
+	UEBERREGIONAL_UND_ANGRENZENDES_AUSLAND(
+			"Überregional und angrenzendes Ausland", 7),
+
+	/** Land und angrenzendes Ausland, Wert 8. */
+	LAND_UND_ANGRENZENDES_AUSLAND("Land und angrenzendes Ausland", 8);
 
 	/**
 	 * liefert die geograpische Relevanz mit dem übergebenen Code.

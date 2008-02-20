@@ -28,17 +28,52 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
+/**
+ * Definition des Attributs LocationMethode innerhalb einer RDS-Meldung.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
 public enum RdsLocationMethode implements Zustand<Integer> {
 
+	/**
+	 * erste Feldposition ist primäre Location und letzte Feldposition ist
+	 * sekundäre Location, Wert 0.
+	 */
 	METHODE0(
 			"erste Feldposition ist primäre Location und letzte Feldposition ist sekundäre Location",
-			0), METHODE1("Primäre Location und Extent sind gültig", 1), METHODE2(
-			"Primäre Location und Sekundäre Location sind gültig", 2), METHODE3(
-			"Primäre Location, Extent und primäre Entfernung sind gültig", 3), METHODE4(
+			0),
+
+	/** Primäre Location und Extent sind gültig, Wert 1. */
+	METHODE1("Primäre Location und Extent sind gültig", 1),
+
+	/** Primäre Location und Sekundäre Location sind gültig, Wert 2. */
+	METHODE2("Primäre Location und Sekundäre Location sind gültig", 2),
+
+	/** Primäre Location, Extent und primäre Entfernung sind gültig, Wert 3. */
+	METHODE3("Primäre Location, Extent und primäre Entfernung sind gültig", 3),
+
+	/**
+	 * Primäre Location, sekundäre Location, primäre Entfernung und sekundäre
+	 * Entfernung sind gültig, Wert 4.
+	 */
+	METHODE4(
 			"Primäre Location, sekundäre Location, primäre Entfernung und sekundäre Entfernung sind gültig.",
-			4), METHODE5(
+			4),
+
+	/**
+	 * Strassennummer, Ausfahrtnummer und Nachrichtentext für Nachrichtenklasse =
+	 * 40 der primären und sekundären Location sind gültig, Wert 5.
+	 */
+	METHODE5(
 			"Strassennummer, Ausfahrtnummer und Nachrichtentext für Nachrichtenklasse = 40 der primären und sekundären Location sind gültig.",
-			5), METHODE6(
+			5),
+
+	/**
+	 * Strassennummer, LocationKilometrierung der primären und sekundären
+	 * Location sind gültig, Wert 6.
+	 */
+	METHODE6(
 			"Strassennummer, LocationKilometrierung der primären und sekundären Location sind gültig.",
 			6);
 

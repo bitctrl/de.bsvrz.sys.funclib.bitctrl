@@ -128,9 +128,9 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 						.getUnscaledValue("VerkehrsRichtung").shortValue());
 			} else {
 				anfang = 0;
-				anfangsKnoten = Constants.LEERSTRING;
+				anfangsKnoten = Constants.EMPTY_STRING;
 				ende = 0;
-				endKnoten = Constants.LEERSTRING;
+				endKnoten = Constants.EMPTY_STRING;
 				offset = 0;
 				verkehrsRichtung = Verkehrsrichtung.UNBEKANNT;
 			}
@@ -230,7 +230,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 			} else {
 				offset = 0;
 				wert = 0;
-				blockNummer = Constants.LEERSTRING;
+				blockNummer = Constants.EMPTY_STRING;
 			}
 		}
 

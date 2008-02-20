@@ -52,7 +52,9 @@ public enum RdsAuthorisierungsErgebnis implements Zustand<Integer> {
 	 * @param gesuchterCode
 	 *            der Code für den ein Zustand gesucht wird.
 	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
-	 *         wird eine der Status NORMAL geliefert.
+	 *         wird eine der Status
+	 *         {@link RdsAuthorisierungsErgebnis#NOCH_NICHT_AUTHORISIERT}
+	 *         geliefert.
 	 */
 	public static RdsAuthorisierungsErgebnis getStatus(final int gesuchterCode) {
 		RdsAuthorisierungsErgebnis result = RdsAuthorisierungsErgebnis.NOCH_NICHT_AUTHORISIERT;

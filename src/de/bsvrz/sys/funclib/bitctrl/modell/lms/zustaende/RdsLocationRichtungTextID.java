@@ -29,39 +29,58 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Die Definition des Attributs LocationKategorie innerhalb einer RDS-Meldung.
+ * Repräsentation des Attributs RdsLocationRichtungTextID innerhalb einer
+ * RDS-Meldung.
  * 
  * @author BitCtrl Systems GmbH, Uwe Peuker
  * @version $Id$
  */
-public enum RdsLocationKategorie implements Zustand<Integer> {
+public enum RdsLocationRichtungTextID implements Zustand<Integer> {
 
-	/** Nicht benutzt, Wert 0. */
-	NICHT_BENUTZT("Nicht benutzt", 0),
+	/** unbekannt, Wert 0. */
+	UNBEKANNT("unbekannt", 0),
 
-	/** Gebiet, Wert 1. */
-	GEBIET("Gebiet", 1),
+	/** stadteinwärts, Wert 1. */
+	STADTEINWAERTS("stadteinwärts", 1),
 
-	/** bedeutender Punkt, Wert 2. */
-	PUNKT("bedeutender Punkt", 2),
+	/** stadtauswärts, Wert 2. */
+	STADTAUSWAERTS("stadtauswärts", 2),
 
-	/** Linie, Wert 3. */
-	LINIE("Linie", 3),
+	/** Nord, Wert 3. */
+	NORD("Nord", 3),
 
-	/** Segment, Wert 4. */
-	SEGMENT("Segment", 4);
+	/** Süd, Wert 4. */
+	SUED("Süd", 4),
+
+	/** Ost, Wert 5. */
+	OST("Ost", 5),
+
+	/** West, Wert 6. */
+	WEST("West", 6),
+
+	/** Nordost, Wert 7. */
+	NORDOST("Nordost", 7),
+
+	/** Nordwest, Wert 8. */
+	NORDWEST("Nordwest", 8),
+
+	/** Südost, Wert 9. */
+	SUEDOST("Südost", 9),
+
+	/** Südwest, Wert 10. */
+	SUEDWEST("Südwest", 10);
 
 	/**
-	 * liefert die Rds-Locationkategorie mit dem übergebenen Code.
+	 * liefert den Rds-Erinnerungstyp mit dem übergebenen Code.
 	 * 
 	 * @param gesuchterCode
 	 *            der Code für den ein Zustand gesucht wird.
 	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
-	 *         wird eine der Status PUNKT geliefert.
+	 *         wird eine der Status UNBEKANNT geliefert.
 	 */
-	public static RdsLocationKategorie getStatus(final int gesuchterCode) {
-		RdsLocationKategorie result = RdsLocationKategorie.NICHT_BENUTZT;
-		for (RdsLocationKategorie status : values()) {
+	public static RdsLocationRichtungTextID getStatus(final int gesuchterCode) {
+		RdsLocationRichtungTextID result = RdsLocationRichtungTextID.UNBEKANNT;
+		for (RdsLocationRichtungTextID status : values()) {
 			if (status.getCode() == gesuchterCode) {
 				result = status;
 				break;
@@ -83,17 +102,17 @@ public enum RdsLocationKategorie implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für eine RDS-Locationkategorie mit
-	 * dem übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
-	 * wird nur innerhalb der Klasse verwendet. Es wird eine Menge
-	 * vordefinierter Zustände zur Verfügung gestellt.
+	 * Die Funktion einen eine neue Instanz für einen RDS-Erinerungstyp mit dem
+	 * übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
+	 * nur innerhalb der Klasse verwendet. Es wird eine Menge vordefinierter
+	 * Zustände zur Verfügung gestellt.
 	 * 
 	 * @param name
 	 *            der Name des zustands
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsLocationKategorie(final String name, final int code) {
+	private RdsLocationRichtungTextID(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}
@@ -115,5 +134,4 @@ public enum RdsLocationKategorie implements Zustand<Integer> {
 	public String getName() {
 		return name;
 	}
-
 }

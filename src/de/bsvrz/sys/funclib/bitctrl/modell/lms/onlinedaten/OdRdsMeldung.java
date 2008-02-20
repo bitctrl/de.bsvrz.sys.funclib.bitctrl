@@ -62,6 +62,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsGeographischeRelevan
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsLocationFormat;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsLocationKategorie;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsLocationMethode;
+import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsLocationRichtungTextID;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsLocationTabelle;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsLocationTabelleTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsNachrichtenKlasse;
@@ -414,7 +415,7 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 */
 			public RdsEreignisDaten(final Data daten) {
 				if (daten != null) {
-					ereignisKategorie = RdsEreignisKategorie.getStatus(daten
+					ereignisKategorie = RdsEreignisKategorie.getKategorie(daten
 							.getUnscaledValue("EreignisKategorie").intValue());
 					ereignisCode = daten.getUnscaledValue("EreignisCode")
 							.intValue();
@@ -849,7 +850,7 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			private RdsLocationKategorie locationKategorie;
 
 			/** die Richtungs-Text-ID. */
-			private String locationRichtungTextID;
+			private RdsLocationRichtungTextID locationRichtungTextID;
 
 			/**
 			 * Konstruktor. Die Daten des Objekts werden mit den Informationen
@@ -883,8 +884,9 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 							"LocationNachLocation").intValue();
 					locationKategorie = RdsLocationKategorie.getStatus(daten
 							.getUnscaledValue("LocationKategorie").intValue());
-					locationRichtungTextID = daten.getTextValue(
-							"LocationRichtungTextID").getText();
+					locationRichtungTextID = RdsLocationRichtungTextID
+							.getStatus(daten.getUnscaledValue(
+									"LocationRichtungTextID").intValue());
 				}
 
 			}
@@ -949,7 +951,7 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 * 
 			 * @return die ID oder <code>null</code>
 			 */
-			public String getLocationRichtungTextID() {
+			public RdsLocationRichtungTextID getLocationRichtungTextID() {
 				return locationRichtungTextID;
 			}
 
@@ -1084,8 +1086,9 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 */
 			public RdsLocationTabelleInfo(final Data daten) {
 				if (daten != null) {
-					locationTabelle = RdsLocationTabelle.getStatus(daten
-							.getUnscaledValue("LocationTabelle").intValue());
+					locationTabelle = RdsLocationTabelle
+							.getLocationTabelle(daten.getUnscaledValue(
+									"LocationTabelle").intValue());
 					locationTabelleVersion = daten.getTextValue(
 							"LocationTabelleVersion").getText();
 					locationTabelleTyp = RdsLocationTabelleTyp.getStatus(daten
@@ -1166,8 +1169,9 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 						nachrichtenDaten.add(new RdsNachrichtenDaten(array
 								.getItem(idx)));
 					}
-					nachrichtenSprache = RdsNachrichtenSprache.getStatus(daten
-							.getUnscaledValue("NachrichtenSprache").intValue());
+					nachrichtenSprache = RdsNachrichtenSprache
+							.getNachrichtenSprache(daten.getUnscaledValue(
+									"NachrichtenSprache").intValue());
 				}
 			}
 
@@ -1182,7 +1186,7 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 * @return der ermittelte Text
 			 */
 			public String getNachricht(final RdsNachrichtenKlasse typ) {
-				String result = Constants.LEERSTRING;
+				String result = Constants.EMPTY_STRING;
 				for (RdsNachrichtenDaten eintrag : nachrichtenDaten) {
 					if (eintrag.getNachrichtenKlasse().equals(typ)) {
 						result = eintrag.getNachrichtenText();
@@ -1354,8 +1358,9 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			public RdsText(final Data daten) {
 				if (daten != null) {
 					text = daten.getTextValue("Text").getText();
-					textSprache = RdsNachrichtenSprache.getStatus(daten
-							.getUnscaledValue("TextSprache").intValue());
+					textSprache = RdsNachrichtenSprache
+							.getNachrichtenSprache(daten.getUnscaledValue(
+									"TextSprache").intValue());
 				}
 			}
 
@@ -1371,10 +1376,7 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 
 			/**
 			 * liefert die verwendete Sprache. Wurde keine Sprache definiert,
-			 * wird der Wert <code>null</code> geliefert. Wenn der
-			 * Datenverteiler-Datensatz keinen güligen Code für die Definition
-			 * der Sprache enthalten hat, wird der Standardwert
-			 * {@link RdsNachrichtenSprache#DEUTSCH} geliefert.
+			 * wird der Wert <code>null</code> geliefert.
 			 * 
 			 * @return die Sprache oder <code>null</code>
 			 */

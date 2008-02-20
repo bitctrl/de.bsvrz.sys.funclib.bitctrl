@@ -28,10 +28,19 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
+/**
+ * Definitionen für das Attribut EreignisKodierung innerhalb einer RDS-Meldung.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
+ */
 public enum RdsEreignisKodierung implements Zustand<Integer> {
 
-	ALERT_C("prEN ISO 14819-2 (Alert-C)", 0), DATEX(
-			"Data Dictionary 3.1A (Datex)", 1);
+	/** prEN ISO 14819-2 (Alert-C), Wert 0. */
+	ALERT_C("prEN ISO 14819-2 (Alert-C)", 0),
+
+	/** Data Dictionary 3.1A (Datex), Wert 1. */
+	DATEX("Data Dictionary 3.1A (Datex)", 1);
 
 	/**
 	 * liefert die Rds-Ereigniskodierung mit dem übergebenen Code.

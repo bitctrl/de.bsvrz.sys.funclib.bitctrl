@@ -35,37 +35,46 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definition der länderspezifischen Location-Tabellen.
+ * Klasse für die Definition der länderspezifischen Location-Tabellen. Die
+ * einzelnen Zustände können per Nummer oder String ermittelt werden. Wenn kein
+ * entsprechender Eintrag im Datenkatalog der Konfiguration gefunden wird, wird
+ * eine {@link IllegalArgumentException} geworfen.
  * 
  * @author BitCtrl Systems GmbH, Uwe Peuker
  * @version $Id$
  */
-public class RdsLocationTabelle implements Zustand<Integer> {
+public final class RdsLocationTabelle implements Zustand<Integer> {
 
+	/** Name des Attributtyps der die Locationtabellen definiert. */
+	private static final String ATT_RDS_LOCATION_TABELLE = "att.rdsLocationTabelle";
+
+	/** der Attributtyp der die Locationtabellen definiert. */
 	private static IntegerAttributeType attribut = null; // att.rdsLocationTabelle
 
-	private static final Map<Integer, RdsLocationTabelle> states = new HashMap<Integer, RdsLocationTabelle>();
+	/** der Menge der Locationtabellen geordnet nach dem Code. */
+	private static final Map<Integer, RdsLocationTabelle> TABELLE_PER_CODE = new HashMap<Integer, RdsLocationTabelle>();
 
-	private static final RdsLocationTabelle GERMANIA_1 = new RdsLocationTabelle(
-			"Deutschland(13), Tabelle 01, entspricht LCL der BASt", 13001);
+	/** der Menge der Locationtabellen geordnet nach dem Name. */
+	private static final Map<String, RdsLocationTabelle> TABELLE_PER_NAME = new HashMap<String, RdsLocationTabelle>();
 
 	/**
 	 * liefert die Location Tabelle mit dem übergebenen Code.
 	 * 
 	 * @param gesuchterCode
 	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
-	 *         wird eine der Status GERMANIA_1 geliefert.
+	 * @return die ermittelte Locationtabellle, wenn ein ungültiger Code
+	 *         übergeben wurde, wird eine {@link IllegalArgumentException}
+	 *         geworfen
 	 */
-	public static RdsLocationTabelle getStatus(final long gesuchterCode) {
+	public static RdsLocationTabelle getLocationTabelle(final int gesuchterCode) {
 
-		RdsLocationTabelle result = states.get(gesuchterCode);
+		RdsLocationTabelle result = TABELLE_PER_CODE.get(gesuchterCode);
 
 		if (result == null) {
 			if (attribut == null) {
 				attribut = (IntegerAttributeType) ObjektFactory.getInstanz()
 						.getVerbindung().getDataModel().getAttributeType(
-								"att.rdsLocationTabelle");
+								ATT_RDS_LOCATION_TABELLE);
 			}
 
 			if (attribut != null) {
@@ -73,10 +82,61 @@ public class RdsLocationTabelle implements Zustand<Integer> {
 					if (state.getValue() == gesuchterCode) {
 						result = new RdsLocationTabelle(state.getName(),
 								(int) state.getValue());
-						states.put((int) state.getValue(), result);
+						TABELLE_PER_CODE.put((int) state.getValue(), result);
+						TABELLE_PER_NAME.put(state.getName(), result);
+						break;
 					}
 				}
 			}
+		}
+
+		if (result == null) {
+			throw new IllegalArgumentException("Für den Code \""
+					+ gesuchterCode
+					+ "\" ist keine Locationtabelle im Datenkatalog definiert");
+		}
+
+		return result;
+	}
+
+	/**
+	 * liefert die Location Tabelle mit dem übergebenen Name.
+	 * 
+	 * @param gesuchterName
+	 *            der Name für den ein Zustand gesucht wird.
+	 * @return die ermittelte Locationtabelle, wenn ein ungültiger Name
+	 *         übergeben wurde, wird eine {@link IllegalArgumentException}
+	 *         geworfen.
+	 */
+	public static RdsLocationTabelle getLocationTabelle(
+			final String gesuchterName) {
+
+		RdsLocationTabelle result = TABELLE_PER_NAME.get(gesuchterName);
+
+		if (result == null) {
+			if (attribut == null) {
+				attribut = (IntegerAttributeType) ObjektFactory.getInstanz()
+						.getVerbindung().getDataModel().getAttributeType(
+								ATT_RDS_LOCATION_TABELLE);
+			}
+
+			if (attribut != null) {
+				for (IntegerValueState state : attribut.getStates()) {
+					if (state.getName().equals(gesuchterName)) {
+						result = new RdsLocationTabelle(state.getName(),
+								(int) state.getValue());
+						TABELLE_PER_CODE.put((int) state.getValue(), result);
+						TABELLE_PER_NAME.put(state.getName(), result);
+						break;
+					}
+				}
+			}
+		}
+
+		if (result == null) {
+			throw new IllegalArgumentException("Für den Name \""
+					+ gesuchterName
+					+ "\" ist keine Locationtabelle im Datenkatalog definiert");
 		}
 
 		return result;
@@ -126,5 +186,4 @@ public class RdsLocationTabelle implements Zustand<Integer> {
 	public String getName() {
 		return name;
 	}
-
 }
