@@ -53,6 +53,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.objekte.RdsMeldung;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.onlinedaten.OdRdsMeldung.Daten.RdsVerkehr;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsAuthorisierungsErgebnis;
+import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsEmpfehlungsCode;
+import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsEreignisCode;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsEreignisDauer;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsEreignisKategorie;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsEreignisKodierung;
@@ -70,6 +72,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsNachrichtenSprache;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsPrioritaet;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsStatus;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsTMCRichtung;
+import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsVorhersageCode;
 
 /**
  * Kapselt die Attributgruppe {@code atg.rdsMeldung}.
@@ -392,13 +395,13 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			private RdsEreignisKategorie ereignisKategorie;
 
 			/** der Code des Ereignisses. */
-			private int ereignisCode;
+			private RdsEreignisCode ereignisCode;
 
 			/** der Empfehlungscode. */
-			private int empfehlungsCode;
+			private RdsEmpfehlungsCode empfehlungsCode;
 
 			/** der Vorhersagecode. */
-			private int vorhersageCode;
+			private RdsVorhersageCode vorhersageCode;
 
 			/** die Dauer des Ereignisses (qualitativ). */
 			private RdsEreignisDauer ereignisDauer;
@@ -417,12 +420,13 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 				if (daten != null) {
 					ereignisKategorie = RdsEreignisKategorie.getKategorie(daten
 							.getUnscaledValue("EreignisKategorie").intValue());
-					ereignisCode = daten.getUnscaledValue("EreignisCode")
-							.intValue();
-					empfehlungsCode = daten.getUnscaledValue("EmpfehlungsCode")
-							.intValue();
-					vorhersageCode = daten.getUnscaledValue("VorhersageCode")
-							.intValue();
+					ereignisCode = RdsEreignisCode.getEreignisCode(daten
+							.getUnscaledValue("EreignisCode").intValue());
+					empfehlungsCode = RdsEmpfehlungsCode
+							.getEmpfehlungsCode(daten.getUnscaledValue(
+									"EmpfehlungsCode").intValue());
+					vorhersageCode = RdsVorhersageCode.getVorhersagecode(daten
+							.getUnscaledValue("VorhersageCode").intValue());
 					ereignisDauer = RdsEreignisDauer.getStatus(daten
 							.getUnscaledValue("EreignisDauer").intValue());
 
@@ -436,21 +440,21 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 
 			/**
 			 * liefert den zugewiesenen Emnpfehlungscode. Wenn keine Empfehlung
-			 * zugeordnet wurde, wird der Wert 0 geliefert.
+			 * zugeordnet wurde, wird der Wert <code>null</code> geliefert.
 			 * 
-			 * @return den Code
+			 * @return den Code oder <code>null</code>
 			 */
-			public int getEmpfehlungsCode() {
+			public RdsEmpfehlungsCode getEmpfehlungsCode() {
 				return empfehlungsCode;
 			}
 
 			/**
 			 * liefert den zugewiesenen Ereigniscode. Wenn kein Code zugeordnet
-			 * wurde, wird der Wert 0 geliefert.
+			 * wurde, wird der Wert <code>null</code> geliefert.
 			 * 
-			 * @return den Code
+			 * @return den Code oder <code>null</code>
 			 */
-			public int getEreignisCode() {
+			public RdsEreignisCode getEreignisCode() {
 				return ereignisCode;
 			}
 
@@ -491,11 +495,11 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 
 			/**
 			 * liefert den zugewiesenen Vorhersagecode. Wurde keine Vorhersage
-			 * definiert, wird der Wert 0 geliefert.
+			 * definiert, wird der Wert <code>null</code> geliefert.
 			 * 
-			 * @return den Code
+			 * @return den Code oder <code>null</code>
 			 */
-			public int getVorhersageCode() {
+			public RdsVorhersageCode getVorhersageCode() {
 				return vorhersageCode;
 			}
 		}
