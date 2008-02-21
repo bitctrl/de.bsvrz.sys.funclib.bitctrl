@@ -37,10 +37,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.FlaecheXYImpl;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.KomplexXYImpl;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.LinieXYImpl;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.PunktXYImpl;
-import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Gewaesser;
-import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Kreisgrenzen;
-import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Ortslage;
-import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Ortsname;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**

@@ -144,7 +144,7 @@ public class LandesMeldeStelle extends AbstractSystemObjekt implements
 
 	/**
 	 * liefert eine Liste der aktuell innerhalb des VerkehrsmodellNetzes
-	 * eingetragenen Meldungen
+	 * eingetragenen Meldungen.
 	 * 
 	 * @return die Liste der Meldungen
 	 */
@@ -170,8 +170,8 @@ public class LandesMeldeStelle extends AbstractSystemObjekt implements
 	}
 
 	/**
-	 * entfernt ein Meldungsobjekt mit dem übergeben Systemobjekt vom Netz.
-	 * Das Objekt wird aus der Menge der Meldungen des VerkehrsmodellNetz
+	 * entfernt ein Meldungsobjekt mit dem übergeben Systemobjekt vom Netz. Das
+	 * Objekt wird aus der Menge der Meldungen des VerkehrsmodellNetz
 	 * ausgetragen.
 	 * 
 	 * @param obj

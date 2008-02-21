@@ -1,20 +1,20 @@
 /*
- * Interpreter, allgemeine Struktur zum Auswerten von Ausdrücken
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -33,25 +33,25 @@ import java.util.List;
 
 /**
  * Ein Nicht-Terminal-Symbol des Interpreters, sprich ein Operatorsymbol bzw
- * eine Operation
+ * eine Operation.
  * 
- * @author BitCtrl, Schumann
+ * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
 public class OperationsSymbol implements Ausdruck {
 
 	/**
-	 * Der Operator dieser Operation
+	 * Der Operator dieser Operation.
 	 */
 	private final Operator operator;
 
 	/**
-	 * Die Liste der Operanden
+	 * Die Liste der Operanden.
 	 */
 	private final List<Ausdruck> operanden;
 
 	/**
-	 * Konstruiert ein Symbol mit den gegebenen Operator und Operanden
+	 * Konstruiert ein Symbol mit den gegebenen Operator und Operanden.
 	 * 
 	 * @param operator
 	 *            Operator
@@ -61,17 +61,19 @@ public class OperationsSymbol implements Ausdruck {
 	 *             Wenn ein Funktionsparameter {@code null} ist
 	 */
 	public OperationsSymbol(Operator operator, Ausdruck... operanden) {
-		if (operator == null || operanden == null)
+		if (operator == null || operanden == null) {
 			throw new NullPointerException();
+		}
 
 		this.operator = operator;
 		this.operanden = new ArrayList<Ausdruck>();
-		if (operanden.length > 0)
+		if (operanden.length > 0) {
 			this.operanden.addAll(Arrays.asList(operanden));
+		}
 	}
 
 	/**
-	 * Konstruiert ein Symbol mit den gegebenen Operator und Operanden
+	 * Konstruiert ein Symbol mit den gegebenen Operator und Operanden.
 	 * 
 	 * @param operator
 	 *            Operator
@@ -86,7 +88,7 @@ public class OperationsSymbol implements Ausdruck {
 	}
 
 	/**
-	 * Konstruiert ein Symbol mit den gegebenen Operatorsymbol und Operanden
+	 * Konstruiert ein Symbol mit den gegebenen Operatorsymbol und Operanden.
 	 * 
 	 * @param operatorSymbol
 	 *            Operator
@@ -100,7 +102,7 @@ public class OperationsSymbol implements Ausdruck {
 	}
 
 	/**
-	 * Konstruiert ein Symbol mit den gegebenen Operatorsymbol und Operanden
+	 * Konstruiert ein Symbol mit den gegebenen Operatorsymbol und Operanden.
 	 * 
 	 * @param operatorSymbol
 	 *            Operator
@@ -115,18 +117,14 @@ public class OperationsSymbol implements Ausdruck {
 	}
 
 	/**
-	 * Gibt den Operator dieser Operation zur&uuml;ck
-	 * 
-	 * @return Operator
+	 * {@inheritDoc}
 	 */
-	public Operator getOperator() {
-		assert operator != null;
-
-		return operator;
+	public List<Ausdruck> getNachfolger() {
+		return new ArrayList<Ausdruck>(operanden);
 	}
 
 	/**
-	 * Gibt die Operanden der Operation zur&uuml;ck
+	 * Gibt die Operanden der Operation zur&uuml;ck.
 	 * 
 	 * @return Die Liste der Operanden
 	 */
@@ -135,10 +133,14 @@ public class OperationsSymbol implements Ausdruck {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Gibt den Operator dieser Operation zur&uuml;ck.
+	 * 
+	 * @return Operator
 	 */
-	public List<Ausdruck> getNachfolger() {
-		return new ArrayList<Ausdruck>(operanden);
+	public Operator getOperator() {
+		assert operator != null;
+
+		return operator;
 	}
 
 	/**
@@ -160,6 +162,8 @@ public class OperationsSymbol implements Ausdruck {
 	}
 
 	/**
+	 * {@inheritDoc}.<br>
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

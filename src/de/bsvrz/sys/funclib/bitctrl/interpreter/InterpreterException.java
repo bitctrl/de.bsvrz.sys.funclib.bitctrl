@@ -1,20 +1,20 @@
 /*
- * Interpreter, allgemeine Struktur zum Auswerten von Ausdrücken
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -29,8 +29,8 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter;
 /**
  * Basis-Implementierung f&uuml;r alle Runtime-Exceptions, die vom Interpreter
  * aktiv geworfen werden k&ouml;nnen.
- *
- * @author Peuker
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
  * @version $Id$
  */
 public class InterpreterException extends RuntimeException {
@@ -48,10 +48,21 @@ public class InterpreterException extends RuntimeException {
 	}
 
 	/**
+	 * Konstruktor mit Angabe der Meldung, die die Exception n&auml;her
+	 * beschreibt.
+	 * 
+	 * @param meldung
+	 *            der Meldungstext
+	 */
+	public InterpreterException(String meldung) {
+		super(meldung);
+	}
+
+	/**
 	 * Konstruktor mit Angabe der urspr&uuml;nglichen Exception, die diese
 	 * ausgel&ouml;st hat und des Meldungstextes, der die Exception n&auml;her
 	 * beschreibt.
-	 *
+	 * 
 	 * @param meldung
 	 *            der Text der Meldung
 	 * @param cause
@@ -64,23 +75,12 @@ public class InterpreterException extends RuntimeException {
 	/**
 	 * Konstruktor mit Angabe der urspr&uuml;nglichen Exception, die diese
 	 * ausgel&ouml;st hat.
-	 *
+	 * 
 	 * @param cause
 	 *            die Ursache
 	 */
 	public InterpreterException(Throwable cause) {
 		super(cause);
-	}
-
-	/**
-	 * Konstruktor mit Angabe der Meldung, die die Exception n&auml;her
-	 * beschreibt.
-	 *
-	 * @param meldung
-	 *            der Meldungstext
-	 */
-	public InterpreterException(String meldung) {
-		super(meldung);
 	}
 
 }

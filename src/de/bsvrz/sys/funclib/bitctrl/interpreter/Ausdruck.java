@@ -1,20 +1,20 @@
 /*
- * Interpreter, allgemeine Struktur zum Auswerten von Ausdrücken
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
  * Contact Information:
  * BitCtrl Systems GmbH
@@ -31,9 +31,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Basisklasse aller Symbole des Interpeters
+ * Basisklasse aller Symbole des Interpeters.
  * 
- * @author BitCtrl, Schumann
+ * @author BitCtrl Systems GmbH, Uwe Peuker, Schumann
  * @version $Id$
  */
 public interface Ausdruck {
@@ -45,11 +45,11 @@ public interface Ausdruck {
 	 * @author BitCtrl Systems GmbH, Schumann
 	 * @version $Id$
 	 */
-	class Info {
+	final class Info {
 
 		/**
 		 * Bestimmt Rekursiv die Menge der Termsymbole im Ausdruck, die
-		 * Variablen darstellen
+		 * Variablen darstellen.
 		 * 
 		 * @param ausdruck
 		 *            Ein beliebiger Ausdruck
@@ -72,6 +72,13 @@ public interface Ausdruck {
 
 			return variablen;
 		}
+
+		/**
+		 * Konstruktor.
+		 */
+		private Info() {
+			// privater Standardkonstruktor, wird nie verwendet
+		}
 	}
 
 	/**
@@ -88,7 +95,7 @@ public interface Ausdruck {
 	List<Ausdruck> getNachfolger();
 
 	/**
-	 * Interpretiert den Ausdruck im gegebenen Kontext
+	 * Interpretiert den Ausdruck im gegebenen Kontext.
 	 * 
 	 * @param kontext
 	 *            Kontext, indem der Ausdruck ausgewertet wird

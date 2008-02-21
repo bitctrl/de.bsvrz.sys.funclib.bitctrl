@@ -473,10 +473,7 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 
 			/**
 			 * liefert die zugeordnete Ereigniskategorie. Wurde keine Kategorie
-			 * definiert, wird der Wert <code>null</code> geliefert. Enthält
-			 * der Datenverteiler-Datensatz einen unbejkannten Code für die
-			 * Kategorie, wird der Standardwert
-			 * {@link RdsEreignisKategorie#VERKEHRSLAGE} geliefert.
+			 * definiert, wird der Wert <code>null</code> geliefert.
 			 * 
 			 * @return die Kategorie oder <code>null</code>
 			 */
