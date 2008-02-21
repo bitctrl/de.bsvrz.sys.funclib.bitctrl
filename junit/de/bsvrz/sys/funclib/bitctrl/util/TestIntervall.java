@@ -30,6 +30,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.bitctrl.util.Interval;
+
 /**
  * Testet relevante Funktionen der Klasse.
  * 
@@ -44,11 +46,11 @@ public class TestIntervall {
 	 */
 	@Test
 	public void testGetter() {
-		Intervall a;
+		Interval a;
 
-		a = new Intervall(3, 6);
+		a = new Interval(3, 6);
 		assertEquals(3L, a.getStart());
-		assertEquals(6L, a.getEnde());
+		assertEquals(6L, a.getEnd());
 	}
 
 	/**
@@ -57,7 +59,7 @@ public class TestIntervall {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testKonstruktor() {
-		new Intervall(8, 2);
+		new Interval(8, 2);
 	}
 
 }

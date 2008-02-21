@@ -42,6 +42,8 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.DataDescription;
@@ -51,7 +53,6 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.IntegerAttributeType;
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
@@ -62,11 +63,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * @version $Id$
  */
 class DatenQuelle {
-
-	/**
-	 * Logger für Debugausgaben.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
 
 	/**
 	 * Konstanten zur Definition des aktuell eingelesenen Bereichs der
@@ -89,6 +85,11 @@ class DatenQuelle {
 		 */
 		DATEN;
 	}
+
+	/**
+	 * Logger für Debugausgaben.
+	 */
+	private static final Debug LOGGER = Debug.getLogger();
 
 	/**
 	 * die Menge der Systemobjekte, für die Daten versendet werden sollen.
@@ -201,28 +202,34 @@ class DatenQuelle {
 	}
 
 	/**
-	 * fügt einen Eintrag für den Standardwert eines Attributes des Datensatzes
-	 * hinzu.
+	 * verarbeitet einen Eintrag aus dem Konfigurationsbereich der
+	 * Konfigurationsdatei.
 	 * 
 	 * @param line
 	 *            die Zeile aus der Konfigurationsdatei
 	 */
-	private void addDefaultData(final String line) {
-		StringTokenizer tokenizer = new StringTokenizer(line, "=");
-		String attr = null;
-		String wert = null;
-		if (tokenizer.hasMoreTokens()) {
-			attr = tokenizer.nextToken().trim();
-		}
-		if (tokenizer.hasMoreTokens()) {
-			wert = tokenizer.nextToken().trim();
-		} else {
-			wert = "";
+	private void addConfigurationData(final String line) {
+		int dataIdx = line.indexOf('=');
+		String daten = "";
+		if (dataIdx >= 0) {
+			daten = line.substring(dataIdx + 1).trim();
 		}
 
-		if (attr != null) {
-			defaultWerte.put(attr, wert);
+		if (line.startsWith("objekte")) {
+			StringTokenizer tokenizer = new StringTokenizer(daten, ",");
+			while (tokenizer.hasMoreTokens()) {
+				objekte.add(model.getObject(tokenizer.nextToken()));
+			}
+		} else if (line.startsWith("atg")) {
+			atg = model.getAttributeGroup(daten);
+		} else if (line.startsWith("asp")) {
+			asp = model.getAspect(daten);
+		} else if (line.startsWith("simulationsVariante")) {
+			simulationsVariante = Short.valueOf(daten);
+		} else if (line.startsWith("rolle")) {
+			rolle = daten;
 		}
+
 	}
 
 	/**
@@ -255,53 +262,65 @@ class DatenQuelle {
 	}
 
 	/**
-	 * verarbeitet einen Eintrag aus dem Konfigurationsbereich der
-	 * Konfigurationsdatei.
+	 * fügt einen Eintrag für den Standardwert eines Attributes des Datensatzes
+	 * hinzu.
 	 * 
 	 * @param line
 	 *            die Zeile aus der Konfigurationsdatei
 	 */
-	private void addConfigurationData(final String line) {
-		int dataIdx = line.indexOf('=');
-		String daten = "";
-		if (dataIdx >= 0) {
-			daten = line.substring(dataIdx + 1).trim();
+	private void addDefaultData(final String line) {
+		StringTokenizer tokenizer = new StringTokenizer(line, "=");
+		String attr = null;
+		String wert = null;
+		if (tokenizer.hasMoreTokens()) {
+			attr = tokenizer.nextToken().trim();
+		}
+		if (tokenizer.hasMoreTokens()) {
+			wert = tokenizer.nextToken().trim();
+		} else {
+			wert = "";
 		}
 
-		if (line.startsWith("objekte")) {
-			StringTokenizer tokenizer = new StringTokenizer(daten, ",");
-			while (tokenizer.hasMoreTokens()) {
-				objekte.add(model.getObject(tokenizer.nextToken()));
-			}
-		} else if (line.startsWith("atg")) {
-			atg = model.getAttributeGroup(daten);
-		} else if (line.startsWith("asp")) {
-			asp = model.getAspect(daten);
-		} else if (line.startsWith("simulationsVariante")) {
-			simulationsVariante = Short.valueOf(daten);
-		} else if (line.startsWith("rolle")) {
-			rolle = daten;
+		if (attr != null) {
+			defaultWerte.put(attr, wert);
+		}
+	}
+
+	/**
+	 * füllt den Datenverteilerdatensatz mit den konfigurierten Werten.
+	 * 
+	 * @param daten
+	 *            der Zieldatensatz
+	 * @param offset
+	 *            der Offset für den Ausführungszeitpunkt
+	 */
+	private void fuelleDatenSatz(final Data daten, final long offset) {
+		for (Entry<String, String> entry : defaultWerte.entrySet()) {
+			setzeAttribut(daten, entry.getKey(), entry.getValue());
+		}
+
+		List<String> datenListe = csvdaten.get(offset);
+		for (int idx = 0; idx < Math.min(csvHeaders.size(), datenListe.size()); idx++) {
+			setzeAttribut(daten, csvHeaders.get(idx), datenListe.get(idx));
 		}
 
 	}
 
 	/**
-	 * liefert den auf den übergebenen Zeitpunkt nächstfolgenden Zeitpunkt für
-	 * den Versand eines Datensatzes. Die Zeitpunkte ergeben sich aus den im
-	 * Datenberecih definierten Einträgen für die relativen Zeitstempel.
+	 * liefert den Arrayindex aus einem Atttributnamen.
 	 * 
-	 * @param wert
-	 *            der Zeuitpunkt nach dem der nächste Start gesucht ist.
-	 * @return den nächstfolgenden Zeitpunkt oder -1, wenn es keinen weiteren
-	 *         gibt.
+	 * @param attName
+	 *            der auszuwertende Name
+	 * @return der Index oder -1, wenn es sich nicht um ein Feldattribut handelt
 	 */
-	long getNextStart(final long wert) {
-		long result = -1;
-		SortedMap<Long, List<String>> sub = csvdaten.tailMap(wert + 1);
-		if ((sub != null) && (sub.size() > 0)) {
-			result = sub.firstKey();
+	private int getArrayIndex(final String attName) {
+		int arrayIndex = -1;
+		int index = attName.indexOf('[');
+		if (index >= 0) {
+			arrayIndex = Integer.parseInt(attName.substring(index + 1, attName
+					.indexOf(']')));
 		}
-		return result;
+		return arrayIndex;
 	}
 
 	/**
@@ -326,30 +345,80 @@ class DatenQuelle {
 		for (SystemObject object : objekte) {
 			resultData.add(new ResultData(object, new DataDescription(atg, asp,
 					simulationsVariante), startZeit
-					+ (offset * Konstante.SEKUNDE_IN_MS), daten));
+					+ (offset * Constants.MILLIS_PER_SECOND), daten));
 		}
 
 		return resultData;
 	}
 
 	/**
-	 * füllt den Datenverteilerdatensatz mit den konfigurierten Werten.
+	 * liefert die Beschreibung des Datensatzes in der Form
+	 * &lt;atg&gt;:&lt;aspekt&gt;:&lt;simulationsvariante&gt;.
 	 * 
-	 * @param daten
-	 *            der Zieldatensatz
-	 * @param offset
-	 *            der Offset für den Ausführungszeitpunkt
+	 * @return die Repräsentation der Datenbeschreibung
 	 */
-	private void fuelleDatenSatz(final Data daten, final long offset) {
-		for (Entry<String, String> entry : defaultWerte.entrySet()) {
-			setzeAttribut(daten, entry.getKey(), entry.getValue());
-		}
+	String getDatenBeschreibung() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(atg.getPid());
+		buffer.append(':');
+		buffer.append(asp.getPid());
+		buffer.append(':');
+		buffer.append(simulationsVariante);
+		return buffer.toString();
+	}
 
-		List<String> datenListe = csvdaten.get(offset);
-		for (int idx = 0; idx < Math.min(csvHeaders.size(), datenListe.size()); idx++) {
-			setzeAttribut(daten, csvHeaders.get(idx), datenListe.get(idx));
+	/**
+	 * liefert den "reinen" Namen des Attributs, d.h. eventuelle Feldindizes
+	 * werden eliminiert.
+	 * 
+	 * @param attName
+	 *            der Name des Attributs
+	 * @return den bereinigten Namen
+	 */
+	private String getItemName(final String attName) {
+		int index = attName.indexOf('[');
+		if (index >= 0) {
+			return (attName.substring(0, index));
 		}
+		return attName;
+	}
 
+	/**
+	 * liefert den auf den übergebenen Zeitpunkt nächstfolgenden Zeitpunkt für
+	 * den Versand eines Datensatzes. Die Zeitpunkte ergeben sich aus den im
+	 * Datenberecih definierten Einträgen für die relativen Zeitstempel.
+	 * 
+	 * @param wert
+	 *            der Zeuitpunkt nach dem der nächste Start gesucht ist.
+	 * @return den nächstfolgenden Zeitpunkt oder -1, wenn es keinen weiteren
+	 *         gibt.
+	 */
+	long getNextStart(final long wert) {
+		long result = -1;
+		SortedMap<Long, List<String>> sub = csvdaten.tailMap(wert + 1);
+		if ((sub != null) && (sub.size() > 0)) {
+			result = sub.firstKey();
+		}
+		return result;
+	}
+
+	/**
+	 * liefert die Liste der Systemobjekte, für die Daten versendet werden
+	 * sollen.
+	 * 
+	 * @return die Liste der Objekte
+	 */
+	Collection<SystemObject> getObjekte() {
+		return objekte;
+	}
+
+	/**
+	 * liefert die definierte Rolle für den Datenversand.
+	 * 
+	 * @return die Rolle
+	 */
+	String getRolle() {
+		return rolle;
 	}
 
 	/**
@@ -405,73 +474,5 @@ class DatenQuelle {
 		} else {
 			data.asTextValue().setText(wert);
 		}
-	}
-
-	/**
-	 * liefert den Arrayindex aus einem Atttributnamen.
-	 * 
-	 * @param attName
-	 *            der auszuwertende Name
-	 * @return der Index oder -1, wenn es sich nicht um ein Feldattribut handelt
-	 */
-	private int getArrayIndex(final String attName) {
-		int arrayIndex = -1;
-		int index = attName.indexOf('[');
-		if (index >= 0) {
-			arrayIndex = Integer.parseInt(attName.substring(index + 1, attName
-					.indexOf(']')));
-		}
-		return arrayIndex;
-	}
-
-	/**
-	 * liefert den "reinen" Namen des Attributs, d.h. eventuelle Feldindizes
-	 * werden eliminiert.
-	 * 
-	 * @param attName
-	 *            der Name des Attributs
-	 * @return den bereinigten Namen
-	 */
-	private String getItemName(final String attName) {
-		int index = attName.indexOf('[');
-		if (index >= 0) {
-			return (attName.substring(0, index));
-		}
-		return attName;
-	}
-
-	/**
-	 * liefert die definierte Rolle für den Datenversand.
-	 * 
-	 * @return die Rolle
-	 */
-	String getRolle() {
-		return rolle;
-	}
-
-	/**
-	 * liefert die Liste der Systemobjekte, für die Daten versendet werden
-	 * sollen.
-	 * 
-	 * @return die Liste der Objekte
-	 */
-	Collection<SystemObject> getObjekte() {
-		return objekte;
-	}
-
-	/**
-	 * liefert die Beschreibung des Datensatzes in der Form
-	 * &lt;atg&gt;:&lt;aspekt&gt;:&lt;simulationsvariante&gt;.
-	 * 
-	 * @return die Repräsentation der Datenbeschreibung
-	 */
-	String getDatenBeschreibung() {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(atg.getPid());
-		buffer.append(':');
-		buffer.append(asp.getPid());
-		buffer.append(':');
-		buffer.append(simulationsVariante);
-		return buffer.toString();
 	}
 }

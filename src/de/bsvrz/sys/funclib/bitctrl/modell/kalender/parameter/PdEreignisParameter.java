@@ -29,6 +29,8 @@ package de.bsvrz.sys.funclib.bitctrl.modell.kalender.parameter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bitctrl.util.Interval;
+
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.Data.Array;
@@ -42,7 +44,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.SystemKalenderEintrag;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.parameter.PdEreignisParameter.Daten.VerkehrlicheGueltigkeit;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.NetzBestandTeil;
-import de.bsvrz.sys.funclib.bitctrl.util.Intervall;
 
 /**
  * Kapselt die Attributgruppe "atg.ereignisParameter".
@@ -182,7 +183,7 @@ public class PdEreignisParameter extends
 		private final List<NetzBestandTeil> raeumlicheGueltigkeit = new ArrayList<NetzBestandTeil>();
 
 		/** Die Eigenschaft {@code zeitlicheGueltigkeit}. */
-		private Intervall zeitlicheGueltigkeit;
+		private Interval zeitlicheGueltigkeit;
 
 		/** Die Eigenschaft {@code systemKalenderEintrag}. */
 		private SystemKalenderEintrag systemKalenderEintrag;
@@ -273,7 +274,7 @@ public class PdEreignisParameter extends
 		 *         Intervall ungültig ist oder das Ereignis über den
 		 *         Systemkalendereintrag definiert ist.
 		 */
-		public Intervall getZeitlicheGueltigkeit() {
+		public Interval getZeitlicheGueltigkeit() {
 			return zeitlicheGueltigkeit;
 		}
 
@@ -314,7 +315,7 @@ public class PdEreignisParameter extends
 		 * @param zeitlicheGueltigkeit
 		 *            der neue Wert von {@code zeitlicheGueltigkeit}.
 		 */
-		public void setZeitlicheGueltigkeit(Intervall zeitlicheGueltigkeit) {
+		public void setZeitlicheGueltigkeit(Interval zeitlicheGueltigkeit) {
 			this.zeitlicheGueltigkeit = zeitlicheGueltigkeit;
 		}
 
@@ -401,7 +402,7 @@ public class PdEreignisParameter extends
 			daten.getTimeValue("BeginnZeitlicheGültigkeit").setMillis(
 					datum.getZeitlicheGueltigkeit().getStart());
 			daten.getTimeValue("EndeZeitlicheGültigkeit").setMillis(
-					datum.getZeitlicheGueltigkeit().getEnde());
+					datum.getZeitlicheGueltigkeit().getEnd());
 		}
 
 		if (datum.getSystemKalenderEintrag() != null) {
@@ -467,7 +468,7 @@ public class PdEreignisParameter extends
 								.getSystemObject()));
 			} else if (start < ende) {
 				// Definition über zeitliche Gültigkeit
-				datum.setZeitlicheGueltigkeit(new Intervall(start, ende));
+				datum.setZeitlicheGueltigkeit(new Interval(start, ende));
 			} else {
 				// Intervall ist ungültig, weil Start größer als Ende
 				datum.setZeitlicheGueltigkeit(null);

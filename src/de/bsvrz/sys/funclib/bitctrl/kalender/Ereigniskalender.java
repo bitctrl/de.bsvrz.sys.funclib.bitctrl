@@ -31,6 +31,8 @@ import java.util.Map;
 
 import javax.swing.event.EventListenerList;
 
+import com.bitctrl.util.Interval;
+
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.ClientApplication;
 import de.bsvrz.dav.daf.main.config.ConfigurationChangeException;
@@ -50,7 +52,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.parameter.PdEreignisParamete
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.parameter.PdEreignisTypParameter;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.parameter.PdSystemKalenderEintrag;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
-import de.bsvrz.sys.funclib.bitctrl.util.Intervall;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
@@ -173,7 +174,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 *             war.
 	 */
 	public Ereignis anlegenEreignis(String pid, String name,
-			String beschreibung, EreignisTyp typ, Intervall intervall,
+			String beschreibung, EreignisTyp typ, Interval intervall,
 			String quelle) throws ConfigurationChangeException,
 			AnmeldeException, DatensendeException {
 		Ereignis erg;
@@ -366,6 +367,25 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	}
 
 	/**
+	 * Informiert alle registrierten Listener &uuml;ber eine Antwort.
+	 * 
+	 * @param datum
+	 *            das Datum mit der Antwort.
+	 */
+	protected synchronized void fireAntwort(
+			OdEreignisKalenderAntwort.Daten datum) {
+		KalenderEvent e = new KalenderEvent(this, datum.getAbsenderZeichen(),
+				datum.isAenderung(), datum.getZustandswechsel());
+
+		for (KalenderListener l : listeners
+				.getListeners(KalenderListener.class)) {
+			l.antwortEingetroffen(e);
+		}
+
+		log.fine("Kalenderantwort wurde verteilt: " + e);
+	}
+
+	/**
 	 * Fragt, ob der Kalender Anfragen entgegennimmt.
 	 * 
 	 * @return {@code true}, wenn der Kalender verwendet werden kann.
@@ -463,25 +483,6 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		odAnfrage.sendeDaten(aspAnfrage, datum);
 
 		log.fine("Anfrage \"" + absenderZeichen + "\" wurde gesendet");
-	}
-
-	/**
-	 * Informiert alle registrierten Listener &uuml;ber eine Antwort.
-	 * 
-	 * @param datum
-	 *            das Datum mit der Antwort.
-	 */
-	protected synchronized void fireAntwort(
-			OdEreignisKalenderAntwort.Daten datum) {
-		KalenderEvent e = new KalenderEvent(this, datum.getAbsenderZeichen(),
-				datum.isAenderung(), datum.getZustandswechsel());
-
-		for (KalenderListener l : listeners
-				.getListeners(KalenderListener.class)) {
-			l.antwortEingetroffen(e);
-		}
-
-		log.fine("Kalenderantwort wurde verteilt: " + e);
 	}
 
 }

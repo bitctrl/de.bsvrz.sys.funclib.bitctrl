@@ -29,10 +29,11 @@ package de.bsvrz.sys.funclib.bitctrl.kalender;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.bitctrl.util.Interval;
+
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.zustaende.EreignisTypenOption;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.NetzBestandTeil;
-import de.bsvrz.sys.funclib.bitctrl.util.Intervall;
 
 /**
  * Repr&auml;sentiert eine Anfrage an den Ereigniskalender.
@@ -54,7 +55,7 @@ public class KalenderAnfrage {
 	private final Set<NetzBestandTeil> raeumlicheGueltigkeit = new HashSet<NetzBestandTeil>();
 
 	/** Das Zeitintervall, indem Ereignisse angefragt werden. */
-	private Intervall intervall;
+	private Interval intervall;
 
 	/**
 	 * Auswahloption f&uuml;r die Liste der Ereignistypen. Standard ist
@@ -87,7 +88,7 @@ public class KalenderAnfrage {
 	 * 
 	 * @return {@code intervall}.
 	 */
-	public Intervall getIntervall() {
+	public Interval getIntervall() {
 		return intervall;
 	}
 
@@ -116,7 +117,7 @@ public class KalenderAnfrage {
 	 * @param intervall
 	 *            der neue Wert von {@code intervall}.
 	 */
-	public void setIntervall(Intervall intervall) {
+	public void setIntervall(Interval intervall) {
 		this.intervall = intervall;
 	}
 

@@ -30,6 +30,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.bitctrl.util.Interval;
+
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.Data.Array;
@@ -46,7 +48,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.EreignisTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.zustaende.EreignisTypenOption;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.NetzBestandTeil;
-import de.bsvrz.sys.funclib.bitctrl.util.Intervall;
 
 /**
  * Kapselt die Attributgruppe {@code atg.ereignisKalenderAnfrage}.
@@ -124,7 +125,7 @@ public class OdEreignisKalenderAnfrage extends
 		private String absenderZeichen;
 
 		/** Das Zeitintervall, indem Ereignisse angefragt werden. */
-		private Intervall intervall;
+		private Interval intervall;
 
 		/**
 		 * Auswahloption f&uuml;r die Liste der Ereignistypen. Standard ist
@@ -159,7 +160,7 @@ public class OdEreignisKalenderAnfrage extends
 			klon.absenderZeichen = absenderZeichen;
 			klon.ereignisTypen.addAll(ereignisTypen);
 			klon.ereignisTypenOption = ereignisTypenOption;
-			klon.intervall = new Intervall(intervall);
+			klon.intervall = intervall.clone();
 			klon.raeumlicheGueltigkeit.addAll(raeumlicheGueltigkeit);
 
 			return klon;
@@ -215,7 +216,7 @@ public class OdEreignisKalenderAnfrage extends
 		 * 
 		 * @return {@code intervall}.
 		 */
-		public Intervall getIntervall() {
+		public Interval getIntervall() {
 			return intervall;
 		}
 
@@ -275,7 +276,7 @@ public class OdEreignisKalenderAnfrage extends
 		 * @param intervall
 		 *            der neue Wert von {@code intervall}.
 		 */
-		public void setIntervall(Intervall intervall) {
+		public void setIntervall(Interval intervall) {
 			this.intervall = intervall;
 		}
 
@@ -376,7 +377,7 @@ public class OdEreignisKalenderAnfrage extends
 		daten.getTimeValue("Anfangszeitpunkt").setMillis(
 				datum.getIntervall().getStart());
 		daten.getTimeValue("Endzeitpunkt").setMillis(
-				datum.getIntervall().getEnde());
+				datum.getIntervall().getEnd());
 		daten.getUnscaledValue("EreignisTypenOption").set(
 				datum.getEreignisTypenOption().getCode());
 
@@ -421,7 +422,7 @@ public class OdEreignisKalenderAnfrage extends
 					.getReferenceValue("absenderId").getSystemObject()));
 			datum.setAbsenderZeichen(daten.getTextValue("absenderZeichen")
 					.getText());
-			datum.setIntervall(new Intervall(daten.getTimeValue(
+			datum.setIntervall(new Interval(daten.getTimeValue(
 					"Anfangszeitpunkt").getMillis(), daten.getTimeValue(
 					"Endzeitpunkt").getMillis()));
 			datum.setEreignisTypenOption(EreignisTypenOption.getTyp(daten
