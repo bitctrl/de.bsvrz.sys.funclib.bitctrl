@@ -32,7 +32,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
+import com.bitctrl.Constants;
+
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
@@ -140,7 +141,7 @@ public class CSVImporter{
 		try {
 			s = csvDatei.getCanonicalPath();
 		} catch (IOException ex) {
-			LOGGER.error(Konstante.LEERSTRING, ex);
+			LOGGER.error(Constants.EMPTY_STRING, ex);
 		}
 		
 		return s;
@@ -155,7 +156,7 @@ public class CSVImporter{
 			this.leser.close();
 			this.leser = new BufferedReader(new FileReader(this.csvDatei));
 		} catch (IOException ex) {
-			LOGGER.error(Konstante.LEERSTRING, ex);
+			LOGGER.error(Constants.EMPTY_STRING, ex);
 		}
 	}
 

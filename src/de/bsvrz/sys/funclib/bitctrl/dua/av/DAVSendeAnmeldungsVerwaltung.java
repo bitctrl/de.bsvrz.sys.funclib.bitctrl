@@ -28,13 +28,14 @@ package de.bsvrz.sys.funclib.bitctrl.dua.av;
 
 import java.util.Collection;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ClientSenderInterface;
 import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.SenderRole;
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
@@ -89,7 +90,7 @@ implements ClientSenderInterface{
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			LOGGER.error(Konstante.LEERSTRING, e);
+			LOGGER.error(Constants.EMPTY_STRING, e);
 		}
 	}
 

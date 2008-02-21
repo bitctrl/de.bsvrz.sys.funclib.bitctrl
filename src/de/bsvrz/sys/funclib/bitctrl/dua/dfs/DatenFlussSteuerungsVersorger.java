@@ -178,9 +178,9 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 		} else {
 			LOGGER
 					.warning("Die Datenflusssteuerung ist nicht zur Laufzeit steuerbar.\n" + //$NON-NLS-1$
-							"Es wurde kein Objekt vom Typ "
+							"Es wurde kein Objekt vom Typ "//$NON-NLS-1$
 							+ DFSKonstanten.TYP
-							+ //$NON-NLS-1$
+							+ 
 							" identifiziert."); //$NON-NLS-1$
 		}
 	}
@@ -268,8 +268,8 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 							} catch (Exception e) {
 								LOGGER.error("Eine Publikationszuordnung " + //$NON-NLS-1$
 										"konnte nicht korrekt" + //$NON-NLS-1$
-										" ausgelesen werden: " + paraZuordnung,
-										e); //$NON-NLS-1$
+										" ausgelesen werden: " + paraZuordnung, //$NON-NLS-1$
+										e);
 							}
 						}
 

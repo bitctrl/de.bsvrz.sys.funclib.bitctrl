@@ -25,7 +25,8 @@
  */
 package de.bsvrz.sys.funclib.bitctrl.dua;
 
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
+import com.bitctrl.Constants;
+
 
 /**
  * Klasse, die alle Markierungen eines Messwertes speichert
@@ -261,12 +262,12 @@ implements Cloneable{
 	 */
 	@Override
 	public String toString() {
-		return  (this.nichtErfasst?"nErf ":Konstante.LEERSTRING) +  //$NON-NLS-1$
-			    (this.formalMax?"fMax ":Konstante.LEERSTRING) +  //$NON-NLS-1$
-			    (this.formalMin?"fMin ":Konstante.LEERSTRING) +  //$NON-NLS-1$
-			    (this.logischMax?"lMax ":Konstante.LEERSTRING) +  //$NON-NLS-1$
-			    (this.logischMin?"lMin ":Konstante.LEERSTRING) +  //$NON-NLS-1$
-			    (this.implausibel?"Impl ":Konstante.LEERSTRING) +  //$NON-NLS-1$
-			    (this.interpoliert?"Intp ":Konstante.LEERSTRING);  //$NON-NLS-1$
+		return  (this.nichtErfasst?"nErf ":Constants.EMPTY_STRING) +  //$NON-NLS-1$
+			    (this.formalMax?"fMax ":Constants.EMPTY_STRING) +  //$NON-NLS-1$
+			    (this.formalMin?"fMin ":Constants.EMPTY_STRING) +  //$NON-NLS-1$
+			    (this.logischMax?"lMax ":Constants.EMPTY_STRING) +  //$NON-NLS-1$
+			    (this.logischMin?"lMin ":Constants.EMPTY_STRING) +  //$NON-NLS-1$
+			    (this.implausibel?"Impl ":Constants.EMPTY_STRING) +  //$NON-NLS-1$
+			    (this.interpoliert?"Intp ":Constants.EMPTY_STRING);  //$NON-NLS-1$
 	}
 }

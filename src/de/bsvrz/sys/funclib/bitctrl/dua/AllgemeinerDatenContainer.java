@@ -28,7 +28,8 @@ package de.bsvrz.sys.funclib.bitctrl.dua;
 
 import java.lang.reflect.Method;
 
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
+import com.bitctrl.Constants;
+
 
 /**
  * Allgemeine Klasse für die Beschreibung von Objekten, die <b>nur</b> Daten halten,
@@ -82,7 +83,7 @@ public class AllgemeinerDatenContainer {
 	 */
 	@Override
 	public String toString() {
-		String s = Konstante.LEERSTRING;
+		String s = Constants.EMPTY_STRING;
 		
 		for(Method methode:this.getClass().getMethods()){
 			if(methode.getName().startsWith("get") &&  //$NON-NLS-1$

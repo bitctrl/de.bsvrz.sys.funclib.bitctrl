@@ -29,8 +29,9 @@ package de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.sys.funclib.bitctrl.daf.AbstractDavZustand;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 
 /**
  * Korrespondiert mit <code>att.stundenIntervallAnteile12h</code>
@@ -51,25 +52,25 @@ extends AbstractDavZustand{
 	 * Alle wirklichen Enumerationswerte
 	 */	
 	public static final StundenIntervallAnteil12h STUNDEN_1 = 
-		new StundenIntervallAnteil12h("1 Stunde", 1, Konstante.STUNDE_IN_MS); //$NON-NLS-1$
+		new StundenIntervallAnteil12h("1 Stunde", 1, Constants.MILLIS_PER_HOUR); //$NON-NLS-1$
 	
 	public static final StundenIntervallAnteil12h STUNDEN_2 = 
-		new StundenIntervallAnteil12h("2 Stunden", 2, 2* Konstante.STUNDE_IN_MS); //$NON-NLS-1$
+		new StundenIntervallAnteil12h("2 Stunden", 2, 2* Constants.MILLIS_PER_HOUR); //$NON-NLS-1$
 	
 	public static final StundenIntervallAnteil12h STUNDEN_3 = 
-		new StundenIntervallAnteil12h("3 Stunden", 3, 3 * Konstante.STUNDE_IN_MS); //$NON-NLS-1$
+		new StundenIntervallAnteil12h("3 Stunden", 3, 3 * Constants.MILLIS_PER_HOUR); //$NON-NLS-1$
 	
 	public static final StundenIntervallAnteil12h STUNDEN_4 = 
-		new StundenIntervallAnteil12h("4 Stunden", 4, 4 * Konstante.STUNDE_IN_MS); //$NON-NLS-1$
+		new StundenIntervallAnteil12h("4 Stunden", 4, 4 * Constants.MILLIS_PER_HOUR); //$NON-NLS-1$
 	
 	public static final StundenIntervallAnteil12h STUNDEN_6 = 
-		new StundenIntervallAnteil12h("6 Stunden", 6, 6 * Konstante.STUNDE_IN_MS); //$NON-NLS-1$
+		new StundenIntervallAnteil12h("6 Stunden", 6, 6 * Constants.MILLIS_PER_HOUR); //$NON-NLS-1$
 	
 	public static final StundenIntervallAnteil12h STUNDEN_8 = 
-		new StundenIntervallAnteil12h("8 Stunden", 8, 8 * Konstante.STUNDE_IN_MS); //$NON-NLS-1$
+		new StundenIntervallAnteil12h("8 Stunden", 8, 8 * Constants.MILLIS_PER_HOUR); //$NON-NLS-1$
 	
 	public static final StundenIntervallAnteil12h STUNDEN_12 = 
-		new StundenIntervallAnteil12h("12 Stunden", 12, 12 * Konstante.STUNDE_IN_MS); //$NON-NLS-1$
+		new StundenIntervallAnteil12h("12 Stunden", 12, 12 * Constants.MILLIS_PER_HOUR); //$NON-NLS-1$
 
 	/**
 	 * der hier definierte Zeitbereich in Millisekunden

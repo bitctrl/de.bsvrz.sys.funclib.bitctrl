@@ -31,6 +31,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.config.ConfigurationArea;
 import de.bsvrz.dav.daf.main.config.SystemObject;
@@ -39,7 +41,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.DatenFlussSteuerungsVersorger;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 import de.bsvrz.sys.funclib.debug.Debug;
 import de.bsvrz.sys.funclib.operatingMessage.MessageGrade;
@@ -242,7 +243,7 @@ implements IVerwaltung {
 
 		String dummy = "---keine Konfigurationsbereiche angegeben---\n"; //$NON-NLS-1$
 		if(kBereiche.size() > 0){
-			dummy = Konstante.LEERSTRING;
+			dummy = Constants.EMPTY_STRING;
 			for(ConfigurationArea kb:kBereiche){
 				dummy += kb + "\n"; //$NON-NLS-1$
 			}

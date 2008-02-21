@@ -29,6 +29,8 @@ package de.bsvrz.sys.funclib.bitctrl.dua.ufd.modell;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ClientReceiverInterface;
 import de.bsvrz.dav.daf.main.Data;
@@ -40,7 +42,6 @@ import de.bsvrz.dav.daf.main.config.ConfigurationObject;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 
 /**
  * Korrespondiert mit einem Objekt vom Typ <code>typ.umfeldDatenSensor</code>
@@ -81,7 +82,7 @@ implements ClientReceiverInterface{
 	 * 
 	 */
 //	private long maxZeitMessWertFortschreibung = -1;
-	private long maxZeitMessWertFortschreibung = Konstante.SEKUNDE_IN_MS * 3 * 60;
+	private long maxZeitMessWertFortschreibung = Constants.MILLIS_PER_SECOND * 3 * 60;
 	
 	/**
 	 * Die Umfelddatenmessstelle vorher

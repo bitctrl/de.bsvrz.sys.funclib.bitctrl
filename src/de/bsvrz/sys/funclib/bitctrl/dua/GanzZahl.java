@@ -25,8 +25,9 @@
  */
 package de.bsvrz.sys.funclib.bitctrl.dua;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.sys.funclib.bitctrl.daf.AbstractDavZustand;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 
 /**
  * Korrespondiert mit den Eigenschaften einer ggf. skalierbaren DAV-Ganzzahl
@@ -243,7 +244,7 @@ implements Comparable<GanzZahl> {
 	 */
 	@Override
 	public String toString() {
-		String s = Konstante.LEERSTRING;
+		String s = Constants.EMPTY_STRING;
 		
 		s +=   "Wert (unskaliert): " + this.getWert(); //$NON-NLS-1$
 		s += "\nWert (skaliert): " + this.getSkaliertenWert() + ", (F: " + this.skalierungsFaktor + ")";  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$

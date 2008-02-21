@@ -34,6 +34,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.DataDescription;
@@ -51,7 +53,6 @@ import de.bsvrz.dav.daf.main.impl.config.DafConfigurationObject;
 import de.bsvrz.dav.daf.main.impl.config.DafDynamicObject;
 import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.av.DAVObjektAnmeldung;
-import de.bsvrz.sys.funclib.bitctrl.konstante.Konstante;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
@@ -151,7 +152,7 @@ public class DUAUtensilien {
 									new DataDescription(atg, datenBeschreibung
 											.getAspect(), (short) 0)));
 						} catch (Exception ex) {
-							LOGGER.fine(Konstante.LEERSTRING, ex);
+							LOGGER.fine(Constants.EMPTY_STRING, ex);
 						}
 					}
 				} else if (datenBeschreibung.getAspect() == null) {
@@ -166,7 +167,7 @@ public class DUAUtensilien {
 							datenBeschreibung));
 				}
 			} catch (Exception ex) {
-				LOGGER.fine(Konstante.LEERSTRING, ex);
+				LOGGER.fine(Constants.EMPTY_STRING, ex);
 			}
 		}
 
