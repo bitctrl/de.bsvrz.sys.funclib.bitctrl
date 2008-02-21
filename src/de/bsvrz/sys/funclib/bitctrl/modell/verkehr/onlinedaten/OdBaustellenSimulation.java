@@ -32,6 +32,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.Aspect;
@@ -239,6 +241,21 @@ public class OdBaustellenSimulation extends
 		}
 
 		/**
+		 * Markierung, ob mit dem Datensatz die Ergebnisse einer erfolgreichen
+		 * Simulation versendet werden.
+		 */
+		private boolean simulationErfolgreich;
+
+		/** der Name des Auftraggebers. */
+		private String auftragGeber;
+
+		/** eine Bemerkung zum Simulationsauftrag. */
+		private String bemerkung;
+
+		/** eine potentielle Fehlermeldung. */
+		private String fehlerMeldung;
+
+		/**
 		 * die Liste der Staueinträge.
 		 */
 		private List<StauEintrag> staus = new ArrayList<StauEintrag>();
@@ -286,12 +303,56 @@ public class OdBaustellenSimulation extends
 		}
 
 		/**
+		 * liefert den Auftraggeber. Wenn keiner gesetzt ist, wird der String
+		 * "Baustellensimulation" geliefert.
+		 * 
+		 * @return den Auftraggeber
+		 */
+		public String getAuftragGeber() {
+			String result = auftragGeber;
+			if (result == null) {
+				result = "Baustellensimulation";
+			}
+			return result;
+		}
+
+		/**
+		 * liefert die Bemerkung die bei der Beauftragung einer Simulation
+		 * angegebenen wurde. Wenn keine gesetzt wurde, wird ein Leerstring
+		 * geliefert.
+		 * 
+		 * @return die Bemerkung
+		 */
+		public String getBemerkung() {
+			String result = bemerkung;
+			if (result == null) {
+				result = Constants.EMPTY_STRING;
+			}
+			return result;
+		}
+
+		/**
 		 * {@inheritDoc}.<br>
 		 * 
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
 		 */
 		public Status getDatenStatus() {
 			return datenStatus;
+		}
+
+		/**
+		 * liefert eine potentielle Fehlermeldung, die die Ausführung der
+		 * Simulation verhindert hat. Wenn keine gesetzt wurde, wird ein
+		 * Leerstring geliefert.
+		 * 
+		 * @return die Meldung
+		 */
+		public String getFehlerMeldung() {
+			String result = fehlerMeldung;
+			if (result == null) {
+				result = Constants.EMPTY_STRING;
+			}
+			return result;
 		}
 
 		/**
@@ -316,6 +377,38 @@ public class OdBaustellenSimulation extends
 		}
 
 		/**
+		 * liefert den Marker, über den festgelegt ist, ob die Simulation
+		 * erfolgreich durchgeführt werden konnte.
+		 * 
+		 * @return <code>true</code>, wenn die Daten das Ergebnis einer
+		 *         erfolgreichen Simulation beschreiben.
+		 */
+		public boolean isSimulationErfolgreich() {
+			return simulationErfolgreich;
+		}
+
+		/**
+		 * sertr den Name des Auftraggebers der Simulation.
+		 * 
+		 * @param auftragGeber
+		 *            der Name
+		 */
+		public void setAuftragGeber(String auftragGeber) {
+			this.auftragGeber = auftragGeber;
+		}
+
+		/**
+		 * setzt den Bemerkungstext, der mit dem Auftrag zur SImulation
+		 * geliefert wurde.
+		 * 
+		 * @param bemerkung
+		 *            der Text
+		 */
+		public void setBemerkung(String bemerkung) {
+			this.bemerkung = bemerkung;
+		}
+
+		/**
 		 * setzt den aktuellen Status des Datensatzes.
 		 * 
 		 * @param neuerStatus
@@ -323,6 +416,28 @@ public class OdBaustellenSimulation extends
 		 */
 		protected void setDatenStatus(Status neuerStatus) {
 			this.datenStatus = neuerStatus;
+		}
+
+		/**
+		 * setzt einen Fehlertext, wenn die Simulation nicht erfolgreich
+		 * ausgeführt werden konnte.
+		 * 
+		 * @param fehlerMeldung
+		 *            der Text
+		 */
+		public void setFehlerMeldung(String fehlerMeldung) {
+			this.fehlerMeldung = fehlerMeldung;
+		}
+
+		/**
+		 * setzt den Marker, der eine erfolgreiche Simulation markiert.
+		 * 
+		 * @param simulationErfolgreich
+		 *            <code>true</code>, wenn die Daten einer erfolgreichen
+		 *            Simulation entstammen
+		 */
+		public void setSimulationErfolgreich(boolean simulationErfolgreich) {
+			this.simulationErfolgreich = simulationErfolgreich;
 		}
 	}
 
@@ -389,6 +504,16 @@ public class OdBaustellenSimulation extends
 	protected Data konvertiere(Daten datum) {
 		Data daten = erzeugeSendeCache();
 
+		if (datum.isSimulationErfolgreich()) {
+			daten.getUnscaledValue("SimulationErfolgreich").set(1);
+		} else {
+			daten.getUnscaledValue("SimulationErfolgreich").set(0);
+		}
+
+		daten.getTextValue("Auftraggeber").setText(datum.getAuftragGeber());
+		daten.getTextValue("Bemerkung").setText(datum.getBemerkung());
+		daten.getTextValue("Fehlermeldung").setText(datum.getFehlerMeldung());
+
 		Data.Array array = daten.getArray("BaustellenSimulation");
 		array.setLength(datum.getStaus().size());
 
@@ -418,9 +543,18 @@ public class OdBaustellenSimulation extends
 		check(result);
 
 		Daten datum = new Daten();
-	
+
 		if (result.hasData()) {
 			Data daten = result.getData();
+
+			if (daten.getUnscaledValue("SimulationErfolgreich").intValue() != 0) {
+				datum.setSimulationErfolgreich(true);
+			}
+
+			datum.setAuftragGeber(daten.getTextValue("Auftraggeber").getText());
+			datum.setBemerkung(daten.getTextValue("Bemerkung").getText());
+			datum.setFehlerMeldung(daten.getTextValue("Fehlermeldung")
+					.getText());
 
 			Data.Array array = daten.getArray("BaustellenSimulation");
 
