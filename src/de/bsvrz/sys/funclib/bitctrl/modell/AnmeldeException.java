@@ -53,7 +53,6 @@ public class AnmeldeException extends Exception {
 	 */
 	public AnmeldeException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -66,7 +65,6 @@ public class AnmeldeException extends Exception {
 	 */
 	public AnmeldeException(String message, Throwable cause) {
 		super(message, cause);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -77,7 +75,6 @@ public class AnmeldeException extends Exception {
 	 */
 	public AnmeldeException(Throwable cause) {
 		super(cause);
-		// TODO Auto-generated constructor stub
 	}
 
 }

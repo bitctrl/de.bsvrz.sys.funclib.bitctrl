@@ -49,7 +49,6 @@ public class Ortslage extends KomplexXYImpl {
 	 */
 	public Ortslage(SystemObject obj) {
 		super(obj);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

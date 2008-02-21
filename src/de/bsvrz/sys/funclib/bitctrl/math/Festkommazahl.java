@@ -29,7 +29,6 @@ package de.bsvrz.sys.funclib.bitctrl.math;
 /**
  * Repr&auml;sentiert eine Zahl mit einer festen Anzahl Kommastellen.
  * <p>
- * TODO: Rechenoperationen als Methoden definieren
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$

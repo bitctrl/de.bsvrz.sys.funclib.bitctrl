@@ -49,7 +49,6 @@ public class Ortsname extends PunktXYImpl {
 	 */
 	public Ortsname(SystemObject obj) {
 		super(obj);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

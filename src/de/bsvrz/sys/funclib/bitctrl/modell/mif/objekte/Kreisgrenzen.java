@@ -49,7 +49,6 @@ public class Kreisgrenzen extends KomplexXYImpl {
 	 */
 	public Kreisgrenzen(SystemObject obj) {
 		super(obj);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

@@ -49,7 +49,6 @@ public class Gewaesser extends KomplexXYImpl {
 	 */
 	public Gewaesser(SystemObject obj) {
 		super(obj);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

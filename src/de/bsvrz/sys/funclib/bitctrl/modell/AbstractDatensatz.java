@@ -689,7 +689,6 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 				try {
 					wait(timeout);
 				} catch (InterruptedException ex) {
-					// TODO Auto-generated catch block
 					ex.printStackTrace();
 				}
 			}

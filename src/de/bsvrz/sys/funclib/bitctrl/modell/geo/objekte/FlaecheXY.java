@@ -30,8 +30,6 @@ import java.util.List;
 
 import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
 
-// TODO Wird von TMCGebiet erweitert
-
 /**
  * Schnittstelle für die Repräsentation eines Objekts vom Typ "typ.flächeXY"
  * innerhalb der Datenverteilerkonfiguration.
