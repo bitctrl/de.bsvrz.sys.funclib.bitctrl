@@ -28,6 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
@@ -35,6 +36,7 @@ import java.util.logging.Logger;
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ClientSenderInterface;
 import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.DataAndATGUsageInformation;
 import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.DataNotSubscribedException;
 import de.bsvrz.dav.daf.main.ResultData;
@@ -52,7 +54,6 @@ import de.bsvrz.dav.daf.main.config.MutableSetChangeListener;
 import de.bsvrz.dav.daf.main.config.ObjectSet;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dav.daf.main.config.SystemObjectType;
-import de.bsvrz.dav.daf.main.config.DynamicObjectType.DynamicObjectCreatedListener;
 import de.bsvrz.sys.funclib.application.StandardApplication;
 import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
@@ -67,9 +68,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * @version $Id$
  * 
  */
-public class DynamischeMengenWatcher extends TimerTask implements
-		StandardApplication, MutableSetChangeListener,
-		DynamicObjectCreatedListener {
+public class SimulationsTester implements StandardApplication {
 
 	/**
 	 * Logger für Debug-Ausgaben.
@@ -83,24 +82,8 @@ public class DynamischeMengenWatcher extends TimerTask implements
 	 *            die übergebenen Argumente
 	 */
 	public static void main(final String[] args) {
-		StandardApplicationRunner.run(new DynamischeMengenWatcher(), args);
+		StandardApplicationRunner.run(new SimulationsTester(), args);
 	}
-
-	/**
-	 * der letzte Status, der als Störzustand versendet werden sollte.
-	 */
-	int letzterStatus = 0;
-
-	/**
-	 * Timer für zyklische Datenversendung.
-	 */
-	Timer timer = new Timer();
-
-	/**
-	 * die Liste der Straßenteilsegmente für die der StörfallZustand versendet
-	 * werden soll.
-	 */
-	private final Collection<SystemObject> stsObjekte = new ArrayList<SystemObject>();
 
 	/**
 	 * die verwendete Datenverteilerverbindung.
@@ -130,30 +113,46 @@ public class DynamischeMengenWatcher extends TimerTask implements
 
 		this.dav = connection;
 		DataModel model = connection.getDataModel();
-		baustellen = ((ConfigurationObject) connection.getDataModel()
-				.getObject("RDSNetz")).getMutableSet("Baustellen");
-		baustellenTyp = (DynamicObjectType) model.getType("typ.baustelle");
-		System.err.println("Es gibt " + baustellen.getElements().size()
-				+ " Baustellen");
+		DynamicObjectType streckenTyp = (DynamicObjectType) model
+				.getType("typ.simulationsStrecke");
+		AttributeGroup atg = model
+				.getAttributeGroup("atg.simulationsStreckenBeschreibung");
+		Data daten = dav.createData(atg);
 
-		baustellenTyp.addObjectCreationListener(this);
-
-		// baustellen.addChangeListener(this);
-
-		if (erzeugeObjekte) {
-			timer.schedule(this, 0L, 10000L);
-			baustellen.remove(baustellen.getElements().toArray(
-					new SystemObject[0]));
+		if (model.getObject("styp.meineStrecke") == null) {
+			dav.getLocalConfigurationAuthority().getConfigurationArea()
+					.createDynamicObject(streckenTyp, "styp.meineStrecke",
+							"Meine Strecke");
 		}
-	}
 
-	/**
-	 * {@inheritDoc}.<br>
-	 * 
-	 * @see de.bsvrz.dav.daf.main.config.DynamicObjectType.DynamicObjectCreatedListener#objectCreated(de.bsvrz.dav.daf.main.config.DynamicObject)
-	 */
-	public void objectCreated(DynamicObject createdObject) {
-		System.err.println("Neues Objekt: " + createdObject.getNameOrPidOrId());
+		System.err.println("Daten: " + daten);
+
+		DynamicObjectType simulationsTyp = (DynamicObjectType) model
+				.getType("typ.onlineSimulation");
+		atg = model.getAttributeGroup("atg.simulationsEigenschaften");
+
+		daten = dav.createData(atg);
+		daten.getUnscaledValue("SimulationsVariante").set(5);
+		daten.getReferenceValue("SimulationsStreckenReferenz").setSystemObject(
+				model.getObject("styp.meineStrecke"));
+		System.err.println("Daten: " + daten);
+
+		if (model.getObject("simulation.5") == null) {
+			DataAndATGUsageInformation info = new DataAndATGUsageInformation(
+					atg.getAttributeGroupUsage(model
+							.getAspect("asp.eigenschaften")), daten);
+			dav.getLocalConfigurationAuthority().getConfigurationArea()
+					.createDynamicObject(simulationsTyp, "simulation.5",
+							"Simulation 5", Collections.singletonList(info));
+		}
+		// else {
+		// model.getObject("simulation.5").invalidate();
+		// }
+
+		dav.getLocalConfigurationAuthority().getMutableSet("Simulationen").add(
+				model.getObject("simulation.5"));
+
+		System.exit(0);
 	}
 
 	/**
@@ -168,41 +167,26 @@ public class DynamischeMengenWatcher extends TimerTask implements
 			arg = argumentList.fetchNextArgument();
 			if ("SENDER".equals(arg.getName())) {
 				erzeugeObjekte = true;
-				System.err.println("Objekte anlegen");
 			}
 		}
 	}
 
-	/**
-	 * {@inheritDoc}.<br>
-	 * 
-	 * @see java.util.TimerTask#run()
-	 */
-	@Override
-	public void run() {
-		try {
-			System.err.println("Neue Baustelle anlegen");
-			DynamicObject neuesEreigns = dav.getLocalConfigurationAuthority()
-					.getConfigurationArea().createDynamicObject(baustellenTyp,
-							"bst." + System.currentTimeMillis(), "");
-			System.err.println("Neues Objekt mit ID: " + neuesEreigns.getId());
-			baustellen.add(neuesEreigns);
-		} catch (ConfigurationChangeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void update(final MutableSet set, final SystemObject[] addedObjects,
-			final SystemObject[] removedObjects) {
-		// TODO Auto-generated method stub
-		System.err.println("Anzahl: " + set.getElements().size() + " NEU: "
-				+ addedObjects.length + " ENTFERNT: " + removedObjects.length);
-		for (SystemObject obj : addedObjects) {
-			System.err.println("Hinzugefügt: " + obj.getPid());
-		}
-		for (SystemObject obj : removedObjects) {
-			System.err.println("Entfernt: " + obj.getPid());
-		}
-	}
+	// /**
+	// * {@inheritDoc}.<br>
+	// *
+	// * @see java.util.TimerTask#run()
+	// */
+	// @Override
+	// public void run() {
+	// try {
+	// // DynamicObject neuesEreigns = dav.getDataModel()
+	// // .createDynamicObject(baustellenTyp, "", "");
+	// // System.err.println("Neues Objekt mit ID: " +
+	// // neuesEreigns.getId());
+	// // baustellen.add(neuesEreigns);
+	// } catch (ConfigurationChangeException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
 }
