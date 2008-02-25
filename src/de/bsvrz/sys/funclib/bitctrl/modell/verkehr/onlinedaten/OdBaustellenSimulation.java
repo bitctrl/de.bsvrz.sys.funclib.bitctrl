@@ -570,6 +570,7 @@ public class OdBaustellenSimulation extends
 						"MaxLängeZeit").getMillis());
 				schritt.setVerlustZeit(array.getItem(idx).getTimeValue(
 						"VerlustZeit").getMillis());
+				datum.addSchritte(schritt);
 			}
 		}
 
