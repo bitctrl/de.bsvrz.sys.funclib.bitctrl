@@ -31,6 +31,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
 
 /**
  * Allgemeine Funktionen zur Arbeit mit Dateien.
@@ -172,8 +174,24 @@ public final class FileTool {
 	 *            die Argumente
 	 */
 	public static void main(String[] args) {
+		ThreadInfo[] infos = ManagementFactory.getThreadMXBean()
+				.dumpAllThreads(true, true);
+		for (ThreadInfo info : infos) {
+			System.err.println(info.getThreadName()
+					+ ": "
+					+ ManagementFactory.getThreadMXBean().getThreadCpuTime(
+							info.getThreadId()) / 1000000 + " ms");
+		}
 		FileTool.kopiereVerzeichnis(new File("H:/TEMP/Neuer Ordner"), new File(
 				"H:/TEMP/TESTKOPIE"));
+
+		for (ThreadInfo info : infos) {
+			System.err.println(info.getThreadName()
+					+ ": "
+					+ ManagementFactory.getThreadMXBean().getThreadCpuTime(
+							info.getThreadId()) / 1000000 + " ms");
+		}
+
 	}
 
 	/**
