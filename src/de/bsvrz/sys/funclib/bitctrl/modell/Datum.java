@@ -164,6 +164,16 @@ public interface Datum {
 		}
 
 		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see java.lang.Enum#toString()
+		 */
+		@Override
+		public String toString() {
+			return datenStatus.toString();
+		}
+
+		/**
 		 * liefert den zugeordneten Datenstatus des ENUM-Wertes. Der Wert kann
 		 * <code>null</code> sein, wenn kein Status zugeordnet wurde.
 		 * 
@@ -172,6 +182,7 @@ public interface Datum {
 		private DataState getDatenStatus() {
 			return datenStatus;
 		}
+
 	}
 
 	/**
