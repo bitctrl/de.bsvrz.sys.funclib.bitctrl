@@ -27,8 +27,8 @@
 package de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
+import de.bsvrz.sys.funclib.application.StandardApplication;
 import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
-import de.bsvrz.sys.funclib.bitctrl.app.AbstractStandardApplication;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 
@@ -36,7 +36,7 @@ import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class Datengenerator extends AbstractStandardApplication {
+public class Datengenerator implements StandardApplication {
 
 	/** Applikationsname. */
 	public static final String APP_NAME = "Testdatengenerator";
@@ -76,30 +76,6 @@ public class Datengenerator extends AbstractStandardApplication {
 	public void parseArguments(ArgumentList argumentList) throws Exception {
 		// TODO Auto-generated method stub
 
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getApplikationName() {
-		return APP_NAME;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getCopyright() {
-		return APP_COPYRIGHT;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getVersion() {
-		return APP_VERSION;
 	}
 
 }
