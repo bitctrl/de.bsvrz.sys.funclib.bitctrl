@@ -45,6 +45,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderobjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.LmsObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.mif.MifModellFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellaoe.SystemModellAoeObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellaoe.objekte.AutarkeOrganisationsEinheit;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenobjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsobjektFactory;
@@ -189,6 +190,16 @@ public final class ObjektFactory implements ModellObjektFactory {
 		}
 
 		return objekte;
+	}
+
+	/**
+	 * Gibt die autarke Organisationseinheit zurück.
+	 * 
+	 * @return die AOE.
+	 */
+	public AutarkeOrganisationsEinheit getAOE() {
+		return (AutarkeOrganisationsEinheit) getModellobjekt(verbindung
+				.getLocalConfigurationAuthority());
 	}
 
 	/**
@@ -366,4 +377,5 @@ public final class ObjektFactory implements ModellObjektFactory {
 		this.verbindung = verbindung;
 		cache.clear();
 	}
+
 }
