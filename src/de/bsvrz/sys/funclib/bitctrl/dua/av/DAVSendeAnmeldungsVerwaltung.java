@@ -99,9 +99,12 @@ implements ClientSenderInterface{
 	 */
 	@Override
 	protected String abmelden(final Collection<DAVObjektAnmeldung> abmeldungen) {
-		String info = "keine\n"; //$NON-NLS-1$
-		if(abmeldungen.size() > 0){
-			info = "\n"; //$NON-NLS-1$
+		String info = Constants.EMPTY_STRING;
+		if(DEBUG){
+			info = "keine\n"; //$NON-NLS-1$
+			if(abmeldungen.size() > 0){
+				info = "\n"; //$NON-NLS-1$
+			}
 		}
 		for(DAVObjektAnmeldung abmeldung:abmeldungen){
 			try{
@@ -109,7 +112,9 @@ implements ClientSenderInterface{
 					this.dav.unsubscribeSender(this, abmeldung.getObjekt(),
 							abmeldung.getDatenBeschreibung());
 					this.aktuelleObjektAnmeldungen.remove(abmeldung);
-					info += abmeldung;
+					if(DEBUG){
+						info += abmeldung;
+					}
 				}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -125,9 +130,12 @@ implements ClientSenderInterface{
 	 */
 	@Override
 	protected String anmelden(final Collection<DAVObjektAnmeldung> anmeldungen) {
-		String info = "keine\n"; //$NON-NLS-1$
-		if(anmeldungen.size() > 0){
-			info = "\n"; //$NON-NLS-1$
+		String info = Constants.EMPTY_STRING;
+		if(DEBUG){
+			info = "keine\n"; //$NON-NLS-1$
+			if(anmeldungen.size() > 0){
+				info = "\n"; //$NON-NLS-1$
+			}
 		}
 		for(DAVObjektAnmeldung anmeldung:anmeldungen){
 			try {
@@ -135,7 +143,9 @@ implements ClientSenderInterface{
 					this.dav.subscribeSender(this, anmeldung.getObjekt(),
 							anmeldung.getDatenBeschreibung(), this.rolle);
 					this.aktuelleObjektAnmeldungen.put(anmeldung, null);
-					info += anmeldung;
+					if(DEBUG){
+						info += anmeldung;
+					}
 				}
 			} catch (Exception e) {
 				LOGGER.error("Probleme beim" + //$NON-NLS-1$

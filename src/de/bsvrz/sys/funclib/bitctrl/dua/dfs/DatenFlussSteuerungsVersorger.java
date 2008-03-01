@@ -89,33 +89,43 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	public static DatenFlussSteuerungsVersorger getInstanz(
 			final IVerwaltung verwaltung) throws DUAInitialisierungsException {
 		if (INSTANZ == null) {
-			/**
-			 * Ermittlung des Objektes, das die Datenflusssteuerung für das
-			 * übergebene Verwaltungsmodul beschreibt
-			 */
-			final SystemObjectType typDFS = (SystemObjectType) verwaltung
-					.getVerbindung().getDataModel()
-					.getObject(DFSKonstanten.TYP);
-
-			Collection<ConfigurationArea> kBereiche = verwaltung
-					.getKonfigurationsBereiche();
-
-			SystemObject[] dfsObjekte = new SystemObject[0];
-			if (typDFS != null) {
-				dfsObjekte = DUAUtensilien.getBasisInstanzen(typDFS,
-						verwaltung.getVerbindung(), kBereiche).toArray(
-						new SystemObject[0]);
-			}
-
-			SystemObject dfsObjekt = (dfsObjekte.length > 0 ? dfsObjekte[0]
-					: null);
-
-			if (dfsObjekte.length == 1) {
-				LOGGER.fine("Es wurde genau ein Objekt vom Typ " + //$NON-NLS-1$
-						DFSKonstanten.TYP + " identifiziert"); //$NON-NLS-1$
-			} else if (dfsObjekte.length > 1) {
-				LOGGER.warning("Es liegen mehrere Objekte vom Typ " + //$NON-NLS-1$
-						DFSKonstanten.TYP + " vor"); //$NON-NLS-1$
+			
+// 			Uebernehme Datenflusssteuerung aus den uebergebenen Konfigurationsbereichen
+//
+//			/**
+//			 * Ermittlung des Objektes, das die Datenflusssteuerung für das
+//			 * übergebene Verwaltungsmodul beschreibt
+//			 */
+//			final SystemObjectType typDFS = (SystemObjectType) verwaltung
+//					.getVerbindung().getDataModel()
+//					.getObject(DFSKonstanten.TYP);
+//
+//			Collection<ConfigurationArea> kBereiche = verwaltung
+//					.getKonfigurationsBereiche();
+//
+//			SystemObject[] dfsObjekte = new SystemObject[0];
+//			if (typDFS != null) {
+//				dfsObjekte = DUAUtensilien.getBasisInstanzen(typDFS,
+//						verwaltung.getVerbindung(), kBereiche).toArray(
+//						new SystemObject[0]);
+//			}
+//
+//			SystemObject dfsObjekt = (dfsObjekte.length > 0 ? dfsObjekte[0]
+//					: null);
+//
+//			if (dfsObjekte.length == 1) {
+//				LOGGER.fine("Es wurde genau ein Objekt vom Typ " + //$NON-NLS-1$
+//						DFSKonstanten.TYP + " identifiziert"); //$NON-NLS-1$
+//			} else if (dfsObjekte.length > 1) {
+//				LOGGER.warning("Es liegen mehrere Objekte vom Typ " + //$NON-NLS-1$
+//						DFSKonstanten.TYP + " vor"); //$NON-NLS-1$
+//			}
+			
+//			Uebernehme Datenflusssteuerung aus Kommandozeile
+			final String dfsObjektStr = verwaltung.getArgument("dfs"); //$NON-NLS-1$
+			SystemObject dfsObjekt = null;
+			if(dfsObjektStr != null){
+				dfsObjekt = verwaltung.getVerbindung().getDataModel().getObject(dfsObjektStr);
 			}
 
 			INSTANZ = new DatenFlussSteuerungsVersorger(verwaltung, dfsObjekt);
@@ -170,7 +180,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 				verwaltung.getVerbindung().subscribeReceiver(this, dfsObjekt,
 						dd, ReceiveOptions.normal(), ReceiverRole.receiver());
 
-				LOGGER.config("Für die Datenflusssteuerung" + //$NON-NLS-1$
+				LOGGER.config("Fuer die Datenflusssteuerung" + //$NON-NLS-1$
 						" wird das Objekt " + dfsObjekt + " verwendet."); //$NON-NLS-1$//$NON-NLS-2$
 			} catch (Exception ex) {
 				throw new DUAInitialisierungsException(STD_FEHLER, ex);

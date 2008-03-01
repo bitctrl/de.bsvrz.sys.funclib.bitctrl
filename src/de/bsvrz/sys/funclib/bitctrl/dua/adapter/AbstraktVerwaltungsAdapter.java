@@ -197,6 +197,7 @@ implements IVerwaltung {
 
 		argumente.fetchUnusedArguments();
 	}
+	
 
 	/**
 	 * Extrahiert aus einer Zeichenkette alle über Kommata getrennten
@@ -252,6 +253,13 @@ implements IVerwaltung {
 		return s + "Konfigurationsbereiche:\n" + dummy; //$NON-NLS-1$
 	}
 
+
+	/**
+	 * {@inheritDoc}
+	 */	
+	public String getArgument(String schluessel) {
+		return DUAUtensilien.getArgument(schluessel, this.komArgumente);
+	}
 
 	/**
 	 * Diese Methode wird zur Initialisierung aufgerufen,

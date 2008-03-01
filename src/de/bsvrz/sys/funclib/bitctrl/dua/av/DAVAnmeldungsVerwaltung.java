@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.sys.funclib.debug.Debug;
 
@@ -41,7 +43,12 @@ import de.bsvrz.sys.funclib.debug.Debug;
  *
  */
 public abstract class DAVAnmeldungsVerwaltung {
-
+	
+	/**
+	 * produziert ausfuehrlichere Log-Meldungen
+	 */
+	protected static final boolean DEBUG = false;
+	
 	/**
 	 * Debug-Logger
 	 */
@@ -84,49 +91,65 @@ public abstract class DAVAnmeldungsVerwaltung {
 							Collection<DAVObjektAnmeldung> neueObjektAnmeldungen){
 
 //		Debug Anfang
-		String info = "Verlangte Anmeldungen (" + this.getInfo() + "): "; //$NON-NLS-1$ //$NON-NLS-2$
-		if(neueObjektAnmeldungen.size() == 0){
-			info += "keine\n"; //$NON-NLS-1$
-		}else{
-			info += "\n"; //$NON-NLS-1$
-		}
-		for(DAVObjektAnmeldung neueObjektAnmeldung:neueObjektAnmeldungen){
-			info += neueObjektAnmeldung;
-		}
-		info += "Bisherige Anmeldungen (" + this.getInfo() + "): "; //$NON-NLS-1$ //$NON-NLS-2$
-		if(aktuelleObjektAnmeldungen.size() == 0){
-			info += "keine\n"; //$NON-NLS-1$
-		}else{
-			info += "\n"; //$NON-NLS-1$
-		}
-		for(DAVObjektAnmeldung aktuelleObjektAnmeldung:aktuelleObjektAnmeldungen.keySet()){
-			info += aktuelleObjektAnmeldung;
+		String info = Constants.EMPTY_STRING;
+		System.out.println("------" + LOGGER.debugInfo());
+		if(DEBUG){
+			info = "Verlangte Anmeldungen (" + this.getInfo() + "): "; //$NON-NLS-1$ //$NON-NLS-2$
+			if(neueObjektAnmeldungen.size() == 0){
+				info += "keine\n"; //$NON-NLS-1$
+			}else{
+				info += "\n"; //$NON-NLS-1$
+			}
+			for(DAVObjektAnmeldung neueObjektAnmeldung:neueObjektAnmeldungen){
+				info += neueObjektAnmeldung;
+			}
+			info += "Bisherige Anmeldungen (" + this.getInfo() + "): "; //$NON-NLS-1$ //$NON-NLS-2$
+			if(aktuelleObjektAnmeldungen.size() == 0){
+				info += "keine\n"; //$NON-NLS-1$
+			}else{
+				info += "\n"; //$NON-NLS-1$
+			}
+			for(DAVObjektAnmeldung aktuelleObjektAnmeldung:aktuelleObjektAnmeldungen.keySet()){
+				info += aktuelleObjektAnmeldung;
+			}
 		}
 //		Debug Ende
 
+		LOGGER.error("----------1.0");
 		synchronized (this) {
+			LOGGER.error("----------1");
 			Collection<DAVObjektAnmeldung> diffObjekteAnmeldungen =
 				new TreeSet<DAVObjektAnmeldung>();
+			LOGGER.error("----------2");
 			for(DAVObjektAnmeldung neueAnmeldung:neueObjektAnmeldungen){
 				if(!aktuelleObjektAnmeldungen.containsKey(neueAnmeldung)){
 					diffObjekteAnmeldungen.add(neueAnmeldung);
 				}
 			}
+			LOGGER.error("----------3");
 
 			Collection<DAVObjektAnmeldung> diffObjekteAbmeldungen =
 				new TreeSet<DAVObjektAnmeldung>();
+			LOGGER.error("----------4");
 			for(DAVObjektAnmeldung aktuelleAnmeldung:aktuelleObjektAnmeldungen.keySet()){
 				if(!neueObjektAnmeldungen.contains(aktuelleAnmeldung)){
 					diffObjekteAbmeldungen.add(aktuelleAnmeldung);
 				}
 			}
+			LOGGER.error("----------5");
 
-			info += "--------\nABmeldungen: "; //$NON-NLS-1$
-			info += abmelden(diffObjekteAbmeldungen);
-			info += "ANmeldungen: "; //$NON-NLS-1$
-			info += anmelden(diffObjekteAnmeldungen);
-			LOGGER.config(info);
+			if(DEBUG){
+				info += "--------\nABmeldungen: "; //$NON-NLS-1$
+				info += abmelden(diffObjekteAbmeldungen);
+				info += "ANmeldungen: "; //$NON-NLS-1$
+				info += anmelden(diffObjekteAnmeldungen);
+				LOGGER.config(info);
+			}else{
+				abmelden(diffObjekteAbmeldungen);
+				anmelden(diffObjekteAnmeldungen);				
+			}
 		}
+		LOGGER.error("----------5.0");
 	}
 
 	/**

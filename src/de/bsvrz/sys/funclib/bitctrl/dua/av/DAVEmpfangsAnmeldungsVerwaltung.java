@@ -28,6 +28,8 @@ package de.bsvrz.sys.funclib.bitctrl.dua.av;
 
 import java.util.Collection;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ClientReceiverInterface;
 import de.bsvrz.dav.daf.main.ReceiveOptions;
@@ -91,22 +93,30 @@ extends DAVAnmeldungsVerwaltung{
 	@Override
 	protected String abmelden(final Collection
 						<DAVObjektAnmeldung> abmeldungen) {
-		String info = "keine\n"; //$NON-NLS-1$
-		if(abmeldungen.size() > 0){
-			info = "\n"; //$NON-NLS-1$
+		String info = Constants.EMPTY_STRING;
+		if(DEBUG){
+			info = "keine\n"; //$NON-NLS-1$
+			if(abmeldungen.size() > 0){
+				info = "\n"; //$NON-NLS-1$
+			}
 		}
 		for(DAVObjektAnmeldung abmeldung:abmeldungen){
 			try{
 				this.dav.unsubscribeReceiver(this.empfaenger,
 						abmeldung.getObjekt(), abmeldung.getDatenBeschreibung());
 				this.aktuelleObjektAnmeldungen.remove(abmeldung);
-				info += abmeldung;
+				if(DEBUG){
+					info += abmeldung;
+				}
 			}catch(Exception ex){
 				LOGGER.error("Probleme beim " + //$NON-NLS-1$
 						"Abmelden ale Empfänger/Senke", ex); //$NON-NLS-1$
 			}
 		}
-		return info + "von [" + empfaenger + "]\n";  //$NON-NLS-1$//$NON-NLS-2$
+		if(DEBUG){
+			info += "von [" + empfaenger + "]\n";  //$NON-NLS-1$//$NON-NLS-2$	
+		}
+		return info;
 	}
 
 	/**
@@ -115,9 +125,12 @@ extends DAVAnmeldungsVerwaltung{
 	@Override
 	protected String anmelden(final Collection
 						<DAVObjektAnmeldung> anmeldungen) {
-		String info = "keine\n"; //$NON-NLS-1$
-		if(anmeldungen.size() > 0){
-			info = "\n"; //$NON-NLS-1$
+		String info = Constants.EMPTY_STRING;
+		if(DEBUG){
+			info = "keine\n"; //$NON-NLS-1$
+			if(anmeldungen.size() > 0){
+				info = "\n"; //$NON-NLS-1$
+			}
 		}
 		for(DAVObjektAnmeldung anmeldung:anmeldungen){
 			try{
@@ -125,13 +138,18 @@ extends DAVAnmeldungsVerwaltung{
 					anmeldung.getObjekt(), anmeldung.getDatenBeschreibung(),
 					this.optionen, this.rolle);
 				this.aktuelleObjektAnmeldungen.put(anmeldung, null);
-				info += anmeldung;
+				if(DEBUG){
+					info += anmeldung;
+				}
 			}catch(Exception ex){
 				LOGGER.error("Probleme beim " + //$NON-NLS-1$
 						"Anmelden ale Empfänger/Senke", ex); //$NON-NLS-1$
 			}
 		}
-		return info + "für [" + empfaenger + "]\n";  //$NON-NLS-1$//$NON-NLS-2$
+		if(DEBUG){
+			info += "fuer [" + empfaenger + "]\n";  //$NON-NLS-1$//$NON-NLS-2$	
+		}		
+		return info;
 	}
 
 	/**

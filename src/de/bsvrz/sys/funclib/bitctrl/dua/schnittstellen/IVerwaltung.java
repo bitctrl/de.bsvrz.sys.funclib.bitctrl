@@ -105,4 +105,14 @@ extends StandardApplication, ClientReceiverInterface{
 	 */
 	public SWETyp getSWETyp();
 	
+	
+	/**
+	 * Erfragt ein Kommandozeilenargument der Applikation
+	 * 
+	 * @param schluessel der Name des Arguments
+	 * @return das Kommandozeilenargument des Schluessels oder <code>null</code>,
+	 * wenn das Argument nicht uebergeben wurde
+	 */
+	public String getArgument(final String schluessel);
+	
 }
