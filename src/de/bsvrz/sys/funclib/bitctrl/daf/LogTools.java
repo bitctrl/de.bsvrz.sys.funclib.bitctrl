@@ -28,6 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.daf;
 
 import java.text.MessageFormat;
 import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -56,6 +57,34 @@ public final class LogTools {
 	 *            der Loglevel.
 	 * @return {@code true}, wenn eine Ausgabe auf der Konsole erfolgt.
 	 */
+	public static boolean isLogbar(Class<?> klasse, Level level) {
+		Logger logger;
+		LogRecord logRecord;
+		boolean result;
+
+		logger = Logger.getLogger(klasse.getSimpleName() + "."
+				+ klasse.getPackage().getName() + "." + klasse.getSimpleName());
+		logRecord = new LogRecord(level, "");
+		result = false;
+
+		for (Handler h : Logger.getLogger(klasse.getSimpleName()).getHandlers()) {
+			result = logger.isLoggable(level) && h.isLoggable(logRecord);
+			break;
+		}
+
+		return result;
+	}
+
+	/**
+	 * Prüft, ob für einen Logger auf einem bestimmten Level eine Ausgabe
+	 * mittels dem {@link ConsoleHandler} erfolgt.
+	 * 
+	 * @param klasse
+	 *            die Klasse, die den Logger angelegt hat.
+	 * @param level
+	 *            der Loglevel.
+	 * @return {@code true}, wenn eine Ausgabe auf der Konsole erfolgt.
+	 */
 	public static boolean isLogbarAufConsole(Class<?> klasse, Level level) {
 		Logger logger;
 		LogRecord logRecord;
@@ -68,6 +97,36 @@ public final class LogTools {
 
 		for (Handler h : Logger.getLogger(klasse.getSimpleName()).getHandlers()) {
 			if (h instanceof ConsoleHandler) {
+				result = logger.isLoggable(level) && h.isLoggable(logRecord);
+				break;
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Prüft, ob für einen Logger auf einem bestimmten Level eine Ausgabe
+	 * mittels dem {@link ConsoleHandler} erfolgt.
+	 * 
+	 * @param klasse
+	 *            die Klasse, die den Logger angelegt hat.
+	 * @param level
+	 *            der Loglevel.
+	 * @return {@code true}, wenn eine Ausgabe auf der Konsole erfolgt.
+	 */
+	public static boolean isLogbarInFile(Class<?> klasse, Level level) {
+		Logger logger;
+		LogRecord logRecord;
+		boolean result;
+
+		logger = Logger.getLogger(klasse.getSimpleName() + "."
+				+ klasse.getPackage().getName() + "." + klasse.getSimpleName());
+		logRecord = new LogRecord(level, "");
+		result = false;
+
+		for (Handler h : Logger.getLogger(klasse.getSimpleName()).getHandlers()) {
+			if (h instanceof FileHandler) {
 				result = logger.isLoggable(level) && h.isLoggable(logRecord);
 				break;
 			}
