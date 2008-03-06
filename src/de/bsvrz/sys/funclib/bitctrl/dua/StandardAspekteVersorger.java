@@ -186,9 +186,11 @@ public abstract class StandardAspekteVersorger {
 						DataDescription originalDesc = new DataDescription(zuordnung.atg,
 								zuordnung.aspEingang, (short)0);
 						for(SystemObject obj:zuordnung.typ.getElements()){
-							DAVObjektAnmeldung objektAnmeldung =
-								new DAVObjektAnmeldung(obj, originalDesc);
-							this.publikationsMap.put(objektAnmeldung, zuordnung.aspAusgang);
+							if(obj.isValid()){
+								DAVObjektAnmeldung objektAnmeldung =
+									new DAVObjektAnmeldung(obj, originalDesc);
+								this.publikationsMap.put(objektAnmeldung, zuordnung.aspAusgang);
+							}
 						}
 					} catch (Exception e) {
 						throw new DUAInitialisierungsException("Standard-" + //$NON-NLS-1$
@@ -211,7 +213,7 @@ public abstract class StandardAspekteVersorger {
 								originalDatum.getDataDescription());
 
 					ergebnis = this.publikationsMap.get(objektAnmeldung);
-				}catch(Exception e){
+				}catch(IllegalArgumentException e){
 					LOGGER.fine("Der Standard-Publikationsaspekt konnte" + //$NON-NLS-1$
 							"nicht ermittelt werden: " + originalDatum, e); //$NON-NLS-1$
 				}

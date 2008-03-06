@@ -126,7 +126,9 @@ extends AbstractSystemObjekt{
 		DAV = dav;
 		 
 		for(SystemObject fsObjekt:DAV.getDataModel().getType(DUAKonstanten.TYP_FAHRSTREIFEN).getElements()){
-			SYS_OBJ_FS_OBJ_MAP.put(fsObjekt, new FahrStreifen(fsObjekt));
+			if(fsObjekt.isValid()){
+				SYS_OBJ_FS_OBJ_MAP.put(fsObjekt, new FahrStreifen(fsObjekt));
+			}
 		}
 	}
 	

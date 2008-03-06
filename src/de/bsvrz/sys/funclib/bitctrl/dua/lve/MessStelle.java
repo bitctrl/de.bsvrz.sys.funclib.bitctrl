@@ -41,6 +41,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.test.MqExporter;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
@@ -101,23 +102,27 @@ extends AbstractSystemObjekt{
 		ConfigurationObject konfigObjekt = (ConfigurationObject)msObjekt;
 		ObjectSet mqMengeAbfahrten = konfigObjekt.getNonMutableSet("Abfahrten"); //$NON-NLS-1$
 		for(SystemObject mqObj:mqMengeAbfahrten.getElements()){
-			MessQuerschnittAllgemein mqa = MessQuerschnittAllgemein.getInstanz(mqObj);
-			if(mqa != null){
-				this.abfahrten.add(mqa);
-			}else{
-				LOGGER.warning("Abfahrt " + mqObj + " an " + msObjekt +   //$NON-NLS-1$//$NON-NLS-2$
-						" konnte nicht identifiziert werden"); //$NON-NLS-1$
+			if(mqObj.isValid()){
+				MessQuerschnittAllgemein mqa = MessQuerschnittAllgemein.getInstanz(mqObj);
+				if(mqa != null){
+					this.abfahrten.add(mqa);
+				}else{
+					LOGGER.warning("Abfahrt " + mqObj + " an " + msObjekt +   //$NON-NLS-1$//$NON-NLS-2$
+							" konnte nicht identifiziert werden"); //$NON-NLS-1$
+				}
 			}
 		}
 		
 		ObjectSet mqMengeZufahrten = konfigObjekt.getNonMutableSet("Zufahrten"); //$NON-NLS-1$
 		for(SystemObject mqObj:mqMengeZufahrten.getElements()){
-			MessQuerschnittAllgemein mqa = MessQuerschnittAllgemein.getInstanz(mqObj);
-			if(mqa != null){
-				this.zufahrten.add(mqa);
-			}else{
-				LOGGER.warning("Zufahrt " + mqObj + " an " + msObjekt +   //$NON-NLS-1$//$NON-NLS-2$
-						" konnte nicht identifiziert werden"); //$NON-NLS-1$
+			if(mqObj.isValid()){
+				MessQuerschnittAllgemein mqa = MessQuerschnittAllgemein.getInstanz(mqObj);
+				if(mqa != null){
+					this.zufahrten.add(mqa);
+				}else{
+					LOGGER.warning("Zufahrt " + mqObj + " an " + msObjekt +   //$NON-NLS-1$//$NON-NLS-2$
+							" konnte nicht identifiziert werden"); //$NON-NLS-1$
+				}
 			}
 		}
 		
@@ -156,7 +161,9 @@ extends AbstractSystemObjekt{
 		DAV = dav;
 		
 		for(SystemObject msObj:DAV.getDataModel().getType(DUAKonstanten.TYP_MESS_STELLE).getElements()){
-			SYS_OBJ_MS_OBJ_MAP.put(msObj, new MessStelle(msObj));
+			if(msObj.isValid()){
+				SYS_OBJ_MS_OBJ_MAP.put(msObj, new MessStelle(msObj));
+			}
 		}
 	}
 	

@@ -58,7 +58,7 @@ implements IVerwaltungMitGuete{
 			double gueteFaktorDummy = -1;
 			try{
 				gueteFaktorDummy = Double.parseDouble(gueteFaktorStr);
-			}catch(Exception e){
+			}catch(NumberFormatException e){
 				LOGGER.warning("Der Guetefaktor konnte nicht ausgelesen werden. Standard: " + //$NON-NLS-1$
 						this.getStandardGueteFaktor(), e);
 			}

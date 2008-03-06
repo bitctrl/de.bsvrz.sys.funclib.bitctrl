@@ -193,7 +193,9 @@ extends MessQuerschnittAllgemein{
 		DAV = dav;
 		
 		for(SystemObject mqvObjekt:DAV.getDataModel().getType(DUAKonstanten.TYP_MQ_VIRTUELL).getElements()){
-			SYS_OBJ_MQV_OBJ_MAP.put(mqvObjekt, new MessQuerschnittVirtuell(mqvObjekt));
+			if(mqvObjekt.isValid()){
+				SYS_OBJ_MQV_OBJ_MAP.put(mqvObjekt, new MessQuerschnittVirtuell(mqvObjekt));
+			}
 		}
 	}
 	

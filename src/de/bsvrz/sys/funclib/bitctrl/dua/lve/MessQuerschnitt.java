@@ -87,12 +87,14 @@ extends MessQuerschnittAllgemein{
 		ConfigurationObject konfigObjekt = (ConfigurationObject)mqObjekt;
 		ObjectSet fsMenge = konfigObjekt.getNonMutableSet("FahrStreifen"); //$NON-NLS-1$
 		for(SystemObject fsObj:fsMenge.getElements()){
-			FahrStreifen fs = FahrStreifen.getInstanz(fsObj);
-			if(fs != null){
-				this.fahrStreifen.add(fs);
-			}else{
-				LOGGER.warning("Fahrstreifen " + fsObj + " an " + mqObjekt +   //$NON-NLS-1$//$NON-NLS-2$
-						" konnte nicht identifiziert werden"); //$NON-NLS-1$
+			if(fsObj.isValid()){
+				FahrStreifen fs = FahrStreifen.getInstanz(fsObj);
+				if(fs != null){
+					this.fahrStreifen.add(fs);
+				}else{
+					LOGGER.warning("Fahrstreifen " + fsObj + " an " + mqObjekt +   //$NON-NLS-1$//$NON-NLS-2$
+							" konnte nicht identifiziert werden"); //$NON-NLS-1$
+				}
 			}
 		}
 	}
@@ -115,7 +117,9 @@ extends MessQuerschnittAllgemein{
 		DAV = dav;
 		
 		for(SystemObject mqObjekt:DAV.getDataModel().getType(DUAKonstanten.TYP_MQ).getElements()){
-			SYS_OBJ_MQ_OBJ_MAP.put(mqObjekt, new MessQuerschnitt(mqObjekt));
+			if(mqObjekt.isValid()){
+				SYS_OBJ_MQ_OBJ_MAP.put(mqObjekt, new MessQuerschnitt(mqObjekt));				
+			}
 		}
 	}
 	

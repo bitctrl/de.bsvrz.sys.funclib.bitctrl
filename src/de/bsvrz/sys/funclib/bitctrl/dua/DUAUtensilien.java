@@ -289,16 +289,20 @@ public class DUAUtensilien {
 			SystemObjectType typTyp = dav.getDataModel().getType(
 					DaVKonstanten.TYP_TYP);
 			for (SystemObject typ : typTyp.getElements()) {
-				if (typ instanceof SystemObjectType) {
-					for (SystemObject elem : ((SystemObjectType) typ)
-							.getElements()) {
-						if (elem.getClass()
-								.equals(DafConfigurationObject.class)
-								|| elem.getClass().equals(
-										DafDynamicObject.class)
-								|| elem.getClass().equals(
-										DafConfigurationAuthority.class)) {
-							finaleObjekte.add(elem);
+				if(typ.isValid()){
+					if (typ instanceof SystemObjectType) {
+						for (SystemObject elem : ((SystemObjectType) typ)
+								.getElements()) {
+							if(elem.isValid()){
+								if (elem.getClass()
+										.equals(DafConfigurationObject.class)
+										|| elem.getClass().equals(
+												DafDynamicObject.class)
+										|| elem.getClass().equals(
+												DafConfigurationAuthority.class)) {
+									finaleObjekte.add(elem);
+								}
+							}
 						}
 					}
 				}
@@ -306,7 +310,9 @@ public class DUAUtensilien {
 		} else if (obj instanceof SystemObjectType) {
 			SystemObjectType typ = (SystemObjectType) obj;
 			for (SystemObject elem : typ.getElements()) {
-				finaleObjekte.addAll(getBasisInstanzen(elem, dav));
+				if(elem.isValid()){
+					finaleObjekte.addAll(getBasisInstanzen(elem, dav));
+				}
 			}
 		} else if (obj.getClass().equals(DafConfigurationObject.class)
 				|| obj.getClass().equals(DafDynamicObject.class)
@@ -360,7 +366,7 @@ public class DUAUtensilien {
 			Collection<SystemObjectType> typColl = new TreeSet<SystemObjectType>();
 			for (SystemObject typ : dav.getDataModel().getType(
 					DaVKonstanten.TYP_TYP).getElements()) {
-				if (typ instanceof SystemObjectType) {
+				if (typ.isValid() && typ instanceof SystemObjectType) {
 					typColl.add((SystemObjectType) typ);
 				}
 			}
@@ -675,6 +681,46 @@ public class DUAUtensilien {
 		}
 	
 		return text.toString();
+	}
+	
+	
+	/**
+	 * Erfragt eine Kurzinformation eines Objektarrays
+	 * 
+	 * @return eine Kurzinformation eines Objektarrays
+	 */
+	public static final String getArrayKurzInfo(Object[] objekte){
+		String kurzInfo = ""; //$NON-NLS-1$
+		
+		if(objekte != null){
+			kurzInfo = new Integer(objekte.length).toString();
+			if(objekte.length > 0){
+				kurzInfo += " ["; //$NON-NLS-1$
+				for(Object obj:objekte){
+					String dummy = null;
+					if(obj == null){
+						dummy = "<<null>>"; //$NON-NLS-1$
+					}else{
+						dummy = obj.toString();
+						if(dummy == null){
+							dummy = "$<<null>>"; //$NON-NLS-1$
+						}
+					}
+					kurzInfo += dummy + ", "; //$NON-NLS-1$
+					
+					if(kurzInfo.length() > 70){
+						kurzInfo = kurzInfo.substring(0, 70) + "..., "; //$NON-NLS-1$
+						break;
+					}
+				}
+				kurzInfo = kurzInfo.substring(0, kurzInfo.length() - 2);
+				kurzInfo += "]"; //$NON-NLS-1$
+			}
+		}else{
+			kurzInfo = "<<null>>"; //$NON-NLS-1$
+		}
+				
+		return kurzInfo;
 	}
 	
 }

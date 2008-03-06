@@ -34,7 +34,6 @@ import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ClientReceiverInterface;
 import de.bsvrz.dav.daf.main.ReceiveOptions;
 import de.bsvrz.dav.daf.main.ReceiverRole;
-import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Verwaltungsklasse für Datenanmeldungen zum Empfangen von Daten.
@@ -46,11 +45,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
  */
 public class DAVEmpfangsAnmeldungsVerwaltung
 extends DAVAnmeldungsVerwaltung{
-
-	/**
-	 * Debug-Logger
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
 
 	/**
 	 * Rolle des Empfängers
@@ -101,16 +95,11 @@ extends DAVAnmeldungsVerwaltung{
 			}
 		}
 		for(DAVObjektAnmeldung abmeldung:abmeldungen){
-			try{
-				this.dav.unsubscribeReceiver(this.empfaenger,
-						abmeldung.getObjekt(), abmeldung.getDatenBeschreibung());
-				this.aktuelleObjektAnmeldungen.remove(abmeldung);
-				if(DEBUG){
-					info += abmeldung;
-				}
-			}catch(Exception ex){
-				LOGGER.error("Probleme beim " + //$NON-NLS-1$
-						"Abmelden ale Empfänger/Senke", ex); //$NON-NLS-1$
+			this.dav.unsubscribeReceiver(this.empfaenger,
+					abmeldung.getObjekt(), abmeldung.getDatenBeschreibung());
+			this.aktuelleObjektAnmeldungen.remove(abmeldung);
+			if(DEBUG){
+				info += abmeldung;
 			}
 		}
 		if(DEBUG){
@@ -133,17 +122,12 @@ extends DAVAnmeldungsVerwaltung{
 			}
 		}
 		for(DAVObjektAnmeldung anmeldung:anmeldungen){
-			try{
-				this.dav.subscribeReceiver(this.empfaenger,
+			this.dav.subscribeReceiver(this.empfaenger,
 					anmeldung.getObjekt(), anmeldung.getDatenBeschreibung(),
 					this.optionen, this.rolle);
-				this.aktuelleObjektAnmeldungen.put(anmeldung, null);
-				if(DEBUG){
-					info += anmeldung;
-				}
-			}catch(Exception ex){
-				LOGGER.error("Probleme beim " + //$NON-NLS-1$
-						"Anmelden ale Empfänger/Senke", ex); //$NON-NLS-1$
+			this.aktuelleObjektAnmeldungen.put(anmeldung, null);
+			if(DEBUG){
+				info += anmeldung;
 			}
 		}
 		if(DEBUG){

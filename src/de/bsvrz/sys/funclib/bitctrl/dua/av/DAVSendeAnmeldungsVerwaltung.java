@@ -107,19 +107,13 @@ implements ClientSenderInterface{
 			}
 		}
 		for(DAVObjektAnmeldung abmeldung:abmeldungen){
-			try{
-				synchronized (this.aktuelleObjektAnmeldungen) {
-					this.dav.unsubscribeSender(this, abmeldung.getObjekt(),
-							abmeldung.getDatenBeschreibung());
-					this.aktuelleObjektAnmeldungen.remove(abmeldung);
-					if(DEBUG){
-						info += abmeldung;
-					}
+			synchronized (this.aktuelleObjektAnmeldungen) {
+				this.dav.unsubscribeSender(this, abmeldung.getObjekt(),
+						abmeldung.getDatenBeschreibung());
+				this.aktuelleObjektAnmeldungen.remove(abmeldung);
+				if(DEBUG){
+					info += abmeldung;
 				}
-			}catch(Exception e){
-				e.printStackTrace();
-				LOGGER.error("Probleme beim" + //$NON-NLS-1$
-						" Abmelden als Sender/Quelle", e); //$NON-NLS-1$
 			}
 		}
 		return info;

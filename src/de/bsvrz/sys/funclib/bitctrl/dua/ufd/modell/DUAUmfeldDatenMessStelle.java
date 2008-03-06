@@ -148,10 +148,12 @@ public class DUAUmfeldDatenMessStelle {
 		
 		NonMutableSet sensorenMenge = ((ConfigurationObject) objekt).getNonMutableSet("UmfeldDatenSensoren"); //$NON-NLS-1$
 		for (SystemObject sensorObj : sensorenMenge.getElements()) {
-			DUAUmfeldDatenSensor sensor = DUAUmfeldDatenSensor.getInstanz(dav, sensorObj);
-			
-			Set<DUAUmfeldDatenSensor> sensorenMitDatenArt = datenArtAufSensoren.get(sensor.getDatenArt());			
-			sensorenMitDatenArt.add(sensor);
+			if(sensorObj.isValid()){
+				DUAUmfeldDatenSensor sensor = DUAUmfeldDatenSensor.getInstanz(dav, sensorObj);
+				
+				Set<DUAUmfeldDatenSensor> sensorenMitDatenArt = datenArtAufSensoren.get(sensor.getDatenArt());			
+				sensorenMitDatenArt.add(sensor);
+			}
 		}
 		
 		for(UmfeldDatenArt datenArt:UmfeldDatenArt.getInstanzen()){

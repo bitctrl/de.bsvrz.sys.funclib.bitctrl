@@ -155,7 +155,9 @@ extends AbstractSystemObjekt{
 		DAV = dav;
 		
 		for(SystemObject msObj:DAV.getDataModel().getType(DUAKonstanten.TYP_MESS_STELLEN_GRUPPE).getElements()){
-			SYS_OBJ_MSG_OBJ_MAP.put(msObj, new MessStellenGruppe(msObj));
+			if(msObj.isValid()){
+				SYS_OBJ_MSG_OBJ_MAP.put(msObj, new MessStellenGruppe(msObj));
+			}
 		}
 	}
 	

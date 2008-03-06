@@ -80,7 +80,7 @@ implements Comparable<DAVObjektAnmeldung>{
 	 * @param objekt das (finale) Systemobjekt
 	 * @param datenBeschreibung die Datenbeschreibung unter
 	 * der das Systemobjekt angemeldet werden soll bzw. ist
-	 * @throws Exception wenn entweder das Systemobjekt,
+	 * @throws IllegalArgumentException wenn entweder das Systemobjekt,
 	 * die Datenbeschreibung, deren Attributgruppe oder deren
 	 * Aspekt <code>null</code> ist, wenn die Objekt-
 	 * Attributgruppen-Aspekt-Kombination an sich ungültig bzw.
@@ -89,10 +89,10 @@ implements Comparable<DAVObjektAnmeldung>{
 	 **/
 	public DAVObjektAnmeldung(final SystemObject objekt,
 							  final DataDescription datenBeschreibung)
-	throws Exception{
+	throws IllegalArgumentException{
 		String fehler = DUAUtensilien.isKombinationOk(objekt, datenBeschreibung);
 		if(fehler != null){
-			throw new Exception(fehler);
+			throw new IllegalArgumentException(fehler);
 		}
 		
 		this.objekt = objekt;
@@ -105,12 +105,12 @@ implements Comparable<DAVObjektAnmeldung>{
 	 * des Standardkontruktors).
 	 * 
 	 * @param resultat ein <code>ResultData</code>-Objekt
-	 * @throws Exception wenn das <code>ResultData</code>-Objekt
+	 * @throws IllegalArgumentException wenn das <code>ResultData</code>-Objekt
 	 * <code>null</code> sien sollte, oder wenn der Standardkonstruktor
 	 * eine Exception wirft.
 	 */
 	public DAVObjektAnmeldung(final ResultData resultat)
-	throws Exception{
+	throws IllegalArgumentException{
 		this(resultat.getObject(), resultat.getDataDescription());
 	}
 		

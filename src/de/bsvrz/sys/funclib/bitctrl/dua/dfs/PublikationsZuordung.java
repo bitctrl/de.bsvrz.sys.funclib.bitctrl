@@ -217,26 +217,21 @@ public class PublikationsZuordung {
 	 *         Widerspruch illustrierende Fehlermeldung sonst.
 	 */
 	public final String isKompatibelMit(final PublikationsZuordung that) {
-		try{
-			if (this.modulTyp.equals(that.getModulTyp()) && // 1.
+		if (this.modulTyp.equals(that.getModulTyp()) && // 1.
 				this.isPublizieren() && that.isPublizieren() && // 2.
 				!this.getAspekt().equals(that.getAspekt())) { // 3.
-	
-				for(DAVObjektAnmeldung thisAnmeldung:this.getObjektAnmeldungen()){	// 4. & 5.
-					for(DAVObjektAnmeldung thatAnmeldung:that.getObjektAnmeldungen()){
-						if(thisAnmeldung.getObjekt().equals(thatAnmeldung.getObjekt()) && 
-						   thisAnmeldung.getDatenBeschreibung().getAttributeGroup().equals(
-								   thatAnmeldung.getDatenBeschreibung().getAttributeGroup())){
-							return "Die beiden Objektanmeldungen sind für" + //$NON-NLS-1$
-									" die Datenflusssteuerung widersprüchlich:\n" + //$NON-NLS-1$ 
-									thisAnmeldung + "\n" + thatAnmeldung; //$NON-NLS-1$							
-						}
-					}				
-				}
+
+			for(DAVObjektAnmeldung thisAnmeldung:this.getObjektAnmeldungen()){	// 4. & 5.
+				for(DAVObjektAnmeldung thatAnmeldung:that.getObjektAnmeldungen()){
+					if(thisAnmeldung.getObjekt().equals(thatAnmeldung.getObjekt()) && 
+							thisAnmeldung.getDatenBeschreibung().getAttributeGroup().equals(
+									thatAnmeldung.getDatenBeschreibung().getAttributeGroup())){
+						return "Die beiden Objektanmeldungen sind für" + //$NON-NLS-1$
+						" die Datenflusssteuerung widersprüchlich:\n" + //$NON-NLS-1$ 
+						thisAnmeldung + "\n" + thatAnmeldung; //$NON-NLS-1$							
+					}
+				}				
 			}
-		}catch(Exception ex){
-			return "Die Kompatibilitätsprüfung konnte nicht" + //$NON-NLS-1$
-					" vollständig durchgeführt werden: " + ex.getMessage(); //$NON-NLS-1$
 		}
 			
 		return null; // keine Widersprüche
