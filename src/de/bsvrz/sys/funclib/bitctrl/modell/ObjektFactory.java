@@ -84,8 +84,8 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 * @param datensatz
 	 *            die Klasse eines passenden Parameters oder Onlinedatensatzes.
 	 */
-	public static void addParameter(Class<? extends SystemObjekt> klasse,
-			Class<? extends Datensatz<?>> datensatz) {
+	public static void addParameter(final Class<? extends SystemObjekt> klasse,
+			final Class<? extends Datensatz<?>> datensatz) {
 		if (DEFAULT.get(klasse) == null) {
 			DEFAULT.put(klasse, new HashSet<Class<? extends Datensatz<?>>>());
 		}
@@ -137,51 +137,51 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 *            PIDs der zu &uuml;bersetzenden Systemobjekte
 	 * @return Tabelle von IDs und Modellobjekten
 	 */
-	public List<SystemObjekt> bestimmeModellobjekte(String... pids) {
-		DataModel dm = verbindung.getDataModel();
-		List<SystemObjekt> objekte = new ArrayList<SystemObjekt>();
+	public List<SystemObjekt> bestimmeModellobjekte(final String... pids) {
+		final DataModel dm = verbindung.getDataModel();
+		final List<SystemObjekt> objekte = new ArrayList<SystemObjekt>();
 
 		for (int i = 0; i < pids.length; i++) {
-			SystemObject obj = dm.getObject(pids[i]);
+			final SystemObject obj = dm.getObject(pids[i]);
 
 			if (obj != null) {
 				if (obj instanceof ConfigurationArea) {
 					// Alle Objekte des Konfigurationsbereich suchen
-					ConfigurationArea kb = (ConfigurationArea) obj;
+					final ConfigurationArea kb = (ConfigurationArea) obj;
 					List<String> typen;
 
 					typen = new ArrayList<String>();
-					for (ModellObjektFactory f : factories.values()) {
-						for (SystemObjektTyp typ : f.getTypen()) {
+					for (final ModellObjektFactory f : factories.values()) {
+						for (final SystemObjektTyp typ : f.getTypen()) {
 							typen.add(typ.getPid());
 						}
 					}
 
-					for (SystemObject objekt : Konfigurationsbereich
+					for (final SystemObject objekt : Konfigurationsbereich
 							.getObjekte(kb, typen)) {
-						SystemObjekt fuzzyObjekt = getModellobjekt(objekt);
+						final SystemObjekt fuzzyObjekt = getModellobjekt(objekt);
 						if (fuzzyObjekt != null) {
 							objekte.add(fuzzyObjekt);
 						}
 					}
 				} else if (obj instanceof SystemObjectType) {
 					// Alle Objekte des Typs suchen
-					SystemObjectType typ = (SystemObjectType) obj;
+					final SystemObjectType typ = (SystemObjectType) obj;
 					// List<SystemObjectType> liste;
 					//
 					// liste = new ArrayList<SystemObjectType>();
 					// liste.add((SystemObjectType) obj);
 					// for (SystemObject so : dm.getObjects(null, liste,
 					// ObjectTimeSpecification.valid())) {
-					for (SystemObject so : typ.getElements()) {
-						SystemObjekt objekt = getModellobjekt(so);
+					for (final SystemObject so : typ.getElements()) {
+						final SystemObjekt objekt = getModellobjekt(so);
 						if (objekt != null) {
 							objekte.add(objekt);
 						}
 					}
 				} else {
 					// Das Objekt selber suchen
-					SystemObjekt so = getModellobjekt(obj);
+					final SystemObjekt so = getModellobjekt(obj);
 					if (so != null) {
 						objekte.add(so);
 					}
@@ -212,6 +212,24 @@ public final class ObjektFactory implements ModellObjektFactory {
 	}
 
 	/**
+	 * Bestimmt das Modellobjekt zu einer PID.
+	 * 
+	 * @param pid
+	 *            die PID des gesuchten Systemobjekts.
+	 * @return das Systemobjekt oder {@code null}, wenn keines existiert oder
+	 *         es nicht als Modellobjekt darstellbar ist.
+	 */
+	public SystemObjekt getModellobjekt(final String pid) {
+		List<SystemObjekt> objekte;
+
+		objekte = bestimmeModellobjekte(pid);
+		if (!objekte.isEmpty()) {
+			return objekte.get(0);
+		}
+		return null;
+	}
+
+	/**
 	 * Versucht mit Hilfe der registrierten Fabriken ein Systemobjekt in ein
 	 * Modellobjekt zu &uumnl;berf&uuml;hren. Gibt es mehrere Fabriken, die dazu
 	 * in der Lage sind, wird die Fabrik benutzt, die zuerst registriert wurde.
@@ -224,7 +242,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 *         Systemobjekt nicht in ein Modellobjekt &uuml;berf&uuml;hrt werden
 	 *         kann
 	 */
-	public SystemObjekt getModellobjekt(SystemObject obj) {
+	public SystemObjekt getModellobjekt(final SystemObject obj) {
 		if (obj == null) {
 			throw new IllegalArgumentException("Argument darf nicht null sein.");
 		}
@@ -241,12 +259,12 @@ public final class ObjektFactory implements ModellObjektFactory {
 		Collection<SystemObjectType> objTypen = new ArrayList<SystemObjectType>();
 		objTypen.add(obj.getType());
 		do {
-			for (ModellObjektFactory f : factories.values()) {
+			for (final ModellObjektFactory f : factories.values()) {
 				boolean factoryGefunden = false;
-				Collection<? extends SystemObjektTyp> unterstuetzteTypen = f
+				final Collection<? extends SystemObjektTyp> unterstuetzteTypen = f
 						.getTypen();
-				for (SystemObjectType type : objTypen) {
-					for (SystemObjektTyp factoryTyp : unterstuetzteTypen) {
+				for (final SystemObjectType type : objTypen) {
+					for (final SystemObjektTyp factoryTyp : unterstuetzteTypen) {
 						if (type.getPid().equals(factoryTyp.getPid())) {
 							factoryGefunden = true;
 						}
@@ -264,8 +282,8 @@ public final class ObjektFactory implements ModellObjektFactory {
 				}
 			}
 			if (so == null) {
-				Collection<SystemObjectType> basisTypen = new ArrayList<SystemObjectType>();
-				for (SystemObjectType type : objTypen) {
+				final Collection<SystemObjectType> basisTypen = new ArrayList<SystemObjectType>();
+				for (final SystemObjectType type : objTypen) {
 					basisTypen.addAll(type.getSuperTypes());
 				}
 				objTypen = basisTypen;
@@ -279,9 +297,10 @@ public final class ObjektFactory implements ModellObjektFactory {
 
 		// Falls noch nicht geschehen gewünschte Standarddatensätze ergänzen
 		if (so != null) {
-			for (Class<? extends SystemObjekt> co : DEFAULT.keySet()) {
+			for (final Class<? extends SystemObjekt> co : DEFAULT.keySet()) {
 				if (co.isInstance(so)) {
-					for (Class<? extends Datensatz<?>> cd : DEFAULT.get(co)) {
+					for (final Class<? extends Datensatz<?>> cd : DEFAULT
+							.get(co)) {
 						if (cd.isAssignableFrom(OnlineDatensatz.class)) {
 							so
 									.getOnlineDatensatz((Class<? extends OnlineDatensatz<?>>) cd);
@@ -312,7 +331,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 		List<SystemObjektTyp> typen;
 
 		typen = new ArrayList<SystemObjektTyp>();
-		for (ModellObjektFactory f : factories.values()) {
+		for (final ModellObjektFactory f : factories.values()) {
 			typen.addAll(f.getTypen());
 		}
 
@@ -340,8 +359,8 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 * @param factory
 	 *            Modellobjektfabrik
 	 */
-	public void registerFactory(ModellObjektFactory... factory) {
-		for (ModellObjektFactory f : factory) {
+	public void registerFactory(final ModellObjektFactory... factory) {
+		for (final ModellObjektFactory f : factory) {
 			factories.put(f.getClass(), f);
 		}
 	}
@@ -373,7 +392,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 * @param verbindung
 	 *            die Verbindung
 	 */
-	public void setVerbindung(ClientDavInterface verbindung) {
+	public void setVerbindung(final ClientDavInterface verbindung) {
 		this.verbindung = verbindung;
 		cache.clear();
 	}
