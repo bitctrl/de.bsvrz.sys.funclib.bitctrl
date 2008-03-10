@@ -63,7 +63,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  */
 public final class Ereigniskalender implements DatensatzUpdateListener {
 
-	/** Timeout von einer Minute für das Senden von Daten. */
+	/** Timeout für das Senden von Daten von {@value} Millisekunden. */
 	private static final long TIMEOUT = 60 * 1000;
 
 	/** Sichert die Liste des Singletons pro Datenverteilerverbindung. */
@@ -126,7 +126,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		odAntwort.addUpdateListener(aspAntwort, this);
 		try {
 			odAnfrage.anmeldenSender(aspAnfrage);
-		} catch (AnmeldeException ex) {
+		} catch (final AnmeldeException ex) {
 			log
 					.error(
 							"Anmeldung zum Senden von Anfragen an die Ganglinienprognose konnte nicht durchgeführt werden",
@@ -142,7 +142,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * @param listener
 	 *            Der neue Listener
 	 */
-	public void addKalenderListener(KalenderListener listener) {
+	public void addKalenderListener(final KalenderListener listener) {
 		listeners.add(KalenderListener.class, listener);
 	}
 
@@ -173,10 +173,11 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 *             wenn das Sendes Parameters mit dem Intervall nicht möglich
 	 *             war.
 	 */
-	public Ereignis anlegenEreignis(String pid, String name,
-			String beschreibung, EreignisTyp typ, Interval intervall,
-			String quelle) throws ConfigurationChangeException,
-			AnmeldeException, DatensendeException {
+	public Ereignis anlegenEreignis(final String pid, final String name,
+			final String beschreibung, final EreignisTyp typ,
+			final Interval intervall, final String quelle)
+			throws ConfigurationChangeException, AnmeldeException,
+			DatensendeException {
 		Ereignis erg;
 		PdEreignisParameter param;
 		PdEreignisParameter.Daten datum;
@@ -223,10 +224,11 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 *             wenn das Sendes Parameters mit dem Intervall nicht möglich
 	 *             war.
 	 */
-	public Ereignis anlegenEreignis(String pid, String name,
-			String beschreibung, EreignisTyp typ, SystemKalenderEintrag ske,
-			String quelle) throws ConfigurationChangeException,
-			AnmeldeException, DatensendeException {
+	public Ereignis anlegenEreignis(final String pid, final String name,
+			final String beschreibung, final EreignisTyp typ,
+			final SystemKalenderEintrag ske, final String quelle)
+			throws ConfigurationChangeException, AnmeldeException,
+			DatensendeException {
 		Ereignis erg;
 		PdEreignisParameter param;
 		PdEreignisParameter.Daten datum;
@@ -266,8 +268,8 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 *             wenn der Parameter mit der Priorität nicht zum Senden
 	 *             angemeldet werden konnte.
 	 */
-	public EreignisTyp anlegenEreignisTyp(String pid, String name,
-			int prioritaet) throws ConfigurationChangeException,
+	public EreignisTyp anlegenEreignisTyp(final String pid, final String name,
+			final int prioritaet) throws ConfigurationChangeException,
 			DatensendeException, AnmeldeException {
 		return anlegenEreignisTyp(pid, name, prioritaet,
 				new HashMap<String, String>());
@@ -296,8 +298,8 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 *             wenn der Parameter mit der Priorität nicht zum Senden
 	 *             angemeldet werden konnte.
 	 */
-	public EreignisTyp anlegenEreignisTyp(String pid, String name,
-			int prioritaet, Map<String, String> attribute)
+	public EreignisTyp anlegenEreignisTyp(final String pid, final String name,
+			final int prioritaet, final Map<String, String> attribute)
 			throws ConfigurationChangeException, DatensendeException,
 			AnmeldeException {
 		EreignisTyp typ;
@@ -335,8 +337,8 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 *             wenn der Parameter mit der Definition nicht gesendet werden
 	 *             konnte.
 	 */
-	public SystemKalenderEintrag anlegenSystemKalenderEintrag(String pid,
-			String name, String definition)
+	public SystemKalenderEintrag anlegenSystemKalenderEintrag(final String pid,
+			final String name, final String definition)
 			throws ConfigurationChangeException, AnmeldeException,
 			DatensendeException {
 		SystemKalenderEintrag ske;
@@ -360,29 +362,10 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * 
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener#datensatzAktualisiert(de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent)
 	 */
-	public void datensatzAktualisiert(DatensatzUpdateEvent event) {
+	public void datensatzAktualisiert(final DatensatzUpdateEvent event) {
 		if (event.getDatum().isValid()) {
 			fireAntwort((OdEreignisKalenderAntwort.Daten) event.getDatum());
 		}
-	}
-
-	/**
-	 * Informiert alle registrierten Listener &uuml;ber eine Antwort.
-	 * 
-	 * @param datum
-	 *            das Datum mit der Antwort.
-	 */
-	protected synchronized void fireAntwort(
-			OdEreignisKalenderAntwort.Daten datum) {
-		KalenderEvent e = new KalenderEvent(this, datum.getAbsenderZeichen(),
-				datum.isAenderung(), datum.getZustandswechsel());
-
-		for (KalenderListener l : listeners
-				.getListeners(KalenderListener.class)) {
-			l.antwortEingetroffen(e);
-		}
-
-		log.fine("Kalenderantwort wurde verteilt: " + e);
 	}
 
 	/**
@@ -403,7 +386,8 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * @throws ConfigurationChangeException
 	 *             wenn das Löschen schief ging.
 	 */
-	public void loeschen(Ereignis erg) throws ConfigurationChangeException {
+	public void loeschen(final Ereignis erg)
+			throws ConfigurationChangeException {
 		kalender.remove(erg);
 		erg.entfernen();
 	}
@@ -417,7 +401,8 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * @throws ConfigurationChangeException
 	 *             wenn das Löschen schief ging.
 	 */
-	public void loeschen(EreignisTyp typ) throws ConfigurationChangeException {
+	public void loeschen(final EreignisTyp typ)
+			throws ConfigurationChangeException {
 		kalender.remove(typ);
 		typ.entfernen();
 	}
@@ -431,7 +416,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * @throws ConfigurationChangeException
 	 *             wenn das Löschen schief ging.
 	 */
-	public void loeschen(SystemKalenderEintrag typ)
+	public void loeschen(final SystemKalenderEintrag typ)
 			throws ConfigurationChangeException {
 		kalender.remove(typ);
 		typ.entfernen();
@@ -443,7 +428,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * @param listener
 	 *            Listener der abgemeldet werden soll
 	 */
-	public void removeKalenderListener(KalenderListener listener) {
+	public void removeKalenderListener(final KalenderListener listener) {
 		listeners.remove(KalenderListener.class, listener);
 	}
 
@@ -458,8 +443,8 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * @throws DatensendeException
 	 *             wenn beim Senden ein Fehler passiert ist.
 	 */
-	public void sendeAnfrage(String absenderZeichen, KalenderAnfrage anfrage)
-			throws DatensendeException {
+	public void sendeAnfrage(final String absenderZeichen,
+			final KalenderAnfrage anfrage) throws DatensendeException {
 		OdEreignisKalenderAnfrage.Daten datum;
 		ObjektFactory factory;
 		ClientApplication klient;
@@ -480,9 +465,29 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 				anfrage.getRaeumlicheGueltigkeit());
 		datum.getEreignisTypen().addAll(anfrage.getEreignisTypen());
 
-		odAnfrage.sendeDaten(aspAnfrage, datum);
+		odAnfrage.sendeDaten(aspAnfrage, datum, TIMEOUT);
 
 		log.fine("Anfrage \"" + absenderZeichen + "\" wurde gesendet");
+	}
+
+	/**
+	 * Informiert alle registrierten Listener &uuml;ber eine Antwort.
+	 * 
+	 * @param datum
+	 *            das Datum mit der Antwort.
+	 */
+	protected synchronized void fireAntwort(
+			final OdEreignisKalenderAntwort.Daten datum) {
+		final KalenderEvent e = new KalenderEvent(this, datum
+				.getAbsenderZeichen(), datum.isAenderung(), datum
+				.getZustandswechsel());
+
+		for (final KalenderListener l : listeners
+				.getListeners(KalenderListener.class)) {
+			l.antwortEingetroffen(e);
+		}
+
+		log.fine("Kalenderantwort wurde verteilt: " + e);
 	}
 
 }
