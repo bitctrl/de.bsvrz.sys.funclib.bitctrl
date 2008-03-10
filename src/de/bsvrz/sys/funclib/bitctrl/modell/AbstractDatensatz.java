@@ -26,6 +26,8 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
+import static com.bitctrl.Constants.MILLIS_PER_SECOND;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -89,8 +91,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public void abmelden(final Aspect asp) {
 			if (angemeldet.contains(asp)) {
-				DataDescription dbs = new DataDescription(getAttributGruppe(),
-						asp);
+				final DataDescription dbs = new DataDescription(
+						getAttributGruppe(), asp);
 				dav.unsubscribeReceiver(this, getObjekt().getSystemObject(),
 						dbs);
 				angemeldet.remove(asp);
@@ -106,7 +108,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public void anmelden(final Aspect asp) {
 			abmelden(asp);
-			DataDescription dbs = new DataDescription(getAttributGruppe(), asp);
+			final DataDescription dbs = new DataDescription(
+					getAttributGruppe(), asp);
 			if (isSenke(asp)) {
 				dav.subscribeReceiver(this, getObjekt().getSystemObject(), dbs,
 						ReceiveOptions.normal(), ReceiverRole.drain());
@@ -134,7 +137,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public void update(final ResultData[] results) {
 			synchronized (AbstractDatensatz.this) {
-				for (ResultData result : results) {
+				for (final ResultData result : results) {
 					setDaten(result);
 				}
 			}
@@ -175,8 +178,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public void abmelden(final Aspect asp) {
 			if (angemeldet.contains(asp)) {
-				DataDescription dbs = new DataDescription(getAttributGruppe(),
-						asp);
+				final DataDescription dbs = new DataDescription(
+						getAttributGruppe(), asp);
 				dav.unsubscribeSender(this, getObjekt().getSystemObject(), dbs);
 				angemeldet.remove(asp);
 				sendesteuerung.remove(asp);
@@ -194,7 +197,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 */
 		public void anmelden(final Aspect asp) throws AnmeldeException {
 			abmelden(asp);
-			DataDescription dbs = new DataDescription(getAttributGruppe(), asp);
+			final DataDescription dbs = new DataDescription(
+					getAttributGruppe(), asp);
 			try {
 				if (isQuelle(asp)) {
 					dav.subscribeSender(this, getObjekt().getSystemObject(),
@@ -204,7 +208,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 							dbs, SenderRole.sender());
 				}
 				angemeldet.add(asp);
-			} catch (OneSubscriptionPerSendData ex) {
+			} catch (final OneSubscriptionPerSendData ex) {
 				angemeldet.remove(asp);
 				throw new AnmeldeException(ex);
 			}
@@ -224,7 +228,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 				status = Status.getStatus(state);
 				sendesteuerung.put(dataDescription.getAspect(), status);
 				if (status == Status.START) {
-					AbstractDatensatz.this.notify();
+					AbstractDatensatz.this.notifyAll();
 				}
 			}
 		}
@@ -328,14 +332,20 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 
 			try {
 				dav.sendData(datensatz);
-			} catch (DataNotSubscribedException ex) {
+			} catch (final DataNotSubscribedException ex) {
 				throw new DatensendeException(ex);
-			} catch (SendSubscriptionNotConfirmed ex) {
+			} catch (final SendSubscriptionNotConfirmed ex) {
 				throw new DatensendeException(ex);
 			}
 		}
 
 	}
+
+	/**
+	 * Standardtimeout von {@value} Millisekunden für das Senden und Empfangen
+	 * von Daten.
+	 */
+	private static final long TIMEOUT = 60 * MILLIS_PER_SECOND;
 
 	/** Der Empf&auml;nger dieses Datensatzes. */
 	private final AsynchronerReceiver receiver;
@@ -381,7 +391,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 			return true;
 		}
 		if (obj instanceof Datensatz) {
-			Datensatz<?> ds = (Datensatz<?>) obj;
+			final Datensatz<?> ds = (Datensatz<?>) obj;
 			return getObjekt().equals(ds.getObjekt())
 					&& getAttributGruppe().equals(ds.getAttributGruppe());
 		}
@@ -546,9 +556,10 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 */
 	protected synchronized void fireDatensatzAktualisiert(final Aspect asp,
 			final T datum) {
-		DatensatzUpdateEvent event = new DatensatzUpdateEvent(this, asp, datum);
+		final DatensatzUpdateEvent event = new DatensatzUpdateEvent(this, asp,
+				datum);
 		if (listeners.get(asp) != null) {
-			for (DatensatzUpdateListener listener : listeners.get(asp)
+			for (final DatensatzUpdateListener listener : listeners.get(asp)
 					.getListeners(DatensatzUpdateListener.class)) {
 				listener.datensatzAktualisiert(event);
 			}
@@ -649,7 +660,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 */
 	protected void removeUpdateListener(final Aspect asp,
 			final DatensatzUpdateListener listener) {
-		EventListenerList listenerListe = listeners.get(asp);
+		final EventListenerList listenerListe = listeners.get(asp);
 		if (listenerListe != null) {
 			listenerListe.remove(DatensatzUpdateListener.class, listener);
 			if (listenerListe.getListenerCount(DatensatzUpdateListener.class) <= 0) {
@@ -661,7 +672,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	/**
 	 * Veranlasst den Datensatz ein Datum an den Datenverteiler zusenden. Ist
 	 * der Zeitstempel des Datums nicht gesetzt oder gleich 0, wird automatisch
-	 * der aktuelle Zeitstempel beim Versand verwendet.
+	 * der aktuelle Zeitstempel beim Versand verwendet. Es wird das
+	 * Standardtimeout verwendet.
 	 * 
 	 * @param asp
 	 *            der betroffene Aspekt.
@@ -671,10 +683,11 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 *             wenn die Daten nicht gesendet werden konnten. Der Sendecache
 	 *             wird in dem Fall nicht geleert.
 	 * @see #erzeugeDatum()
+	 * @see #TIMEOUT
 	 */
 	protected void sendeDaten(final Aspect asp, final T datum)
 			throws DatensendeException {
-		sender.sende(konvertiere(datum), asp, datum.getZeitstempel());
+		sendeDaten(asp, datum, TIMEOUT);
 	}
 
 	/**
@@ -687,7 +700,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @param datum
 	 *            das zu sendende Datum.
 	 * @param timeout
-	 *            die Zeitspanne in der die Daten gesendet werden m&uuml;ssen.
+	 *            die Zeitspanne in der die Daten gesendet werden müssen.
 	 * @throws DatensendeException
 	 *             wenn die Daten nicht gesendet werden konnten. Der Sendecache
 	 *             wird in dem Fall nicht geleert.
@@ -699,7 +712,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 			if (getStatusSendesteuerung(asp) != Datensatz.Status.START) {
 				try {
 					wait(timeout);
-				} catch (InterruptedException ex) {
+				} catch (final InterruptedException ex) {
 					ex.printStackTrace();
 				}
 			}
