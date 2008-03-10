@@ -1,5 +1,4 @@
 /**
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.x 
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
  * This program is free software; you can redistribute it and/or modify it under
@@ -98,11 +97,8 @@ public class PublikationsZuordung {
 	 * @param data ein Datenverteiler-Datum mit den
 	 * mit einer Publikationszuordnung assoziierten Daten
 	 * @param verwaltung Verbindung zum Verwaltungsmodul
-	 * @throws Exception wenn einer der Parameter nicht
-	 * ausgelesen werden konnte
 	 */
-	protected PublikationsZuordung(final Data data, final IVerwaltung verwaltung)
-	throws Exception{
+	protected PublikationsZuordung(final Data data, final IVerwaltung verwaltung){
 		this.aspekt = (Aspect)data.getReferenceValue(
 				DFSKonstanten.ATT_ASP).getSystemObject();
 		this.modulTyp = ModulTyp.getZustand((int)data.getUnscaledValue(

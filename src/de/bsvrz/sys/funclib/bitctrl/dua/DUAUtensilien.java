@@ -133,7 +133,6 @@ public class DUAUtensilien {
 		Collection<SystemObject> finObjekte = getBasisInstanzen(obj, dav);
 
 		for (SystemObject finObj : finObjekte) {
-			try {
 				if (datenBeschreibung == null
 						|| (datenBeschreibung.getAttributeGroup() == null && datenBeschreibung
 								.getAspect() == null)) {
@@ -151,7 +150,7 @@ public class DUAUtensilien {
 							anmeldungen.add(new DAVObjektAnmeldung(finObj,
 									new DataDescription(atg, datenBeschreibung
 											.getAspect(), (short) 0)));
-						} catch (Exception ex) {
+						} catch (IllegalArgumentException ex) {
 							LOGGER.fine(Constants.EMPTY_STRING, ex);
 						}
 					}
@@ -166,9 +165,6 @@ public class DUAUtensilien {
 					anmeldungen.add(new DAVObjektAnmeldung(finObj,
 							datenBeschreibung));
 				}
-			} catch (Exception ex) {
-				LOGGER.fine(Constants.EMPTY_STRING, ex);
-			}
 		}
 
 		return anmeldungen;

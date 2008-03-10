@@ -33,7 +33,10 @@ import com.bitctrl.Constants;
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ClientSenderInterface;
 import de.bsvrz.dav.daf.main.DataDescription;
+import de.bsvrz.dav.daf.main.DataNotSubscribedException;
+import de.bsvrz.dav.daf.main.OneSubscriptionPerSendData;
 import de.bsvrz.dav.daf.main.ResultData;
+import de.bsvrz.dav.daf.main.SendSubscriptionNotConfirmed;
 import de.bsvrz.dav.daf.main.SenderRole;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.debug.Debug;
@@ -88,7 +91,10 @@ implements ClientSenderInterface{
 					status == ClientSenderInterface.START_SENDING){
 				this.dav.sendData(resultat);
 			}
-		} catch (Exception e) {
+		} catch (DataNotSubscribedException  e) {
+			e.printStackTrace();
+			LOGGER.error(Constants.EMPTY_STRING, e);
+		} catch (SendSubscriptionNotConfirmed e){
 			e.printStackTrace();
 			LOGGER.error(Constants.EMPTY_STRING, e);
 		}
@@ -141,7 +147,7 @@ implements ClientSenderInterface{
 						info += anmeldung;
 					}
 				}
-			} catch (Exception e) {
+			} catch (OneSubscriptionPerSendData e) {
 				LOGGER.error("Probleme beim" + //$NON-NLS-1$
 						" Anmelden als Sender/Quelle:\n" + anmeldung, e); //$NON-NLS-1$
 				e.printStackTrace();
@@ -161,7 +167,7 @@ implements ClientSenderInterface{
 						new DAVObjektAnmeldung(object, dataDescription);
 				this.aktuelleObjektAnmeldungen.put(anmeldung, state);
 			}
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			LOGGER.error("Problem" + //$NON-NLS-1$
 					" innerhalb der Sendesteuerung", e); //$NON-NLS-1$
@@ -181,7 +187,7 @@ implements ClientSenderInterface{
 			if(this.aktuelleObjektAnmeldungen.containsKey(anmeldung)){
 				resultat = true;
 			}
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			LOGGER.error("Problem" + //$NON-NLS-1$
 					" innerhalb der Sendesteuerung", e); //$NON-NLS-1$

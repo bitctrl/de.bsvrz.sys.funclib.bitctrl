@@ -35,13 +35,10 @@ import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.ReceiveOptions;
 import de.bsvrz.dav.daf.main.ReceiverRole;
 import de.bsvrz.dav.daf.main.ResultData;
-import de.bsvrz.dav.daf.main.config.ConfigurationArea;
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.dav.daf.main.config.SystemObjectType;
 import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
-import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.schnittstellen.IDatenFlussSteuerungsListener;
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.SWETyp;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
@@ -170,21 +167,17 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 		this.verwaltung = verwaltung;
 
 		if (dfsObjekt != null) {
-			try {
-				DataDescription dd = new DataDescription(verwaltung
-						.getVerbindung().getDataModel().getAttributeGroup(
-								DFSKonstanten.ATG), verwaltung.getVerbindung()
-						.getDataModel().getAspect(
-								DaVKonstanten.ASP_PARAMETER_SOLL), (short) 0);
+			DataDescription dd = new DataDescription(verwaltung
+					.getVerbindung().getDataModel().getAttributeGroup(
+							DFSKonstanten.ATG), verwaltung.getVerbindung()
+							.getDataModel().getAspect(
+									DaVKonstanten.ASP_PARAMETER_SOLL), (short) 0);
 
-				verwaltung.getVerbindung().subscribeReceiver(this, dfsObjekt,
-						dd, ReceiveOptions.normal(), ReceiverRole.receiver());
+			verwaltung.getVerbindung().subscribeReceiver(this, dfsObjekt,
+					dd, ReceiveOptions.normal(), ReceiverRole.receiver());
 
-				LOGGER.config("Fuer die Datenflusssteuerung" + //$NON-NLS-1$
-						" wird das Objekt " + dfsObjekt + " verwendet."); //$NON-NLS-1$//$NON-NLS-2$
-			} catch (Exception ex) {
-				throw new DUAInitialisierungsException(STD_FEHLER, ex);
-			}
+			LOGGER.config("Fuer die Datenflusssteuerung" + //$NON-NLS-1$
+					" wird das Objekt " + dfsObjekt + " verwendet."); //$NON-NLS-1$//$NON-NLS-2$
 		} else {
 			LOGGER
 					.warning("Die Datenflusssteuerung ist nicht zur Laufzeit steuerbar.\n" + //$NON-NLS-1$
@@ -271,16 +264,9 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 							Data paraZuordnung = satz.getArray(
 									DFSKonstanten.ATT_PUB_ZUORDNUNG).getItem(j);
 							PublikationsZuordung dfParaZuordnung;
-							try {
-								dfParaZuordnung = new PublikationsZuordung(
-										paraZuordnung, verwaltung);
-								dfParameterSatz.add(dfParaZuordnung);
-							} catch (Exception e) {
-								LOGGER.error("Eine Publikationszuordnung " + //$NON-NLS-1$
-										"konnte nicht korrekt" + //$NON-NLS-1$
-										" ausgelesen werden: " + paraZuordnung, //$NON-NLS-1$
-										e);
-							}
+							dfParaZuordnung = new PublikationsZuordung(
+									paraZuordnung, verwaltung);
+							dfParameterSatz.add(dfParaZuordnung);
 						}
 
 						ParameterSatz dummy = letzteDfs

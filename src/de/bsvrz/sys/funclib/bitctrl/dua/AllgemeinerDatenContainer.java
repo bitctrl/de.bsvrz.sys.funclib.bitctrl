@@ -26,9 +26,12 @@
 
 package de.bsvrz.sys.funclib.bitctrl.dua;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.bitctrl.Constants;
+
+import de.bsvrz.sys.funclib.debug.Debug;
 
 
 /**
@@ -40,6 +43,11 @@ import com.bitctrl.Constants;
  *
  */
 public class AllgemeinerDatenContainer {
+	
+	/**
+	 * Debug-Logger
+	 */
+	private static final Debug LOGGER = Debug.getLogger();
 	
 	
 	/**
@@ -56,13 +64,26 @@ public class AllgemeinerDatenContainer {
 			if(that.getClass().equals(this.getClass())){
 				for(Method method:this.getClass().getMethods()){
 					if(method.getName().startsWith("get")){  //$NON-NLS-1$
+						Object thisInhalt;
+						Object thatInhalt;
+
 						try {
-							Object thisInhalt = method.invoke(this, new Object[0]);
-							Object thatInhalt = method.invoke(that, new Object[0]);
+							thisInhalt = method.invoke(this, new Object[0]);
+							thatInhalt = method.invoke(that, new Object[0]);
 							if(!thisInhalt.equals(thatInhalt)){
 								return false;
 							}
-						} catch (Exception ex){
+						} catch (IllegalArgumentException e) {
+							LOGGER.error(Constants.EMPTY_STRING, e);
+							e.printStackTrace();
+							return false;
+						} catch (IllegalAccessException e) {
+							LOGGER.error(Constants.EMPTY_STRING, e);
+							e.printStackTrace();
+							return false;
+						} catch (InvocationTargetException e) {
+							LOGGER.error(Constants.EMPTY_STRING, e);
+							e.printStackTrace();
 							return false;
 						}
 					}
@@ -91,7 +112,14 @@ public class AllgemeinerDatenContainer {
 				s += methode.getName().substring(3) + " = ";  //$NON-NLS-1$
 				try {
 					s += methode.invoke(this, new Object[0]);
-				} catch (Exception ex){
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+					s += "unbekannt";   //$NON-NLS-1$
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+					s += "unbekannt";   //$NON-NLS-1$
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
 					s += "unbekannt";   //$NON-NLS-1$
 				}
 				s += "\n";  //$NON-NLS-1$
@@ -101,7 +129,14 @@ public class AllgemeinerDatenContainer {
 				s += methode.getName().substring(2) + " = ";  //$NON-NLS-1$
 				try {
 					s += methode.invoke(this, new Object[0]);
-				} catch (Exception ex){
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+					s += "unbekannt";   //$NON-NLS-1$
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+					s += "unbekannt";   //$NON-NLS-1$
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
 					s += "unbekannt";   //$NON-NLS-1$
 				}
 				s += "\n";  //$NON-NLS-1${
