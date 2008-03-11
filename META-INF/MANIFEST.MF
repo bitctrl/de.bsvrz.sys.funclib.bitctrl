@@ -7,7 +7,6 @@ Bundle-Vendor: BitCtrl Systems GmbH
 Require-Bundle: de.bsvrz.dav.daf;visibility:=reexport,
  BitCtrlJavaCommon;visibility:=reexport
 Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application",
- de.bsvrz.sys.funclib.bitctrl.app.rmi;uses:="sys.funclib.application,stauma.dav.clientside,sys.funclib",
  de.bsvrz.sys.funclib.bitctrl.daf;uses:="stauma.dav.configuration.interfaces,stauma.dav.clientside",
  de.bsvrz.sys.funclib.bitctrl.dua,
  de.bsvrz.sys.funclib.bitctrl.dua.adapter;
