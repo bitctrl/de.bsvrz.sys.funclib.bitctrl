@@ -40,7 +40,7 @@ import com.bitctrl.Constants;
 public final class ZeitAngabe {
 
 	/** der Zeitwert, der dargestellt werden soll. */
-	private long zeitWert;
+	private final long zeitWert;
 
 	/**
 	 * Konstruktor. Die Funktion erzeugt eine Instanz einer Zeitangabe. Der
@@ -103,6 +103,15 @@ public final class ZeitAngabe {
 		}
 
 		return result.toString();
+	}
+
+	/**
+	 * liefert den definierten Zeitwert, der Zeitangabe in Millisekunden.
+	 * 
+	 * @return den Wert in ms
+	 */
+	public long getZeitWert() {
+		return zeitWert;
 	}
 
 	/**
