@@ -82,9 +82,10 @@ public class DuaVerkehrsNetz {
 	 * Fahrtreifen ein
 	 */
 	private static final void ermittleErsatzUndNachbarFS(){
-
-		for(MessQuerschnitt mq:MessQuerschnitt.getInstanzen()){
+		
+		for(MessQuerschnitt mq:MessQuerschnitt.getInstanzen()){	
 			for(FahrStreifen fs:mq.getFahrStreifen()){
+				
 				if(fs.getNachbarFahrStreifen() == null){
 					FahrStreifen nachbar = mq.getNachbarVon(fs);
 					if(nachbar != null){
@@ -128,5 +129,6 @@ public class DuaVerkehrsNetz {
 				}
 			}
 		}
+		
 	}
 }

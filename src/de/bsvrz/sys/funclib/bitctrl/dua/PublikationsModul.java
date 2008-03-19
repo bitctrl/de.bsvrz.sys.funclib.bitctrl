@@ -101,6 +101,9 @@ extends AbstraktBearbeitungsKnotenAdapter{
 		super.initialisiere(dieVerwaltung);
 		this.publikationsAnmeldungen.modifiziereObjektAnmeldung(this.standardAspekte.
 				getStandardAnmeldungen(this.verwaltung.getSystemObjekte()));
+		for(SystemObject objekt:this.verwaltung.getSystemObjekte()){
+			this.keineDaten.put(objekt, true);
+		}
 	}		
 
 

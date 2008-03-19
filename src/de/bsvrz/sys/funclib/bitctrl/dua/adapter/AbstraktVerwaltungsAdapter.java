@@ -142,10 +142,10 @@ implements IVerwaltung {
 	public void initialize(ClientDavInterface dieVerbindung)
 	throws Exception {
 		try{
+			
 			this.verbindung = dieVerbindung;
 			this.nachrichtenSender = MessageSender.getInstance();
 			this.nachrichtenSender.setApplicationLabel(this.getSWETyp().toString());
-
 			if(this.komArgumente != null){
 				this.kBereiche = getKonfigurationsBereicheAlsObjekte(
 						DUAUtensilien.getArgument(DUAKonstanten.ARG_KONFIGURATIONS_BEREICHS_PID,

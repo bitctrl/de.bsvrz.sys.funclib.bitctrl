@@ -92,7 +92,6 @@ public abstract class DAVAnmeldungsVerwaltung {
 
 //		Debug Anfang
 		String info = Constants.EMPTY_STRING;
-		System.out.println("------" + LOGGER.debugInfo());
 		if(DEBUG){
 			info = "Verlangte Anmeldungen (" + this.getInfo() + "): "; //$NON-NLS-1$ //$NON-NLS-2$
 			if(neueObjektAnmeldungen.size() == 0){
@@ -115,28 +114,22 @@ public abstract class DAVAnmeldungsVerwaltung {
 		}
 //		Debug Ende
 
-		LOGGER.error("----------1.0");
 		synchronized (this) {
-			LOGGER.error("----------1");
 			Collection<DAVObjektAnmeldung> diffObjekteAnmeldungen =
 				new TreeSet<DAVObjektAnmeldung>();
-			LOGGER.error("----------2");
 			for(DAVObjektAnmeldung neueAnmeldung:neueObjektAnmeldungen){
 				if(!aktuelleObjektAnmeldungen.containsKey(neueAnmeldung)){
 					diffObjekteAnmeldungen.add(neueAnmeldung);
 				}
 			}
-			LOGGER.error("----------3");
 
 			Collection<DAVObjektAnmeldung> diffObjekteAbmeldungen =
 				new TreeSet<DAVObjektAnmeldung>();
-			LOGGER.error("----------4");
 			for(DAVObjektAnmeldung aktuelleAnmeldung:aktuelleObjektAnmeldungen.keySet()){
 				if(!neueObjektAnmeldungen.contains(aktuelleAnmeldung)){
 					diffObjekteAbmeldungen.add(aktuelleAnmeldung);
 				}
 			}
-			LOGGER.error("----------5");
 
 			if(DEBUG){
 				info += "--------\nABmeldungen: "; //$NON-NLS-1$
@@ -149,7 +142,6 @@ public abstract class DAVAnmeldungsVerwaltung {
 				anmelden(diffObjekteAnmeldungen);				
 			}
 		}
-		LOGGER.error("----------5.0");
 	}
 
 	/**
