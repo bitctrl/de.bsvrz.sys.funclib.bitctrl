@@ -716,11 +716,14 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 					ex.printStackTrace();
 				}
 			}
-			if (getStatusSendesteuerung(asp) != Datensatz.Status.START) {
+			if (getStatusSendesteuerung(asp) == Datensatz.Status.START
+					|| (isQuelle(asp) && getStatusSendesteuerung(asp) == Datensatz.Status.STOP)) {
+				sender.sende(konvertiere(datum), asp, datum.getZeitstempel());
+			} else {
 				throw new DatensendeException("Timeout, Sendesteuerung="
 						+ getStatusSendesteuerung(asp) + " (" + this + ")");
 			}
-			sender.sende(konvertiere(datum), asp, datum.getZeitstempel());
+
 		}
 	}
 
