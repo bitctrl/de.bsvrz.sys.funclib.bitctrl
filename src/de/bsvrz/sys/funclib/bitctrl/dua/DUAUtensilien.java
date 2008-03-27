@@ -45,6 +45,7 @@ import de.bsvrz.dav.daf.main.config.AttributeType;
 import de.bsvrz.dav.daf.main.config.ConfigurationArea;
 import de.bsvrz.dav.daf.main.config.IntegerAttributeType;
 import de.bsvrz.dav.daf.main.config.IntegerValueRange;
+import de.bsvrz.dav.daf.main.config.IntegerValueState;
 import de.bsvrz.dav.daf.main.config.ObjectTimeSpecification;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dav.daf.main.config.SystemObjectType;
@@ -546,16 +547,16 @@ public class DUAUtensilien {
 	}
 
 	/**
-	 * Ermittelt, ob der übergebene Wert im Wertebereich des übergebenen
+	 * Ermittelt, ob der uebergebene Wert im Wertebereich des uebergebenen
 	 * Attributs liegt
 	 * 
 	 * @param attribut
 	 *            das Ganzzahl-Attribut
 	 * @param wert
 	 *            der Wert
-	 * @return <code>false</code>, wenn das übergebene Attribut ein
+	 * @return <code>false</code>, wenn das uebergebene Attribut ein
 	 *         Ganzzahl-Attribut ist <b>und</b> einen Wertebereich besitzt
-	 *         <b>und</b> dieser durch den übergebenen Wert verletzt ist, sonst
+	 *         <b>und</b> dieser durch den uebergebenen Wert verletzt ist, sonst
 	 *         <code>true</code>
 	 */
 	public static final boolean isWertInWerteBereich(Data attribut, long wert) {
@@ -565,6 +566,15 @@ public class DUAUtensilien {
 			AttributeType typ = attribut.getAttributeType();
 
 			if (typ instanceof IntegerAttributeType) {
+				List<IntegerValueState> statuss = ((IntegerAttributeType) typ).getStates();
+				if(!statuss.isEmpty()){
+					for(IntegerValueState status:((IntegerAttributeType) typ).getStates()){
+						if(wert == status.getValue()){
+							return true;
+						}
+					}
+				}
+						
 				IntegerValueRange wertebereich = ((IntegerAttributeType) typ)
 						.getRange();
 				if (wertebereich != null) {

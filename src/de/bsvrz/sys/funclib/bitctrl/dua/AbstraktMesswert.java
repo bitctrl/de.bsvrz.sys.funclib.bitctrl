@@ -266,6 +266,50 @@ implements Comparable<AbstraktMesswert>{
 		datum.getItem(attName).getItem("Güte").getUnscaledValue("Index").set(this.guete.getWert()); //$NON-NLS-1$ //$NON-NLS-2$
 		datum.getItem(attName).getItem("Güte").getUnscaledValue("Verfahren").set(this.verfahren); //$NON-NLS-1$ //$NON-NLS-2$
 	}
+	
+	
+	/**
+	 * Kopiert den Inhalt dieses Objektes in das übergebene Datum
+	 * 
+	 * @param datum ein veränderbares Datum
+	 */
+	public final void kopiereInhaltNachModifiziereIndex(final Data datum){
+		if(this.isSkaliert()){
+			datum.getItem(attName).getScaledValue("Wert").set(this.wertSkaliert);	 //$NON-NLS-1$	
+		}else{
+			if(DUAUtensilien.isWertInWerteBereich(datum.getItem(attName).getItem("Wert"), this.wertUnskaliert)){ //$NON-NLS-1$
+				datum.getItem(attName).getUnscaledValue("Wert").set(this.wertUnskaliert); //$NON-NLS-1$
+			}else{
+				datum.getItem(attName).getUnscaledValue("Wert").set(DUAKonstanten.NICHT_ERMITTELBAR_BZW_FEHLERHAFT); //$NON-NLS-1$
+			}
+		}
+		
+		datum.getItem(attName).getItem("Status").getItem("Erfassung"). //$NON-NLS-1$ //$NON-NLS-2$
+			getUnscaledValue("NichtErfasst").set(this.nichtErfasst?DUAKonstanten.JA:DUAKonstanten.NEIN); //$NON-NLS-1$
+		
+		datum.getItem(attName).getItem("Status").getItem("PlFormal"). //$NON-NLS-1$ //$NON-NLS-2$
+			getUnscaledValue("WertMax").set(this.formalMax?DUAKonstanten.JA:DUAKonstanten.NEIN); //$NON-NLS-1$
+		datum.getItem(attName).getItem("Status").getItem("PlFormal"). //$NON-NLS-1$ //$NON-NLS-2$
+			getUnscaledValue("WertMin").set(this.formalMin?DUAKonstanten.JA:DUAKonstanten.NEIN); //$NON-NLS-1$
+
+		datum.getItem(attName).getItem("Status").getItem("PlLogisch"). //$NON-NLS-1$ //$NON-NLS-2$
+			getUnscaledValue("WertMaxLogisch").set(this.logischMax?DUAKonstanten.JA:DUAKonstanten.NEIN); //$NON-NLS-1$
+		datum.getItem(attName).getItem("Status").getItem("PlLogisch"). //$NON-NLS-1$ //$NON-NLS-2$
+			getUnscaledValue("WertMinLogisch").set(this.logischMin?DUAKonstanten.JA:DUAKonstanten.NEIN); //$NON-NLS-1$
+
+		datum.getItem(attName).getItem("Status").getItem("MessWertErsetzung"). //$NON-NLS-1$ //$NON-NLS-2$
+			getUnscaledValue("Implausibel").set(this.implausibel?DUAKonstanten.JA:DUAKonstanten.NEIN); //$NON-NLS-1$
+		datum.getItem(attName).getItem("Status").getItem("MessWertErsetzung"). //$NON-NLS-1$ //$NON-NLS-2$
+			getUnscaledValue("Interpoliert").set(this.interpoliert?DUAKonstanten.JA:DUAKonstanten.NEIN); //$NON-NLS-1$
+
+
+		if(datum.getItem(attName).getUnscaledValue("Wert").longValue() <= 0){ //$NON-NLS-1$
+			datum.getItem(attName).getItem("Güte").getUnscaledValue("Index").set(0); //$NON-NLS-1$ //$NON-NLS-2$
+		}else{
+			datum.getItem(attName).getItem("Güte").getUnscaledValue("Index").set(this.guete.getWert()); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		datum.getItem(attName).getItem("Güte").getUnscaledValue("Verfahren").set(this.verfahren); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
 		
 	/**
