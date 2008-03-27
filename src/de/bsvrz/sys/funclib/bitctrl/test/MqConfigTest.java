@@ -26,16 +26,17 @@
 
 package de.bsvrz.sys.funclib.bitctrl.test;
 
-import java.util.Collection;
+import java.util.List;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
-import de.bsvrz.dav.daf.main.Data;
-import de.bsvrz.dav.daf.main.config.AttributeGroup;
-import de.bsvrz.dav.daf.main.config.DataModel;
-import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.application.StandardApplication;
 import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
+import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.InneresStrassenSegment;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.MessQuerschnittAllgemein;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenSegment;
 import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 
 /**
@@ -78,24 +79,73 @@ public class MqConfigTest implements StandardApplication {
 	public void initialize(final ClientDavInterface connection)
 			throws Exception {
 
+		ObjektFactory.getInstanz().setVerbindung(connection);
+		ObjektFactory.getInstanz().registerStandardFactories();
+
 		long start = System.currentTimeMillis();
 
-		DataModel model = connection.getDataModel();
-		AttributeGroup atg = model
-				.getAttributeGroup("atg.punktLiegtAufLinienObjekt");
+		List<SystemObjekt> mqs = ObjektFactory.getInstanz()
+				.bestimmeModellobjekte(
+						VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
 
-		Collection<SystemObject> mqObjekte = model.getType(
-				"typ.messQuerschnittAllgemein").getElements();
+		List<SystemObjekt> strSeg = ObjektFactory.getInstanz()
+				.bestimmeModellobjekte(
+						VerkehrsModellTypen.INNERES_STRASSENSEGMENT.getPid());
 
-		for (SystemObject obj : mqObjekte) {
-			Data datum = obj.getConfigurationData(atg);
-			if (datum != null) {
-				float offset = datum.getScaledValue("Offset").floatValue();
-				System.err.println("Offset = " + offset);
+		for (SystemObjekt obj : mqs) {
+			MessQuerschnittAllgemein mq = (MessQuerschnittAllgemein) obj;
+			if (mq.getLinie() instanceof InneresStrassenSegment) {
+				InneresStrassenSegment segment = (InneresStrassenSegment) mq
+						.getLinie();
+				if (segment != null) {
+					if (mq.getPid().contains("HFB")) {
+						if (segment.getPid().contains("00000")) {
+							System.err.println(mq.getPid() + ": "
+									+ mq.getLinie().getPid() + ", Offset = "
+									+ excelZahl(mq.getOffset()));
+
+							if (segment.getVonSegment() != null) {
+								System.err
+										.println("\tPotentielle Verknüpfungen mit gleichen Vorgängersegment:");
+								for (SystemObjekt segObj : strSeg) {
+									InneresStrassenSegment seg = (InneresStrassenSegment) segObj;
+									if (segment.getVonSegment().equals(
+											seg.getVonSegment())) {
+										if (seg.getNachSegment() != null) {
+											System.err.println("\t" + seg);
+										}
+									}
+								}
+							}
+
+							if (segment.getNachSegment() != null) {
+								System.err
+										.println("\tPotentielle Verknüpfungen mit gleichen Nachfolgersegment:");
+								for (SystemObjekt segObj : strSeg) {
+									InneresStrassenSegment seg = (InneresStrassenSegment) segObj;
+									if (segment.getNachSegment().equals(
+											seg.getNachSegment())) {
+										if (seg.getVonSegment() != null) {
+											System.err.println("\t" + seg);
+										}
+									}
+								}
+							}
+
+						}
+					}
+				}
 			}
 		}
 
-		System.err.println(mqObjekte.size() + " MQ einlesen in "
+		for (SystemObjekt obj : mqs) {
+			MessQuerschnittAllgemein mq = (MessQuerschnittAllgemein) obj;
+			System.err.println(mq.getPid() + ";"
+					+ excelZahl(mq.getKoordinate().getY()) + ";"
+					+ excelZahl(mq.getKoordinate().getX()));
+		}
+
+		System.err.println(mqs.size() + " MQ einlesen in "
 				+ (System.currentTimeMillis() - start) + " ms");
 
 		System.exit(0);
