@@ -75,7 +75,7 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		 *            die PID eines Aspekts.
 		 */
 		private Aspekte(final String pid) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			aspekt = modell.getAspect(pid);
 			assert aspekt != null;
@@ -140,7 +140,13 @@ public class OdVerkehrsDatenKurzZeitMq extends
 			SKfz,
 
 			/** Belegungsgrad (mit Statusinformationen) in Prozent. */
-			B;
+			B,
+
+			/**
+			 * Bemessungsverkehrsstärke (Anzahl der Pkw-Einheiten) pro Stunde
+			 * (normiert auf Stunde).
+			 */
+			QB;
 
 		}
 
@@ -155,6 +161,12 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		 * Messabschnittsdauer.
 		 */
 		private Integer qKfz;
+
+		/**
+		 * Bemessungsverkehrsstärke (Anzahl der Pkw-Einheiten) pro Stunde
+		 * (normiert auf Stunde).
+		 */
+		private Integer qb;
 
 		/** Verkehrsstärke QPkw in Anzahl pro Messabschnittsdauer. */
 		private Integer qPkw;
@@ -189,7 +201,7 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		 */
 		@Override
 		public Daten clone() {
-			Daten klon = new Daten();
+			final Daten klon = new Daten();
 
 			klon.setZeitstempel(getZeitstempel());
 			klon.aLkw = aLkw;
@@ -221,7 +233,7 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWert(java.lang.String)
 		 */
 		public Number getWert(final String name) {
-			Werte wert = Werte.valueOf(name);
+			final Werte wert = Werte.valueOf(name);
 			switch (wert) {
 			case ALkw:
 				return aLkw;
@@ -243,6 +255,8 @@ public class OdVerkehrsDatenKurzZeitMq extends
 				return sKfz;
 			case B:
 				return b;
+			case QB:
+				return qb;
 			default:
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + name + ".");
@@ -255,9 +269,9 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWerte()
 		 */
 		public List<String> getWerte() {
-			List<String> werte = new ArrayList<String>();
+			final List<String> werte = new ArrayList<String>();
 
-			for (Werte w : Werte.values()) {
+			for (final Werte w : Werte.values()) {
 				werte.add(w.name());
 			}
 			return werte;
@@ -270,7 +284,7 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		 *      java.lang.Number)
 		 */
 		public void setWert(final String name, final Number wert) {
-			Werte w = Werte.valueOf(name);
+			final Werte w = Werte.valueOf(name);
 			switch (w) {
 			case ALkw:
 				aLkw = wert != null ? wert.intValue() : null;
@@ -302,6 +316,9 @@ public class OdVerkehrsDatenKurzZeitMq extends
 			case B:
 				b = wert != null ? wert.floatValue() : null;
 				break;
+			case QB:
+				qb = wert != null ? wert.intValue() : null;
+				break;
 			default:
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + wert + ".");
@@ -320,7 +337,7 @@ public class OdVerkehrsDatenKurzZeitMq extends
 			s = getClass().getName() + "[";
 			s += "zeitpunkt=" + getZeitpunkt();
 			s += ", isValid" + isValid();
-			for (Werte w : Werte.values()) {
+			for (final Werte w : Werte.values()) {
 				s += ", " + w.name() + "=" + getWert(w.name());
 			}
 			s += "]";
@@ -334,7 +351,7 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		 * @param neuerStatus
 		 *            der neue Status
 		 */
-		protected void setDatenStatus(Status neuerStatus) {
+		protected void setDatenStatus(final Status neuerStatus) {
 			this.datenStatus = neuerStatus;
 		}
 
@@ -357,7 +374,7 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		super(mq);
 
 		if (atg == null) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			atg = modell.getAttributeGroup(ATG_VERKEHRS_DATEN_KURZ_ZEIT_MQ);
 			assert atg != null;
@@ -380,8 +397,8 @@ public class OdVerkehrsDatenKurzZeitMq extends
 	 */
 	@Override
 	public Collection<Aspect> getAspekte() {
-		Set<Aspect> aspekte = new HashSet<Aspect>();
-		for (Aspekt a : Aspekte.values()) {
+		final Set<Aspect> aspekte = new HashSet<Aspect>();
+		for (final Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}
 		return aspekte;
@@ -400,9 +417,9 @@ public class OdVerkehrsDatenKurzZeitMq extends
 	public synchronized void setDaten(final ResultData result) {
 		check(result);
 
-		Daten datum = new Daten();
+		final Daten datum = new Daten();
 		if (result.hasData()) {
-			Data daten = result.getData();
+			final Data daten = result.getData();
 			NumberValue wert;
 
 			wert = daten.getItem(Daten.Werte.QKfz.name()).getUnscaledValue(
@@ -483,6 +500,13 @@ public class OdVerkehrsDatenKurzZeitMq extends
 			} else {
 				datum.setWert(Daten.Werte.B.name(), wert.floatValue());
 			}
+
+			wert = daten.getItem(Daten.Werte.QB.name()).getScaledValue("Wert");
+			if (wert.isState()) {
+				datum.setWert(Daten.Werte.QB.name(), null);
+			} else {
+				datum.setWert(Daten.Werte.QB.name(), wert.intValue());
+			}
 		}
 
 		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()));
@@ -493,13 +517,11 @@ public class OdVerkehrsDatenKurzZeitMq extends
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * 
 	 * Alle Messwerte sind initial "nicht ermittelbar" und die Statuswerte
 	 * besitzen alle die gleichen Standardwerte. Die Messwerte aus
 	 * {@link OdVerkehrsDatenKurzZeitMq.Daten.Werte} werden &uuml;bernommen.
 	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected Data konvertiere(final OdVerkehrsDatenKurzZeitMq.Daten d) {
@@ -510,15 +532,19 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		final Integer vLkw;
 		final Integer sKfz;
 		final Integer kb;
-		final Integer b;
-		final Integer qPkw;
-		final Integer vKfz;
-		final Integer qb;
-		final Integer aLkw;
+		final Float b;
+		Integer qPkw;
+		Integer vKfz;
+		Integer qb;
+		Integer aLkw;
 		Number n;
 
+		// Gesetzte Werte lesen
 		n = d.getWert(Werte.QKfz.name());
 		qKfz = n != null ? n.intValue() : null;
+
+		n = d.getWert(Werte.QPkw.name());
+		qPkw = n != null ? n.intValue() : null;
 
 		n = d.getWert(Werte.QLkw.name());
 		qLkw = n != null ? n.intValue() : null;
@@ -529,6 +555,9 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		n = d.getWert(Werte.VLkw.name());
 		vLkw = n != null ? n.intValue() : null;
 
+		n = d.getWert(Werte.VKfz.name());
+		vKfz = n != null ? n.intValue() : null;
+
 		n = d.getWert(Werte.SKfz.name());
 		sKfz = n != null ? n.intValue() : null;
 
@@ -536,12 +565,18 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		kb = n != null ? n.intValue() : null;
 
 		n = d.getWert(Werte.B.name());
-		b = n != null ? n.intValue() : null;
+		b = n != null ? n.floatValue() : null;
 
+		n = d.getWert(Werte.QB.name());
+		qb = n != null ? n.intValue() : null;
+
+		n = d.getWert(Werte.ALkw.name());
+		aLkw = n != null ? n.intValue() : null;
+
+		// Standardwerte für alles setzen
 		final String[] valStrings = { "QKfz", "VKfz", "QLkw", "VLkw", "QPkw",
 				"VPkw", "B", "SKfz", "BMax", "VgKfz", "ALkw", "KKfz", "KPkw",
 				"KLkw", "QB", "KB", "VDelta" };
-
 		for (int idx = 0; idx < valStrings.length; idx++) {
 			datum.getItem(valStrings[idx]).getUnscaledValue("Wert").setText(
 					"nicht ermittelbar");
@@ -572,15 +607,26 @@ public class OdVerkehrsDatenKurzZeitMq extends
 					"Verfahren").set(0);
 		}
 
+		// Gesetze Werte im Datensatz setzen
 		if (qKfz != null) {
 			datum.getItem("QKfz").getUnscaledValue("Wert").set(qKfz);
 		}
 		datum.getItem("QKfz").getItem("Güte").getUnscaledValue("Index").set(10);
 
+		if (qPkw != null) {
+			datum.getItem("QPkw").getUnscaledValue("Wert").set(qPkw);
+		}
+		datum.getItem("QPkw").getItem("Güte").getUnscaledValue("Index").set(10);
+
 		if (qLkw != null) {
 			datum.getItem("QLkw").getUnscaledValue("Wert").set(qLkw);
 		}
 		datum.getItem("QLkw").getItem("Güte").getUnscaledValue("Index").set(10);
+
+		if (vKfz != null) {
+			datum.getItem("VKfz").getUnscaledValue("Wert").set(vKfz);
+		}
+		datum.getItem("VKfz").getItem("Güte").getUnscaledValue("Index").set(10);
 
 		if (vPkw != null) {
 			datum.getItem("VPkw").getUnscaledValue("Wert").set(vPkw);
@@ -607,40 +653,54 @@ public class OdVerkehrsDatenKurzZeitMq extends
 		}
 		datum.getItem("B").getItem("Güte").getUnscaledValue("Index").set(10);
 
-		// Nicht erfasste Werte berechnen
+		if (qb != null) {
+			datum.getItem("QB").getUnscaledValue("Wert").set(qb);
+		}
+		datum.getItem("QB").getItem("Güte").getUnscaledValue("Index").set(10);
 
-		aLkw = Umrechung.getALkw(qLkw, qKfz);
 		if (aLkw != null) {
 			datum.getItem("ALkw").getUnscaledValue("Wert").set(aLkw);
 		}
 		datum.getItem("ALkw").getItem("Güte").getUnscaledValue("Index").set(10);
 
-		qPkw = Umrechung.getQPkw(qKfz, qLkw);
-		if (qPkw != null) {
-			datum.getItem("QPkw").getUnscaledValue("Wert").set(qPkw);
-			datum.getItem("QPkw").getItem("Güte").getUnscaledValue("Index")
+		// Nicht erfasste Werte berechnen, falls noch nicht festgelegt
+		if (aLkw == null) {
+			aLkw = Umrechung.getALkw(qLkw, qKfz);
+			if (aLkw != null) {
+				datum.getItem("ALkw").getUnscaledValue("Wert").set(aLkw);
+			}
+			datum.getItem("ALkw").getItem("Güte").getUnscaledValue("Index")
 					.set(10);
-			datum.getItem("QPkw").getItem("Status").getItem("Erfassung")
-					.getUnscaledValue("NichtErfasst").setText("Ja");
 
+			qPkw = Umrechung.getQPkw(qKfz, qLkw);
+			if (qPkw != null) {
+				datum.getItem("QPkw").getUnscaledValue("Wert").set(qPkw);
+				datum.getItem("QPkw").getItem("Güte").getUnscaledValue("Index")
+						.set(10);
+				datum.getItem("QPkw").getItem("Status").getItem("Erfassung")
+						.getUnscaledValue("NichtErfasst").setText("Ja");
+
+			}
 		}
-
-		vKfz = Umrechung.getVKfz(qLkw, qKfz, vPkw, vLkw);
-		if (vKfz != null) {
-			datum.getItem("VKfz").getUnscaledValue("Wert").set(vKfz);
-			datum.getItem("VKfz").getItem("Güte").getUnscaledValue("Index")
-					.set(10);
-			datum.getItem("VKfz").getItem("Status").getItem("Erfassung")
-					.getUnscaledValue("NichtErfasst").setText("Ja");
+		if (vKfz == null) {
+			vKfz = Umrechung.getVKfz(qLkw, qKfz, vPkw, vLkw);
+			if (vKfz != null) {
+				datum.getItem("VKfz").getUnscaledValue("Wert").set(vKfz);
+				datum.getItem("VKfz").getItem("Güte").getUnscaledValue("Index")
+						.set(10);
+				datum.getItem("VKfz").getItem("Status").getItem("Erfassung")
+						.getUnscaledValue("NichtErfasst").setText("Ja");
+			}
 		}
-
-		qb = Umrechung.getQB(qLkw, qKfz, vPkw, vLkw, 0.5f, 1);
-		if (qb != null) {
-			datum.getItem("QB").getUnscaledValue("Wert").set(qb);
-			datum.getItem("QB").getItem("Güte").getUnscaledValue("Index").set(
-					10);
-			datum.getItem("QB").getItem("Status").getItem("Erfassung")
-					.getUnscaledValue("NichtErfasst").setText("Ja");
+		if (qb == null) {
+			qb = Umrechung.getQB(qLkw, qKfz, vPkw, vLkw, 0.5f, 1);
+			if (qb != null) {
+				datum.getItem("QB").getUnscaledValue("Wert").set(qb);
+				datum.getItem("QB").getItem("Güte").getUnscaledValue("Index")
+						.set(10);
+				datum.getItem("QB").getItem("Status").getItem("Erfassung")
+						.getUnscaledValue("NichtErfasst").setText("Ja");
+			}
 		}
 
 		return datum;
