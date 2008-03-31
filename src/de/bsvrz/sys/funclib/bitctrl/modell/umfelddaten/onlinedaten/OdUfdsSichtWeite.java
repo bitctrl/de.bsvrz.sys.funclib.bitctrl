@@ -32,6 +32,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.Data.NumberValue;
@@ -72,8 +74,8 @@ public class OdUfdsSichtWeite extends
 		 * @param pid
 		 *            die PID eines Aspekts.
 		 */
-		private Aspekte(String pid) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+		private Aspekte(final String pid) {
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			aspekt = modell.getAspect(pid);
 			assert aspekt != null;
@@ -81,8 +83,6 @@ public class OdUfdsSichtWeite extends
 
 		/**
 		 * {@inheritDoc}
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Aspekt#getAspekt()
 		 */
 		public Aspect getAspekt() {
 			return aspekt;
@@ -90,8 +90,6 @@ public class OdUfdsSichtWeite extends
 
 		/**
 		 * {@inheritDoc}
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Aspekt#getName()
 		 */
 		public String getName() {
 			return aspekt.getNameOrPidOrId();
@@ -124,12 +122,10 @@ public class OdUfdsSichtWeite extends
 
 		/**
 		 * {@inheritDoc}
-		 * 
-		 * @see java.lang.Object#clone()
 		 */
 		@Override
 		public Daten clone() {
-			Daten klon = new Daten();
+			final Daten klon = new Daten();
 
 			klon.setZeitstempel(getZeitstempel());
 			klon.sichtWeite = sichtWeite;
@@ -137,9 +133,7 @@ public class OdUfdsSichtWeite extends
 		}
 
 		/**
-		 * {@inheritDoc}.<br>
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 * {@inheritDoc}
 		 */
 		public Status getDatenStatus() {
 			return datenStatus;
@@ -147,11 +141,9 @@ public class OdUfdsSichtWeite extends
 
 		/**
 		 * {@inheritDoc}
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWert(java.lang.String)
 		 */
-		public Number getWert(String name) {
-			Werte wert = Werte.valueOf(name);
+		public Number getWert(final String name) {
+			final Werte wert = Werte.valueOf(name);
 			switch (wert) {
 			case SichtWeite:
 				return sichtWeite;
@@ -163,13 +155,11 @@ public class OdUfdsSichtWeite extends
 
 		/**
 		 * {@inheritDoc}
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWerte()
 		 */
 		public List<String> getWerte() {
-			List<String> werte = new ArrayList<String>();
+			final List<String> werte = new ArrayList<String>();
 
-			for (Werte w : Werte.values()) {
+			for (final Werte w : Werte.values()) {
 				werte.add(w.name());
 			}
 			return werte;
@@ -177,12 +167,9 @@ public class OdUfdsSichtWeite extends
 
 		/**
 		 * {@inheritDoc}
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#setWert(java.lang.String,
-		 *      java.lang.Number)
 		 */
-		public void setWert(String name, Number wert) {
-			Werte w = Werte.valueOf(name);
+		public void setWert(final String name, final Number wert) {
+			final Werte w = Werte.valueOf(name);
 			switch (w) {
 			case SichtWeite:
 				sichtWeite = wert != null ? wert.intValue() : null;
@@ -195,8 +182,6 @@ public class OdUfdsSichtWeite extends
 
 		/**
 		 * {@inheritDoc}
-		 * 
-		 * @see java.lang.Object#toString()
 		 */
 		@Override
 		public String toString() {
@@ -205,7 +190,7 @@ public class OdUfdsSichtWeite extends
 			s = getClass().getName() + "[";
 			s += "zeitpunkt=" + getZeitpunkt();
 			s += ", isValid" + isValid();
-			for (Werte w : Werte.values()) {
+			for (final Werte w : Werte.values()) {
 				s += ", " + w.name() + "=" + getWert(w.name());
 			}
 			s += "]";
@@ -214,12 +199,12 @@ public class OdUfdsSichtWeite extends
 		}
 
 		/**
-		 * setzt den aktuellen Status des Datensatzes.
+		 * Setzt den aktuellen Status des Datensatzes.
 		 * 
 		 * @param neuerStatus
 		 *            der neue Status
 		 */
-		protected void setDatenStatus(Status neuerStatus) {
+		protected void setDatenStatus(final Status neuerStatus) {
 			this.datenStatus = neuerStatus;
 		}
 
@@ -237,11 +222,11 @@ public class OdUfdsSichtWeite extends
 	 * @param sensor
 	 *            der Umfelddatensensor dessen Daten hier betrachtet werden.
 	 */
-	public OdUfdsSichtWeite(UfdsSichtWeite sensor) {
+	public OdUfdsSichtWeite(final UfdsSichtWeite sensor) {
 		super(sensor);
 
 		if (atg == null) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			atg = modell.getAttributeGroup(ATG_UFDS_SICHT_WEITE);
 			assert atg != null;
@@ -250,8 +235,6 @@ public class OdUfdsSichtWeite extends
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#erzeugeDatum()
 	 */
 	public Daten erzeugeDatum() {
 		return new Daten();
@@ -259,13 +242,11 @@ public class OdUfdsSichtWeite extends
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getAspekte()
 	 */
 	@Override
 	public Collection<Aspect> getAspekte() {
-		Set<Aspect> aspekte = new HashSet<Aspect>();
-		for (Aspekt a : Aspekte.values()) {
+		final Set<Aspect> aspekte = new HashSet<Aspect>();
+		for (final Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}
 		return aspekte;
@@ -281,12 +262,12 @@ public class OdUfdsSichtWeite extends
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setDaten(ResultData result) {
+	public void setDaten(final ResultData result) {
 		check(result);
 
-		Daten datum = new Daten();
+		final Daten datum = new Daten();
 		if (result.hasData()) {
-			Data daten = result.getData();
+			final Data daten = result.getData();
 			NumberValue wert;
 
 			wert = daten.getItem(Daten.Werte.SichtWeite.name())
@@ -308,12 +289,41 @@ public class OdUfdsSichtWeite extends
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
 	 */
 	@Override
-	protected Data konvertiere(Daten d) {
-		throw new UnsupportedOperationException();
+	protected Data konvertiere(final Daten d) {
+		final Data datum = erzeugeSendeCache();
+		final Integer sw;
+		final String wert;
+		final Number n;
+
+		wert = OdUfdsSichtWeite.Daten.Werte.SichtWeite.name();
+		n = d.getWert(wert);
+		sw = n != null ? n.intValue() : null;
+
+		datum.getTimeValue("T").setMillis(Constants.MILLIS_PER_MINUTE);
+		datum.getItem(wert).getUnscaledValue("Wert").setText(
+				"nicht ermittelbar");
+		datum.getItem(wert).getItem("Status").getItem("Erfassung")
+				.getUnscaledValue("NichtErfasst").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("PlFormal")
+				.getUnscaledValue("WertMax").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("PlFormal")
+				.getUnscaledValue("WertMin").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("MessWertErsetzung")
+				.getUnscaledValue("Implausibel").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("MessWertErsetzung")
+				.getUnscaledValue("Interpoliert").setText("Nein");
+		datum.getItem(wert).getItem("Güte").getUnscaledValue("Index").set(-1);
+		datum.getItem(wert).getItem("Güte").getUnscaledValue("Verfahren")
+				.set(0);
+
+		if (sw != null) {
+			datum.getItem(wert).getUnscaledValue("Wert").set(sw);
+		}
+		datum.getItem(wert).getItem("Güte").getScaledValue("Index").set(1);
+
+		return datum;
 	}
 
 }
