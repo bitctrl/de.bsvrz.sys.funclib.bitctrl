@@ -709,7 +709,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	protected void sendeDaten(final Aspect asp, final T datum,
 			final long timeout) throws DatensendeException {
 		synchronized (this) {
-			if (getStatusSendesteuerung(asp) != Datensatz.Status.START) {
+			if (getStatusSendesteuerung(asp) != Datensatz.Status.START
+					&& !(isQuelle(asp) && getStatusSendesteuerung(asp) == Datensatz.Status.STOP)) {
 				try {
 					wait(timeout);
 				} catch (final InterruptedException ex) {
