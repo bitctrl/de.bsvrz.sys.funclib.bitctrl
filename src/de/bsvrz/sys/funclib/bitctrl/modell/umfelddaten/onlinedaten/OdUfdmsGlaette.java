@@ -72,8 +72,8 @@ public class OdUfdmsGlaette extends
 		 * @param pid
 		 *            die PID eines Aspekts.
 		 */
-		private Aspekte(String pid) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+		private Aspekte(final String pid) {
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			aspekt = modell.getAspect(pid);
 			assert aspekt != null;
@@ -129,7 +129,7 @@ public class OdUfdmsGlaette extends
 		 */
 		@Override
 		public Daten clone() {
-			Daten klon = new Daten();
+			final Daten klon = new Daten();
 
 			klon.setZeitstempel(getZeitstempel());
 			klon.glaette = glaette;
@@ -150,8 +150,8 @@ public class OdUfdmsGlaette extends
 		 * 
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWert(java.lang.String)
 		 */
-		public Number getWert(String name) {
-			Werte wert = Werte.valueOf(name);
+		public Number getWert(final String name) {
+			final Werte wert = Werte.valueOf(name);
 			switch (wert) {
 			case Glätte:
 				return glaette;
@@ -167,9 +167,9 @@ public class OdUfdmsGlaette extends
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWerte()
 		 */
 		public List<String> getWerte() {
-			List<String> werte = new ArrayList<String>();
+			final List<String> werte = new ArrayList<String>();
 
-			for (Werte w : Werte.values()) {
+			for (final Werte w : Werte.values()) {
 				werte.add(w.name());
 			}
 			return werte;
@@ -181,8 +181,8 @@ public class OdUfdmsGlaette extends
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#setWert(java.lang.String,
 		 *      java.lang.Number)
 		 */
-		public void setWert(String name, Number wert) {
-			Werte w = Werte.valueOf(name);
+		public void setWert(final String name, final Number wert) {
+			final Werte w = Werte.valueOf(name);
 			switch (w) {
 			case Glätte:
 				glaette = wert != null ? wert.intValue() : null;
@@ -205,7 +205,7 @@ public class OdUfdmsGlaette extends
 			s = getClass().getName() + "[";
 			s += "zeitpunkt=" + getZeitpunkt();
 			s += ", isValid" + isValid();
-			for (Werte w : Werte.values()) {
+			for (final Werte w : Werte.values()) {
 				s += ", " + w.name() + "=" + getWert(w.name());
 			}
 			s += "]";
@@ -219,7 +219,7 @@ public class OdUfdmsGlaette extends
 		 * @param neuerStatus
 		 *            der neue Status
 		 */
-		protected void setDatenStatus(Status neuerStatus) {
+		protected void setDatenStatus(final Status neuerStatus) {
 			this.datenStatus = neuerStatus;
 		}
 
@@ -237,11 +237,11 @@ public class OdUfdmsGlaette extends
 	 * @param messstelle
 	 *            die Messstelle dessen Daten hier betrachtet werden.
 	 */
-	public OdUfdmsGlaette(UmfeldDatenMessStelle messstelle) {
+	public OdUfdmsGlaette(final UmfeldDatenMessStelle messstelle) {
 		super(messstelle);
 
 		if (atg == null) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			atg = modell.getAttributeGroup(ATG_UFDMS_GLAETTE);
 			assert atg != null;
@@ -264,8 +264,8 @@ public class OdUfdmsGlaette extends
 	 */
 	@Override
 	public Collection<Aspect> getAspekte() {
-		Set<Aspect> aspekte = new HashSet<Aspect>();
-		for (Aspekt a : Aspekte.values()) {
+		final Set<Aspect> aspekte = new HashSet<Aspect>();
+		for (final Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}
 		return aspekte;
@@ -281,15 +281,15 @@ public class OdUfdmsGlaette extends
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized void setDaten(ResultData result) {
+	public synchronized void setDaten(final ResultData result) {
 		check(result);
 
-		Daten datum = new Daten();
+		final Daten datum = new Daten();
 		if (result.hasData()) {
-			Data daten = result.getData();
+			final Data daten = result.getData();
 			NumberValue wert;
 
-			wert = daten.getItem("AktuellerZustand").getUnscaledValue("Wert");
+			wert = daten.getUnscaledValue("AktuellerZustand");
 			if (wert.isState()) {
 				datum.setWert(Daten.Werte.Glätte.name(), null);
 			} else {
@@ -310,8 +310,33 @@ public class OdUfdmsGlaette extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
 	 */
 	@Override
-	protected Data konvertiere(Daten d) {
-		throw new UnsupportedOperationException();
+	protected Data konvertiere(final Daten d) {
+		final Data datum = erzeugeSendeCache();
+		final Integer glaette;
+		final String wert;
+		final Number n;
+
+		wert = OdUfdmsGlaette.Daten.Werte.Glätte.name();
+		n = d.getWert(wert);
+		glaette = n != null ? n.intValue() : null;
+
+		datum.getUnscaledValue("AktuellerZustand").setText("nicht ermittelbar");
+		datum.getUnscaledValue("PrognoseZustandIn5Minuten").setText(
+				"nicht ermittelbar");
+		datum.getUnscaledValue("PrognoseZustandIn15Minuten").setText(
+				"nicht ermittelbar");
+		datum.getUnscaledValue("PrognoseZustandIn30Minuten").setText(
+				"nicht ermittelbar");
+		datum.getUnscaledValue("PrognoseZustandIn60Minuten").setText(
+				"nicht ermittelbar");
+		datum.getUnscaledValue("PrognoseZustandIn90Minuten").setText(
+				"nicht ermittelbar");
+
+		if (glaette != null) {
+			datum.getUnscaledValue("AktuellerZustand").set(glaette);
+		}
+
+		return datum;
 	}
 
 }
