@@ -712,6 +712,11 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	protected void sendeDaten(final Aspect asp, final T datum,
 			final long timeout) throws DatensendeException {
 		synchronized (this) {
+			if (!sender.isAngemeldet(asp)) {
+				throw new DatensendeException(
+						"Das Datum wurde nicht zum Senden angemeldet, Datensatz="
+								+ this);
+			}
 			if (getStatusSendesteuerung(asp) != Datensatz.Status.START
 					&& !(isQuelle(asp) && getStatusSendesteuerung(asp) == Datensatz.Status.STOP)) {
 				try {
@@ -725,7 +730,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 				sender.sende(konvertiere(datum), asp, datum.getZeitstempel());
 			} else {
 				throw new DatensendeException("Timeout, Sendesteuerung="
-						+ getStatusSendesteuerung(asp) + " (" + this + ")");
+						+ getStatusSendesteuerung(asp) + ", Datensatz=" + this);
 			}
 
 		}
