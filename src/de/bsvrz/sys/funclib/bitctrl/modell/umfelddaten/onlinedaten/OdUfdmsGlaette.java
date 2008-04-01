@@ -204,7 +204,7 @@ public class OdUfdmsGlaette extends
 
 			s = getClass().getName() + "[";
 			s += "zeitpunkt=" + getZeitpunkt();
-			s += ", isValid" + isValid();
+			s += ", valid=" + isValid();
 			for (final Werte w : Werte.values()) {
 				s += ", " + w.name() + "=" + getWert(w.name());
 			}
