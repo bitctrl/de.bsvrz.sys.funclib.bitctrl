@@ -54,7 +54,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderModellTypen;
 public class Ereignis extends AbstractSystemObjekt {
 
 	/** Der Standardpräfix für die PID eines neuen Ereignisses. */
-	public static final String PRAEFIX_PID = "ergeignis.";
+	public static final String PRAEFIX_PID = "ereignis.";
 
 	/**
 	 * Legt ein neues Ereignis an.
@@ -71,8 +71,8 @@ public class Ereignis extends AbstractSystemObjekt {
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen unzulässig ist.
 	 */
-	public static Ereignis anlegen(String pid, String name,
-			String beschreibung, EreignisTyp ereignisTyp)
+	public static Ereignis anlegen(final String pid, final String name,
+			final String beschreibung, final EreignisTyp ereignisTyp)
 			throws ConfigurationChangeException {
 		ObjektFactory factory;
 		ClientDavInterface dav;
@@ -120,7 +120,7 @@ public class Ereignis extends AbstractSystemObjekt {
 	 * @param obj
 	 *            ein {@code SystemObject}, welches ein Ereignis sein muss.
 	 */
-	public Ereignis(SystemObject obj) {
+	public Ereignis(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {

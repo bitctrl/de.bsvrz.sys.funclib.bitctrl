@@ -58,7 +58,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderModellTypen;
 public class EreignisTyp extends AbstractSystemObjekt {
 
 	/** Der Standardpräfix für die PID eines neuen Ereignistyps. */
-	public static final String PRAEFIX_PID = "ergeignisTyp.";
+	public static final String PRAEFIX_PID = "ereignisTyp.";
 
 	/**
 	 * Legt einen neuen Ereignistyp an.
@@ -71,7 +71,7 @@ public class EreignisTyp extends AbstractSystemObjekt {
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen unzulässig ist.
 	 */
-	public static EreignisTyp anlegen(String pid, String name)
+	public static EreignisTyp anlegen(final String pid, final String name)
 			throws ConfigurationChangeException {
 		return anlegen(pid, name, new HashMap<String, String>());
 	}
@@ -89,8 +89,9 @@ public class EreignisTyp extends AbstractSystemObjekt {
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen unzulässig ist.
 	 */
-	public static EreignisTyp anlegen(String pid, String name,
-			Map<String, String> attribute) throws ConfigurationChangeException {
+	public static EreignisTyp anlegen(final String pid, final String name,
+			final Map<String, String> attribute)
+			throws ConfigurationChangeException {
 		ObjektFactory factory;
 		ClientDavInterface dav;
 		DataModel modell;
@@ -119,7 +120,7 @@ public class EreignisTyp extends AbstractSystemObjekt {
 		feld = daten.getArray("ZusätzlicheAttribute");
 		feld.setLength(attribute.size());
 		i = 0;
-		for (Entry<String, String> entry : attribute.entrySet()) {
+		for (final Entry<String, String> entry : attribute.entrySet()) {
 			feld.getItem(i).getTextValue("Attributname")
 					.setText(entry.getKey());
 			feld.getItem(i).getTextValue("Attributwert").setText(
@@ -142,7 +143,7 @@ public class EreignisTyp extends AbstractSystemObjekt {
 	 *            Ein Systemobjekt, welches ein Messquerschnitt sein muss
 	 * @throws IllegalArgumentException
 	 */
-	public EreignisTyp(SystemObject obj) {
+	public EreignisTyp(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
