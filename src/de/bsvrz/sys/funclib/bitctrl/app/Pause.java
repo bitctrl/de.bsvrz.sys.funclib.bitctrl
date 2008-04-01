@@ -23,20 +23,39 @@
 
 package de.bsvrz.sys.funclib.bitctrl.app;
 
+import com.bitctrl.Constants;
+
 /**
  * Allgemeine Klasse zum Pausieren eines Threads.<br>
  * Der Thread wird für die angegebene Zeit suspendiert. Wird die gewünschte
  * Pausenzeit unterbrochen, wird dies ignoriert, d.h. die Dauer der Pause ist
  * nicht sichergestellt.
- *
- * @author peuker
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
  */
 public final class Pause {
 
 	/**
+	 * die Funktion wird verlassen, bis der angebenen Zeitpunkt erreicht ist.
+	 * 
+	 * @param endzeitpunkt
+	 *            der Zeitpunkt
+	 */
+	public static void bis(long endzeitpunkt) {
+		do {
+			long now = System.currentTimeMillis();
+			if (now >= (endzeitpunkt * Constants.MILLIS_PER_SECOND)) {
+				break;
+			}
+			warte(Constants.MILLIS_PER_SECOND);
+		} while (true);
+	}
+
+	/**
 	 * die Funktion suspendiert die Ausführung des aufrufenden Threads für die
 	 * gegebene Zeit oder kürzer.
-	 *
+	 * 
 	 * @param millisekunden
 	 *            die Dauer in Millisekunden
 	 */
@@ -46,5 +65,10 @@ public final class Pause {
 		} catch (InterruptedException e) {
 			// wird vernachlässigt
 		}
+	}
+
+	/** privater Konstruktor. */
+	private Pause() {
+		super();
 	}
 }
