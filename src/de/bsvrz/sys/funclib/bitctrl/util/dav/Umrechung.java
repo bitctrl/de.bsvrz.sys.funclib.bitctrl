@@ -109,6 +109,7 @@ public final class Umrechung {
 
 			qb = qPkw + fLGL * qLkw;
 		} else if (qLkw != null && qLkw == 0) {
+			assert vLkw == null;
 			qb = getQPkw(qKfz, qLkw);
 		}
 
