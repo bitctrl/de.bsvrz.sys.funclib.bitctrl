@@ -30,6 +30,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
+ * @todo Synchronisationsmöglichkeiten prüfen
  */
 public abstract class AbstractSystemObjekt implements SystemObjekt {
 
@@ -64,10 +66,12 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * @param obj
 	 *            Das zu kapselnde Systemobjekt
 	 */
-	protected AbstractSystemObjekt(SystemObject obj) {
+	protected AbstractSystemObjekt(final SystemObject obj) {
 		objekt = obj;
-		parameter = new HashMap<Class<? extends ParameterDatensatz<? extends Datum>>, ParameterDatensatz<? extends Datum>>();
-		onlineDaten = new HashMap<Class<? extends OnlineDatensatz<? extends Datum>>, OnlineDatensatz<? extends Datum>>();
+		parameter = Collections
+				.synchronizedMap(new HashMap<Class<? extends ParameterDatensatz<? extends Datum>>, ParameterDatensatz<? extends Datum>>());
+		onlineDaten = Collections
+				.synchronizedMap(new HashMap<Class<? extends OnlineDatensatz<? extends Datum>>, OnlineDatensatz<? extends Datum>>());
 	}
 
 	/**
@@ -78,9 +82,9 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 		if (o instanceof SystemObjekt) {
-			SystemObjekt obj = (SystemObjekt) o;
+			final SystemObjekt obj = (SystemObjekt) o;
 			return getSystemObject().equals(obj.getSystemObject());
 		}
 
@@ -114,7 +118,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * {@inheritDoc}
 	 */
 	public <O extends OnlineDatensatz<? extends Datum>> O getOnlineDatensatz(
-			Class<O> typ) {
+			final Class<O> typ) {
 		if (!onlineDaten.containsKey(typ)) {
 			OnlineDatensatz<? extends Datum> od;
 
@@ -152,7 +156,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * {@inheritDoc}
 	 */
 	public <P extends ParameterDatensatz<? extends Datum>> P getParameterDatensatz(
-			Class<P> typ) {
+			final Class<P> typ) {
 		if (!parameter.containsKey(typ)) {
 			ParameterDatensatz<? extends Datum> pd;
 
@@ -197,7 +201,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#hasOnlineDatensatz(java.lang.Class)
 	 */
 	public boolean hasOnlineDatensatz(
-			Class<? extends OnlineDatensatz<? extends Datum>> typ) {
+			final Class<? extends OnlineDatensatz<? extends Datum>> typ) {
 		return getDatensatz(typ) != null;
 	}
 
@@ -207,7 +211,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#hasParameterDatensatz(java.lang.Class)
 	 */
 	public boolean hasParameterDatensatz(
-			Class<? extends ParameterDatensatz<? extends Datum>> typ) {
+			final Class<? extends ParameterDatensatz<? extends Datum>> typ) {
 		return getDatensatz(typ) != null;
 	}
 
@@ -235,7 +239,8 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * @return ein Objekt der Klasse oder {@code null}, wenn der Datensatz am
 	 *         Systemobjekt nicht unterst&uuml;tzt wird..
 	 */
-	private <D extends Datensatz<? extends Datum>> D getDatensatz(Class<D> typ) {
+	private <D extends Datensatz<? extends Datum>> D getDatensatz(
+			final Class<D> typ) {
 		if (Modifier.isAbstract(typ.getModifiers())
 				|| Modifier.isInterface(typ.getModifiers())) {
 			throw new IllegalArgumentException("Datensatz " + typ.getName()
@@ -243,33 +248,33 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 					+ "Schnittstelle oder abstrakte Klasse handelt.");
 		}
 
-		for (Constructor<?> c : typ.getConstructors()) {
-			Class<?>[] parameterTypes = c.getParameterTypes();
+		for (final Constructor<?> c : typ.getConstructors()) {
+			final Class<?>[] parameterTypes = c.getParameterTypes();
 
 			if (Modifier.isPublic(c.getModifiers())
 					&& parameterTypes.length == 1
 					&& parameterTypes[0].isAssignableFrom(getClass())) {
 				try {
 					return (D) c.newInstance(this);
-				} catch (IllegalArgumentException ex) {
+				} catch (final IllegalArgumentException ex) {
 					// Darf nicht mehr eintreten, weil geprüpft
 					throw new IllegalArgumentException("Datensatz "
 							+ typ.getName()
 							+ " kann nicht instantiiert werden:"
 							+ ex.getMessage());
-				} catch (InstantiationException ex) {
+				} catch (final InstantiationException ex) {
 					// Darf nicht mehr eintreten, weil geprüpft
 					throw new IllegalArgumentException("Datensatz "
 							+ typ.getName()
 							+ " kann nicht instantiiert werden:"
 							+ ex.getMessage());
-				} catch (IllegalAccessException ex) {
+				} catch (final IllegalAccessException ex) {
 					// Darf nicht mehr eintreten, weil geprüpft
 					throw new IllegalArgumentException("Datensatz "
 							+ typ.getName()
 							+ " kann nicht instantiiert werden:"
 							+ ex.getMessage());
-				} catch (InvocationTargetException ex) {
+				} catch (final InvocationTargetException ex) {
 					// Tritt ein, wenn der aufgerufene Konstruktor eine
 					// Exception geworfen hat
 					throw new IllegalArgumentException("Datensatz "
