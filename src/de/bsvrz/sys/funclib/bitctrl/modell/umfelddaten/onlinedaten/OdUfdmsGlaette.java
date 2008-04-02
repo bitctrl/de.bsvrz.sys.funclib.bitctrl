@@ -34,7 +34,6 @@ import java.util.Set;
 
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
-import de.bsvrz.dav.daf.main.Data.NumberValue;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
@@ -287,13 +286,13 @@ public class OdUfdmsGlaette extends
 		final Daten datum = new Daten();
 		if (result.hasData()) {
 			final Data daten = result.getData();
-			NumberValue wert;
+			int wert;
 
-			wert = daten.getUnscaledValue("AktuellerZustand");
-			if (wert.isState()) {
+			wert = daten.getUnscaledValue("AktuellerZustand").intValue();
+			if (wert <= 0) {
 				datum.setWert(Daten.Werte.Glätte.name(), null);
 			} else {
-				datum.setWert(Daten.Werte.Glätte.name(), wert.intValue());
+				datum.setWert(Daten.Werte.Glätte.name(), wert);
 			}
 		}
 
