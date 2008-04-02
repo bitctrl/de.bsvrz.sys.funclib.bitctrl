@@ -139,7 +139,7 @@ public class OdStoerfallZustand extends
 		private double gueteIndex;
 
 		/** Berechnungsverfahren, mit dem die G&uuml;te ermittelt wurde. */
-		private GueteVerfahren gueteVerfahren;
+		private GueteVerfahren gueteVerfahren = GueteVerfahren.Standard;
 
 		/**
 		 * der aktuelle Status des Datensatzes.

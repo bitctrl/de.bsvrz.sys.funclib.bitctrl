@@ -25,6 +25,8 @@ package de.bsvrz.sys.funclib.bitctrl.app;
 
 import com.bitctrl.Constants;
 
+import de.bsvrz.dav.daf.main.ClientDavInterface;
+
 /**
  * Allgemeine Klasse zum Pausieren eines Threads.<br>
  * Der Thread wird für die angegebene Zeit suspendiert. Wird die gewünschte
@@ -33,11 +35,20 @@ import com.bitctrl.Constants;
  * 
  * @author BitCtrl Systems GmbH, Uwe Peuker
  * @version $Id$
+ * 
+ * @deprecated Kann durch Datenverteilerfunktionen
+ *             {@link ClientDavInterface#sleep(long)} und
+ *             {@link ClientDavInterface#sleepUntil(long)} ersetzt werden.
  */
+@Deprecated
 public final class Pause {
 
 	/**
 	 * die Funktion wird verlassen, bis der angebenen Zeitpunkt erreicht ist.
+	 * Die Angabe des Zeitpunkts erfolgt absolut in Millisekunden. Die Auflösung
+	 * beträgt 1 Sekunde.
+	 * 
+	 * @todo Auflösung verbessern
 	 * 
 	 * @param endzeitpunkt
 	 *            der Zeitpunkt
@@ -45,7 +56,7 @@ public final class Pause {
 	public static void bis(long endzeitpunkt) {
 		do {
 			long now = System.currentTimeMillis();
-			if (now >= (endzeitpunkt * Constants.MILLIS_PER_SECOND)) {
+			if (now >= endzeitpunkt) {
 				break;
 			}
 			warte(Constants.MILLIS_PER_SECOND);
