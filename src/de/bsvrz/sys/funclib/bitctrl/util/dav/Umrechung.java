@@ -57,7 +57,7 @@ public final class Umrechung {
 	 *            Gesamte Vekehrsst&auml;rke
 	 * @return Lkw-Anteil
 	 */
-	public static Integer getALkw(Integer qLkw, Integer qKfz) {
+	public static Integer getALkw(final Integer qLkw, final Integer qKfz) {
 		if (qLkw != null && qKfz != null) {
 			assert qKfz >= qLkw;
 
@@ -89,8 +89,11 @@ public final class Umrechung {
 	 *            k2
 	 * @return QB
 	 */
-	public static Double getQB(Double qLkw, Double qKfz, Double vPkw,
-			Double vLkw, float k1, float k2) {
+	public static Double getQB(final Double qLkw, final Double qKfz,
+			final Double vPkw, final Double vLkw, final float k1, final float k2) {
+		Double qb;
+
+		qb = null;
 		if (vPkw != null && qLkw != null && vLkw != null && qKfz != null) {
 			assert qKfz >= qLkw;
 
@@ -104,10 +107,12 @@ public final class Umrechung {
 				fLGL = (double) k1;
 			}
 
-			return qPkw + fLGL * qLkw;
+			qb = qPkw + fLGL * qLkw;
+		} else if (qLkw != null && qLkw == 0) {
+			qb = getQPkw(qKfz, qLkw);
 		}
 
-		return null;
+		return qb;
 	}
 
 	/**
@@ -128,8 +133,9 @@ public final class Umrechung {
 	 *            k2
 	 * @return QB
 	 */
-	public static Integer getQB(Integer qLkw, Integer qKfz, Integer vPkw,
-			Integer vLkw, float k1, float k2) {
+	public static Integer getQB(final Integer qLkw, final Integer qKfz,
+			final Integer vPkw, final Integer vLkw, final float k1,
+			final float k2) {
 		if (vPkw != null && qLkw != null && vLkw != null && qKfz != null) {
 			assert qKfz >= qLkw;
 
@@ -158,7 +164,7 @@ public final class Umrechung {
 	 *            QLkw
 	 * @return QPkw
 	 */
-	public static Double getQPkw(Double qKfz, Double qLkw) {
+	public static Double getQPkw(final Double qKfz, final Double qLkw) {
 		if (qKfz != null && qLkw != null) {
 			assert qKfz >= qLkw;
 			return qKfz - qLkw;
@@ -176,7 +182,7 @@ public final class Umrechung {
 	 *            QLkw
 	 * @return QPkw
 	 */
-	public static Integer getQPkw(Integer qKfz, Integer qLkw) {
+	public static Integer getQPkw(final Integer qKfz, final Integer qLkw) {
 		if (qKfz != null && qLkw != null) {
 			assert qKfz >= qLkw;
 			return qKfz - qLkw;
@@ -198,8 +204,8 @@ public final class Umrechung {
 	 *            VLkw
 	 * @return VKfz
 	 */
-	public static Double getVKfz(Double qLkw, Double qKfz, Double vPkw,
-			Double vLkw) {
+	public static Double getVKfz(final Double qLkw, final Double qKfz,
+			final Double vPkw, final Double vLkw) {
 		if (vPkw != null && qLkw != null && vLkw != null && qKfz != null
 				&& qKfz > 0) {
 			assert qKfz >= qLkw;
@@ -226,8 +232,8 @@ public final class Umrechung {
 	 *            VLkw
 	 * @return VKfz
 	 */
-	public static Integer getVKfz(Integer qLkw, Integer qKfz, Integer vPkw,
-			Integer vLkw) {
+	public static Integer getVKfz(final Integer qLkw, final Integer qKfz,
+			final Integer vPkw, final Integer vLkw) {
 		if (vPkw != null && qLkw != null && vLkw != null && qKfz != null
 				&& qKfz > 0) {
 			assert qKfz >= qLkw;
