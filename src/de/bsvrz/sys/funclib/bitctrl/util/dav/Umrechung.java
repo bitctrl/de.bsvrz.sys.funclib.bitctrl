@@ -137,6 +137,9 @@ public final class Umrechung {
 	public static Integer getQB(final Integer qLkw, final Integer qKfz,
 			final Integer vPkw, final Integer vLkw, final float k1,
 			final float k2) {
+		Integer qb;
+
+		qb = null;
 		if (vPkw != null && qLkw != null && vLkw != null && qKfz != null) {
 			assert qKfz >= qLkw;
 
@@ -150,10 +153,13 @@ public final class Umrechung {
 				fLGL = k1;
 			}
 
-			return Math.round(qPkw + fLGL * qLkw);
+			qb = Math.round(qPkw + fLGL * qLkw);
+		} else if (qLkw != null && qLkw == 0) {
+			assert vLkw == null;
+			qb = getQPkw(qKfz, qLkw);
 		}
 
-		return null;
+		return qb;
 	}
 
 	/**
@@ -207,6 +213,9 @@ public final class Umrechung {
 	 */
 	public static Double getVKfz(final Double qLkw, final Double qKfz,
 			final Double vPkw, final Double vLkw) {
+		Double vKfz;
+
+		vKfz = null;
 		if (vPkw != null && qLkw != null && vLkw != null && qKfz != null
 				&& qKfz > 0) {
 			assert qKfz >= qLkw;
@@ -214,10 +223,16 @@ public final class Umrechung {
 			Double qPkw;
 
 			qPkw = getQPkw(qKfz, qLkw);
-			return (qPkw * vPkw + qLkw * vLkw) / qKfz;
+			vKfz = (qPkw * vPkw + qLkw * vLkw) / qKfz;
+		} else if (qKfz != null && vPkw != null && qLkw != null && qLkw == 0) {
+			assert vLkw == null;
+			vKfz = vPkw;
+		} else if (qKfz != null && qLkw != null && qLkw > 0 && vLkw != null) {
+			assert vPkw == null;
+			vKfz = vLkw;
 		}
 
-		return null;
+		return vKfz;
 	}
 
 	/**
@@ -235,6 +250,9 @@ public final class Umrechung {
 	 */
 	public static Integer getVKfz(final Integer qLkw, final Integer qKfz,
 			final Integer vPkw, final Integer vLkw) {
+		Integer vKfz;
+
+		vKfz = null;
 		if (vPkw != null && qLkw != null && vLkw != null && qKfz != null
 				&& qKfz > 0) {
 			assert qKfz >= qLkw;
@@ -242,10 +260,16 @@ public final class Umrechung {
 			Integer qPkw;
 
 			qPkw = getQPkw(qKfz, qLkw);
-			return Math.round((float) (qPkw * vPkw + qLkw * vLkw) / qKfz);
+			vKfz = Math.round((float) (qPkw * vPkw + qLkw * vLkw) / qKfz);
+		} else if (qKfz != null && vPkw != null && qLkw != null && qLkw == 0) {
+			assert vLkw == null;
+			vKfz = vPkw;
+		} else if (qKfz != null && qLkw != null && qLkw > 0 && vLkw != null) {
+			assert vPkw == null;
+			vKfz = vLkw;
 		}
 
-		return null;
+		return vKfz;
 	}
 
 	/**
