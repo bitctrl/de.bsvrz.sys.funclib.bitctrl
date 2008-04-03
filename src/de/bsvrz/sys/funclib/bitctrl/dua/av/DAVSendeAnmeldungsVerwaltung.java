@@ -86,11 +86,37 @@ implements ClientSenderInterface{
 	public final void sende(final ResultData resultat){
 		try {
 			DAVObjektAnmeldung anmeldung = new DAVObjektAnmeldung(resultat);
-			Byte status = this.aktuelleObjektAnmeldungen.get(anmeldung);
-			if(status == null ||
-					status == ClientSenderInterface.START_SENDING){
-				this.dav.sendData(resultat);
+			SendeStatus status = null;
+			
+			synchronized (aktuelleObjektAnmeldungen) {
+				status = this.aktuelleObjektAnmeldungen.get(anmeldung);
 			}
+			
+			if(status == null ||
+					status.getStatus() == ClientSenderInterface.START_SENDING){
+				boolean imMomentKeineDaten;
+				boolean alsNaechstestKeineDaten = resultat.getData() == null;
+				
+				if(status != null){
+					imMomentKeineDaten = status.isImMomentKeineDaten(); 
+					if(status.isImMomentKeineDaten() != alsNaechstestKeineDaten){
+						synchronized (aktuelleObjektAnmeldungen) {
+							this.aktuelleObjektAnmeldungen.put(anmeldung, 
+									new SendeStatus(ClientSenderInterface.START_SENDING, alsNaechstestKeineDaten));
+						}			
+					}
+				}else{
+					imMomentKeineDaten = true;
+					synchronized (aktuelleObjektAnmeldungen) {
+						this.aktuelleObjektAnmeldungen.put(anmeldung, 
+								new SendeStatus(ClientSenderInterface.START_SENDING, alsNaechstestKeineDaten));
+					}								
+				}				
+				
+				if((alsNaechstestKeineDaten && !imMomentKeineDaten) || !alsNaechstestKeineDaten){ 
+					this.dav.sendData(resultat);
+				}				
+			}				
 		} catch (DataNotSubscribedException  e) {
 			e.printStackTrace();
 			LOGGER.error(Constants.EMPTY_STRING, e);
@@ -165,7 +191,13 @@ implements ClientSenderInterface{
 			synchronized (this.aktuelleObjektAnmeldungen) {
 				DAVObjektAnmeldung anmeldung =
 						new DAVObjektAnmeldung(object, dataDescription);
-				this.aktuelleObjektAnmeldungen.put(anmeldung, state);
+				SendeStatus status = this.aktuelleObjektAnmeldungen.get(anmeldung);
+				
+				if(status == null || status.isImMomentKeineDaten()){
+					this.aktuelleObjektAnmeldungen.put(anmeldung, new SendeStatus(state, true));
+				}else{
+					this.aktuelleObjektAnmeldungen.put(anmeldung, new SendeStatus(state, false));	
+				}				
 			}
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();

@@ -180,7 +180,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 					" wird das Objekt " + dfsObjekt + " verwendet."); //$NON-NLS-1$//$NON-NLS-2$
 		} else {
 			LOGGER
-					.warning("Die Datenflusssteuerung ist nicht zur Laufzeit steuerbar.\n" + //$NON-NLS-1$
+					.warning("Der Datenfluss ist nicht zur Laufzeit steuerbar.\n" + //$NON-NLS-1$
 							"Es wurde kein Objekt vom Typ "//$NON-NLS-1$
 							+ DFSKonstanten.TYP
 							+ 

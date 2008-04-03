@@ -303,7 +303,7 @@ implements Comparable<AbstraktMesswert>{
 			getUnscaledValue("Interpoliert").set(this.interpoliert?DUAKonstanten.JA:DUAKonstanten.NEIN); //$NON-NLS-1$
 
 
-		if(datum.getItem(attName).getUnscaledValue("Wert").longValue() <= 0){ //$NON-NLS-1$
+		if(datum.getItem(attName).getUnscaledValue("Wert").longValue() < 0){ //$NON-NLS-1$
 			datum.getItem(attName).getItem("Güte").getUnscaledValue("Index").set(0); //$NON-NLS-1$ //$NON-NLS-2$
 		}else{
 			datum.getItem(attName).getItem("Güte").getUnscaledValue("Index").set(this.guete.getWert()); //$NON-NLS-1$ //$NON-NLS-2$

@@ -178,7 +178,7 @@ implements IKontrollProzessListener<Long>{
 		for(IObjektWeckerListener objekt:zuWeckendeObjekte){
 			synchronized (this.objektAufWeckZeitpunkt) {
 				this.objektAufWeckZeitpunkt.remove(objekt);	
-			}				
+			}			
 			objekt.alarm();
 		}
 

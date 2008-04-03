@@ -34,141 +34,208 @@ import java.util.TreeSet;
 import com.bitctrl.Constants;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
+import de.bsvrz.dav.daf.main.ClientSenderInterface;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Abstrakte Verwaltungsklasse für Datenanmeldungen.
- *
+ * 
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
  */
 public abstract class DAVAnmeldungsVerwaltung {
-	
+
 	/**
 	 * produziert ausfuehrlichere Log-Meldungen
 	 */
 	protected static final boolean DEBUG = false;
-	
+
 	/**
 	 * Debug-Logger
 	 */
 	private static final Debug LOGGER = Debug.getLogger();
 
 	/**
-	 * Baum der Datenanmeldungen, die im Moment aktuell sind
-	 * (ggf. mit ihrem Status der Sendesteuerung)
+	 * Baum der Datenanmeldungen, die im Moment aktuell sind (ggf. mit ihrem
+	 * Status der Sendesteuerung)
 	 */
-	protected Map<DAVObjektAnmeldung, Byte> aktuelleObjektAnmeldungen =
-								new TreeMap<DAVObjektAnmeldung, Byte>();
+	protected Map<DAVObjektAnmeldung, SendeStatus> aktuelleObjektAnmeldungen = new TreeMap<DAVObjektAnmeldung, SendeStatus>();
 
 	/**
 	 * Datenverteilerverbindung
 	 */
 	protected ClientDavInterface dav = null;
 
-
 	/**
 	 * Standardkonstruktor
-	 *
-	 * @param dav Datenverteilerverbindung
+	 * 
+	 * @param dav
+	 *            Datenverteilerverbindung
 	 */
-	protected DAVAnmeldungsVerwaltung(final ClientDavInterface dav){
+	protected DAVAnmeldungsVerwaltung(final ClientDavInterface dav) {
 		this.dav = dav;
 	}
 
 	/**
-	 * Modifiziert die hier verwalteten Objektanmeldungen
-	 * dergestalt, dass nur die innerhalb der übergebenen
-	 * Liste beschriebenen Anmeldungen bestehen bleiben.<br>
-	 * D.h. insbesondere, dass eine übergebene leere Liste
-	 * alle bereits durchgeführten Anmeldungen wieder
-	 * rückgängig macht.
-	 *
-	 * @param neueObjektAnmeldungen die neue Liste mit
-	 * Objektanmeldungen
+	 * Modifiziert die hier verwalteten Objektanmeldungen dergestalt, dass nur
+	 * die innerhalb der übergebenen Liste beschriebenen Anmeldungen bestehen
+	 * bleiben.<br>
+	 * D.h. insbesondere, dass eine übergebene leere Liste alle bereits
+	 * durchgeführten Anmeldungen wieder rückgängig macht.
+	 * 
+	 * @param neueObjektAnmeldungen
+	 *            die neue Liste mit Objektanmeldungen
 	 */
-	public final void modifiziereObjektAnmeldung(final
-							Collection<DAVObjektAnmeldung> neueObjektAnmeldungen){
+	public final void modifiziereObjektAnmeldung(
+			final Collection<DAVObjektAnmeldung> neueObjektAnmeldungen) {
 
-//		Debug Anfang
+		// Debug Anfang
 		String info = Constants.EMPTY_STRING;
-		if(DEBUG){
+		if (DEBUG) {
 			info = "Verlangte Anmeldungen (" + this.getInfo() + "): "; //$NON-NLS-1$ //$NON-NLS-2$
-			if(neueObjektAnmeldungen.size() == 0){
+			if (neueObjektAnmeldungen.size() == 0) {
 				info += "keine\n"; //$NON-NLS-1$
-			}else{
+			} else {
 				info += "\n"; //$NON-NLS-1$
 			}
-			for(DAVObjektAnmeldung neueObjektAnmeldung:neueObjektAnmeldungen){
+			for (DAVObjektAnmeldung neueObjektAnmeldung : neueObjektAnmeldungen) {
 				info += neueObjektAnmeldung;
 			}
 			info += "Bisherige Anmeldungen (" + this.getInfo() + "): "; //$NON-NLS-1$ //$NON-NLS-2$
-			if(aktuelleObjektAnmeldungen.size() == 0){
+			if (aktuelleObjektAnmeldungen.size() == 0) {
 				info += "keine\n"; //$NON-NLS-1$
-			}else{
+			} else {
 				info += "\n"; //$NON-NLS-1$
 			}
-			for(DAVObjektAnmeldung aktuelleObjektAnmeldung:aktuelleObjektAnmeldungen.keySet()){
+			for (DAVObjektAnmeldung aktuelleObjektAnmeldung : aktuelleObjektAnmeldungen
+					.keySet()) {
 				info += aktuelleObjektAnmeldung;
 			}
 		}
-//		Debug Ende
+		// Debug Ende
 
 		synchronized (this) {
-			Collection<DAVObjektAnmeldung> diffObjekteAnmeldungen =
-				new TreeSet<DAVObjektAnmeldung>();
-			for(DAVObjektAnmeldung neueAnmeldung:neueObjektAnmeldungen){
-				if(!aktuelleObjektAnmeldungen.containsKey(neueAnmeldung)){
+			Collection<DAVObjektAnmeldung> diffObjekteAnmeldungen = new TreeSet<DAVObjektAnmeldung>();
+			for (DAVObjektAnmeldung neueAnmeldung : neueObjektAnmeldungen) {
+				if (!aktuelleObjektAnmeldungen.containsKey(neueAnmeldung)) {
 					diffObjekteAnmeldungen.add(neueAnmeldung);
 				}
 			}
 
-			Collection<DAVObjektAnmeldung> diffObjekteAbmeldungen =
-				new TreeSet<DAVObjektAnmeldung>();
-			for(DAVObjektAnmeldung aktuelleAnmeldung:aktuelleObjektAnmeldungen.keySet()){
-				if(!neueObjektAnmeldungen.contains(aktuelleAnmeldung)){
+			Collection<DAVObjektAnmeldung> diffObjekteAbmeldungen = new TreeSet<DAVObjektAnmeldung>();
+			for (DAVObjektAnmeldung aktuelleAnmeldung : aktuelleObjektAnmeldungen
+					.keySet()) {
+				if (!neueObjektAnmeldungen.contains(aktuelleAnmeldung)) {
 					diffObjekteAbmeldungen.add(aktuelleAnmeldung);
 				}
 			}
 
-			if(DEBUG){
+			if (DEBUG) {
 				info += "--------\nABmeldungen: "; //$NON-NLS-1$
 				info += abmelden(diffObjekteAbmeldungen);
 				info += "ANmeldungen: "; //$NON-NLS-1$
 				info += anmelden(diffObjekteAnmeldungen);
 				LOGGER.config(info);
-			}else{
+			} else {
 				abmelden(diffObjekteAbmeldungen);
-				anmelden(diffObjekteAnmeldungen);				
+				anmelden(diffObjekteAnmeldungen);
 			}
 		}
 	}
 
 	/**
 	 * Führt alle übergebenen Daten<b>ab</b>meldungen durch
-	 *
-	 * @param abmeldungen durchzuführende Daten<b>ab</b>meldungen
-	 * @return eine Liste aller <b>ab</b>gemeldeten Einzel-Anmeldungen
-	 * als Zeichenkette
+	 * 
+	 * @param abmeldungen
+	 *            durchzuführende Daten<b>ab</b>meldungen
+	 * @return eine Liste aller <b>ab</b>gemeldeten Einzel-Anmeldungen als
+	 *         Zeichenkette
 	 */
-	protected abstract String abmelden(final
-								Collection<DAVObjektAnmeldung> abmeldungen);
+	protected abstract String abmelden(
+			final Collection<DAVObjektAnmeldung> abmeldungen);
 
 	/**
 	 * Führt alle übergebenen Daten<b>an</b>meldungen durch.
-	 *
-	 * @param anmeldungen durchzuführende Daten<b>an</b>meldungen
-	 * @return eine Liste aller neu <b>an</b>gemeldeten Einzel-Anmeldungen
-	 * als Zeichenkette
+	 * 
+	 * @param anmeldungen
+	 *            durchzuführende Daten<b>an</b>meldungen
+	 * @return eine Liste aller neu <b>an</b>gemeldeten Einzel-Anmeldungen als
+	 *         Zeichenkette
 	 */
-	protected abstract String anmelden(final
-								Collection<DAVObjektAnmeldung> anmeldungen);
+	protected abstract String anmelden(
+			final Collection<DAVObjektAnmeldung> anmeldungen);
 
 	/**
 	 * Erfragt Informationen zum Anmeldungsverhalten
-	 *
+	 * 
 	 * @return Informationen zum Anmeldungsverhalten
 	 */
 	protected abstract String getInfo();
+
+	
+	/**
+	 * Der Zustand einer Datenbeschreibung bwzüglich der Sendesteuerung und der
+	 * aktuell veroeffentlichten Daten
+	 * 
+	 * @author BitCtrl Systems GmbH, Thierfelder
+	 * 
+	 */
+	protected class SendeStatus {
+
+		/**
+		 * aktueller Zustand der Sendesteuerung
+		 */
+		private byte status = ClientSenderInterface.STOP_SENDING;
+
+		/**
+		 * indiziert, ob die Datenbeschreibung im Moment auf
+		 * <code>keine Daten</code> oder <code>keine Quelle</code> steht
+		 */
+		private boolean imMomentKeineDaten = true;
+
+		/**
+		 * Standardkonstruktor
+		 */
+		public SendeStatus() {
+		}
+
+		/**
+		 * Standardkonstruktor
+		 * 
+		 * @param status
+		 *            aktueller Zustand der Sendesteuerung
+		 * @param imMomentKeineDaten
+		 *            indiziert, ob die Datenbeschreibung im Moment auf
+		 *            <code>keine Daten</code> oder <code>keine Quelle</code>
+		 *            steht
+		 */
+		public SendeStatus(byte status, boolean imMomentKeineDaten) {
+			this.status = status;
+			this.imMomentKeineDaten = imMomentKeineDaten;
+		}
+		
+
+		/**
+		 * Erfragt den aktuellen Zustand der Sendesteuerung
+		 * 
+		 * @return aktueller Zustand der Sendesteuerung
+		 */
+		public final byte getStatus() {
+			return this.status;
+		}
+		
+
+		/**
+		 * Erfragt ob die Datenbeschreibung im Moment auf
+		 * <code>keine Daten</code> oder <code>keine Quelle</code> steht
+		 * 
+		 * @return ob die Datenbeschreibung im Moment auf
+		 * <code>keine Daten</code> oder <code>keine Quelle</code> steht
+		 */
+		public final boolean isImMomentKeineDaten() {
+			return this.imMomentKeineDaten;
+		}
+
+	}
 
 }
