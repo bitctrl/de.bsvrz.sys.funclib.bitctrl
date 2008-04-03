@@ -110,8 +110,8 @@ public interface Datum {
 		public static Status getStatus(final DataState dataState) {
 			Status result = UNDEFINIERT;
 
-			for (Status status : values()) {
-				DataState state = status.getDatenStatus();
+			for (final Status status : values()) {
+				final DataState state = status.getDatenStatus();
 				if ((state != null) && state.equals(dataState)) {
 					result = status;
 					break;
@@ -161,16 +161,6 @@ public interface Datum {
 				result = "Undefiniert";
 			}
 			return result;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see java.lang.Enum#toString()
-		 */
-		@Override
-		public String toString() {
-			return datenStatus.toString();
 		}
 
 		/**
