@@ -50,7 +50,10 @@ public abstract class AbstractUmfeldDatenSensor extends AbstractSystemObjekt
 	/**
 	 * Objekt, das die Punkt-Eigenschaften des Objekts repräsentiert.
 	 */
-	private PunktXY punkt;
+	private final PunktXY punkt;
+
+	/** Die Liste der Umfelddatenmessstellen denen der Sensor zugeordnet ist. */
+	private List<UmfeldDatenMessStelle> listeUDMS;
 
 	/**
 	 * Ruft den Superkonstruktor auf.
@@ -58,7 +61,7 @@ public abstract class AbstractUmfeldDatenSensor extends AbstractSystemObjekt
 	 * @param obj
 	 *            Ein Systemobjekt, was ein Umfelddatensensor darstellt
 	 */
-	public AbstractUmfeldDatenSensor(SystemObject obj) {
+	public AbstractUmfeldDatenSensor(final SystemObject obj) {
 		super(obj);
 		punkt = new PunktXYImpl(obj);
 	}
@@ -73,24 +76,23 @@ public abstract class AbstractUmfeldDatenSensor extends AbstractSystemObjekt
 	}
 
 	/**
-	 * TODO: Ergebnis zwischenspeichern, da konfigurierende Daten.
-	 * 
 	 * {@inheritDoc}
 	 */
 	public List<UmfeldDatenMessStelle> getUmfelddatenMessstellen() {
-		List<UmfeldDatenMessStelle> listeUDMS;
-		List<SystemObject> listeSO;
+		if (listeUDMS == null) {
+			List<SystemObject> listeSO;
 
-		listeUDMS = new ArrayList<UmfeldDatenMessStelle>();
-		listeSO = Konfigurationsbereich.getObjekte(objekt
-				.getConfigurationArea(),
-				UmfelddatenModellTypen.UMFELDDATENMESSSTELLE.getPid());
+			listeUDMS = new ArrayList<UmfeldDatenMessStelle>();
+			listeSO = Konfigurationsbereich.getObjekte(objekt
+					.getConfigurationArea(),
+					UmfelddatenModellTypen.UMFELDDATENMESSSTELLE.getPid());
 
-		for (SystemObject so : listeSO) {
-			UmfeldDatenMessStelle udms = (UmfeldDatenMessStelle) ObjektFactory
-					.getInstanz().getModellobjekt(so);
-			if (udms.besitzt(this)) {
-				listeUDMS.add(udms);
+			for (final SystemObject so : listeSO) {
+				final UmfeldDatenMessStelle udms = (UmfeldDatenMessStelle) ObjektFactory
+						.getInstanz().getModellobjekt(so);
+				if (udms.besitzt(this)) {
+					listeUDMS.add(udms);
+				}
 			}
 		}
 
