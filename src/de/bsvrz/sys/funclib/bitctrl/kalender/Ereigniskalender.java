@@ -63,9 +63,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
  */
 public final class Ereigniskalender implements DatensatzUpdateListener {
 
-	/** Timeout für das Senden von Daten von {@value} Millisekunden. */
-	private static final long TIMEOUT = 60 * 1000;
-
 	/** Sichert die Liste des Singletons pro Datenverteilerverbindung. */
 	private static Ereigniskalender singleton;
 
@@ -192,7 +189,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		datum.getVerkehrlicheGueltigkeit().add(
 				new PdEreignisParameter.Daten.VerkehrlicheGueltigkeit());
 		datum.setQuelle(quelle);
-		param.sendeDaten(datum, TIMEOUT);
+		param.sendeDaten(datum);
 
 		return erg;
 	}
@@ -243,7 +240,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		datum.getVerkehrlicheGueltigkeit().add(
 				new PdEreignisParameter.Daten.VerkehrlicheGueltigkeit());
 		datum.setQuelle(quelle);
-		param.sendeDaten(datum, TIMEOUT);
+		param.sendeDaten(datum);
 
 		return erg;
 	}
@@ -313,7 +310,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		param.anmeldenSender();
 		datum = param.erzeugeDatum();
 		datum.setPrioritaet(prioritaet);
-		param.sendeDaten(datum, TIMEOUT);
+		param.sendeDaten(datum);
 
 		return typ;
 	}
@@ -352,7 +349,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		param.anmeldenSender();
 		datum = param.erzeugeDatum();
 		datum.setDefinition(definition);
-		param.sendeDaten(datum, TIMEOUT);
+		param.sendeDaten(datum);
 
 		return ske;
 	}
@@ -449,10 +446,6 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		ObjektFactory factory;
 		ClientApplication klient;
 
-		if (!isBereit()) {
-			throw new DatensendeException(
-					"Ereigniskalender (noch) nicht bereit.");
-		}
 		factory = ObjektFactory.getInstanz();
 		klient = factory.getVerbindung().getLocalApplicationObject();
 
@@ -465,7 +458,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 				anfrage.getRaeumlicheGueltigkeit());
 		datum.getEreignisTypen().addAll(anfrage.getEreignisTypen());
 
-		odAnfrage.sendeDaten(aspAnfrage, datum, TIMEOUT);
+		odAnfrage.sendeDaten(aspAnfrage, datum);
 
 		log.fine("Anfrage \"" + absenderZeichen + "\" wurde gesendet");
 	}
