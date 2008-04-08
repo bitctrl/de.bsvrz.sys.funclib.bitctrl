@@ -169,6 +169,23 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 		}
 
 		/**
+		 * liefert die aktuelle Geschwindigkeit im Stau.
+		 * 
+		 * @return die Geschwindigkeit in km/h
+		 */
+		public double getAktuelleGeschwindigkeit() {
+			double result = 0.0;
+			if (getSchritte().size() > 0) {
+				PrognoseSchritt schritt = getSchritt(0);
+				if (schritt != null) {
+					result = (double) schritt.getLaenge()
+							/ (double) schritt.getVerlustZeit();
+				}
+			}
+			return result;
+		}
+
+		/**
 		 * liefert die prognostizierte Auflösungszeit.
 		 * 
 		 * @return die Zeit
@@ -202,6 +219,19 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 		 */
 		public long getMaxLaenge() {
 			return maxLaenge;
+		}
+
+		/**
+		 * liefert die maximale prognostizierte Verlustzeit in Millisekunden.
+		 * 
+		 * @return die Zeit
+		 */
+		public long getMaxVerlustzeit() {
+			long result = 0;
+			for (PrognoseSchritt schritt : getSchritte()) {
+				result = Math.max(result, schritt.getVerlustZeit());
+			}
+			return result;
 		}
 
 		/**
