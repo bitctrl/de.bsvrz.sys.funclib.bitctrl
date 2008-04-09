@@ -1,26 +1,26 @@
-/**
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.3 Pl-Prüfung logisch UFD
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -34,303 +34,304 @@ import de.bsvrz.sys.funclib.bitctrl.dua.GanzZahl;
 import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 
 /**
- * Schnittstelle zu einem Roh-Sensorwert eines Umfelddatensensors
- * <b>mit</b> Plausibilisierungs-Informationen
- *  
+ * Schnittstelle zu einem Roh-Sensorwert eines Umfelddatensensors <b>mit</b>
+ * Plausibilisierungs-Informationen.
+ * 
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
+ * @version $Id$
  */
 public class UmfeldDatenSensorDatum {
 
 	/**
-	 * das empfangene Originaldatum
+	 * das empfangene Originaldatum.
 	 */
 	private ResultData originalDatum = null;
-	
+
 	/**
-	 * die Art des Umfelddatums
+	 * die Art des Umfelddatums.
 	 */
 	private UmfeldDatenArt datenArt = null;
-	
+
 	/**
-	 * ein DAV-Datum eines Umfelddatensensors
+	 * ein DAV-Datum eines Umfelddatensensors.
 	 */
 	private Data datum = null;
-	
+
 	/**
-	 * Indiziert, ob es sich bei diesem Datum schon um eine modifizierbare Kopie handelt
+	 * Indiziert, ob es sich bei diesem Datum schon um eine modifizierbare Kopie
+	 * handelt.
 	 */
 	private boolean copy = false;
-	
+
 	/**
-	 * der eigentliche Wert des Umfelddatensensors (ohne Plausibilisierungs-Informationen)
+	 * der eigentliche Wert des Umfelddatensensors (ohne
+	 * Plausibilisierungs-Informationen).
 	 */
 	private UmfeldDatenSensorWert wert = null;
-		
-	
+
 	/**
-	 * Standardkonstruktor
+	 * Standardkonstruktor.
 	 * 
-	 * @param resultat ein Roh-Sensorwert eines Umfelddatensensors (<code>!= null</code>)
+	 * @param resultat
+	 *            ein Roh-Sensorwert eines Umfelddatensensors (<code>!= null</code>)
 	 */
-	public UmfeldDatenSensorDatum(final ResultData resultat){
-		if(resultat == null){
+	public UmfeldDatenSensorDatum(final ResultData resultat) {
+		if (resultat == null) {
 			throw new NullPointerException("Datensatz ist <<null>>"); //$NON-NLS-1$
 		}
-		if(resultat.getData() == null){
+		if (resultat.getData() == null) {
 			throw new NullPointerException("Datensatz enthaelt keine Daten"); //$NON-NLS-1$")
 		}
-		
+
 		this.originalDatum = resultat;
-		this.datenArt = UmfeldDatenArt.getUmfeldDatenArtVon(resultat.getObject());
-		
-		if(datenArt == null){
-			throw new NullPointerException("Datenart konnte nicht identifiziert werden:\n" +  //$NON-NLS-1$
-					resultat);
+		this.datenArt = UmfeldDatenArt.getUmfeldDatenArtVon(resultat
+				.getObject());
+
+		if (datenArt == null) {
+			throw new NullPointerException(
+					"Datenart konnte nicht identifiziert werden:\n" + //$NON-NLS-1$
+							resultat);
 		}
-		
+
 		this.datum = resultat.getData();
 		this.wert = new UmfeldDatenSensorWert(datenArt);
-		this.wert.setWert(this.datum.getItem(this.datenArt.getName()).getUnscaledValue("Wert").longValue()); //$NON-NLS-1$
-		this.wert.setVeraendert(false);				
+		this.wert.setWert(this.datum.getItem(this.datenArt.getName())
+				.getUnscaledValue("Wert").longValue()); //$NON-NLS-1$
+		this.wert.setVeraendert(false);
 	}
-	
-	
+
 	/**
-	 * Erfragt ein <code>ResultData</code>-Objekt, mit dem Datensatz, wie er sich 
-	 * jetzt gerade in diesem Objekt befindet
+	 * Erfragt ein <code>ResultData</code>-Objekt, mit dem Datensatz, wie er
+	 * sich jetzt gerade in diesem Objekt befindet.
 	 * 
-	 * @return ein <code>ResultData</code>-Objekt, das mit den aktuellen Daten dieses
-	 * Objekts korrespondiert
+	 * @return ein <code>ResultData</code>-Objekt, das mit den aktuellen
+	 *         Daten dieses Objekts korrespondiert
 	 */
-	public final ResultData getVeraendertesOriginalDatum(){
+	public final ResultData getVeraendertesOriginalDatum() {
 		ResultData resultat = this.originalDatum;
-		
-		if(this.copy){
+
+		if (this.copy) {
 			resultat = new ResultData(this.originalDatum.getObject(),
-									  this.originalDatum.getDataDescription(),
-									  this.originalDatum.getDataTime(), this.datum);
+					this.originalDatum.getDataDescription(), this.originalDatum
+							.getDataTime(), this.datum);
 		}
-		
-		return resultat;		
+
+		return resultat;
 	}
-	
-	
+
 	/**
-	 * Erfragt, ob dieses Datum verändert wurde
+	 * Erfragt, ob dieses Datum verändert wurde.
 	 * 
 	 * @return ob dieses Datum verändert wurde
 	 */
-	public final boolean isVeraendert(){
+	public final boolean isVeraendert() {
 		return this.copy;
 	}
-	
-	
+
 	/**
-	 * Erstellt eine Kopie des hier verarbeiteten Datums (wenn dies nicht
-	 * schon vorher passiert ist)
+	 * Erstellt eine Kopie des hier verarbeiteten Datums (wenn dies nicht schon
+	 * vorher passiert ist).
 	 */
-	private final void erstelleKopie(){
-		if(!this.copy){
+	private void erstelleKopie() {
+		if (!this.copy) {
 			this.copy = true;
 			this.datum = this.datum.createModifiableCopy();
 		}
 	}
-	
-	
+
 	/**
-	 * Erfragt das originale <code>ResultData</code>, mit dem diese
-	 * Instanz initialisiert wurde
+	 * Erfragt das originale <code>ResultData</code>, mit dem diese Instanz
+	 * initialisiert wurde.
 	 * 
 	 * @return das originale <code>ResultData</code>
 	 */
-	public final ResultData getOriginalDatum(){
+	public final ResultData getOriginalDatum() {
 		return this.originalDatum;
 	}
-	
-	
+
 	/**
-	 * Erfragt den Gueteindex
+	 * Erfragt den Gueteindex.
 	 * 
 	 * @return der Gueteindex
 	 */
-	public final GanzZahl getGueteIndex(){
+	public final GanzZahl getGueteIndex() {
 		GanzZahl gueteIndex = GanzZahl.getGueteIndex();
-		
-		gueteIndex.setWert(this.datum.getItem(this.datenArt.getName()).getItem("Güte"). //$NON-NLS-1$
+
+		gueteIndex.setWert(this.datum.getItem(this.datenArt.getName()).getItem(
+				"Güte").
 				getUnscaledValue("Index").longValue()); //$NON-NLS-1$
 
 		return gueteIndex;
 	}
-	
-	
+
 	/**
-	 * Erfragt das Gueteverfahren
+	 * Erfragt das Gueteverfahren.
 	 * 
 	 * @return das Gueteverfahren
 	 */
-	public final int getGueteVerfahren(){
-		int gueteVerfahren = this.datum.getItem(this.datenArt.getName()).getItem("Güte"). //$NON-NLS-1$
+	public final int getGueteVerfahren() {
+		int gueteVerfahren = this.datum.getItem(this.datenArt.getName())
+				.getItem("Güte").
 				getUnscaledValue("Verfahren").intValue(); //$NON-NLS-1$
 
 		return gueteVerfahren;
 	}
-	
 
 	/**
-	 * Erfragt das Erfassungsintervall dieses Datums
+	 * Erfragt das Erfassungsintervall dieses Datums.
 	 * 
 	 * @return das Erfassungsintervall dieses Datums
 	 */
-	public final long getT(){
+	public final long getT() {
 		return this.datum.getTimeValue("T").getMillis(); //$NON-NLS-1$
 	}
-	
-	
+
 	/**
-	 * Setzt das Erfassungsintervall dieses Datums
+	 * Setzt das Erfassungsintervall dieses Datums.
 	 * 
-	 * @param t das Erfassungsintervall dieses Datums
+	 * @param t
+	 *            das Erfassungsintervall dieses Datums
 	 */
-	public final void setT(final long t){
+	public final void setT(final long t) {
 		this.erstelleKopie();
 		this.datum.getTimeValue("T").setMillis(t); //$NON-NLS-1$
 	}
-	
-	
+
 	/**
-	 * Erfragt den Wert <code>Status.Erfassung.NichtErfasst</code>
+	 * Erfragt den Wert <code>Status.Erfassung.NichtErfasst</code>.
 	 * 
 	 * @return der Wert <code>Status.Erfassung.NichtErfasst</code>
 	 */
 	public final int getStatusErfassungNichtErfasst() {
-		return this.datum.getItem(this.datenArt.getName()).getItem("Status"). //$NON-NLS-1$
-					getItem("Erfassung").getUnscaledValue("NichtErfasst").intValue();  //$NON-NLS-1$//$NON-NLS-2$
+		return this.datum.getItem(this.datenArt.getName())
+				.getItem("Status").
+				getItem("Erfassung").getUnscaledValue("NichtErfasst").intValue(); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
-
 	/**
-	 * Setzt den Wert <code>Status.Erfassung.NichtErfasst</code>
+	 * Setzt den Wert <code>Status.Erfassung.NichtErfasst</code>.
 	 * 
-	 * @param statusErfassungNichtErfasst der Wert <code>Status.Erfassung.NichtErfasst</code>
+	 * @param statusErfassungNichtErfasst
+	 *            der Wert <code>Status.Erfassung.NichtErfasst</code>
 	 */
-	public final void setStatusErfassungNichtErfasst(int statusErfassungNichtErfasst) {
+	public final void setStatusErfassungNichtErfasst(
+			int statusErfassungNichtErfasst) {
 		this.erstelleKopie();
-		this.datum.getItem(this.datenArt.getName()).getItem("Status"). //$NON-NLS-1$
-					getItem("Erfassung").getUnscaledValue("NichtErfasst").  //$NON-NLS-1$//$NON-NLS-2$
-					set(statusErfassungNichtErfasst);
+		this.datum.getItem(this.datenArt.getName()).getItem("Status").
+				getItem("Erfassung").getUnscaledValue("NichtErfasst").
+				set(statusErfassungNichtErfasst);
 	}
 
-
 	/**
-	 * Setzte den Gueteindex
+	 * Setzte den Gueteindex.
 	 * 
-	 * @param guete der neue Gueteindex
+	 * @param guete
+	 *            der neue Gueteindex
 	 */
-	public final void setGueteIndex(long guete){
+	public final void setGueteIndex(long guete) {
 		this.erstelleKopie();
-		
-		this.datum.getItem(this.datenArt.getName()).getItem("Güte"). //$NON-NLS-1$
+
+		this.datum.getItem(this.datenArt.getName()).getItem("Güte").
 				getUnscaledValue("Index").set(guete); //$NON-NLS-1$
 	}
-	
-	
+
 	/**
-	 * Setzte den Gueteindex
+	 * Setzte den Gueteindex.
 	 * 
-	 * @param gueteVerfahren der neue Gueteindex
+	 * @param gueteVerfahren
+	 *            der neue Gueteindex
 	 */
-	public final void setGueteVerfahren(int gueteVerfahren){
+	public final void setGueteVerfahren(int gueteVerfahren) {
 		this.erstelleKopie();
-		
-		this.datum.getItem(this.datenArt.getName()).getItem("Güte"). //$NON-NLS-1$
-				getUnscaledValue("Verfahren").set(gueteVerfahren); //$NON-NLS-1$
+
+		this.datum.getItem(this.datenArt.getName()).getItem("Güte").
+				getUnscaledValue("Verfahren").set(gueteVerfahren);
 	}
-	
-	
+
 	/**
-	 * Erfragt den Wert <code>Status.MessWertErsetzung.Implausibel</code>
+	 * Erfragt den Wert <code>Status.MessWertErsetzung.Implausibel</code>.
 	 * 
 	 * @return der Wert <code>Status.MessWertErsetzung.Implausibel</code>
 	 */
 	public final int getStatusMessWertErsetzungImplausibel() {
-		return this.datum.getItem(this.datenArt.getName()).getItem("Status"). //$NON-NLS-1$
-		getItem("MessWertErsetzung").getUnscaledValue("Implausibel").intValue();  //$NON-NLS-1$//$NON-NLS-2$
+		return this.datum.getItem(this.datenArt.getName())
+				.getItem("Status").
+				getItem("MessWertErsetzung").getUnscaledValue("Implausibel").intValue(); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
-	
 	/**
-	 * Erfragt den Wert <code>Status.MessWertErsetzung.Interpoliert</code>
+	 * Erfragt den Wert <code>Status.MessWertErsetzung.Interpoliert</code>.
 	 * 
 	 * @return der Wert <code>Status.MessWertErsetzung.Interpoliert</code>
 	 */
 	public final int getStatusMessWertErsetzungInterpoliert() {
-		return this.datum.getItem(this.datenArt.getName()).getItem("Status"). //$NON-NLS-1$
-		getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").intValue();  //$NON-NLS-1$//$NON-NLS-2$
+		return this.datum.getItem(this.datenArt.getName())
+				.getItem("Status").
+				getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").intValue(); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
-
 	/**
-	 * Setzt den Wert <code>Status.MessWertErsetzung.Implausibel</code>
+	 * Setzt den Wert <code>Status.MessWertErsetzung.Implausibel</code>.
 	 * 
-	 * @param statusMessWertErsetzungImplausibel der Wert <code>Status.MessWertErsetzung.Implausibel</code>
+	 * @param statusMessWertErsetzungImplausibel
+	 *            der Wert <code>Status.MessWertErsetzung.Implausibel</code>
 	 */
 	public final void setStatusMessWertErsetzungImplausibel(
-								int statusMessWertErsetzungImplausibel) {
+			int statusMessWertErsetzungImplausibel) {
 		this.erstelleKopie();
-		this.datum.getItem(this.datenArt.getName()).getItem("Status"). //$NON-NLS-1$
-					getItem("MessWertErsetzung").getUnscaledValue("Implausibel").  //$NON-NLS-1$//$NON-NLS-2$
-					set(statusMessWertErsetzungImplausibel);
+		this.datum.getItem(this.datenArt.getName()).getItem("Status").
+				getItem("MessWertErsetzung").getUnscaledValue("Implausibel").
+				set(statusMessWertErsetzungImplausibel);
 	}
 
-	
 	/**
-	 * Setzt den Wert <code>Status.MessWertErsetzung.Interpoliert</code>
+	 * Setzt den Wert <code>Status.MessWertErsetzung.Interpoliert</code>.
 	 * 
-	 * @param statusMessWertErsetzungInterpoliert der Wert <code>Status.MessWertErsetzung.Interpoliert</code>
+	 * @param statusMessWertErsetzungInterpoliert
+	 *            der Wert <code>Status.MessWertErsetzung.Interpoliert</code>
 	 */
 	public final void setStatusMessWertErsetzungInterpoliert(
-								int statusMessWertErsetzungInterpoliert) {
+			int statusMessWertErsetzungInterpoliert) {
 		this.erstelleKopie();
-		this.datum.getItem(this.datenArt.getName()).getItem("Status"). //$NON-NLS-1$
-					getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").  //$NON-NLS-1$//$NON-NLS-2$
-					set(statusMessWertErsetzungInterpoliert);
+		this.datum.getItem(this.datenArt.getName()).getItem("Status").
+				getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").
+				set(statusMessWertErsetzungInterpoliert);
 	}
 
-	
 	/**
-	 * Erfragt den Wert selbst
+	 * Erfragt den Wert selbst.
 	 * 
-	 * @return der Sensor-Messwert 
+	 * @return der Sensor-Messwert
 	 */
 	public final UmfeldDatenSensorWert getWert() {
 		return this.wert;
 	}
-	
-	
+
 	/**
-	 * Erfragt die Datenzeit dieses Datums
+	 * Erfragt die Datenzeit dieses Datums.
 	 * 
 	 * @return die Datenzeit dieses Datums
 	 */
-	public final long getDatenZeit(){
+	public final long getDatenZeit() {
 		return this.originalDatum.getDataTime();
 	}
 
-
 	/**
-	 * Erfragt das mit dem aktuellen Zustand dieses Objektes assoziierte DAV-Datum
-	 *  
-	 * @return das mit dem aktuellen Zustand dieses Objektes assoziierte DAV-Datum
+	 * Erfragt das mit dem aktuellen Zustand dieses Objektes assoziierte
+	 * DAV-Datum.
+	 * 
+	 * @return das mit dem aktuellen Zustand dieses Objektes assoziierte
+	 *         DAV-Datum
 	 */
 	public final Data getDatum() {
-		if(this.wert.isVeraendert()){
+		if (this.wert.isVeraendert()) {
 			this.erstelleKopie();
-			this.datum.getItem(this.datenArt.getName()).getUnscaledValue("Wert").set(this.wert.getWert()); //$NON-NLS-1$
+			this.datum.getItem(this.datenArt.getName())
+					.getUnscaledValue("Wert").set(this.wert.getWert()); //$NON-NLS-1$
 		}
 		return this.datum;
 	}
-
 
 	/**
 	 * {@inheritDoc}
@@ -338,12 +339,12 @@ public class UmfeldDatenSensorDatum {
 	@Override
 	public String toString() {
 		String s = this.datenArt.toString();
-		
-		s += "\nKopiert: " + (copy?"ja":"nein"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+		s += "\nKopiert: " + (copy ? "ja" : "nein"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		s += "\nDatum: " + this.datum; //$NON-NLS-1$
 		s += "\nDatenzeit: " + new Date(this.getDatenZeit()); //$NON-NLS-1$
-		s += "\nWert: " + this.wert;	//$NON-NLS-1$
-			
+		s += "\nWert: " + this.wert; //$NON-NLS-1$
+
 		return s;
 	}
 

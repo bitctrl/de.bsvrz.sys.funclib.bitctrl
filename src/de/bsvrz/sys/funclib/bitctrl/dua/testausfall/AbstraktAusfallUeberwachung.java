@@ -1,26 +1,26 @@
-/**
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.x
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -50,166 +50,177 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
- * Abstrakte Ausfallüberwachung für zyklisch gesendete Daten
+ * Abstrakte Ausfallüberwachung für zyklisch gesendete Daten.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
+ * @version $Id$
  */
-public abstract class AbstraktAusfallUeberwachung
-extends AbstraktBearbeitungsKnotenAdapter 
-implements IKontrollProzessListener<Long>{
-	
+public abstract class AbstraktAusfallUeberwachung extends
+		AbstraktBearbeitungsKnotenAdapter implements
+		IKontrollProzessListener<Long> {
+
 	/**
-	 * Debug-Logger
+	 * Debug-Logger.
 	 */
 	protected static final Debug LOGGER = Debug.getLogger();
 
 	/**
-	 * Mapt alle betrachteten Systemobjekte auf den aktuell für sie
-	 * erlaubten maximalen Zeitverzug
+	 * Mapt alle betrachteten Systemobjekte auf den aktuell für sie erlaubten
+	 * maximalen Zeitverzug.
 	 */
-	protected Map<SystemObject, Long> objektWertErfassungVerzug =
-					Collections.synchronizedMap(new TreeMap<SystemObject, Long>());	
+	protected Map<SystemObject, Long> objektWertErfassungVerzug = Collections
+			.synchronizedMap(new TreeMap<SystemObject, Long>());
 
 	/**
 	 * Eine Map mit allen aktuellen Kontrollzeitpunkten und den zu diesen
-	 * Kontrollzeitpunkten zu überprüfenden Systemobjekten
+	 * Kontrollzeitpunkten zu überprüfenden Systemobjekten.
 	 */
-	private SortedMap<Long, Collection<ObjektResultat>> kontrollZeitpunkte =
-					Collections.synchronizedSortedMap(new TreeMap<Long, Collection<ObjektResultat>>());
-	
+	private SortedMap<Long, Collection<ObjektResultat>> kontrollZeitpunkte = Collections
+			.synchronizedSortedMap(new TreeMap<Long, Collection<ObjektResultat>>());
+
 	/**
-	 * interner Kontrollprozess
+	 * interner Kontrollprozess.
 	 */
 	private KontrollProzess<Long> kontrollProzess = null;
-	
+
 	/**
-	 * speichert pro Systemobjekt die letzte empfangene Datenzeit
+	 * speichert pro Systemobjekt die letzte empfangene Datenzeit.
 	 */
-	private Map<SystemObject, Long> letzteEmpfangeneDatenZeitProObj = new HashMap<SystemObject, Long>(); 	
-	
-		
+	private Map<SystemObject, Long> letzteEmpfangeneDatenZeitProObj = new HashMap<SystemObject, Long>();
+
 	/**
-	 * Erfragt die Intervalllänge T eines Datums
+	 * Erfragt die Intervalllänge T eines Datums.
 	 * 
-	 * @param resultat ein Datum
+	 * @param resultat
+	 *            ein Datum
 	 * @return die im übergebenen Datum enthaltene Intervalllänge T
 	 */
 	protected abstract long getTVon(final ResultData resultat);
-	
-	
+
 	/**
 	 * Erfragt das ausgefallene Datum, dass sich aus dem übergebenen Datum
-	 * ergibt
+	 * ergibt.
 	 * 
-	 * @param originalResultat ein Datum
+	 * @param originalResultat
+	 *            ein Datum
 	 * @return das ausgefallene Datum, dass sich aus dem übergebenen Datum
-	 * ergibt
+	 *         ergibt
 	 */
-	protected abstract ResultData getAusfallDatumVon(final ResultData originalResultat);
-	
-	
-	
+	protected abstract ResultData getAusfallDatumVon(
+			final ResultData originalResultat);
+
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc}.
 	 */
 	@Override
 	public void initialisiere(IVerwaltung dieVerwaltung)
-	throws DUAInitialisierungsException {
+			throws DUAInitialisierungsException {
 		super.initialisiere(dieVerwaltung);
 		this.kontrollProzess = new KontrollProzess<Long>();
 		this.kontrollProzess.addListener(this);
-				
-		for(SystemObject objekt:verwaltung.getSystemObjekte()){
+
+		for (SystemObject objekt : verwaltung.getSystemObjekte()) {
 			this.letzteEmpfangeneDatenZeitProObj.put(objekt, new Long(-1));
 		}
 	}
-
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public synchronized void aktualisiereDaten(ResultData[] resultate) {
-		if(resultate != null){
+		if (resultate != null) {
 			List<ResultData> weiterzuleitendeResultate = new ArrayList<ResultData>();
-			
-			for(ResultData resultat:resultate){
-				if(resultat != null){
-					
+
+			for (ResultData resultat : resultate) {
+				if (resultat != null) {
+
 					/**
-					 * Hier werden die Daten herausgefiltert, die von der Ausfallkontrolle
-					 * quasi zu unrecht generiert wurden, da das Datum nur minimal zu spät kam.
+					 * Hier werden die Daten herausgefiltert, die von der
+					 * Ausfallkontrolle quasi zu unrecht generiert wurden, da
+					 * das Datum nur minimal zu spät kam.
 					 */
-					if(this.letzteEmpfangeneDatenZeitProObj.get(resultat.getObject()) < resultat.getDataTime()){
+					if (this.letzteEmpfangeneDatenZeitProObj.get(resultat
+							.getObject()) < resultat.getDataTime()) {
 						/**
 						 * Zeitstempel ist echt neu!
 						 */
 						weiterzuleitendeResultate.add(resultat);
 					}
-					this.letzteEmpfangeneDatenZeitProObj.put(resultat.getObject(), resultat.getDataTime());
-					
-					
-					if(resultat.getData() != null){
-											
+					this.letzteEmpfangeneDatenZeitProObj.put(resultat
+							.getObject(), resultat.getDataTime());
+
+					if (resultat.getData() != null) {
+
 						this.bereinigeKontrollZeitpunkte(resultat);
-						
-						long kontrollZeitpunkt = this.getKontrollZeitpunktVon(resultat);
-						if(kontrollZeitpunkt > 0){
-							Collection<ObjektResultat> kontrollObjekte =
-									this.kontrollZeitpunkte.get(kontrollZeitpunkt);
-								
+
+						long kontrollZeitpunkt = this
+								.getKontrollZeitpunktVon(resultat);
+						if (kontrollZeitpunkt > 0) {
+							Collection<ObjektResultat> kontrollObjekte = this.kontrollZeitpunkte
+									.get(kontrollZeitpunkt);
+
 							/**
 							 * Kontrolldatum bestimmten
 							 */
-							ObjektResultat neuesKontrollObjekt = new ObjektResultat(resultat);							
-							if(kontrollObjekte != null){
+							ObjektResultat neuesKontrollObjekt = new ObjektResultat(
+									resultat);
+							if (kontrollObjekte != null) {
 								kontrollObjekte.add(neuesKontrollObjekt);
-							}else{
+							} else {
 								kontrollObjekte = new TreeSet<ObjektResultat>();
 								kontrollObjekte.add(neuesKontrollObjekt);
-								this.kontrollZeitpunkte.put(new Long(kontrollZeitpunkt), kontrollObjekte);
+								this.kontrollZeitpunkte.put(new Long(
+										kontrollZeitpunkt), kontrollObjekte);
 							}
 						}
-	
+
 						long fruehesterKontrollZeitpunkt = -1;
-												
-						if(!this.kontrollZeitpunkte.isEmpty()){
-							fruehesterKontrollZeitpunkt = this.kontrollZeitpunkte.firstKey().longValue();
-							
-							if(fruehesterKontrollZeitpunkt > 0){
-								this.kontrollProzess.setNaechstenAufrufZeitpunkt(fruehesterKontrollZeitpunkt,
-																				 new Long(fruehesterKontrollZeitpunkt));
-							}else{
-								LOGGER.warning("Der momentan aktuellste Kontrollzeitpunkt ist <= 0"); //$NON-NLS-1$
+
+						if (!this.kontrollZeitpunkte.isEmpty()) {
+							fruehesterKontrollZeitpunkt = this.kontrollZeitpunkte
+									.firstKey().longValue();
+
+							if (fruehesterKontrollZeitpunkt > 0) {
+								this.kontrollProzess
+										.setNaechstenAufrufZeitpunkt(
+												fruehesterKontrollZeitpunkt,
+												new Long(
+														fruehesterKontrollZeitpunkt));
+							} else {
+								LOGGER
+										.warning("Der momentan aktuellste Kontrollzeitpunkt ist <= 0"); //$NON-NLS-1$
 							}
-						}else{
-							LOGGER.warning("Die Menge der Kontrollzeitpunkte ist leer"); //$NON-NLS-1$
+						} else {
+							LOGGER
+									.warning("Die Menge der Kontrollzeitpunkte ist leer"); //$NON-NLS-1$
 						}
 					}
 				}
 			}
-			
-			if(this.knoten != null && !weiterzuleitendeResultate.isEmpty()){
-				this.knoten.aktualisiereDaten(weiterzuleitendeResultate.toArray(new ResultData[0]));
+
+			if (this.knoten != null && !weiterzuleitendeResultate.isEmpty()) {
+				this.knoten.aktualisiereDaten(weiterzuleitendeResultate
+						.toArray(new ResultData[0]));
 			}
 		}
 	}
-	
-	
+
 	/**
-	 * Erfragt den maximalen Zeitverzug für ein Systemobjekt
+	 * Erfragt den maximalen Zeitverzug für ein Systemobjekt.
 	 * 
-	 * @param obj ein Systemobjekt
-	 * @return der maximale Zeitverzug für das Systemobjekt oder
-	 * -1, wenn dieser nicht ermittelt werden konnte
+	 * @param obj
+	 *            ein Systemobjekt
+	 * @return der maximale Zeitverzug für das Systemobjekt oder -1, wenn dieser
+	 *         nicht ermittelt werden konnte
 	 */
 	protected long getMaxZeitVerzug(SystemObject obj) {
 		long maxZeitVerzug = -1;
 
-		if(obj != null){
+		if (obj != null) {
 			synchronized (this.objektWertErfassungVerzug) {
 				Long dummy = this.objektWertErfassungVerzug.get(obj);
-				if(dummy != null && dummy > 0){
+				if (dummy != null && dummy > 0) {
 					maxZeitVerzug = dummy;
 				}
 			}
@@ -218,119 +229,127 @@ implements IKontrollProzessListener<Long>{
 		return maxZeitVerzug;
 	}
 
-	
 	/**
-	 * Bereinigt die Liste der Kontrollzeitpunkte anhand des gerade eingetroffenen
-	 * Datums. Dabei wird zunächst der momentan noch erwartete Kontrollzeitpunkt dieses
-	 * Datums berechnet und dieser dann aus der Liste der Kontrollzeitpunkte entfernt
+	 * Bereinigt die Liste der Kontrollzeitpunkte anhand des gerade
+	 * eingetroffenen Datums. Dabei wird zunächst der momentan noch erwartete
+	 * Kontrollzeitpunkt dieses Datums berechnet und dieser dann aus der Liste
+	 * der Kontrollzeitpunkte entfernt
 	 * 
-	 * @param resultat ein Roh-Datum eines Systemobjekts
+	 * @param resultat
+	 *            ein Roh-Datum eines Systemobjekts
 	 */
 	@SuppressWarnings("null")
-	private final void bereinigeKontrollZeitpunkte(final ResultData resultat){
-		
+	private void bereinigeKontrollZeitpunkte(final ResultData resultat) {
+
 		/**
-		 * Berechne den wahrscheinlichsten Zeitpunkt, für den hier noch auf 
-		 * ein Datum dieses Objektes gewartet wird 
+		 * Berechne den wahrscheinlichsten Zeitpunkt, für den hier noch auf ein
+		 * Datum dieses Objektes gewartet wird
 		 */
-		final Long letzterErwarteterZeitpunkt = resultat.getDataTime() + 
-												this.getTVon(resultat) +
-												this.getMaxZeitVerzug(resultat.getObject());
-		
-		Collection<ObjektResultat> kontrollObjekte = 
-			this.kontrollZeitpunkte.get(letzterErwarteterZeitpunkt);
-		
+		final Long letzterErwarteterZeitpunkt = resultat.getDataTime()
+				+ this.getTVon(resultat)
+				+ this.getMaxZeitVerzug(resultat.getObject());
+
+		Collection<ObjektResultat> kontrollObjekte = this.kontrollZeitpunkte
+				.get(letzterErwarteterZeitpunkt);
+
 		ObjektResultat datum = new ObjektResultat(resultat);
 
 		/**
-		 * Gibt es einen Kontrollzeitpunkt, für den das Objekt, des empfangenen Datums
-		 * eingeplant sein müsste
+		 * Gibt es einen Kontrollzeitpunkt, für den das Objekt, des empfangenen
+		 * Datums eingeplant sein müsste
 		 */
-		if(kontrollObjekte != null){
-			if(kontrollObjekte.remove(datum)){
-				if(kontrollObjekte.isEmpty()){
+		if (kontrollObjekte != null) {
+			if (kontrollObjekte.remove(datum)) {
+				if (kontrollObjekte.isEmpty()) {
 					this.kontrollZeitpunkte.remove(letzterErwarteterZeitpunkt);
 				}
-			}else{
+			} else {
 				kontrollObjekte = null;
 			}
 		}
 
-		if(kontrollObjekte == null){
+		if (kontrollObjekte == null) {
 			Long gefundenInKontrollZeitpunkt = new Long(-1);
-			for(Long kontrollZeitpunkt:this.kontrollZeitpunkte.keySet()){
-				kontrollObjekte = this.kontrollZeitpunkte.get(kontrollZeitpunkt);
-				if(kontrollObjekte.remove(datum)){
+			for (Long kontrollZeitpunkt : this.kontrollZeitpunkte.keySet()) {
+				kontrollObjekte = this.kontrollZeitpunkte
+						.get(kontrollZeitpunkt);
+				if (kontrollObjekte.remove(datum)) {
 					gefundenInKontrollZeitpunkt = kontrollZeitpunkt;
 					break;
 				}
 			}
 
-			if(gefundenInKontrollZeitpunkt >= 0){
-				if(kontrollObjekte.isEmpty()){
+			if (gefundenInKontrollZeitpunkt >= 0) {
+				if (kontrollObjekte.isEmpty()) {
 					this.kontrollZeitpunkte.remove(gefundenInKontrollZeitpunkt);
-				}					
-			}else{
+				}
+			} else {
 				LOGGER.info("Datum " + datum + " konnte nicht aus" + //$NON-NLS-1$ //$NON-NLS-2$
-				" Kontrollwarteschlange gelöscht werden"); //$NON-NLS-1$
+						" Kontrollwarteschlange gelöscht werden"); //$NON-NLS-1$
 			}
 		}
 	}
-	
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public void trigger(Long kontrollZeitpunkt) {
 		List<ResultData> zuSendendeAusfallDatenMenge = new ArrayList<ResultData>();
-		
+
 		synchronized (this.kontrollZeitpunkte) {
-			Collection<ObjektResultat> ausfallDaten = this.kontrollZeitpunkte.get(kontrollZeitpunkt);
-			if(ausfallDaten != null){
-				for(ObjektResultat ausfallDatum:ausfallDaten){
-					zuSendendeAusfallDatenMenge.add(this.getAusfallDatumVon(ausfallDatum.getDatum()));
-				}				
-			}else{
-				LOGGER.warning("Der Kontrollzeitpunkt " +  //$NON-NLS-1$
-						DUAKonstanten.ZEIT_FORMAT_GENAU.format(new Date(kontrollZeitpunkt)) + 
-						" wurde inzwischen entfernt"); //$NON-NLS-1$
+			Collection<ObjektResultat> ausfallDaten = this.kontrollZeitpunkte
+					.get(kontrollZeitpunkt);
+			if (ausfallDaten != null) {
+				for (ObjektResultat ausfallDatum : ausfallDaten) {
+					zuSendendeAusfallDatenMenge.add(this
+							.getAusfallDatumVon(ausfallDatum.getDatum()));
+				}
+			} else {
+				LOGGER.warning("Der Kontrollzeitpunkt " + //$NON-NLS-1$
+						DUAKonstanten.ZEIT_FORMAT_GENAU.format(new Date(
+								kontrollZeitpunkt))
+						+ " wurde inzwischen entfernt"); //$NON-NLS-1$
 			}
 		}
-		
+
 		/**
-		 * Sende die ausgefallenen Daten an mich selbst, um
-		 * die Liste der Ausfallzeitpunkte zu aktualisieren
+		 * Sende die ausgefallenen Daten an mich selbst, um die Liste der
+		 * Ausfallzeitpunkte zu aktualisieren
 		 */
-		if(zuSendendeAusfallDatenMenge.size() > 0){
-			this.aktualisiereDaten(zuSendendeAusfallDatenMenge.toArray(new ResultData[0]));
-		}		
+		if (zuSendendeAusfallDatenMenge.size() > 0) {
+			this.aktualisiereDaten(zuSendendeAusfallDatenMenge
+					.toArray(new ResultData[0]));
+		}
 	}
 
-	
 	/**
-	 * Erfragt den Zeitpunkt, zu dem von dem Objekt, das mit diesem 
-	 * Datensatz assoziiert ist, ein neuer Datensatz (spätestens) erwartet wird
+	 * Erfragt den Zeitpunkt, zu dem von dem Objekt, das mit diesem Datensatz
+	 * assoziiert ist, ein neuer Datensatz (spätestens) erwartet wird.
 	 * 
-	 * @param empfangenesResultat ein empfangener Datensatz  
-	 * @return der späteste Zeitpunkt des nächsten Datensatzes oder -1, 
-	 * wenn dieser nicht sinnvoll bestimmt werden konnte (wenn z.B. keine
-	 * Parameter vorliegen)
+	 * @param empfangenesResultat
+	 *            ein empfangener Datensatz
+	 * @return der späteste Zeitpunkt des nächsten Datensatzes oder -1, wenn
+	 *         dieser nicht sinnvoll bestimmt werden konnte (wenn z.B. keine
+	 *         Parameter vorliegen)
 	 */
-	private final long getKontrollZeitpunktVon(final ResultData empfangenesResultat){
+	private long getKontrollZeitpunktVon(
+			final ResultData empfangenesResultat) {
 		long kontrollZeitpunkt = -1;
 
-		long maxZeitVerzug = this.getMaxZeitVerzug(empfangenesResultat.getObject());
+		long maxZeitVerzug = this.getMaxZeitVerzug(empfangenesResultat
+				.getObject());
 
-		if(maxZeitVerzug >= 0){
-			kontrollZeitpunkt = empfangenesResultat.getDataTime() + 2 * this.getTVon(empfangenesResultat) + maxZeitVerzug;
-		}else{
-			LOGGER.fine("Es wurden noch keine (sinnvollen) Parameter empfangen: " //$NON-NLS-1$ 
-					+ empfangenesResultat.getObject());
+		if (maxZeitVerzug >= 0) {
+			kontrollZeitpunkt = empfangenesResultat.getDataTime() + 2
+					* this.getTVon(empfangenesResultat) + maxZeitVerzug;
+		} else {
+			LOGGER
+					.fine("Es wurden noch keine (sinnvollen) Parameter empfangen: " //$NON-NLS-1$ 
+							+ empfangenesResultat.getObject());
 		}
 
 		return kontrollZeitpunkt;
 	}
-
 
 	/**
 	 * {@inheritDoc}
@@ -339,7 +358,6 @@ implements IKontrollProzessListener<Long>{
 		return null;
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 */

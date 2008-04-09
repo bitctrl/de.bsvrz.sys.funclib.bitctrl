@@ -1,26 +1,26 @@
-/**
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.x 
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -41,19 +41,17 @@ import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.SWETyp;
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  * 
+ * @version $Id$
  */
-public class DatenFlussSteuerung
-implements IDatenFlussSteuerung {
-	
+public class DatenFlussSteuerung implements IDatenFlussSteuerung {
+
 	/**
-	 * Liste aller Parametersätze innerhalb der Attributgruppe
+	 * Liste aller Parametersätze innerhalb der Attributgruppe.
 	 */
-	private List<ParameterSatz> parameterSaetze =
-								new ArrayList<ParameterSatz>();
-	
-	
+	private List<ParameterSatz> parameterSaetze = new ArrayList<ParameterSatz>();
+
 	/**
-	 * Fügt diesem Objekt einen Parametersatz hinzu
+	 * Fügt diesem Objekt einen Parametersatz hinzu.
 	 * 
 	 * @param ps
 	 *            der neue Parametersatz
@@ -65,18 +63,17 @@ implements IDatenFlussSteuerung {
 	/**
 	 * Erfragt den Parametersatz für eine bestimmte SWE<br>
 	 * <b>Achtung: Es wird innerhalb dieser Klasse immer nur ein
-	 * ParameterSatz-Objekt pro SWE instanziiert werden, auch
-	 * wenn mehrere parametriert sind (die Informationen werden
-	 * zusammengefasst). Sollten widersprüchliche Informationen
-	 * innerhalb der Parametersätze enthalten sein, so werden
-	 * alle Parametersätze, die diesen Widerspruch enthalten
+	 * ParameterSatz-Objekt pro SWE instanziiert werden, auch wenn mehrere
+	 * parametriert sind (die Informationen werden zusammengefasst). Sollten
+	 * widersprüchliche Informationen innerhalb der Parametersätze enthalten
+	 * sein, so werden alle Parametersätze, die diesen Widerspruch enthalten
 	 * ignoriert.</b>
 	 * 
 	 * @param swe
 	 *            die SWE
-	 * @return der Parametersatz der Datenflusssteuerung für
-	 * die übergebene SWE oder <code>null</code>, wenn für die
-	 * SWE kein Parametersatz vorliegt
+	 * @return der Parametersatz der Datenflusssteuerung für die übergebene SWE
+	 *         oder <code>null</code>, wenn für die SWE kein Parametersatz
+	 *         vorliegt
 	 */
 	protected final ParameterSatz getParameterSatzFuerSWE(final SWETyp swe) {
 		ParameterSatz ps = null;

@@ -1,26 +1,26 @@
-/**
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.x
- * Copyright (C) 2007 BitCtrl Systems GmbH
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -42,32 +42,33 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  * 
+ * @version $Id$
  */
 public abstract class DAVAnmeldungsVerwaltung {
 
 	/**
-	 * produziert ausfuehrlichere Log-Meldungen
+	 * produziert ausfuehrlichere Log-Meldungen.
 	 */
 	protected static final boolean DEBUG = false;
 
 	/**
-	 * Debug-Logger
+	 * Debug-Logger.
 	 */
 	private static final Debug LOGGER = Debug.getLogger();
 
 	/**
 	 * Baum der Datenanmeldungen, die im Moment aktuell sind (ggf. mit ihrem
-	 * Status der Sendesteuerung)
+	 * Status der Sendesteuerung).
 	 */
 	protected Map<DAVObjektAnmeldung, SendeStatus> aktuelleObjektAnmeldungen = new TreeMap<DAVObjektAnmeldung, SendeStatus>();
 
 	/**
-	 * Datenverteilerverbindung
+	 * Datenverteilerverbindung.
 	 */
 	protected ClientDavInterface dav = null;
 
 	/**
-	 * Standardkonstruktor
+	 * Standardkonstruktor.
 	 * 
 	 * @param dav
 	 *            Datenverteilerverbindung
@@ -144,7 +145,7 @@ public abstract class DAVAnmeldungsVerwaltung {
 	}
 
 	/**
-	 * Führt alle übergebenen Daten<b>ab</b>meldungen durch
+	 * Führt alle übergebenen Daten<b>ab</b>meldungen durch.
 	 * 
 	 * @param abmeldungen
 	 *            durchzuführende Daten<b>ab</b>meldungen
@@ -166,16 +167,15 @@ public abstract class DAVAnmeldungsVerwaltung {
 			final Collection<DAVObjektAnmeldung> anmeldungen);
 
 	/**
-	 * Erfragt Informationen zum Anmeldungsverhalten
+	 * Erfragt Informationen zum Anmeldungsverhalten.
 	 * 
 	 * @return Informationen zum Anmeldungsverhalten
 	 */
 	protected abstract String getInfo();
 
-	
 	/**
 	 * Der Zustand einer Datenbeschreibung bwzüglich der Sendesteuerung und der
-	 * aktuell veroeffentlichten Daten
+	 * aktuell veroeffentlichten Daten.
 	 * 
 	 * @author BitCtrl Systems GmbH, Thierfelder
 	 * 
@@ -183,24 +183,24 @@ public abstract class DAVAnmeldungsVerwaltung {
 	protected class SendeStatus {
 
 		/**
-		 * aktueller Zustand der Sendesteuerung
+		 * aktueller Zustand der Sendesteuerung.
 		 */
 		private byte status = ClientSenderInterface.STOP_SENDING;
 
 		/**
 		 * indiziert, ob die Datenbeschreibung im Moment auf
-		 * <code>keine Daten</code> oder <code>keine Quelle</code> steht
+		 * <code>keine Daten</code> oder <code>keine Quelle</code> steht.
 		 */
 		private boolean imMomentKeineDaten = true;
 
 		/**
-		 * Standardkonstruktor
+		 * Standardkonstruktor.
 		 */
 		public SendeStatus() {
 		}
 
 		/**
-		 * Standardkonstruktor
+		 * Standardkonstruktor.
 		 * 
 		 * @param status
 		 *            aktueller Zustand der Sendesteuerung
@@ -213,24 +213,23 @@ public abstract class DAVAnmeldungsVerwaltung {
 			this.status = status;
 			this.imMomentKeineDaten = imMomentKeineDaten;
 		}
-		
 
 		/**
-		 * Erfragt den aktuellen Zustand der Sendesteuerung
+		 * Erfragt den aktuellen Zustand der Sendesteuerung.
 		 * 
 		 * @return aktueller Zustand der Sendesteuerung
 		 */
 		public final byte getStatus() {
 			return this.status;
 		}
-		
 
 		/**
 		 * Erfragt ob die Datenbeschreibung im Moment auf
-		 * <code>keine Daten</code> oder <code>keine Quelle</code> steht
+		 * <code>keine Daten</code> oder <code>keine Quelle</code> steht.
 		 * 
 		 * @return ob die Datenbeschreibung im Moment auf
-		 * <code>keine Daten</code> oder <code>keine Quelle</code> steht
+		 *         <code>keine Daten</code> oder <code>keine Quelle</code>
+		 *         steht
 		 */
 		public final boolean isImMomentKeineDaten() {
 			return this.imMomentKeineDaten;

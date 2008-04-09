@@ -1,26 +1,26 @@
-/**
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.x 
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -45,19 +45,20 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  *
+ * @version $Id$
  */
-public interface IVerwaltung
-extends StandardApplication, ClientReceiverInterface{
+public interface IVerwaltung extends StandardApplication,
+		ClientReceiverInterface {
 
 	/**
 	 * Erfragt die Verbindung zum Datenverteiler.
 	 * 
 	 * @return die Verbindung zum Datenverteiler
 	 */
-	public ClientDavInterface getVerbindung();
-	
+	ClientDavInterface getVerbindung();
+
 	/**
-	 * Sendet eine Betriebsmeldung an die Betriebsmeldungsverwaltung
+	 * Sendet eine Betriebsmeldung an die Betriebsmeldungsverwaltung.
 	 * 
 	 * @param id ID der Meldung. Dieses Attribut kann von der Applikation
 	 * gesetzt werden, um einen Bezug zu einer vorherigen Meldung herzustellen.
@@ -69,12 +70,9 @@ extends StandardApplication, ClientReceiverInterface{
 	 * @param status Gibt den Zustand einer Meldung an
 	 * @param nachricht Nachrichtentext der Betriebsmeldung
 	 */
-	public void sendeBetriebsMeldung(final String id,
-									 final MessageType typ,
-									 final String nachrichtenTypErweiterung,
-									 final MessageGrade klasse,
-									 final MessageState status,
-									 final String nachricht);
+	void sendeBetriebsMeldung(final String id, final MessageType typ,
+			final String nachrichtenTypErweiterung, final MessageGrade klasse,
+			final MessageState status, final String nachricht);
 
 	/**
 	 * Über diese Methode soll ein Modul Verwaltung anderen Modulen
@@ -85,34 +83,33 @@ extends StandardApplication, ClientReceiverInterface{
 	 * 
 	 * @return alle zu bearbeitenden Objekte
 	 */
-	public SystemObject[] getSystemObjekte();
-	
+	SystemObject[] getSystemObjekte();
+
 	/**
 	 * Erfragt die dem Verwaltungsmodul übergebenen
-	 * Konfigurationsbereiche
+	 * Konfigurationsbereiche.
 	 * 
 	 * @return alle Konfigurationsbereiche, die diesem
 	 * Verwaltungsmodul übergeben wurden.
 	 */
-	public Collection<ConfigurationArea> getKonfigurationsBereiche();
-	
+	Collection<ConfigurationArea> getKonfigurationsBereiche();
+
 	/**
 	 * Erfragt die SWE, für die die dieses Interface
-	 * implementierende Klasse die Verwaltung darstellt
+	 * implementierende Klasse die Verwaltung darstellt.
 	 * 
 	 * @return die SWE, für die die dieses Interface
 	 * implementierende Klasse die Verwaltung darstellt
 	 */
-	public SWETyp getSWETyp();
-	
-	
+	SWETyp getSWETyp();
+
 	/**
-	 * Erfragt ein Kommandozeilenargument der Applikation
+	 * Erfragt ein Kommandozeilenargument der Applikation.
 	 * 
 	 * @param schluessel der Name des Arguments
 	 * @return das Kommandozeilenargument des Schluessels oder <code>null</code>,
 	 * wenn das Argument nicht uebergeben wurde
 	 */
-	public String getArgument(final String schluessel);
-	
+	String getArgument(final String schluessel);
+
 }

@@ -1,26 +1,26 @@
-/**
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.x
- * Copyright (C) 2007 BitCtrl Systems GmbH
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -62,16 +62,25 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  * 
+ * 
+ * @version $Id$
  */
-public class DUAUtensilien {
+public final class DUAUtensilien {
+	
+	/**
+	 * Standardkonstruktor.
+	 */
+	private DUAUtensilien() {
+		
+	}
 
 	/**
-	 * Debug-Logger
+	 * Debug-Logger.
 	 */
 	private static final Debug LOGGER = Debug.getLogger();
 
 	/**
-	 * Schablone für eine ganze positive Zahl
+	 * Schablone für eine ganze positive Zahl.
 	 */
 	private static final String NATUERLICHE_ZAHL = "\\d+"; //$NON-NLS-1$
 
@@ -92,7 +101,7 @@ public class DUAUtensilien {
 	 * @return einen veränderten Attributpfad oder <code>null</code>, wenn
 	 *         die Ersetzung nicht durchgeführt werden konnte
 	 */
-	public static final String ersetzeLetztesElemInAttPfad(
+	public static String ersetzeLetztesElemInAttPfad(
 			final String attPfad, final String ersetzung) {
 		String ergebnis = null;
 
@@ -126,7 +135,7 @@ public class DUAUtensilien {
 	 *            Verbindung zum Datenverteiler
 	 * @return eine Menge von <code>DAVObjektAnmeldung</code>-Objekten
 	 */
-	public static final Collection<DAVObjektAnmeldung> getAlleObjektAnmeldungen(
+	public static Collection<DAVObjektAnmeldung> getAlleObjektAnmeldungen(
 			final SystemObject obj, final DataDescription datenBeschreibung,
 			final ClientDavInterface dav) {
 		Collection<DAVObjektAnmeldung> anmeldungen = new TreeSet<DAVObjektAnmeldung>();
@@ -134,45 +143,43 @@ public class DUAUtensilien {
 		Collection<SystemObject> finObjekte = getBasisInstanzen(obj, dav);
 
 		for (SystemObject finObj : finObjekte) {
-				if (datenBeschreibung == null
-						|| (datenBeschreibung.getAttributeGroup() == null && datenBeschreibung
-								.getAspect() == null)) {
-					for (AttributeGroup atg : finObj.getType()
-							.getAttributeGroups()) {
-						for (Aspect asp : atg.getAspects()) {
-							anmeldungen.add(new DAVObjektAnmeldung(finObj,
-									new DataDescription(atg, asp, (short) 0)));
-						}
-					}
-				} else if (datenBeschreibung.getAttributeGroup() == null) {
-					for (AttributeGroup atg : finObj.getType()
-							.getAttributeGroups()) {
-						try {
-							anmeldungen.add(new DAVObjektAnmeldung(finObj,
-									new DataDescription(atg, datenBeschreibung
-											.getAspect(), (short) 0)));
-						} catch (IllegalArgumentException ex) {
-							LOGGER.fine(Constants.EMPTY_STRING, ex);
-						}
-					}
-				} else if (datenBeschreibung.getAspect() == null) {
-					for (Aspect asp : datenBeschreibung.getAttributeGroup()
-							.getAspects()) {
+			if (datenBeschreibung == null
+					|| (datenBeschreibung.getAttributeGroup() == null && datenBeschreibung
+							.getAspect() == null)) {
+				for (AttributeGroup atg : finObj.getType().getAttributeGroups()) {
+					for (Aspect asp : atg.getAspects()) {
 						anmeldungen.add(new DAVObjektAnmeldung(finObj,
-								new DataDescription(datenBeschreibung
-										.getAttributeGroup(), asp, (short) 0)));
+								new DataDescription(atg, asp, (short) 0)));
 					}
-				} else {
-					anmeldungen.add(new DAVObjektAnmeldung(finObj,
-							datenBeschreibung));
 				}
+			} else if (datenBeschreibung.getAttributeGroup() == null) {
+				for (AttributeGroup atg : finObj.getType().getAttributeGroups()) {
+					try {
+						anmeldungen.add(new DAVObjektAnmeldung(finObj,
+								new DataDescription(atg, datenBeschreibung
+										.getAspect(), (short) 0)));
+					} catch (IllegalArgumentException ex) {
+						LOGGER.fine(Constants.EMPTY_STRING, ex);
+					}
+				}
+			} else if (datenBeschreibung.getAspect() == null) {
+				for (Aspect asp : datenBeschreibung.getAttributeGroup()
+						.getAspects()) {
+					anmeldungen.add(new DAVObjektAnmeldung(finObj,
+							new DataDescription(datenBeschreibung
+									.getAttributeGroup(), asp, (short) 0)));
+				}
+			} else {
+				anmeldungen.add(new DAVObjektAnmeldung(finObj,
+						datenBeschreibung));
+			}
 		}
 
 		return anmeldungen;
 	}
 
 	/**
-	 * Liest eine Argument aus der ArgumentListe der Kommandozeile aus
+	 * Liest eine Argument aus der ArgumentListe der Kommandozeile aus.
 	 * 
 	 * @param schluessel
 	 *            der Schlüssel
@@ -181,7 +188,7 @@ public class DUAUtensilien {
 	 * @return das Wert des DAV-Arguments mit dem übergebenen Schlüssel oder
 	 *         <code>null</code>, wenn der Schlüssel nicht gefunden wurde
 	 */
-	public static final String getArgument(final String schluessel,
+	public static String getArgument(final String schluessel,
 			final List<String> argumentListe) {
 		String ergebnis = null;
 
@@ -218,7 +225,7 @@ public class DUAUtensilien {
 	 * @return das extrahierte Datum oder <code>null</code> wenn keine
 	 *         Extraktion möglich war
 	 */
-	public static final Data getAttributDatum(final String attributPfad,
+	public static Data getAttributDatum(final String attributPfad,
 			final Data datum) {
 		Data ergebnis = null;
 
@@ -278,7 +285,7 @@ public class DUAUtensilien {
 	 *            Verbindung zum Datenverteiler
 	 * @return eine Menge von finalen Systemobjekten
 	 */
-	public static final Collection<SystemObject> getBasisInstanzen(
+	public static Collection<SystemObject> getBasisInstanzen(
 			final SystemObject obj, final ClientDavInterface dav) {
 		Collection<SystemObject> finaleObjekte = new HashSet<SystemObject>();
 
@@ -286,17 +293,19 @@ public class DUAUtensilien {
 			SystemObjectType typTyp = dav.getDataModel().getType(
 					DaVKonstanten.TYP_TYP);
 			for (SystemObject typ : typTyp.getElements()) {
-				if(typ.isValid()){
+				if (typ.isValid()) {
 					if (typ instanceof SystemObjectType) {
 						for (SystemObject elem : ((SystemObjectType) typ)
 								.getElements()) {
-							if(elem.isValid()){
-								if (elem.getClass()
-										.equals(DafConfigurationObject.class)
+							if (elem.isValid()) {
+								if (elem.getClass().equals(
+										DafConfigurationObject.class)
 										|| elem.getClass().equals(
 												DafDynamicObject.class)
-										|| elem.getClass().equals(
-												DafConfigurationAuthority.class)) {
+										|| elem
+												.getClass()
+												.equals(
+														DafConfigurationAuthority.class)) {
 									finaleObjekte.add(elem);
 								}
 							}
@@ -307,7 +316,7 @@ public class DUAUtensilien {
 		} else if (obj instanceof SystemObjectType) {
 			SystemObjectType typ = (SystemObjectType) obj;
 			for (SystemObject elem : typ.getElements()) {
-				if(elem.isValid()){
+				if (elem.isValid()) {
 					finaleObjekte.addAll(getBasisInstanzen(elem, dav));
 				}
 			}
@@ -342,7 +351,7 @@ public class DUAUtensilien {
 	 *         übergebenen Konfigurationsbereiche (bzw. im
 	 *         Standardkonfigurationsbereich) definiert sind.
 	 */
-	public static final Collection<SystemObject> getBasisInstanzen(
+	public static Collection<SystemObject> getBasisInstanzen(
 			final SystemObject obj, final ClientDavInterface dav,
 			final Collection<ConfigurationArea> kBereichsFilter) {
 		Collection<SystemObject> finaleObjekte = new HashSet<SystemObject>();
@@ -438,13 +447,13 @@ public class DUAUtensilien {
 	 * Erfragt die textliche Entsprechung eines Messwertes, dessen Wertebereich
 	 * bei 0 (inklusive) beginnt und der die Zustände <code>fehlerhaft</code>,
 	 * <code>nicht ermittelbar</code> oder
-	 * <code>nicht ermittelbar/fehlerhaft</code> besitzen kann
+	 * <code>nicht ermittelbar/fehlerhaft</code> besitzen kann.
 	 * 
 	 * @param messwert
 	 *            ein Messwert
 	 * @return die textliche Entsprechung eines Messwertes
 	 */
-	public static final String getTextZuMesswert(final long messwert) {
+	public static String getTextZuMesswert(final long messwert) {
 		String s = "undefiniert (" + messwert + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		if (messwert >= 0) {
@@ -472,7 +481,7 @@ public class DUAUtensilien {
 	 *         Attributgruppen-Aspekt-Kombination gültig ist, entweder. Oder
 	 *         eine die Inkombatibilität beschreibende Fehlermeldung sonst.
 	 */
-	public static final String isKombinationOk(final SystemObject obj,
+	public static String isKombinationOk(final SystemObject obj,
 			final DataDescription datenBeschreibung) {
 		String result = null;
 
@@ -493,8 +502,8 @@ public class DUAUtensilien {
 				.contains(datenBeschreibung.getAspect())) {
 			result = "Aspekt " + datenBeschreibung.getAspect() + //$NON-NLS-1$
 					" ist für Attributgruppe " //$NON-NLS-1$
-					+ datenBeschreibung.getAttributeGroup() +
-					" nicht definiert"; //$NON-NLS-1$)
+					+ datenBeschreibung.getAttributeGroup()
+					+ " nicht definiert"; //$NON-NLS-1$)
 		} else if (!(obj.getClass().equals(DafConfigurationObject.class)
 				|| obj.getClass().equals(DafDynamicObject.class) || obj
 				.getClass().equals(DafConfigurationAuthority.class))) {
@@ -508,7 +517,7 @@ public class DUAUtensilien {
 
 	/**
 	 * Ermittelt, ob der übergebene Wert im Wertebereich des übergebenen
-	 * Attributs liegt (für skalierte Ganzzahlen)
+	 * Attributs liegt (für skalierte Ganzzahlen).
 	 * 
 	 * @param attribut
 	 *            das skalierte Ganzzahl-Attribut
@@ -519,7 +528,7 @@ public class DUAUtensilien {
 	 *         besitzt <b>und</b> dieser durch den übergebenen Wert verletzt
 	 *         ist, sonst <code>true</code>
 	 */
-	public static final boolean isWertInWerteBereich(Data attribut,
+	public static boolean isWertInWerteBereich(Data attribut,
 			double wertSkaliert) {
 		boolean ergebnis = true;
 
@@ -548,7 +557,7 @@ public class DUAUtensilien {
 
 	/**
 	 * Ermittelt, ob der uebergebene Wert im Wertebereich des uebergebenen
-	 * Attributs liegt
+	 * Attributs liegt.
 	 * 
 	 * @param attribut
 	 *            das Ganzzahl-Attribut
@@ -556,25 +565,27 @@ public class DUAUtensilien {
 	 *            der Wert
 	 * @return <code>false</code>, wenn das uebergebene Attribut ein
 	 *         Ganzzahl-Attribut ist <b>und</b> einen Wertebereich besitzt
-	 *         <b>und</b> dieser durch den uebergebenen Wert verletzt ist, sonst
-	 *         <code>true</code>
+	 *         <b>und</b> dieser durch den uebergebenen Wert verletzt ist,
+	 *         sonst <code>true</code>
 	 */
-	public static final boolean isWertInWerteBereich(Data attribut, long wert) {
+	public static boolean isWertInWerteBereich(Data attribut, long wert) {
 		boolean ergebnis = true;
 
 		if (attribut != null) {
 			AttributeType typ = attribut.getAttributeType();
 
 			if (typ instanceof IntegerAttributeType) {
-				List<IntegerValueState> statuss = ((IntegerAttributeType) typ).getStates();
-				if(!statuss.isEmpty()){
-					for(IntegerValueState status:((IntegerAttributeType) typ).getStates()){
-						if(wert == status.getValue()){
+				List<IntegerValueState> statuss = ((IntegerAttributeType) typ)
+						.getStates();
+				if (!statuss.isEmpty()) {
+					for (IntegerValueState status : ((IntegerAttributeType) typ)
+							.getStates()) {
+						if (wert == status.getValue()) {
 							return true;
 						}
 					}
 				}
-						
+
 				IntegerValueRange wertebereich = ((IntegerAttributeType) typ)
 						.getRange();
 				if (wertebereich != null) {
@@ -590,131 +601,124 @@ public class DUAUtensilien {
 
 		return ergebnis;
 	}
-	
-	
+
 	/**
-	 * Erfragt den gerundeten Wert als Zeichenkette
+	 * Erfragt den gerundeten Wert als Zeichenkette.
 	 * 
-	 * @param wert ein Wert
-	 * @param nachkommastellen Rundungsstellen
+	 * @param wert
+	 *            ein Wert
+	 * @param nachkommastellen
+	 *            Rundungsstellen
 	 * @return der gerundete Wert als Zeichenkette
 	 */
-	public static final String runde(double wert, int nachkommastellen){
+	public static String runde(double wert, int nachkommastellen) {
 		double nachkommaDouble = Math.pow(10, nachkommastellen);
-		return new Double(Math.round(wert * nachkommaDouble) / nachkommaDouble).toString();
+		return new Double(Math.round(wert * nachkommaDouble) / nachkommaDouble)
+				.toString();
 	}
 
-	
 	/**
-	 * Wandelt eine Zeitspanne in Millisekunden in einen Text um
+	 * Wandelt eine Zeitspanne in Millisekunden in einen Text um.
 	 * 
-	 * @param vergleichsIntervallInMs zeit in Millisekunden
+	 * @param vergleichsIntervallInMs
+	 *            zeit in Millisekunden
 	 * @return die uebergebene Zeitspanne in Millisekunden als Text
 	 */
-	public static final String getVergleichsIntervallInText(long vergleichsIntervallInMs){
+	public static String getVergleichsIntervallInText(
+			long vergleichsIntervallInMs) {
 		StringBuffer text = new StringBuffer();
-			
+
 		try {
 			long val = vergleichsIntervallInMs;
-			int millis = (int)(val % 1000);
+			int millis = (int) (val % 1000);
 			val /= 1000;
-			int seconds = (int)(val % 60);
+			int seconds = (int) (val % 60);
 			val /= 60;
-			int minutes = (int)(val % 60);
+			int minutes = (int) (val % 60);
 			val /= 60;
-			int hours = (int)(val % 24);
+			int hours = (int) (val % 24);
 			val /= 24;
 			long days = val;
-			if(days != 0) {
-				if(days == 1) {
+			if (days != 0) {
+				if (days == 1) {
 					text.append("1 Tag "); //$NON-NLS-1$
-				}
-				else if(days == -1) {
+				} else if (days == -1) {
 					text.append("-1 Tag "); //$NON-NLS-1$
-				}
-				else {
+				} else {
 					text.append(days).append(" Tage "); //$NON-NLS-1$
 				}
 			}
-			if(hours != 0) {
-				if(hours == 1) {
+			if (hours != 0) {
+				if (hours == 1) {
 					text.append("1 Stunde "); //$NON-NLS-1$
-				}
-				else if(hours == -1) {
+				} else if (hours == -1) {
 					text.append("-1 Stunde "); //$NON-NLS-1$
-				}
-				else {
+				} else {
 					text.append(hours).append(" Stunden "); //$NON-NLS-1$
 				}
 			}
-			if(minutes != 0) {
-				if(minutes == 1) {
+			if (minutes != 0) {
+				if (minutes == 1) {
 					text.append("1 Minute "); //$NON-NLS-1$
-				}
-				else if(minutes == -1) {
+				} else if (minutes == -1) {
 					text.append("-1 Minute "); //$NON-NLS-1$
-				}
-				else {
+				} else {
 					text.append(minutes).append(" Minuten "); //$NON-NLS-1$
 				}
 			}
-			if(seconds != 0 || (days == 0 && hours == 0 && minutes == 0 && millis == 0)) {
-				if(seconds == 1) {
+			if (seconds != 0
+					|| (days == 0 && hours == 0 && minutes == 0 && millis == 0)) {
+				if (seconds == 1) {
 					text.append("1 Sekunde "); //$NON-NLS-1$
-				}
-				else if(seconds == -1) {
+				} else if (seconds == -1) {
 					text.append("-1 Sekunde "); //$NON-NLS-1$
-				}
-				else {
+				} else {
 					text.append(seconds).append(" Sekunden "); //$NON-NLS-1$
 				}
 			}
-			if(millis != 0) {
-				if(millis == 1) {
+			if (millis != 0) {
+				if (millis == 1) {
 					text.append("1 Millisekunde "); //$NON-NLS-1$
-				}
-				else if(millis == -1) {
+				} else if (millis == -1) {
 					text.append("-1 Millisekunde "); //$NON-NLS-1$
-				}
-				else {
+				} else {
 					text.append(millis).append(" Millisekunden "); //$NON-NLS-1$
 				}
 			}
 			text.setLength(text.length() - 1);
+		} catch (Exception e) {
+			return "[" + vergleichsIntervallInMs + "ms]"; //$NON-NLS-1$//$NON-NLS-2$
 		}
-		catch(Exception e) {
-			return "[" + vergleichsIntervallInMs + "ms]";  //$NON-NLS-1$//$NON-NLS-2$
-		}
-	
+
 		return text.toString();
 	}
-	
-	
+
 	/**
-	 * Erfragt eine Kurzinformation eines Objektarrays
+	 * Erfragt eine Kurzinformation eines Objektarrays.
 	 * 
+	 * @param objekte alle Objekte
 	 * @return eine Kurzinformation eines Objektarrays
 	 */
-	public static final String getArrayKurzInfo(Object[] objekte){
+	public static String getArrayKurzInfo(Object[] objekte) {
 		String kurzInfo = ""; //$NON-NLS-1$
-		
-		if(objekte != null){
+
+		if (objekte != null) {
 			kurzInfo = new Integer(objekte.length).toString();
-			if(objekte.length > 0){
+			if (objekte.length > 0) {
 				kurzInfo += " ["; //$NON-NLS-1$
-				for(Object obj:objekte){
+				for (Object obj : objekte) {
 					String dummy = null;
-					if(obj == null){
+					if (obj == null) {
 						dummy = "<<null>>"; //$NON-NLS-1$
-					}else{
+					} else {
 						dummy = obj.toString();
-						if(dummy == null){
+						if (dummy == null) {
 							dummy = "$<<null>>"; //$NON-NLS-1$
 						}
 					}
 					kurzInfo += dummy + ", "; //$NON-NLS-1$
-					
-					if(kurzInfo.length() > 70){
+
+					if (kurzInfo.length() > 70) {
 						kurzInfo = kurzInfo.substring(0, 70) + "..., "; //$NON-NLS-1$
 						break;
 					}
@@ -722,11 +726,11 @@ public class DUAUtensilien {
 				kurzInfo = kurzInfo.substring(0, kurzInfo.length() - 2);
 				kurzInfo += "]"; //$NON-NLS-1$
 			}
-		}else{
+		} else {
 			kurzInfo = "<<null>>"; //$NON-NLS-1$
 		}
-				
+
 		return kurzInfo;
 	}
-	
+
 }

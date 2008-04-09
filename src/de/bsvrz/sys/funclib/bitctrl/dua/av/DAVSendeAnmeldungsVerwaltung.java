@@ -1,26 +1,26 @@
-/**
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.x
- * Copyright (C) 2007 BitCtrl Systems GmbH
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -42,85 +42,94 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
- * Verwaltungsklasse für Datenanmeldungen zum Senden von Daten.
- * Über die Methode <code>modifiziereDatenAnmeldung(..)</code> lassen
- * sich Daten anmelden bzw. abmelden.
- *
+ * Verwaltungsklasse für Datenanmeldungen zum Senden von Daten. Über die Methode
+ * <code>modifiziereDatenAnmeldung(..)</code> lassen sich Daten anmelden bzw.
+ * abmelden.
+ * 
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
+ * @version $Id$
  */
-public class DAVSendeAnmeldungsVerwaltung
-extends DAVAnmeldungsVerwaltung
-implements ClientSenderInterface{
+public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
+		implements ClientSenderInterface {
 
 	/**
-	 * Debug-Logger
+	 * Debug-Logger.
 	 */
 	private static final Debug LOGGER = Debug.getLogger();
 
 	/**
-	 * Rolle des Senders
+	 * Rolle des Senders.
 	 */
 	private SenderRole rolle = null;
 
-
 	/**
-	 * Standardkonstruktor
-	 *
-	 * @param dav Datenverteilerverbindung
-	 * @param rolle Rolle
+	 * Standardkonstruktor.
+	 * 
+	 * @param dav
+	 *            Datenverteilerverbindung
+	 * @param rolle
+	 *            Rolle
 	 */
 	public DAVSendeAnmeldungsVerwaltung(final ClientDavInterface dav,
-									    final SenderRole rolle){
+			final SenderRole rolle) {
 		super(dav);
 		this.rolle = rolle;
 	}
 
 	/**
-	 * Sendet ein Datum in den Datenverteiler unter der
-	 * Vorraussetzung, dass die Sendesteuerung für dieses
-	 * Datum einen Empfänger bzw. eine Senke festgestellt hat
-	 *
-	 * @param resultat ein zu sendendes Datum
+	 * Sendet ein Datum in den Datenverteiler unter der Vorraussetzung, dass die
+	 * Sendesteuerung für dieses Datum einen Empfänger bzw. eine Senke
+	 * festgestellt hat
+	 * 
+	 * @param resultat
+	 *            ein zu sendendes Datum
 	 */
-	public final void sende(final ResultData resultat){
+	public final void sende(final ResultData resultat) {
 		try {
 			DAVObjektAnmeldung anmeldung = new DAVObjektAnmeldung(resultat);
 			SendeStatus status = null;
-			
+
 			synchronized (aktuelleObjektAnmeldungen) {
 				status = this.aktuelleObjektAnmeldungen.get(anmeldung);
 			}
-			
-			if(status == null ||
-					status.getStatus() == ClientSenderInterface.START_SENDING){
+
+			if (status == null
+					|| status.getStatus() == ClientSenderInterface.START_SENDING) {
 				boolean imMomentKeineDaten;
 				boolean alsNaechstestKeineDaten = resultat.getData() == null;
-				
-				if(status != null){
-					imMomentKeineDaten = status.isImMomentKeineDaten(); 
-					if(status.isImMomentKeineDaten() != alsNaechstestKeineDaten){
+
+				if (status != null) {
+					imMomentKeineDaten = status.isImMomentKeineDaten();
+					if (status.isImMomentKeineDaten() != alsNaechstestKeineDaten) {
 						synchronized (aktuelleObjektAnmeldungen) {
-							this.aktuelleObjektAnmeldungen.put(anmeldung, 
-									new SendeStatus(ClientSenderInterface.START_SENDING, alsNaechstestKeineDaten));
-						}			
+							this.aktuelleObjektAnmeldungen
+									.put(
+											anmeldung,
+											new SendeStatus(
+													ClientSenderInterface.START_SENDING,
+													alsNaechstestKeineDaten));
+						}
 					}
-				}else{
+				} else {
 					imMomentKeineDaten = true;
 					synchronized (aktuelleObjektAnmeldungen) {
-						this.aktuelleObjektAnmeldungen.put(anmeldung, 
-								new SendeStatus(ClientSenderInterface.START_SENDING, alsNaechstestKeineDaten));
-					}								
-				}				
-				
-				if((alsNaechstestKeineDaten && !imMomentKeineDaten) || !alsNaechstestKeineDaten){ 
+						this.aktuelleObjektAnmeldungen.put(anmeldung,
+								new SendeStatus(
+										ClientSenderInterface.START_SENDING,
+										alsNaechstestKeineDaten));
+					}
+				}
+
+				if ((alsNaechstestKeineDaten && !imMomentKeineDaten)
+						|| !alsNaechstestKeineDaten) {
 					this.dav.sendData(resultat);
-				}				
-			}				
-		} catch (DataNotSubscribedException  e) {
+				}
+			}
+		} catch (DataNotSubscribedException e) {
 			e.printStackTrace();
 			LOGGER.error(Constants.EMPTY_STRING, e);
-		} catch (SendSubscriptionNotConfirmed e){
+		} catch (SendSubscriptionNotConfirmed e) {
 			e.printStackTrace();
 			LOGGER.error(Constants.EMPTY_STRING, e);
 		}
@@ -132,18 +141,18 @@ implements ClientSenderInterface{
 	@Override
 	protected String abmelden(final Collection<DAVObjektAnmeldung> abmeldungen) {
 		String info = Constants.EMPTY_STRING;
-		if(DEBUG){
+		if (DEBUG) {
 			info = "keine\n"; //$NON-NLS-1$
-			if(abmeldungen.size() > 0){
+			if (abmeldungen.size() > 0) {
 				info = "\n"; //$NON-NLS-1$
 			}
 		}
-		for(DAVObjektAnmeldung abmeldung:abmeldungen){
+		for (DAVObjektAnmeldung abmeldung : abmeldungen) {
 			synchronized (this.aktuelleObjektAnmeldungen) {
 				this.dav.unsubscribeSender(this, abmeldung.getObjekt(),
 						abmeldung.getDatenBeschreibung());
 				this.aktuelleObjektAnmeldungen.remove(abmeldung);
-				if(DEBUG){
+				if (DEBUG) {
 					info += abmeldung;
 				}
 			}
@@ -157,19 +166,19 @@ implements ClientSenderInterface{
 	@Override
 	protected String anmelden(final Collection<DAVObjektAnmeldung> anmeldungen) {
 		String info = Constants.EMPTY_STRING;
-		if(DEBUG){
+		if (DEBUG) {
 			info = "keine\n"; //$NON-NLS-1$
-			if(anmeldungen.size() > 0){
+			if (anmeldungen.size() > 0) {
 				info = "\n"; //$NON-NLS-1$
 			}
 		}
-		for(DAVObjektAnmeldung anmeldung:anmeldungen){
+		for (DAVObjektAnmeldung anmeldung : anmeldungen) {
 			try {
 				synchronized (this.aktuelleObjektAnmeldungen) {
 					this.dav.subscribeSender(this, anmeldung.getObjekt(),
 							anmeldung.getDatenBeschreibung(), this.rolle);
 					this.aktuelleObjektAnmeldungen.put(anmeldung, null);
-					if(DEBUG){
+					if (DEBUG) {
 						info += anmeldung;
 					}
 				}
@@ -185,19 +194,22 @@ implements ClientSenderInterface{
 	/**
 	 * {@inheritDoc}
 	 */
-	public void dataRequest(SystemObject object, DataDescription
-			dataDescription, byte state) {
+	public void dataRequest(SystemObject object,
+			DataDescription dataDescription, byte state) {
 		try {
 			synchronized (this.aktuelleObjektAnmeldungen) {
-				DAVObjektAnmeldung anmeldung =
-						new DAVObjektAnmeldung(object, dataDescription);
-				SendeStatus status = this.aktuelleObjektAnmeldungen.get(anmeldung);
-				
-				if(status == null || status.isImMomentKeineDaten()){
-					this.aktuelleObjektAnmeldungen.put(anmeldung, new SendeStatus(state, true));
-				}else{
-					this.aktuelleObjektAnmeldungen.put(anmeldung, new SendeStatus(state, false));	
-				}				
+				DAVObjektAnmeldung anmeldung = new DAVObjektAnmeldung(object,
+						dataDescription);
+				SendeStatus status = this.aktuelleObjektAnmeldungen
+						.get(anmeldung);
+
+				if (status == null || status.isImMomentKeineDaten()) {
+					this.aktuelleObjektAnmeldungen.put(anmeldung,
+							new SendeStatus(state, true));
+				} else {
+					this.aktuelleObjektAnmeldungen.put(anmeldung,
+							new SendeStatus(state, false));
+				}
 			}
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -210,13 +222,13 @@ implements ClientSenderInterface{
 	 * {@inheritDoc}
 	 */
 	public boolean isRequestSupported(final SystemObject object,
-									  final DataDescription dataDescription) {
+			final DataDescription dataDescription) {
 		boolean resultat = false;
 
 		try {
-			DAVObjektAnmeldung anmeldung =
-				new DAVObjektAnmeldung(object, dataDescription);
-			if(this.aktuelleObjektAnmeldungen.containsKey(anmeldung)){
+			DAVObjektAnmeldung anmeldung = new DAVObjektAnmeldung(object,
+					dataDescription);
+			if (this.aktuelleObjektAnmeldungen.containsKey(anmeldung)) {
 				resultat = true;
 			}
 		} catch (IllegalArgumentException e) {
@@ -228,7 +240,6 @@ implements ClientSenderInterface{
 		return resultat;
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 */

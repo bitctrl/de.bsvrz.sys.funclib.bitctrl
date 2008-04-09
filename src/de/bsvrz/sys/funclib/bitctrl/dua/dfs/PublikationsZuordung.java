@@ -1,25 +1,26 @@
-/**
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -49,97 +50,96 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  * 
+ * @version $Id$
  */
 public class PublikationsZuordung {
 
 	/**
-	 * Der Modul-Typ
+	 * Der Modul-Typ.
 	 */
 	private ModulTyp modulTyp = null;
 
 	/**
-	 * Der Publikationsaspekt
+	 * Der Publikationsaspekt.
 	 */
 	private Aspect aspekt = null;
 
 	/**
-	 * die (finalen) Objekte, für die ein Publikationsverhalten beschrieben ist
+	 * die (finalen) Objekte, für die ein Publikationsverhalten beschrieben ist.
 	 */
 	private Collection<SystemObject> objekte = new HashSet<SystemObject>();
 
 	/**
-	 * die Attributgruppen, für die ein Publikationsverhalten vorgesehen ist
+	 * die Attributgruppen, für die ein Publikationsverhalten vorgesehen ist.
 	 */
 	private Collection<AttributeGroup> atgs = new HashSet<AttributeGroup>();
 
 	/**
-	 * soll publiziert werden
+	 * soll publiziert werden.
 	 */
 	private boolean publizieren = false;
-	
+
 	/**
 	 * Die Objektanmeldungen, die innerhalb dieser Publikationszuordnung
 	 * vorgesehen sind (bzw. bei <code>publizieren ==  false</code> explizit
 	 * nicht vorgesehen)
 	 */
-	private Collection<DAVObjektAnmeldung> anmeldungen = 
-									new TreeSet<DAVObjektAnmeldung>();
+	private Collection<DAVObjektAnmeldung> anmeldungen = new TreeSet<DAVObjektAnmeldung>();
 
-	
 	/**
 	 * Standardkonstruktor<br>
-	 * <b>Achtung:</b> Sollte die Menge der übergebenen
-	 * Objekte bzw. Attributgruppen leer sein, so werden
-	 * <b>alle</b> Objekte bzw. Attributgruppen in den
-	 * übergebenen Konfigurationskereichen (bzw. im 
+	 * <b>Achtung:</b> Sollte die Menge der übergebenen Objekte bzw.
+	 * Attributgruppen leer sein, so werden <b>alle</b> Objekte bzw.
+	 * Attributgruppen in den übergebenen Konfigurationskereichen (bzw. im
 	 * Standardkonfigurationsbereich) angenommen.
 	 * 
-	 * @param data ein Datenverteiler-Datum mit den
-	 * mit einer Publikationszuordnung assoziierten Daten
-	 * @param verwaltung Verbindung zum Verwaltungsmodul
+	 * @param data
+	 *            ein Datenverteiler-Datum mit den mit einer
+	 *            Publikationszuordnung assoziierten Daten
+	 * @param verwaltung
+	 *            Verbindung zum Verwaltungsmodul
 	 */
-	protected PublikationsZuordung(final Data data, final IVerwaltung verwaltung){
-		this.aspekt = (Aspect)data.getReferenceValue(
-				DFSKonstanten.ATT_ASP).getSystemObject();
-		this.modulTyp = ModulTyp.getZustand((int)data.getUnscaledValue(
+	protected PublikationsZuordung(final Data data, final IVerwaltung verwaltung) {
+		this.aspekt = (Aspect) data.getReferenceValue(DFSKonstanten.ATT_ASP)
+				.getSystemObject();
+		this.modulTyp = ModulTyp.getZustand((int) data.getUnscaledValue(
 				DFSKonstanten.ATT_MODUL_TYP).getState().getValue());
-		this.publizieren = data.getTextValue(
-				DFSKonstanten.ATT_PUBLIZIEREN).getText()
-				.toLowerCase().equals("ja"); //$NON-NLS-1$
+		this.publizieren = data.getTextValue(DFSKonstanten.ATT_PUBLIZIEREN)
+				.getText().toLowerCase().equals("ja"); //$NON-NLS-1$
 
 		ReferenceArray objArray = data.getReferenceArray(DFSKonstanten.ATT_OBJ);
-		if(objArray.getLength() == 0){
+		if (objArray.getLength() == 0) {
 			this.objekte.addAll(DUAUtensilien.getBasisInstanzen(null,
-					verwaltung.getVerbindung(),
-					verwaltung.getKonfigurationsBereiche()));			
-		}else{
-			for(ReferenceValue refVal:objArray.getReferenceValues()){
-				this.objekte.addAll(DUAUtensilien.getBasisInstanzen(
-						refVal.getSystemObject(),
-						verwaltung.getVerbindung(),
-						verwaltung.getKonfigurationsBereiche()));				
-			}				
+					verwaltung.getVerbindung(), verwaltung
+							.getKonfigurationsBereiche()));
+		} else {
+			for (ReferenceValue refVal : objArray.getReferenceValues()) {
+				this.objekte.addAll(DUAUtensilien.getBasisInstanzen(refVal
+						.getSystemObject(), verwaltung.getVerbindung(),
+						verwaltung.getKonfigurationsBereiche()));
+			}
 		}
-		
-		ReferenceArray atgArray = data.getReferenceArray(DFSKonstanten.ATT_ATG); 
-		if(atgArray.getLength() == 0){
+
+		ReferenceArray atgArray = data.getReferenceArray(DFSKonstanten.ATT_ATG);
+		if (atgArray.getLength() == 0) {
 			this.atgs.add(null);
-		}else{
-			for(ReferenceValue refVal:atgArray.getReferenceValues()){
+		} else {
+			for (ReferenceValue refVal : atgArray.getReferenceValues()) {
 				this.atgs.add((AttributeGroup) refVal.getSystemObject());
 			}
 		}
-		
-		for(AttributeGroup atg:this.atgs){
-			DataDescription datenBeschreibung = new DataDescription(atg, this.aspekt, (short)0);
-						
-			for(SystemObject finObj:this.objekte){
-				this.anmeldungen.addAll(DUAUtensilien.
-					getAlleObjektAnmeldungen(finObj, datenBeschreibung, verwaltung.getVerbindung()));
+
+		for (AttributeGroup atg : this.atgs) {
+			DataDescription datenBeschreibung = new DataDescription(atg,
+					this.aspekt, (short) 0);
+
+			for (SystemObject finObj : this.objekte) {
+				this.anmeldungen.addAll(DUAUtensilien.getAlleObjektAnmeldungen(
+						finObj, datenBeschreibung, verwaltung.getVerbindung()));
 			}
 		}
 	}
-	
+
 	/**
 	 * Erfragt die Objektanmeldungen, die innerhalb dieser Publikationszuordnung
 	 * vorgesehen sind (bzw. bei <code>publizieren ==  false</code> explizit
@@ -147,12 +147,12 @@ public class PublikationsZuordung {
 	 * 
 	 * @return eine Menge von Objektanmeldungen
 	 */
-	public Collection<DAVObjektAnmeldung> getObjektAnmeldungen(){
+	public Collection<DAVObjektAnmeldung> getObjektAnmeldungen() {
 		return this.anmeldungen;
 	}
-	
+
 	/**
-	 * Erfragt den Aspekt
+	 * Erfragt den Aspekt.
 	 * 
 	 * @return den Aspekt
 	 */
@@ -161,7 +161,7 @@ public class PublikationsZuordung {
 	}
 
 	/**
-	 * Erfragt den Modul-Typ, für den diese Piblikationszuordnung gilt
+	 * Erfragt den Modul-Typ, für den diese Piblikationszuordnung gilt.
 	 * 
 	 * @return der Modul-Typs
 	 */
@@ -170,7 +170,7 @@ public class PublikationsZuordung {
 	}
 
 	/**
-	 * Erfragt das Publikations-FLAG
+	 * Erfragt das Publikations-FLAG.
 	 * 
 	 * @return das Publikations-FLAG
 	 */
@@ -179,7 +179,7 @@ public class PublikationsZuordung {
 	}
 
 	/**
-	 * Erfragt alle hier definierten Attributgruppen
+	 * Erfragt alle hier definierten Attributgruppen.
 	 * 
 	 * @return alle hier definierten Attributgruppen
 	 */
@@ -188,7 +188,7 @@ public class PublikationsZuordung {
 	}
 
 	/**
-	 * Erfragt die Menge aller hier definierten (finalen) Objekte
+	 * Erfragt die Menge aller hier definierten (finalen) Objekte.
 	 * 
 	 * @return die Menge aller hier definierten (finalen) Objekte
 	 */
@@ -217,19 +217,25 @@ public class PublikationsZuordung {
 				this.isPublizieren() && that.isPublizieren() && // 2.
 				!this.getAspekt().equals(that.getAspekt())) { // 3.
 
-			for(DAVObjektAnmeldung thisAnmeldung:this.getObjektAnmeldungen()){	// 4. & 5.
-				for(DAVObjektAnmeldung thatAnmeldung:that.getObjektAnmeldungen()){
-					if(thisAnmeldung.getObjekt().equals(thatAnmeldung.getObjekt()) && 
-							thisAnmeldung.getDatenBeschreibung().getAttributeGroup().equals(
-									thatAnmeldung.getDatenBeschreibung().getAttributeGroup())){
+			for (DAVObjektAnmeldung thisAnmeldung : this.getObjektAnmeldungen()) { // 4. &
+																					// 5.
+				for (DAVObjektAnmeldung thatAnmeldung : that
+						.getObjektAnmeldungen()) {
+					if (thisAnmeldung.getObjekt().equals(
+							thatAnmeldung.getObjekt())
+							&& thisAnmeldung.getDatenBeschreibung()
+									.getAttributeGroup().equals(
+											thatAnmeldung
+													.getDatenBeschreibung()
+													.getAttributeGroup())) {
 						return "Die beiden Objektanmeldungen sind für" + //$NON-NLS-1$
-						" die Datenflusssteuerung widersprüchlich:\n" + //$NON-NLS-1$ 
-						thisAnmeldung + "\n" + thatAnmeldung; //$NON-NLS-1$							
+								" die Datenflusssteuerung widersprüchlich:\n" + //$NON-NLS-1$ 
+								thisAnmeldung + "\n" + thatAnmeldung; //$NON-NLS-1$							
 					}
-				}				
+				}
 			}
 		}
-			
+
 		return null; // keine Widersprüche
 	}
 

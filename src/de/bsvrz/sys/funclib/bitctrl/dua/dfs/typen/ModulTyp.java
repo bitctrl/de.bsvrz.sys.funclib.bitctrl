@@ -1,30 +1,31 @@
-/**
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.x 
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
 package de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,62 +33,77 @@ import de.bsvrz.sys.funclib.bitctrl.daf.AbstractDavZustand;
 
 /**
  * Über diese Klasse werden alle im DAV-Enumerationstyp
- * <code>att.modulTyp</code> beschriebenen Werte zur
- * Verfügung gestellt.
+ * <code>att.modulTyp</code> beschriebenen Werte zur Verfügung gestellt.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  * 
+ * @version $Id$
  */
-public class ModulTyp
-extends AbstractDavZustand{
+public final class ModulTyp extends AbstractDavZustand {
 
 	/**
-	 * Der Wertebereich dieses DAV-Enumerationstypen
+	 * Der Wertebereich dieses DAV-Enumerationstypen.
 	 */
-	private static Map<Integer, ModulTyp> WERTE_BEREICH = 
-						new HashMap<Integer, ModulTyp>();
+	private static Map<Integer, ModulTyp> werteBereich = new HashMap<Integer, ModulTyp>();
 
 	/**
-	 * Alle wirklichen Enumerationswerte
-	 */	
-	public static final ModulTyp PL_PRUEFUNG_FORMAL = 
-		new ModulTyp("PlPrüfungFormal", 1); //$NON-NLS-1$
-	
-	public static final ModulTyp PL_PRUEFUNG_LOGISCH_UFD = 
-		new ModulTyp("PlPrüfungLogischUFD", 2); //$NON-NLS-1$
+	 * Wert <code>PlPrüfungFormal</code>.
+	 */
+	public static final ModulTyp PL_PRUEFUNG_FORMAL = new ModulTyp(
+			"PlPrüfungFormal", 1); //$NON-NLS-1$
 
-	public static final ModulTyp PL_PRUEFUNG_LOGISCH_WZG = 
-		new ModulTyp("PlPrüfungLogischWZG", 3); //$NON-NLS-1$
-	
-	public static final ModulTyp MESSWERTERSETZUNG_LVE = 
-		new ModulTyp("PlPrüfungMesswertErsetzungLVE", 4); //$NON-NLS-1$
-
-	public static final ModulTyp MESSWERTERSETZUNG_UFD = 
-		new ModulTyp("PlPrüfungMesswertErsetzungUFD", 5); //$NON-NLS-1$
-
-	public static final ModulTyp PL_PRUEFUNG_LANGZEIT_UFD = 
-		new ModulTyp("PlPrüfungLangZeitUFD", 6); //$NON-NLS-1$
-
-	
 	/**
-	 * Interner Konstruktor
+	 * Wert <code>PlPrüfungLogischUFD</code>.
+	 */
+	public static final ModulTyp PL_PRUEFUNG_LOGISCH_UFD = new ModulTyp(
+			"PlPrüfungLogischUFD", 2); //$NON-NLS-1$
+
+	/**
+	 * Wert <code>PlPrüfungLogischWZG</code>.
+	 */
+	public static final ModulTyp PL_PRUEFUNG_LOGISCH_WZG = new ModulTyp(
+			"PlPrüfungLogischWZG", 3); //$NON-NLS-1$
+
+	/**
+	 * Wert <code>PlPrüfungMesswertErsetzungLVE</code>.
+	 */
+	public static final ModulTyp MESSWERTERSETZUNG_LVE = new ModulTyp(
+			"PlPrüfungMesswertErsetzungLVE", 4); //$NON-NLS-1$
+
+	/**
+	 * Wert <code>PlPrüfungMesswertErsetzungUFD</code>.
+	 */
+	public static final ModulTyp MESSWERTERSETZUNG_UFD = new ModulTyp(
+			"PlPrüfungMesswertErsetzungUFD", 5); //$NON-NLS-1$
+
+	/**
+	 * Wert <code>PlPrüfungLangZeitUFD</code>.
+	 */
+	public static final ModulTyp PL_PRUEFUNG_LANGZEIT_UFD = new ModulTyp(
+			"PlPrüfungLangZeitUFD", 6); //$NON-NLS-1$
+
+	/**
+	 * Interner Konstruktor.
 	 * 
-	 * @param name der Name des Zustandes
-	 * @param code der Kode
+	 * @param name
+	 *            der Name des Zustandes
+	 * @param code
+	 *            der Kode
 	 */
-	private ModulTyp(String name, int code){
+	private ModulTyp(String name, int code) {
 		super(code, name);
-		WERTE_BEREICH.put(code, this);
+		werteBereich.put(code, this);
+	}
+
+	/**
+	 * Erfragt den Wert dieses DAV-Enumerationstypen mit dem übergebenen Code.
+	 * 
+	 * @param code
+	 *            der Code des Enumerations-Wertes
+	 * @return den Wert dieses DAV-Enumerationstypen mit dem übergebenen Code.
+	 */
+	public static ModulTyp getZustand(int code) {
+		return werteBereich.get(code);
 	}
 	
-	/**
-	 * Erfragt den Wert dieses DAV-Enumerationstypen 
-	 * mit dem übergebenen Code
-	 *
-	 * @param code der Code des Enumerations-Wertes
-	 */
-	public static final ModulTyp getZustand(int code){
-		return WERTE_BEREICH.get(code);
-	}
 }
-

@@ -1,28 +1,29 @@
-/**
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.x 
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
+
 package de.bsvrz.sys.funclib.bitctrl.dua.lve;
 
 import java.util.Collection;
@@ -41,191 +42,200 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 
 /**
- * Korrespondiert mit dem Systemobjekt <code>typ.fahrStreifen</code>
+ * Korrespondiert mit dem Systemobjekt <code>typ.fahrStreifen</code>.
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  * 
- **/
-public class FahrStreifen
-extends AbstractSystemObjekt{
-	
+ * @version $Id$
+ */
+public class FahrStreifen extends AbstractSystemObjekt {
+
 	/**
-	 * Mapt alle Fahrstreifen-Systemobjekte auf Objekte der Klasse <code>FahrStreifen</code>  
+	 * Mapt alle Fahrstreifen-Systemobjekte auf Objekte der Klasse
+	 * <code>FahrStreifen</code>.
 	 */
-	protected static Map<SystemObject, FahrStreifen> SYS_OBJ_FS_OBJ_MAP = new HashMap<SystemObject, FahrStreifen>();
-	
+	protected static Map<SystemObject, FahrStreifen> sysObjFsObjMap = new HashMap<SystemObject, FahrStreifen>();
+
 	/**
-	 * Datenverteiler-Verbindung
+	 * Datenverteiler-Verbindung.
 	 */
-	protected static ClientDavInterface DAV = null;
-			
+	protected static ClientDavInterface dav = null;
+
 	/**
-	 * die Lage dieses Fahrtreifens
+	 * die Lage dieses Fahrtreifens.
 	 */
 	private FahrStreifenLage lage = null;
-	
+
 	/**
-	 * Systemobjekt des Ersatzfahrstreifens dieses Fahrstreifens
+	 * Systemobjekt des Ersatzfahrstreifens dieses Fahrstreifens.
 	 */
 	private SystemObject ersatzFahrstreifenObj = null;
-	
+
 	/**
-	 * Systemobjekt des Nachbarfahrstreifens dieses Fahrstreifens
+	 * Systemobjekt des Nachbarfahrstreifens dieses Fahrstreifens.
 	 */
 	private SystemObject nachbarFahrstreifenObj = null;
 
-	
-	
 	/**
-	 * Standardkontruktor
+	 * Standardkontruktor.
 	 * 
-	 * @param fsObjekt ein Systemobjekt vom Typ <code>typ.fahrStreifen</code>
-	 * @throws DUAInitialisierungsException wenn der Fahrstreifen nicht 
-	 * initialisiert werden konnte
+	 * @param fsObjekt
+	 *            ein Systemobjekt vom Typ <code>typ.fahrStreifen</code>
+	 * @throws DUAInitialisierungsException
+	 *             wenn der Fahrstreifen nicht initialisiert werden konnte
 	 */
 	protected FahrStreifen(final SystemObject fsObjekt)
-	throws DUAInitialisierungsException{
+			throws DUAInitialisierungsException {
 		super(fsObjekt);
 
-		if(fsObjekt == null){
-			throw new NullPointerException("Übergebenes Fahrstreifenobjekt ist <<null>>"); //$NON-NLS-1$
+		if (fsObjekt == null) {
+			throw new NullPointerException(
+					"Übergebenes Fahrstreifenobjekt ist <<null>>"); //$NON-NLS-1$
 		}
-		
-		AttributeGroup atgEigenschaften = DAV.getDataModel().getAttributeGroup(DUAKonstanten.ATG_FAHRSTREIFEN);
+
+		AttributeGroup atgEigenschaften = dav.getDataModel().getAttributeGroup(
+				DUAKonstanten.ATG_FAHRSTREIFEN);
 		Data eigenschaften = fsObjekt.getConfigurationData(atgEigenschaften);
-		
-		if(eigenschaften == null){
-			throw new DUAInitialisierungsException("Eigenschaften von Fahrstreifenobjekt " + fsObjekt + //$NON-NLS-1$
-					" konnten nicht ausgelesen werden"); //$NON-NLS-1$
+
+		if (eigenschaften == null) {
+			throw new DUAInitialisierungsException(
+					"Eigenschaften von Fahrstreifenobjekt " + fsObjekt + //$NON-NLS-1$
+							" konnten nicht ausgelesen werden"); //$NON-NLS-1$
 		}
-		
-		this.lage = FahrStreifenLage.getZustand(eigenschaften.getUnscaledValue("Lage").intValue()); //$NON-NLS-1$
-		if(eigenschaften.getReferenceValue("ErsatzFahrStreifen") != null){ //$NON-NLS-1$
-			this.ersatzFahrstreifenObj = eigenschaften.getReferenceValue("ErsatzFahrStreifen").getSystemObject(); //$NON-NLS-1$
+
+		this.lage = FahrStreifenLage.getZustand(eigenschaften.getUnscaledValue(
+				"Lage").intValue()); //$NON-NLS-1$
+		if (eigenschaften.getReferenceValue("ErsatzFahrStreifen") != null) { //$NON-NLS-1$
+			this.ersatzFahrstreifenObj = eigenschaften.getReferenceValue(
+					"ErsatzFahrStreifen").getSystemObject(); //$NON-NLS-1$
 		}
 	}
 
-	
 	/**
-	 * Initialisiert diese Klasse, indem für alle Systemobjekte vom Typ <code>typ.fahrStreifen</code>
-	 * statische Instanzen dieser Klasse angelegt werden
+	 * Initialisiert diese Klasse, indem für alle Systemobjekte vom Typ
+	 * <code>typ.fahrStreifen</code> statische Instanzen dieser Klasse
+	 * angelegt werden.
 	 * 
-	 * @param dav Datenverteiler-Verbindung
-	 * @throws DUAInitialisierungsException wenn eines der Objekte nicht 
-	 * initialisiert werden konnte
+	 * @param dav1
+	 *            Datenverteiler-Verbindung
+	 * @throws DUAInitialisierungsException
+	 *             wenn eines der Objekte nicht initialisiert werden konnte
 	 */
-	protected static final void initialisiere(final ClientDavInterface dav)
-	throws DUAInitialisierungsException{
-		if(dav == null){
-			throw new NullPointerException("Datenverteiler-Verbindung ist <<null>>"); //$NON-NLS-1$
+	protected static final void initialisiere(final ClientDavInterface dav1)
+			throws DUAInitialisierungsException {
+		if (dav1 == null) {
+			throw new NullPointerException(
+					"Datenverteiler-Verbindung ist <<null>>"); //$NON-NLS-1$
 		}
-		
-		if(DAV != null){
-			throw new RuntimeException("Objekt darf nur einmal initialisiert werden"); //$NON-NLS-1$
-		}		
-		DAV = dav;
-		 
-		for(SystemObject fsObjekt:DAV.getDataModel().getType(DUAKonstanten.TYP_FAHRSTREIFEN).getElements()){
-			if(fsObjekt.isValid()){
-				SYS_OBJ_FS_OBJ_MAP.put(fsObjekt, new FahrStreifen(fsObjekt));
+
+		if (dav1 != null) {
+			throw new RuntimeException(
+					"Objekt darf nur einmal initialisiert werden"); //$NON-NLS-1$
+		}
+		dav = dav1;
+
+		for (SystemObject fsObjekt : dav.getDataModel().getType(
+				DUAKonstanten.TYP_FAHRSTREIFEN).getElements()) {
+			if (fsObjekt.isValid()) {
+				sysObjFsObjMap.put(fsObjekt, new FahrStreifen(fsObjekt));
 			}
 		}
 	}
-	
-	
+
 	/**
-	 * Erfragt alle statischen Instanzen dieser Klasse
+	 * Erfragt alle statischen Instanzen dieser Klasse.
 	 * 
 	 * @return alle statischen Instanzen dieser Klasse
 	 */
-	public static Collection<FahrStreifen> getInstanzen(){
-		if(DAV == null){
-			throw new RuntimeException("FahrStreifen-Klasse wurde noch nicht initialisiert"); //$NON-NLS-1$
+	public static Collection<FahrStreifen> getInstanzen() {
+		if (dav == null) {
+			throw new RuntimeException(
+					"FahrStreifen-Klasse wurde noch nicht initialisiert"); //$NON-NLS-1$
 		}
-		return SYS_OBJ_FS_OBJ_MAP.values();
+		return sysObjFsObjMap.values();
 	}
-	
 
 	/**
-	 * Erfragt eine mit dem übergebenen Systemobjekt assoziierte statische Instanz
-	 * dieser Klasse 
+	 * Erfragt eine mit dem übergebenen Systemobjekt assoziierte statische
+	 * Instanz dieser Klasse.
 	 * 
-	 * @param fsObjekt ein Fahrstreifen-Systemobjekt
-	 * @return eine mit dem übergebenen Systemobjekt assoziierte statische Instanz
-	 * dieser Klasse oder <code>null</code>, wenn diese Instanz nicht ermittelt werden
-	 * konnte
+	 * @param fsObjekt
+	 *            ein Fahrstreifen-Systemobjekt
+	 * @return eine mit dem übergebenen Systemobjekt assoziierte statische
+	 *         Instanz dieser Klasse oder <code>null</code>, wenn diese
+	 *         Instanz nicht ermittelt werden konnte
 	 */
-	public static final FahrStreifen getInstanz(final SystemObject fsObjekt){
-		if(DAV == null){
-			throw new RuntimeException("Fahrstreifen-Klasse wurde noch nicht initialisiert"); //$NON-NLS-1$
+	public static final FahrStreifen getInstanz(final SystemObject fsObjekt) {
+		if (dav == null) {
+			throw new RuntimeException(
+					"Fahrstreifen-Klasse wurde noch nicht initialisiert"); //$NON-NLS-1$
 		}
 		FahrStreifen ergebnis = null;
-		
-		if(fsObjekt != null){
-			ergebnis = SYS_OBJ_FS_OBJ_MAP.get(fsObjekt);
+
+		if (fsObjekt != null) {
+			ergebnis = sysObjFsObjMap.get(fsObjekt);
 		}
-		
-		return ergebnis; 
+
+		return ergebnis;
 	}
-	
 
 	/**
-	 * Erfragt die Lage dieses Fahrtreifens innerhalb eines Messquerschnitts
+	 * Erfragt die Lage dieses Fahrtreifens innerhalb eines Messquerschnitts.
 	 * 
 	 * @return die Lage dieses Fahrtreifens innerhalb eines Messquerschnitts
 	 */
-	public FahrStreifenLage getLage(){
+	public FahrStreifenLage getLage() {
 		return this.lage;
 	}
-	
 
 	/**
-	 * Erfragt den Ersatzfahrstreifen dieses Fahrstreifens
+	 * Erfragt den Ersatzfahrstreifen dieses Fahrstreifens.
 	 * 
-	 * @return den Ersatzfahrstreifen dieses Fahrstreifens oder <code>null</code>,
-	 * wenn dieser nicht ermittelt werden konnte
+	 * @return den Ersatzfahrstreifen dieses Fahrstreifens oder
+	 *         <code>null</code>, wenn dieser nicht ermittelt werden konnte
 	 */
-	public final FahrStreifen getErsatzFahrStreifen(){
-		return FahrStreifen.getInstanz(this.ersatzFahrstreifenObj);			
+	public final FahrStreifen getErsatzFahrStreifen() {
+		return FahrStreifen.getInstanz(this.ersatzFahrstreifenObj);
 	}
-	
-	
+
 	/**
-	 * Setzt den Ersatzfahrstreifen dieses Fahrstreifens
+	 * Setzt den Ersatzfahrstreifen dieses Fahrstreifens.
 	 * 
-	 * @param ersatzFahrstreifenObj den Ersatzfahrstreifen dieses Fahrstreifens
+	 * @param ersatzFahrstreifenObj1
+	 *            den Ersatzfahrstreifen dieses Fahrstreifens
 	 */
-	protected final void setErsatzFahrStreifen(final SystemObject ersatzFahrstreifenObj){
-		this.ersatzFahrstreifenObj = ersatzFahrstreifenObj;
+	protected final void setErsatzFahrStreifen(
+			final SystemObject ersatzFahrstreifenObj1) {
+		this.ersatzFahrstreifenObj = ersatzFahrstreifenObj1;
 	}
-	
-	
+
 	/**
-	 * Erfragt den Nachbarfahrstreifen dieses Fahrstreifens
+	 * Erfragt den Nachbarfahrstreifen dieses Fahrstreifens.
 	 * 
-	 * @return den Nachbarfahrstreifen dieses Fahrstreifens oder <code>null</code>,
-	 * wenn dieser Fahrstreifen keinen Nachbarfahrstreifen hat
+	 * @return den Nachbarfahrstreifen dieses Fahrstreifens oder
+	 *         <code>null</code>, wenn dieser Fahrstreifen keinen
+	 *         Nachbarfahrstreifen hat
 	 */
-	public final FahrStreifen getNachbarFahrStreifen(){
+	public final FahrStreifen getNachbarFahrStreifen() {
 		return FahrStreifen.getInstanz(this.nachbarFahrstreifenObj);
 	}
-	
-	
+
 	/**
-	 * Setzt den Nachbarfahrstreifen dieses Fahrstreifens
+	 * Setzt den Nachbarfahrstreifen dieses Fahrstreifens.
 	 * 
-	 * @param nachbarFahrstreifenObj den Nachbarfahrstreifen dieses Fahrstreifens
+	 * @param nachbarFahrstreifenObj1
+	 *            den Nachbarfahrstreifen dieses Fahrstreifens
 	 */
-	protected final void setNachbarFahrStreifen(final SystemObject nachbarFahrstreifenObj){
-		this.nachbarFahrstreifenObj = nachbarFahrstreifenObj;
+	protected final void setNachbarFahrStreifen(
+			final SystemObject nachbarFahrstreifenObj1) {
+		this.nachbarFahrstreifenObj = nachbarFahrstreifenObj1;
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return new SystemObjektTyp(){
+		return new SystemObjektTyp() {
 
 			public Class<? extends SystemObjekt> getKlasse() {
 				return FahrStreifen.class;
@@ -234,7 +244,7 @@ extends AbstractSystemObjekt{
 			public String getPid() {
 				return getSystemObject().getType().getPid();
 			}
-			
+
 		};
 	}
 

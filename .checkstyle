@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fileset-config file-format-version="1.2.0" simple-config="true">
-    <fileset name="Alle" enabled="true" check-config-name="BitCtrl (Datenverteiler)" local="false">
+    <local-check-config name="CS" location="/Release/lib/sun_checks.xml" type="project" description="">
+        <additional-data name="protect-config-file" value="false"/>
+    </local-check-config>
+    <fileset name="Alle" enabled="true" check-config-name="CS" local="true">
         <file-match-pattern match-pattern="." include-pattern="true"/>
     </fileset>
 </fileset-config>

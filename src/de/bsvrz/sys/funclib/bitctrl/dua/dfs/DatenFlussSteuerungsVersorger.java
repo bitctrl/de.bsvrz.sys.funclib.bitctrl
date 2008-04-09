@@ -1,26 +1,26 @@
-/**
- * Segment 4 Datenübernahme und Aufbereitung (DUA), SWE 4.x
- * Copyright (C) 2007 BitCtrl Systems GmbH
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
+ * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weißenfelser Straße 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -51,23 +51,24 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  * 
+ * @version $Id$
  */
 public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 
 	/**
-	 * Debug-Logger
+	 * Debug-Logger.
 	 */
 	private static final Debug LOGGER = Debug.getLogger();
 
 	/**
-	 * Fehlermeldungstext
+	 * Fehlermeldungstext.
 	 */
 	private static final String STD_FEHLER = "Anmeldung auf Datenflusssteuerung fehlgeschlagen"; //$NON-NLS-1$
 
 	/**
-	 * die statische Instanz dieser Klasse
+	 * die statische Instanz dieser Klasse.
 	 */
-	protected static DatenFlussSteuerungsVersorger INSTANZ = null;
+	protected static DatenFlussSteuerungsVersorger instanz = null;
 
 	/**
 	 * Erfragt die statische Instanz dieser Klasse. Diese liest die Parameter
@@ -85,68 +86,71 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	 */
 	public static DatenFlussSteuerungsVersorger getInstanz(
 			final IVerwaltung verwaltung) throws DUAInitialisierungsException {
-		if (INSTANZ == null) {
-			
-// 			Uebernehme Datenflusssteuerung aus den uebergebenen Konfigurationsbereichen
-//
-//			/**
-//			 * Ermittlung des Objektes, das die Datenflusssteuerung für das
-//			 * übergebene Verwaltungsmodul beschreibt
-//			 */
-//			final SystemObjectType typDFS = (SystemObjectType) verwaltung
-//					.getVerbindung().getDataModel()
-//					.getObject(DFSKonstanten.TYP);
-//
-//			Collection<ConfigurationArea> kBereiche = verwaltung
-//					.getKonfigurationsBereiche();
-//
-//			SystemObject[] dfsObjekte = new SystemObject[0];
-//			if (typDFS != null) {
-//				dfsObjekte = DUAUtensilien.getBasisInstanzen(typDFS,
-//						verwaltung.getVerbindung(), kBereiche).toArray(
-//						new SystemObject[0]);
-//			}
-//
-//			SystemObject dfsObjekt = (dfsObjekte.length > 0 ? dfsObjekte[0]
-//					: null);
-//
-//			if (dfsObjekte.length == 1) {
-//				LOGGER.fine("Es wurde genau ein Objekt vom Typ " + //$NON-NLS-1$
-//						DFSKonstanten.TYP + " identifiziert"); //$NON-NLS-1$
-//			} else if (dfsObjekte.length > 1) {
-//				LOGGER.warning("Es liegen mehrere Objekte vom Typ " + //$NON-NLS-1$
-//						DFSKonstanten.TYP + " vor"); //$NON-NLS-1$
-//			}
-			
-//			Uebernehme Datenflusssteuerung aus Kommandozeile
+		if (instanz == null) {
+
+			// Uebernehme Datenflusssteuerung aus den uebergebenen
+			// Konfigurationsbereichen
+			//
+			// /**
+			// * Ermittlung des Objektes, das die Datenflusssteuerung für das
+			// * übergebene Verwaltungsmodul beschreibt
+			// */
+			// final SystemObjectType typDFS = (SystemObjectType) verwaltung
+			// .getVerbindung().getDataModel()
+			// .getObject(DFSKonstanten.TYP);
+			//
+			// Collection<ConfigurationArea> kBereiche = verwaltung
+			// .getKonfigurationsBereiche();
+			//
+			// SystemObject[] dfsObjekte = new SystemObject[0];
+			// if (typDFS != null) {
+			// dfsObjekte = DUAUtensilien.getBasisInstanzen(typDFS,
+			// verwaltung.getVerbindung(), kBereiche).toArray(
+			// new SystemObject[0]);
+			// }
+			//
+			// SystemObject dfsObjekt = (dfsObjekte.length > 0 ? dfsObjekte[0]
+			// : null);
+			//
+			// if (dfsObjekte.length == 1) {
+			// LOGGER.fine("Es wurde genau ein Objekt vom Typ " + //$NON-NLS-1$
+			// DFSKonstanten.TYP + " identifiziert"); //$NON-NLS-1$
+			// } else if (dfsObjekte.length > 1) {
+			// LOGGER.warning("Es liegen mehrere Objekte vom Typ " +
+			// //$NON-NLS-1$
+			// DFSKonstanten.TYP + " vor"); //$NON-NLS-1$
+			// }
+
+			// Uebernehme Datenflusssteuerung aus Kommandozeile
 			final String dfsObjektStr = verwaltung.getArgument("dfs"); //$NON-NLS-1$
 			SystemObject dfsObjekt = null;
-			if(dfsObjektStr != null){
-				dfsObjekt = verwaltung.getVerbindung().getDataModel().getObject(dfsObjektStr);
+			if (dfsObjektStr != null) {
+				dfsObjekt = verwaltung.getVerbindung().getDataModel()
+						.getObject(dfsObjektStr);
 			}
 
-			INSTANZ = new DatenFlussSteuerungsVersorger(verwaltung, dfsObjekt);
+			instanz = new DatenFlussSteuerungsVersorger(verwaltung, dfsObjekt);
 		}
-		return INSTANZ;
+		return instanz;
 	}
 
 	/**
-	 * Menge aller Beobachter dieser Instanz
+	 * Menge aller Beobachter dieser Instanz.
 	 */
 	private final Collection<IDatenFlussSteuerungsListener> listenerListe = new HashSet<IDatenFlussSteuerungsListener>();
 
 	/**
-	 * die aktuellen Parameter der Datenflusssteuerung
+	 * die aktuellen Parameter der Datenflusssteuerung.
 	 */
 	private DatenFlussSteuerung letzteDfs = null;
 
 	/**
-	 * Verbindung zum Verwaltungsmodul
+	 * Verbindung zum Verwaltungsmodul.
 	 */
 	private IVerwaltung verwaltung = null;
 
 	/**
-	 * Standardkonstruktor
+	 * Standardkonstruktor.
 	 * 
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
@@ -167,14 +171,13 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 		this.verwaltung = verwaltung;
 
 		if (dfsObjekt != null) {
-			DataDescription dd = new DataDescription(verwaltung
-					.getVerbindung().getDataModel().getAttributeGroup(
-							DFSKonstanten.ATG), verwaltung.getVerbindung()
-							.getDataModel().getAspect(
-									DaVKonstanten.ASP_PARAMETER_SOLL), (short) 0);
+			DataDescription dd = new DataDescription(verwaltung.getVerbindung()
+					.getDataModel().getAttributeGroup(DFSKonstanten.ATG),
+					verwaltung.getVerbindung().getDataModel().getAspect(
+							DaVKonstanten.ASP_PARAMETER_SOLL), (short) 0);
 
-			verwaltung.getVerbindung().subscribeReceiver(this, dfsObjekt,
-					dd, ReceiveOptions.normal(), ReceiverRole.receiver());
+			verwaltung.getVerbindung().subscribeReceiver(this, dfsObjekt, dd,
+					ReceiveOptions.normal(), ReceiverRole.receiver());
 
 			LOGGER.config("Fuer die Datenflusssteuerung" + //$NON-NLS-1$
 					" wird das Objekt " + dfsObjekt + " verwendet."); //$NON-NLS-1$//$NON-NLS-2$
@@ -182,9 +185,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 			LOGGER
 					.warning("Der Datenfluss ist nicht zur Laufzeit steuerbar.\n" + //$NON-NLS-1$
 							"Es wurde kein Objekt vom Typ "//$NON-NLS-1$
-							+ DFSKonstanten.TYP
-							+ 
-							" identifiziert."); //$NON-NLS-1$
+							+ DFSKonstanten.TYP + " identifiziert."); //$NON-NLS-1$
 		}
 	}
 

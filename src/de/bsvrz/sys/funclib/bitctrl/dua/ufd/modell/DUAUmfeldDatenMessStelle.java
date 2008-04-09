@@ -1,26 +1,26 @@
-/**
- * Segment 4 Daten¸bernahme und Aufbereitung (DUA), SWE 4.x
+/*
+ * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007 BitCtrl Systems GmbH 
  * 
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
+ * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  *
- * Contact Information:<br>
- * BitCtrl Systems GmbH<br>
- * Weiﬂenfelser Straﬂe 67<br>
- * 04229 Leipzig<br>
- * Phone: +49 341-490670<br>
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weiﬂenfelser Straﬂe 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
@@ -40,312 +40,327 @@ import de.bsvrz.sys.funclib.bitctrl.dua.ufd.typen.UmfeldDatenArt;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
- * Korrespondiert mit einem Objekt vom Typ <code>typ.umfeldDatenMessStelle</code>
- * und stellt alle Konfigurationsdaten zur Verfuegung
- *  
+ * Korrespondiert mit einem Objekt vom Typ
+ * <code>typ.umfeldDatenMessStelle</code> und stellt alle Konfigurationsdaten
+ * zur Verfuegung.
+ * 
  * @author BitCtrl Systems GmbH, Thierfelder
- *
+ * 
+ * @version $Id$
  */
-public class DUAUmfeldDatenMessStelle {
+public final class DUAUmfeldDatenMessStelle {
 
-	private static Debug LOGGER = Debug.getLogger();
 	/**
-	 * statische Instanzen dieser Klasse
+	 * Debug Logger. 
 	 */
-	private static Map<SystemObject, DUAUmfeldDatenMessStelle> INSTANZEN = null;
+	private static final Debug LOGGER = Debug.getLogger();
 	
 	/**
-	 * das Systemobjekt
+	 * statische Instanzen dieser Klasse.
+	 */
+	private static Map<SystemObject, DUAUmfeldDatenMessStelle> instanzen = null;
+
+	/**
+	 * das Systemobjekt.
 	 */
 	private SystemObject objekt = null;
-	
+
 	/**
-	 * Mapt die Umfelddatensensoren dieser Messstelle auf deren Umfelddatenarten
+	 * Mapt die Umfelddatensensoren dieser Messstelle auf deren Umfelddatenarten.
 	 */
-	private Map<UmfeldDatenArt, DatenSensorMenge> sensoren =
-		new HashMap<UmfeldDatenArt, DatenSensorMenge>();
-	
-	
+	private Map<UmfeldDatenArt, DatenSensorMenge> sensoren = new HashMap<UmfeldDatenArt, DatenSensorMenge>();
+
 	/**
 	 * Initialisiert alle Messstellen, die mit den uebergebenen Objekten
-	 * assoziiert sind
+	 * assoziiert sind.
 	 * 
-	 * @param dav die Datenverteiler-Verbindung
-	 * @param messStellenObjekte Menge der zu initialisierenden Objekte
-	 * (muss <code>!= null</code> sein)
+	 * @param dav
+	 *            die Datenverteiler-Verbindung
+	 * @param messStellenObjekte
+	 *            Menge der zu initialisierenden Objekte (muss
+	 *            <code>!= null</code> sein)
 	 */
-	public static final void initialisiere(final ClientDavInterface dav, 
-										   final SystemObject[] messStellenObjekte){
-		if(messStellenObjekte == null){
-			throw new NullPointerException("Menge der Umfelddaten-Messstellen ist <<null>>"); //$NON-NLS-1$
+	public static void initialisiere(final ClientDavInterface dav,
+			final SystemObject[] messStellenObjekte) {
+		if (messStellenObjekte == null) {
+			throw new NullPointerException(
+					"Menge der Umfelddaten-Messstellen ist <<null>>"); //$NON-NLS-1$
 		}
-		if(INSTANZEN != null){
+		if (instanzen != null) {
 			LOGGER.error("UFD-Modell darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
 
-		INSTANZEN = new HashMap<SystemObject, DUAUmfeldDatenMessStelle>();
-		for(SystemObject mStObj:messStellenObjekte){
-			INSTANZEN.put(mStObj, new DUAUmfeldDatenMessStelle(dav, mStObj));
+		instanzen = new HashMap<SystemObject, DUAUmfeldDatenMessStelle>();
+		for (SystemObject mStObj : messStellenObjekte) {
+			instanzen.put(mStObj, new DUAUmfeldDatenMessStelle(dav, mStObj));
 		}
 	}
-	
-	
+
 	/**
-	 * Erfragt die statischen Instanzen dieser Klasse<br>
+	 * Erfragt die statischen Instanzen dieser Klasse.<br>
 	 * <b>Achtung:</b> <code>initialisiere(final ClientDavInterface dav,
-	 * final SystemObject[] messStellenObjekte)</code>	muss vorher aufgerufen 
-	 * worden sein 
+	 * final SystemObject[] messStellenObjekte)</code>
+	 * muss vorher aufgerufen worden sein
 	 * 
 	 * @return die statischen Instanzen dieser Klasse (ggf. leere Liste)
 	 */
-	public static final Collection<DUAUmfeldDatenMessStelle> getInstanzen(){
-		if(INSTANZEN == null){
-			throw new RuntimeException("DUAUmfeldDatenMessStelle wurde noch nicht initialisiert"); //$NON-NLS-1$
+	public static Collection<DUAUmfeldDatenMessStelle> getInstanzen() {
+		if (instanzen == null) {
+			throw new RuntimeException(
+					"DUAUmfeldDatenMessStelle wurde noch nicht initialisiert"); //$NON-NLS-1$
 		}
 
-		return INSTANZEN.values();
+		return instanzen.values();
 	}
 
-
 	/**
-	 * Erfragt die statische Instanz dieser Klasse, die mit dem uebergebenen Systemobjekt 
-	 * assoziiert ist<br>
+	 * Erfragt die statische Instanz dieser Klasse, die mit dem uebergebenen
+	 * Systemobjekt assoziiert ist.<br>
 	 * <b>Achtung:</b> <code>initialisiere(final ClientDavInterface dav,
-	 * final SystemObject[] messStellenObjekte)</code>	muss vorher aufgerufen 
-	 * worden sein 
+	 * final SystemObject[] messStellenObjekte)</code>
+	 * muss vorher aufgerufen worden sein
 	 * 
-	 * @param messStellenObjekt ein Systemobjekt einer Umfelddatenmessstelle
-	 * @return die statische Instanz dieser Klasse, die mit dem uebergebenen Systemobjekt 
-	 * assoziiert ist oder <code>null</code>, wenn keine Instanz gefunden wurde
+	 * @param messStellenObjekt
+	 *            ein Systemobjekt einer Umfelddatenmessstelle
+	 * @return die statische Instanz dieser Klasse, die mit dem uebergebenen
+	 *         Systemobjekt assoziiert ist oder <code>null</code>, wenn keine
+	 *         Instanz gefunden wurde
 	 */
-	public static final DUAUmfeldDatenMessStelle getInstanz(final SystemObject messStellenObjekt){
-		if(INSTANZEN == null){
-			throw new RuntimeException("DUAUmfeldDatenMessStelle wurde noch nicht initialisiert"); //$NON-NLS-1$
+	public static DUAUmfeldDatenMessStelle getInstanz(
+			final SystemObject messStellenObjekt) {
+		if (instanzen == null) {
+			throw new RuntimeException(
+					"DUAUmfeldDatenMessStelle wurde noch nicht initialisiert"); //$NON-NLS-1$
 		}
 
-		return INSTANZEN.get(messStellenObjekt);
+		return instanzen.get(messStellenObjekt);
 	}
 
-	
 	/**
-	 * Standardkonstruktor<br>
+	 * Standardkonstruktor.<br>
 	 * 
-	 * @param dav Datenverteiler-Verbindung
-	 * @param objekt das Systemobjekt der Messstelle
+	 * @param dav
+	 *            Datenverteiler-Verbindung
+	 * @param objekt
+	 *            das Systemobjekt der Messstelle
 	 */
-	private DUAUmfeldDatenMessStelle(final ClientDavInterface dav, 
-									 final SystemObject objekt){
-		if(objekt == null){
-			throw new NullPointerException("Systemobjekt der Umfelddaten-Messstelle ist <<null>>"); //$NON-NLS-1$
+	private DUAUmfeldDatenMessStelle(final ClientDavInterface dav,
+			final SystemObject objekt) {
+		if (objekt == null) {
+			throw new NullPointerException(
+					"Systemobjekt der Umfelddaten-Messstelle ist <<null>>"); //$NON-NLS-1$
 		}
 		this.objekt = objekt;
-		
-		Map<UmfeldDatenArt, Set<DUAUmfeldDatenSensor>> datenArtAufSensoren = 
-						new HashMap<UmfeldDatenArt, Set<DUAUmfeldDatenSensor>>();
-		for(UmfeldDatenArt datenArt:UmfeldDatenArt.getInstanzen()){
-			datenArtAufSensoren.put(datenArt, new HashSet<DUAUmfeldDatenSensor>());
+
+		Map<UmfeldDatenArt, Set<DUAUmfeldDatenSensor>> datenArtAufSensoren = new HashMap<UmfeldDatenArt, Set<DUAUmfeldDatenSensor>>();
+		for (UmfeldDatenArt datenArt : UmfeldDatenArt.getInstanzen()) {
+			datenArtAufSensoren.put(datenArt,
+					new HashSet<DUAUmfeldDatenSensor>());
 		}
-		
-		NonMutableSet sensorenMenge = ((ConfigurationObject) objekt).getNonMutableSet("UmfeldDatenSensoren"); //$NON-NLS-1$
+
+		NonMutableSet sensorenMenge = ((ConfigurationObject) objekt)
+				.getNonMutableSet("UmfeldDatenSensoren"); //$NON-NLS-1$
 		for (SystemObject sensorObj : sensorenMenge.getElements()) {
-			if(sensorObj.isValid()){
-				DUAUmfeldDatenSensor sensor = DUAUmfeldDatenSensor.getInstanz(dav, sensorObj);
-				
-				Set<DUAUmfeldDatenSensor> sensorenMitDatenArt = datenArtAufSensoren.get(sensor.getDatenArt());			
+			if (sensorObj.isValid()) {
+				DUAUmfeldDatenSensor sensor = DUAUmfeldDatenSensor.getInstanz(
+						dav, sensorObj);
+
+				Set<DUAUmfeldDatenSensor> sensorenMitDatenArt = datenArtAufSensoren
+						.get(sensor.getDatenArt());
 				sensorenMitDatenArt.add(sensor);
 			}
 		}
-		
-		for(UmfeldDatenArt datenArt:UmfeldDatenArt.getInstanzen()){
-			this.sensoren.put(datenArt, new DatenSensorMenge(datenArtAufSensoren.get(datenArt)));
+
+		for (UmfeldDatenArt datenArt : UmfeldDatenArt.getInstanzen()) {
+			this.sensoren.put(datenArt, new DatenSensorMenge(
+					datenArtAufSensoren.get(datenArt)));
 		}
 	}
-	
-	
+
 	/**
-	 * Erfragt alle Umfelddatensensoren dieser Messstelle
+	 * Erfragt alle Umfelddatensensoren dieser Messstelle.
 	 * 
 	 * @return alle Umfelddatensensoren dieser Messstelle (ggf. leere Liste)
 	 */
-	public final Collection<DUAUmfeldDatenSensor> getSensoren(){
+	public Collection<DUAUmfeldDatenSensor> getSensoren() {
 		Collection<DUAUmfeldDatenSensor> alleSensoren = new HashSet<DUAUmfeldDatenSensor>();
-		
-		for(UmfeldDatenArt datenArt:UmfeldDatenArt.getInstanzen()){
+
+		for (UmfeldDatenArt datenArt : UmfeldDatenArt.getInstanzen()) {
 			alleSensoren.addAll(this.sensoren.get(datenArt).getNebenSensoren());
-			if(this.sensoren.get(datenArt).getHauptSensor() != null){
+			if (this.sensoren.get(datenArt).getHauptSensor() != null) {
 				alleSensoren.add(this.sensoren.get(datenArt).getHauptSensor());
 			}
 		}
-		
-		return alleSensoren; 
+
+		return alleSensoren;
 	}
 
-	
 	/**
-	 * Erfragt alle an dieser Umfelddatenmessstelle konfigurierten Sensoren
-	 * mit der uebergebenen Datenart
+	 * Erfragt alle an dieser Umfelddatenmessstelle konfigurierten Sensoren mit
+	 * der uebergebenen Datenart.
 	 * 
-	 * @param datenArt eine Umfelddatenart
-	 * @return alle an dieser Umfelddatenmessstelle konfigurierten Sensoren
-	 * mit der uebergebenen Datenart (ggf. leere Liste)
+	 * @param datenArt
+	 *            eine Umfelddatenart
+	 * @return alle an dieser Umfelddatenmessstelle konfigurierten Sensoren mit
+	 *         der uebergebenen Datenart (ggf. leere Liste)
 	 */
-	public final Collection<DUAUmfeldDatenSensor> getSensoren(final UmfeldDatenArt datenArt){
+	public Collection<DUAUmfeldDatenSensor> getSensoren(
+			final UmfeldDatenArt datenArt) {
 		Collection<DUAUmfeldDatenSensor> alleSensorenDerDatenArt = new HashSet<DUAUmfeldDatenSensor>();
-		
-		alleSensorenDerDatenArt.addAll(this.sensoren.get(datenArt).getNebenSensoren());
-		if(this.sensoren.get(datenArt).getHauptSensor() != null){
-			alleSensorenDerDatenArt.add(this.sensoren.get(datenArt).getHauptSensor());
+
+		alleSensorenDerDatenArt.addAll(this.sensoren.get(datenArt)
+				.getNebenSensoren());
+		if (this.sensoren.get(datenArt).getHauptSensor() != null) {
+			alleSensorenDerDatenArt.add(this.sensoren.get(datenArt)
+					.getHauptSensor());
 		}
-		
+
 		return alleSensorenDerDatenArt;
 	}
-	
-	
+
 	/**
 	 * Erfragt den an dieser Umfelddatenmessstelle konfigurierten Hauptsensor
-	 * mit der uebergebenen Datenart
+	 * mit der uebergebenen Datenart.
 	 * 
-	 * @param datenArt eine Umfelddatenart
+	 * @param datenArt
+	 *            eine Umfelddatenart
 	 * @return den an dieser Umfelddatenmessstelle konfigurierten Hauptsensor
-	 * mit der uebergebenen Datenart (ggf. <code>null</code>)
+	 *         mit der uebergebenen Datenart (ggf. <code>null</code>)
 	 */
-	public final DUAUmfeldDatenSensor getHauptSensor(final UmfeldDatenArt datenArt){
+	public DUAUmfeldDatenSensor getHauptSensor(
+			final UmfeldDatenArt datenArt) {
 		return this.sensoren.get(datenArt).getHauptSensor();
 	}
-	
-	
+
 	/**
 	 * Erfragt alle an dieser Umfelddatenmessstelle konfigurierten Nebensensoren
-	 * mit der uebergebenen Datenart
+	 * mit der uebergebenen Datenart.
 	 * 
-	 * @param datenArt eine Umfelddatenart
+	 * @param datenArt
+	 *            eine Umfelddatenart
 	 * @return alle an dieser Umfelddatenmessstelle konfigurierten Nebensensoren
-	 * mit der uebergebenen Datenart (ggf. leere Liste)
+	 *         mit der uebergebenen Datenart (ggf. leere Liste)
 	 */
-	public final Collection<DUAUmfeldDatenSensor> getNebenSensoren(final UmfeldDatenArt datenArt){
+	public Collection<DUAUmfeldDatenSensor> getNebenSensoren(
+			final UmfeldDatenArt datenArt) {
 		return this.sensoren.get(datenArt).getNebenSensoren();
-	}		
-	
-	
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		boolean ergebnis = false;
-		
-		if(obj != null && obj instanceof DUAUmfeldDatenMessStelle){
-			DUAUmfeldDatenMessStelle that = (DUAUmfeldDatenMessStelle)obj;
+
+		if (obj != null && obj instanceof DUAUmfeldDatenMessStelle) {
+			DUAUmfeldDatenMessStelle that = (DUAUmfeldDatenMessStelle) obj;
 			ergebnis = this.objekt.equals(that.objekt);
 		}
-			
+
 		return ergebnis;
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
 		String s = this.objekt.toString() + "\n"; //$NON-NLS-1$
-		
-		for(UmfeldDatenArt datenArt:UmfeldDatenArt.getInstanzen()){
-			if(!this.sensoren.get(datenArt).isEmpty()){
-				s += "Datenart: " + datenArt + "\nHS: " +  //$NON-NLS-1$ //$NON-NLS-2$
-				(this.sensoren.get(datenArt).getHauptSensor() == null?"keiner":this.sensoren.get(datenArt).getHauptSensor()); //$NON-NLS-1$
-				if(this.sensoren.get(datenArt).getNebenSensoren().size() != 0){
-					for(DUAUmfeldDatenSensor nebenSensor:this.sensoren.get(datenArt).getNebenSensoren()){
+
+		for (UmfeldDatenArt datenArt : UmfeldDatenArt.getInstanzen()) {
+			if (!this.sensoren.get(datenArt).isEmpty()) {
+				s += "Datenart: " + datenArt + "\nHS: " + //$NON-NLS-1$ //$NON-NLS-2$
+						(this.sensoren.get(datenArt).getHauptSensor() == null ? "keiner" : this.sensoren.get(datenArt).getHauptSensor()); //$NON-NLS-1$
+				if (this.sensoren.get(datenArt).getNebenSensoren().size() != 0) {
+					for (DUAUmfeldDatenSensor nebenSensor : this.sensoren.get(
+							datenArt).getNebenSensoren()) {
 						s += "\nNS: " + nebenSensor; //$NON-NLS-1$
 					}
-				}else{
+				} else {
 					s += "\nNS: keine"; //$NON-NLS-1$
 				}
 			}
 		}
-		
+
 		return s;
 	}
 
-	
 	/**
-	 * Erfragt das assoziierte Systemobjekt
+	 * Erfragt das assoziierte Systemobjekt.
 	 * 
 	 * @return das assoziierte Systemobjekt
 	 */
-	public final SystemObject getObjekt(){
+	public SystemObject getObjekt() {
 		return this.objekt;
 	}
-	
-	
+
 	/**
-	 * Speichert die Umfelddatensensoren einer Messstelle 
-	 * fuer <b>eine</b> bestimmte Umfelddatenart
+	 * Speichert die Umfelddatensensoren einer Messstelle fuer <b>eine</b>
+	 * bestimmte Umfelddatenart.
 	 * 
 	 * @author BitCtrl Systems GmbH, Thierfelder
 	 * 
 	 */
-	private class DatenSensorMenge{
-	
+	private class DatenSensorMenge {
+
 		/**
-		 * der Hauptsensor
+		 * der Hauptsensor.
 		 */
 		private DUAUmfeldDatenSensor hauptSensor = null;
-		
+
 		/**
-		 * alle Nebensensoren
+		 * alle Nebensensoren.
 		 */
 		private Collection<DUAUmfeldDatenSensor> nebenSensoren = new HashSet<DUAUmfeldDatenSensor>();
-		
-		
+
 		/**
-		 * Standardkonstruktor
+		 * Standardkonstruktor.
 		 * 
-		 * @param alleSensoren Liste aller Sensoren (muss <code>!= null</code> sein)
+		 * @param alleSensoren
+		 *            Liste aller Sensoren (muss <code>!= null</code> sein)
 		 */
-		protected DatenSensorMenge(Set<DUAUmfeldDatenSensor> alleSensoren){
-			for(DUAUmfeldDatenSensor sensor:alleSensoren){
-				if(sensor.isHauptSensor()){
-					if(this.hauptSensor != null){
-						throw new RuntimeException("Es darf nur ein Hauptsensor pro Messstelle konfiguriert sein "  //$NON-NLS-1$
-								+ DUAUmfeldDatenMessStelle.this);
+		protected DatenSensorMenge(Set<DUAUmfeldDatenSensor> alleSensoren) {
+			for (DUAUmfeldDatenSensor sensor : alleSensoren) {
+				if (sensor.isHauptSensor()) {
+					if (this.hauptSensor != null) {
+						throw new RuntimeException(
+								"Es darf nur ein Hauptsensor pro Messstelle konfiguriert sein " //$NON-NLS-1$
+										+ DUAUmfeldDatenMessStelle.this);
 					}
 					this.hauptSensor = sensor;
-				}else{
+				} else {
 					this.nebenSensoren.add(sensor);
 				}
 			}
 		}
-		
-		
+
 		/**
-		 * Erfragt den Hauptsensor
+		 * Erfragt den Hauptsensor.
 		 * 
 		 * @return den Hauptsensor (ggf. <code>null</code>)
 		 */
-		protected final DUAUmfeldDatenSensor getHauptSensor(){
+		protected final DUAUmfeldDatenSensor getHauptSensor() {
 			return this.hauptSensor;
 		}
-		
-		
+
 		/**
-		 * Erfragt alle Nebensensoren
+		 * Erfragt alle Nebensensoren.
 		 * 
 		 * @return alle Nebensensoren (ggf. leere Liste)
 		 */
-		protected final Collection<DUAUmfeldDatenSensor> getNebenSensoren(){
+		protected final Collection<DUAUmfeldDatenSensor> getNebenSensoren() {
 			return this.nebenSensoren;
 		}
-		
-		
+
 		/**
-		 * Erfragt, ob die Menge der in diesem Objekt referenzierten Umfelddatensensoren
-		 * leer ist  
+		 * Erfragt, ob die Menge der in diesem Objekt referenzierten
+		 * Umfelddatensensoren leer ist.
 		 * 
-		 * @return ob die Menge der in diesem Objekt referenzierten Umfelddatensensoren
-		 * leer ist
+		 * @return ob die Menge der in diesem Objekt referenzierten
+		 *         Umfelddatensensoren leer ist
 		 */
-		protected final boolean isEmpty(){
+		protected final boolean isEmpty() {
 			return this.hauptSensor == null && this.nebenSensoren.isEmpty();
 		}
 	}
