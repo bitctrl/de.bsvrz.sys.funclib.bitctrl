@@ -44,7 +44,7 @@ public class CronSchedulerDav extends CronScheduler {
 	private ClientDavInterface verbindung;
 
 	/**
-	 * Erzeugt einen Scheduler. Entspricht {@Code new CronSchedulerDav(false)}.
+	 * Erzeugt einen Scheduler. Entspricht {@code new CronSchedulerDav(false)}.
 	 * 
 	 * @see #CronSchedulerDav(boolean)
 	 */
@@ -64,6 +64,20 @@ public class CronSchedulerDav extends CronScheduler {
 	}
 
 	/**
+	 * Verwendet {@link ClientDavInterface#getTime()}.
+	 * 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getTime() {
+		if (verbindung != null) {
+			return verbindung.getTime();
+		}
+
+		return ObjektFactory.getInstanz().getVerbindung().getTime();
+	}
+
+	/**
 	 * Legt die zu verwendende Datenverteilerverbindung fest. Wird hier keine
 	 * festgelegt, wird die von {@link ObjektFactory#getVerbindung()} verwendet.
 	 * 
@@ -77,20 +91,6 @@ public class CronSchedulerDav extends CronScheduler {
 		}
 
 		this.verbindung = verbindung;
-	}
-
-	/**
-	 * Verwendet {@link ClientDavInterface#getTime()}.
-	 * 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public long getTime() {
-		if (verbindung != null) {
-			return verbindung.getTime();
-		}
-
-		return ObjektFactory.getInstanz().getVerbindung().getTime();
 	}
 
 	/**
