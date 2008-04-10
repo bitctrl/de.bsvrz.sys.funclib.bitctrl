@@ -53,6 +53,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.IntegerAttributeType;
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.dav.daf.main.config.SystemObjectType;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
@@ -215,10 +216,16 @@ class DatenQuelle {
 			daten = line.substring(dataIdx + 1).trim();
 		}
 
-		if (line.startsWith("objekte")) {
+		if (line.startsWith("objekt")) {
 			StringTokenizer tokenizer = new StringTokenizer(daten, ",");
 			while (tokenizer.hasMoreTokens()) {
-				objekte.add(model.getObject(tokenizer.nextToken()));
+				String pid = tokenizer.nextToken();
+				SystemObject object = model.getObject(pid);
+				if (object instanceof SystemObjectType) {
+					objekte.addAll(((SystemObjectType) object).getElements());
+				} else {
+					objekte.add(object);
+				}
 			}
 		} else if (line.startsWith("atg")) {
 			atg = model.getAttributeGroup(daten);
