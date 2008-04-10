@@ -40,7 +40,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * 
  * @version $Id$
  */
-public final class DuaVerkehrsNetz {
+public class DuaVerkehrsNetz {
 
 	/**
 	 * Debug-Logger.
@@ -52,12 +52,11 @@ public final class DuaVerkehrsNetz {
 	 */
 	protected static boolean initialisiert = false;
 
-	
 	/**
 	 * Standardkonstruktor.
 	 */
-	private DuaVerkehrsNetz() {
-		//
+	protected DuaVerkehrsNetz() {
+		
 	}
 	
 	/**

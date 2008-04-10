@@ -59,7 +59,7 @@ public class FahrStreifen extends AbstractSystemObjekt {
 	/**
 	 * Datenverteiler-Verbindung.
 	 */
-	protected static ClientDavInterface dav = null;
+	protected static ClientDavInterface sDav = null;
 
 	/**
 	 * die Lage dieses Fahrtreifens.
@@ -93,7 +93,7 @@ public class FahrStreifen extends AbstractSystemObjekt {
 					"Übergebenes Fahrstreifenobjekt ist <<null>>"); //$NON-NLS-1$
 		}
 
-		AttributeGroup atgEigenschaften = dav.getDataModel().getAttributeGroup(
+		AttributeGroup atgEigenschaften = sDav.getDataModel().getAttributeGroup(
 				DUAKonstanten.ATG_FAHRSTREIFEN);
 		Data eigenschaften = fsObjekt.getConfigurationData(atgEigenschaften);
 
@@ -128,13 +128,13 @@ public class FahrStreifen extends AbstractSystemObjekt {
 					"Datenverteiler-Verbindung ist <<null>>"); //$NON-NLS-1$
 		}
 
-		if (dav1 != null) {
+		if (sDav != null) {
 			throw new RuntimeException(
 					"Objekt darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
-		dav = dav1;
+		sDav = dav1;
 
-		for (SystemObject fsObjekt : dav.getDataModel().getType(
+		for (SystemObject fsObjekt : sDav.getDataModel().getType(
 				DUAKonstanten.TYP_FAHRSTREIFEN).getElements()) {
 			if (fsObjekt.isValid()) {
 				sysObjFsObjMap.put(fsObjekt, new FahrStreifen(fsObjekt));
@@ -148,7 +148,7 @@ public class FahrStreifen extends AbstractSystemObjekt {
 	 * @return alle statischen Instanzen dieser Klasse
 	 */
 	public static Collection<FahrStreifen> getInstanzen() {
-		if (dav == null) {
+		if (sDav == null) {
 			throw new RuntimeException(
 					"FahrStreifen-Klasse wurde noch nicht initialisiert"); //$NON-NLS-1$
 		}
@@ -166,7 +166,7 @@ public class FahrStreifen extends AbstractSystemObjekt {
 	 *         Instanz nicht ermittelt werden konnte
 	 */
 	public static final FahrStreifen getInstanz(final SystemObject fsObjekt) {
-		if (dav == null) {
+		if (sDav == null) {
 			throw new RuntimeException(
 					"Fahrstreifen-Klasse wurde noch nicht initialisiert"); //$NON-NLS-1$
 		}

@@ -64,7 +64,7 @@ public class MessStellenGruppe extends AbstractSystemObjekt {
 	/**
 	 * Datenverteiler-Verbindung..
 	 */
-	protected static ClientDavInterface dav = null;
+	protected static ClientDavInterface sDav = null;
 
 	/**
 	 * Messstellen dieser Gruppe (sortiert wie in Konfiguration).
@@ -92,7 +92,7 @@ public class MessStellenGruppe extends AbstractSystemObjekt {
 
 		ConfigurationObject konfigObjekt = (ConfigurationObject) msgObjekt;
 
-		AttributeGroup atgEigenschaften = dav.getDataModel().getAttributeGroup(
+		AttributeGroup atgEigenschaften = sDav.getDataModel().getAttributeGroup(
 				DUAKonstanten.ATG_MESS_STELLEN_GRUPPE);
 		Data eigenschaften = msgObjekt.getConfigurationData(atgEigenschaften);
 
@@ -155,13 +155,13 @@ public class MessStellenGruppe extends AbstractSystemObjekt {
 					"Datenverteiler-Verbindung ist <<null>>"); //$NON-NLS-1$
 		}
 
-		if (dav1 != null) {
+		if (sDav != null) {
 			throw new RuntimeException(
 					"Objekt darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
-		dav = dav1;
+		sDav = dav1;
 
-		for (SystemObject msObj : dav.getDataModel().getType(
+		for (SystemObject msObj : sDav.getDataModel().getType(
 				DUAKonstanten.TYP_MESS_STELLEN_GRUPPE).getElements()) {
 			if (msObj.isValid()) {
 				sysObjMsgObjMap.put(msObj, new MessStellenGruppe(msObj));
@@ -180,7 +180,7 @@ public class MessStellenGruppe extends AbstractSystemObjekt {
 	 *         Instanz nicht ermittelt werden konnte
 	 */
 	public static MessStellenGruppe getInstanz(final SystemObject msgObjekt) {
-		if (dav == null) {
+		if (sDav == null) {
 			throw new RuntimeException(
 					"MessStellen-Klasse wurde noch nicht initialisiert"); //$NON-NLS-1$
 		}

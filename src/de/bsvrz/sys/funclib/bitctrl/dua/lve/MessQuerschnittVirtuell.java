@@ -65,7 +65,7 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 	/**
 	 * Datenverteiler-Verbindung.
 	 */
-	protected static ClientDavInterface dav = null;
+	protected static ClientDavInterface sDav = null;
 
 	/**
 	 * Messquerschnitt VOR der Anschlussstelle.
@@ -110,14 +110,14 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 	 */
 	protected MessQuerschnittVirtuell(final SystemObject mqvObjekt)
 			throws DUAInitialisierungsException {
-		super(dav, mqvObjekt);
+		super(sDav, mqvObjekt);
 
 		if (mqvObjekt == null) {
 			throw new NullPointerException(
 					"Übergebenes MessQuerschnittVirtuell-Systemobjekt ist <<null>>"); //$NON-NLS-1$
 		}
 
-		AttributeGroup atgEigenschaftenSTD = dav.getDataModel()
+		AttributeGroup atgEigenschaftenSTD = sDav.getDataModel()
 				.getAttributeGroup(DUAKonstanten.ATG_MQ_VIRTUELL_STANDARD);
 		Data eigenschaftenSTD = mqvObjekt
 				.getConfigurationData(atgEigenschaftenSTD);
@@ -154,7 +154,7 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 			}
 		}
 
-		AttributeGroup atgEigenschaften = dav.getDataModel().getAttributeGroup(
+		AttributeGroup atgEigenschaften = sDav.getDataModel().getAttributeGroup(
 				DUAKonstanten.ATG_MQ_VIRTUELL);
 		Data eigenschaften = mqvObjekt.getConfigurationData(atgEigenschaften);
 
@@ -208,13 +208,13 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 					"Datenverteiler-Verbindung ist <<null>>"); //$NON-NLS-1$
 		}
 
-		if (dav1 != null) {
+		if (sDav != null) {
 			throw new RuntimeException(
 					"Objekt darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
-		dav = dav1;
+		sDav = dav1;
 
-		for (SystemObject mqvObjekt : dav.getDataModel().getType(
+		for (SystemObject mqvObjekt : sDav.getDataModel().getType(
 				DUAKonstanten.TYP_MQ_VIRTUELL).getElements()) {
 			if (mqvObjekt.isValid()) {
 				sysObjMqvObjMap.put(mqvObjekt, new MessQuerschnittVirtuell(
@@ -229,7 +229,7 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 	 * @return alle statischen Instanzen dieser Klasse
 	 */
 	public static Collection<MessQuerschnittVirtuell> getInstanzen() {
-		if (dav == null) {
+		if (sDav == null) {
 			throw new RuntimeException(
 					"MessQuerschnittVirtuell-Klasse wurde noch nicht initialisiert"); //$NON-NLS-1$
 		}
@@ -248,7 +248,7 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 	 */
 	public static MessQuerschnittVirtuell getInstanz(
 			final SystemObject mqvObjekt) {
-		if (dav == null) {
+		if (sDav == null) {
 			throw new RuntimeException(
 					"MessQuerschnittVirtuell-Klasse wurde noch nicht initialisiert"); //$NON-NLS-1$
 		}

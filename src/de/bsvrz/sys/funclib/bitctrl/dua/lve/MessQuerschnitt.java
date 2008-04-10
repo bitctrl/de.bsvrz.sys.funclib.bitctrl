@@ -64,7 +64,7 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 	/**
 	 * Datenverteiler-Verbindung.
 	 */
-	protected static ClientDavInterface dav = null;
+	protected static ClientDavInterface sDav = null;
 
 	/**
 	 * Menge der an diesem Messquerschnitt definierten Fahstreifen.
@@ -78,7 +78,7 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 	 *            ein Systemobjekt vom Typ <code>typ.messQuerschnitt</code>
 	 */
 	protected MessQuerschnitt(final SystemObject mqObjekt) {
-		super(dav, mqObjekt);
+		super(sDav, mqObjekt);
 
 		if (mqObjekt == null) {
 			throw new NullPointerException(
@@ -114,13 +114,13 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 					"Datenverteiler-Verbindung ist <<null>>"); //$NON-NLS-1$
 		}
 
-		if (dav1 != null) {
+		if (sDav != null) {
 			throw new RuntimeException(
 					"Objekt darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
-		dav = dav1;
+		sDav = dav1;
 
-		for (SystemObject mqObjekt : dav.getDataModel().getType(
+		for (SystemObject mqObjekt : sDav.getDataModel().getType(
 				DUAKonstanten.TYP_MQ).getElements()) {
 			if (mqObjekt.isValid()) {
 				sysObjMqObjMap.put(mqObjekt, new MessQuerschnitt(mqObjekt));
@@ -134,7 +134,7 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 	 * @return alle statischen Instanzen dieser Klasse
 	 */
 	public static Collection<MessQuerschnitt> getInstanzen() {
-		if (dav == null) {
+		if (sDav == null) {
 			throw new RuntimeException(
 					"Messquerschnitt-Klasse wurde noch nicht initialisiert"); //$NON-NLS-1$
 		}
@@ -152,7 +152,7 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 	 *         Instanz nicht ermittelt werden konnte
 	 */
 	public static MessQuerschnitt getInstanz(final SystemObject mqObjekt) {
-		if (dav == null) {
+		if (sDav == null) {
 			throw new RuntimeException(
 					"Messquerschnitt-Klasse wurde noch nicht initialisiert"); //$NON-NLS-1$
 		}
