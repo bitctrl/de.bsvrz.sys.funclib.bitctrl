@@ -173,13 +173,12 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 		 * 
 		 * @return die Geschwindigkeit in km/h
 		 */
-		public double getAktuelleGeschwindigkeit() {
-			double result = 0.0;
+		public long getAktuelleGeschwindigkeit() {
+			long result = 0;
 			if (getSchritte().size() > 0) {
 				PrognoseSchritt schritt = getSchritt(0);
 				if (schritt != null) {
-					result = (double) schritt.getLaenge()
-							/ (double) schritt.getVerlustZeit();
+					result = schritt.getVKfz();
 				}
 			}
 			return result;
@@ -593,6 +592,7 @@ public class OdStauVerlauf extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> 
 						"VerlustZeit").getMillis());
 				schritt.setVKfz(array.getItem(idx).getUnscaledValue("vKfz")
 						.longValue());
+				datum.addSchritte(schritt);
 			}
 		}
 
