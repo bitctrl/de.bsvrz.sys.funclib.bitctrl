@@ -32,7 +32,8 @@ package de.bsvrz.sys.funclib.bitctrl.dua.intpuf;
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  * 
- * @param <T> eine Datumsart
+ * @param <T>
+ *            eine Datumsart
  * 
  * @version $Id$
  */

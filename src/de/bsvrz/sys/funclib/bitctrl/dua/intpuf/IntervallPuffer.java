@@ -157,8 +157,8 @@ public class IntervallPuffer<T extends IIntervallDatum<T>> {
 	 * @author BitCtrl Systems GmbH, Thierfelder
 	 * 
 	 */
-	protected class Intervall<T1 extends IIntervallDatum<T>> extends
-			IntervallPufferElementAdapter<T> {
+	protected class Intervall<T1 extends IIntervallDatum<T1>> extends
+			IntervallPufferElementAdapter<T1> {
 
 		/**
 		 * die Granularitaet dieses Intervalls.
@@ -174,7 +174,7 @@ public class IntervallPuffer<T extends IIntervallDatum<T>> {
 		 *             wenn das obere Ende des Intervalls vor dem unteren Ende
 		 *             liegt
 		 */
-		protected Intervall(final IIntervallPufferElement<T> element)
+		protected Intervall(final IIntervallPufferElement<T1> element)
 				throws IntervallPufferException {
 			super(element.getIntervallStart(), element.getIntervallEnde());
 			this.inhalt = element.getInhalt();
@@ -220,7 +220,7 @@ public class IntervallPuffer<T extends IIntervallDatum<T>> {
 		 *         im Puffer kompatibel ist
 		 */
 		protected final boolean isKompatibel(
-				final IIntervallPufferElement<T> element) {
+				final IIntervallPufferElement<T1> element) {
 			return element.getInhalt().istGleich(this.inhalt)
 					&& element.getIntervallEnde() - element.getIntervallStart() == this.granularitaet
 					&& this.intervallEnde == element.getIntervallStart();
@@ -235,7 +235,7 @@ public class IntervallPuffer<T extends IIntervallDatum<T>> {
 		 *             wenn das einzufuegende Datum nicht mit den bisher
 		 *             gespeicherten Daten kompatibel ist
 		 */
-		protected final void add(final IIntervallPufferElement<T> element)
+		protected final void add(final IIntervallPufferElement<T1> element)
 				throws IntervallPufferException {
 			if (isKompatibel(element)) {
 				this.intervallEnde += granularitaet;
