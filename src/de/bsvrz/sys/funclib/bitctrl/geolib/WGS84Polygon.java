@@ -101,8 +101,8 @@ public class WGS84Polygon {
 
 		// alle Berechnungen auf den kartesischen Koordinaten
 		Point2D.Double ergebnis;
-		Line2D.Double line = new Line2D.Double(s1.getUtmX(), s1.getUtmY(),
-				s2.getUtmX(), s2.getUtmY());
+		Line2D.Double line = new Line2D.Double(s1.getUtmX(), s1.getUtmY(), s2
+				.getUtmX(), s2.getUtmY());
 		double alpha = Math.atan((line.y2 - line.y1) / (line.x2 - line.x1));
 
 		ergebnis = berecheneBildPunkt(line, alpha, offset);
@@ -161,8 +161,8 @@ public class WGS84Polygon {
 
 		// alle Berechnungen auf den kartesischen Koordinaten
 		Point2D.Double ergebnis;
-		Line2D.Double line = new Line2D.Double(s1.getUtmX(), s1.getUtmY(),
-				s2.getUtmX(), s2.getUtmY());
+		Line2D.Double line = new Line2D.Double(s1.getUtmX(), s1.getUtmY(), s2
+				.getUtmX(), s2.getUtmY());
 		Point2D.Double point = new Point2D.Double(punkt.getUtmX(), punkt
 				.getUtmY());
 
@@ -306,8 +306,8 @@ public class WGS84Polygon {
 	 */
 	private static boolean istAbbildbar(WGS84Punkt s1, WGS84Punkt s2,
 			WGS84Punkt punkt) {
-		Line2D.Double line = new Line2D.Double(s1.getUtmX(), s1.getUtmY(),
-				s2.getUtmX(), s2.getUtmY());
+		Line2D.Double line = new Line2D.Double(s1.getUtmX(), s1.getUtmY(), s2
+				.getUtmX(), s2.getUtmY());
 		Point2D.Double point = new Point2D.Double(punkt.getUtmX(), punkt
 				.getUtmY());
 
@@ -337,8 +337,8 @@ public class WGS84Polygon {
 	public static double punktAbstandStrecke(WGS84Punkt l1, WGS84Punkt l2,
 			WGS84Punkt punkt) {
 
-		Line2D.Double l2d = new Line2D.Double(l1.getUtmX(), l1.getUtmY(),
-				l2.getUtmX(), l2.getUtmY());
+		Line2D.Double l2d = new Line2D.Double(l1.getUtmX(), l1.getUtmY(), l2
+				.getUtmX(), l2.getUtmY());
 		double abstand = l2d.ptSegDist(punkt.getUtmX(), punkt.getUtmY());
 
 		// zur Vermeidung von numerischen Problemen mit 3 Nachkommastellen
@@ -371,13 +371,13 @@ public class WGS84Polygon {
 	 *            Endpunkt der Strecke
 	 * @param punkt
 	 *            Punkt
-	 * @param maxAbweichung
+	 * @param maxAbweichungMeter
 	 *            maximal zul&auml;ssige Abweichung in m
 	 * @return true, wenn der Punkt auf der Strecke liegt, sonst false.
 	 */
 	public static boolean punktLiegtAufStrecke(WGS84Punkt l1, WGS84Punkt l2,
-			WGS84Punkt punkt, double maxAbweichung) {
-		return punktAbstandStrecke(l1, l2, punkt) <= maxAbweichung;
+			WGS84Punkt punkt, double maxAbweichungMeter) {
+		return punktAbstandStrecke(l1, l2, punkt) <= maxAbweichungMeter;
 	}
 
 	/**
@@ -760,6 +760,115 @@ public class WGS84Polygon {
 	}
 
 	/**
+	 * Test, ob ein Punkt der Anfangs- oder Endpunkt des Polygon ist.
+	 * 
+	 * @param punkt
+	 *            zu testender Punkt
+	 * 
+	 * @return true, wenn der Punkt der Anfangs- oder Endpunkt des Polygons ist,
+	 *         sonst false
+	 */
+	public boolean istAnfangsOderEndPunkt(WGS84Punkt punkt) {
+		return istAnfangsPunkt(punkt) || istEndPunkt(punkt);
+	}
+
+	/**
+	 * Test, ob ein Punkt der Anfangs- oder Endpunkt des Polygon ist oder in der
+	 * N&auml;he dieser liegt.
+	 * 
+	 * @param punkt
+	 *            zu testender Punkt
+	 * @param maxAbstandMeter
+	 *            max. zul&auml;ssiger Abstand in Meter
+	 * 
+	 * @return true, wenn der Punkt der Anfangs- oder Endpunkt des Polygons ist
+	 *         oder maximal <code>maxAbstandMeter</code> vom Anfangs- oder
+	 *         Endpunkt entfernt ist, sonst false
+	 */
+	public boolean istAnfangsOderEndPunkt(WGS84Punkt punkt,
+			double maxAbstandMeter) {
+		return istAnfangsPunkt(punkt, maxAbstandMeter)
+				|| istEndPunkt(punkt, maxAbstandMeter);
+	}
+
+	/**
+	 * Test, ob ein Punkt der Anfangspunkt des Polygon ist.
+	 * 
+	 * @param punkt
+	 *            zu testender Punkt
+	 * 
+	 * @return true, wenn der Punkt der Anfangspunkt des Polygons ist, sonst
+	 *         false
+	 */
+	public boolean istAnfangsPunkt(WGS84Punkt punkt) {
+		if (punkte.size() == 0) {
+			return false;
+		}
+
+		return punkte.get(0).equals(punkt);
+	}
+
+	/**
+	 * Test, ob ein Punkt der Anfangspunkt des Polygon ist oder in dessen
+	 * N&auml;he liegt.
+	 * 
+	 * @param punkt
+	 *            zu testender Punkt
+	 * @param maxAbstandMeter
+	 *            max. zul&auml;ssiger Abstand in Meter
+	 * 
+	 * @return true, wenn der Punkt der Anfangpunkt des Polygons ist oder
+	 *         maximal <code>maxAbstandMeter</code> vom Anfangspunkt entfernt
+	 *         ist, sonst false
+	 */
+	public boolean istAnfangsPunkt(WGS84Punkt punkt, double maxAbstandMeter) {
+		if (punkte.size() == 0) {
+			return false;
+		}
+
+		return istAnfangsPunkt(punkt)
+				|| (WGS84Punkt.abstand(punkte.get(0), punkt) <= maxAbstandMeter);
+	}
+
+	/**
+	 * Test, ob ein Punkt der Endpunkt des Polygon ist.
+	 * 
+	 * @param punkt
+	 *            zu testender Punkt
+	 * 
+	 * @return true, wenn der Punkt der Endpunkt des Polygons ist, sonst false
+	 */
+	public boolean istEndPunkt(WGS84Punkt punkt) {
+		if (punkte.size() == 0) {
+			return false;
+		}
+
+		return punkte.get(punkte.size() - 1).equals(punkt);
+	}
+
+	/**
+	 * Test, ob ein Punkt der Endpunkt des Polygon ist oder in dessen N&auml;he
+	 * liegt..
+	 * 
+	 * @param punkt
+	 *            zu testender Punkt
+	 * @param maxAbstandMeter
+	 *            max. zul&auml;ssiger Abstand in Meter
+	 * 
+	 * @return true, wenn der Punkt der Endpunkt des Polygons ist oder maximal
+	 *         <code>maxAbstandMeter</code> vom Endpunkt entfernt ist, sonst
+	 *         false
+	 */
+	public boolean istEndPunkt(WGS84Punkt punkt, double maxAbstandMeter) {
+		if (punkte.size() == 0) {
+			return false;
+		}
+
+		return istEndPunkt(punkt)
+				|| (WGS84Punkt.abstand(punkte.get(punkte.size() - 1), punkt) <= maxAbstandMeter);
+	}
+
+	/**
 	 * Test, ob das Polygon gleich einem anderen Polygon ist, wobei eine
 	 * bestimmte Abweichung der Koordinaten nicht &uuml;berschritten werden
 	 * darf.
@@ -772,7 +881,8 @@ public class WGS84Polygon {
 	 */
 	public boolean istIdentisch(WGS84Polygon testpolygon,
 			double maxabweichungGrad) {
-		double abstandmeter = 1;
+		double abstandmeter = GeoTransformation
+				.winkelInMeter(maxabweichungGrad);
 		for (WGS84Punkt punkt : testpolygon.punkte) {
 			if (!liegtAufPolygon(punkt, abstandmeter)) {
 				return false;
@@ -880,15 +990,15 @@ public class WGS84Polygon {
 	 * 
 	 * @param punkt
 	 *            Punkt
-	 * @param maxAbweichung
+	 * @param maxAbweichungMeter
 	 *            maximal zul&auml;ssige Abweichung in m
 	 * @return true, wenn der Punkt auf dem Polygonzug liegt, sonst false
 	 */
-	public boolean liegtAufPolygon(WGS84Punkt punkt, double maxAbweichung) {
+	public boolean liegtAufPolygon(WGS84Punkt punkt, double maxAbweichungMeter) {
 
 		for (int i = 0; i < punkte.size() - 1; i++) {
 			if (punktLiegtAufStrecke(punkte.get(i), punkte.get(i + 1), punkt,
-					maxAbweichung)) {
+					maxAbweichungMeter)) {
 				return true;
 			}
 		}
