@@ -83,7 +83,7 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 		 *            die PID eines Aspekts.
 		 */
 		private Aspekte(final String pid) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			aspekt = modell.getAspect(pid);
 			assert aspekt != null;
@@ -142,10 +142,7 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 			VPkwP,
 
 			/** Geschwindigkeit VLkw in km/h. */
-			VLkwP,
-
-			/** Standardabweichung der Kfz-Geschwindigkeiten SKfz in km/h. */
-			SKfzP;
+			VLkwP;
 
 		}
 
@@ -176,9 +173,6 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 		/** Geschwindigkeit VLkw in km/h. */
 		private Integer vLkwP;
 
-		/** Standardabweichung der Kfz-Geschwindigkeiten SKfz in km/h. */
-		private Integer sKfzP;
-
 		/**
 		 * der aktuelle Status des Datensatzes.
 		 */
@@ -191,7 +185,7 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 		 */
 		@Override
 		public Daten clone() {
-			Daten klon = new Daten();
+			final Daten klon = new Daten();
 
 			klon.setZeitstempel(getZeitstempel());
 			klon.aLkwP = aLkwP;
@@ -202,7 +196,6 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 			klon.vLkwP = vLkwP;
 			klon.vPkwP = vPkwP;
 			klon.kbP = kbP;
-			klon.sKfzP = sKfzP;
 			klon.datenStatus = datenStatus;
 			return klon;
 		}
@@ -222,7 +215,7 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWert(java.lang.String)
 		 */
 		public Number getWert(final String name) {
-			Werte wert = Werte.valueOf(name);
+			final Werte wert = Werte.valueOf(name);
 			switch (wert) {
 			case ALkwP:
 				return aLkwP;
@@ -240,8 +233,6 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 				return vLkwP;
 			case VPkwP:
 				return vPkwP;
-			case SKfzP:
-				return sKfzP;
 			default:
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + name + ".");
@@ -254,9 +245,9 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWerte()
 		 */
 		public List<String> getWerte() {
-			List<String> werte = new ArrayList<String>();
+			final List<String> werte = new ArrayList<String>();
 
-			for (Werte w : Werte.values()) {
+			for (final Werte w : Werte.values()) {
 				werte.add(w.name());
 			}
 			return werte;
@@ -269,7 +260,7 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 		 *      java.lang.Number)
 		 */
 		public void setWert(final String name, final Number wert) {
-			Werte w = Werte.valueOf(name);
+			final Werte w = Werte.valueOf(name);
 			switch (w) {
 			case ALkwP:
 				aLkwP = wert != null ? wert.intValue() : null;
@@ -295,9 +286,6 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 			case VPkwP:
 				vPkwP = wert != null ? wert.intValue() : null;
 				break;
-			case SKfzP:
-				sKfzP = wert != null ? wert.intValue() : null;
-				break;
 			default:
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + wert + ".");
@@ -315,7 +303,7 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 
 			s += "zeitpunkt=" + getZeitpunkt();
 			s += ", isValid" + isValid();
-			for (Werte w : Werte.values()) {
+			for (final Werte w : Werte.values()) {
 				s += ", " + w.name() + "=" + getWert(w.name());
 			}
 
@@ -328,7 +316,7 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 		 * @param neuerStatus
 		 *            der neue Status
 		 */
-		protected void setDatenStatus(Status neuerStatus) {
+		protected void setDatenStatus(final Status neuerStatus) {
 			this.datenStatus = neuerStatus;
 		}
 
@@ -352,7 +340,7 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 		super(mq);
 
 		if (atg == null) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			atg = modell.getAttributeGroup(PID_ATG);
 			assert atg != null;
@@ -375,8 +363,8 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 	 */
 	@Override
 	public Collection<Aspect> getAspekte() {
-		Set<Aspect> aspekte = new HashSet<Aspect>();
-		for (Aspekt a : Aspekte.values()) {
+		final Set<Aspect> aspekte = new HashSet<Aspect>();
+		for (final Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}
 		return aspekte;
@@ -395,9 +383,9 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 	public synchronized void setDaten(final ResultData result) {
 		check(result);
 
-		Daten datum = new Daten();
+		final Daten datum = new Daten();
 		if (result.hasData()) {
-			Data daten = result.getData();
+			final Data daten = result.getData();
 			NumberValue wert;
 
 			wert = daten.getItem(Daten.Werte.QKfzP.name()).getUnscaledValue(
@@ -448,14 +436,6 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 				datum.setWert(Daten.Werte.VPkwP.name(), wert.intValue());
 			}
 
-			wert = daten.getItem(Daten.Werte.SKfzP.name()).getUnscaledValue(
-					"Wert");
-			if (wert.isState()) {
-				datum.setWert(Daten.Werte.SKfzP.name(), null);
-			} else {
-				datum.setWert(Daten.Werte.SKfzP.name(), wert.intValue());
-			}
-
 			wert = daten.getItem(Daten.Werte.KBP.name()).getUnscaledValue(
 					"Wert");
 			if (wert.isState()) {
@@ -498,7 +478,6 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 		final Integer qLkw;
 		final Integer vPkw;
 		final Integer vLkw;
-		final Integer sKfz;
 		final Integer kb;
 		final Integer qPkw;
 		final Integer vKfz;
@@ -517,9 +496,6 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 
 		n = d.getWert(Werte.VLkwP.name());
 		vLkw = n != null ? n.intValue() : null;
-
-		n = d.getWert(Werte.SKfzP.name());
-		sKfz = n != null ? n.intValue() : null;
 
 		n = d.getWert(Werte.KBP.name());
 		kb = n != null ? n.intValue() : null;
@@ -577,11 +553,6 @@ public class OdVerkehrsDatenKurzZeitTrendExtraPolationMq
 			datum.getItem("VLkw").getUnscaledValue("Wert").set(vLkw);
 		}
 		datum.getItem("VLkw").getItem("Güte").getUnscaledValue("Index").set(10);
-
-		if (sKfz != null) {
-			datum.getItem("SKfz").getUnscaledValue("Wert").set(sKfz);
-		}
-		datum.getItem("SKfz").getItem("Güte").getUnscaledValue("Index").set(10);
 
 		if (kb != null) {
 			datum.getItem("KB").getUnscaledValue("Wert").set(kb);
