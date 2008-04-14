@@ -36,12 +36,12 @@ import java.text.SimpleDateFormat;
  * @version $Id$
  */
 public final class DUAKonstanten {
-	
+
 	/**
 	 * Standardkonstruktor.
 	 */
 	private DUAKonstanten() {
-		
+
 	}
 
 	/**
@@ -143,6 +143,11 @@ public final class DUAKonstanten {
 	 * DAV-Atg-PID <code>atg.fahrStreifen</code>.
 	 */
 	public static final String ATG_FAHRSTREIFEN = "atg.fahrStreifen"; //$NON-NLS-1$
+
+	/**
+	 * DAV-Atg-PID {@value}.
+	 */
+	public static final String ATG_UMFELD_DATEN_SENSOR = "atg.umfeldDatenSensor"; //$NON-NLS-1$
 
 	/**
 	 * DAV-Atg-PID <code>atg.messStelle</code>.
