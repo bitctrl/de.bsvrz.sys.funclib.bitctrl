@@ -130,13 +130,13 @@ public class OdStoerfallZustand extends
 		private long t;
 
 		/** Verkehrssituation. */
-		private StoerfallSituation situation;
+		private StoerfallSituation situation = StoerfallSituation.KEINE_AUSSAGE;
 
 		/** Prognosehorizont (0 entspricht Analysewert). */
 		private long horizont;
 
 		/** Die G&uuml;te des betrachteten Wertes. */
-		private double gueteIndex;
+		private double gueteIndex = 100.0;
 
 		/** Berechnungsverfahren, mit dem die G&uuml;te ermittelt wurde. */
 		private GueteVerfahren gueteVerfahren = GueteVerfahren.Standard;
