@@ -106,29 +106,29 @@ public class UmfeldDatenSensorWert implements Comparable<UmfeldDatenSensorWert> 
 	private long getWertStatusOffset() {
 		long offset = 0;
 
-		if (datenArt.equals(UmfeldDatenArt.FBF)
-				|| datenArt.equals(UmfeldDatenArt.HK)
-				|| datenArt.equals(UmfeldDatenArt.NS)
-				|| datenArt.equals(UmfeldDatenArt.NI)
-				|| datenArt.equals(UmfeldDatenArt.NM)
-				|| datenArt.equals(UmfeldDatenArt.RLF)
-				|| datenArt.equals(UmfeldDatenArt.SH)
-				|| datenArt.equals(UmfeldDatenArt.SW)
-				|| datenArt.equals(UmfeldDatenArt.WFD)
-				|| datenArt.equals(UmfeldDatenArt.WR)
-				|| datenArt.equals(UmfeldDatenArt.FBZ)
-				|| datenArt.equals(UmfeldDatenArt.LD)
-				|| datenArt.equals(UmfeldDatenArt.RS)
-				|| datenArt.equals(UmfeldDatenArt.WGM)
-				|| datenArt.equals(UmfeldDatenArt.WGS)) {
+		if (datenArt.equals(UmfeldDatenArt.fbf)
+				|| datenArt.equals(UmfeldDatenArt.hk)
+				|| datenArt.equals(UmfeldDatenArt.ns)
+				|| datenArt.equals(UmfeldDatenArt.ni)
+				|| datenArt.equals(UmfeldDatenArt.nm)
+				|| datenArt.equals(UmfeldDatenArt.rlf)
+				|| datenArt.equals(UmfeldDatenArt.sh)
+				|| datenArt.equals(UmfeldDatenArt.sw)
+				|| datenArt.equals(UmfeldDatenArt.wfd)
+				|| datenArt.equals(UmfeldDatenArt.wr)
+				|| datenArt.equals(UmfeldDatenArt.fbz)
+				|| datenArt.equals(UmfeldDatenArt.ld)
+				|| datenArt.equals(UmfeldDatenArt.rs)
+				|| datenArt.equals(UmfeldDatenArt.wgm)
+				|| datenArt.equals(UmfeldDatenArt.wgs)) {
 			offset = 0;
-		} else if (datenArt.equals(UmfeldDatenArt.TT1)
-				|| datenArt.equals(UmfeldDatenArt.TT2)
-				|| datenArt.equals(UmfeldDatenArt.TT3)
-				|| datenArt.equals(UmfeldDatenArt.TPT)
-				|| datenArt.equals(UmfeldDatenArt.LT)
-				|| datenArt.equals(UmfeldDatenArt.GT)
-				|| datenArt.equals(UmfeldDatenArt.FBT)) {
+		} else if (datenArt.equals(UmfeldDatenArt.tt1)
+				|| datenArt.equals(UmfeldDatenArt.tt2)
+				|| datenArt.equals(UmfeldDatenArt.tt3)
+				|| datenArt.equals(UmfeldDatenArt.tpt)
+				|| datenArt.equals(UmfeldDatenArt.lt)
+				|| datenArt.equals(UmfeldDatenArt.gt)
+				|| datenArt.equals(UmfeldDatenArt.fbt)) {
 			offset = -1000;
 		} else {
 			throw new RuntimeException("Das Umfelddatum " + datenArt + //$NON-NLS-1$

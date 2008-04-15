@@ -732,5 +732,5 @@ public final class DUAUtensilien {
 
 		return kurzInfo;
 	}
-
+	
 }

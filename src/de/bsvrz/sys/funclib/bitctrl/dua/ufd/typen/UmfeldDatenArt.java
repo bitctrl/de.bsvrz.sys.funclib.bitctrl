@@ -55,11 +55,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public final class UmfeldDatenArt {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Mapt den Systemobjekttyp eines Umfelddatensensors auf die Informationen
 	 * zu seinem Namen und seiner Abkürzung.
 	 */
@@ -73,117 +68,117 @@ public final class UmfeldDatenArt {
 	/**
 	 * <code>typ.ufdsFahrBahnFeuchte</code>.
 	 */
-	public static UmfeldDatenArt FBF;
+	public static UmfeldDatenArt fbf;
 
 	/**
 	 * <code>typ.ufdsFahrBahnGlätte</code>.
 	 */
-	public static UmfeldDatenArt FBG;
+	public static UmfeldDatenArt fbg;
 
 	/**
 	 * <code>typ.ufdsFahrBahnOberFlächenTemperatur</code>.
 	 */
-	public static UmfeldDatenArt FBT;
+	public static UmfeldDatenArt fbt;
 
 	/**
 	 * <code>typ.ufdsGefrierTemperatur</code>.
 	 */
-	public static UmfeldDatenArt GT;
+	public static UmfeldDatenArt gt;
 
 	/**
 	 * <code>typ.ufdsHelligkeit</code>.
 	 */
-	public static UmfeldDatenArt HK;
+	public static UmfeldDatenArt hk;
 
 	/**
 	 * <code>typ.ufdsLuftTemperatur</code>.
 	 */
-	public static UmfeldDatenArt LT;
+	public static UmfeldDatenArt lt;
 
 	/**
 	 * <code>typ.ufdsNiederschlagsArt</code>.
 	 */
-	public static UmfeldDatenArt NS;
+	public static UmfeldDatenArt ns;
 
 	/**
 	 * <code>typ.ufdsNiederschlagsIntensität</code>.
 	 */
-	public static UmfeldDatenArt NI;
+	public static UmfeldDatenArt ni;
 
 	/**
 	 * <code>typ.ufdsNiederschlagsMenge</code>.
 	 */
-	public static UmfeldDatenArt NM;
+	public static UmfeldDatenArt nm;
 
 	/**
 	 * <code>typ.ufdsRelativeLuftFeuchte</code>.
 	 */
-	public static UmfeldDatenArt RLF;
+	public static UmfeldDatenArt rlf;
 
 	/**
 	 * <code>typ.ufdsSchneeHöhe</code>.
 	 */
-	public static UmfeldDatenArt SH;
+	public static UmfeldDatenArt sh;
 
 	/**
 	 * <code>typ.ufdsSichtWeite</code>.
 	 */
-	public static UmfeldDatenArt SW;
+	public static UmfeldDatenArt sw;
 
 	/**
 	 * <code>typ.ufdsTaupunktTemperatur</code>.
 	 */
-	public static UmfeldDatenArt TPT;
+	public static UmfeldDatenArt tpt;
 
 	/**
 	 * <code>typ.ufdsTemperaturInTiefe1</code>.
 	 */
-	public static UmfeldDatenArt TT1;
+	public static UmfeldDatenArt tt1;
 
 	/**
 	 * <code>typ.ufdsTemperaturInTiefe2</code>.
 	 */
-	public static UmfeldDatenArt TT2;
+	public static UmfeldDatenArt tt2;
 
 	/**
 	 * <code>typ.ufdsTemperaturInTiefe3</code>.
 	 */
-	public static UmfeldDatenArt TT3;
+	public static UmfeldDatenArt tt3;
 
 	/**
 	 * <code>typ.ufdsWasserFilmDicke</code>.
 	 */
-	public static UmfeldDatenArt WFD;
+	public static UmfeldDatenArt wfd;
 
 	/**
 	 * <code>typ.ufdsWindRichtung</code>.
 	 */
-	public static UmfeldDatenArt WR;
+	public static UmfeldDatenArt wr;
 
 	/**
 	 * <code>typ.ufdsFahrBahnOberFlächenZustand</code>.
 	 */
-	public static UmfeldDatenArt FBZ;
+	public static UmfeldDatenArt fbz;
 
 	/**
 	 * <code>typ.ufdsLuftDruck</code>.
 	 */
-	public static UmfeldDatenArt LD;
+	public static UmfeldDatenArt ld;
 
 	/**
 	 * <code>typ.ufdsRestSalz</code>.
 	 */
-	public static UmfeldDatenArt RS;
+	public static UmfeldDatenArt rs;
 
 	/**
 	 * <code>typ.ufdsWindGeschwindigkeitMittelWert</code>.
 	 */
-	public static UmfeldDatenArt WGM;
+	public static UmfeldDatenArt wgm;
 
 	/**
 	 * <code>typ.ufdsWindGeschwindigkeitSpitzenWert</code>.
 	 */
-	public static UmfeldDatenArt WGS;
+	public static UmfeldDatenArt wgs;
 
 	/**
 	 * der Systemobjekt-Typ des Umfelddatensensors.
@@ -214,8 +209,7 @@ public final class UmfeldDatenArt {
 	 *            Umfelddatensensors handelt
 	 * @return die Umfelddatenart eines Systemobjekts.
 	 */
-	public static UmfeldDatenArt getUmfeldDatenArtVon(
-			final SystemObject objekt) {
+	public static UmfeldDatenArt getUmfeldDatenArtVon(final SystemObject objekt) {
 		if (typAufArt == null) {
 			throw new RuntimeException(
 					"Umfelddatenarten wurden noch nicht initialisiert"); //$NON-NLS-1$
@@ -226,7 +220,8 @@ public final class UmfeldDatenArt {
 		if (objekt != null) {
 			umfeldDatenArt = typAufArt.get(objekt.getType());
 		} else {
-			LOGGER.error("Uebergebenes Systemobjekt ist <<null>>"); //$NON-NLS-1$
+			System.out.println();
+			Debug.getLogger().error("Uebergebenes Systemobjekt ist <<null>>");
 		}
 
 		return umfeldDatenArt;
@@ -258,79 +253,79 @@ public final class UmfeldDatenArt {
 	public static void initialisiere(final ClientDavInterface dav1)
 			throws DUAInitialisierungsException {
 		if (typAufArt != null) {
-			LOGGER
-					.error("Umfelddatenarten duerfen nur einmal initialisiert werden"); //$NON-NLS-1$
+			Debug.getLogger().error(
+					"Umfelddatenarten duerfen nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
 		dav = dav1;
 		typAufArt = new HashMap<SystemObjectType, UmfeldDatenArt>();
 
 		DataModel datenModell = dav.getDataModel();
 
-		FBF = new UmfeldDatenArt(
+		fbf = new UmfeldDatenArt(
 				datenModell.getType("typ.ufdsFahrBahnFeuchte"), "FBF"); //$NON-NLS-1$//$NON-NLS-2$
-		FBG = new UmfeldDatenArt(
+		fbg = new UmfeldDatenArt(
 				datenModell.getType("typ.ufdsFahrBahnGlätte"), "FBG"); //$NON-NLS-1$//$NON-NLS-2$	
-		FBT = new UmfeldDatenArt(datenModell
+		fbt = new UmfeldDatenArt(datenModell
 				.getType("typ.ufdsFahrBahnOberFlächenTemperatur"), "FBT"); //$NON-NLS-1$//$NON-NLS-2$	
-		HK = new UmfeldDatenArt(datenModell.getType("typ.ufdsHelligkeit"), "HK"); //$NON-NLS-1$//$NON-NLS-2$
-		GT = new UmfeldDatenArt(datenModell
+		hk = new UmfeldDatenArt(datenModell.getType("typ.ufdsHelligkeit"), "HK"); //$NON-NLS-1$//$NON-NLS-2$
+		gt = new UmfeldDatenArt(datenModell
 				.getType("typ.ufdsGefrierTemperatur"), "GT"); //$NON-NLS-1$//$NON-NLS-2$
-		LT = new UmfeldDatenArt(
+		lt = new UmfeldDatenArt(
 				datenModell.getType("typ.ufdsLuftTemperatur"), "LT"); //$NON-NLS-1$//$NON-NLS-2$	
-		NS = new UmfeldDatenArt(
+		ns = new UmfeldDatenArt(
 				datenModell.getType("typ.ufdsNiederschlagsArt"), "NS"); //$NON-NLS-1$//$NON-NLS-2$	
-		NI = new UmfeldDatenArt(datenModell
+		ni = new UmfeldDatenArt(datenModell
 				.getType("typ.ufdsNiederschlagsIntensität"), "NI"); //$NON-NLS-1$//$NON-NLS-2$	
-		NM = new UmfeldDatenArt(datenModell
+		nm = new UmfeldDatenArt(datenModell
 				.getType("typ.ufdsNiederschlagsMenge"), "NM"); //$NON-NLS-1$//$NON-NLS-2$	
-		RLF = new UmfeldDatenArt(datenModell
+		rlf = new UmfeldDatenArt(datenModell
 				.getType("typ.ufdsRelativeLuftFeuchte"), "RLF"); //$NON-NLS-1$//$NON-NLS-2$	
-		SH = new UmfeldDatenArt(datenModell.getType("typ.ufdsSchneeHöhe"), "SH"); //$NON-NLS-1$//$NON-NLS-2$	
-		SW = new UmfeldDatenArt(datenModell.getType("typ.ufdsSichtWeite"), "SW"); //$NON-NLS-1$//$NON-NLS-2$	
-		TPT = new UmfeldDatenArt(datenModell
+		sh = new UmfeldDatenArt(datenModell.getType("typ.ufdsSchneeHöhe"), "SH"); //$NON-NLS-1$//$NON-NLS-2$	
+		sw = new UmfeldDatenArt(datenModell.getType("typ.ufdsSichtWeite"), "SW"); //$NON-NLS-1$//$NON-NLS-2$	
+		tpt = new UmfeldDatenArt(datenModell
 				.getType("typ.ufdsTaupunktTemperatur"), "TPT"); //$NON-NLS-1$//$NON-NLS-2$	
-		TT1 = new UmfeldDatenArt(datenModell
+		tt1 = new UmfeldDatenArt(datenModell
 				.getType("typ.ufdsTemperaturInTiefe1"), "TT1"); //$NON-NLS-1$//$NON-NLS-2$	
-		TT2 = new UmfeldDatenArt(datenModell
+		tt2 = new UmfeldDatenArt(datenModell
 				.getType("typ.ufdsTemperaturInTiefe2"), "TT2"); //$NON-NLS-1$//$NON-NLS-2$	
-		TT3 = new UmfeldDatenArt(datenModell
+		tt3 = new UmfeldDatenArt(datenModell
 				.getType("typ.ufdsTemperaturInTiefe3"), "TT3"); //$NON-NLS-1$//$NON-NLS-2$	
-		WFD = new UmfeldDatenArt(
+		wfd = new UmfeldDatenArt(
 				datenModell.getType("typ.ufdsWasserFilmDicke"), "WFD"); //$NON-NLS-1$//$NON-NLS-2$	
-		WR = new UmfeldDatenArt(
+		wr = new UmfeldDatenArt(
 				datenModell.getType("typ.ufdsWindRichtung"), "WR"); //$NON-NLS-1$//$NON-NLS-2$	
-		FBZ = new UmfeldDatenArt(datenModell
+		fbz = new UmfeldDatenArt(datenModell
 				.getType("typ.ufdsFahrBahnOberFlächenZustand"), "FBZ"); //$NON-NLS-1$//$NON-NLS-2$	
-		LD = new UmfeldDatenArt(datenModell.getType("typ.ufdsLuftDruck"), "LD"); //$NON-NLS-1$//$NON-NLS-2$	
-		RS = new UmfeldDatenArt(datenModell.getType("typ.ufdsRestSalz"), "RS"); //$NON-NLS-1$//$NON-NLS-2$	
-		WGM = new UmfeldDatenArt(datenModell
+		ld = new UmfeldDatenArt(datenModell.getType("typ.ufdsLuftDruck"), "LD"); //$NON-NLS-1$//$NON-NLS-2$	
+		rs = new UmfeldDatenArt(datenModell.getType("typ.ufdsRestSalz"), "RS"); //$NON-NLS-1$//$NON-NLS-2$	
+		wgm = new UmfeldDatenArt(datenModell
 				.getType("typ.ufdsWindGeschwindigkeitMittelWert"), "WGM"); //$NON-NLS-1$//$NON-NLS-2$	
-		WGS = new UmfeldDatenArt(datenModell
+		wgs = new UmfeldDatenArt(datenModell
 				.getType("typ.ufdsWindGeschwindigkeitSpitzenWert"), "WGS"); //$NON-NLS-1$//$NON-NLS-2$	
 
-		typAufArt.put(FBF.getTyp(), FBF);
-		typAufArt.put(FBG.getTyp(), FBG);
-		typAufArt.put(FBT.getTyp(), FBT);
-		typAufArt.put(HK.getTyp(), HK);
-		typAufArt.put(GT.getTyp(), GT);
-		typAufArt.put(LT.getTyp(), LT);
-		typAufArt.put(NS.getTyp(), NS);
-		typAufArt.put(NI.getTyp(), NI);
-		typAufArt.put(NM.getTyp(), NM);
-		typAufArt.put(RLF.getTyp(), RLF);
-		typAufArt.put(SH.getTyp(), SH);
-		typAufArt.put(SW.getTyp(), SW);
-		typAufArt.put(TPT.getTyp(), TPT);
-		typAufArt.put(TT1.getTyp(), TT1);
-		typAufArt.put(TT2.getTyp(), TT2);
-		typAufArt.put(TT3.getTyp(), TT3);
-		typAufArt.put(WFD.getTyp(), WFD);
-		typAufArt.put(WR.getTyp(), WR);
-		typAufArt.put(FBZ.getTyp(), FBZ);
-		typAufArt.put(LD.getTyp(), LD);
-		typAufArt.put(RS.getTyp(), RS);
-		typAufArt.put(WGM.getTyp(), WGM);
-		typAufArt.put(WGS.getTyp(), WGS);
+		typAufArt.put(fbf.getTyp(), fbf);
+		typAufArt.put(fbg.getTyp(), fbg);
+		typAufArt.put(fbt.getTyp(), fbt);
+		typAufArt.put(hk.getTyp(), hk);
+		typAufArt.put(gt.getTyp(), gt);
+		typAufArt.put(lt.getTyp(), lt);
+		typAufArt.put(ns.getTyp(), ns);
+		typAufArt.put(ni.getTyp(), ni);
+		typAufArt.put(nm.getTyp(), nm);
+		typAufArt.put(rlf.getTyp(), rlf);
+		typAufArt.put(sh.getTyp(), sh);
+		typAufArt.put(sw.getTyp(), sw);
+		typAufArt.put(tpt.getTyp(), tpt);
+		typAufArt.put(tt1.getTyp(), tt1);
+		typAufArt.put(tt2.getTyp(), tt2);
+		typAufArt.put(tt3.getTyp(), tt3);
+		typAufArt.put(wfd.getTyp(), wfd);
+		typAufArt.put(wr.getTyp(), wr);
+		typAufArt.put(fbz.getTyp(), fbz);
+		typAufArt.put(ld.getTyp(), ld);
+		typAufArt.put(rs.getTyp(), rs);
+		typAufArt.put(wgm.getTyp(), wgm);
+		typAufArt.put(wgs.getTyp(), wgs);
 	}
 
 	/**

@@ -79,7 +79,7 @@ implements ClientReceiverInterface {
 	protected void initialisiere(final ClientDavInterface dav, 
 								 final SystemObject objekt1,
 								 final Aspect aspekt) {
-		UmfeldDatenArt datenArt = UmfeldDatenArt.getUmfeldDatenArtVon(objekt);
+		UmfeldDatenArt datenArt = UmfeldDatenArt.getUmfeldDatenArtVon(objekt1);
 		this.objekt = objekt1;
 		
 		DataDescription datenBeschreibung = new DataDescription(
