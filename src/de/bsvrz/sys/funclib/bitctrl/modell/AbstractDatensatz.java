@@ -729,10 +729,10 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 					|| (isQuelle(asp) && getStatusSendesteuerung(asp) == Datensatz.Status.STOP)) {
 				sender.sende(konvertiere(datum), asp, datum.getZeitstempel());
 			} else {
-				throw new DatensendeException("Timeout, Sendesteuerung="
+				throw new DatensendeException("Timeout, Quelle="
+						+ isQuelle(asp) + ", Sendesteuerung="
 						+ getStatusSendesteuerung(asp) + ", Datensatz=" + this);
 			}
-
 		}
 	}
 
