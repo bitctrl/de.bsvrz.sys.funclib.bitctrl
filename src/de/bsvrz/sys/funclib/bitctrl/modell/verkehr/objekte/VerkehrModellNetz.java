@@ -130,8 +130,6 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 		listeners.add(BaustellenListener.class, listener);
 
 		if (registerListener) {
-			System.err.println("Anmeldung für Baustellen == "
-					+ baustellenMenge.getElements().size());
 			baustellenMenge.addChangeListener(this);
 		}
 	}
@@ -155,8 +153,6 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 		if (registerListener) {
 			MutableSet stauMenge = (MutableSet) ((ConfigurationObject) getSystemObject())
 					.getObjectSet(MENGENNAME_STAUS);
-			System.err.println("Anmeldung für Staus == "
-					+ stauMenge.getElements().size());
 			stauMenge.addChangeListener(this);
 		}
 	}
@@ -406,13 +402,8 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	public void update(final MutableSet set, final SystemObject[] addedObjects,
 			final SystemObject[] removedObjects) {
 		if (set.equals(baustellenMenge)) {
-			System.err.println("Anzahl der Baustellen == "
-					+ set.getElements().size());
 			aktualisiereBaustellen(addedObjects, removedObjects);
 		} else if (set.getName().equals(MENGENNAME_STAUS)) {
-			System.err.println("Anzahl der Staus == "
-					+ set.getElements().size() + " NEU: " + addedObjects.length
-					+ " ENTFERNT: " + removedObjects.length);
 			aktualisiereStaus(addedObjects, removedObjects);
 		}
 	}

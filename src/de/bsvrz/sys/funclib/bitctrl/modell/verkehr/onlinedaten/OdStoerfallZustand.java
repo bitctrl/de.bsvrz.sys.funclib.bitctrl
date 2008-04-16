@@ -416,7 +416,7 @@ public class OdStoerfallZustand extends
 		if (result.hasData()) {
 			Data daten = result.getData();
 
-			datum.setGueteIndex(daten.getItem("Güte").getUnscaledValue("Index")
+			datum.setGueteIndex(daten.getItem("Güte").getScaledValue("Index")
 					.doubleValue());
 			datum.setGueteVerfahren(GueteVerfahren.getGueteVerfahren(daten
 					.getItem("Güte").getUnscaledValue("Verfahren").intValue()));

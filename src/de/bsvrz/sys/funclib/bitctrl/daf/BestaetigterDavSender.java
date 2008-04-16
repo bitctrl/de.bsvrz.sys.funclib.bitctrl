@@ -23,12 +23,15 @@
 
 package de.bsvrz.sys.funclib.bitctrl.daf;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ClientSenderInterface;
 import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.DataNotSubscribedException;
+import de.bsvrz.dav.daf.main.DavConnectionListener;
 import de.bsvrz.dav.daf.main.OneSubscriptionPerSendData;
 import de.bsvrz.dav.daf.main.SendSubscriptionNotConfirmed;
 import de.bsvrz.dav.daf.main.SenderRole;
@@ -41,7 +44,19 @@ import de.bsvrz.sys.funclib.bitctrl.app.Pause;
  * 
  * @author peuker
  */
-public class BestaetigterDavSender implements ClientSenderInterface {
+public class BestaetigterDavSender implements ClientSenderInterface,
+		DavConnectionListener {
+
+	private static final Map<ClientDavInterface, BestaetigterDavSender> senderObjekte = new HashMap<ClientDavInterface, BestaetigterDavSender>();
+
+	public static BestaetigterDavSender getSender(ClientDavInterface connection) {
+		BestaetigterDavSender result = senderObjekte.get(connection);
+		if (result == null) {
+			result = new BestaetigterDavSender(connection);
+			senderObjekte.put(connection, result);
+		}
+		return result;
+	}
 
 	/**
 	 * die verwendete Datenverteilerverbindung.
@@ -60,44 +75,36 @@ public class BestaetigterDavSender implements ClientSenderInterface {
 	 * @param verbindung
 	 *            die Datenverteiler-Verbindung
 	 */
-	public BestaetigterDavSender(ClientDavInterface verbindung) {
+	private BestaetigterDavSender(ClientDavInterface verbindung) {
 		this.verbindung = verbindung;
 	}
 
 	/**
-	 * {@inheritDoc}.<br>
-	 * Die Funktion implementiert die entsprechende Funktion der Schnittstelle
-	 * {@link ClientSenderInterface}. Die dem &uuml;bergebenen Objekt und der
-	 * Datenbeschreibung entsprechende Anmeldung wird ermittelt und der Status
-	 * intern gespeichert.
+	 * führt eine Abmeldung für die übergebene Kombination aus Systemobjekt und
+	 * Datenbschreibung aus.<br>
+	 * Für die entsprechende Anmeldung wird der Anmeldungszähler inkrementiert.
+	 * Wenn keine Anmeldung mehr vorhanden ist, erfolgt die Abmeldung vom
+	 * Datenverteiler und die Anmeldung wird aus der Liste der verwalteten
+	 * Anmeldungen entfernt.
 	 * 
-	 * @see ClientSenderInterface#dataRequest(SystemObject, DataDescription,
-	 *      byte)
+	 * @param objekt
+	 *            das Systemobjekt
+	 * @param desc
+	 *            die Datenbschreibung
 	 */
-	public void dataRequest(SystemObject objekt, DataDescription desc,
-			byte status) {
-		synchronized (anmeldungen) {
-			SenderAnmeldung neueAnmeldung = new SenderAnmeldung(objekt, desc);
-			SenderAnmeldung anmeldung = anmeldungen.get(neueAnmeldung);
-			if (anmeldung == null) {
-				anmeldungen.put(neueAnmeldung, neueAnmeldung);
-				anmeldung = neueAnmeldung;
-			} else {
-				anmeldung.setStatus(status);
+	public void abmelden(SystemObject objekt, DataDescription desc) {
+		SenderAnmeldung anmeldung = anmeldungen.get(new SenderAnmeldung(objekt,
+				desc));
+		if (anmeldung != null) {
+			anmeldung.remove();
+			if (anmeldung.size() <= 0) {
+				verbindung.unsubscribeSender(this, objekt, desc);
+				anmeldungen.remove(anmeldung);
 			}
+		} else {
+			System.err.println("Unerwartetete Sendeabmeldung: " + objekt + ", "
+					+ desc);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}.<br>
-	 * Die Sendesteuerung wird für alle Anmeldungen unterstützt.
-	 * 
-	 * @see ClientSenderInterface#isRequestSupported(SystemObject,
-	 *      DataDescription)
-	 */
-	public boolean isRequestSupported(SystemObject objekt,
-			DataDescription dataDescription) {
-		return true;
 	}
 
 	/**
@@ -129,32 +136,36 @@ public class BestaetigterDavSender implements ClientSenderInterface {
 		}
 	}
 
-	/**
-	 * führt eine Abmeldung für die übergebene Kombination aus Systemobjekt und
-	 * Datenbschreibung aus.<br>
-	 * Für die entsprechende Anmeldung wird der Anmeldungszähler inkrementiert.
-	 * Wenn keine Anmeldung mehr vorhanden ist, erfolgt die Abmeldung vom
-	 * Datenverteiler und die Anmeldung wird aus der Liste der verwalteten
-	 * Anmeldungen entfernt.
-	 * 
-	 * @param objekt
-	 *            das Systemobjekt
-	 * @param desc
-	 *            die Datenbschreibung
-	 */
-	public void abmelden(SystemObject objekt, DataDescription desc) {
-		SenderAnmeldung anmeldung = anmeldungen.get(new SenderAnmeldung(objekt,
-				desc));
-		if (anmeldung != null) {
-			anmeldung.remove();
-			if (anmeldung.size() <= 0) {
-				verbindung.unsubscribeSender(this, objekt, desc);
-				anmeldungen.remove(anmeldung);
+	/** {@inheritDoc} */
+	public void connectionClosed(ClientDavInterface connection) {
+		senderObjekte.remove(connection);
+	}
+
+	/** {@inheritDoc} */
+	public void dataRequest(SystemObject objekt, DataDescription desc,
+			byte status) {
+		synchronized (anmeldungen) {
+			SenderAnmeldung neueAnmeldung = new SenderAnmeldung(objekt, desc);
+			SenderAnmeldung anmeldung = anmeldungen.get(neueAnmeldung);
+			if (anmeldung == null) {
+				anmeldungen.put(neueAnmeldung, neueAnmeldung);
+				anmeldung = neueAnmeldung;
+			} else {
+				anmeldung.setStatus(status);
 			}
-		} else {
-			System.err.println("Unerwartetete Sendeabmeldung: " + objekt + ", "
-					+ desc);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}.<br>
+	 * Die Sendesteuerung wird für alle Anmeldungen unterstützt.
+	 * 
+	 * @see ClientSenderInterface#isRequestSupported(SystemObject,
+	 *      DataDescription)
+	 */
+	public boolean isRequestSupported(SystemObject objekt,
+			DataDescription dataDescription) {
+		return true;
 	}
 
 	/**

@@ -250,11 +250,25 @@ public class PdSituationsEigenschaften extends
 		 */
 		public double getLaenge() {
 			double result = 0;
+			StrassenSegment erstesSegment = null;
+			StrassenSegment letztesSegment = null;
+
 			for (StrassenSegment segment : getSegmente()) {
+				if (erstesSegment == null) {
+					erstesSegment = segment;
+				} else {
+					letztesSegment = segment;
+				}
 				result += segment.getLaenge();
 			}
 
-			result -= (getStartOffset() + getEndOffset());
+			if (erstesSegment != null) {
+				result -= getStartOffset();
+			}
+			if (letztesSegment != null) {
+				result -= letztesSegment.getLaenge();
+				result += getEndOffset();
+			}
 			return result;
 		}
 

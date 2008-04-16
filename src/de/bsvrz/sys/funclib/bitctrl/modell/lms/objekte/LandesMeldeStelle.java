@@ -108,8 +108,6 @@ public class LandesMeldeStelle extends AbstractSystemObjekt implements
 		listeners.add(MeldungsListener.class, listener);
 
 		if (registerListener) {
-			System.err.println("Anmeldung für Meldungen == "
-					+ meldungsMenge.getElements().size());
 			meldungsMenge.addChangeListener(this);
 		}
 	}
@@ -234,8 +232,6 @@ public class LandesMeldeStelle extends AbstractSystemObjekt implements
 	public void update(final MutableSet set, final SystemObject[] addedObjects,
 			final SystemObject[] removedObjects) {
 		if (set.equals(meldungsMenge)) {
-			System.err.println("Anzahl der Meldungen == "
-					+ set.getElements().size());
 			aktualisiereMeldungen(addedObjects, removedObjects);
 		}
 	}
