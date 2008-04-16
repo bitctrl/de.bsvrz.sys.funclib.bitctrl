@@ -45,11 +45,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public class CSVImporter {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * CSV-Datei.
 	 */
 	private File csvDatei = null;
@@ -108,7 +103,7 @@ public class CSVImporter {
 				result = red.split(";"); //$NON-NLS-1$
 			}
 		} catch (IOException ex) {
-			LOGGER.error("Fehler beim Lesen aus " + this, ex); //$NON-NLS-1$
+			Debug.getLogger().error("Fehler beim Lesen aus " + this, ex); //$NON-NLS-1$
 		}
 
 		return result;
@@ -134,7 +129,7 @@ public class CSVImporter {
 		try {
 			s = csvDatei.getCanonicalPath();
 		} catch (IOException ex) {
-			LOGGER.error(Constants.EMPTY_STRING, ex);
+			Debug.getLogger().error(Constants.EMPTY_STRING, ex);
 		}
 
 		return s;
@@ -148,7 +143,7 @@ public class CSVImporter {
 			this.leser.close();
 			this.leser = new BufferedReader(new FileReader(this.csvDatei));
 		} catch (IOException ex) {
-			LOGGER.error(Constants.EMPTY_STRING, ex);
+			Debug.getLogger().error(Constants.EMPTY_STRING, ex);
 		}
 	}
 

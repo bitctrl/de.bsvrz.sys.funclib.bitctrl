@@ -51,11 +51,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public class KontrollProzess<T> {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * der Timer, der den Prozess steuert.
 	 */
 	private Timer timer = null;
@@ -103,7 +98,7 @@ public class KontrollProzess<T> {
 	public final synchronized void setNaechstenAufrufZeitpunkt(
 			final long zeitpunktInMillis) {
 		if (this.naechsterAufrufZeitpunkt != zeitpunktInMillis) {
-			LOGGER.info("Der eingeplante Kontrollzeitpunkt wird verändert" + //$NON-NLS-1$
+			Debug.getLogger().info("Der eingeplante Kontrollzeitpunkt wird verändert" + //$NON-NLS-1$
 					"\nAlt: "
 					+ DUAKonstanten.ZEIT_FORMAT_GENAU.format(new Date(
 							this.naechsterAufrufZeitpunkt))

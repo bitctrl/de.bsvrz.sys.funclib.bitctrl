@@ -58,11 +58,6 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 
 	/**
-	 * Debug-Logger.
-	 */
-	public static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Die Objekte, die bearbeitet werden sollen.
 	 */
 	protected SystemObject[] objekte = null;
@@ -158,12 +153,12 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 			 */
 			this.initialisiere();
 
-			LOGGER.config(this.toString());
+			Debug.getLogger().config(this.toString());
 
 		} catch (DUAInitialisierungsException ex) {
 			String fehler = "Initialisierung der Applikation " + //$NON-NLS-1$
 					this.getSWETyp().toString() + " fehlgeschlagen"; //$NON-NLS-1$
-			LOGGER.error(fehler, ex);
+			Debug.getLogger().error(fehler, ex);
 			ex.printStackTrace();
 
 			if (this.nachrichtenSender != null) {
@@ -225,7 +220,7 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 					kbListe.add(area);
 				}
 			} catch (UnsupportedOperationException ex) {
-				LOGGER.warning("Konfigurationsbereich " + kb + //$NON-NLS-1$
+				Debug.getLogger().warning("Konfigurationsbereich " + kb + //$NON-NLS-1$
 						" konnte nicht identifiziert werden.", ex); //$NON-NLS-1$
 			}
 		}

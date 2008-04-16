@@ -56,11 +56,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Fehlermeldungstext.
 	 */
 	private static final String STD_FEHLER = "Anmeldung auf Datenflusssteuerung fehlgeschlagen"; //$NON-NLS-1$
@@ -113,10 +108,10 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 			// : null);
 			//
 			// if (dfsObjekte.length == 1) {
-			// LOGGER.fine("Es wurde genau ein Objekt vom Typ " + //$NON-NLS-1$
+			// Debug.getLogger().fine("Es wurde genau ein Objekt vom Typ " + //$NON-NLS-1$
 			// DFSKonstanten.TYP + " identifiziert"); //$NON-NLS-1$
 			// } else if (dfsObjekte.length > 1) {
-			// LOGGER.warning("Es liegen mehrere Objekte vom Typ " +
+			// Debug.getLogger().warning("Es liegen mehrere Objekte vom Typ " +
 			// //$NON-NLS-1$
 			// DFSKonstanten.TYP + " vor"); //$NON-NLS-1$
 			// }
@@ -179,10 +174,10 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 			verwaltung.getVerbindung().subscribeReceiver(this, dfsObjekt, dd,
 					ReceiveOptions.normal(), ReceiverRole.receiver());
 
-			LOGGER.config("Fuer die Datenflusssteuerung" + //$NON-NLS-1$
+			Debug.getLogger().config("Fuer die Datenflusssteuerung" + //$NON-NLS-1$
 					" wird das Objekt " + dfsObjekt + " verwendet."); //$NON-NLS-1$//$NON-NLS-2$
 		} else {
-			LOGGER
+			Debug.getLogger()
 					.warning("Der Datenfluss ist nicht zur Laufzeit steuerbar.\n" + //$NON-NLS-1$
 							"Es wurde kein Objekt vom Typ "//$NON-NLS-1$
 							+ DFSKonstanten.TYP + " identifiziert."); //$NON-NLS-1$
@@ -206,7 +201,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 				}
 			}
 		} else {
-			LOGGER.error("Listener kann nicht eingefügt" + //$NON-NLS-1$
+			Debug.getLogger().error("Listener kann nicht eingefügt" + //$NON-NLS-1$
 					" werden. Er ist " + DUAKonstanten.NULL); //$NON-NLS-1$
 		}
 	}

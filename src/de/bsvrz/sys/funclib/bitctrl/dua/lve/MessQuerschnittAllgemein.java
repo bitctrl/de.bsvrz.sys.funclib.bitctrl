@@ -50,11 +50,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public abstract class MessQuerschnittAllgemein extends AbstractSystemObjekt {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Menge aller allgemeinen Messquerschnitte.
 	 */
 	private static Collection<MessQuerschnittAllgemein> mqaMenge = null;
@@ -91,7 +86,7 @@ public abstract class MessQuerschnittAllgemein extends AbstractSystemObjekt {
 		Data eigenschaften = mqaObjekt.getConfigurationData(atgEigenschaften);
 
 		if (eigenschaften == null) {
-			LOGGER
+			Debug.getLogger()
 					.warning("Eigenschaften von allgemeinem Messquerschnittobjekt " + mqaObjekt + //$NON-NLS-1$
 							" konnten nicht ausgelesen werden"); //$NON-NLS-1$
 		} else {

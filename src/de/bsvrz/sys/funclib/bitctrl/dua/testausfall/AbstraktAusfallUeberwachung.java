@@ -61,11 +61,6 @@ public abstract class AbstraktAusfallUeberwachung extends
 		IKontrollProzessListener<Long> {
 
 	/**
-	 * Debug-Logger.
-	 */
-	protected static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Mapt alle betrachteten Systemobjekte auf den aktuell für sie erlaubten
 	 * maximalen Zeitverzug.
 	 */
@@ -188,11 +183,11 @@ public abstract class AbstraktAusfallUeberwachung extends
 												new Long(
 														fruehesterKontrollZeitpunkt));
 							} else {
-								LOGGER
+								Debug.getLogger()
 										.warning("Der momentan aktuellste Kontrollzeitpunkt ist <= 0"); //$NON-NLS-1$
 							}
 						} else {
-							LOGGER
+							Debug.getLogger()
 									.warning("Die Menge der Kontrollzeitpunkte ist leer"); //$NON-NLS-1$
 						}
 					}
@@ -284,7 +279,7 @@ public abstract class AbstraktAusfallUeberwachung extends
 					this.kontrollZeitpunkte.remove(gefundenInKontrollZeitpunkt);
 				}
 			} else {
-				LOGGER.info("Datum " + datum + " konnte nicht aus" + //$NON-NLS-1$ //$NON-NLS-2$
+				Debug.getLogger().info("Datum " + datum + " konnte nicht aus" + //$NON-NLS-1$ //$NON-NLS-2$
 						" Kontrollwarteschlange gelöscht werden"); //$NON-NLS-1$
 			}
 		}
@@ -305,7 +300,7 @@ public abstract class AbstraktAusfallUeberwachung extends
 							.getAusfallDatumVon(ausfallDatum.getDatum()));
 				}
 			} else {
-				LOGGER.warning("Der Kontrollzeitpunkt " + //$NON-NLS-1$
+				Debug.getLogger().warning("Der Kontrollzeitpunkt " + //$NON-NLS-1$
 						DUAKonstanten.ZEIT_FORMAT_GENAU.format(new Date(
 								kontrollZeitpunkt))
 						+ " wurde inzwischen entfernt"); //$NON-NLS-1$
@@ -343,7 +338,7 @@ public abstract class AbstraktAusfallUeberwachung extends
 			kontrollZeitpunkt = empfangenesResultat.getDataTime() + 2
 					* this.getTVon(empfangenesResultat) + maxZeitVerzug;
 		} else {
-			LOGGER
+			Debug.getLogger()
 					.fine("Es wurden noch keine (sinnvollen) Parameter empfangen: " //$NON-NLS-1$ 
 							+ empfangenesResultat.getObject());
 		}

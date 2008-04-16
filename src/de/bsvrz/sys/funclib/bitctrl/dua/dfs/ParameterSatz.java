@@ -47,11 +47,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public class ParameterSatz {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * die SWE, deren Publikationsparameter in dieser Klasse stehen.
 	 */
 	private SWETyp swe = null;
@@ -108,7 +103,7 @@ public class ParameterSatz {
 		for (PublikationsZuordung altePz : this.pubZuordnungen) {
 			String fehler = altePz.isKompatibelMit(pubZuordnung);
 			if (fehler != null) {
-				LOGGER.warning(fehler);
+				Debug.getLogger().warning(fehler);
 				addErlaubt = false;
 				break;
 			}

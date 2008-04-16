@@ -49,11 +49,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * @version $Id$
  */
 public final class DUAUmfeldDatenMessStelle {
-
-	/**
-	 * Debug Logger. 
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
 	
 	/**
 	 * statische Instanzen dieser Klasse.
@@ -87,7 +82,7 @@ public final class DUAUmfeldDatenMessStelle {
 					"Menge der Umfelddaten-Messstellen ist <<null>>"); //$NON-NLS-1$
 		}
 		if (instanzen != null) {
-			LOGGER.error("UFD-Modell darf nur einmal initialisiert werden"); //$NON-NLS-1$
+			Debug.getLogger().error("UFD-Modell darf nur einmal initialisiert werden"); //$NON-NLS-1$
 		}
 
 		instanzen = new HashMap<SystemObject, DUAUmfeldDatenMessStelle>();

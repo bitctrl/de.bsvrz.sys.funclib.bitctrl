@@ -75,11 +75,6 @@ public final class DUAUtensilien {
 	}
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Schablone für eine ganze positive Zahl.
 	 */
 	private static final String NATUERLICHE_ZAHL = "\\d+"; //$NON-NLS-1$
@@ -159,7 +154,7 @@ public final class DUAUtensilien {
 								new DataDescription(atg, datenBeschreibung
 										.getAspect(), (short) 0)));
 					} catch (IllegalArgumentException ex) {
-						LOGGER.fine(Constants.EMPTY_STRING, ex);
+						Debug.getLogger().fine(Constants.EMPTY_STRING, ex);
 					}
 				}
 			} else if (datenBeschreibung.getAspect() == null) {
@@ -236,7 +231,7 @@ public final class DUAUtensilien {
 				for (String element : elemente) {
 					if (ergebnis != null) {
 						if (element.length() == 0) {
-							LOGGER.warning("Syntaxfehler in Attributpfad: \""//$NON-NLS-1$
+							Debug.getLogger().warning("Syntaxfehler in Attributpfad: \""//$NON-NLS-1$
 									+ attributPfad + "\""); //$NON-NLS-1$
 							return null;
 						}
@@ -249,24 +244,24 @@ public final class DUAUtensilien {
 								ergebnis = ergebnis.getItem(element);
 							}
 						} catch (Exception ex) {
-							LOGGER.warning("Fehler bei Exploration von Datum " + //$NON-NLS-1$
+							Debug.getLogger().warning("Fehler bei Exploration von Datum " + //$NON-NLS-1$
 									datum + " mit \"" + //$NON-NLS-1$
 									attributPfad + "\"", ex); //$NON-NLS-1$
 							return null;
 						}
 
 					} else {
-						LOGGER
+						Debug.getLogger()
 								.warning("Datensatz " + datum + " kann nicht bis \"" + //$NON-NLS-1$ //$NON-NLS-2$
 										attributPfad + "\" exploriert werden."); //$NON-NLS-1$
 					}
 				}
 			} else {
-				LOGGER
+				Debug.getLogger()
 						.warning("Übergebener Attributpfad ist " + DUAKonstanten.NULL); //$NON-NLS-1$
 			}
 		} else {
-			LOGGER.warning("Übergebenes Datum ist " + DUAKonstanten.NULL); //$NON-NLS-1$
+			Debug.getLogger().warning("Übergebenes Datum ist " + DUAKonstanten.NULL); //$NON-NLS-1$
 		}
 
 		return ergebnis;
@@ -325,7 +320,7 @@ public final class DUAUtensilien {
 				|| obj.getClass().equals(DafConfigurationAuthority.class)) {
 			finaleObjekte.add(obj);
 		} else {
-			LOGGER.fine("Das übergebene Objekt ist weder ein Typ," + //$NON-NLS-1$
+			Debug.getLogger().fine("Das übergebene Objekt ist weder ein Typ," + //$NON-NLS-1$
 					" ein Konfigurationsobjekt, ein dynamisches Objekt" + //$NON-NLS-1$
 					" noch eine Konfigurationsautorität: " + obj); //$NON-NLS-1$
 		}
@@ -408,7 +403,7 @@ public final class DUAUtensilien {
 				finaleObjekte.add(obj);
 			}
 		} else {
-			LOGGER.fine("Das übergebene Objekt ist weder ein Typ," + //$NON-NLS-1$
+			Debug.getLogger().fine("Das übergebene Objekt ist weder ein Typ," + //$NON-NLS-1$
 					" ein Konfigurationsobjekt, ein dynamisches Objekt" + //$NON-NLS-1$
 					" noch eine Konfigurationsautorität: " + obj); //$NON-NLS-1$
 		}

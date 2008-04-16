@@ -53,11 +53,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Mapt alle MessQuerschnittVirtuell-Systemobjekte auf Objekte dieser Klasse.
 	 */
 	protected static Map<SystemObject, MessQuerschnittVirtuell> sysObjMqvObjMap = new HashMap<SystemObject, MessQuerschnittVirtuell>();
@@ -123,7 +118,7 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 				.getConfigurationData(atgEigenschaftenSTD);
 
 		if (eigenschaftenSTD == null) {
-			LOGGER
+			Debug.getLogger()
 					.warning("Standardeigenschaften von MessQuerschnittVirtuell-Objekt " + mqvObjekt + //$NON-NLS-1$
 							" konnten nicht ausgelesen werden"); //$NON-NLS-1$
 		} else {

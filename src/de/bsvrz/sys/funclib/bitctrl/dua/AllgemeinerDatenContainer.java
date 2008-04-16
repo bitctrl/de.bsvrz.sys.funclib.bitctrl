@@ -45,11 +45,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public class AllgemeinerDatenContainer {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Vergleicht dieses Objekt mit dem übergebenen Objekt. Die beiden Objekte
 	 * sind dann gleich, wenn sie vom selben Typ sind und wenn alle
 	 * Getter-Methoden die gleichen Werte zurückliefern.
@@ -74,15 +69,15 @@ public class AllgemeinerDatenContainer {
 								return false;
 							}
 						} catch (IllegalArgumentException e) {
-							LOGGER.error(Constants.EMPTY_STRING, e);
+							Debug.getLogger().error(Constants.EMPTY_STRING, e);
 							e.printStackTrace();
 							return false;
 						} catch (IllegalAccessException e) {
-							LOGGER.error(Constants.EMPTY_STRING, e);
+							Debug.getLogger().error(Constants.EMPTY_STRING, e);
 							e.printStackTrace();
 							return false;
 						} catch (InvocationTargetException e) {
-							LOGGER.error(Constants.EMPTY_STRING, e);
+							Debug.getLogger().error(Constants.EMPTY_STRING, e);
 							e.printStackTrace();
 							return false;
 						}

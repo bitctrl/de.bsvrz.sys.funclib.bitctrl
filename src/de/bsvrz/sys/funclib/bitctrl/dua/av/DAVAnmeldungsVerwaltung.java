@@ -52,11 +52,6 @@ public abstract class DAVAnmeldungsVerwaltung {
 	protected static final boolean DEBUG = false;
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Baum der Datenanmeldungen, die im Moment aktuell sind (ggf. mit ihrem
 	 * Status der Sendesteuerung).
 	 */
@@ -136,7 +131,7 @@ public abstract class DAVAnmeldungsVerwaltung {
 				info += abmelden(diffObjekteAbmeldungen);
 				info += "ANmeldungen: "; //$NON-NLS-1$
 				info += anmelden(diffObjekteAnmeldungen);
-				LOGGER.config(info);
+				Debug.getLogger().config(info);
 			} else {
 				abmelden(diffObjekteAbmeldungen);
 				anmelden(diffObjekteAnmeldungen);

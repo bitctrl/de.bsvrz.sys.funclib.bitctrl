@@ -54,11 +54,6 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 		implements ClientSenderInterface {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Rolle des Senders.
 	 */
 	private SenderRole rolle = null;
@@ -128,10 +123,10 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 			}
 		} catch (DataNotSubscribedException e) {
 			e.printStackTrace();
-			LOGGER.error(Constants.EMPTY_STRING, e);
+			Debug.getLogger().error(Constants.EMPTY_STRING, e);
 		} catch (SendSubscriptionNotConfirmed e) {
 			e.printStackTrace();
-			LOGGER.error(Constants.EMPTY_STRING, e);
+			Debug.getLogger().error(Constants.EMPTY_STRING, e);
 		}
 	}
 
@@ -183,7 +178,7 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 					}
 				}
 			} catch (OneSubscriptionPerSendData e) {
-				LOGGER.error("Probleme beim" + //$NON-NLS-1$
+				Debug.getLogger().error("Probleme beim" + //$NON-NLS-1$
 						" Anmelden als Sender/Quelle:\n" + anmeldung, e); //$NON-NLS-1$
 				e.printStackTrace();
 			}
@@ -213,7 +208,7 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 			}
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			LOGGER.error("Problem" + //$NON-NLS-1$
+			Debug.getLogger().error("Problem" + //$NON-NLS-1$
 					" innerhalb der Sendesteuerung", e); //$NON-NLS-1$
 		}
 	}
@@ -233,7 +228,7 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 			}
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			LOGGER.error("Problem" + //$NON-NLS-1$
+			Debug.getLogger().error("Problem" + //$NON-NLS-1$
 					" innerhalb der Sendesteuerung", e); //$NON-NLS-1$
 		}
 

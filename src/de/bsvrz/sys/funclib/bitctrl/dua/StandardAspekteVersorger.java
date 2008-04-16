@@ -59,11 +59,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public abstract class StandardAspekteVersorger {
 
 	/**
-	 * Debug-Logger.
-	 */
-	protected static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Verbindung zum Verwaltungsmodul.
 	 */
 	protected IVerwaltung verwaltung = null;
@@ -214,7 +209,7 @@ public abstract class StandardAspekteVersorger {
 
 					ergebnis = this.publikationsMap.get(objektAnmeldung);
 				} catch (IllegalArgumentException e) {
-					LOGGER.fine("Der Standard-Publikationsaspekt konnte" + //$NON-NLS-1$
+					Debug.getLogger().fine("Der Standard-Publikationsaspekt konnte" + //$NON-NLS-1$
 							"nicht ermittelt werden: " + originalDatum, e); //$NON-NLS-1$
 				}
 			}

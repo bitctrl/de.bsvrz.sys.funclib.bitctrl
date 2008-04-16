@@ -43,11 +43,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public class DuaVerkehrsNetz {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Flag: Wurde das statische DUA-Verkehrsnetz bereits initialisiert?
 	 */
 	protected static boolean initialisiert = false;
@@ -73,7 +68,7 @@ public class DuaVerkehrsNetz {
 	public static synchronized void initialisiere(
 			final ClientDavInterface dav) throws DUAInitialisierungsException {
 		if (initialisiert) {
-			LOGGER.warning("Das DUA-Verkehrsnetz wurde bereits initialisiert"); //$NON-NLS-1$
+			Debug.getLogger().warning("Das DUA-Verkehrsnetz wurde bereits initialisiert"); //$NON-NLS-1$
 		} else {
 			initialisiert = true;
 			FahrStreifen.initialisiere(dav);
@@ -103,7 +98,7 @@ public class DuaVerkehrsNetz {
 				}
 
 				if (fs.getNachbarFahrStreifen() == null) {
-					LOGGER.warning("Für Fahrstreifen " + fs + " kann " + //$NON-NLS-1$//$NON-NLS-2$
+					Debug.getLogger().warning("Für Fahrstreifen " + fs + " kann " + //$NON-NLS-1$//$NON-NLS-2$
 							"kein Nachbarfahrstreifen ermittelt werden"); //$NON-NLS-1$
 				}
 
@@ -126,7 +121,7 @@ public class DuaVerkehrsNetz {
 
 						if (ersatzFahstreifen.size() > 0) {
 							if (ersatzFahstreifen.size() > 1) {
-								LOGGER
+								Debug.getLogger()
 										.warning("Für Fahrstreifen " + fs + " sind mehrere" + //$NON-NLS-1$ //$NON-NLS-2$
 												" Ersatzfahrstreifen ermittelbar."
 												+ //$NON-NLS-1$
@@ -140,7 +135,7 @@ public class DuaVerkehrsNetz {
 				}
 
 				if (fs.getErsatzFahrStreifen() == null) {
-					LOGGER.warning("Für Fahrstreifen " + fs + " kann " + //$NON-NLS-1$//$NON-NLS-2$
+					Debug.getLogger().warning("Für Fahrstreifen " + fs + " kann " + //$NON-NLS-1$//$NON-NLS-2$
 							"kein Ersatzfahrstreifen ermittelt werden"); //$NON-NLS-1$
 				}
 			}

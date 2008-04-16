@@ -52,11 +52,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public class MessStellenGruppe extends AbstractSystemObjekt {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Mapt alle MessStelleGruppe-Systemobjekte auf Objekte dieser Klasse.
 	 */
 	protected static Map<SystemObject, MessStellenGruppe> sysObjMsgObjMap = new HashMap<SystemObject, MessStellenGruppe>();
@@ -97,7 +92,7 @@ public class MessStellenGruppe extends AbstractSystemObjekt {
 		Data eigenschaften = msgObjekt.getConfigurationData(atgEigenschaften);
 
 		if (eigenschaften == null) {
-			LOGGER.warning("Eigenschaften von Messstellengruppe " + msgObjekt + //$NON-NLS-1$
+			Debug.getLogger().warning("Eigenschaften von Messstellengruppe " + msgObjekt + //$NON-NLS-1$
 					" konnten nicht ausgelesen werden"); //$NON-NLS-1$
 		} else {
 			if (eigenschaften.getReferenceArray("MessStellen") != null) { //$NON-NLS-1$

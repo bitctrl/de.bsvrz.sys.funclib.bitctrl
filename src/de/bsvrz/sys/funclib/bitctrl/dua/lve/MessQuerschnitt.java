@@ -52,11 +52,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public class MessQuerschnitt extends MessQuerschnittAllgemein {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Mapt alle Messquerschnitt-Systemobjekte auf Objekte dieser Klasse.
 	 */
 	protected static Map<SystemObject, MessQuerschnitt> sysObjMqObjMap = new HashMap<SystemObject, MessQuerschnitt>();
@@ -93,7 +88,7 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 				if (fs != null) {
 					this.fahrStreifen.add(fs);
 				} else {
-					LOGGER.warning("Fahrstreifen " + fsObj + " an " + mqObjekt + //$NON-NLS-1$//$NON-NLS-2$
+					Debug.getLogger().warning("Fahrstreifen " + fsObj + " an " + mqObjekt + //$NON-NLS-1$//$NON-NLS-2$
 							" konnte nicht identifiziert werden"); //$NON-NLS-1$
 				}
 			}

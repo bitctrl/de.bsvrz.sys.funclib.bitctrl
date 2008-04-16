@@ -55,11 +55,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public class MessStelle extends AbstractSystemObjekt {
 
 	/**
-	 * Debug-Logger.
-	 */
-	private static final Debug LOGGER = Debug.getLogger();
-
-	/**
 	 * Mapt alle MessStelle-Systemobjekte auf Objekte dieser Klasse.
 	 */
 	protected static Map<SystemObject, MessStelle> sysObjMsObjMap = new HashMap<SystemObject, MessStelle>();
@@ -106,7 +101,7 @@ public class MessStelle extends AbstractSystemObjekt {
 				if (mqa != null) {
 					this.abfahrten.add(mqa);
 				} else {
-					LOGGER.warning("Abfahrt " + mqObj + " an " + msObjekt + //$NON-NLS-1$//$NON-NLS-2$
+					Debug.getLogger().warning("Abfahrt " + mqObj + " an " + msObjekt + //$NON-NLS-1$//$NON-NLS-2$
 							" konnte nicht identifiziert werden"); //$NON-NLS-1$
 				}
 			}
@@ -120,7 +115,7 @@ public class MessStelle extends AbstractSystemObjekt {
 				if (mqa != null) {
 					this.zufahrten.add(mqa);
 				} else {
-					LOGGER.warning("Zufahrt " + mqObj + " an " + msObjekt + //$NON-NLS-1$//$NON-NLS-2$
+					Debug.getLogger().warning("Zufahrt " + mqObj + " an " + msObjekt + //$NON-NLS-1$//$NON-NLS-2$
 							" konnte nicht identifiziert werden"); //$NON-NLS-1$
 				}
 			}
@@ -131,7 +126,7 @@ public class MessStelle extends AbstractSystemObjekt {
 		Data eigenschaften = msObjekt.getConfigurationData(atgEigenschaften);
 
 		if (eigenschaften == null) {
-			LOGGER.warning("Eigenschaften von Messstelle " + msObjekt + //$NON-NLS-1$
+			Debug.getLogger().warning("Eigenschaften von Messstelle " + msObjekt + //$NON-NLS-1$
 					" konnten nicht ausgelesen werden"); //$NON-NLS-1$
 		} else {
 			if (eigenschaften.getReferenceValue("Prüfling") != null) { //$NON-NLS-1$
