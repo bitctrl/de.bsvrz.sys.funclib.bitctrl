@@ -263,11 +263,12 @@ public class PdSituationsEigenschaften extends
 			}
 
 			if (erstesSegment != null) {
-				result -= getStartOffset();
-			}
-			if (letztesSegment != null) {
-				result -= letztesSegment.getLaenge();
-				result += getEndOffset();
+				result = result - erstesSegment.getLaenge() + getStartOffset();
+				if (letztesSegment != null) {
+					result -= getEndOffset();
+				} else {
+					result = getStartOffset() - getEndOffset();
+				}
 			}
 			return result;
 		}
