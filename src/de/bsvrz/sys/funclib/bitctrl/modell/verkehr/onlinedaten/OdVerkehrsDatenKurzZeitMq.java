@@ -336,7 +336,7 @@ public class OdVerkehrsDatenKurzZeitMq extends
 
 			s = getClass().getName() + "[";
 			s += "zeitpunkt=" + getZeitpunkt();
-			s += ", isValid" + isValid();
+			s += ", isValid=" + isValid();
 			for (final Werte w : Werte.values()) {
 				s += ", " + w.name() + "=" + getWert(w.name());
 			}

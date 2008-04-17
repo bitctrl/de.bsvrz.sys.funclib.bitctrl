@@ -50,6 +50,7 @@ import de.bsvrz.dav.daf.main.SendSubscriptionNotConfirmed;
 import de.bsvrz.dav.daf.main.SenderRole;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Implementiert gemeinsame Funktionen der Datens&auml;tze.
@@ -365,6 +366,9 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	/** Kapselt die aktuellen Daten des Datensatzes. */
 	private final Map<Aspect, T> daten;
 
+	/** Der Logger der Klasse. */
+	private final Debug log;
+
 	/**
 	 * Konstruktor.
 	 * 
@@ -372,7 +376,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 *            das Systemobjekt, dem der Datensatz zugeordnet ist.
 	 */
 	public AbstractDatensatz(final SystemObjekt objekt) {
-		super();
+		log = Debug.getLogger();
 		this.objekt = objekt;
 		receiver = new AsynchronerReceiver();
 		sender = new SynchronerSender();
@@ -726,7 +730,15 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 				}
 			}
 			if (getStatusSendesteuerung(asp) == Datensatz.Status.START
-					|| (isQuelle(asp) && getStatusSendesteuerung(asp) == Datensatz.Status.STOP)) {
+					|| (isQuelle(asp) && (getStatusSendesteuerung(asp) == Datensatz.Status.STOP || getStatusSendesteuerung(asp) == null))) {
+				if (getStatusSendesteuerung(asp) == null) {
+					log.warning("Die Sendesteuerung hat nicht innerhalb von "
+							+ (TIMEOUT / MILLIS_PER_SECOND)
+							+ "Sekunden geantwortet: Quelle=" + isQuelle(asp)
+							+ ", Sendesteuerung="
+							+ getStatusSendesteuerung(asp) + ", Datensatz="
+							+ this);
+				}
 				sender.sende(konvertiere(datum), asp, datum.getZeitstempel());
 			} else {
 				throw new DatensendeException("Timeout, Quelle="
