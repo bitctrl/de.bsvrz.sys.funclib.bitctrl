@@ -136,7 +136,7 @@ public class OdStoerfallZustand extends
 		private long horizont;
 
 		/** Die G&uuml;te des betrachteten Wertes. */
-		private double gueteIndex = 100.0;
+		private double gueteIndex = 1.0;
 
 		/** Berechnungsverfahren, mit dem die G&uuml;te ermittelt wurde. */
 		private GueteVerfahren gueteVerfahren = GueteVerfahren.Standard;
@@ -393,8 +393,8 @@ public class OdStoerfallZustand extends
 	protected Data konvertiere(Daten datum) {
 		Data daten = erzeugeSendeCache();
 
-		daten.getItem("Güte").getUnscaledValue("Index").set(
-				datum.getGueteIndex());
+		daten.getItem("Güte").getScaledValue("Index")
+				.set(datum.getGueteIndex());
 		daten.getItem("Güte").getUnscaledValue("Verfahren").set(
 				datum.getGueteVerfahren().getCode());
 		daten.getTimeValue("Horizont").setMillis(datum.getHorizont());
