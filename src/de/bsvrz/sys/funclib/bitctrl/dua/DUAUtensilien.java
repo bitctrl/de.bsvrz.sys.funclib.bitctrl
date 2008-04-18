@@ -37,8 +37,14 @@ import java.util.TreeSet;
 import com.bitctrl.Constants;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
+import de.bsvrz.dav.daf.main.ClientSenderInterface;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.DataDescription;
+import de.bsvrz.dav.daf.main.DataNotSubscribedException;
+import de.bsvrz.dav.daf.main.OneSubscriptionPerSendData;
+import de.bsvrz.dav.daf.main.ResultData;
+import de.bsvrz.dav.daf.main.SendSubscriptionNotConfirmed;
+import de.bsvrz.dav.daf.main.SenderRole;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.AttributeType;
@@ -62,16 +68,20 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * 
  * @author BitCtrl Systems GmbH, Thierfelder
  * 
- * 
  * @version $Id$
  */
 public final class DUAUtensilien {
-	
+
+	/**
+	 * statischer Sender von Standardparametern.
+	 */
+	private static ClientSenderInterface parameterSender = null;
+
 	/**
 	 * Standardkonstruktor.
 	 */
 	private DUAUtensilien() {
-		
+
 	}
 
 	/**
@@ -96,8 +106,8 @@ public final class DUAUtensilien {
 	 * @return einen veränderten Attributpfad oder <code>null</code>, wenn
 	 *         die Ersetzung nicht durchgeführt werden konnte
 	 */
-	public static String ersetzeLetztesElemInAttPfad(
-			final String attPfad, final String ersetzung) {
+	public static String ersetzeLetztesElemInAttPfad(final String attPfad,
+			final String ersetzung) {
 		String ergebnis = null;
 
 		if (attPfad != null && attPfad.length() > 0 && ersetzung != null
@@ -231,8 +241,9 @@ public final class DUAUtensilien {
 				for (String element : elemente) {
 					if (ergebnis != null) {
 						if (element.length() == 0) {
-							Debug.getLogger().warning("Syntaxfehler in Attributpfad: \""//$NON-NLS-1$
-									+ attributPfad + "\""); //$NON-NLS-1$
+							Debug.getLogger().warning(
+									"Syntaxfehler in Attributpfad: \""//$NON-NLS-1$
+											+ attributPfad + "\""); //$NON-NLS-1$
 							return null;
 						}
 
@@ -244,24 +255,26 @@ public final class DUAUtensilien {
 								ergebnis = ergebnis.getItem(element);
 							}
 						} catch (Exception ex) {
-							Debug.getLogger().warning("Fehler bei Exploration von Datum " + //$NON-NLS-1$
-									datum + " mit \"" + //$NON-NLS-1$
-									attributPfad + "\"", ex); //$NON-NLS-1$
+							Debug.getLogger().warning(
+									"Fehler bei Exploration von Datum " + //$NON-NLS-1$
+											datum + " mit \"" + //$NON-NLS-1$
+											attributPfad + "\"", ex); //$NON-NLS-1$
 							return null;
 						}
 
 					} else {
-						Debug.getLogger()
-								.warning("Datensatz " + datum + " kann nicht bis \"" + //$NON-NLS-1$ //$NON-NLS-2$
+						Debug.getLogger().warning(
+								"Datensatz " + datum + " kann nicht bis \"" + //$NON-NLS-1$ //$NON-NLS-2$
 										attributPfad + "\" exploriert werden."); //$NON-NLS-1$
 					}
 				}
 			} else {
-				Debug.getLogger()
-						.warning("Übergebener Attributpfad ist " + DUAKonstanten.NULL); //$NON-NLS-1$
+				Debug.getLogger().warning(
+						"Übergebener Attributpfad ist " + DUAKonstanten.NULL); //$NON-NLS-1$
 			}
 		} else {
-			Debug.getLogger().warning("Übergebenes Datum ist " + DUAKonstanten.NULL); //$NON-NLS-1$
+			Debug.getLogger().warning(
+					"Übergebenes Datum ist " + DUAKonstanten.NULL); //$NON-NLS-1$
 		}
 
 		return ergebnis;
@@ -428,12 +441,14 @@ public final class DUAUtensilien {
 		cal1.set(Calendar.HOUR_OF_DAY, 0);
 		cal2.set(Calendar.HOUR_OF_DAY, 10);
 
-		if ((cal1.get(Calendar.DST_OFFSET) / 60l / 60l / 1000l) == 0
-				&& (cal2.get(Calendar.DST_OFFSET) / 60l / 60l / 1000l) == 1)
+		if ((cal1.get(Calendar.DST_OFFSET) / 60L / 60L / 1000L) == 0
+				&& (cal2.get(Calendar.DST_OFFSET) / 60L / 60L / 1000L) == 1) {
 			stundenDesTages = 23;
-		if ((cal1.get(Calendar.DST_OFFSET) / 60l / 60l / 1000l) == 1
-				&& (cal2.get(Calendar.DST_OFFSET) / 60l / 60l / 1000l) == 0)
+		}
+		if ((cal1.get(Calendar.DST_OFFSET) / 60L / 60L / 1000L) == 1
+				&& (cal2.get(Calendar.DST_OFFSET) / 60L / 60L / 1000L) == 0) {
 			stundenDesTages = 25;
+		}
 
 		return stundenDesTages;
 	}
@@ -691,7 +706,8 @@ public final class DUAUtensilien {
 	/**
 	 * Erfragt eine Kurzinformation eines Objektarrays.
 	 * 
-	 * @param objekte alle Objekte
+	 * @param objekte
+	 *            alle Objekte
 	 * @return eine Kurzinformation eines Objektarrays
 	 */
 	public static String getArrayKurzInfo(Object[] objekte) {
@@ -727,5 +743,95 @@ public final class DUAUtensilien {
 
 		return kurzInfo;
 	}
-	
+
+	/**
+	 * Parametriert die Parametrierung dergestalt, dass von dieser <b>alle</b>
+	 * Parameter erfasst werden.
+	 * 
+	 * @param dav
+	 *            Verbindung zum Datenverteiler
+	 */
+	public static void setAlleParameter(final ClientDavInterface dav) {
+		DataDescription datenBeschreibung = new DataDescription(dav
+				.getDataModel().getAttributeGroup("atg.parametrierung"), dav
+				.getDataModel().getAspect("asp.parameterVorgabe"));
+
+		if (parameterSender == null) {
+			parameterSender = new ClientSenderInterface() {
+
+				/**
+				 * {@inheritDoc}
+				 */
+				public void dataRequest(SystemObject object,
+						DataDescription dataDescription, byte state) {
+					//
+				}
+
+				/**
+				 * {@inheritDoc}
+				 */
+				public boolean isRequestSupported(SystemObject object,
+						DataDescription dataDescription) {
+					return false;
+				}
+
+			};
+
+			try {
+				dav.subscribeSender(parameterSender, dav.getDataModel()
+						.getConfigurationAuthority(), datenBeschreibung,
+						SenderRole.sender());
+				try {
+					Thread.sleep(2000L);
+				} catch (InterruptedException ex) {
+					//
+				}
+			} catch (OneSubscriptionPerSendData e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		Data atgData = dav.createData(datenBeschreibung.getAttributeGroup());
+
+		atgData.getItem("Urlasser").getReferenceValue("BenutzerReferenz")
+				.setSystemObject(null);
+		atgData.getItem("Urlasser").getTextValue("Ursache").setText("");
+		atgData.getItem("Urlasser").getTextValue("Veranlasser").setText("");
+
+		atgData.getArray("ParameterSatz").setLength(1);
+		atgData.getArray("ParameterSatz").getItem(0).getReferenceArray(
+				"Bereich").setLength(0);
+		atgData.getArray("ParameterSatz").getItem(0).getArray(
+				"DatenSpezifikation").setLength(1);
+		atgData.getArray("ParameterSatz").getItem(0).getArray(
+				"DatenSpezifikation").getItem(0).getReferenceArray("Objekt")
+				.setLength(0);
+		atgData.getArray("ParameterSatz").getItem(0).getArray(
+				"DatenSpezifikation").getItem(0).getReferenceArray(
+				"AttributGruppe").setLength(0);
+		atgData.getArray("ParameterSatz").getItem(0).getArray(
+				"DatenSpezifikation").getItem(0).getUnscaledValue(
+				"SimulationsVariante").set(0);
+		atgData.getArray("ParameterSatz").getItem(0).getItem("Einstellungen")
+				.getUnscaledValue("Parametrieren").set(DUAKonstanten.JA);
+
+		ResultData resultat = new ResultData(dav.getDataModel()
+				.getConfigurationAuthority(), datenBeschreibung, System
+				.currentTimeMillis(), atgData);
+
+		try {
+			dav.sendData(resultat);
+		} catch (DataNotSubscribedException e) {
+			throw new RuntimeException(e);
+		} catch (SendSubscriptionNotConfirmed e) {
+			throw new RuntimeException(e);
+		}
+		
+		try {
+			Thread.sleep(5000L);
+		} catch (InterruptedException ex) {
+			//
+		}
+	}
+
 }
