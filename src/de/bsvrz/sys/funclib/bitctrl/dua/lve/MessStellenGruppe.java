@@ -33,10 +33,12 @@ import java.util.Map;
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
+import de.bsvrz.dav.daf.main.config.ConfigurationArea;
 import de.bsvrz.dav.daf.main.config.ConfigurationObject;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
+import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
@@ -159,6 +161,41 @@ public class MessStellenGruppe extends AbstractSystemObjekt {
 		for (SystemObject msObj : sDav.getDataModel().getType(
 				DUAKonstanten.TYP_MESS_STELLEN_GRUPPE).getElements()) {
 			if (msObj.isValid()) {
+				sysObjMsgObjMap.put(msObj, new MessStellenGruppe(msObj));
+			}
+		}
+	}
+
+	/**
+	 * Initialisiert diese Klasse, indem für alle Systemobjekte vom Typ
+	 * <code>typ.messStelleGruppe</code> statische Instanzen dieser Klasse
+	 * angelegt werden.
+	 * 
+	 * @param dav1
+	 *            Datenverteiler-Verbindung
+	 * 
+	 * @param kbs
+	 *            Menge der zu betrachtenden Konfigurationsbereiche
+	 * @throws DUAInitialisierungsException
+	 *             wenn eines der Objekte nicht initialisiert werden konnte
+	 */
+	protected static void initialisiere(final ClientDavInterface dav1,
+			final ConfigurationArea[] kbs) throws DUAInitialisierungsException {
+		if (dav1 == null) {
+			throw new NullPointerException(
+					"Datenverteiler-Verbindung ist <<null>>"); //$NON-NLS-1$
+		}
+
+		if (sDav != null) {
+			throw new RuntimeException(
+					"Objekt darf nur einmal initialisiert werden"); //$NON-NLS-1$
+		}
+		sDav = dav1;
+
+		for (SystemObject msObj : sDav.getDataModel().getType(
+				DUAKonstanten.TYP_MESS_STELLEN_GRUPPE).getElements()) {
+			if (msObj.isValid()
+					&& DUAUtensilien.isObjektInKBsEnthalten(msObj, kbs)) {
 				sysObjMsgObjMap.put(msObj, new MessStellenGruppe(msObj));
 			}
 		}

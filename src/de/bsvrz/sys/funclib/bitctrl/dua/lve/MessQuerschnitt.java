@@ -33,10 +33,12 @@ import java.util.List;
 import java.util.Map;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
+import de.bsvrz.dav.daf.main.config.ConfigurationArea;
 import de.bsvrz.dav.daf.main.config.ConfigurationObject;
 import de.bsvrz.dav.daf.main.config.ObjectSet;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
+import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.dua.lve.typen.FahrStreifenLage;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
@@ -88,8 +90,9 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 				if (fs != null) {
 					this.fahrStreifen.add(fs);
 				} else {
-					Debug.getLogger().warning("Fahrstreifen " + fsObj + " an " + mqObjekt + //$NON-NLS-1$//$NON-NLS-2$
-							" konnte nicht identifiziert werden"); //$NON-NLS-1$
+					Debug.getLogger().warning(
+							"Fahrstreifen " + fsObj + " an " + mqObjekt + //$NON-NLS-1$//$NON-NLS-2$
+									" konnte nicht identifiziert werden"); //$NON-NLS-1$
 				}
 			}
 		}
@@ -118,6 +121,38 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 		for (SystemObject mqObjekt : sDav.getDataModel().getType(
 				DUAKonstanten.TYP_MQ).getElements()) {
 			if (mqObjekt.isValid()) {
+				sysObjMqObjMap.put(mqObjekt, new MessQuerschnitt(mqObjekt));
+			}
+		}
+	}
+
+	/**
+	 * Initialisiert diese Klasse, indem für alle Systemobjekte vom Typ
+	 * <code>typ.messQuerschnitt</code> statische Instanzen dieser Klasse
+	 * angelegt werden.
+	 * 
+	 * @param dav1
+	 *            Datenverteiler-Verbindung
+	 * @param kbs
+	 *            Menge der zu betrachtenden Konfigurationsbereiche
+	 */
+	protected static void initialisiere(final ClientDavInterface dav1,
+			final ConfigurationArea[] kbs) {
+		if (dav1 == null) {
+			throw new NullPointerException(
+					"Datenverteiler-Verbindung ist <<null>>"); //$NON-NLS-1$
+		}
+
+		if (sDav != null) {
+			throw new RuntimeException(
+					"Objekt darf nur einmal initialisiert werden"); //$NON-NLS-1$
+		}
+		sDav = dav1;
+
+		for (SystemObject mqObjekt : sDav.getDataModel().getType(
+				DUAKonstanten.TYP_MQ).getElements()) {
+			if (mqObjekt.isValid()
+					&& DUAUtensilien.isObjektInKBsEnthalten(mqObjekt, kbs)) {
 				sysObjMqObjMap.put(mqObjekt, new MessQuerschnitt(mqObjekt));
 			}
 		}
