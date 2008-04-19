@@ -745,6 +745,36 @@ public final class DUAUtensilien {
 	}
 
 	/**
+	 * Erfragt, ob ein Systemobjekt in einem der uebergebenen
+	 * Konfigurationsbereiche enthalten ist.
+	 * 
+	 * @param obj
+	 *            ein Systemobjekt
+	 * @param kbs
+	 *            eine Menge von Konfigurationsbereichen
+	 * @return <code>true</code>, wenn das Systemobjekt in einem der
+	 *         uebergebenen Konfigurationsbereiche enthalten ist bzw. wenn die
+	 *         Menge der Konfigurationsbereiche <code>null</code> oder leer
+	 *         ist. Sonst <code>false</code>
+	 */
+	public static boolean isObjektInKBsEnthalten(final SystemObject obj,
+			final ConfigurationArea[] kbs) {
+		boolean enthalten = true;
+
+		if (kbs != null && kbs.length > 0) {
+			enthalten = false;
+			for (ConfigurationArea kb : kbs) {
+				if (obj.getConfigurationArea().equals(kb)) {
+					enthalten = true;
+					break;
+				}
+			}
+		}
+
+		return enthalten;
+	}
+
+	/**
 	 * Parametriert die Parametrierung dergestalt, dass von dieser <b>alle</b>
 	 * Parameter erfasst werden.
 	 * 
