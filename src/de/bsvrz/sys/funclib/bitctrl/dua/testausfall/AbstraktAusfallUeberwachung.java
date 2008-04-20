@@ -130,65 +130,73 @@ public abstract class AbstraktAusfallUeberwachung extends
 			for (ResultData resultat : resultate) {
 				if (resultat != null) {
 
-					/**
-					 * Hier werden die Daten herausgefiltert, die von der
-					 * Ausfallkontrolle quasi zu unrecht generiert wurden, da
-					 * das Datum nur minimal zu spät kam.
-					 */
-					if (this.letzteEmpfangeneDatenZeitProObj.get(resultat
-							.getObject()) < resultat.getDataTime()) {
+					if (this.getMaxZeitVerzug(resultat.getObject()) < 0) {
 						/**
-						 * Zeitstempel ist echt neu!
+						 * Datum wird nicht ueberwacht
 						 */
 						weiterzuleitendeResultate.add(resultat);
-					}
-					this.letzteEmpfangeneDatenZeitProObj.put(resultat
-							.getObject(), resultat.getDataTime());
-
-					if (resultat.getData() != null) {
-
-						this.bereinigeKontrollZeitpunkte(resultat);
-
-						long kontrollZeitpunkt = this
-								.getKontrollZeitpunktVon(resultat);
-						if (kontrollZeitpunkt > 0) {
-							Collection<ObjektResultat> kontrollObjekte = this.kontrollZeitpunkte
-									.get(kontrollZeitpunkt);
-
+					} else {
+						/**
+						 * Hier werden die Daten herausgefiltert, die von der
+						 * Ausfallkontrolle quasi zu unrecht generiert wurden, da
+						 * das Datum nur minimal zu spät kam.
+						 */
+						if (this.letzteEmpfangeneDatenZeitProObj.get(resultat
+								.getObject()) < resultat.getDataTime()) {
+							
 							/**
-							 * Kontrolldatum bestimmten
+							 * Zeitstempel ist echt neu!
 							 */
-							ObjektResultat neuesKontrollObjekt = new ObjektResultat(
-									resultat);
-							if (kontrollObjekte != null) {
-								kontrollObjekte.add(neuesKontrollObjekt);
-							} else {
-								kontrollObjekte = new TreeSet<ObjektResultat>();
-								kontrollObjekte.add(neuesKontrollObjekt);
-								this.kontrollZeitpunkte.put(new Long(
-										kontrollZeitpunkt), kontrollObjekte);
-							}
+							weiterzuleitendeResultate.add(resultat);
 						}
-
-						long fruehesterKontrollZeitpunkt = -1;
-
-						if (!this.kontrollZeitpunkte.isEmpty()) {
-							fruehesterKontrollZeitpunkt = this.kontrollZeitpunkte
-									.firstKey().longValue();
-
-							if (fruehesterKontrollZeitpunkt > 0) {
-								this.kontrollProzess
-										.setNaechstenAufrufZeitpunkt(
-												fruehesterKontrollZeitpunkt,
-												new Long(
-														fruehesterKontrollZeitpunkt));
+						this.letzteEmpfangeneDatenZeitProObj.put(resultat
+								.getObject(), resultat.getDataTime());
+	
+						if (resultat.getData() != null) {
+	
+							this.bereinigeKontrollZeitpunkte(resultat);
+	
+							long kontrollZeitpunkt = this
+									.getKontrollZeitpunktVon(resultat);
+							if (kontrollZeitpunkt > 0) {
+								Collection<ObjektResultat> kontrollObjekte = this.kontrollZeitpunkte
+										.get(kontrollZeitpunkt);
+	
+								/**
+								 * Kontrolldatum bestimmten
+								 */
+								ObjektResultat neuesKontrollObjekt = new ObjektResultat(
+										resultat);
+								if (kontrollObjekte != null) {
+									kontrollObjekte.add(neuesKontrollObjekt);
+								} else {
+									kontrollObjekte = new TreeSet<ObjektResultat>();
+									kontrollObjekte.add(neuesKontrollObjekt);
+									this.kontrollZeitpunkte.put(new Long(
+											kontrollZeitpunkt), kontrollObjekte);
+								}
+							}
+	
+							long fruehesterKontrollZeitpunkt = -1;
+	
+							if (!this.kontrollZeitpunkte.isEmpty()) {
+								fruehesterKontrollZeitpunkt = this.kontrollZeitpunkte
+										.firstKey().longValue();
+	
+								if (fruehesterKontrollZeitpunkt > 0) {
+									this.kontrollProzess
+											.setNaechstenAufrufZeitpunkt(
+													fruehesterKontrollZeitpunkt,
+													new Long(
+															fruehesterKontrollZeitpunkt));
+								} else {
+									Debug.getLogger()
+											.warning("Der momentan aktuellste Kontrollzeitpunkt ist <= 0"); //$NON-NLS-1$
+								}
 							} else {
 								Debug.getLogger()
-										.warning("Der momentan aktuellste Kontrollzeitpunkt ist <= 0"); //$NON-NLS-1$
+										.warning("Die Menge der Kontrollzeitpunkte ist leer"); //$NON-NLS-1$
 							}
-						} else {
-							Debug.getLogger()
-									.warning("Die Menge der Kontrollzeitpunkte ist leer"); //$NON-NLS-1$
 						}
 					}
 				}
