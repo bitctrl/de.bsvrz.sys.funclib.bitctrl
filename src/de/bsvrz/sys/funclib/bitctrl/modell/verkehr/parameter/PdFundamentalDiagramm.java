@@ -241,7 +241,8 @@ public class PdFundamentalDiagramm extends
 	/**
 	 * Konstruktor.<br>
 	 * Die Funktion erzeugt eine Instanz des Parameterdatensatzes auf der Basis
-	 * des übergebenen Störfallindikators.
+	 * des übergebenen Störfallindikators. Zulässige Störfallindikatoren sind
+	 * MessquerschnittAllgemein und Straßenteilsegment.
 	 * 
 	 * @param indikator
 	 *            das Systemobjekt
