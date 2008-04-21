@@ -33,6 +33,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StoerfallIndikator;
 
 /**
  * Ein Parameterdatensatz, die Parameterdaten des Fundamentaldiagramms eines
@@ -240,15 +241,15 @@ public class PdFundamentalDiagramm extends
 	/**
 	 * Konstruktor.<br>
 	 * Die Funktion erzeugt eine Instanz des Parameterdatensatzes auf der Basis
-	 * des übergebenen Systemobjekts.
+	 * des übergebenen Störfallindikators.
 	 * 
-	 * @param objekt
+	 * @param indikator
 	 *            das Systemobjekt
 	 */
-	public PdFundamentalDiagramm(final SystemObjekt objekt) {
-		super(objekt);
+	public PdFundamentalDiagramm(final StoerfallIndikator indikator) {
+		super(indikator);
 		if (attributGruppe == null) {
-			attributGruppe = objekt.getSystemObject().getDataModel()
+			attributGruppe = indikator.getSystemObject().getDataModel()
 					.getAttributeGroup("atg.fundamentalDiagramm");
 		}
 	}
