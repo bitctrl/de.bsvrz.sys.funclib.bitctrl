@@ -135,9 +135,4 @@ public interface ParameterDatensatz<T extends Datum> extends Datensatz<T> {
 	 */
 	void sendeDaten(T datum, long timeout) throws DatensendeException;
 
-	/**
-	 * Ruft die aktuellen Daten ab und setzt die internen Daten.
-	 */
-	void update();
-
 }

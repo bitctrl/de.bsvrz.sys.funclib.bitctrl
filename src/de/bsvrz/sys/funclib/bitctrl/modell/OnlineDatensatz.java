@@ -204,12 +204,4 @@ public interface OnlineDatensatz<T extends Datum> extends Datensatz<T> {
 	 */
 	void setSenke(Aspect asp, boolean senke);
 
-	/**
-	 * Ruft die aktuellen Daten ab und setzt die internen Daten.
-	 * 
-	 * @param asp
-	 *            der betroffene Aspekt.
-	 */
-	void update(Aspect asp);
-
 }

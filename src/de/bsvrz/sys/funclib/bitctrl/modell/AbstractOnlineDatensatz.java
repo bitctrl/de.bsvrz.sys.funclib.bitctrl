@@ -54,7 +54,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * @param objekt
 	 *            das Objekt dem der Datensatz zugeordnet ist.
 	 */
-	public AbstractOnlineDatensatz(SystemObjekt objekt) {
+	public AbstractOnlineDatensatz(final SystemObjekt objekt) {
 		super(objekt);
 		quellen = new HashSet<Aspect>();
 		senken = new HashSet<Aspect>();
@@ -66,7 +66,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#abmeldenSender(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override
-	public void abmeldenSender(Aspect asp) {
+	public void abmeldenSender(final Aspect asp) {
 		super.abmeldenSender(asp);
 	}
 
@@ -76,7 +76,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#abrufenDatum(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override
-	public T abrufenDatum(Aspect asp) {
+	public T abrufenDatum(final Aspect asp) {
 		return super.abrufenDatum(asp);
 	}
 
@@ -87,7 +87,8 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 *      de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener)
 	 */
 	@Override
-	public void addUpdateListener(Aspect asp, DatensatzUpdateListener listener) {
+	public void addUpdateListener(final Aspect asp,
+			final DatensatzUpdateListener listener) {
 		super.addUpdateListener(asp, listener);
 	}
 
@@ -97,7 +98,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#anmeldenSender(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override
-	public void anmeldenSender(Aspect asp) throws AnmeldeException {
+	public void anmeldenSender(final Aspect asp) throws AnmeldeException {
 		super.anmeldenSender(asp);
 	}
 
@@ -107,7 +108,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getDatum(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override
-	public T getDatum(Aspect asp) {
+	public T getDatum(final Aspect asp) {
 		return super.getDatum(asp);
 	}
 
@@ -117,7 +118,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#getStatusSendesteuerung(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override
-	public Status getStatusSendesteuerung(Aspect asp) {
+	public Status getStatusSendesteuerung(final Aspect asp) {
 		return super.getStatusSendesteuerung(asp);
 	}
 
@@ -127,7 +128,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isAngemeldetSender(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override
-	public boolean isAngemeldetSender(Aspect asp) {
+	public boolean isAngemeldetSender(final Aspect asp) {
 		return super.isAngemeldetSender(asp);
 	}
 
@@ -137,7 +138,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isAutoUpdate(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override
-	public boolean isAutoUpdate(Aspect asp) {
+	public boolean isAutoUpdate(final Aspect asp) {
 		return super.isAutoUpdate(asp);
 	}
 
@@ -147,7 +148,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isQuelle(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override
-	public boolean isQuelle(Aspect asp) {
+	public boolean isQuelle(final Aspect asp) {
 		return quellen.contains(asp);
 	}
 
@@ -157,7 +158,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#isSenke(de.bsvrz.dav.daf.main.config.Aspect)
 	 */
 	@Override
-	public boolean isSenke(Aspect asp) {
+	public boolean isSenke(final Aspect asp) {
 		return senken.contains(asp);
 	}
 
@@ -168,8 +169,8 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 *      de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener)
 	 */
 	@Override
-	public void removeUpdateListener(Aspect asp,
-			DatensatzUpdateListener listener) {
+	public void removeUpdateListener(final Aspect asp,
+			final DatensatzUpdateListener listener) {
 		super.removeUpdateListener(asp, listener);
 	}
 
@@ -180,7 +181,8 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 *      de.bsvrz.sys.funclib.bitctrl.modell.Datum)
 	 */
 	@Override
-	public void sendeDaten(Aspect asp, T datum) throws DatensendeException {
+	public void sendeDaten(final Aspect asp, final T datum)
+			throws DatensendeException {
 		super.sendeDaten(asp, datum);
 	}
 
@@ -191,7 +193,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 *      de.bsvrz.sys.funclib.bitctrl.modell.Datum, long)
 	 */
 	@Override
-	public void sendeDaten(Aspect asp, T datum, long timeout)
+	public void sendeDaten(final Aspect asp, final T datum, final long timeout)
 			throws DatensendeException {
 		super.sendeDaten(asp, datum, timeout);
 	}
@@ -202,7 +204,7 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.OnlineDatensatz#setQuelle(de.bsvrz.dav.daf.main.config.Aspect,
 	 *      boolean)
 	 */
-	public void setQuelle(Aspect asp, boolean quelle) {
+	public void setQuelle(final Aspect asp, final boolean quelle) {
 		if (quelle) {
 			quellen.add(asp);
 		} else {
@@ -216,24 +218,12 @@ public abstract class AbstractOnlineDatensatz<T extends Datum> extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.OnlineDatensatz#setSenke(de.bsvrz.dav.daf.main.config.Aspect,
 	 *      boolean)
 	 */
-	public void setSenke(Aspect asp, boolean senke) {
+	public void setSenke(final Aspect asp, final boolean senke) {
 		if (senke) {
 			senken.add(asp);
 		} else {
 			senken.remove(asp);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#update(de.bsvrz.dav.daf.main.config.Aspect)
-	 * @deprecated identisch mit {@link #abrufenDatum(Aspect)}
-	 */
-	@Override
-	@Deprecated
-	public void update(Aspect asp) {
-		super.update(asp);
 	}
 
 }

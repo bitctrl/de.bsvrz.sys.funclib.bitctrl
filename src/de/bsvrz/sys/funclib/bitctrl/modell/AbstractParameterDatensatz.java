@@ -60,7 +60,7 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 		super(objekt);
 
 		if (receiverAsp == null || senderAsp == null) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			receiverAsp = modell.getAspect(DaVKonstanten.ASP_PARAMETER_SOLL);
 			senderAsp = modell.getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE);
@@ -218,17 +218,6 @@ public abstract class AbstractParameterDatensatz<T extends Datum> extends
 	 */
 	protected void setDatum(final T datum) {
 		setDatum(receiverAsp, datum);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#update()
-	 * @deprecated identisch mit {@link #abrufenDatum()}
-	 */
-	@Deprecated
-	public void update() {
-		update(receiverAsp);
 	}
 
 }

@@ -750,26 +750,4 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		daten.put(asp, datum);
 	}
 
-	/**
-	 * Ruft die aktuellen Daten ab und setzt die internen Daten.
-	 * 
-	 * @todo deprecated Methode löschen
-	 * @param asp
-	 *            der betroffene Aspekt.
-	 * @deprecated identisch mit {@link #abrufenDatum(Aspect)}
-	 */
-	@Deprecated
-	protected void update(final Aspect asp) {
-		if (!receiver.isAngemeldet(asp)) {
-			ClientDavInterface dav;
-			ResultData datensatz;
-			DataDescription dbs;
-
-			dav = ObjektFactory.getInstanz().getVerbindung();
-			dbs = new DataDescription(getAttributGruppe(), asp);
-			datensatz = dav.getData(getObjekt().getSystemObject(), dbs, 0);
-			setDaten(datensatz);
-		}
-	}
-
 }
