@@ -304,7 +304,19 @@ public class VerkehrModellNetz extends Netz implements MutableSetChangeListener 
 	 * @return die Liste der Staus
 	 */
 	public Collection<Stau> getStaus() {
-		return new ArrayList<Stau>(stauListe);
+		ArrayList<Stau> result = new ArrayList<Stau>();
+		if (listeners.getListenerCount(StauListener.class) == 0) {
+			ObjectSet set = ((ConfigurationObject) getSystemObject())
+					.getObjectSet(MENGENNAME_STAUS);
+			for (SystemObject stauObject : set.getElements()) {
+				result.add((Stau) ObjektFactory.getInstanz().getModellobjekt(
+						stauObject));
+			}
+		} else {
+			result.addAll(stauListe);
+		}
+
+		return result;
 	}
 
 	/**
