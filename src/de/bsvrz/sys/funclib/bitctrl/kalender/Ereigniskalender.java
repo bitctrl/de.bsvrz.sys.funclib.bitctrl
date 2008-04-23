@@ -71,7 +71,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * 
 	 * @return der Kalender als Singleton.
 	 */
-	public static Ereigniskalender getInstanz() {
+	public static synchronized Ereigniskalender getInstanz() {
 		if (singleton == null) {
 			singleton = new Ereigniskalender();
 		}
