@@ -46,8 +46,29 @@ import de.bsvrz.dav.daf.main.config.SystemObjectType;
 public final class DataCache {
 
 	/**
-	 * Globale Instanz der Klasse.
+	 * die Art, wie Daten blockweise von der Kondifguration ermittelt werden.
+	 * 
+	 * @author BitCtrl Systems GmbH, Uwe Peuker
+	 * @version $Id$
 	 */
+	public enum CacheMode {
+		/** Konfigurationsdaten werden einzeln von der Konfiguration ermittelt. */
+		NICHT,
+
+		/**
+		 * Konfigurationsdaten werden für einen Typ von der Konfiguration
+		 * ermittelt.
+		 */
+		FLACH,
+
+		/**
+		 * Konfigurationsdaten werden für einen Typ und alle Basistypen von der
+		 * Konfiguration ermittelt.
+		 */
+		TIEF
+	}
+
+	/** Globale Instanz der Klasse. */
 	private static final DataCache INSTANCE = new DataCache();
 
 	/**
@@ -66,24 +87,49 @@ public final class DataCache {
 	 */
 	public static void cacheData(final SystemObjectType objType,
 			final AttributeGroup atg) {
-		boolean cache = false;
-		SystemObjectType type = sucheAtgDefinitionsTyp(objType, atg);
-		Set<AttributeGroup> set = INSTANCE.cachedData.get(type);
-		if (set == null) {
-			set = new HashSet<AttributeGroup>();
-			INSTANCE.cachedData.put(type, set);
-			set.add(atg);
-			cache = true;
-		} else {
-			if (!set.contains(atg)) {
+		if (INSTANCE.caching != CacheMode.NICHT) {
+			boolean cache = false;
+			SystemObjectType type = sucheAtgDefinitionsTyp(objType, atg);
+			Set<AttributeGroup> set = INSTANCE.cachedData.get(type);
+			if (set == null) {
+				set = new HashSet<AttributeGroup>();
+				INSTANCE.cachedData.put(type, set);
 				set.add(atg);
 				cache = true;
+			} else {
+				if (!set.contains(atg)) {
+					set.add(atg);
+					cache = true;
+				}
+			}
+
+			if (cache) {
+				System.err.println("Ermittle Daten des Typs: " + type + " für "
+						+ atg);
+				type.getDataModel().getConfigurationData(type.getElements(),
+						atg);
 			}
 		}
+	}
 
-		if (cache) {
-			type.getDataModel().getConfigurationData(type.getElements(), atg);
-		}
+	/**
+	 * liefert den Modus, in dem Daten blockweise von der Konfiguration
+	 * abgefragt werden.
+	 * 
+	 * @return der Cachemodus
+	 */
+	public static CacheMode getCaching() {
+		return INSTANCE.caching;
+	}
+
+	/**
+	 * setzt den Modus zur blocckweisen Abfrage von Konfigurationsdaten.
+	 * 
+	 * @param caching
+	 *            der Modus
+	 */
+	public static void setCaching(CacheMode caching) {
+		INSTANCE.caching = caching;
 	}
 
 	/**
@@ -99,14 +145,22 @@ public final class DataCache {
 	private static SystemObjectType sucheAtgDefinitionsTyp(
 			final SystemObjectType objType, final AttributeGroup atg) {
 		SystemObjectType result = objType;
-		for (SystemObjectType superType : objType.getSuperTypes()) {
-			if (superType.getAttributeGroups().contains(atg)) {
-				result = sucheAtgDefinitionsTyp(superType, atg);
-				break;
+		if (INSTANCE.caching == CacheMode.TIEF) {
+			for (SystemObjectType superType : objType.getSuperTypes()) {
+				if (superType.getAttributeGroups().contains(atg)) {
+					result = sucheAtgDefinitionsTyp(superType, atg);
+					break;
+				}
 			}
 		}
 		return result;
 	}
+
+	/**
+	 * legt fest, wie die Konfigurationsdaten blockweise von der Konfiguration
+	 * ermittelt werden sollen.
+	 */
+	private CacheMode caching = CacheMode.NICHT;
 
 	/**
 	 * Verwaltungsliste für abgerufene Kombinationen aus Objekttyp und
