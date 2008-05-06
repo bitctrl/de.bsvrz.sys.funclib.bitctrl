@@ -139,7 +139,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		 * {@inheritDoc}
 		 */
 		public void update(final ResultData[] results) {
-			synchronized (AbstractDatensatz.this) {
+			synchronized (mutex) {
 				for (final ResultData result : results) {
 					setDaten(result);
 				}
@@ -219,19 +219,16 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 
 		/**
 		 * {@inheritDoc}
-		 * 
-		 * @see de.bsvrz.dav.daf.main.ClientSenderInterface#dataRequest(de.bsvrz.dav.daf.main.config.SystemObject,
-		 *      de.bsvrz.dav.daf.main.DataDescription, byte)
 		 */
 		public void dataRequest(final SystemObject object,
 				final DataDescription dataDescription, final byte state) {
-			synchronized (AbstractDatensatz.this) {
+			synchronized (mutex) {
 				Status status;
 
 				status = Status.getStatus(state);
 				sendesteuerung.put(dataDescription.getAspect(), status);
 				if (status == Status.START) {
-					AbstractDatensatz.this.notifyAll();
+					mutex.notifyAll();
 				}
 			}
 		}
@@ -261,11 +258,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		/**
 		 * Wenn Systemobjekt und Attributgruppe &uuml;bereinstimmen, dann wird
 		 * {@code true} zur&uuml;gegeben.
-		 * <p>
-		 * {@inheritDoc}
 		 * 
-		 * @see de.bsvrz.dav.daf.main.ClientSenderInterface#isRequestSupported(de.bsvrz.dav.daf.main.config.SystemObject,
-		 *      de.bsvrz.dav.daf.main.DataDescription)
+		 * {@inheritDoc}
 		 */
 		public boolean isRequestSupported(final SystemObject object,
 				final DataDescription dataDescription) {
@@ -365,6 +359,9 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	/** Kapselt die aktuellen Daten des Datensatzes. */
 	private final Map<Aspect, T> daten;
 
+	/** Der Mutex an dem der Datensatz synchronisiert werden kann. */
+	private final Object mutex = new Object();
+
 	/**
 	 * Konstruktor.
 	 * 
@@ -382,10 +379,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	/**
 	 * Zwei Datens&auml;tze sind gleich, wenn sie die selbe Attributgruppe am
 	 * gleichen Systemobjekt abbilden.
-	 * <p>
-	 * {@inheritDoc}
 	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(final Object obj) {
@@ -402,8 +397,6 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getObjekt()
 	 */
 	public SystemObjekt getObjekt() {
 		return objekt;
@@ -411,13 +404,10 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return getClass().getName() + "[objekt=" + getObjekt() + ", daten="
-				+ daten + "]";
+		return getClass().getName() + "[objekt=" + getObjekt() + "]";
 	}
 
 	/**
@@ -444,7 +434,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 * @return ein Datum, welches die Daten des Datensatzes kapselt.
 	 */
 	protected T abrufenDatum(final Aspect asp) {
-		synchronized (this) {
+		synchronized (mutex) {
 			T result = daten.get(asp);
 			if (result == null || !isAutoUpdate(asp)) {
 				ClientDavInterface dav;
@@ -710,7 +700,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 */
 	protected void sendeDaten(final Aspect asp, final T datum,
 			final long timeout) throws DatensendeException {
-		synchronized (this) {
+		synchronized (mutex) {
 			if (!sender.isAngemeldet(asp)) {
 				throw new DatensendeException(
 						"Das Datum wurde nicht zum Senden angemeldet, Datensatz="
@@ -719,7 +709,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 			if (getStatusSendesteuerung(asp) != Datensatz.Status.START
 					&& !(isQuelle(asp) && getStatusSendesteuerung(asp) == Datensatz.Status.STOP)) {
 				try {
-					wait(timeout);
+					mutex.wait(timeout);
 				} catch (final InterruptedException ex) {
 					ex.printStackTrace();
 				}
@@ -730,7 +720,7 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 			} else {
 				throw new DatensendeException("Timeout, Quelle="
 						+ isQuelle(asp) + ", Sendesteuerung="
-						+ getStatusSendesteuerung(asp) + ", Datensatz=" + this);
+						+ getStatusSendesteuerung(asp) + ", Datensatz=" + this + ", Daten=" + datum);
 			}
 		}
 	}
