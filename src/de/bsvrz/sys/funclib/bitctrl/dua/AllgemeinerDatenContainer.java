@@ -68,10 +68,6 @@ public class AllgemeinerDatenContainer {
 							if (!thisInhalt.equals(thatInhalt)) {
 								return false;
 							}
-						} catch (IllegalArgumentException e) {
-							Debug.getLogger().error(Constants.EMPTY_STRING, e);
-							e.printStackTrace();
-							return false;
 						} catch (IllegalAccessException e) {
 							Debug.getLogger().error(Constants.EMPTY_STRING, e);
 							e.printStackTrace();

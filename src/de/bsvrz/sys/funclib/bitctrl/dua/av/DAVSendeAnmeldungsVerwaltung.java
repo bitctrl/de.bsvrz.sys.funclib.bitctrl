@@ -180,7 +180,7 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 			} catch (OneSubscriptionPerSendData e) {
 				Debug.getLogger().error("Probleme beim" + //$NON-NLS-1$
 						" Anmelden als Sender/Quelle:\n" + anmeldung, e); //$NON-NLS-1$
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		}
 		return info;
@@ -191,25 +191,18 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 	 */
 	public void dataRequest(SystemObject object,
 			DataDescription dataDescription, byte state) {
-		try {
-			synchronized (this.aktuelleObjektAnmeldungen) {
-				DAVObjektAnmeldung anmeldung = new DAVObjektAnmeldung(object,
-						dataDescription);
-				SendeStatus status = this.aktuelleObjektAnmeldungen
-						.get(anmeldung);
+		synchronized (this.aktuelleObjektAnmeldungen) {
+			DAVObjektAnmeldung anmeldung = new DAVObjektAnmeldung(object,
+					dataDescription);
+			SendeStatus status = this.aktuelleObjektAnmeldungen.get(anmeldung);
 
-				if (status == null || status.isImMomentKeineDaten()) {
-					this.aktuelleObjektAnmeldungen.put(anmeldung,
-							new SendeStatus(state, true));
-				} else {
-					this.aktuelleObjektAnmeldungen.put(anmeldung,
-							new SendeStatus(state, false));
-				}
+			if (status == null || status.isImMomentKeineDaten()) {
+				this.aktuelleObjektAnmeldungen.put(anmeldung, new SendeStatus(
+						state, true));
+			} else {
+				this.aktuelleObjektAnmeldungen.put(anmeldung, new SendeStatus(
+						state, false));
 			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			Debug.getLogger().error("Problem" + //$NON-NLS-1$
-					" innerhalb der Sendesteuerung", e); //$NON-NLS-1$
 		}
 	}
 
@@ -220,16 +213,10 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 			final DataDescription dataDescription) {
 		boolean resultat = false;
 
-		try {
-			DAVObjektAnmeldung anmeldung = new DAVObjektAnmeldung(object,
-					dataDescription);
-			if (this.aktuelleObjektAnmeldungen.containsKey(anmeldung)) {
-				resultat = true;
-			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			Debug.getLogger().error("Problem" + //$NON-NLS-1$
-					" innerhalb der Sendesteuerung", e); //$NON-NLS-1$
+		DAVObjektAnmeldung anmeldung = new DAVObjektAnmeldung(object,
+				dataDescription);
+		if (this.aktuelleObjektAnmeldungen.containsKey(anmeldung)) {
+			resultat = true;
 		}
 
 		return resultat;

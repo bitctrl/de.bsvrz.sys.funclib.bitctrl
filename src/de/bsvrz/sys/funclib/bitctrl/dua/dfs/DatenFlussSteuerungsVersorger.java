@@ -38,7 +38,6 @@ import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
-import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.schnittstellen.IDatenFlussSteuerungsListener;
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.SWETyp;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
@@ -178,7 +177,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 					" wird das Objekt " + dfsObjekt + " verwendet."); //$NON-NLS-1$//$NON-NLS-2$
 		} else {
 			Debug.getLogger()
-					.warning("Der Datenfluss ist nicht zur Laufzeit steuerbar.\n" + //$NON-NLS-1$
+					.info("Der Datenfluss ist nicht zur Laufzeit steuerbar.\n" + //$NON-NLS-1$
 							"Es wurde kein Objekt vom Typ "//$NON-NLS-1$
 							+ DFSKonstanten.TYP + " identifiziert."); //$NON-NLS-1$
 		}
@@ -193,16 +192,11 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	 *            der neue Beobachter
 	 */
 	public final void addListener(final IDatenFlussSteuerungsListener listener) {
-		if (listener != null) {
-			synchronized (this.listenerListe) {
-				this.listenerListe.add(listener);
-				if (letzteDfs != null) {
-					listener.aktualisierePublikation(letzteDfs);
-				}
+		synchronized (this.listenerListe) {
+			this.listenerListe.add(listener);
+			if (letzteDfs != null) {
+				listener.aktualisierePublikation(letzteDfs);
 			}
-		} else {
-			Debug.getLogger().error("Listener kann nicht eingefügt" + //$NON-NLS-1$
-					" werden. Er ist " + DUAKonstanten.NULL); //$NON-NLS-1$
 		}
 	}
 

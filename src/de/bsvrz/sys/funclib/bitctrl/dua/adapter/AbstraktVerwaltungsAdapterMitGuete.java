@@ -29,7 +29,6 @@ package de.bsvrz.sys.funclib.bitctrl.dua.adapter;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltungMitGuete;
-import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Adapterklasse für Verwaltungsmodule, die eine Messwertersetzung durchführen
@@ -56,20 +55,11 @@ public abstract class AbstraktVerwaltungsAdapterMitGuete extends
 				"gueteFaktor", komArgumente); //$NON-NLS-1$
 		if (gueteFaktorStr != null) {
 			double gueteFaktorDummy = -1;
-			try {
-				gueteFaktorDummy = Double.parseDouble(gueteFaktorStr);
-			} catch (NumberFormatException e) {
-				Debug.getLogger()
-						.warning(
-								"Der Guetefaktor konnte nicht ausgelesen werden. Standard: " + //$NON-NLS-1$
-										this.getStandardGueteFaktor(), e);
-			}
 
 			if (gueteFaktorDummy <= 1.0 && gueteFaktorDummy >= 0.0) {
 				this.gueteFaktor = gueteFaktorDummy;
 			} else {
-				Debug.getLogger()
-						.warning("Der uebergebene Guetefaktor ist ausserhalb des gueltigen Bereichs. Standard: " + //$NON-NLS-1$
+				throw new RuntimeException("Der uebergebene Guetefaktor ist ausserhalb des gueltigen Bereichs. Standard: " + //$NON-NLS-1$
 								this.getStandardGueteFaktor());
 			}
 		}

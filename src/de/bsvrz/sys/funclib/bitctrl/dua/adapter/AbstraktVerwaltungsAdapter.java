@@ -225,15 +225,10 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 		Collection<ConfigurationArea> kbListe = new HashSet<ConfigurationArea>();
 
 		for (String kb : resultListe) {
-			try {
-				ConfigurationArea area = this.verbindung.getDataModel()
-						.getConfigurationArea(kb);
-				if (area != null) {
-					kbListe.add(area);
-				}
-			} catch (UnsupportedOperationException ex) {
-				Debug.getLogger().warning("Konfigurationsbereich " + kb + //$NON-NLS-1$
-						" konnte nicht identifiziert werden.", ex); //$NON-NLS-1$
+			ConfigurationArea area = this.verbindung.getDataModel()
+					.getConfigurationArea(kb);
+			if (area != null) {
+				kbListe.add(area);
 			}
 		}
 

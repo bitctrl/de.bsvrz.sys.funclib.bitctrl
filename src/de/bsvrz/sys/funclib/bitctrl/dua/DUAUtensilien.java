@@ -247,19 +247,11 @@ public final class DUAUtensilien {
 							return null;
 						}
 
-						try {
-							if (element.matches(NATUERLICHE_ZAHL)) {
-								ergebnis = ergebnis.asArray().getItem(
-										Integer.parseInt(element));
-							} else {
-								ergebnis = ergebnis.getItem(element);
-							}
-						} catch (Exception ex) {
-							Debug.getLogger().warning(
-									"Fehler bei Exploration von Datum " + //$NON-NLS-1$
-											datum + " mit \"" + //$NON-NLS-1$
-											attributPfad + "\"", ex); //$NON-NLS-1$
-							return null;
+						if (element.matches(NATUERLICHE_ZAHL)) {
+							ergebnis = ergebnis.asArray().getItem(
+									Integer.parseInt(element));
+						} else {
+							ergebnis = ergebnis.getItem(element);
 						}
 
 					} else {
