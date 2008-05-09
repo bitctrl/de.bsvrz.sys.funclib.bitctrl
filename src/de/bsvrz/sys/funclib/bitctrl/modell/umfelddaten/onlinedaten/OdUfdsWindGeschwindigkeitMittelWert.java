@@ -62,7 +62,7 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 	 */
 	public enum Aspekte implements Aspekt {
 
-		/** Der Aspekt {@code asp.analyse}. */
+		/** Der Aspekt {@code asp.messWertErsetzung}. */
 		MessWertErsetzung("asp.messWertErsetzung");
 
 		/** Der Aspekt, den das enum kapselt. */
@@ -75,8 +75,7 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 		 *            die PID eines Aspekts.
 		 */
 		private Aspekte(final String pid) {
-			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-					.getDataModel();
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung().getDataModel();
 			aspekt = modell.getAspect(pid);
 			assert aspekt != null;
 		}
@@ -172,8 +171,8 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 			final Werte w = Werte.valueOf(name);
 			switch (w) {
 			case WindGeschwindigkeitMittelWert:
-				windGeschwindigkeitMittelWert = wert != null ? wert
-						.doubleValue() : null;
+				windGeschwindigkeitMittelWert = wert != null ? wert.doubleValue()
+						: null;
 				break;
 			default:
 				throw new IllegalArgumentException("Das Datum " + getClass()
@@ -211,7 +210,7 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 
 	}
 
-	/** Die PID der Attributgruppe. */
+	/** Die PID der Attributgruppe: {@value}. */
 	public static final String ATG_UFDS_HELLIGKEIT = "atg.ufdsWindGeschwindigkeitMittelWert";
 
 	/** Die Attributgruppe kann von allen Instanzen gemeinsam genutzt werden. */
@@ -228,8 +227,7 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 		super(sensor);
 
 		if (atg == null) {
-			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-					.getDataModel();
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung().getDataModel();
 			atg = modell.getAttributeGroup(ATG_UFDS_HELLIGKEIT);
 			assert atg != null;
 		}
@@ -273,8 +271,8 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 			NumberValue wert;
 
 			wert = daten.getItem(
-					Daten.Werte.WindGeschwindigkeitMittelWert.name())
-					.getUnscaledValue("Wert");
+					Daten.Werte.WindGeschwindigkeitMittelWert.name()).getUnscaledValue(
+					"Wert");
 			if (wert.isState()) {
 				datum.setWert(Daten.Werte.WindGeschwindigkeitMittelWert.name(),
 						null);
@@ -297,34 +295,32 @@ public class OdUfdsWindGeschwindigkeitMittelWert extends
 	@Override
 	protected Data konvertiere(final Daten d) {
 		final Data datum = erzeugeSendeCache();
-		final Integer wgm;
+		final Double wgm;
 		final String wert;
 		final Number n;
 
-		wert = OdUfdsWindGeschwindigkeitMittelWert.Daten.Werte.WindGeschwindigkeitMittelWert
-				.name();
+		wert = OdUfdsWindGeschwindigkeitMittelWert.Daten.Werte.WindGeschwindigkeitMittelWert.name();
 		n = d.getWert(wert);
-		wgm = n != null ? n.intValue() : null;
+		wgm = n != null ? n.doubleValue() : null;
 
 		datum.getTimeValue("T").setMillis(Constants.MILLIS_PER_MINUTE);
 		datum.getItem(wert).getUnscaledValue("Wert").setText(
 				"nicht ermittelbar");
-		datum.getItem(wert).getItem("Status").getItem("Erfassung")
-				.getUnscaledValue("NichtErfasst").setText("Nein");
-		datum.getItem(wert).getItem("Status").getItem("PlFormal")
-				.getUnscaledValue("WertMax").setText("Nein");
-		datum.getItem(wert).getItem("Status").getItem("PlFormal")
-				.getUnscaledValue("WertMin").setText("Nein");
-		datum.getItem(wert).getItem("Status").getItem("MessWertErsetzung")
-				.getUnscaledValue("Implausibel").setText("Nein");
-		datum.getItem(wert).getItem("Status").getItem("MessWertErsetzung")
-				.getUnscaledValue("Interpoliert").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("Erfassung").getUnscaledValue(
+				"NichtErfasst").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("PlFormal").getUnscaledValue(
+				"WertMax").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("PlFormal").getUnscaledValue(
+				"WertMin").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue(
+				"Implausibel").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue(
+				"Interpoliert").setText("Nein");
 		datum.getItem(wert).getItem("Güte").getUnscaledValue("Index").set(-1);
-		datum.getItem(wert).getItem("Güte").getUnscaledValue("Verfahren")
-				.set(0);
+		datum.getItem(wert).getItem("Güte").getUnscaledValue("Verfahren").set(0);
 
 		if (wgm != null) {
-			datum.getItem(wert).getUnscaledValue("Wert").set(wgm);
+			datum.getItem(wert).getScaledValue("Wert").set(wgm);
 		}
 		datum.getItem(wert).getItem("Güte").getScaledValue("Index").set(1);
 
