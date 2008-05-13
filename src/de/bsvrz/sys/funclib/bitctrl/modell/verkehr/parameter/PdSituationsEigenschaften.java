@@ -306,12 +306,15 @@ public class PdSituationsEigenschaften extends
 					if (vonKnoten != null) {
 						for (InneresStrassenSegment innen : vonKnoten
 								.getInnereSegmente()) {
-							if (usedSegment.equals(innen.getNachSegment())) {
-								result = innen;
-								Strasse strasse = segment.getStrasse();
-								if ((strasse != null)
-										&& (strasse.equals(innen.getStrasse()))) {
-									break;
+							if (innen.getVonSegment() != null) {
+								if (usedSegment.equals(innen.getNachSegment())) {
+									Strasse strasse = segment.getStrasse();
+									if ((strasse == null)
+											|| (strasse.equals(innen
+													.getStrasse()))) {
+										result = innen;
+										break;
+									}
 								}
 							}
 						}
