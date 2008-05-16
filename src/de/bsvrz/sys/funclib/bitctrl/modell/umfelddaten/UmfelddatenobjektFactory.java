@@ -61,7 +61,7 @@ public class UmfelddatenobjektFactory implements ModellObjektFactory {
 	/**
 	 * {@inheritDoc}
 	 */
-	public SystemObjekt getModellobjekt(SystemObject objekt) {
+	public SystemObjekt getModellobjekt(final SystemObject objekt) {
 		if (objekt == null) {
 			throw new IllegalArgumentException("Argument darf nicht null sein.");
 		}
@@ -79,9 +79,7 @@ public class UmfelddatenobjektFactory implements ModellObjektFactory {
 			obj = new UfdsHelligkeit(objekt);
 		} else if (objekt.isOfType(UMFELDDATENMESSSTELLE.getPid())) {
 			obj = new UmfeldDatenMessStelle(objekt);
-		} else if (objekt.isOfType(UmfelddatenModellTypen.UMFELDDATENSENSOR
-				.getPid())) {
-			// TODO Unbekannte Umfelddatensensoren ergänzen
+		} else if (objekt.isOfType(UmfelddatenModellTypen.UMFELDDATENSENSOR.getPid())) {
 			Debug.getLogger().fine("Unbekannter Umfelddatensensor gefunden",
 					objekt);
 			obj = new AbstractUmfeldDatenSensor(objekt) {

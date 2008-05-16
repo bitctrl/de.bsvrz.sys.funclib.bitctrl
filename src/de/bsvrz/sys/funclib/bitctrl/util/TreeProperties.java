@@ -46,8 +46,6 @@ import java.util.TreeSet;
 @Deprecated
 public class TreeProperties extends Properties {
 
-	// TODO typed Properties (int, boolean, double, ...)
-
 	/**
 	 * Repräseniert eine Gruppe oder ein Feld.
 	 */
@@ -76,7 +74,7 @@ public class TreeProperties extends Properties {
 		 * @param name
 		 *            der Name der Gruppe
 		 */
-		public Group(String name) {
+		public Group(final String name) {
 			this.name = name;
 			this.index = -1;
 			this.arraySize = -1;
@@ -90,7 +88,7 @@ public class TreeProperties extends Properties {
 		 * @param guessArraySize
 		 *            {@code true}, wenn die Feldgröße mit gespeichert wird.
 		 */
-		public Group(String name, boolean guessArraySize) {
+		public Group(final String name, final boolean guessArraySize) {
 			this.name = name;
 			this.index = 0;
 			this.arraySize = guessArraySize ? 0 : -1;
@@ -122,7 +120,7 @@ public class TreeProperties extends Properties {
 		 * @param index
 		 *            der Index.
 		 */
-		public void setIndex(int index) {
+		public void setIndex(final int index) {
 			this.index = index + 1;
 			if (arraySize != -1 && index > arraySize) {
 				arraySize = index;
@@ -174,7 +172,7 @@ public class TreeProperties extends Properties {
 	 *            the nibble to convert.
 	 * @return the hex character.
 	 */
-	private static char toHex(int nibble) {
+	private static char toHex(final int nibble) {
 		return HEXDIGIT[(nibble & 0xF)];
 	}
 
@@ -188,7 +186,8 @@ public class TreeProperties extends Properties {
 	 * @throws IOException
 	 *             bei I/O-Fehlern.
 	 */
-	private static void writeln(BufferedWriter bw, String s) throws IOException {
+	private static void writeln(final BufferedWriter bw, final String s)
+			throws IOException {
 		bw.write(s);
 		bw.newLine();
 	}
@@ -205,7 +204,7 @@ public class TreeProperties extends Properties {
 	 * @param name
 	 *            der Name der Gruppe.
 	 */
-	public void beginGroup(String name) {
+	public void beginGroup(final String name) {
 		beginGroupOrArray(new Group(name));
 	}
 
@@ -216,7 +215,7 @@ public class TreeProperties extends Properties {
 	 *            der Name des Felds.
 	 * @return die Länge des Felds.
 	 */
-	public int beginReadArray(String name) {
+	public int beginReadArray(final String name) {
 		beginGroupOrArray(new Group(name, false));
 		if (getProperty("size") != null) {
 			return Integer.valueOf(getProperty("size"));
@@ -230,7 +229,7 @@ public class TreeProperties extends Properties {
 	 * @param name
 	 *            der Name des Felds.
 	 */
-	public void beginWriteArray(String name) {
+	public void beginWriteArray(final String name) {
 		beginWriteArray(name, -1);
 	}
 
@@ -242,7 +241,7 @@ public class TreeProperties extends Properties {
 	 * @param size
 	 *            die Größe die das Feld haben soll.
 	 */
-	public void beginWriteArray(String name, int size) {
+	public void beginWriteArray(final String name, final int size) {
 		beginGroupOrArray(new Group(name, size < 0));
 
 		if (size < 0) {
@@ -258,8 +257,8 @@ public class TreeProperties extends Properties {
 	 * @param name
 	 *            der Name des Felds.
 	 */
-	public void endArray(String name) {
-		Group group = stack.pop();
+	public void endArray(final String name) {
+		final Group group = stack.pop();
 
 		if (group == null || !group.name.equals(name)) {
 			throw new IllegalArgumentException("no array \"" + name + "\"");
@@ -269,7 +268,7 @@ public class TreeProperties extends Properties {
 			setProperty(name + ".size", String.valueOf(group.arraySizeGuess()));
 		}
 
-		int length = group.toString().length();
+		final int length = group.toString().length();
 		if (stack.size() == 0) {
 			trace = "";
 		} else {
@@ -283,14 +282,14 @@ public class TreeProperties extends Properties {
 	 * @param name
 	 *            der Name der Gruppe.
 	 */
-	public void endGroup(String name) {
-		Group group = stack.pop();
+	public void endGroup(final String name) {
+		final Group group = stack.pop();
 
 		if (group == null || !group.name.equals(name)) {
 			throw new IllegalArgumentException("no group \"" + name + "\"");
 		}
 
-		int length = group.toString().length();
+		final int length = group.toString().length();
 		if (stack.size() == 0) {
 			trace = "";
 		} else {
@@ -307,7 +306,7 @@ public class TreeProperties extends Properties {
 	 *         {@link #DEFAULT_BOOLEAN}.
 	 * @see #getBoolean(String, boolean)
 	 */
-	public boolean getBoolean(String key) {
+	public boolean getBoolean(final String key) {
 		return getBoolean(key, DEFAULT_BOOLEAN);
 	}
 
@@ -323,7 +322,7 @@ public class TreeProperties extends Properties {
 	 * @return der hinterlegt Wert oder, falls nicht vorhanden, der angegebene
 	 *         Standardwert.
 	 */
-	public boolean getBoolean(String key, boolean defaultValue) {
+	public boolean getBoolean(final String key, final boolean defaultValue) {
 		return Boolean.valueOf(getProperty(key, String.valueOf(defaultValue)));
 	}
 
@@ -336,7 +335,7 @@ public class TreeProperties extends Properties {
 	 *         {@link #DEFAULT_DOUBLE}.
 	 * @see #getDouble(String, double)
 	 */
-	public double getDouble(String key) {
+	public double getDouble(final String key) {
 		return getDouble(key, DEFAULT_DOUBLE);
 	}
 
@@ -352,7 +351,7 @@ public class TreeProperties extends Properties {
 	 * @return der hinterlegt Wert oder, falls nicht vorhanden, der angegebene
 	 *         Standardwert.
 	 */
-	public double getDouble(String key, double defaultValue) {
+	public double getDouble(final String key, final double defaultValue) {
 		return Double.valueOf(getProperty(key, String.valueOf(defaultValue)));
 	}
 
@@ -365,7 +364,7 @@ public class TreeProperties extends Properties {
 	 *         {@link #DEFAULT_INT}.
 	 * @see #getInt(String, int)
 	 */
-	public int getInt(String key) {
+	public int getInt(final String key) {
 		return getInt(key, DEFAULT_INT);
 	}
 
@@ -381,7 +380,7 @@ public class TreeProperties extends Properties {
 	 * @return der hinterlegt Wert oder, falls nicht vorhanden, der angegebene
 	 *         Standardwert.
 	 */
-	public int getInt(String key, int defaultValue) {
+	public int getInt(final String key, final int defaultValue) {
 		return Integer.valueOf(getProperty(key, String.valueOf(defaultValue)));
 	}
 
@@ -391,7 +390,7 @@ public class TreeProperties extends Properties {
 	 * @see java.util.Properties#getProperty(java.lang.String)
 	 */
 	@Override
-	public String getProperty(String key) {
+	public String getProperty(final String key) {
 		return super.getProperty(actualKey(key));
 	}
 
@@ -401,8 +400,8 @@ public class TreeProperties extends Properties {
 	 * @see java.util.Properties#getProperty(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String getProperty(String key, String defaultValue) {
-		String val = getProperty(key);
+	public String getProperty(final String key, final String defaultValue) {
+		final String val = getProperty(key);
 		return (val == null) ? defaultValue : val;
 	}
 
@@ -412,7 +411,7 @@ public class TreeProperties extends Properties {
 	 * @see java.util.Hashtable#remove(java.lang.Object)
 	 */
 	@Override
-	public synchronized Object remove(Object key) {
+	public synchronized Object remove(final Object key) {
 		return super.remove(actualKey(key.toString()));
 	}
 
@@ -422,8 +421,8 @@ public class TreeProperties extends Properties {
 	 * @param index
 	 *            der neue Index.
 	 */
-	public void setArrayIndex(int index) {
-		Group group = stack.peek();
+	public void setArrayIndex(final int index) {
+		final Group group = stack.peek();
 		int length;
 
 		if (stack.isEmpty() || !group.isArray()) {
@@ -444,7 +443,7 @@ public class TreeProperties extends Properties {
 	 * @param value
 	 *            der Wert.
 	 */
-	public void setProperty(String key, boolean value) {
+	public void setProperty(final String key, final boolean value) {
 		setProperty(key, String.valueOf(value));
 	}
 
@@ -456,7 +455,7 @@ public class TreeProperties extends Properties {
 	 * @param value
 	 *            der Wert.
 	 */
-	public void setProperty(String key, double value) {
+	public void setProperty(final String key, final double value) {
 		setProperty(key, String.valueOf(value));
 	}
 
@@ -468,7 +467,7 @@ public class TreeProperties extends Properties {
 	 * @param value
 	 *            der Wert.
 	 */
-	public void setProperty(String key, int value) {
+	public void setProperty(final String key, final int value) {
 		setProperty(key, String.valueOf(value));
 	}
 
@@ -478,7 +477,7 @@ public class TreeProperties extends Properties {
 	 * @see java.util.Properties#setProperty(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Object setProperty(String key, String value) {
+	public Object setProperty(final String key, final String value) {
 		return super.setProperty(actualKey(key), value);
 	}
 
@@ -492,7 +491,7 @@ public class TreeProperties extends Properties {
 	 * @see java.util.Properties#store(java.io.OutputStream, java.lang.String)
 	 */
 	@Override
-	public synchronized void store(OutputStream out, String comments)
+	public synchronized void store(final OutputStream out, final String comments)
 			throws IOException {
 		BufferedWriter awriter;
 		awriter = new BufferedWriter(new OutputStreamWriter(out, "8859_1"));
@@ -513,8 +512,8 @@ public class TreeProperties extends Properties {
 		// writeln(awriter, key + "=" + val);
 		// }
 
-		SortedSet<String> keys = new TreeSet<String>();
-		for (Object o : keySet()) {
+		final SortedSet<String> keys = new TreeSet<String>();
+		for (final Object o : keySet()) {
 			keys.add(o.toString());
 		}
 
@@ -540,7 +539,7 @@ public class TreeProperties extends Properties {
 	 *            der relative Schlüssel.
 	 * @return der absolute Schlüssel.
 	 */
-	private String actualKey(String key) {
+	private String actualKey(final String key) {
 		return trace + normalize(key);
 	}
 
@@ -550,7 +549,7 @@ public class TreeProperties extends Properties {
 	 * @param group
 	 *            die Gruppe oder das Feld.
 	 */
-	private void beginGroupOrArray(Group group) {
+	private void beginGroupOrArray(final Group group) {
 		stack.push(group);
 		trace += group.name + '.';
 	}
@@ -563,7 +562,7 @@ public class TreeProperties extends Properties {
 	 *            ein zu normalisierender Schlüssel.
 	 * @return der normalisierte Schlüssel.
 	 */
-	private String normalize(String key) {
+	private String normalize(final String key) {
 		String normalized = key;
 
 		// Alle Leerzeichen entfernen
@@ -597,16 +596,16 @@ public class TreeProperties extends Properties {
 	 *            ob Leerzeichen maskiert werden sollen.
 	 * @return der konvertierte String.
 	 */
-	private String saveConvert(String theString, boolean escapeSpace) {
-		int len = theString.length();
+	private String saveConvert(final String theString, final boolean escapeSpace) {
+		final int len = theString.length();
 		int bufLen = len * 2;
 		if (bufLen < 0) {
 			bufLen = Integer.MAX_VALUE;
 		}
-		StringBuffer outBuffer = new StringBuffer(bufLen);
+		final StringBuffer outBuffer = new StringBuffer(bufLen);
 
 		for (int x = 0; x < len; x++) {
-			char aChar = theString.charAt(x);
+			final char aChar = theString.charAt(x);
 			// Handle common case first, selecting largest block that
 			// avoids the specials below
 			if ((aChar > 61) && (aChar < 127)) {

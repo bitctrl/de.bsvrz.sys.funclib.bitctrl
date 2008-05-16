@@ -75,8 +75,7 @@ public class OdUfdsHelligkeit extends
 		 *            die PID eines Aspekts.
 		 */
 		private Aspekte(final String pid) {
-			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-					.getDataModel();
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung().getDataModel();
 			aspekt = modell.getAspect(pid);
 			assert aspekt != null;
 		}
@@ -99,8 +98,6 @@ public class OdUfdsHelligkeit extends
 
 	/**
 	 * Kapselt die Daten des Datensatzes.
-	 * 
-	 * @todo Weitere Eigenschaften aus dem Datensatz sichern.
 	 */
 	public static class Daten extends AbstractDatum implements MesswertDatum {
 
@@ -228,8 +225,7 @@ public class OdUfdsHelligkeit extends
 		super(sensor);
 
 		if (atg == null) {
-			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-					.getDataModel();
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung().getDataModel();
 			atg = modell.getAttributeGroup(ATG_UFDS_HELLIGKEIT);
 			assert atg != null;
 		}
@@ -272,8 +268,8 @@ public class OdUfdsHelligkeit extends
 			final Data daten = result.getData();
 			NumberValue wert;
 
-			wert = daten.getItem(Daten.Werte.Helligkeit.name())
-					.getUnscaledValue("Wert");
+			wert = daten.getItem(Daten.Werte.Helligkeit.name()).getUnscaledValue(
+					"Wert");
 			if (wert.isState()) {
 				datum.setWert(Daten.Werte.Helligkeit.name(), null);
 			} else {
@@ -305,19 +301,18 @@ public class OdUfdsHelligkeit extends
 		datum.getTimeValue("T").setMillis(Constants.MILLIS_PER_MINUTE);
 		datum.getItem(wert).getUnscaledValue("Wert").setText(
 				"nicht ermittelbar");
-		datum.getItem(wert).getItem("Status").getItem("Erfassung")
-				.getUnscaledValue("NichtErfasst").setText("Nein");
-		datum.getItem(wert).getItem("Status").getItem("PlFormal")
-				.getUnscaledValue("WertMax").setText("Nein");
-		datum.getItem(wert).getItem("Status").getItem("PlFormal")
-				.getUnscaledValue("WertMin").setText("Nein");
-		datum.getItem(wert).getItem("Status").getItem("MessWertErsetzung")
-				.getUnscaledValue("Implausibel").setText("Nein");
-		datum.getItem(wert).getItem("Status").getItem("MessWertErsetzung")
-				.getUnscaledValue("Interpoliert").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("Erfassung").getUnscaledValue(
+				"NichtErfasst").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("PlFormal").getUnscaledValue(
+				"WertMax").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("PlFormal").getUnscaledValue(
+				"WertMin").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue(
+				"Implausibel").setText("Nein");
+		datum.getItem(wert).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue(
+				"Interpoliert").setText("Nein");
 		datum.getItem(wert).getItem("Güte").getUnscaledValue("Index").set(-1);
-		datum.getItem(wert).getItem("Güte").getUnscaledValue("Verfahren")
-				.set(0);
+		datum.getItem(wert).getItem("Güte").getUnscaledValue("Verfahren").set(0);
 
 		if (helligkeit != null) {
 			datum.getItem(wert).getUnscaledValue("Wert").set(helligkeit);

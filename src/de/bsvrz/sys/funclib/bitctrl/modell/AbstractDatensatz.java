@@ -58,9 +58,6 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
  * @version $Id$
  * @param <T>
  *            Der Typ des Datums den der Datensatz sichert.
- * @todo synchronized auf AbstractDatensatz entfernen. Dies kann zu einer
- *       ConcurrentModificationException führen, wenn andere den Datensatz
- *       verwenden wollen.
  */
 public abstract class AbstractDatensatz<T extends Datum> implements
 		Datensatz<T> {
@@ -551,8 +548,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		final DatensatzUpdateEvent event = new DatensatzUpdateEvent(this, asp,
 				datum);
 		if (listeners.get(asp) != null) {
-			for (final DatensatzUpdateListener listener : listeners.get(asp)
-					.getListeners(DatensatzUpdateListener.class)) {
+			for (final DatensatzUpdateListener listener : listeners.get(asp).getListeners(
+					DatensatzUpdateListener.class)) {
 				listener.datensatzAktualisiert(event);
 			}
 		}
@@ -720,7 +717,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 			} else {
 				throw new DatensendeException("Timeout, Quelle="
 						+ isQuelle(asp) + ", Sendesteuerung="
-						+ getStatusSendesteuerung(asp) + ", Datensatz=" + this + ", Daten=" + datum);
+						+ getStatusSendesteuerung(asp) + ", Datensatz=" + this
+						+ ", Daten=" + datum);
 			}
 		}
 	}

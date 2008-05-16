@@ -41,7 +41,6 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
- * @todo Synchronisationsmöglichkeiten prüfen
  */
 public abstract class AbstractSystemObjekt implements SystemObjekt {
 
@@ -68,10 +67,8 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 */
 	protected AbstractSystemObjekt(final SystemObject obj) {
 		objekt = obj;
-		parameter = Collections
-				.synchronizedMap(new HashMap<Class<? extends ParameterDatensatz<? extends Datum>>, ParameterDatensatz<? extends Datum>>());
-		onlineDaten = Collections
-				.synchronizedMap(new HashMap<Class<? extends OnlineDatensatz<? extends Datum>>, OnlineDatensatz<? extends Datum>>());
+		parameter = Collections.synchronizedMap(new HashMap<Class<? extends ParameterDatensatz<? extends Datum>>, ParameterDatensatz<? extends Datum>>());
+		onlineDaten = Collections.synchronizedMap(new HashMap<Class<? extends OnlineDatensatz<? extends Datum>>, OnlineDatensatz<? extends Datum>>());
 	}
 
 	/**
