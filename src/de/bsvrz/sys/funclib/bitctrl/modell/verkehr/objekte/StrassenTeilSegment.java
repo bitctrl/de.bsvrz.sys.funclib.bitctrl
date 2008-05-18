@@ -262,6 +262,12 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 		}
 	}
 
+	/** markiert, ob die zugeordneten Straﬂensegmente bereits ermittelt wurden. */
+	private static boolean segmenteInitialisiert = false;
+
+	/** markiert, ob die zugeordneten Messquerschnitte bereits ermittelt wurden. */
+	private static boolean messQuerschnitteZugeordnet;
+
 	/**
 	 * das Objekt, mit dem die Linieneigenschaften des Straﬂenteilsegments
 	 * repr‰sentiert werden.
@@ -403,28 +409,31 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 * @return Menge von Messquerschnitten
 	 */
 	public List<MessQuerschnittAllgemein> getMessQuerschnitte() {
-		if (messQuerschnitte != null) {
-			return messQuerschnitte;
+		if (messQuerschnitte == null) {
+			messQuerschnitte = new ArrayList<MessQuerschnittAllgemein>();
 		}
 
-		List<MessQuerschnittAllgemein> listeMQ;
-		List<SystemObjekt> listeSO;
+		if (!messQuerschnitteZugeordnet) {
+			List<SystemObjekt> listeSO;
 
-		listeMQ = new ArrayList<MessQuerschnittAllgemein>();
-		listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
-				VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
+			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
+					VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
 
-		for (SystemObjekt so : listeSO) {
-			MessQuerschnittAllgemein mq = (MessQuerschnittAllgemein) so;
-			StrassenTeilSegment sts = mq.getStrassenTeilSegment();
-			if (this.equals(sts)) {
-				listeMQ.add(mq);
+			for (SystemObjekt so : listeSO) {
+				MessQuerschnittAllgemein mq = (MessQuerschnittAllgemein) so;
+				StrassenTeilSegment sts = mq.getStrassenTeilSegment();
+				if (sts != null) {
+					if (sts.messQuerschnitte == null) {
+						sts.messQuerschnitte = new ArrayList<MessQuerschnittAllgemein>();
+					}
+					sts.messQuerschnitte.add(mq);
+				}
 			}
+			messQuerschnitteZugeordnet = true;
 		}
 
-		Collections.sort(listeMQ, new MessQuerschnittComparator());
-		messQuerschnitte = listeMQ;
-		return listeMQ;
+		Collections.sort(messQuerschnitte, new MessQuerschnittComparator());
+		return messQuerschnitte;
 	}
 
 	/**
@@ -475,17 +484,23 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	public List<StrassenSegment> getStrassenSegment() {
 		if (strassenSegmente == null) {
 			strassenSegmente = new ArrayList<StrassenSegment>();
-			List<SystemObjekt> listeSO;
+		}
 
+		if (!segmenteInitialisiert) {
+			List<SystemObjekt> listeSO;
 			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
 					VerkehrsModellTypen.STRASSENSEGMENT.getPid());
 
 			for (SystemObjekt so : listeSO) {
 				StrassenSegment ss = (StrassenSegment) so;
-				if (ss.getStrassenTeilSegmente().contains(this)) {
-					strassenSegmente.add(ss);
+				for (StrassenTeilSegment sts : ss.getStrassenTeilSegmente()) {
+					if (sts.strassenSegmente == null) {
+						sts.strassenSegmente = new ArrayList<StrassenSegment>();
+					}
+					sts.strassenSegmente.add(ss);
 				}
 			}
+			segmenteInitialisiert = true;
 		}
 		return strassenSegmente;
 	}
