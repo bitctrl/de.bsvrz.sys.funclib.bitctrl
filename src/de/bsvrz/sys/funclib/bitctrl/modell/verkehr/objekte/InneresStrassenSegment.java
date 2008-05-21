@@ -26,11 +26,18 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
+import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.MessQuerschnittAllgemein.MessQuerschnittComparator;
 
 /**
  * Repr‰sentation eines inneren Straﬂensegment in der Datenmodellabbildung.
@@ -53,6 +60,12 @@ public class InneresStrassenSegment extends StrassenSegment {
 	 * das ‰uﬂere Straﬂensegment am Ende des Segments.
 	 */
 	private final SystemObject nachSegmentObj;
+
+	/** markiert, ob der Straﬂenknoten bereits ermittelt wurde. */
+	private boolean knotenGesucht;
+
+	/** der Straﬂenknoten zu dem das Segment gehˆrt. */
+	private StrassenKnoten strassenKnoten;
 
 	/**
 	 * Konstruktor.<br>
@@ -105,5 +118,29 @@ public class InneresStrassenSegment extends StrassenSegment {
 					.getModellobjekt(vonSegmentObj);
 		}
 		return result;
+	}
+
+	/**
+	 * ermittelt den Straﬂenknoten, zu dem des Segment gehˆrt.
+	 * @return der Knoten oder <code>null</code>
+	 */
+	public StrassenKnoten getStrassenKnoten() {
+		if (!knotenGesucht) {
+			List<SystemObjekt> listeSO;
+
+			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
+					VerkehrsModellTypen.STRASSENKNOTEN.getPid());
+
+			for (SystemObjekt so : listeSO) {
+				StrassenKnoten knoten = (StrassenKnoten) so;
+				if ( knoten.getInnereSegmente().contains(this)) {
+					strassenKnoten = knoten;
+					break;
+				}
+			}
+			knotenGesucht = true;
+		}
+
+		return strassenKnoten;
 	}
 }
