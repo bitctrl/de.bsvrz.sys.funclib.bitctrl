@@ -210,8 +210,12 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	public boolean equals(Object obj, double maxAbweichung) {
 		if (obj instanceof WGS84Punkt) {
 			WGS84Punkt p = (WGS84Punkt) obj;
-			return (((getLaenge() - p.getLaenge()) < maxAbweichung) && ((getBreite() - p
-					.getBreite()) < maxAbweichung));
+			return (
+					(Math.abs((getLaenge() - p.getLaenge())) < maxAbweichung) 
+					&& 
+					(Math.abs((getBreite() - p
+					.getBreite())) < maxAbweichung)
+			);
 		}
 
 		return false;
