@@ -881,14 +881,21 @@ public class WGS84Polygon {
 	 */
 	public boolean istIdentisch(WGS84Polygon testpolygon,
 			double maxabweichungGrad) {
-		double abstandmeter = GeoTransformation
-				.winkelInMeter(maxabweichungGrad);
-		for (WGS84Punkt punkt : testpolygon.punkte) {
-			if (!liegtAufPolygon(punkt, abstandmeter)) {
+//		double abstandmeter = GeoTransformation
+//				.winkelInMeter(maxabweichungGrad);
+		
+		if (this.punkte.size() != testpolygon.punkte.size()) {
+			return false;
+		}
+		
+		for (int i = 0; i < punkte.size(); i++) {
+//			if(WGS84Punkt.abstand(punkte.get(i), testpolygon.punkte.get(i)) > abstandmeter)
+//			boolean b = punkte.get(i).equals(testpolygon.punkte.get(i), maxabweichungGrad);
+			if (!punkte.get(i).equals(testpolygon.punkte.get(i), maxabweichungGrad)) {
 				return false;
 			}
 		}
-
+		
 		return true;
 	}
 
@@ -909,6 +916,27 @@ public class WGS84Polygon {
 
 		throw new IllegalArgumentException(
 				"Der Abstand des Punktes kann nicht bestimmt werden"); //$NON-NLS-1$
+	}
+	
+	/**
+	 * Bestimmt den gr&ouml;ssten Abstand eines Punktes vom Polygon.
+	 * 
+	 * @param punkt
+	 *            Der Punkt, f&uuml;r den der Abstand bestimmt werden soll
+	 * @return der gr&ouml;sste Abstand des Punktes vom Polygon (in m)
+	 */
+	public double groessterPunktAbstand(WGS84Punkt punkt) {
+		double punktabstand = 0;
+		
+		for (int i = 0; i < punkte.size() - 1; i++) {
+			double abstand = WGS84Polygon.punktAbstandStrecke(punkte.get(i),
+					punkte.get(i + 1), punkt);
+			if (abstand > punktabstand) {
+				punktabstand = abstand;
+			}
+		}
+
+		return punktabstand;
 	}
 
 	/**
