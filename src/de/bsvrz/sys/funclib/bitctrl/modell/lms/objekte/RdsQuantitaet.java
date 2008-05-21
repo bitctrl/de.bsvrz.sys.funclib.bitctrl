@@ -26,81 +26,85 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.lms.objekte;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.LmsModellTypen;
 
 /**
- * Repr&auml;sentiert eine RDS-Meldung.
+ * Repräsentation einer Quantität innerhalb einer RDS-Meldung.
  * 
- * @author BitCtrl Systems GmbH, Peuker
+ * @author BitCtrl Systems GmbH, Uwe Peuker
  * @version $Id$
  */
-public class RdsMeldung extends AbstractSystemObjekt {
+public class RdsQuantitaet extends AbstractSystemObjekt {
+
+	/** die Kennung. */
+	private String kennung;
+
+	/** die Beschreibung. */
+	private String beschreibung;
+
+	/** die Einheit. */
+	private String einheit;
 
 	/**
-	 * die Menge der Landesmeldestellen in denen die meldung referenziert wird.
-	 */
-	private final Set<LandesMeldeStelle> lmsListe = new HashSet<LandesMeldeStelle>();
-
-	/**
-	 * Konstruktor.<br>
-	 * Die Funktion erzeugt eine Instanz einer RdsMeldung auf der Basis des
-	 * übergebenen Systemobjekts.
+	 * Konstruktor.
 	 * 
 	 * @param obj
-	 *            das Systemobjekt, das die Baustelle definiert
+	 *            das Systemobjekt, mit dem die Quantität in der
+	 *            Datenverteiler-Konfiguration repräsentiert ist
 	 */
-	public RdsMeldung(SystemObject obj) {
+	public RdsQuantitaet(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
 					"Systemobjekt ist keine RdsMeldung.");
 		}
+
+		Data daten = obj.getConfigurationData(obj.getDataModel()
+				.getAttributeGroup("atg.rdsQuantität"));
+		if (daten != null) {
+			kennung = daten.getTextValue("Kennung").getText();
+			beschreibung = daten.getTextValue("Beschreibung").getText();
+			einheit = daten.getTextValue("Einheit").getText();
+		}
 	}
 
 	/**
-	 * fügt der Meldung eine Referenz auf eine Landesmeldestelle hinzu.
+	 * liefert den Beschreibungstext. Wenn keiner definiert wurde, wird der Wert
+	 * <code>null</code> geliefert.
 	 * 
-	 * @param lms
-	 *            die Landesmeldestelle, die als Referenz hinzugefügt werden
-	 *            soll
+	 * @return den Text oder <code>null</code>
 	 */
-	public void addLmsReferenz(LandesMeldeStelle lms) {
-		lmsListe.add(lms);
+	public String getBeschreibung() {
+		return beschreibung;
 	}
 
 	/**
-	 * liefert die Menge der Landesmeldestellen in denen die meldung refernziert
-	 * wird.
+	 * liefert die Einheit. Wenn keine definiert wurde, wird der Wert
+	 * <code>null</code> geliefert.
 	 * 
-	 * @return die Menge der Netze
+	 * @return den Text oder <code>null</code>
 	 */
-	public Set<LandesMeldeStelle> getLms() {
-		return lmsListe;
+	public String getEinheit() {
+		return einheit;
 	}
 
 	/**
-	 * {@inheritDoc}.<br>
+	 * liefert die Kennung. Wenn keine definiert wurde, wird der Wert
+	 * <code>null</code> geliefert.
 	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt#getTyp()
+	 * @return den Text oder <code>null</code>
 	 */
+	public String getKennung() {
+		return kennung;
+	}
+
+	/** {@inheritDoc} */
 	public SystemObjektTyp getTyp() {
-		return LmsModellTypen.RDSMELDUNG;
-	}
-
-	/**
-	 * entfernt eine Landesmeldestellenreferenz von der Meldung.
-	 * 
-	 * @param lms
-	 *            die Landesmeldestelle, deren Referenz entfernt werden soll
-	 */
-	public void removeLmsReferenz(LandesMeldeStelle lms) {
-		lmsListe.remove(lms);
+		return LmsModellTypen.RDSQUANTITAET;
 	}
 }

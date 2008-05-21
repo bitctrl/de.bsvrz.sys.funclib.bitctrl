@@ -51,6 +51,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.objekte.RdsMeldung;
+import de.bsvrz.sys.funclib.bitctrl.modell.lms.objekte.RdsQuantitaet;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.onlinedaten.OdRdsMeldung.Daten.RdsVerkehr;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsAuthorisierungsErgebnis;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende.RdsEmpfehlungsCode;
@@ -528,7 +529,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			public RdsEreignisQuantitaet(final Data daten) {
 				if (daten != null) {
 					quantitaetsKennung = new RdsQuantitaet(daten
-							.getItem("QuantitätsKennung"));
+							.getReferenceValue("QuantitätsKennung")
+							.getSystemObject());
 					quantitaetsWert = daten.getTextValue("QuantitätsWert")
 							.getText();
 					quantitaetsEinheit = daten
@@ -1269,69 +1271,6 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 */
 			public String getNachrichtenText() {
 				return nachrichtenText;
-			}
-		}
-
-		/**
-		 * Repräsentation einer Quantität innerhalb einer RDS-Meldung.
-		 * 
-		 * @author BitCtrl Systems GmbH, Uwe Peuker
-		 * @version $Id$
-		 */
-		public static class RdsQuantitaet {
-
-			/** die Kennung. */
-			private String kennung;
-
-			/** die Beschreibung. */
-			private String beschreibung;
-
-			/** die Einheit. */
-			private String einheit;
-
-			/**
-			 * Konstruktor. Die Daten des Objekts werden mit den Informationen
-			 * aus dem übergebenen Datenverteiler-Datensatz initialisiert.
-			 * 
-			 * @param daten
-			 *            die Daten
-			 */
-			public RdsQuantitaet(final Data daten) {
-				if (daten != null) {
-					kennung = daten.getTextValue("Kennung").getText();
-					beschreibung = daten.getTextValue("Beschreibung").getText();
-					einheit = daten.getTextValue("Einheit").getText();
-				}
-			}
-
-			/**
-			 * liefert den Beschreibungstext. Wenn keiner definiert wurde, wird
-			 * der Wert <code>null</code> geliefert.
-			 * 
-			 * @return den Text oder <code>null</code>
-			 */
-			public String getBeschreibung() {
-				return beschreibung;
-			}
-
-			/**
-			 * liefert die Einheit. Wenn keine definiert wurde, wird der Wert
-			 * <code>null</code> geliefert.
-			 * 
-			 * @return den Text oder <code>null</code>
-			 */
-			public String getEinheit() {
-				return einheit;
-			}
-
-			/**
-			 * liefert die Kennung. Wenn keine definiert wurde, wird der Wert
-			 * <code>null</code> geliefert.
-			 * 
-			 * @return den Text oder <code>null</code>
-			 */
-			public String getKennung() {
-				return kennung;
 			}
 		}
 
@@ -2216,15 +2155,5 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 		setDatum(result.getDataDescription().getAspect(), datum);
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
-	}
-
-	/**
-	 * {@inheritDoc}.<br>
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#update()
-	 */
-	public void update() {
-		abrufenDatum(ObjektFactory.getInstanz().getVerbindung().getDataModel()
-				.getAspect(DaVKonstanten.ASP_PARAMETER_SOLL));
 	}
 }

@@ -30,6 +30,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.objekte.LandesMeldeStelle;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.objekte.RdsMeldung;
+import de.bsvrz.sys.funclib.bitctrl.modell.lms.objekte.RdsQuantitaet;
 
 /**
  * Fasst alle Objekttypen im LMS-Modell zusammen.
@@ -42,8 +43,11 @@ public enum LmsModellTypen implements SystemObjektTyp {
 	/** eine Landesmeldestelle. */
 	LANDESMELDESTELLE("typ.landesMeldeStelle", LandesMeldeStelle.class),
 
-	/** Ein inneres Stra&szlig;ensegment. */
-	RDSMELDUNG("typ.rdsMeldung", RdsMeldung.class);
+	/** eine Rds-Meldung. */
+	RDSMELDUNG("typ.rdsMeldung", RdsMeldung.class),
+
+	/** eine RdsQuantität. */
+	RDSQUANTITAET("typ.rdsQuantität", RdsQuantitaet.class);
 
 	/** PID des Objekttyps im Datenverteiler. */
 	private final String pid;
