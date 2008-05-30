@@ -120,6 +120,7 @@ public class UmfeldDatenSensorWert implements Comparable<UmfeldDatenSensorWert> 
 				|| datenArt.equals(UmfeldDatenArt.ld)
 				|| datenArt.equals(UmfeldDatenArt.rs)
 				|| datenArt.equals(UmfeldDatenArt.wgm)
+				|| datenArt.equals(UmfeldDatenArt.fbg)
 				|| datenArt.equals(UmfeldDatenArt.wgs)) {
 			offset = 0;
 		} else if (datenArt.equals(UmfeldDatenArt.tt1)
