@@ -38,6 +38,9 @@ public class WGS84Punkt extends WGS84Koordinate implements
 
 	/** $Auml;quatorradius der Erde (6378,137 km). */
 	public static final double ERD_RADIUS_KM = 6378.137;
+	
+	/** Genauigkeit, mit der der Koordinaten verglichen werden. */
+	public static final double GENAUIGKEIT_KOORDINATEN = 1000000.0;
 
 	/**
 	 * Abstandsberechnung zwischen 2 Punkten mit Näherungsformel (idealisierte
@@ -211,10 +214,9 @@ public class WGS84Punkt extends WGS84Koordinate implements
 		if (obj instanceof WGS84Punkt) {
 			WGS84Punkt p = (WGS84Punkt) obj;
 			return (
-					(Math.abs((getLaenge() - p.getLaenge())) < maxAbweichung) 
+					(Math.abs((koordinateRunden(getLaenge()) - koordinateRunden(p.getLaenge()))) < maxAbweichung) 
 					&& 
-					(Math.abs((getBreite() - p
-					.getBreite())) < maxAbweichung)
+					(Math.abs((koordinateRunden(getBreite()) - koordinateRunden(p.getBreite()))) < maxAbweichung)
 			);
 		}
 
@@ -248,6 +250,9 @@ public class WGS84Punkt extends WGS84Koordinate implements
 		return utmPunkt.getZone();
 	}
 
+	private double koordinateRunden(double wert) {
+		return Math.round(wert * GENAUIGKEIT_KOORDINATEN) / GENAUIGKEIT_KOORDINATEN;
+	}
 	/**
 	 * {@inheritDoc}
 	 * 
