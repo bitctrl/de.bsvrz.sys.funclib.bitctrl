@@ -41,6 +41,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
+import de.bsvrz.sys.funclib.bitctrl.dua.lve.typen.MessQuerschnittVirtuellLage;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.debug.Debug;
@@ -88,6 +89,11 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 	 * Messquerschnitt EINFAHRT der Anschlussstelle.
 	 */
 	private MessQuerschnitt mqEinfahrtObj;
+	
+	/**
+	 * die Lage des virtuellen MQs.
+	 */
+	private MessQuerschnittVirtuellLage mqVirtLage = null;
 
 	/**
 	 * Menge der an diesem virtuellen Messquerschnitt zusammengefassten
@@ -124,6 +130,7 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 					.warning("Standardeigenschaften von MessQuerschnittVirtuell-Objekt " + mqvObjekt + //$NON-NLS-1$
 							" konnten nicht ausgelesen werden"); //$NON-NLS-1$
 		} else {
+			this.mqVirtLage = MessQuerschnittVirtuellLage.getZustand(eigenschaftenSTD.getUnscaledValue("Lage").intValue()); 
 			if (eigenschaftenSTD.getReferenceValue("MessQuerschnittVor") != null) { //$NON-NLS-1$
 				this.mqVorObj = MessQuerschnitt
 						.getInstanz(eigenschaftenSTD.getReferenceValue(
@@ -354,6 +361,15 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 	 */
 	public final MessQuerschnitt getMQEinfahrt() {
 		return this.mqEinfahrtObj;
+	}
+	
+	/**
+	 * Erfragt die Lage dieses virtuellen Messquerschnitts.
+	 * 
+	 * @return die Lage dieses virtuellen Messquerschnitts.
+	 */
+	public final MessQuerschnittVirtuellLage getMQVirtuellLage() {
+		return this.mqVirtLage;
 	}
 
 	/**
