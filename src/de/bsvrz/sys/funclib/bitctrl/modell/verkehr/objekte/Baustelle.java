@@ -27,7 +27,6 @@
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.bitctrl.Constants;
@@ -40,7 +39,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.onlinedaten.OdBaustellenSimulationStarten;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdBaustellenEigenschaften;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdBaustellenVerantwortlicher;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdSituationsEigenschaften;
 
 /**
  * Repr&auml;sentiert eine Baustelle.
@@ -100,8 +98,6 @@ public class Baustelle extends Situation {
 	public PdBaustellenVerantwortlicher getBaustellenVerantwortlicher() {
 		return getParameterDatensatz(PdBaustellenVerantwortlicher.class);
 	}
-
-
 
 	/**
 	 * liefert die Menge der Netze in denen die Baustelle refernziert wird.
@@ -164,10 +160,8 @@ public class Baustelle extends Situation {
 					OdBaustellenSimulationStarten.Aspekte.Senden.getAspekt(),
 					datum, Constants.MILLIS_PER_MINUTE);
 		} catch (DatensendeException e) {
-			getOnlineDatensatz(OdBaustellenSimulationStarten.class)
-					.abmeldenSender(
-							OdBaustellenSimulationStarten.Aspekte.Senden
-									.getAspekt());
+			getOnlineDatensatz(OdBaustellenSimulationStarten.class).abmeldenSender(
+					OdBaustellenSimulationStarten.Aspekte.Senden.getAspekt());
 			throw e;
 		}
 

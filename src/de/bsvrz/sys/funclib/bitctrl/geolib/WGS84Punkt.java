@@ -38,7 +38,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 
 	/** $Auml;quatorradius der Erde (6378,137 km). */
 	public static final double ERD_RADIUS_KM = 6378.137;
-	
+
 	/** Genauigkeit, mit der der Koordinaten verglichen werden. */
 	public static final double GENAUIGKEIT_KOORDINATEN = 1000000.0;
 
@@ -114,9 +114,9 @@ public class WGS84Punkt extends WGS84Koordinate implements
 		double f = 1 / 298.257223563;
 
 		double s = mD
-				* (1 + (f * mH1 * Math.pow(Math.sin(mF), 2) * Math.pow(Math
-						.cos(mG), 2)) - (f * mH2 * Math.pow(Math.cos(mF), 2) * Math
-						.pow(Math.sin(mG), 2)));
+				* (1 + (f * mH1 * Math.pow(Math.sin(mF), 2) * Math.pow(
+						Math.cos(mG), 2)) - (f * mH2
+						* Math.pow(Math.cos(mF), 2) * Math.pow(Math.sin(mG), 2)));
 
 		// in m
 		s *= 1000;
@@ -181,8 +181,9 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	 */
 	public int compareTo(WGS84Punkt p) {
 		return (getLaenge() > p.getLaenge() ? 1
-				: getLaenge() < p.getLaenge() ? -1 : getBreite() > p
-						.getBreite() ? 1 : getBreite() < p.getBreite() ? 1 : 0);
+				: getLaenge() < p.getLaenge() ? -1
+						: getBreite() > p.getBreite() ? 1
+								: getBreite() < p.getBreite() ? 1 : 0);
 	}
 
 	/**
@@ -194,8 +195,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	public boolean equals(Object obj) {
 		if (obj instanceof WGS84Punkt) {
 			WGS84Punkt p = (WGS84Punkt) obj;
-			return ((getLaenge() == p.getLaenge()) && (getBreite() == p
-					.getBreite()));
+			return ((getLaenge() == p.getLaenge()) && (getBreite() == p.getBreite()));
 		}
 
 		return false;
@@ -213,11 +213,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	public boolean equals(Object obj, double maxAbweichung) {
 		if (obj instanceof WGS84Punkt) {
 			WGS84Punkt p = (WGS84Punkt) obj;
-			return (
-					(Math.abs((koordinateRunden(getLaenge()) - koordinateRunden(p.getLaenge()))) < maxAbweichung) 
-					&& 
-					(Math.abs((koordinateRunden(getBreite()) - koordinateRunden(p.getBreite()))) < maxAbweichung)
-			);
+			return ((Math.abs((koordinateRunden(getLaenge()) - koordinateRunden(p.getLaenge()))) < maxAbweichung) && (Math.abs((koordinateRunden(getBreite()) - koordinateRunden(p.getBreite()))) < maxAbweichung));
 		}
 
 		return false;
@@ -250,9 +246,18 @@ public class WGS84Punkt extends WGS84Koordinate implements
 		return utmPunkt.getZone();
 	}
 
+	/**
+	 * liefert einen gerundeten Koordinatenwert.
+	 * 
+	 * @param wert
+	 *            der Wert der gerundet werden soll
+	 * @return der gerundete Wert
+	 */
 	private double koordinateRunden(double wert) {
-		return Math.round(wert * GENAUIGKEIT_KOORDINATEN) / GENAUIGKEIT_KOORDINATEN;
+		return Math.round(wert * GENAUIGKEIT_KOORDINATEN)
+				/ GENAUIGKEIT_KOORDINATEN;
 	}
+
 	/**
 	 * {@inheritDoc}
 	 * 

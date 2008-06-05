@@ -53,7 +53,8 @@ public class PdStauBestimmungModell extends
 	 * Definition der Attributnamen für den Zugriff auf den Parameterdatensatz.
 	 * 
 	 * @author BitCtrl Systems GmbH, Uwe Peuker
-	 * @version $Id$
+	 * @version $Id: PdStauBestimmungModell.java 8112 2008-04-11 14:44:57Z
+	 *          peuker $
 	 */
 	private static final class Att {
 		/** Attributname für die Zykluszeit. */
@@ -242,22 +243,16 @@ public class PdStauBestimmungModell extends
 					siVerfahren.add((Aspect) verfahrensArray.getReferenceValue(
 							idx).getSystemObject());
 				}
-				anfangsLaenge = daten.getUnscaledValue(Att.ANFANGSLAENGE)
-						.longValue();
+				anfangsLaenge = daten.getUnscaledValue(Att.ANFANGSLAENGE).longValue();
 				stromAbVerlaengerung = daten.getUnscaledValue(
 						Att.STROMABVERLAENGERUNG).longValue();
-				maxSiAbstand = daten.getUnscaledValue(Att.MAXSIABSTAND)
-						.longValue();
-				teilungsLaenge = daten.getUnscaledValue(Att.TEILUNGSLAENGE)
-						.longValue();
+				maxSiAbstand = daten.getUnscaledValue(Att.MAXSIABSTAND).longValue();
+				teilungsLaenge = daten.getUnscaledValue(Att.TEILUNGSLAENGE).longValue();
 				teilungsverzoegerung = daten.getUnscaledValue(
 						Att.TEILUNGSVERZOEGERUNG).longValue();
-				prognoselaengeA1 = daten
-						.getUnscaledValue(Att.PROGNOSELAENGE_A1).longValue();
-				prognoselaengeA2 = daten
-						.getUnscaledValue(Att.PROGNOSELAENGE_A2).longValue();
-				prognoselaengeA3 = daten
-						.getUnscaledValue(Att.PROGNOSELAENGE_A3).longValue();
+				prognoselaengeA1 = daten.getUnscaledValue(Att.PROGNOSELAENGE_A1).longValue();
+				prognoselaengeA2 = daten.getUnscaledValue(Att.PROGNOSELAENGE_A2).longValue();
+				prognoselaengeA3 = daten.getUnscaledValue(Att.PROGNOSELAENGE_A3).longValue();
 				minSIGuete = daten.getScaledValue(Att.MINSIGUETE).doubleValue();
 			}
 
@@ -274,59 +269,130 @@ public class PdStauBestimmungModell extends
 			return new Daten(this);
 		}
 
+		/**
+		 * liefert die angenommene Länge eines Stauobjekts an einem lokalen
+		 * Störfallindikators pro Zeiteinheit.
+		 * 
+		 * @return die Länge pro Zeiteinheit (m/min)
+		 */
 		public long getAnfangsLaenge() {
 			return anfangsLaenge;
 		}
 
-		/**
-		 * {@inheritDoc}.<br>
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
-		 */
+		/** {@inheritDoc} */
 		public Status getDatenStatus() {
 			return datenStatus;
 		}
 
+		/**
+		 * liefert den maximalen Abstand von zwei Störfallindikatoren, die zu
+		 * einem Stauobjekt zusammengefasst werden sollen (in Metern).
+		 * 
+		 * @return der Abstand in Metern
+		 */
 		public long getMaxSiAbstand() {
 			return maxSiAbstand;
 		}
 
+		/**
+		 * liefert die minimale Güte, mit der der Zustand eines
+		 * Störfallindikators für die Stauobjektbestimmung verwendet werden
+		 * soll.
+		 * 
+		 * @return die Güte
+		 */
 		public double getMinSIGuete() {
 			return minSIGuete;
 		}
 
+		/**
+		 * liefert den Parameter a1 für die Berechnung der maximalen
+		 * Stauverlängerung durch eine Prognose (siehe Anwenderanforderungen).
+		 * 
+		 * @return der Parameterwert
+		 */
 		public long getPrognoselaengeA1() {
 			return prognoselaengeA1;
 		}
 
+		/**
+		 * liefert den Parameter a2 für die Berechnung der maximalen
+		 * Stauverlängerung durch eine Prognose (siehe Anwenderanforderungen).
+		 * 
+		 * @return der Parameterwert
+		 */
 		public long getPrognoselaengeA2() {
 			return prognoselaengeA2;
 		}
 
+		/**
+		 * liefert den Parameter a3 für die Berechnung der maximalen
+		 * Stauverlängerung durch eine Prognose (siehe Anwenderanforderungen).
+		 * 
+		 * @return der Parameterwert
+		 */
 		public long getPrognoselaengeA3() {
 			return prognoselaengeA3;
 		}
 
+		/**
+		 * liefert eine Liste der Störfallverfahren, für die die ermittelten
+		 * Störfallzustände für die Stauobjektbestimmung verwendet werden
+		 * sollen. Die Liste enthält die Aspekte, die die jeweiligen Verfahren
+		 * spezifizieren.
+		 * 
+		 * @return die Liste
+		 */
 		public Collection<Aspect> getSiVerfahren() {
 			return siVerfahren;
 		}
 
+		/**
+		 * liefert den Wert, um den ein Stauobjekt stromabwärts verlängert wird
+		 * (in Metern).
+		 * 
+		 * @return die Länge
+		 */
 		public long getStromAbVerlaengerung() {
 			return stromAbVerlaengerung;
 		}
 
+		/**
+		 * liefert den Abstand von gestörten Störfallindikatoren, bei dem die
+		 * Trennung eines Staupbjektes erfolgen soll (in Metern).
+		 * 
+		 * @return den Abstand
+		 */
 		public long getTeilungsLaenge() {
 			return teilungsLaenge;
 		}
 
+		/**
+		 * liefert die Verzögerungszeit für die Trennung eines Stauobjekts, wenn
+		 * der erforderliche Trennungsbastand nicht überschritten wurde.
+		 * 
+		 * @return die Verzögerungszeit in Millisekunden
+		 */
 		public long getTeilungsverzoegerung() {
 			return teilungsverzoegerung;
 		}
 
+		/**
+		 * liefert die Zykluszeit, mit der die Stauobjektbestimmung arbeitet.
+		 * 
+		 * @return die Zeit in Millisekunden
+		 */
 		public long getZyklusZeit() {
 			return zyklusZeit;
 		}
 
+		/**
+		 * setzt die angenommene Länge eines Stauobjekts an einem lokalen
+		 * Störfallindikators pro Zeiteinheit.
+		 * 
+		 * @param anfangsLaenge
+		 *            die Länge pro Zeiteinheit (m/min)
+		 */
 		public void setAnfangsLaenge(long anfangsLaenge) {
 			this.anfangsLaenge = anfangsLaenge;
 		}
@@ -341,26 +407,70 @@ public class PdStauBestimmungModell extends
 			this.datenStatus = neuerStatus;
 		}
 
+		/**
+		 * setzt den maximalen Abstand von zwei Störfallindikatoren, die zu
+		 * einem Stauobjekt zusammengefasst werden sollen (in Metern).
+		 * 
+		 * @param maxSiAbstand
+		 *            der Abstand in Metern
+		 */
 		public void setMaxSiAbstand(long maxSiAbstand) {
 			this.maxSiAbstand = maxSiAbstand;
 		}
 
+		/**
+		 * setzt die minimale Güte, mit der der Zustand eines Störfallindikators
+		 * für die Stauobjektbestimmung verwendet werden soll.
+		 * 
+		 * @param minSIGuete
+		 *            die Güte
+		 */
 		public void setMinSIGuete(double minSIGuete) {
 			this.minSIGuete = minSIGuete;
 		}
 
+		/**
+		 * setzt den Parameter a1 für die Berechnung der maximalen
+		 * Stauverlängerung durch eine Prognose (siehe Anwenderanforderungen).
+		 * 
+		 * @param prognoselaengeA1
+		 *            der Parameterwert
+		 */
 		public void setPrognoselaengeA1(long prognoselaengeA1) {
 			this.prognoselaengeA1 = prognoselaengeA1;
 		}
 
+		/**
+		 * setzt den Parameter a2 für die Berechnung der maximalen
+		 * Stauverlängerung durch eine Prognose (siehe Anwenderanforderungen).
+		 * 
+		 * @param prognoselaengeA2
+		 *            der Parameterwert
+		 */
 		public void setPrognoselaengeA2(long prognoselaengeA2) {
 			this.prognoselaengeA2 = prognoselaengeA2;
 		}
 
+		/**
+		 * setzt den Parameter a3 für die Berechnung der maximalen
+		 * Stauverlängerung durch eine Prognose (siehe Anwenderanforderungen).
+		 * 
+		 * @param prognoselaengeA3
+		 *            der Parameterwert
+		 */
 		public void setPrognoselaengeA3(long prognoselaengeA3) {
 			this.prognoselaengeA3 = prognoselaengeA3;
 		}
 
+		/**
+		 * setzt die Liste der Störfallverfahren, für die die ermittelten
+		 * Störfallzustände für die Stauobjektbestimmung verwendet werden
+		 * sollen. Die Liste enthält die Aspekte, die die jeweiligen Verfahren
+		 * spezifizieren.
+		 * 
+		 * @param siVerfahren
+		 *            die Aspekte der Verfahren
+		 */
 		public void setSiVerfahren(Aspect... siVerfahren) {
 			this.siVerfahren.clear();
 			if (siVerfahren != null) {
@@ -370,18 +480,45 @@ public class PdStauBestimmungModell extends
 			}
 		}
 
+		/**
+		 * setzt den Wert, um den ein Stauobjekt stromabwärts verlängert wird
+		 * (in Metern).
+		 * 
+		 * @param stromAbVerlaengerung
+		 *            der Wert in Metern
+		 */
 		public void setStromAbVerlaengerung(long stromAbVerlaengerung) {
 			this.stromAbVerlaengerung = stromAbVerlaengerung;
 		}
 
+		/**
+		 * setzt den Abstand von gestörten Störfallindikatoren, bei dem die
+		 * Trennung eines Staupbjektes erfolgen soll (in Metern).
+		 * 
+		 * @param teilungsLaenge
+		 *            der Abstand
+		 */
 		public void setTeilungsLaenge(long teilungsLaenge) {
 			this.teilungsLaenge = teilungsLaenge;
 		}
 
+		/**
+		 * setzt die Verzögerungszeit für die Trennung eines Stauobjekts, wenn
+		 * der erforderliche Trennungsbastand nicht überschritten wurde.
+		 * 
+		 * @param teilungsverzoegerung
+		 *            die Verzögerungszeit in Millisekunden
+		 */
 		public void setTeilungsverzoegerung(long teilungsverzoegerung) {
 			this.teilungsverzoegerung = teilungsverzoegerung;
 		}
 
+		/**
+		 * setzt die Zykluszeit, mit der die Stauobjektbestimmung arbeitet.
+		 * 
+		 * @param zyklusZeit
+		 *            die Zeit in Millisekunden
+		 */
 		public void setZyklusZeit(long zyklusZeit) {
 			this.zyklusZeit = zyklusZeit;
 		}
@@ -402,8 +539,8 @@ public class PdStauBestimmungModell extends
 	public PdStauBestimmungModell(SystemObjekt objekt) {
 		super(objekt);
 		if (attributGruppe == null) {
-			attributGruppe = objekt.getSystemObject().getDataModel()
-					.getAttributeGroup("atg.stauBestimmungModell");
+			attributGruppe = objekt.getSystemObject().getDataModel().getAttributeGroup(
+					"atg.stauBestimmungModell");
 		}
 	}
 

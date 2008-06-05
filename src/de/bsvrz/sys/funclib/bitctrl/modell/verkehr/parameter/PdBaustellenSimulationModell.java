@@ -26,12 +26,8 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
-import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
@@ -53,7 +49,8 @@ public class PdBaustellenSimulationModell extends
 	 * Definition der Attributnamen für den Zugriff auf den Parameterdatensatz.
 	 * 
 	 * @author BitCtrl Systems GmbH, Uwe Peuker
-	 * @version $Id$
+	 * @version $Id: PdBaustellenSimulationModell.java 8880 2008-05-13 14:23:12Z
+	 *          peuker $
 	 */
 	private static final class Att {
 		/** Attributname für den Prognosehorizont. */
@@ -87,12 +84,13 @@ public class PdBaustellenSimulationModell extends
 	 * Repräsentation der Daten des Datensatzes.
 	 * 
 	 * @author BitCtrl Systems GmbH, Peuker
-	 * @version $Id$
+	 * @version $Id: PdBaustellenSimulationModell.java 8880 2008-05-13 14:23:12Z
+	 *          peuker $
 	 */
 	public static class Daten extends AbstractDatum {
 
 		/** Prognosehorizont in Tagen. */
-		private long progoseHorizont;
+		private long prognoseHorizont;
 
 		/** Aktualisierungsintervall in Tagen. */
 		private long aktualisierungsIntervall;
@@ -122,7 +120,7 @@ public class PdBaustellenSimulationModell extends
 		 * Die Funktion erzeugt ein en leeres Datum.
 		 */
 		public Daten() {
-			progoseHorizont = 0;
+			prognoseHorizont = 0;
 			aktualisierungsIntervall = 0;
 			iterationsSchrittweite = 0;
 			faktorQ0 = 0;
@@ -143,7 +141,7 @@ public class PdBaustellenSimulationModell extends
 		public Daten(Daten daten) {
 			this();
 			if (daten != null) {
-				progoseHorizont = daten.progoseHorizont;
+				prognoseHorizont = daten.prognoseHorizont;
 				aktualisierungsIntervall = daten.aktualisierungsIntervall;
 				iterationsSchrittweite = daten.iterationsSchrittweite;
 				faktorQ0 = daten.faktorQ0;
@@ -169,18 +167,15 @@ public class PdBaustellenSimulationModell extends
 			Data daten = result.getData();
 
 			if (daten != null) {
-				progoseHorizont = daten.getUnscaledValue(Att.PROGNOSE_HORIZONT)
-						.longValue();
+				prognoseHorizont = daten.getUnscaledValue(Att.PROGNOSE_HORIZONT).longValue();
 				aktualisierungsIntervall = daten.getUnscaledValue(
 						Att.AKTUALISIERUNGS_INTERVALL).longValue();
 				iterationsSchrittweite = daten.getTimeValue(
 						Att.ITERATIONS_SCHRITTWEITE).getMillis();
 				faktorQ0 = daten.getScaledValue(Att.FAKTOR_Q0).doubleValue();
 				laengePkw = daten.getUnscaledValue(Att.LAENGE_PKW).longValue();
-				stauBeginn = daten.getUnscaledValue(Att.LAENGE_STAUBEGINN)
-						.longValue();
-				stauAufhebung = daten
-						.getUnscaledValue(Att.LAENGE_STAUAUFHEBUNG).longValue();
+				stauBeginn = daten.getUnscaledValue(Att.LAENGE_STAUBEGINN).longValue();
+				stauAufhebung = daten.getUnscaledValue(Att.LAENGE_STAUAUFHEBUNG).longValue();
 			}
 
 			datenStatus = Datum.Status.getStatus(result.getDataState());
@@ -196,43 +191,91 @@ public class PdBaustellenSimulationModell extends
 			return new Daten(this);
 		}
 
+		/**
+		 * liefert das Aktualisierungsintervall in Tagen, mit dem die Simulation
+		 * des Verhaltens der Baustellen innerhalb des parametrierten Netzes
+		 * erfolgend soll.
+		 * 
+		 * @return das Aktualisierungsintervall in Tagen
+		 */
 		public long getAktualisierungsIntervall() {
 			return aktualisierungsIntervall;
 		}
 
-		/**
-		 * {@inheritDoc}.<br>
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
-		 */
+		/** {@inheritDoc} */
 		public Status getDatenStatus() {
 			return datenStatus;
 		}
 
+		/**
+		 * liefert den Faktor mit dem der Q0-Wert des Fundamentaldiagramms eines
+		 * MQ multipliziert wird, wenn dieses als Basis zur Berechnung der
+		 * Kapazität einer Baustelle im Bereich, der Ungültigkeit innerhalb des
+		 * Prognosezeitraums verwendet wird.
+		 * 
+		 * @return der Faktor
+		 */
 		public double getFaktorQ0() {
 			return faktorQ0;
 		}
 
+		/**
+		 * liefert die Schrittweite, mit der innerhalb des Prognosezeitraums
+		 * eine Simulation des Stauverlaufs erfolgen soll in Millisekunden.
+		 * 
+		 * @return die Schrittweite
+		 */
 		public long getIterationsSchrittweite() {
 			return iterationsSchrittweite;
 		}
 
+		/**
+		 * liefert die normierte Länge eines Fahrzeiges, die dieses im Stau
+		 * beansprucht in Metern.
+		 * 
+		 * @return die Länge
+		 */
 		public long getLaengePkw() {
 			return laengePkw;
 		}
 
+		/**
+		 * liefert den Prognosehorizont der Baustellensimulation in Tagen.
+		 * 
+		 * @return den Horizont
+		 */
 		public long getProgoseHorizont() {
-			return progoseHorizont;
+			return prognoseHorizont;
 		}
 
+		/**
+		 * liefert die Länge, ab der eine Aufhebung eines Stauobjekts innerhalb
+		 * der Simulation einer Baustelle angenommen wird, in Metern.
+		 * 
+		 * @return die Länge
+		 */
 		public long getStauAufhebung() {
 			return stauAufhebung;
 		}
 
+		/**
+		 * liefert die Länge, ab der ein Stauobjekts innerhalb der Simulation
+		 * einer Baustelle gebildet wird, in Metern.
+		 * 
+		 * @return die Länge
+		 */
 		public long getStauBeginn() {
 			return stauBeginn;
 		}
 
+		/**
+		 * setzt das Aktualisierungsintervall, mit dem die zyklische Simulation
+		 * der innerhalb des parametrierten Netzes angelegten Baustellen
+		 * erfolgen soll, in Tagen.
+		 * 
+		 * @param aktualisierungsIntervall
+		 *            das Intervall in Tagen
+		 */
 		public void setAktualisierungsIntervall(long aktualisierungsIntervall) {
 			this.aktualisierungsIntervall = aktualisierungsIntervall;
 		}
@@ -247,26 +290,68 @@ public class PdBaustellenSimulationModell extends
 			this.datenStatus = neuerStatus;
 		}
 
+		/**
+		 * setzt den Faktor für die Verwendung des Q0-Wertes aus einem
+		 * Fundamentaldiagramm.
+		 * 
+		 * @param faktorQ0
+		 *            der Faktor
+		 */
 		public void setFaktorQ0(double faktorQ0) {
 			this.faktorQ0 = faktorQ0;
 		}
 
+		/**
+		 * setzt die Schrittweite, mit innerhalb der Baustellensimulation das
+		 * Verhalten von Stauobjekten analysiert wird, in Millisekunden.
+		 * 
+		 * @param iterationsSchrittweite
+		 *            die Schrittweite in ms
+		 */
 		public void setIterationsSchrittweite(long iterationsSchrittweite) {
 			this.iterationsSchrittweite = iterationsSchrittweite;
 		}
 
+		/**
+		 * setzt die Länge, die von einen Pkw innerhalb eines Staus belegt
+		 * werden würde, in Metern.
+		 * 
+		 * @param laengePkw
+		 *            die Länge
+		 */
 		public void setLaengePkw(long laengePkw) {
 			this.laengePkw = laengePkw;
 		}
 
-		public void setProgoseHorizont(long progoseHorizont) {
-			this.progoseHorizont = progoseHorizont;
+		/**
+		 * setzt den Prognosehorizont für die Ausführung einer
+		 * Baustellensimulation in Tagen.
+		 * 
+		 * @param horizont
+		 *            der Horizont in Tagen
+		 */
+		public void setProgoseHorizont(long horizont) {
+			this.prognoseHorizont = horizont;
 		}
 
+		/**
+		 * setzt die Länge, bei der ein Stauobjekt innerhalb der Simulation
+		 * aufgelöst werden soll, in Metern.
+		 * 
+		 * @param stauAufhebung
+		 *            die Länge
+		 */
 		public void setStauAufhebung(long stauAufhebung) {
 			this.stauAufhebung = stauAufhebung;
 		}
 
+		/**
+		 * setzt die Länge, bei der ein Stauobjekt innerhalb der Simulation
+		 * gebildet werden soll, in Metern.
+		 * 
+		 * @param stauBeginn
+		 *            die Länge
+		 */
 		public void setStauBeginn(long stauBeginn) {
 			this.stauBeginn = stauBeginn;
 		}
@@ -287,8 +372,8 @@ public class PdBaustellenSimulationModell extends
 	public PdBaustellenSimulationModell(SystemObjekt objekt) {
 		super(objekt);
 		if (attributGruppe == null) {
-			attributGruppe = objekt.getSystemObject().getDataModel()
-					.getAttributeGroup("atg.baustellenSimulationModell");
+			attributGruppe = objekt.getSystemObject().getDataModel().getAttributeGroup(
+					"atg.baustellenSimulationModell");
 		}
 	}
 
@@ -327,8 +412,7 @@ public class PdBaustellenSimulationModell extends
 				datum.getIterationsSchrittweite());
 		daten.getScaledValue(Att.FAKTOR_Q0).set(datum.getFaktorQ0());
 		daten.getUnscaledValue(Att.LAENGE_PKW).set(datum.getLaengePkw());
-		daten.getUnscaledValue(Att.LAENGE_STAUBEGINN)
-				.set(datum.getStauBeginn());
+		daten.getUnscaledValue(Att.LAENGE_STAUBEGINN).set(datum.getStauBeginn());
 		daten.getUnscaledValue(Att.LAENGE_STAUAUFHEBUNG).set(
 				datum.getStauAufhebung());
 

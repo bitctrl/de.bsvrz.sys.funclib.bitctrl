@@ -26,8 +26,6 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import de.bsvrz.dav.daf.main.Data;
@@ -37,7 +35,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.DataCache;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.MessQuerschnittAllgemein.MessQuerschnittComparator;
 
 /**
  * Repr‰sentation eines inneren Straﬂensegment in der Datenmodellabbildung.
@@ -83,10 +80,8 @@ public class InneresStrassenSegment extends StrassenSegment {
 		DataCache.cacheData(getSystemObject().getType(), atg);
 
 		Data daten = obj.getConfigurationData(atg);
-		vonSegmentObj = daten.getReferenceValue("vonStraﬂenSegment")
-				.getSystemObject();
-		nachSegmentObj = daten.getReferenceValue("nachStraﬂenSegment")
-				.getSystemObject();
+		vonSegmentObj = daten.getReferenceValue("vonStraﬂenSegment").getSystemObject();
+		nachSegmentObj = daten.getReferenceValue("nachStraﬂenSegment").getSystemObject();
 	}
 
 	/**
@@ -99,29 +94,15 @@ public class InneresStrassenSegment extends StrassenSegment {
 	public AeusseresStrassenSegment getNachSegment() {
 		AeusseresStrassenSegment result = null;
 		if (nachSegmentObj != null) {
-			result = (AeusseresStrassenSegment) ObjektFactory.getInstanz()
-					.getModellobjekt(nachSegmentObj);
-		}
-		return result;
-	}
-
-	/**
-	 * liefert das ‰uﬂere Straﬂensegment, an dem das Segment beginnt.
-	 * 
-	 * @return das Segment oder <code>null</code>, wenn keines konfiguriert
-	 *         wurde.
-	 */
-	public AeusseresStrassenSegment getVonSegment() {
-		AeusseresStrassenSegment result = null;
-		if (vonSegmentObj != null) {
-			result = (AeusseresStrassenSegment) ObjektFactory.getInstanz()
-					.getModellobjekt(vonSegmentObj);
+			result = (AeusseresStrassenSegment) ObjektFactory.getInstanz().getModellobjekt(
+					nachSegmentObj);
 		}
 		return result;
 	}
 
 	/**
 	 * ermittelt den Straﬂenknoten, zu dem des Segment gehˆrt.
+	 * 
 	 * @return der Knoten oder <code>null</code>
 	 */
 	public StrassenKnoten getStrassenKnoten() {
@@ -133,7 +114,7 @@ public class InneresStrassenSegment extends StrassenSegment {
 
 			for (SystemObjekt so : listeSO) {
 				StrassenKnoten knoten = (StrassenKnoten) so;
-				if ( knoten.getInnereSegmente().contains(this)) {
+				if (knoten.getInnereSegmente().contains(this)) {
 					strassenKnoten = knoten;
 					break;
 				}
@@ -142,5 +123,20 @@ public class InneresStrassenSegment extends StrassenSegment {
 		}
 
 		return strassenKnoten;
+	}
+
+	/**
+	 * liefert das ‰uﬂere Straﬂensegment, an dem das Segment beginnt.
+	 * 
+	 * @return das Segment oder <code>null</code>, wenn keines konfiguriert
+	 *         wurde.
+	 */
+	public AeusseresStrassenSegment getVonSegment() {
+		AeusseresStrassenSegment result = null;
+		if (vonSegmentObj != null) {
+			result = (AeusseresStrassenSegment) ObjektFactory.getInstanz().getModellobjekt(
+					vonSegmentObj);
+		}
+		return result;
 	}
 }

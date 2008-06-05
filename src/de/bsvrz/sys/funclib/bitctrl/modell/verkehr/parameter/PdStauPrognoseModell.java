@@ -26,18 +26,13 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
-import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
-import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdStauBestimmungModell.Daten;
 
 /**
  * Ein Parameterdatensatz, der die an einem VerkehrsmodellNetz festgelegten
@@ -159,14 +154,12 @@ public class PdStauPrognoseModell extends
 			Data daten = result.getData();
 
 			if (daten != null) {
-				prognoseHorizont = daten.getTimeValue(Att.PROGNOSE_HORIZONT)
-						.getMillis();
+				prognoseHorizont = daten.getTimeValue(Att.PROGNOSE_HORIZONT).getMillis();
 				aktualisierungsIntervall = daten.getUnscaledValue(
 						Att.AKTUALISIERUNGS_INTERVALL).longValue();
 				faktorQ0 = daten.getScaledValue(Att.FAKTOR_Q0).doubleValue();
 				laengePkw = daten.getUnscaledValue(Att.LAENGE_PKW).longValue();
-				daempfungsZeit = daten.getTimeValue(Att.DAEMPFUNGSZEIT)
-						.getMillis();
+				daempfungsZeit = daten.getTimeValue(Att.DAEMPFUNGSZEIT).getMillis();
 			}
 
 			datenStatus = Datum.Status.getStatus(result.getDataState());
@@ -178,10 +171,23 @@ public class PdStauPrognoseModell extends
 			return new Daten(this);
 		}
 
+		/**
+		 * liefert die Anzahl der Prognoseschritte, die innerhalb einer
+		 * Aktualisierungsintervalls der vorgelagerten Stauobjektbestimmung
+		 * ausgeführt werden sollen.
+		 * 
+		 * @return die Anzahl
+		 */
 		public long getAktualisierungsIntervall() {
 			return aktualisierungsIntervall;
 		}
 
+		/**
+		 * liefert die Dämpfungszeit zur linearen Dämpfung von historischen
+		 * Ganglinien.
+		 * 
+		 * @return die Zeit in Millisekunden
+		 */
 		public long getDaempfungsZeit() {
 			return daempfungsZeit;
 		}
@@ -195,22 +201,53 @@ public class PdStauPrognoseModell extends
 			return datenStatus;
 		}
 
+		/**
+		 * liefert den Faktor zur Verwendung des Q0-Wertes innerhalb eines
+		 * Fundamentaldiagramms.
+		 * 
+		 * @return der Faktor
+		 */
 		public double getFaktorQ0() {
 			return faktorQ0;
 		}
 
+		/**
+		 * liefert die Länge eines Fahrzeugs innerhalb eines Staus in Metern.
+		 * 
+		 * @return die Länge in Metern
+		 */
 		public long getLaengePkw() {
 			return laengePkw;
 		}
 
+		/**
+		 * liefert den Prognosehorizont für die Prognose eines Stauobjekts.
+		 * 
+		 * @return der Horizont in Millisekunden
+		 */
 		public long getPrognoseHorizont() {
 			return prognoseHorizont;
 		}
 
+		/**
+		 * setzt die Anzahl der Prognoseschritte, die innerhalb einer
+		 * Aktualisierungsintervalls der vorgelagerten Stauobjektbestimmung
+		 * ausgeführt werden sollen.
+		 * 
+		 * @param aktualisierungsIntervall
+		 *            die Anzahl
+		 */
 		public void setAktualisierungsIntervall(long aktualisierungsIntervall) {
 			this.aktualisierungsIntervall = aktualisierungsIntervall;
 		}
 
+		/**
+		 * setzt die Dämpfungszeit zur linearen Dämpfung von historischen
+		 * Ganglinien.
+		 * 
+		 * @param daempfungsZeit
+		 *            die Zeit in Millisekunden
+		 */
 		public void setDaempfungsZeit(long daempfungsZeit) {
 			this.daempfungsZeit = daempfungsZeit;
 		}
@@ -225,14 +262,33 @@ public class PdStauPrognoseModell extends
 			this.datenStatus = neuerStatus;
 		}
 
+		/**
+		 * setzt den Faktor zur Verwendung des Q0-Wertes innerhalb eines
+		 * Fundamentaldiagramms.
+		 * 
+		 * @param faktorQ0
+		 *            der Faktor
+		 */
 		public void setFaktorQ0(double faktorQ0) {
 			this.faktorQ0 = faktorQ0;
 		}
 
+		/**
+		 * setzt die Länge eines Fahrzeugs innerhalb eines Staus in Metern.
+		 * 
+		 * @param laengePkw
+		 *            die Länge in Metern
+		 */
 		public void setLaengePkw(long laengePkw) {
 			this.laengePkw = laengePkw;
 		}
 
+		/**
+		 * setzt den Prognosehorizont für die Prognose eines Stauobjekts.
+		 * 
+		 * @param prognoseHorizont
+		 *            der Horizont in Millisekunden
+		 */
 		public void setPrognoseHorizont(long prognoseHorizont) {
 			this.prognoseHorizont = prognoseHorizont;
 		}
@@ -254,8 +310,8 @@ public class PdStauPrognoseModell extends
 	public PdStauPrognoseModell(SystemObjekt objekt) {
 		super(objekt);
 		if (attributGruppe == null) {
-			attributGruppe = objekt.getSystemObject().getDataModel()
-					.getAttributeGroup("atg.stauPrognoseModell");
+			attributGruppe = objekt.getSystemObject().getDataModel().getAttributeGroup(
+					"atg.stauPrognoseModell");
 		}
 	}
 

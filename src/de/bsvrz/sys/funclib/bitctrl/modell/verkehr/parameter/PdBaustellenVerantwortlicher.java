@@ -40,8 +40,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
  * "atg.baustellenVerantwortlicher".
  * 
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id: PdBaustellenVerantwortlicher.java 6198 2008-02-04 16:30:04Z
- *          peuker $
+ * @version $Id$
  */
 public class PdBaustellenVerantwortlicher extends
 		AbstractParameterDatensatz<PdBaustellenVerantwortlicher.Daten> {
@@ -281,8 +280,8 @@ public class PdBaustellenVerantwortlicher extends
 	public PdBaustellenVerantwortlicher(SystemObjekt objekt) {
 		super(objekt);
 		if (attributGruppe == null) {
-			attributGruppe = objekt.getSystemObject().getDataModel()
-					.getAttributeGroup("atg.baustellenVerantwortlicher");
+			attributGruppe = objekt.getSystemObject().getDataModel().getAttributeGroup(
+					"atg.baustellenVerantwortlicher");
 		}
 	}
 
