@@ -94,7 +94,7 @@ public class MessStellenGruppe extends AbstractSystemObjekt {
 		Data eigenschaften = msgObjekt.getConfigurationData(atgEigenschaften);
 
 		if (eigenschaften == null) {
-			Debug.getLogger().warning("Eigenschaften von Messstellengruppe " + msgObjekt + //$NON-NLS-1$
+			Debug.getLogger().warning("\"atg.messStellenGruppe\" von Messstellengruppe " + msgObjekt + //$NON-NLS-1$
 					" konnten nicht ausgelesen werden"); //$NON-NLS-1$
 		} else {
 			if (eigenschaften.getReferenceArray("MessStellen") != null) { //$NON-NLS-1$

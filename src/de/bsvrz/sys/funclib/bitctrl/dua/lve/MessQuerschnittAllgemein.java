@@ -87,7 +87,7 @@ public abstract class MessQuerschnittAllgemein extends AbstractSystemObjekt {
 
 		if (eigenschaften == null) {
 			Debug.getLogger()
-					.warning("Eigenschaften von allgemeinem Messquerschnittobjekt " + mqaObjekt + //$NON-NLS-1$
+					.warning("\"atg.messQuerschnittAllgemein\" von allgemeinem Messquerschnittobjekt " + mqaObjekt + //$NON-NLS-1$
 							" konnten nicht ausgelesen werden"); //$NON-NLS-1$
 		} else {
 			this.typ = MessQuerschnittTyp.getZustand(eigenschaften

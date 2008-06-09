@@ -167,7 +167,7 @@ public final class DUAKonstanten {
 	/**
 	 * DAV-Atg-PID <code>atg.messQuerschnittVirtuell</code>.
 	 */
-	public static final String ATG_MQ_VIRTUELL = "atg.messQuerschnittVirtuell"; //$NON-NLS-1$
+	public static final String ATG_MQ_VIRTUELL_V_LAGE = "atg.messQuerschnittVirtuellVLage"; //$NON-NLS-1$
 
 	/**
 	 * DAV-Atg-PID <code>atg.messQuerschnittVirtuellStandard</code>.

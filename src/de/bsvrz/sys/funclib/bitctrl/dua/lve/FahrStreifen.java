@@ -101,7 +101,7 @@ public class FahrStreifen extends AbstractSystemObjekt {
 
 		if (eigenschaften == null) {
 			throw new DUAInitialisierungsException(
-					"Eigenschaften von Fahrstreifenobjekt " + fsObjekt + //$NON-NLS-1$
+					"\"atg.fahrStreifen\" von Fahrstreifenobjekt " + fsObjekt + //$NON-NLS-1$
 							" konnten nicht ausgelesen werden"); //$NON-NLS-1$
 		}
 
