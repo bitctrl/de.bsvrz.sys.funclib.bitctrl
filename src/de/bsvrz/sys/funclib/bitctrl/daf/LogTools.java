@@ -151,7 +151,7 @@ public final class LogTools {
 	public static void log(Debug log, LogNachricht nachricht,
 			Object... arguments) {
 		final MessageSender msg = MessageSender.getInstance();
-		final String txt;
+		String txt;
 		final Level logLevel;
 		final MessageGrade bmvLevel;
 
@@ -184,6 +184,11 @@ public final class LogTools {
 		// Ausgabe Betriebsmeldung
 		bmvLevel = nachricht.getBmvLevel();
 		if (bmvLevel != null) {
+			// TODO Textlänge muss gekürzt werden, da writeUTF die Länge
+			// begrenzt. (UTFDataFormatException)
+			if (txt.length() > 20000) {
+				txt = txt.substring(0, 20000);
+			}
 			msg.sendMessage(MessageType.APPLICATION_DOMAIN, bmvLevel, txt);
 		}
 	}
