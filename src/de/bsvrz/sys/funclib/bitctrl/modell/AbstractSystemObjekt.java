@@ -32,8 +32,10 @@ import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
@@ -118,6 +120,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 			final Class<O> typ) {
 		if (!onlineDaten.containsKey(typ)) {
 			OnlineDatensatz<? extends Datum> od;
+			final List<AttributeGroup> atgListe;
 
 			od = getDatensatz(typ);
 			if (od == null) {
@@ -127,14 +130,16 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 								+ " kann nicht instantiiert werden, da der öffentlicher "
 								+ "Konstruktor mit einem Parameter vom Typ SystemObjekt fehlt.");
 			}
-			if (getSystemObject().getType().getAttributeGroups().contains(
-					od.getAttributGruppe())) {
+
+			atgListe = getSystemObject().getType().getAttributeGroups();
+			if (atgListe.contains(od.getAttributGruppe())) {
 				onlineDaten.put(typ, od);
 			} else {
-				throw new IllegalArgumentException("Datensatz " + typ
-						+ " kann nicht mit Objekt "
-						+ getSystemObject().getType().getPid()
-						+ " verwendet werden.");
+				throw new IllegalArgumentException("Datensatz "
+						+ od.getAttributGruppe() + " kann nicht mit Objekt "
+						+ getSystemObject().getType()
+						+ " verwendet werden. Verfügbare Attributgruppen: "
+						+ atgListe);
 			}
 		}
 		return (O) onlineDaten.get(typ);
@@ -156,6 +161,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 			final Class<P> typ) {
 		if (!parameter.containsKey(typ)) {
 			ParameterDatensatz<? extends Datum> pd;
+			final List<AttributeGroup> atgListe;
 
 			pd = getDatensatz(typ);
 			if (pd == null) {
@@ -165,14 +171,16 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 								+ " kann nicht instantiiert werden, da der öffentlicher "
 								+ "Konstruktor mit einem Parameter vom Typ SystemObjekt fehlt.");
 			}
-			if (getSystemObject().getType().getAttributeGroups().contains(
-					pd.getAttributGruppe())) {
+
+			atgListe = getSystemObject().getType().getAttributeGroups();
+			if (atgListe.contains(pd.getAttributGruppe())) {
 				parameter.put(typ, pd);
 			} else {
-				throw new IllegalArgumentException("Datensatz " + typ.getName()
-						+ " kann nicht mit Objekt "
-						+ getSystemObject().getType().getPid()
-						+ " verwendet werden.");
+				throw new IllegalArgumentException("Datensatz "
+						+ pd.getAttributGruppe() + " kann nicht mit Objekt "
+						+ getSystemObject().getType()
+						+ " verwendet werden. Verfügbare Attributgruppen: "
+						+ atgListe);
 			}
 		}
 		return (P) parameter.get(typ);
