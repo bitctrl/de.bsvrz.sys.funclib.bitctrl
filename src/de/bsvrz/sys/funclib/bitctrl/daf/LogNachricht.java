@@ -28,6 +28,8 @@ package de.bsvrz.sys.funclib.bitctrl.daf;
 
 import java.util.logging.Level;
 
+import com.bitctrl.i18n.MessageHandler;
+
 import de.bsvrz.sys.funclib.operatingMessage.MessageGrade;
 
 /**
@@ -36,7 +38,7 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageGrade;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public interface LogNachricht {
+public interface LogNachricht extends MessageHandler {
 
 	/**
 	 * Gibt den Level der Nachricht zurück, der für die
@@ -53,20 +55,5 @@ public interface LogNachricht {
 	 * @return der Log-Level.
 	 */
 	Level getLogLevel();
-
-	/**
-	 * Gibt den Namen der Nachricht zurück.
-	 * 
-	 * @return der Nachrichtenname.
-	 */
-	String name();
-
-	/**
-	 * Gibt die Nachricht als Text zurück. Eventuell vorhandene Platzhalter
-	 * werden nicht ersetzt und bleiben erhalten.
-	 * 
-	 * @return die Nachricht.
-	 */
-	String toString();
 
 }
