@@ -42,6 +42,7 @@ import de.bsvrz.sys.funclib.bitctrl.dua.lve.typen.FahrStreifenLage;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Korrespondiert mit dem Systemobjekt <code>typ.fahrStreifen</code>.
@@ -100,16 +101,16 @@ public class FahrStreifen extends AbstractSystemObjekt {
 		Data eigenschaften = fsObjekt.getConfigurationData(atgEigenschaften);
 
 		if (eigenschaften == null) {
-			throw new DUAInitialisierungsException(
+			Debug.getLogger().error(
 					"\"atg.fahrStreifen\" von Fahrstreifenobjekt " + fsObjekt + //$NON-NLS-1$
 							" konnten nicht ausgelesen werden"); //$NON-NLS-1$
-		}
-
-		this.lage = FahrStreifenLage.getZustand(eigenschaften.getUnscaledValue(
-				"Lage").intValue()); //$NON-NLS-1$
-		if (eigenschaften.getReferenceValue("ErsatzFahrStreifen") != null) { //$NON-NLS-1$
-			this.ersatzFahrstreifenObj = eigenschaften.getReferenceValue(
-					"ErsatzFahrStreifen").getSystemObject(); //$NON-NLS-1$
+		}else{
+			this.lage = FahrStreifenLage.getZustand(eigenschaften.getUnscaledValue(
+					"Lage").intValue()); //$NON-NLS-1$
+			if (eigenschaften.getReferenceValue("ErsatzFahrStreifen") != null) { //$NON-NLS-1$
+				this.ersatzFahrstreifenObj = eigenschaften.getReferenceValue(
+						"ErsatzFahrStreifen").getSystemObject(); //$NON-NLS-1$
+			}
 		}
 	}
 

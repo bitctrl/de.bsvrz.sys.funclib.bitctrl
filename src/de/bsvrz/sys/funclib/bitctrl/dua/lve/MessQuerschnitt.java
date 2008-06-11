@@ -217,30 +217,32 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 	protected final FahrStreifen getNachbarVon(FahrStreifen fs) {
 		FahrStreifen nachbar = null;
 
-		FahrStreifenLage lageLinksVonHier = fs.getLage().getLinksVonHier();
-		FahrStreifenLage lageRechtsVonHier = fs.getLage().getRechtsVonHier();
-
-		FahrStreifen linkerNachbar = null;
-		FahrStreifen rechterNachbar = null;
-
-		for (FahrStreifen fs1 : this.fahrStreifen) {
-			if (lageLinksVonHier != null) {
-				if (fs1.getLage().equals(lageLinksVonHier)) {
-					linkerNachbar = fs1;
-					break;
+		if(fs.getLage() != null) {
+			FahrStreifenLage lageLinksVonHier = fs.getLage().getLinksVonHier();
+			FahrStreifenLage lageRechtsVonHier = fs.getLage().getRechtsVonHier();
+	
+			FahrStreifen linkerNachbar = null;
+			FahrStreifen rechterNachbar = null;
+	
+			for (FahrStreifen fs1 : this.fahrStreifen) {
+				if (lageLinksVonHier != null) {
+					if (fs1.getLage().equals(lageLinksVonHier)) {
+						linkerNachbar = fs1;
+						break;
+					}
+				}
+				if (lageRechtsVonHier != null) {
+					if (fs1.getLage().equals(lageRechtsVonHier)) {
+						rechterNachbar = fs1;
+					}
 				}
 			}
-			if (lageRechtsVonHier != null) {
-				if (fs1.getLage().equals(lageRechtsVonHier)) {
-					rechterNachbar = fs1;
-				}
+	
+			if (linkerNachbar != null) {
+				nachbar = linkerNachbar;
+			} else {
+				nachbar = rechterNachbar;
 			}
-		}
-
-		if (linkerNachbar != null) {
-			nachbar = linkerNachbar;
-		} else {
-			nachbar = rechterNachbar;
 		}
 
 		return nachbar;
