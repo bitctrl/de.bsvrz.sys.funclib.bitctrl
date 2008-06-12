@@ -59,8 +59,6 @@ import de.bsvrz.sys.funclib.bitctrl.util.dav.Umrechung;
 public class OdVerkehrsDatenKurzZeitIntervall extends
 		AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 
-	// TODO Attribute für Mittelwertbildung und Zeit setzen
-
 	/**
 	 * Die vorhandenen Aspekte des Datensatzes.
 	 */
@@ -152,7 +150,7 @@ public class OdVerkehrsDatenKurzZeitIntervall extends
 		};
 
 		/** Intervalldauer, mit dem die Werte erfasst wurden. */
-		private long t;
+		private long intervallDauerT;
 
 		/** Art der Mittelwertbildung (arithmetisch oder gleitend). */
 		ArtMittelwertBildung artMittelwertBildung = ArtMittelwertBildung.UNBEKANNT;
@@ -202,7 +200,7 @@ public class OdVerkehrsDatenKurzZeitIntervall extends
 			Daten klon = new Daten();
 
 			klon.setZeitstempel(getZeitstempel());
-			klon.t = t;
+			klon.intervallDauerT = intervallDauerT;
 			klon.artMittelwertBildung = artMittelwertBildung;
 			klon.qKfz = qKfz;
 			klon.vKfz = vKfz;
@@ -219,9 +217,29 @@ public class OdVerkehrsDatenKurzZeitIntervall extends
 			return klon;
 		}
 
+		/**
+		 * liefert, die innerhalb des Datensatzes definierte Art der
+		 * Mittelwertbildung.
+		 * 
+		 * @return die Art der Mittelwertbildung
+		 */
+		public ArtMittelwertBildung getArtMittelwertBildung() {
+			return artMittelwertBildung;
+		}
+
 		/** {@inheritDoc} */
 		public Status getDatenStatus() {
 			return datenStatus;
+		}
+
+		/**
+		 * liefert die innerhalb des Datensatzes definierte Intervalldauer für
+		 * die erfassten Daten.
+		 * 
+		 * @return die Intervalldauer in Millisekunden
+		 */
+		public long getIntervallDauerT() {
+			return intervallDauerT;
 		}
 
 		/** {@inheritDoc} */
@@ -265,6 +283,17 @@ public class OdVerkehrsDatenKurzZeitIntervall extends
 		}
 
 		/**
+		 * setzt die Art der Mittelwertbildung für den Datensatz.
+		 * 
+		 * @param artMittelwertBildung
+		 *            die Art
+		 */
+		public void setArtMittelwertBildung(
+				ArtMittelwertBildung artMittelwertBildung) {
+			this.artMittelwertBildung = artMittelwertBildung;
+		}
+
+		/**
 		 * setzt den aktuellen Status des Datensatzes.
 		 * 
 		 * @param neuerStatus
@@ -272,6 +301,16 @@ public class OdVerkehrsDatenKurzZeitIntervall extends
 		 */
 		protected void setDatenStatus(Status neuerStatus) {
 			this.datenStatus = neuerStatus;
+		}
+
+		/**
+		 * setzt die Intervalldauer für die Daten des Datensatzes.
+		 * 
+		 * @param intervallDauerT
+		 *            die Dauer
+		 */
+		public void setIntervallDauerT(long intervallDauerT) {
+			this.intervallDauerT = intervallDauerT;
 		}
 
 		/**
@@ -494,7 +533,7 @@ public class OdVerkehrsDatenKurzZeitIntervall extends
 		}
 		if (tNetto != null) {
 			datum.getItem("tNetto").getUnscaledValue("Wert").set(
-					tNetto.intValue());
+					tNetto.longValue());
 			datum.getItem("tNetto").getItem("Güte").getUnscaledValue("Index").set(
 					10000);
 		}
@@ -503,6 +542,15 @@ public class OdVerkehrsDatenKurzZeitIntervall extends
 			datum.getItem("sKfz").getItem("Güte").getUnscaledValue("Index").set(
 					10000);
 		}
+		if (vgKfz != null) {
+			datum.getItem("vgKfz").getUnscaledValue("Wert").set(sKfz.intValue());
+			datum.getItem("vgKfz").getItem("Güte").getUnscaledValue("Index").set(
+					10000);
+		}
+
+		datum.getTimeValue("T").setMillis(d.getIntervallDauerT());
+		datum.getUnscaledValue("ArtMittelwertbildung").set(
+				d.getArtMittelwertBildung().getCode());
 
 		return datum;
 	}
@@ -517,6 +565,10 @@ public class OdVerkehrsDatenKurzZeitIntervall extends
 		if (result.hasData()) {
 			Data daten = result.getData();
 			NumberValue wert;
+
+			datum.setIntervallDauerT(daten.getTimeValue("T").getMillis());
+			datum.setArtMittelwertBildung(ArtMittelwertBildung.getStatus(daten.getUnscaledValue(
+					"ArtMittelwertbildung").intValue()));
 
 			wert = daten.getItem(Daten.Werte.qKfz.name()).getUnscaledValue(
 					"Wert");
@@ -573,12 +625,12 @@ public class OdVerkehrsDatenKurzZeitIntervall extends
 				datum.setWert(Daten.Werte.b.name(), wert.floatValue());
 			}
 
-			wert = daten.getItem(Daten.Werte.tNetto.name()).getScaledValue(
-					"tNetto");
+			wert = daten.getItem(Daten.Werte.tNetto.name()).getUnscaledValue(
+					"Wert");
 			if (wert.isState()) {
 				datum.setWert(Daten.Werte.tNetto.name(), null);
 			} else {
-				datum.setWert(Daten.Werte.tNetto.name(), wert.intValue());
+				datum.setWert(Daten.Werte.tNetto.name(), wert.longValue());
 			}
 
 			wert = daten.getItem(Daten.Werte.sKfz.name()).getUnscaledValue(
