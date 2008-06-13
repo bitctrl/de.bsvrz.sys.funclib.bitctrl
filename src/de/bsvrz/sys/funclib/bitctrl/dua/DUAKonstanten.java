@@ -102,7 +102,7 @@ public final class DUAKonstanten {
 	/**
 	 * DAV-Typ-PID <code>typ.straﬂenabschnitt</code>.
 	 */
-	public static final String TYP_STRASSEN_ABSCHNITT = "typ.straﬂenabschnitt"; //$NON-NLS-1$
+	public static final String TYP_STRASSEN_ABSCHNITT = "typ.straﬂenAbschnitt"; //$NON-NLS-1$
 	
 	/**
 	 * DAV-Atg-PID <code>atg.verkehrsDatenKurzZeitIntervall</code>.
