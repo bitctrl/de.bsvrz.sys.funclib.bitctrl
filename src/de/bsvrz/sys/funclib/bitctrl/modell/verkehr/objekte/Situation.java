@@ -86,8 +86,7 @@ public abstract class Situation extends AbstractSystemObjekt {
 				segment = ((InneresStrassenSegment) segment).getNachSegment();
 			}
 			if (segment instanceof AeusseresStrassenSegment) {
-				StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
-						.getNachKnoten();
+				StrassenKnoten knoten = ((AeusseresStrassenSegment) segment).getNachKnoten();
 				if (knoten != null) {
 					result = knoten;
 				}
@@ -114,8 +113,7 @@ public abstract class Situation extends AbstractSystemObjekt {
 
 		result -= daten.getDatum().getStartOffset();
 		if (letztesSegment != null) {
-			result -= (letztesSegment.getLaenge() - daten.getDatum()
-					.getEndOffset());
+			result -= (letztesSegment.getLaenge() - daten.getDatum().getEndOffset());
 		}
 		return result;
 	}
@@ -147,11 +145,12 @@ public abstract class Situation extends AbstractSystemObjekt {
 	 */
 	public Strasse getStrasse() {
 		Strasse result = null;
-		List<StrassenSegment> segmente = getSituationsEigenschaften()
-				.getDatum().getSegmente();
-		if (segmente.size() > 0) {
-			StrassenSegment segment = segmente.get(0);
-			result = segment.getStrasse();
+		List<StrassenSegment> segmente = getSituationsEigenschaften().getDatum().getSegmente();
+		for (StrassenSegment seg : segmente) {
+			result = seg.getStrasse();
+			if (result != null) {
+				break;
+			}
 		}
 		return result;
 	}
