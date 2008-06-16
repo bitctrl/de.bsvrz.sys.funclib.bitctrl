@@ -26,6 +26,9 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte;
 
+import com.bitctrl.Constants;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
+
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;

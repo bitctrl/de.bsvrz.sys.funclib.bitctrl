@@ -29,9 +29,11 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.tmc.zustaende.TmcRichtung;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.parameter.PdSituationsEigenschaften;
 
 /**
@@ -148,6 +150,85 @@ public abstract class Situation extends AbstractSystemObjekt {
 		List<StrassenSegment> segmente = getSituationsEigenschaften().getDatum().getSegmente();
 		for (StrassenSegment seg : segmente) {
 			result = seg.getStrasse();
+			if (result != null) {
+				break;
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @param anpassen
+	 * @return
+	 */
+	/**
+	 * ermittelt den Name der Strasse. Wenn die TMC-Richtung nicht NEGATIV ist
+	 * wird der Name der zugeordneten Strasse geliefert. Wenn keine Strasse
+	 * zugeordnet wurde, der String "undefiniert". Im Fall der negativen
+	 * Richtung wird versucht einen Name der Form "&lt;strasse&gt; von
+	 * &lt;anfang&gt; nach &lt;ende&gt;" entsprechend anzupassen.
+	 * 
+	 * @param anpassen
+	 *            definiert, ob eine richtungsbezogene Anpassung des Namnes
+	 *            versucht werden soll
+	 * @return der Name
+	 */
+	public String getStrassenName(boolean anpassen) {
+		Strasse strasse = getStrasse();
+		String name = null;
+		if (strasse != null) {
+			name = strasse.getName();
+		}
+
+		if ((name != null) && anpassen) {
+			TmcRichtung richtung = getTmcRichtung();
+			if (richtung == TmcRichtung.NEGATIV) {
+				StringTokenizer tokenizer = new StringTokenizer(name, " ");
+				if (tokenizer.countTokens() == 5) {
+					String strName = tokenizer.nextToken().trim();
+					String von = tokenizer.nextToken().trim();
+					String anfang = tokenizer.nextToken().trim();
+					String nach = tokenizer.nextToken().trim();
+					String ende = tokenizer.nextToken().trim();
+
+					if ("von".equals(von) && "nach".equals(nach)) {
+						name = strName + " von " + ende + " nach " + anfang;
+					}
+				}
+			}
+		}
+
+		if (name == null) {
+			name = "undefiniert";
+		}
+
+		return name;
+	}
+
+	/**
+	 * liefert die Richtung in der der Stau liegt. Kann keine Rcihtung ermittelt
+	 * werden , wird der Wert {@value TmcRichtung#UNDEFINIERT} geliefert.
+	 * 
+	 * @return die Strasse oder <code>null</code>, wenn keine ermittelt
+	 *         werden konnte.
+	 */
+	public TmcRichtung getTmcRichtung() {
+		TmcRichtung result = null;
+		List<StrassenSegment> segmente = getSituationsEigenschaften().getDatum().getSegmente();
+		for (StrassenSegment seg : segmente) {
+			if (seg instanceof AeusseresStrassenSegment) {
+				result = ((AeusseresStrassenSegment) seg).getTmcRichtung();
+				if (result != null) {
+					switch (result) {
+					case NEGATIV:
+					case POSITIV:
+						break;
+					case OHNE:
+					case UNDEFINIERT:
+						result = null;
+					}
+				}
+			}
 			if (result != null) {
 				break;
 			}
