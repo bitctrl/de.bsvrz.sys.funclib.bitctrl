@@ -88,7 +88,8 @@ public abstract class Situation extends AbstractSystemObjekt {
 				segment = ((InneresStrassenSegment) segment).getNachSegment();
 			}
 			if (segment instanceof AeusseresStrassenSegment) {
-				StrassenKnoten knoten = ((AeusseresStrassenSegment) segment).getNachKnoten();
+				StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
+						.getNachKnoten();
 				if (knoten != null) {
 					result = knoten;
 				}
@@ -115,7 +116,8 @@ public abstract class Situation extends AbstractSystemObjekt {
 
 		result -= daten.getDatum().getStartOffset();
 		if (letztesSegment != null) {
-			result -= (letztesSegment.getLaenge() - daten.getDatum().getEndOffset());
+			result -= (letztesSegment.getLaenge() - daten.getDatum()
+					.getEndOffset());
 		}
 		return result;
 	}
@@ -147,11 +149,16 @@ public abstract class Situation extends AbstractSystemObjekt {
 	 */
 	public Strasse getStrasse() {
 		Strasse result = null;
-		List<StrassenSegment> segmente = getSituationsEigenschaften().getDatum().getSegmente();
-		for (StrassenSegment seg : segmente) {
-			result = seg.getStrasse();
-			if (result != null) {
-				break;
+		PdSituationsEigenschaften.Daten daten = getSituationsEigenschaften()
+				.getDatum();
+		if ((daten != null) && daten.isValid()) {
+			List<StrassenSegment> segmente = getSituationsEigenschaften()
+					.getDatum().getSegmente();
+			for (StrassenSegment seg : segmente) {
+				result = seg.getStrasse();
+				if (result != null) {
+					break;
+				}
 			}
 		}
 		return result;
@@ -214,7 +221,8 @@ public abstract class Situation extends AbstractSystemObjekt {
 	 */
 	public TmcRichtung getTmcRichtung() {
 		TmcRichtung result = null;
-		List<StrassenSegment> segmente = getSituationsEigenschaften().getDatum().getSegmente();
+		List<StrassenSegment> segmente = getSituationsEigenschaften()
+				.getDatum().getSegmente();
 		for (StrassenSegment seg : segmente) {
 			if (seg instanceof AeusseresStrassenSegment) {
 				result = ((AeusseresStrassenSegment) seg).getTmcRichtung();
