@@ -42,7 +42,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende.BaustellenVeranlass
  * "atg.baustellenEigenschaften".
  * 
  * @author BitCtrl Systems GmbH, Peuker
- * @version $Id$
+ * @version $Id: PdBaustellenEigenschaften.java 6409 2008-02-08 12:43:48Z
+ *          gieseler $
  */
 public class PdBaustellenEigenschaften extends
 		AbstractParameterDatensatz<PdBaustellenEigenschaften.Daten> {
@@ -64,7 +65,7 @@ public class PdBaustellenEigenschaften extends
 		/**
 		 * Zustand der Baustelle. ("Status")
 		 */
-		private BaustellenStatus status;
+		private BaustellenStatus status = BaustellenStatus.ENTWORFEN;
 		/**
 		 * Veranlasser der Baustelle (BIS-System oder VRZ). ("Veranlasser")
 		 */
