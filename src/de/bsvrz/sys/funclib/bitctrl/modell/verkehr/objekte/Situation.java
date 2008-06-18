@@ -108,18 +108,9 @@ public abstract class Situation extends AbstractSystemObjekt {
 	 */
 	public double getLaenge() {
 		double result = 0;
-		StrassenSegment letztesSegment = null;
 		PdSituationsEigenschaften.Daten daten = getSituationsEigenschaften().getDatum();
 		if ((daten != null) && daten.isValid()) {
-			for (StrassenSegment segment : daten.getSegmente()) {
-				result += segment.getLaenge();
-				letztesSegment = segment;
-			}
-
-			result -= daten.getStartOffset();
-			if (letztesSegment != null) {
-				result -= (letztesSegment.getLaenge() - daten.getEndOffset());
-			}
+			result = daten.getLaenge();
 		}
 		return result;
 	}

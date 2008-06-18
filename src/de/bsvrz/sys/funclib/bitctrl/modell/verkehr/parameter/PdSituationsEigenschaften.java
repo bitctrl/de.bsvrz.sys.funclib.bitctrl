@@ -139,10 +139,8 @@ public class PdSituationsEigenschaften extends
 				dauer = daten.getTimeValue("Dauer").getMillis();
 				Data.Array segmentArray = daten.getArray("StraﬂenSegment");
 				for (int idx = 0; idx < segmentArray.getLength(); idx++) {
-					segmente.add((StrassenSegment) ObjektFactory.getInstanz()
-							.getModellobjekt(
-									segmentArray.getReferenceValue(idx)
-											.getSystemObject()));
+					segmente.add((StrassenSegment) ObjektFactory.getInstanz().getModellobjekt(
+							segmentArray.getReferenceValue(idx).getSystemObject()));
 				}
 				startOffset = daten.getUnscaledValue("StartOffset").longValue();
 				endOffset = daten.getUnscaledValue("EndOffset").longValue();
@@ -219,8 +217,7 @@ public class PdSituationsEigenschaften extends
 
 			List<StrassenSegment> segmentListe = getSegmente();
 			if (segmentListe.size() > 0) {
-				StrassenSegment segment = segmentListe
-						.get(segmentListe.size() - 1);
+				StrassenSegment segment = segmentListe.get(segmentListe.size() - 1);
 				if (segment instanceof InneresStrassenSegment) {
 					InneresStrassenSegment iss = (InneresStrassenSegment) segment;
 					if (iss.getVonSegment() != null) {
@@ -232,8 +229,7 @@ public class PdSituationsEigenschaften extends
 						}
 					}
 				} else if (segment instanceof AeusseresStrassenSegment) {
-					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
-							.getNachKnoten();
+					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment).getNachKnoten();
 					if (knoten != null) {
 						result = knoten;
 					}
@@ -250,25 +246,16 @@ public class PdSituationsEigenschaften extends
 		 */
 		public double getLaenge() {
 			double result = 0;
-			StrassenSegment erstesSegment = null;
 			StrassenSegment letztesSegment = null;
 
 			for (StrassenSegment segment : getSegmente()) {
-				if (erstesSegment == null) {
-					erstesSegment = segment;
-				} else {
-					letztesSegment = segment;
-				}
 				result += segment.getLaenge();
+				letztesSegment = segment;
 			}
 
-			if (erstesSegment != null) {
-				result = result - erstesSegment.getLaenge() + getStartOffset();
-				if (letztesSegment != null) {
-					result -= getEndOffset();
-				} else {
-					result = getStartOffset() - getEndOffset();
-				}
+			result -= getStartOffset();
+			if (letztesSegment != null) {
+				result -= (letztesSegment.getLaenge() - getEndOffset());
 			}
 			return result;
 		}
@@ -285,8 +272,7 @@ public class PdSituationsEigenschaften extends
 			StrassenSegment usedSegment = segment;
 			MessQuerschnittAllgemein mqDavor = null;
 			while ((mqDavor == null) && (usedSegment != null)) {
-				List<MessQuerschnittAllgemein> mqs = usedSegment
-						.getMessquerschnitte();
+				List<MessQuerschnittAllgemein> mqs = usedSegment.getMessquerschnitte();
 				if (segment == usedSegment) {
 					for (int idx = mqs.size(); idx > 0; idx--) {
 						MessQuerschnittAllgemein mq = mqs.get(idx - 1);
@@ -300,18 +286,15 @@ public class PdSituationsEigenschaften extends
 					break;
 				}
 				if (usedSegment instanceof AeusseresStrassenSegment) {
-					StrassenKnoten vonKnoten = ((AeusseresStrassenSegment) usedSegment)
-							.getVonKnoten();
+					StrassenKnoten vonKnoten = ((AeusseresStrassenSegment) usedSegment).getVonKnoten();
 					StrassenSegment result = null;
 					if (vonKnoten != null) {
-						for (InneresStrassenSegment innen : vonKnoten
-								.getInnereSegmente()) {
+						for (InneresStrassenSegment innen : vonKnoten.getInnereSegmente()) {
 							if (innen.getVonSegment() != null) {
 								if (usedSegment.equals(innen.getNachSegment())) {
 									Strasse strasse = segment.getStrasse();
 									if ((strasse == null)
-											|| (strasse.equals(innen
-													.getStrasse()))) {
+											|| (strasse.equals(innen.getStrasse()))) {
 										result = innen;
 										break;
 									}
@@ -321,8 +304,7 @@ public class PdSituationsEigenschaften extends
 					}
 					usedSegment = result;
 				} else if (usedSegment instanceof InneresStrassenSegment) {
-					usedSegment = ((InneresStrassenSegment) usedSegment)
-							.getVonSegment();
+					usedSegment = ((InneresStrassenSegment) usedSegment).getVonSegment();
 				} else {
 					usedSegment = null;
 				}
@@ -416,8 +398,7 @@ public class PdSituationsEigenschaften extends
 						}
 					}
 				} else if (segment instanceof AeusseresStrassenSegment) {
-					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
-							.getVonKnoten();
+					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment).getVonKnoten();
 					if (knoten != null) {
 						result = knoten;
 					}
@@ -509,8 +490,8 @@ public class PdSituationsEigenschaften extends
 	public PdSituationsEigenschaften(final SystemObjekt objekt) {
 		super(objekt);
 		if (attributGruppe == null) {
-			attributGruppe = objekt.getSystemObject().getDataModel()
-					.getAttributeGroup("atg.situationsEigenschaften");
+			attributGruppe = objekt.getSystemObject().getDataModel().getAttributeGroup(
+					"atg.situationsEigenschaften");
 		}
 	}
 
@@ -545,8 +526,8 @@ public class PdSituationsEigenschaften extends
 		List<StrassenSegment> segmente = datum.getSegmente();
 		result.getArray("StraﬂenSegment").setLength(segmente.size());
 		for (int idx = 0; idx < segmente.size(); idx++) {
-			result.getArray("StraﬂenSegment").getReferenceValue(idx)
-					.setSystemObject(segmente.get(idx).getSystemObject());
+			result.getArray("StraﬂenSegment").getReferenceValue(idx).setSystemObject(
+					segmente.get(idx).getSystemObject());
 		}
 		result.getUnscaledValue("StartOffset").set(datum.getStartOffset());
 		result.getUnscaledValue("EndOffset").set(datum.getEndOffset());
