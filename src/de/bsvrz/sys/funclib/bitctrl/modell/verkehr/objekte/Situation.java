@@ -80,21 +80,22 @@ public abstract class Situation extends AbstractSystemObjekt {
 	 */
 	public StrassenKnoten getFolgeKnoten() {
 		StrassenKnoten result = null;
-		PdSituationsEigenschaften daten = getSituationsEigenschaften();
-		List<StrassenSegment> segmente = daten.getDatum().getSegmente();
-		if (segmente.size() > 0) {
-			StrassenSegment segment = segmente.get(0);
-			if (segment instanceof InneresStrassenSegment) {
-				segment = ((InneresStrassenSegment) segment).getNachSegment();
-			}
-			if (segment instanceof AeusseresStrassenSegment) {
-				StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
-						.getNachKnoten();
-				if (knoten != null) {
-					result = knoten;
+		PdSituationsEigenschaften.Daten daten = getSituationsEigenschaften().getDatum();
+		if ((daten != null) && daten.isValid()) {
+			List<StrassenSegment> segmente = daten.getSegmente();
+			if (segmente.size() > 0) {
+				StrassenSegment segment = segmente.get(0);
+				if (segment instanceof InneresStrassenSegment) {
+					segment = ((InneresStrassenSegment) segment).getNachSegment();
 				}
-			}
+				if (segment instanceof AeusseresStrassenSegment) {
+					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment).getNachKnoten();
+					if (knoten != null) {
+						result = knoten;
+					}
+				}
 
+			}
 		}
 		return result;
 	}
@@ -108,16 +109,17 @@ public abstract class Situation extends AbstractSystemObjekt {
 	public double getLaenge() {
 		double result = 0;
 		StrassenSegment letztesSegment = null;
-		PdSituationsEigenschaften daten = getSituationsEigenschaften();
-		for (StrassenSegment segment : daten.getDatum().getSegmente()) {
-			result += segment.getLaenge();
-			letztesSegment = segment;
-		}
+		PdSituationsEigenschaften.Daten daten = getSituationsEigenschaften().getDatum();
+		if ((daten != null) && daten.isValid()) {
+			for (StrassenSegment segment : daten.getSegmente()) {
+				result += segment.getLaenge();
+				letztesSegment = segment;
+			}
 
-		result -= daten.getDatum().getStartOffset();
-		if (letztesSegment != null) {
-			result -= (letztesSegment.getLaenge() - daten.getDatum()
-					.getEndOffset());
+			result -= daten.getStartOffset();
+			if (letztesSegment != null) {
+				result -= (letztesSegment.getLaenge() - daten.getEndOffset());
+			}
 		}
 		return result;
 	}
@@ -149,11 +151,9 @@ public abstract class Situation extends AbstractSystemObjekt {
 	 */
 	public Strasse getStrasse() {
 		Strasse result = null;
-		PdSituationsEigenschaften.Daten daten = getSituationsEigenschaften()
-				.getDatum();
+		PdSituationsEigenschaften.Daten daten = getSituationsEigenschaften().getDatum();
 		if ((daten != null) && daten.isValid()) {
-			List<StrassenSegment> segmente = getSituationsEigenschaften()
-					.getDatum().getSegmente();
+			List<StrassenSegment> segmente = getSituationsEigenschaften().getDatum().getSegmente();
 			for (StrassenSegment seg : segmente) {
 				result = seg.getStrasse();
 				if (result != null) {
@@ -221,24 +221,26 @@ public abstract class Situation extends AbstractSystemObjekt {
 	 */
 	public TmcRichtung getTmcRichtung() {
 		TmcRichtung result = null;
-		List<StrassenSegment> segmente = getSituationsEigenschaften()
-				.getDatum().getSegmente();
-		for (StrassenSegment seg : segmente) {
-			if (seg instanceof AeusseresStrassenSegment) {
-				result = ((AeusseresStrassenSegment) seg).getTmcRichtung();
-				if (result != null) {
-					switch (result) {
-					case NEGATIV:
-					case POSITIV:
-						break;
-					case OHNE:
-					case UNDEFINIERT:
-						result = null;
+		PdSituationsEigenschaften.Daten daten = getSituationsEigenschaften().getDatum();
+		if ((daten != null) && daten.isValid()) {
+			List<StrassenSegment> segmente = daten.getSegmente();
+			for (StrassenSegment seg : segmente) {
+				if (seg instanceof AeusseresStrassenSegment) {
+					result = ((AeusseresStrassenSegment) seg).getTmcRichtung();
+					if (result != null) {
+						switch (result) {
+						case NEGATIV:
+						case POSITIV:
+							break;
+						case OHNE:
+						case UNDEFINIERT:
+							result = null;
+						}
 					}
 				}
-			}
-			if (result != null) {
-				break;
+				if (result != null) {
+					break;
+				}
 			}
 		}
 		return result;
@@ -253,14 +255,16 @@ public abstract class Situation extends AbstractSystemObjekt {
 	 */
 	public StrassenKnoten getVonKnoten() {
 		StrassenKnoten result = null;
-		PdSituationsEigenschaften daten = getSituationsEigenschaften();
-		List<StrassenSegment> segmente = daten.getDatum().getSegmente();
-		if (segmente.size() > 0) {
-			StrassenSegment segment = segmente.get(0);
-			if (segment instanceof AeusseresStrassenSegment) {
-				result = ((AeusseresStrassenSegment) segment).getVonKnoten();
-			} else if (segment instanceof InneresStrassenSegment) {
-				result = ((InneresStrassenSegment) segment).getStrassenKnoten();
+		PdSituationsEigenschaften.Daten daten = getSituationsEigenschaften().getDatum();
+		if ((daten != null) && daten.isValid()) {
+			List<StrassenSegment> segmente = daten.getSegmente();
+			if (segmente.size() > 0) {
+				StrassenSegment segment = segmente.get(0);
+				if (segment instanceof AeusseresStrassenSegment) {
+					result = ((AeusseresStrassenSegment) segment).getVonKnoten();
+				} else if (segment instanceof InneresStrassenSegment) {
+					result = ((InneresStrassenSegment) segment).getStrassenKnoten();
+				}
 			}
 		}
 		return result;
