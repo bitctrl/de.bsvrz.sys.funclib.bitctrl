@@ -104,8 +104,6 @@ public final class DataCache {
 			}
 
 			if (cache) {
-				System.err.println("Ermittle Daten des Typs: " + type + " für "
-						+ atg);
 				type.getDataModel().getConfigurationData(type.getElements(),
 						atg);
 			}

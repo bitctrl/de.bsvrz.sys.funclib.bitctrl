@@ -114,8 +114,7 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 		 *            die PID eines Aspekts.
 		 */
 		private Aspekte(String pid) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-					.getDataModel();
+			DataModel modell = ObjektFactory.getInstanz().getVerbindung().getDataModel();
 			aspekt = modell.getAspect(pid);
 			assert aspekt != null;
 		}
@@ -232,9 +231,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 */
 			public RdsAttribute(final Data daten) {
 				if (daten != null) {
-					geographischeRelevanz = RdsGeographischeRelevanz
-							.getStatus(daten.getUnscaledValue(
-									"GeographischeRelevanz").intValue());
+					geographischeRelevanz = RdsGeographischeRelevanz.getStatus(daten.getUnscaledValue(
+							"GeographischeRelevanz").intValue());
 					if (daten.getUnscaledValue("Vorhersage").intValue() != 0) {
 						vorhersage = true;
 					}
@@ -302,15 +300,14 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 				if (daten != null) {
 					Data.Array array = daten.getArray("EreignisDaten");
 					for (int idx = 0; idx < array.getLength(); idx++) {
-						ereignisDaten.add(new RdsEreignisDaten(array
-								.getItem(idx)));
+						ereignisDaten.add(new RdsEreignisDaten(
+								array.getItem(idx)));
 					}
-					if (daten.getUnscaledValue("EreignisInBeidenRichtungen")
-							.intValue() != 0) {
+					if (daten.getUnscaledValue("EreignisInBeidenRichtungen").intValue() != 0) {
 						ereignisInBeidenRichtungen = true;
 					}
-					ereignisKodierung = RdsEreignisKodierung.getStatus(daten
-							.getUnscaledValue("EreignisKodierung").intValue());
+					ereignisKodierung = RdsEreignisKodierung.getStatus(daten.getUnscaledValue(
+							"EreignisKodierung").intValue());
 					ereignisTabelleNummer = daten.getUnscaledValue(
 							"EreignisTabelleNummer").intValue();
 					ereignisTabelleVersion = daten.getTextValue(
@@ -318,8 +315,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 
 					array = daten.getArray("EreignisTyp");
 					for (int idx = 0; idx < array.getLength(); idx++) {
-						ereignisTyp.add(RdsEreignisTyp.getStatus(array
-								.getUnscaledValue(idx).intValue()));
+						ereignisTyp.add(RdsEreignisTyp.getStatus(array.getUnscaledValue(
+								idx).intValue()));
 					}
 				}
 			}
@@ -419,22 +416,21 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 */
 			public RdsEreignisDaten(final Data daten) {
 				if (daten != null) {
-					ereignisKategorie = RdsEreignisKategorie.getKategorie(daten
-							.getUnscaledValue("EreignisKategorie").intValue());
-					ereignisCode = RdsEreignisCode.getEreignisCode(daten
-							.getUnscaledValue("EreignisCode").intValue());
-					empfehlungsCode = RdsEmpfehlungsCode
-							.getEmpfehlungsCode(daten.getUnscaledValue(
-									"EmpfehlungsCode").intValue());
-					vorhersageCode = RdsVorhersageCode.getVorhersagecode(daten
-							.getUnscaledValue("VorhersageCode").intValue());
-					ereignisDauer = RdsEreignisDauer.getStatus(daten
-							.getUnscaledValue("EreignisDauer").intValue());
+					ereignisKategorie = RdsEreignisKategorie.getKategorie(daten.getUnscaledValue(
+							"EreignisKategorie").intValue());
+					ereignisCode = RdsEreignisCode.getEreignisCode(daten.getUnscaledValue(
+							"EreignisCode").intValue());
+					empfehlungsCode = RdsEmpfehlungsCode.getEmpfehlungsCode(daten.getUnscaledValue(
+							"EmpfehlungsCode").intValue());
+					vorhersageCode = RdsVorhersageCode.getVorhersagecode(daten.getUnscaledValue(
+							"VorhersageCode").intValue());
+					ereignisDauer = RdsEreignisDauer.getStatus(daten.getUnscaledValue(
+							"EreignisDauer").intValue());
 
 					Data.Array array = daten.getArray("EreignisQuantität");
 					for (int idx = 0; idx < array.getLength(); idx++) {
-						ereignisQuantitaet.add(new RdsEreignisQuantitaet(array
-								.getItem(idx)));
+						ereignisQuantitaet.add(new RdsEreignisQuantitaet(
+								array.getItem(idx)));
 					}
 				}
 			}
@@ -528,13 +524,10 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 */
 			public RdsEreignisQuantitaet(final Data daten) {
 				if (daten != null) {
-					quantitaetsKennung = new RdsQuantitaet(daten
-							.getReferenceValue("QuantitätsKennung")
-							.getSystemObject());
-					quantitaetsWert = daten.getTextValue("QuantitätsWert")
-							.getText();
-					quantitaetsEinheit = daten
-							.getTextValue("QuantitätsEinheit").getText();
+					quantitaetsKennung = new RdsQuantitaet(
+							daten.getReferenceValue("QuantitätsKennung").getSystemObject());
+					quantitaetsWert = daten.getTextValue("QuantitätsWert").getText();
+					quantitaetsEinheit = daten.getTextValue("QuantitätsEinheit").getText();
 				}
 			}
 
@@ -595,8 +588,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 */
 			public RdsLandesKennung(final SystemObject ref) {
 				if (ref != null) {
-					Data data = ref.getConfigurationData(ref.getDataModel()
-							.getAttributeGroup("atg.rdsLandesKennung"));
+					Data data = ref.getConfigurationData(ref.getDataModel().getAttributeGroup(
+							"atg.rdsLandesKennung"));
 
 					if (data != null) {
 						land = data.getTextValue("Land").getText();
@@ -676,17 +669,13 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 */
 			public RdsLocation(final Data daten) {
 				if (daten != null) {
-					locationCode = daten.getUnscaledValue("LocationCode")
-							.intValue();
+					locationCode = daten.getUnscaledValue("LocationCode").intValue();
 
-					strassenNummer = daten.getTextValue("StrassenNummer")
-							.getText();
-					ausfahrtNummer = daten.getTextValue("AusfahrtNummer")
-							.getText();
-					tmcOrtsTyp = daten.getUnscaledValue("TmcOrtsTyp")
-							.intValue();
-					koordinaten = new RdsLocationKoordinaten(daten
-							.getItem("Koordinaten"));
+					strassenNummer = daten.getTextValue("StrassenNummer").getText();
+					ausfahrtNummer = daten.getTextValue("AusfahrtNummer").getText();
+					tmcOrtsTyp = daten.getUnscaledValue("TmcOrtsTyp").intValue();
+					koordinaten = new RdsLocationKoordinaten(
+							daten.getItem("Koordinaten"));
 					locationKilometrierung = daten.getTextValue(
 							"LocationKilometrierung").getText();
 					locationCodeLinienReferenz = daten.getUnscaledValue(
@@ -697,8 +686,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 							"LocationNextNegativ").intValue();
 					locationNextPositiv = daten.getUnscaledValue(
 							"LocationNextPositiv").intValue();
-					locationNachricht = new RdsNachrichten(daten
-							.getItem("LocationNachricht"));
+					locationNachricht = new RdsNachrichten(
+							daten.getItem("LocationNachricht"));
 				}
 			}
 
@@ -869,14 +858,13 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 						rdslocation.add(new RdsLocation(array.getItem(idx)));
 					}
 
-					rdsLocationFormat = RdsLocationFormat.getStatus(daten
-							.getUnscaledValue("RDSLocationFormat").intValue());
-					locationExtent = daten.getUnscaledValue("LocationExtent")
-							.intValue();
-					locationMethode = RdsLocationMethode.getStatus(daten
-							.getUnscaledValue("LocationMethode").intValue());
-					tmcRichtung = RdsTMCRichtung.getStatus(daten
-							.getUnscaledValue("TMCRichtung").intValue());
+					rdsLocationFormat = RdsLocationFormat.getStatus(daten.getUnscaledValue(
+							"RDSLocationFormat").intValue());
+					locationExtent = daten.getUnscaledValue("LocationExtent").intValue();
+					locationMethode = RdsLocationMethode.getStatus(daten.getUnscaledValue(
+							"LocationMethode").intValue());
+					tmcRichtung = RdsTMCRichtung.getStatus(daten.getUnscaledValue(
+							"TMCRichtung").intValue());
 					locationPrimaerEntfernung = daten.getUnscaledValue(
 							"LocationPrimärEntfernung").longValue();
 					locationSekundaerEntfernung = daten.getUnscaledValue(
@@ -885,11 +873,10 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 							"LocationVorLocation").intValue();
 					locationNachLocation = daten.getUnscaledValue(
 							"LocationNachLocation").intValue();
-					locationKategorie = RdsLocationKategorie.getStatus(daten
-							.getUnscaledValue("LocationKategorie").intValue());
-					locationRichtungTextID = RdsLocationRichtungTextID
-							.getStatus(daten.getUnscaledValue(
-									"LocationRichtungTextID").intValue());
+					locationKategorie = RdsLocationKategorie.getStatus(daten.getUnscaledValue(
+							"LocationKategorie").intValue());
+					locationRichtungTextID = RdsLocationRichtungTextID.getStatus(daten.getUnscaledValue(
+							"LocationRichtungTextID").intValue());
 				}
 
 			}
@@ -1032,10 +1019,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 */
 			public RdsLocationKoordinaten(final Data daten) {
 				if (daten != null) {
-					laenge = daten.getScaledValue("RDSLocationKoordinateX")
-							.doubleValue();
-					breite = daten.getScaledValue("RDSLocationKoordinateY")
-							.doubleValue();
+					laenge = daten.getScaledValue("RDSLocationKoordinateX").doubleValue();
+					breite = daten.getScaledValue("RDSLocationKoordinateY").doubleValue();
 				}
 			}
 
@@ -1089,13 +1074,12 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 */
 			public RdsLocationTabelleInfo(final Data daten) {
 				if (daten != null) {
-					locationTabelle = RdsLocationTabelle
-							.getLocationTabelle(daten.getUnscaledValue(
-									"LocationTabelle").intValue());
+					locationTabelle = RdsLocationTabelle.getLocationTabelle(daten.getUnscaledValue(
+							"LocationTabelle").intValue());
 					locationTabelleVersion = daten.getTextValue(
 							"LocationTabelleVersion").getText();
-					locationTabelleTyp = RdsLocationTabelleTyp.getStatus(daten
-							.getUnscaledValue("LocationTabelleTyp").intValue());
+					locationTabelleTyp = RdsLocationTabelleTyp.getStatus(daten.getUnscaledValue(
+							"LocationTabelleTyp").intValue());
 					locationTabelleName = daten.getTextValue(
 							"LocationTabelleName").getText();
 				}
@@ -1169,12 +1153,11 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 				if (daten != null) {
 					Data.Array array = daten.getArray("NachrichtenDaten");
 					for (int idx = 0; idx < array.getLength(); idx++) {
-						nachrichtenDaten.add(new RdsNachrichtenDaten(array
-								.getItem(idx)));
+						nachrichtenDaten.add(new RdsNachrichtenDaten(
+								array.getItem(idx)));
 					}
-					nachrichtenSprache = RdsNachrichtenSprache
-							.getNachrichtenSprache(daten.getUnscaledValue(
-									"NachrichtenSprache").intValue());
+					nachrichtenSprache = RdsNachrichtenSprache.getNachrichtenSprache(daten.getUnscaledValue(
+							"NachrichtenSprache").intValue());
 				}
 			}
 
@@ -1243,10 +1226,9 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 */
 			public RdsNachrichtenDaten(final Data daten) {
 				if (daten != null) {
-					nachrichtenKlasse = RdsNachrichtenKlasse.getStatus(daten
-							.getUnscaledValue("NachrichtenKlasse").intValue());
-					nachrichtenText = daten.getTextValue("NachrichtenText")
-							.getText();
+					nachrichtenKlasse = RdsNachrichtenKlasse.getStatus(daten.getUnscaledValue(
+							"NachrichtenKlasse").intValue());
+					nachrichtenText = daten.getTextValue("NachrichtenText").getText();
 				}
 			}
 
@@ -1298,9 +1280,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			public RdsText(final Data daten) {
 				if (daten != null) {
 					text = daten.getTextValue("Text").getText();
-					textSprache = RdsNachrichtenSprache
-							.getNachrichtenSprache(daten.getUnscaledValue(
-									"TextSprache").intValue());
+					textSprache = RdsNachrichtenSprache.getNachrichtenSprache(daten.getUnscaledValue(
+							"TextSprache").intValue());
 				}
 			}
 
@@ -1363,16 +1344,16 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			 */
 			public RdsVerkehr(final Data daten) {
 				if (daten != null) {
-					nachrichten = new RdsNachrichten(daten
-							.getItem("Nachrichten"));
+					nachrichten = new RdsNachrichten(
+							daten.getItem("Nachrichten"));
 					freierText = new RdsText(daten.getItem("FreierText"));
-					locationTabelleInfo = new RdsLocationTabelleInfo(daten
-							.getItem("LocationTabelleInfo"));
-					locationDaten = new RdsLocationDaten(daten
-							.getItem("LocationDaten"));
+					locationTabelleInfo = new RdsLocationTabelleInfo(
+							daten.getItem("LocationTabelleInfo"));
+					locationDaten = new RdsLocationDaten(
+							daten.getItem("LocationDaten"));
 					ereignis = new RdsEreignis(daten.getItem("Ereignis"));
-					zusatzAttribute = new RdsAttribute(daten
-							.getItem("ZusatzAttribute"));
+					zusatzAttribute = new RdsAttribute(
+							daten.getItem("ZusatzAttribute"));
 					alertCCode = daten.getTextValue("AlertCCode").getText();
 				}
 			}
@@ -1529,34 +1510,28 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 							"AuthorisierungsZeit").getMillis();
 					authorisierungsKommentar = daten.getTextValue(
 							"AuthorisierungsKommentar").getText();
-					authorisierungsErgebnis = RdsAuthorisierungsErgebnis
-							.getStatus(daten.getUnscaledValue(
-									"AuthorisierungsErgebnis").intValue());
-					versionsNummer = daten.getUnscaledValue("VersionsNummer")
-							.intValue();
+					authorisierungsErgebnis = RdsAuthorisierungsErgebnis.getStatus(daten.getUnscaledValue(
+							"AuthorisierungsErgebnis").intValue());
+					versionsNummer = daten.getUnscaledValue("VersionsNummer").intValue();
 					aktualisierungsZeit = daten.getTimeValue(
 							"AktualisierungsZeit").getMillis();
-					aktivierungsZeit = daten.getTimeValue("AktivierungsZeit")
-							.getMillis();
+					aktivierungsZeit = daten.getTimeValue("AktivierungsZeit").getMillis();
 					ablaufZeit = daten.getTimeValue("AblaufZeit").getMillis();
-					erinnerungsZeit = daten.getTimeValue("ErinnerungsZeit")
-							.getMillis();
+					erinnerungsZeit = daten.getTimeValue("ErinnerungsZeit").getMillis();
 					erinnerungsZeitOffset = daten.getTimeValue(
 							"ErinnerungsZeitOffset").getMillis();
-					erinnerungsTyp = RdsErinnerungsTyp.getStatus(daten
-							.getUnscaledValue("ErinnerungsTyp").intValue());
-					erzeugungsZeit = daten.getTimeValue("ErzeugungsZeit")
-							.getMillis();
-					aenderungsInformationen = new RdsAenderungsInfo(daten
-							.getItem("ÄnderungsInformationen"));
+					erinnerungsTyp = RdsErinnerungsTyp.getStatus(daten.getUnscaledValue(
+							"ErinnerungsTyp").intValue());
+					erzeugungsZeit = daten.getTimeValue("ErzeugungsZeit").getMillis();
+					aenderungsInformationen = new RdsAenderungsInfo(
+							daten.getItem("ÄnderungsInformationen"));
 					status = RdsStatus.getStatus(daten.getUnscaledValue(
 							"Status").intValue());
 					wichtung = daten.getUnscaledValue("Wichtung").intValue();
-					prioritaet = RdsPrioritaet.getStatus(daten
-							.getUnscaledValue("Priorität").intValue());
-					landesKennung = new RdsLandesKennung(daten
-							.getReferenceValue("LandesKennung")
-							.getSystemObject());
+					prioritaet = RdsPrioritaet.getStatus(daten.getUnscaledValue(
+							"Priorität").intValue());
+					landesKennung = new RdsLandesKennung(
+							daten.getReferenceValue("LandesKennung").getSystemObject());
 				}
 			}
 
@@ -1768,9 +1743,7 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 		/** die Verkehrsdaten der Meldung. */
 		private RdsVerkehr verkehr;
 
-		/**
-		 * der aktuelle Status des Datensatzes.
-		 */
+		/** der aktuelle Status des Datensatzes. */
 		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
@@ -1788,6 +1761,7 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			klon.setVerwaltung(verwaltung);
 			klon.setVerkehr(verkehr);
 
+			klon.setDatenStatus(datenStatus);
 			klon.setZeitstempel(getZeitstempel());
 			return klon;
 		}
@@ -1951,8 +1925,7 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 		super(meldung);
 
 		if (atg == null) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-					.getDataModel();
+			DataModel modell = ObjektFactory.getInstanz().getVerbindung().getDataModel();
 			atg = modell.getAttributeGroup(ATG_RDS_MELDUNG);
 			assert atg != null;
 		}
@@ -1964,8 +1937,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#abmeldenSender()
 	 */
 	public void abmeldenSender() {
-		abmeldenSender(ObjektFactory.getInstanz().getVerbindung()
-				.getDataModel().getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE));
+		abmeldenSender(ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+				DaVKonstanten.ASP_PARAMETER_VORGABE));
 
 	}
 
@@ -1975,8 +1948,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#abrufenDatum()
 	 */
 	public Daten abrufenDatum() {
-		return abrufenDatum(ObjektFactory.getInstanz().getVerbindung()
-				.getDataModel().getAspect(DaVKonstanten.ASP_PARAMETER_SOLL));
+		return abrufenDatum(ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+				DaVKonstanten.ASP_PARAMETER_SOLL));
 	}
 
 	/**
@@ -1995,8 +1968,9 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#addUpdateListener(de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener)
 	 */
 	public void addUpdateListener(DatensatzUpdateListener l) {
-		addUpdateListener(ObjektFactory.getInstanz().getVerbindung()
-				.getDataModel().getAspect(DaVKonstanten.ASP_PARAMETER_SOLL), l);
+		addUpdateListener(
+				ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+						DaVKonstanten.ASP_PARAMETER_SOLL), l);
 
 	}
 
@@ -2006,8 +1980,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#anmeldenSender()
 	 */
 	public void anmeldenSender() throws AnmeldeException {
-		anmeldenSender(ObjektFactory.getInstanz().getVerbindung()
-				.getDataModel().getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE));
+		anmeldenSender(ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+				DaVKonstanten.ASP_PARAMETER_VORGABE));
 	}
 
 	/**
@@ -2030,10 +2004,10 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 		for (Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}
-		aspekte.add(ObjektFactory.getInstanz().getVerbindung().getDataModel()
-				.getAspect(DaVKonstanten.ASP_PARAMETER_SOLL));
-		aspekte.add(ObjektFactory.getInstanz().getVerbindung().getDataModel()
-				.getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE));
+		aspekte.add(ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+				DaVKonstanten.ASP_PARAMETER_SOLL));
+		aspekte.add(ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+				DaVKonstanten.ASP_PARAMETER_VORGABE));
 		return aspekte;
 	}
 
@@ -2050,8 +2024,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#getDatum()
 	 */
 	public Daten getDatum() {
-		return getDatum(ObjektFactory.getInstanz().getVerbindung()
-				.getDataModel().getAspect(DaVKonstanten.ASP_PARAMETER_SOLL));
+		return getDatum(ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+				DaVKonstanten.ASP_PARAMETER_SOLL));
 	}
 
 	/**
@@ -2060,9 +2034,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#getStatusSendesteuerung()
 	 */
 	public de.bsvrz.sys.funclib.bitctrl.modell.Datensatz.Status getStatusSendesteuerung() {
-		return getStatusSendesteuerung(ObjektFactory.getInstanz()
-				.getVerbindung().getDataModel().getAspect(
-						DaVKonstanten.ASP_PARAMETER_VORGABE));
+		return getStatusSendesteuerung(ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+				DaVKonstanten.ASP_PARAMETER_VORGABE));
 	}
 
 	/**
@@ -2071,8 +2044,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#isAngemeldetSender()
 	 */
 	public boolean isAngemeldetSender() {
-		return isAngemeldetSender(ObjektFactory.getInstanz().getVerbindung()
-				.getDataModel().getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE));
+		return isAngemeldetSender(ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+				DaVKonstanten.ASP_PARAMETER_VORGABE));
 	}
 
 	/**
@@ -2081,8 +2054,8 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#isAutoUpdate()
 	 */
 	public boolean isAutoUpdate() {
-		return isAutoUpdate(ObjektFactory.getInstanz().getVerbindung()
-				.getDataModel().getAspect(DaVKonstanten.ASP_PARAMETER_SOLL));
+		return isAutoUpdate(ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+				DaVKonstanten.ASP_PARAMETER_SOLL));
 	}
 
 	/**
@@ -2101,8 +2074,9 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#removeUpdateListener(de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener)
 	 */
 	public void removeUpdateListener(DatensatzUpdateListener l) {
-		removeUpdateListener(ObjektFactory.getInstanz().getVerbindung()
-				.getDataModel().getAspect(DaVKonstanten.ASP_PARAMETER_SOLL), l);
+		removeUpdateListener(
+				ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+						DaVKonstanten.ASP_PARAMETER_SOLL), l);
 
 	}
 
@@ -2112,8 +2086,9 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.ParameterDatensatz#sendeDaten(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
 	 */
 	public void sendeDaten(Daten datum) throws DatensendeException {
-		sendeDaten(ObjektFactory.getInstanz().getVerbindung().getDataModel()
-				.getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE), datum);
+		sendeDaten(
+				ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+						DaVKonstanten.ASP_PARAMETER_VORGABE), datum);
 	}
 
 	/**
@@ -2124,8 +2099,9 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 	 */
 	public void sendeDaten(Daten datum, long timeout)
 			throws DatensendeException {
-		sendeDaten(ObjektFactory.getInstanz().getVerbindung().getDataModel()
-				.getAspect(DaVKonstanten.ASP_PARAMETER_VORGABE), datum, timeout);
+		sendeDaten(
+				ObjektFactory.getInstanz().getVerbindung().getDataModel().getAspect(
+						DaVKonstanten.ASP_PARAMETER_VORGABE), datum, timeout);
 	}
 
 	/**
@@ -2140,12 +2116,11 @@ public class OdRdsMeldung extends AbstractOnlineDatensatz<OdRdsMeldung.Daten>
 			datum.setInfoGuid(daten.getTextValue("InfoGUID").getText());
 			datum.setOrganisation(daten.getItem("ID").getTextValue(
 					"IDOrganisation").getText());
-			datum.setNummer(daten.getItem("ID").getTextValue("IDNummer")
-					.getText());
+			datum.setNummer(daten.getItem("ID").getTextValue("IDNummer").getText());
 			datum.setVersionGUID(daten.getItem("Version").getTextValue(
 					"VersionGUID").getText());
-			datum.setVerwaltung(new Daten.RdsVerwaltung(daten
-					.getItem("Version").getItem("VerwaltungsInformationen")));
+			datum.setVerwaltung(new Daten.RdsVerwaltung(
+					daten.getItem("Version").getItem("VerwaltungsInformationen")));
 			datum.setVerkehr(new RdsVerkehr(daten.getItem("Version").getItem(
 					"VerkehrsInformationen")));
 		}

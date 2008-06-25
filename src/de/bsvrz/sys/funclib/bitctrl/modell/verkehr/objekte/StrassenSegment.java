@@ -243,6 +243,7 @@ public class StrassenSegment extends StoerfallIndikator implements
 			Data datum;
 
 			modell = objekt.getDataModel();
+
 			strassenTeilSegmente = new ArrayList<StrassenTeilSegment>();
 			atg = modell.getAttributeGroup("atg.bestehtAusLinienObjekten");
 			DataCache.cacheData(getSystemObject().getType(), atg);
@@ -254,9 +255,8 @@ public class StrassenSegment extends StoerfallIndikator implements
 				ref = datum.getReferenceArray("LinienReferenz");
 				objekte = ref.getSystemObjectArray();
 				for (SystemObject so : objekte) {
-					strassenTeilSegmente
-							.add((StrassenTeilSegment) ObjektFactory
-									.getInstanz().getModellobjekt(so));
+					strassenTeilSegmente.add((StrassenTeilSegment) ObjektFactory.getInstanz().getModellobjekt(
+							so));
 				}
 			}
 		}
@@ -291,8 +291,8 @@ public class StrassenSegment extends StoerfallIndikator implements
 				SystemObject strassenObjekt = datum.getReferenceValue(
 						"gehörtZuStraße").getSystemObject();
 				if (strassenObjekt != null) {
-					strasse = (Strasse) ObjektFactory.getInstanz()
-							.getModellobjekt(strassenObjekt);
+					strasse = (Strasse) ObjektFactory.getInstanz().getModellobjekt(
+							strassenObjekt);
 				} else {
 					strasse = null;
 				}
