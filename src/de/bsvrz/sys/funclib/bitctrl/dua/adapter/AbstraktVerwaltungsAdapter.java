@@ -45,15 +45,15 @@ import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 import de.bsvrz.sys.funclib.debug.Debug;
 import de.bsvrz.sys.funclib.operatingMessage.MessageGrade;
 import de.bsvrz.sys.funclib.operatingMessage.MessageSender;
-import de.bsvrz.sys.funclib.operatingMessage.MessageState;
 import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 
 /**
  * Adapterklasse für Verwaltungsmodule.
- *
+ * 
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id$
+ * 
+ * @version $Id: AbstraktVerwaltungsAdapter.java 8742 2008-05-07 17:01:36Z
+ *          tfelder $
  */
 public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 
@@ -66,11 +66,6 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 	 * Verbindung zum Datenverteiler.
 	 */
 	protected ClientDavInterface verbindung = null;
-
-	/**
-	 * Diese Klasse versendet Betriebsmeldungen.
-	 */
-	protected MessageSender nachrichtenSender = null;
 
 	/**
 	 * die Argumente der Kommandozeile.
@@ -109,34 +104,12 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 	}
 
 	/**
-	 * Erfragt eine Verbindung zum Versenden von Betriebsmeldungen.
-	 *
-	 * @return Betriebsmeldungs-Sender.
-	 */
-	public final MessageSender getBetriebsmeldungsSender() {
-		return this.nachrichtenSender;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void sendeBetriebsMeldung(String id, MessageType typ,
-			String nachrichtenTypErweiterung, MessageGrade klasse,
-			MessageState status, String nachricht) {
-		this.nachrichtenSender.sendMessage(id, typ, nachrichtenTypErweiterung,
-				klasse, status, nachricht);
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	public void initialize(ClientDavInterface dieVerbindung) throws Exception {
 		try {
 
 			this.verbindung = dieVerbindung;
-			this.nachrichtenSender = MessageSender.getInstance();
-			this.nachrichtenSender.setApplicationLabel(this.getSWETyp()
-					.toString());
 			if (this.komArgumente != null) {
 				this.kBereiche = getKonfigurationsBereicheAlsObjekte(DUAUtensilien
 						.getArgument(
@@ -161,8 +134,8 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 			Debug.getLogger().error(fehler, ex);
 			ex.printStackTrace();
 
-			if (this.nachrichtenSender != null) {
-				this.nachrichtenSender.sendMessage(
+			if (MessageSender.getInstance() != null) {
+				MessageSender.getInstance().sendMessage(
 						MessageType.APPLICATION_DOMAIN, MessageGrade.ERROR,
 						fehler);
 			}
@@ -179,18 +152,18 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 	 * {@inheritDoc}
 	 */
 	public void parseArguments(ArgumentList argumente) throws Exception {
-		
-		Thread.setDefaultUncaughtExceptionHandler(new Thread.
-				UncaughtExceptionHandler() {
-			public void uncaughtException(@SuppressWarnings("unused")
+
+		Thread
+				.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+					public void uncaughtException(@SuppressWarnings("unused")
 					Thread t, Throwable e) {
-				Debug.getLogger().error("Applikation wird wegen" +  //$NON-NLS-1$
-						" unerwartetem Fehler beendet", e);  //$NON-NLS-1$
-				e.printStackTrace();
-				Runtime.getRuntime().exit(-1);
-			}
-		});
-		
+						Debug.getLogger().error("Applikation wird wegen" + //$NON-NLS-1$
+								" unerwartetem Fehler beendet", e); //$NON-NLS-1$
+						e.printStackTrace();
+						Runtime.getRuntime().exit(-1);
+					}
+				});
+
 		Debug.init(this.getSWETyp().toString(), argumente);
 
 		for (String s : argumente.getArgumentStrings()) {
@@ -205,10 +178,11 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 	/**
 	 * Extrahiert aus einer Zeichenkette alle über Kommata getrennten
 	 * Konfigurationsbereiche und gibt deren Systemobjekte zurück.
-	 *
-	 * @param kbString Zeichenkette mit den Konfigurationsbereichen
-	 * @return (ggf. leere) <code>ConfigurationArea-Collection</code>
-	 * mit allen extrahierten Konfigurationsbereichen.
+	 * 
+	 * @param kbString
+	 *            Zeichenkette mit den Konfigurationsbereichen
+	 * @return (ggf. leere) <code>ConfigurationArea-Collection</code> mit
+	 *         allen extrahierten Konfigurationsbereichen.
 	 */
 	private Collection<ConfigurationArea> getKonfigurationsBereicheAlsObjekte(
 			final String kbString) {
@@ -261,14 +235,13 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 	}
 
 	/**
-	 * Diese Methode wird zur Initialisierung aufgerufen,
-	 * <b>nachdem</b> sowohl die Argumente der Kommandozeile,
-	 * als auch die Datenverteilerverbindung übergeben wurden
-	 * (also nach dem Aufruf der Methoden <code>parseArguments(..)</code>
-	 * und <code>initialize(..)</code>).
-	 *
-	 * @throws DUAInitialisierungsException falls es Probleme bei der
-	 * Initialisierung geben sollte
+	 * Diese Methode wird zur Initialisierung aufgerufen, <b>nachdem</b> sowohl
+	 * die Argumente der Kommandozeile, als auch die Datenverteilerverbindung
+	 * übergeben wurden (also nach dem Aufruf der Methoden
+	 * <code>parseArguments(..)</code> und <code>initialize(..)</code>).
+	 * 
+	 * @throws DUAInitialisierungsException
+	 *             falls es Probleme bei der Initialisierung geben sollte
 	 */
 	protected abstract void initialisiere() throws DUAInitialisierungsException;
 

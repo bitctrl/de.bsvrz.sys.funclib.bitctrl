@@ -34,9 +34,6 @@ import de.bsvrz.dav.daf.main.config.ConfigurationArea;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.application.StandardApplication;
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.SWETyp;
-import de.bsvrz.sys.funclib.operatingMessage.MessageGrade;
-import de.bsvrz.sys.funclib.operatingMessage.MessageState;
-import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 
 /**
  * Abstrakte Implementation einer Schnittstelle zu einem Verwaltungsmodul. Ein
@@ -57,22 +54,22 @@ public interface IVerwaltung extends StandardApplication,
 	 */
 	ClientDavInterface getVerbindung();
 
-	/**
-	 * Sendet eine Betriebsmeldung an die Betriebsmeldungsverwaltung.
-	 * 
-	 * @param id ID der Meldung. Dieses Attribut kann von der Applikation
-	 * gesetzt werden, um einen Bezug zu einer vorherigen Meldung herzustellen.
-	 * @param typ Typ der Betriebsmeldung (Diese Klasse stellt die beiden Zustände
-	 * "System" und "Fach" für Meldungen, die sich auf systemtechnische oder
-	 * fachliche Zustände beziehen, bereit)
-	 * @param nachrichtenTypErweiterung Erweiterung
-	 * @param klasse Klasse der Betriebsmeldung
-	 * @param status Gibt den Zustand einer Meldung an
-	 * @param nachricht Nachrichtentext der Betriebsmeldung
-	 */
-	void sendeBetriebsMeldung(final String id, final MessageType typ,
-			final String nachrichtenTypErweiterung, final MessageGrade klasse,
-			final MessageState status, final String nachricht);
+//	/**
+//	 * Sendet eine Betriebsmeldung an die Betriebsmeldungsverwaltung.
+//	 * 
+//	 * @param id ID der Meldung. Dieses Attribut kann von der Applikation
+//	 * gesetzt werden, um einen Bezug zu einer vorherigen Meldung herzustellen.
+//	 * @param typ Typ der Betriebsmeldung (Diese Klasse stellt die beiden Zustände
+//	 * "System" und "Fach" für Meldungen, die sich auf systemtechnische oder
+//	 * fachliche Zustände beziehen, bereit)
+//	 * @param nachrichtenTypErweiterung Erweiterung
+//	 * @param klasse Klasse der Betriebsmeldung
+//	 * @param status Gibt den Zustand einer Meldung an
+//	 * @param nachricht Nachrichtentext der Betriebsmeldung
+//	 */
+//	void sendeBetriebsMeldung(final String id, final MessageType typ,
+//			final String nachrichtenTypErweiterung, final MessageGrade klasse,
+//			final MessageState status, final String nachricht);
 
 	/**
 	 * Über diese Methode soll ein Modul Verwaltung anderen Modulen

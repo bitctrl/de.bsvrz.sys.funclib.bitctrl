@@ -61,6 +61,10 @@ import de.bsvrz.dav.daf.main.impl.config.DafDynamicObject;
 import de.bsvrz.sys.funclib.bitctrl.daf.DaVKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.av.DAVObjektAnmeldung;
 import de.bsvrz.sys.funclib.debug.Debug;
+import de.bsvrz.sys.funclib.operatingMessage.MessageCauser;
+import de.bsvrz.sys.funclib.operatingMessage.MessageGrade;
+import de.bsvrz.sys.funclib.operatingMessage.MessageSender;
+import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 
 /**
  * Einige hilfreiche Methoden, die an verschiedenen Stellen innerhalb der DUA
@@ -848,12 +852,37 @@ public final class DUAUtensilien {
 		} catch (SendSubscriptionNotConfirmed e) {
 			throw new RuntimeException(e);
 		}
-		
+
 		try {
 			Thread.sleep(5000L);
 		} catch (InterruptedException ex) {
 			//
 		}
+	}
+
+	/**
+	 * Sendet eine Betriebsmeldung.
+	 * 
+	 * @param dav
+	 *            Verbindung zum Datenverteiler.
+	 * @param grade
+	 *            die Art der Meldung (<code>FATAL</code>,
+	 *            <code>ERROR</code>, <code>WARNING</code>,
+	 *            <code>INFORMATION</code>).
+	 * @param objekt
+	 *            Referenziertes Systemobjekt.
+	 * @param nachricht
+	 *            die Betriebsmeldung.
+	 */
+	public static void sendeBetriebsmeldung(ClientDavInterface dav,
+			MessageGrade grade, SystemObject objekt, String nachricht) {
+		MessageSender.getInstance().sendMessage(
+				MessageType.APPLICATION_DOMAIN,
+				null,
+				grade,
+				objekt,
+				new MessageCauser(dav.getLocalUser(), Constants.EMPTY_STRING,
+						Constants.EMPTY_STRING), nachricht);
 	}
 
 }
