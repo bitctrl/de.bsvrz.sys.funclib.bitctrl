@@ -264,6 +264,35 @@ public class StrassenSegment extends StoerfallIndikator implements
 	}
 
 	/**
+	 * die Funktion ermittelt den Offset, an dem das übergebene
+	 * Straßenteilsegment innerhalb des Straßensegmentes beginnt. Ist das
+	 * übergebene Teilsegment nicht Bestandteil des Straßensegments, wird der
+	 * Wert -1 geliefert.
+	 * 
+	 * @param teilSegment
+	 *            das Teilsegment, dessen Offset ermittelt werden soll
+	 * @return den Offset innerhalb des Straßensegments oder -1, wenn das
+	 *         entsprechende Teilsegment innerhalb des Segments nicht existiert
+	 */
+	public double getTeilSegmentOffset(StrassenTeilSegment teilSegment) {
+		double offset = 0;
+		boolean gefunden = false;
+
+		for (StrassenTeilSegment ts : getStrassenTeilSegmente()) {
+			if (ts.equals(teilSegment)) {
+				gefunden = true;
+				break;
+			}
+			offset += ts.getLaenge();
+		}
+
+		if (!gefunden) {
+			offset = -1;
+		}
+		return offset;
+	}
+
+	/**
 	 * {@inheritDoc}.
 	 */
 	@Override
