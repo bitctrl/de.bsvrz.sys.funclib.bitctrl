@@ -90,6 +90,34 @@ public class WGS84Koordinate {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final WGS84Koordinate other = (WGS84Koordinate) obj;
+		if (Double.doubleToLongBits(breite) != Double
+				.doubleToLongBits(other.breite)) {
+			return false;
+		}
+		if (Double.doubleToLongBits(laenge) != Double
+				.doubleToLongBits(other.laenge)) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Gibt die geographische Breite zur&uuml;ck.
 	 * 
 	 * @return geographische Breite in Dezimalgrad
@@ -105,6 +133,23 @@ public class WGS84Koordinate {
 	 */
 	public double getLaenge() {
 		return laenge;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(breite);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(laenge);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
 	}
 
 	/**
