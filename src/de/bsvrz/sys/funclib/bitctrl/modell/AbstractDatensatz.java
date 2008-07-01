@@ -36,6 +36,8 @@ import java.util.Set;
 
 import javax.swing.event.EventListenerList;
 
+import com.bitctrl.Constants;
+
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ClientReceiverInterface;
 import de.bsvrz.dav.daf.main.ClientSenderInterface;
@@ -440,7 +442,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 
 				dav = ObjektFactory.getInstanz().getVerbindung();
 				dbs = new DataDescription(getAttributGruppe(), asp);
-				datensatz = dav.getData(getObjekt().getSystemObject(), dbs, 0);
+				datensatz = dav.getData(getObjekt().getSystemObject(), dbs,
+						Constants.MILLIS_PER_HOUR);
 				setDaten(datensatz);
 
 				result = daten.get(asp);
@@ -548,8 +551,8 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 		final DatensatzUpdateEvent event = new DatensatzUpdateEvent(this, asp,
 				datum);
 		if (listeners.get(asp) != null) {
-			for (final DatensatzUpdateListener listener : listeners.get(asp).getListeners(
-					DatensatzUpdateListener.class)) {
+			for (final DatensatzUpdateListener listener : listeners.get(asp)
+					.getListeners(DatensatzUpdateListener.class)) {
 				listener.datensatzAktualisiert(event);
 			}
 		}
