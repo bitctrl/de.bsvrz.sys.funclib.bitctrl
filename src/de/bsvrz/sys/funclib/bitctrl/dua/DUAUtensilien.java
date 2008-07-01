@@ -885,4 +885,39 @@ public final class DUAUtensilien {
 						Constants.EMPTY_STRING), nachricht);
 	}
 
+	/**
+	 * Extrahiert aus einer Zeichenkette alle über Kommata getrennten
+	 * Konfigurationsbereiche und gibt deren Systemobjekte zurück.
+	 * @param dav
+	 * 			  Verbindung zum Datenverteiler
+	 * @param kbString
+	 *            Zeichenkette mit den Konfigurationsbereichen
+	 * @return (ggf. leere) <code>ConfigurationArea-Collection</code> mit
+	 *         allen extrahierten Konfigurationsbereichen.
+	 */
+	public static Collection<ConfigurationArea> getKonfigurationsBereicheAlsObjekte(ClientDavInterface dav,
+			final String kbString) {
+		List<String> resultListe = new ArrayList<String>();
+
+		if (kbString != null) {
+			String[] s = kbString.split(","); //$NON-NLS-1$
+			for (String dummy : s) {
+				if (dummy != null && dummy.length() > 0) {
+					resultListe.add(dummy);
+				}
+			}
+		}
+		Collection<ConfigurationArea> kbListe = new HashSet<ConfigurationArea>();
+
+		for (String kb : resultListe) {
+			ConfigurationArea area = dav.getDataModel()
+					.getConfigurationArea(kb);
+			if (area != null) {
+				kbListe.add(area);
+			}
+		}
+
+		return kbListe;
+	}
+	
 }

@@ -29,7 +29,6 @@ package de.bsvrz.sys.funclib.bitctrl.dua.adapter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 
 import com.bitctrl.Constants;
 
@@ -111,10 +110,13 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 
 			this.verbindung = dieVerbindung;
 			if (this.komArgumente != null) {
-				this.kBereiche = getKonfigurationsBereicheAlsObjekte(DUAUtensilien
-						.getArgument(
-								DUAKonstanten.ARG_KONFIGURATIONS_BEREICHS_PID,
-								this.komArgumente));
+				this.kBereiche = DUAUtensilien
+						.getKonfigurationsBereicheAlsObjekte(
+								this.verbindung,
+								DUAUtensilien
+										.getArgument(
+												DUAKonstanten.ARG_KONFIGURATIONS_BEREICHS_PID,
+												this.komArgumente));
 				this.dfsHilfe = DatenFlussSteuerungsVersorger.getInstanz(this);
 			} else {
 				throw new DUAInitialisierungsException("Es wurden keine" + //$NON-NLS-1$
@@ -173,40 +175,6 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 		}
 
 		argumente.fetchUnusedArguments();
-	}
-
-	/**
-	 * Extrahiert aus einer Zeichenkette alle über Kommata getrennten
-	 * Konfigurationsbereiche und gibt deren Systemobjekte zurück.
-	 * 
-	 * @param kbString
-	 *            Zeichenkette mit den Konfigurationsbereichen
-	 * @return (ggf. leere) <code>ConfigurationArea-Collection</code> mit
-	 *         allen extrahierten Konfigurationsbereichen.
-	 */
-	private Collection<ConfigurationArea> getKonfigurationsBereicheAlsObjekte(
-			final String kbString) {
-		List<String> resultListe = new ArrayList<String>();
-
-		if (kbString != null) {
-			String[] s = kbString.split(","); //$NON-NLS-1$
-			for (String dummy : s) {
-				if (dummy != null && dummy.length() > 0) {
-					resultListe.add(dummy);
-				}
-			}
-		}
-		Collection<ConfigurationArea> kbListe = new HashSet<ConfigurationArea>();
-
-		for (String kb : resultListe) {
-			ConfigurationArea area = this.verbindung.getDataModel()
-					.getConfigurationArea(kb);
-			if (area != null) {
-				kbListe.add(area);
-			}
-		}
-
-		return kbListe;
 	}
 
 	/**
