@@ -114,9 +114,9 @@ public class WGS84Punkt extends WGS84Koordinate implements
 		double f = 1 / 298.257223563;
 
 		double s = mD
-				* (1 + (f * mH1 * Math.pow(Math.sin(mF), 2) * Math.pow(
-						Math.cos(mG), 2)) - (f * mH2
-						* Math.pow(Math.cos(mF), 2) * Math.pow(Math.sin(mG), 2)));
+				* (1 + (f * mH1 * Math.pow(Math.sin(mF), 2) * Math.pow(Math
+						.cos(mG), 2)) - (f * mH2 * Math.pow(Math.cos(mF), 2) * Math
+						.pow(Math.sin(mG), 2)));
 
 		// in m
 		s *= 1000;
@@ -144,6 +144,25 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	}
 
 	/**
+	 * liefert einen gerundeten Koordinatenwert.
+	 * 
+	 * @param wert
+	 *            der Wert der gerundet werden soll
+	 * @return der gerundete Wert
+	 */
+	public static double koordinateRunden(double wert) {
+		long unscaledValue;
+
+		// unscaledValue = Math.round(wert * (1 / conversionFactor));
+		unscaledValue = Math.round(wert * GENAUIGKEIT_KOORDINATEN);
+
+		// return Math.round(wert * GENAUIGKEIT_KOORDINATEN)
+		// / GENAUIGKEIT_KOORDINATEN;
+
+		return (unscaledValue / GENAUIGKEIT_KOORDINATEN);
+	}
+
+	/**
 	 * der Punkt in UTM-Koordinaten.
 	 */
 	private final UTMKoordinate utmPunkt;
@@ -159,6 +178,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	 *            Breite
 	 */
 	public WGS84Punkt(double laenge, double breite) {
+		// super(koordinateRunden(laenge), koordinateRunden(breite));
 		super(laenge, breite);
 		utmPunkt = GeoTransformation.wGS84nachUTM(laenge, breite);
 	}
@@ -170,6 +190,8 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	 *            Koordinate
 	 */
 	public WGS84Punkt(WGS84Koordinate w) {
+		// super(koordinateRunden(w.getLaenge()),
+		// koordinateRunden(w.getBreite()));
 		super(w.getLaenge(), w.getBreite());
 		utmPunkt = GeoTransformation.wGS84nachUTM(w.getLaenge(), w.getBreite());
 	}
@@ -181,24 +203,8 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	 */
 	public int compareTo(WGS84Punkt p) {
 		return (getLaenge() > p.getLaenge() ? 1
-				: getLaenge() < p.getLaenge() ? -1
-						: getBreite() > p.getBreite() ? 1
-								: getBreite() < p.getBreite() ? 1 : 0);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof WGS84Punkt) {
-			WGS84Punkt p = (WGS84Punkt) obj;
-			return ((getLaenge() == p.getLaenge()) && (getBreite() == p.getBreite()));
-		}
-
-		return false;
+				: getLaenge() < p.getLaenge() ? -1 : getBreite() > p
+						.getBreite() ? 1 : getBreite() < p.getBreite() ? 1 : 0);
 	}
 
 	/**
@@ -211,9 +217,22 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	 * @return true wenn gleich sonst false
 	 */
 	public boolean equals(Object obj, double maxAbweichung) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
 		if (obj instanceof WGS84Punkt) {
 			WGS84Punkt p = (WGS84Punkt) obj;
-			return ((Math.abs((koordinateRunden(getLaenge()) - koordinateRunden(p.getLaenge()))) < maxAbweichung) && (Math.abs((koordinateRunden(getBreite()) - koordinateRunden(p.getBreite()))) < maxAbweichung));
+			return ((Math
+					.abs((koordinateRunden(getLaenge()) - koordinateRunden(p
+							.getLaenge()))) < maxAbweichung) && (Math
+					.abs((koordinateRunden(getBreite()) - koordinateRunden(p
+							.getBreite()))) < maxAbweichung));
 		}
 
 		return false;
@@ -247,18 +266,6 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	}
 
 	/**
-	 * liefert einen gerundeten Koordinatenwert.
-	 * 
-	 * @param wert
-	 *            der Wert der gerundet werden soll
-	 * @return der gerundete Wert
-	 */
-	private double koordinateRunden(double wert) {
-		return Math.round(wert * GENAUIGKEIT_KOORDINATEN)
-				/ GENAUIGKEIT_KOORDINATEN;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see java.lang.Object#toString()
@@ -269,5 +276,4 @@ public class WGS84Punkt extends WGS84Koordinate implements
 		return "Punkt in WGS84-Koordinaten: Länge: " + getLaenge()
 				+ ", Breite: " + getBreite();
 	}
-
 }
