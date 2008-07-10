@@ -166,8 +166,6 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 					}
 				});
 
-		Debug.init(this.getSWETyp().toString(), argumente);
-
 		for (String s : argumente.getArgumentStrings()) {
 			if (s != null) {
 				this.komArgumente.add(s);
