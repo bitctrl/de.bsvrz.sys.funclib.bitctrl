@@ -55,7 +55,7 @@ public class PdEreignisParameter extends
 		AbstractParameterDatensatz<PdEreignisParameter.Daten> {
 
 	/**
-	 * Repr&auml;sentation der Daten des Ereignisparameters.
+	 * Repräsentation der Daten des Ereignisparameters.
 	 */
 	public static class Daten extends AbstractDatum {
 
@@ -140,7 +140,7 @@ public class PdEreignisParameter extends
 			 * @param bezugAnfang
 			 *            der neue Wert von {@code bezugAnfang}.
 			 */
-			public void setBezugAnfang(int bezugAnfang) {
+			public void setBezugAnfang(final int bezugAnfang) {
 				this.bezugAnfang = bezugAnfang;
 			}
 
@@ -150,7 +150,7 @@ public class PdEreignisParameter extends
 			 * @param bezugEnde
 			 *            der neue Wert von {@code bezugEnde}.
 			 */
-			public void setBezugEnde(int bezugEnde) {
+			public void setBezugEnde(final int bezugEnde) {
 				this.bezugEnde = bezugEnde;
 			}
 
@@ -160,7 +160,7 @@ public class PdEreignisParameter extends
 			 * @param dauerAnfang
 			 *            der neue Wert von {@code dauerAnfang}.
 			 */
-			public void setDauerAnfang(long dauerAnfang) {
+			public void setDauerAnfang(final long dauerAnfang) {
 				this.dauerAnfang = dauerAnfang;
 			}
 
@@ -170,14 +170,11 @@ public class PdEreignisParameter extends
 			 * @param dauerEnde
 			 *            der neue Wert von {@code dauerEnde}.
 			 */
-			public void setDauerEnde(long dauerEnde) {
+			public void setDauerEnde(final long dauerEnde) {
 				this.dauerEnde = dauerEnde;
 			}
 
 		}
-
-		/** Flag ob der Datensatz g&uuml;ltige Daten enth&auml;lt. */
-		private boolean valid;
 
 		/** Die Eigenschaft {@code raeumlicheGueltigkeit}. */
 		private final List<NetzBestandTeil> raeumlicheGueltigkeit = new ArrayList<NetzBestandTeil>();
@@ -194,24 +191,20 @@ public class PdEreignisParameter extends
 		/** Die Eigenschaft {@code quelle}. */
 		private String quelle;
 
-		/**
-		 * der aktuelle Status des Datensatzes.
-		 */
+		/** Der aktuelle Status des Datensatzes. */
 		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
 		 * Erzeugt eine flache Kopie.
 		 * 
 		 * {@inheritDoc}
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum#clone()
 		 */
 		@Override
 		public Daten clone() {
-			Daten klon = new Daten();
+			final Daten klon = new Daten();
 
 			klon.setZeitstempel(getZeitstempel());
-			klon.valid = valid;
+			klon.datenStatus = datenStatus;
 			klon.quelle = quelle;
 			klon.raeumlicheGueltigkeit.addAll(raeumlicheGueltigkeit);
 			klon.systemKalenderEintrag = systemKalenderEintrag;
@@ -222,9 +215,7 @@ public class PdEreignisParameter extends
 		}
 
 		/**
-		 * {@inheritDoc}.<br>
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datum#getDatenStatus()
+		 * {@inheritDoc}
 		 */
 		public Status getDatenStatus() {
 			return datenStatus;
@@ -284,7 +275,7 @@ public class PdEreignisParameter extends
 		 * @param neuerStatus
 		 *            der neue Status
 		 */
-		protected void setDatenStatus(Status neuerStatus) {
+		protected void setDatenStatus(final Status neuerStatus) {
 			datenStatus = neuerStatus;
 		}
 
@@ -294,7 +285,7 @@ public class PdEreignisParameter extends
 		 * @param quelle
 		 *            der neue Wert von {@code quelle}.
 		 */
-		public void setQuelle(String quelle) {
+		public void setQuelle(final String quelle) {
 			this.quelle = quelle;
 		}
 
@@ -305,7 +296,7 @@ public class PdEreignisParameter extends
 		 *            der neue Wert von {@code systemKalenderEintrag}.
 		 */
 		public void setSystemKalenderEintrag(
-				SystemKalenderEintrag systemKalenderEintrag) {
+				final SystemKalenderEintrag systemKalenderEintrag) {
 			this.systemKalenderEintrag = systemKalenderEintrag;
 		}
 
@@ -315,21 +306,19 @@ public class PdEreignisParameter extends
 		 * @param zeitlicheGueltigkeit
 		 *            der neue Wert von {@code zeitlicheGueltigkeit}.
 		 */
-		public void setZeitlicheGueltigkeit(Interval zeitlicheGueltigkeit) {
+		public void setZeitlicheGueltigkeit(final Interval zeitlicheGueltigkeit) {
 			this.zeitlicheGueltigkeit = zeitlicheGueltigkeit;
 		}
 
 		/**
 		 * {@inheritDoc}
-		 * 
-		 * @see java.lang.Object#toString()
 		 */
 		@Override
 		public String toString() {
 			String s = getClass().getSimpleName() + "[";
 
 			s += "zeitpunkt=" + getZeitpunkt();
-			s += ", valid=" + valid;
+			s += ", datenStatus=" + datenStatus;
 
 			return s + "]";
 		}
@@ -348,11 +337,11 @@ public class PdEreignisParameter extends
 	 * @param objekt
 	 *            ein Ereignis.
 	 */
-	public PdEreignisParameter(SystemObjekt objekt) {
+	public PdEreignisParameter(final SystemObjekt objekt) {
 		super(objekt);
 
 		if (atg == null) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			atg = modell.getAttributeGroup(ATG_EREIGNIS_PARAMETER);
 			assert atg != null;
@@ -361,8 +350,6 @@ public class PdEreignisParameter extends
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#erzeugeDatum()
 	 */
 	public Daten erzeugeDatum() {
 		return new Daten();
@@ -370,8 +357,6 @@ public class PdEreignisParameter extends
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getAttributGruppe()
 	 */
 	public AttributeGroup getAttributGruppe() {
 		return atg;
@@ -379,12 +364,10 @@ public class PdEreignisParameter extends
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatensatz#konvertiere(de.bsvrz.sys.funclib.bitctrl.modell.Datum)
 	 */
 	@Override
-	protected Data konvertiere(Daten datum) {
-		Data daten = erzeugeSendeCache();
+	protected Data konvertiere(final Daten datum) {
+		final Data daten = erzeugeSendeCache();
 
 		Array feld;
 
@@ -435,13 +418,11 @@ public class PdEreignisParameter extends
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#setDaten(de.bsvrz.dav.daf.main.ResultData)
 	 */
-	public void setDaten(ResultData result) {
+	public void setDaten(final ResultData result) {
 		check(result);
 
-		Daten datum = new Daten();
+		final Daten datum = new Daten();
 		if (result.hasData()) {
 			ObjektFactory factory;
 			Data daten;
@@ -500,4 +481,5 @@ public class PdEreignisParameter extends
 		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
 				datum.clone());
 	}
+
 }
