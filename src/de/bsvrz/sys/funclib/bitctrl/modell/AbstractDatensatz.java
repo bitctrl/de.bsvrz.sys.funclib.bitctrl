@@ -675,7 +675,6 @@ public abstract class AbstractDatensatz<T extends Datum> implements
 	 *             wenn die Daten nicht gesendet werden konnten. Der Sendecache
 	 *             wird in dem Fall nicht geleert.
 	 * @see #erzeugeDatum()
-	 * @see #TIMEOUT
 	 */
 	protected void sendeDaten(final Aspect asp, final T datum)
 			throws DatensendeException {
