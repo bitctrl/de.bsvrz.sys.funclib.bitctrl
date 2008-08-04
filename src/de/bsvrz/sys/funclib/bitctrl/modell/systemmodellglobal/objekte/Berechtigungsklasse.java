@@ -26,28 +26,28 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte;
 
-import static de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen.APPLIKATION;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen;
 
 /**
- * Repräsentation eine Objekts vom Typ "typ.applikation" innerhalb des
- * Datenverteiler-Modells.
+ * Repräsentiert die Berechtigungsklasse eines Benutzers des Datenverteilers.
  * 
- * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class Applikation extends AbstractSystemObjekt {
+public class Berechtigungsklasse extends AbstractSystemObjekt {
 
 	/**
 	 * Konstruktor zum Anlegen eines Systemobjekt, das ein Applikationsobjekt
-	 * "typ.applikation" in der Datenverteiler-Konfiguration repräsentiert.
+	 * {@link SystemModellGlobalTypen#BERECHTIGUNGSKLASSE} in der
+	 * Datenverteiler-Konfiguration repräsentiert.
 	 * 
 	 * @param obj
 	 *            das Objekt in der Konfiguration des Datenverteilers
 	 */
-	public Applikation(final SystemObject obj) {
+	public Berechtigungsklasse(final SystemObject obj) {
 		super(obj);
 	}
 
@@ -55,7 +55,7 @@ public class Applikation extends AbstractSystemObjekt {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return APPLIKATION;
+		return SystemModellGlobalTypen.BERECHTIGUNGSKLASSE;
 	}
 
 }

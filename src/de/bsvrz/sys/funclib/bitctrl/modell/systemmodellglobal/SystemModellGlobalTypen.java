@@ -28,7 +28,12 @@ package de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Aktivitaet;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Berechtigungsklasse;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Region;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Rolle;
 
 /**
  * Fasst alle Objekttypen im globalen Systemmodell zusammen.
@@ -39,7 +44,22 @@ import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikatio
 public enum SystemModellGlobalTypen implements SystemObjektTyp {
 
 	/** Applikation. */
-	APPLIKATION("typ.applikation", Applikation.class);
+	APPLIKATION("typ.applikation", Applikation.class),
+
+	/** Benutzer. */
+	BENUTZER("typ.benutzer", Benutzer.class),
+
+	/** Berechtigungsklasse eines Benutzers. */
+	BERECHTIGUNGSKLASSE("typ.benutzer", Berechtigungsklasse.class),
+
+	/** Berechtigungsklasse eines Benutzers. */
+	AKTIVITAET("typ.zugriffsAktivität", Aktivitaet.class),
+
+	/** Berechtigungsklasse eines Benutzers. */
+	REGION("typ.zugriffsRegion", Region.class),
+
+	/** Berechtigungsklasse eines Benutzers. */
+	ROLLE("typ.zugriffsRolle", Rolle.class);
 
 	/** PID des Objekttyps im Datenverteiler. */
 	private final String pid;
@@ -55,8 +75,8 @@ public enum SystemModellGlobalTypen implements SystemObjektTyp {
 	 * @param klasse
 	 *            Die Klasse des Modellobjekts
 	 */
-	private SystemModellGlobalTypen(String pid,
-			Class<? extends SystemObjekt> klasse) {
+	private SystemModellGlobalTypen(final String pid,
+			final Class<? extends SystemObjekt> klasse) {
 		this.pid = pid;
 		this.klasse = klasse;
 	}

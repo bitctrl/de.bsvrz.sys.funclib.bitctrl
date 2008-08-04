@@ -26,28 +26,37 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte;
 
-import static de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen.APPLIKATION;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import de.bsvrz.dav.daf.main.config.ConfigurationObject;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen;
 
 /**
- * Repräsentation eine Objekts vom Typ "typ.applikation" innerhalb des
- * Datenverteiler-Modells.
+ * Repräsentiert eine Benutzerrolle des Datenverteilers.
  * 
- * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class Applikation extends AbstractSystemObjekt {
+public class Rolle extends AbstractSystemObjekt {
+
+	/** Die Liste der betroffenen Aktivitäten. */
+	private List<Aktivitaet> aktivitaeten;
 
 	/**
 	 * Konstruktor zum Anlegen eines Systemobjekt, das ein Applikationsobjekt
-	 * "typ.applikation" in der Datenverteiler-Konfiguration repräsentiert.
+	 * {@link SystemModellGlobalTypen#ROLLE} in der Datenverteiler-Konfiguration
+	 * repräsentiert.
 	 * 
 	 * @param obj
 	 *            das Objekt in der Konfiguration des Datenverteilers
 	 */
-	public Applikation(final SystemObject obj) {
+	public Rolle(final SystemObject obj) {
 		super(obj);
 	}
 
@@ -55,7 +64,27 @@ public class Applikation extends AbstractSystemObjekt {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return APPLIKATION;
+		return SystemModellGlobalTypen.ROLLE;
+	}
+
+	/**
+	 * Gibt eine Read-Only-Liste der Aktivitäten zurück, die diese Rolle
+	 * umfasst.
+	 * 
+	 * @return die Liste der betroffenen Aspekte.
+	 */
+	public List<Aktivitaet> getAktivitaeten() {
+		if (aktivitaeten == null) {
+			aktivitaeten = new ArrayList<Aktivitaet>();
+			final ConfigurationObject co = (ConfigurationObject) getSystemObject();
+			for (final SystemObject so : co.getObjectSet("Aktivitäten")
+					.getElements()) {
+				aktivitaeten.add((Aktivitaet) ObjektFactory.getInstanz()
+						.getModellobjekt(so));
+			}
+		}
+
+		return Collections.unmodifiableList(aktivitaeten);
 	}
 
 }
