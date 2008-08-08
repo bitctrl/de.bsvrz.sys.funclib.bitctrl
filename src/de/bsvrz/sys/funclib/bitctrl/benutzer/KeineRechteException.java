@@ -24,53 +24,54 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell;
-
-import de.bsvrz.sys.funclib.bitctrl.daf.DavTools;
+package de.bsvrz.sys.funclib.bitctrl.benutzer;
 
 /**
- * Implementiert die Gemeinsamkeiten der Schnittstelle {@code Datum}.
+ * Diese Ausnahme zeigt an, dass ein Benutzer nicht die notwendigen Rechte für
+ * die angeforderte Aktion besitzt.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public abstract class AbstractDatum implements Datum {
-
-	/** Der Zeitstempel des Datums. */
-	private long zeitstempel;
+public class KeineRechteException extends Exception {
 
 	/**
-	 * {@inheritDoc}
+	 * Konstruktor ohne Meldungstext und vorangegangende Fehler.
 	 */
-	@Override
-	public abstract Datum clone();
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getZeitpunkt() {
-		return DavTools.absoluteZeit(zeitstempel);
+	public KeineRechteException() {
+		// nix zu tun
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Konstruktor mit Meldungstext.
+	 * 
+	 * @param message
+	 *            der Meldungstext.
 	 */
-	public long getZeitstempel() {
-		return zeitstempel;
+	public KeineRechteException(final String message) {
+		super(message);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Konstruktor mit vorangegangende Fehler.
+	 * 
+	 * @param cause
+	 *            der vorangegangende Fehler.
 	 */
-	public final boolean isValid() {
-		return getDatenStatus() == Datum.Status.DATEN;
+	public KeineRechteException(final Throwable cause) {
+		super(cause);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Konstruktor mit Meldungstext und vorangegangende Fehler.
+	 * 
+	 * @param message
+	 *            der Meldungstext.
+	 * @param cause
+	 *            der vorangegangende Fehler.
 	 */
-	public void setZeitstempel(final long zeitstempel) {
-		this.zeitstempel = zeitstempel;
+	public KeineRechteException(final String message, final Throwable cause) {
+		super(message, cause);
 	}
 
 }

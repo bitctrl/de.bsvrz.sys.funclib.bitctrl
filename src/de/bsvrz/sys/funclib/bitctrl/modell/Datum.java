@@ -205,7 +205,7 @@ public interface Datum {
 	long getZeitstempel();
 
 	/**
-	 * Liste das Flag {@code valid}.
+	 * Prüft ob das Datum Daten enthält.
 	 * 
 	 * @return {@code true}, wenn der Datensatz Daten enthält.
 	 */

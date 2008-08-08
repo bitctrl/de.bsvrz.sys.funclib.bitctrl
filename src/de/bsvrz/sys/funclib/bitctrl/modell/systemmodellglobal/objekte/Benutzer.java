@@ -43,8 +43,6 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
-import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderModellTypen;
-import de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte.Ereignis;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen;
 
 /**
@@ -83,7 +81,7 @@ public class Benutzer extends AbstractSystemObjekt {
 	 * @see de.bsvrz.dav.daf.main.config.management.UserAdministration
 	 * @see de.bsvrz.dav.daf.main.config.DataModel#getUserAdministration()
 	 */
-	public static Ereignis anlegen(final String pid, final String name,
+	public static Benutzer anlegen(final String pid, final String name,
 			final String vorname, final String zweiterVorname,
 			final String nachname, final String organisation,
 			final String emailAdresse) throws ConfigurationChangeException {
@@ -102,8 +100,8 @@ public class Benutzer extends AbstractSystemObjekt {
 		factory = ObjektFactory.getInstanz();
 		dav = factory.getVerbindung();
 		modell = dav.getDataModel();
-		typ = (DynamicObjectType) modell.getType(KalenderModellTypen.EREIGNIS
-				.getPid());
+		typ = (DynamicObjectType) modell
+				.getType(SystemModellGlobalTypen.BENUTZER.getPid());
 		kb = dav.getLocalConfigurationAuthority().getConfigurationArea();
 		atg = modell.getAttributeGroup("atg.benutzerEigenschaften");
 		asp = modell.getAspect("asp.eigenschaften");
@@ -119,7 +117,7 @@ public class Benutzer extends AbstractSystemObjekt {
 		so = kb.createDynamicObject(typ, pid, name, Collections
 				.singleton(datenUndVerwendung));
 
-		return (Ereignis) factory.getModellobjekt(so);
+		return (Benutzer) factory.getModellobjekt(so);
 	}
 
 	/** Der Vorname des Benutzers. */
