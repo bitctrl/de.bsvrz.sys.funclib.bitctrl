@@ -7,6 +7,8 @@ Bundle-Vendor: BitCtrl Systems GmbH
 Require-Bundle: de.bsvrz.dav.daf;visibility:=reexport,
  BitCtrlJavaCommon;visibility:=reexport
 Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application",
+ de.bsvrz.sys.funclib.bitctrl.archive,
+ de.bsvrz.sys.funclib.bitctrl.benutzer,
  de.bsvrz.sys.funclib.bitctrl.daf;uses:="stauma.dav.configuration.interfaces,stauma.dav.clientside",
  de.bsvrz.sys.funclib.bitctrl.dua,
  de.bsvrz.sys.funclib.bitctrl.dua.adapter;
@@ -84,6 +86,7 @@ Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application"
  de.bsvrz.sys.funclib.bitctrl.modell.systemmodellaoe.objekte,
  de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal,
  de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte,
+ de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.parameter,
  de.bsvrz.sys.funclib.bitctrl.modell.tmc.zustaende,
  de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten;uses:="stauma.dav.configuration.interfaces,stauma.dav.clientside,de.bsvrz.sys.funclib.bitctrl.modell",
  de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.objekte,
