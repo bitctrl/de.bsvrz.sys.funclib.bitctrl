@@ -90,10 +90,10 @@ public class ArchivIterator implements Iterator<ResultData> {
 				stroeme = new FieldIterator<ArchiveDataStream>(antwort
 						.getStreams());
 			} catch (final IllegalStateException ex) {
-				throw new ArchiveException(
+				throw new ArchivException(
 						"Fehler beim Empfang des Archivdatenstroms", ex);
 			} catch (final InterruptedException ex) {
-				throw new ArchiveException(
+				throw new ArchivException(
 						"Fehler beim Empfang des Archivdatenstroms", ex);
 			}
 
@@ -160,13 +160,13 @@ public class ArchivIterator implements Iterator<ResultData> {
 			try {
 				archivdaten = strom.take();
 			} catch (final IllegalStateException ex) {
-				throw new ArchiveException(
+				throw new ArchivException(
 						"Fehler beim Empfang eines Archivdatensatzes", ex);
 			} catch (final InterruptedException ex) {
-				throw new ArchiveException(
+				throw new ArchivException(
 						"Fehler beim Empfang eines Archivdatensatzes", ex);
 			} catch (final IOException ex) {
-				throw new ArchiveException(
+				throw new ArchivException(
 						"Fehler beim Empfang eines Archivdatensatzes", ex);
 			}
 

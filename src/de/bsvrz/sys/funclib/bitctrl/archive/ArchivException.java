@@ -32,12 +32,12 @@ package de.bsvrz.sys.funclib.bitctrl.archive;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class ArchiveException extends RuntimeException {
+public class ArchivException extends RuntimeException {
 
 	/**
 	 * Eine Ausnahme ohne Hinweistext und vorangegangenen Grund.
 	 */
-	public ArchiveException() {
+	public ArchivException() {
 
 	}
 
@@ -47,7 +47,7 @@ public class ArchiveException extends RuntimeException {
 	 * @param message
 	 *            der Hinweistext.
 	 */
-	public ArchiveException(final String message) {
+	public ArchivException(final String message) {
 		super(message);
 	}
 
@@ -57,7 +57,7 @@ public class ArchiveException extends RuntimeException {
 	 * @param cause
 	 *            der vorangegangene Grund.
 	 */
-	public ArchiveException(final Throwable cause) {
+	public ArchivException(final Throwable cause) {
 		super(cause);
 	}
 
@@ -69,7 +69,7 @@ public class ArchiveException extends RuntimeException {
 	 * @param cause
 	 *            der vorangegangene Grund.
 	 */
-	public ArchiveException(final String message, final Throwable cause) {
+	public ArchivException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 

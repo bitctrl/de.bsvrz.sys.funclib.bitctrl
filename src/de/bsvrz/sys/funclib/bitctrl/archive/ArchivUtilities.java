@@ -51,7 +51,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public final class ArchivaUtilities {
+public final class ArchivUtilities {
 
 	/**
 	 * Ruft Archivdaten in einen Rutsch ab. Diese Methode sollte nur verwendet
@@ -140,7 +140,7 @@ public final class ArchivaUtilities {
 	/**
 	 * Konstruktor verstecken.
 	 */
-	private ArchivaUtilities() {
+	private ArchivUtilities() {
 		// nix
 	}
 
