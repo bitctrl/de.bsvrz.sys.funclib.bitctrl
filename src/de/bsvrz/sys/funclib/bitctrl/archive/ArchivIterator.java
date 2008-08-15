@@ -108,7 +108,6 @@ public class ArchivIterator implements Iterator<ResultData> {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public boolean hasNext() {
 		return archivdaten != null;
 	}
@@ -116,7 +115,6 @@ public class ArchivIterator implements Iterator<ResultData> {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public ResultData next() {
 		if (!hasNext()) {
 			throw new NoSuchElementException();
@@ -143,7 +141,6 @@ public class ArchivIterator implements Iterator<ResultData> {
 	 * 
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}
