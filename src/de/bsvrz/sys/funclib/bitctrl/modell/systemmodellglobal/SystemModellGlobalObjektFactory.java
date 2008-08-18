@@ -26,8 +26,6 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal;
 
-import static de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen.Applikation;
-
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -35,7 +33,13 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Aktivitaet;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Berechtigungsklasse;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Datenverteiler;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Region;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Rolle;
 
 /**
  * Fabrikmethode f&uuml;r gekapselte Systemobjekte aus dem Umfelddatenmodell.
@@ -49,14 +53,29 @@ public class SystemModellGlobalObjektFactory implements ModellObjektFactory {
 	/**
 	 * {@inheritDoc}
 	 */
-	public SystemObjekt getModellobjekt(SystemObject objekt) {
+	public SystemObjekt getModellobjekt(final SystemObject objekt) {
 		if (objekt == null) {
 			throw new IllegalArgumentException("Argument darf nicht null sein.");
 		}
 
 		SystemObjekt obj = null;
-		if (objekt.isOfType(Applikation.getPid())) {
+		if (objekt.isOfType(SystemModellGlobalTypen.Aktivitaet.getPid())) {
+			obj = new Aktivitaet(objekt);
+		} else if (objekt
+				.isOfType(SystemModellGlobalTypen.Applikation.getPid())) {
 			obj = new Applikation(objekt);
+		} else if (objekt.isOfType(SystemModellGlobalTypen.Benutzer.getPid())) {
+			obj = new Benutzer(objekt);
+		} else if (objekt.isOfType(SystemModellGlobalTypen.Berechtigungsklasse
+				.getPid())) {
+			obj = new Berechtigungsklasse(objekt);
+		} else if (objekt.isOfType(SystemModellGlobalTypen.Datenverteiler
+				.getPid())) {
+			obj = new Datenverteiler(objekt);
+		} else if (objekt.isOfType(SystemModellGlobalTypen.Region.getPid())) {
+			obj = new Region(objekt);
+		} else if (objekt.isOfType(SystemModellGlobalTypen.Rolle.getPid())) {
+			obj = new Rolle(objekt);
 		}
 
 		return obj;

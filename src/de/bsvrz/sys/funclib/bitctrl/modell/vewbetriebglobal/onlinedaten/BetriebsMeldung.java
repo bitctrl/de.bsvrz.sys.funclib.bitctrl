@@ -82,8 +82,6 @@ public class BetriebsMeldung extends
 
 		/**
 		 * {@inheritDoc}
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Aspekt#getAspekt()
 		 */
 		public Aspect getAspekt() {
 			return aspekt;
@@ -91,8 +89,6 @@ public class BetriebsMeldung extends
 
 		/**
 		 * {@inheritDoc}
-		 * 
-		 * @see de.bsvrz.sys.funclib.bitctrl.modell.Aspekt#getName()
 		 */
 		public String getName() {
 			return aspekt.getNameOrPidOrId();

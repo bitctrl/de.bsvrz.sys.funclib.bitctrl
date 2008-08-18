@@ -32,6 +32,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Aktivitaet
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Berechtigungsklasse;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Datenverteiler;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Region;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Rolle;
 
@@ -42,6 +43,9 @@ import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Rolle;
  * @version $Id$
  */
 public enum SystemModellGlobalTypen implements SystemObjektTyp {
+
+	/** Datenverteiler. */
+	Datenverteiler("typ.datenverteiler", Datenverteiler.class),
 
 	/** Applikation. */
 	Applikation("typ.applikation", Applikation.class),
