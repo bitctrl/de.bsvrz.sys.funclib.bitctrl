@@ -231,16 +231,16 @@ public final class ObjektFactory implements ModellObjektFactory {
 
 	/**
 	 * Versucht mit Hilfe der registrierten Fabriken ein Systemobjekt in ein
-	 * Modellobjekt zu &uumnl;berf&uuml;hren. Gibt es mehrere Fabriken, die dazu
-	 * in der Lage sind, wird die Fabrik benutzt, die zuerst registriert wurde.
+	 * Modellobjekt zu überführen. Gibt es mehrere Fabriken, die dazu in der
+	 * Lage sind, wird die Fabrik benutzt, die zuerst registriert wurde.
+	 * Existiert keine passende Fabrik, wird entsprechend ein
+	 * {@link SystemObjektTyp} oder {@link SystemObjekt} zurückgegeben.
 	 * 
 	 * {@inheritDoc}
 	 * 
 	 * @param obj
 	 *            Ein Systemobjekt
-	 * @return Das korrespondierende Modellobjekt oder {@code null}, wenn das
-	 *         Systemobjekt nicht in ein Modellobjekt &uuml;berf&uuml;hrt werden
-	 *         kann
+	 * @return Das korrespondierende Modellobjekt, niemals {@code null}.
 	 */
 	public SystemObjekt getModellobjekt(final SystemObject obj) {
 		if (obj == null) {
@@ -315,8 +315,20 @@ public final class ObjektFactory implements ModellObjektFactory {
 			}
 		}
 
-		assert so != null : "Das Modellobjekt zu " + obj
-				+ " konnte nicht angelegt werden.";
+		if (so == null) {
+			System.err.println("Es existiert kein passendes Modellobjekt für "
+					+ obj + ".");
+			if (obj.isOfType("typ.typ")) {
+				@SuppressWarnings("deprecation")
+				final SystemObjekt deprecatedObj = new SystemObjektImpl(obj);
+				so = deprecatedObj;
+			}
+			@SuppressWarnings("deprecation")
+			final SystemObjekt deprecatedObj = new SystemObjektTypImpl(obj);
+			so = deprecatedObj;
+		}
+
+		assert so != null;
 		return so;
 	}
 
