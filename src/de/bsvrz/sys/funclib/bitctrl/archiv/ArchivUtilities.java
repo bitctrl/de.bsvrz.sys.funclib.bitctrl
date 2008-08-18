@@ -24,7 +24,7 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.archive;
+package de.bsvrz.sys.funclib.bitctrl.archiv;
 
 import java.util.ArrayList;
 import java.util.Collection;
