@@ -24,48 +24,43 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal;
-
-import java.util.Arrays;
-import java.util.Collection;
+package de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte;
 
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
-import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte.BetriebsMeldungsVerwaltungImpl;
+import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.VeWBetriebGlobalTypen;
 
 /**
- * Fabrikmethode für gekapselte Systemobjekte aus dem Teilmodell
- * VeWBetriebGlobal. Jedes gekapselte Objekt wird als Singleton behandelt und
- * zwischengespeichert.
+ * Kapselt ein Systemobjekt, welches eine Betriebsmeldungsverwaltung darstellt.
  * 
- * @author BitCtrl Systems GmbH, Falko Schumann
+ * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class VeWBetriebGlobalObjektFactory implements ModellObjektFactory {
+public class BetriebsMeldungsVerwaltungImpl extends AbstractSystemObjekt
+		implements BetriebsMeldungsVerwaltung {
 
 	/**
-	 * {@inheritDoc}
+	 * Erzeugt eine Betriebsmeldungsverwaltung aus einem Systemobjekt.
+	 * 
+	 * @param objekt
+	 *            Ein Systemobjekt, welches eine Betriebsmeldungsverwaltung sein
+	 *            muss
 	 */
-	public SystemObjekt getModellobjekt(final SystemObject objekt) {
-		if (objekt == null) {
-			throw new IllegalArgumentException("Argument darf nicht null sein.");
-		}
+	public BetriebsMeldungsVerwaltungImpl(final SystemObject objekt) {
+		super(objekt);
 
-		SystemObjekt obj = null;
-		if (objekt.isOfType(VeWBetriebGlobalTypen.BetriebsMeldungsVerwaltung
-				.getPid())) {
-			obj = new BetriebsMeldungsVerwaltungImpl(objekt);
+		if (!objekt.isOfType(getTyp().getPid())) {
+			throw new IllegalArgumentException(
+					"Systemobjekt ist keine Betriebsmeldungsverwaltung.");
 		}
-
-		return obj;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Collection<? extends SystemObjektTyp> getTypen() {
-		return Arrays.asList(VeWBetriebGlobalTypen.values());
+	public SystemObjektTyp getTyp() {
+		return VeWBetriebGlobalTypen.BetriebsMeldungsVerwaltung;
 	}
+
 }

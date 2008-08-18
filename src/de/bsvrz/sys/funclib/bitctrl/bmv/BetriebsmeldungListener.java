@@ -24,20 +24,24 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte;
+package de.bsvrz.sys.funclib.bitctrl.bmv;
 
-import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+import java.util.EventListener;
 
 /**
- * Kapselt ein Systemobjekt, welches eine Betriebsmeldungsverwaltung darstellt.
- * Das Objekt ist als Schnittstelle ausgelegt, weil die AOE es erweitert.
+ * Listener der über Änderungen an der Betriebsmeldungsliste informiert.
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
- * @see de.bsvrz.sys.funclib.bitctrl.modell.systemmodellaoe.objekte.AutarkeOrganisationsEinheit
  */
-public interface BetriebsMeldungsVerwaltung extends SystemObjekt {
+public interface BetriebsmeldungListener extends EventListener {
 
-	// Derzeit keine Methoden vorhanden.
+	/**
+	 * Wird aufgerufen, wenn sich die Betriebsmeldungsliste geändert hat.
+	 * 
+	 * @param e
+	 *            das entsprechende Event.
+	 */
+	void meldungslisteChanged(BetriebsmeldungEvent e);
 
 }
