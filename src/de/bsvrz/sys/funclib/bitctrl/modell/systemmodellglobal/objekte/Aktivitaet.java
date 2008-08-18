@@ -82,7 +82,7 @@ public class Aktivitaet extends AbstractSystemObjekt {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return SystemModellGlobalTypen.AKTIVITAET;
+		return SystemModellGlobalTypen.Aktivitaet;
 	}
 
 	/**

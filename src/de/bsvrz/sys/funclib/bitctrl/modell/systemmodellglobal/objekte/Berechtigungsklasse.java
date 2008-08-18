@@ -55,7 +55,7 @@ public class Berechtigungsklasse extends AbstractSystemObjekt {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return SystemModellGlobalTypen.BERECHTIGUNGSKLASSE;
+		return SystemModellGlobalTypen.Berechtigungsklasse;
 	}
 
 }

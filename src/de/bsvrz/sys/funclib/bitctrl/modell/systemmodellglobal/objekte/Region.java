@@ -68,7 +68,7 @@ public class Region extends AbstractSystemObjekt {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return SystemModellGlobalTypen.REGION;
+		return SystemModellGlobalTypen.Region;
 	}
 
 	/**

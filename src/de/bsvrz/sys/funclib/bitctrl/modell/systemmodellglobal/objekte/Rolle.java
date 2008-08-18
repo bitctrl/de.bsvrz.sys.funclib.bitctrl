@@ -64,7 +64,7 @@ public class Rolle extends AbstractSystemObjekt {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return SystemModellGlobalTypen.ROLLE;
+		return SystemModellGlobalTypen.Rolle;
 	}
 
 	/**

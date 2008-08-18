@@ -44,22 +44,22 @@ import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Rolle;
 public enum SystemModellGlobalTypen implements SystemObjektTyp {
 
 	/** Applikation. */
-	APPLIKATION("typ.applikation", Applikation.class),
+	Applikation("typ.applikation", Applikation.class),
 
 	/** Benutzer. */
-	BENUTZER("typ.benutzer", Benutzer.class),
+	Benutzer("typ.benutzer", Benutzer.class),
 
 	/** Berechtigungsklasse eines Benutzers. */
-	BERECHTIGUNGSKLASSE("typ.benutzer", Berechtigungsklasse.class),
+	Berechtigungsklasse("typ.benutzer", Berechtigungsklasse.class),
 
 	/** Berechtigungsklasse eines Benutzers. */
-	AKTIVITAET("typ.zugriffsAktivität", Aktivitaet.class),
+	Aktivitaet("typ.zugriffsAktivität", Aktivitaet.class),
 
 	/** Berechtigungsklasse eines Benutzers. */
-	REGION("typ.zugriffsRegion", Region.class),
+	Region("typ.zugriffsRegion", Region.class),
 
 	/** Berechtigungsklasse eines Benutzers. */
-	ROLLE("typ.zugriffsRolle", Rolle.class);
+	Rolle("typ.zugriffsRolle", Rolle.class);
 
 	/** PID des Objekttyps im Datenverteiler. */
 	private final String pid;

@@ -26,7 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal;
 
-import static de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen.APPLIKATION;
+import static de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen.Applikation;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -55,7 +55,7 @@ public class SystemModellGlobalObjektFactory implements ModellObjektFactory {
 		}
 
 		SystemObjekt obj = null;
-		if (objekt.isOfType(APPLIKATION.getPid())) {
+		if (objekt.isOfType(Applikation.getPid())) {
 			obj = new Applikation(objekt);
 		}
 

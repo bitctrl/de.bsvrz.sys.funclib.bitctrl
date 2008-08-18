@@ -101,7 +101,7 @@ public class Benutzer extends AbstractSystemObjekt {
 		dav = factory.getVerbindung();
 		modell = dav.getDataModel();
 		typ = (DynamicObjectType) modell
-				.getType(SystemModellGlobalTypen.BENUTZER.getPid());
+				.getType(SystemModellGlobalTypen.Benutzer.getPid());
 		kb = dav.getLocalConfigurationAuthority().getConfigurationArea();
 		atg = modell.getAttributeGroup("atg.benutzerEigenschaften");
 		asp = modell.getAspect("asp.eigenschaften");
@@ -154,7 +154,7 @@ public class Benutzer extends AbstractSystemObjekt {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return SystemModellGlobalTypen.BENUTZER;
+		return SystemModellGlobalTypen.Benutzer;
 	}
 
 	/**

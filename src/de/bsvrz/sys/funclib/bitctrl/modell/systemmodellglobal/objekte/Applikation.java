@@ -26,10 +26,10 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte;
 
-import static de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen.APPLIKATION;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen;
 
 /**
  * Repräsentation eine Objekts vom Typ "typ.applikation" innerhalb des
@@ -55,7 +55,7 @@ public class Applikation extends AbstractSystemObjekt {
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		return APPLIKATION;
+		return SystemModellGlobalTypen.Applikation;
 	}
 
 }
