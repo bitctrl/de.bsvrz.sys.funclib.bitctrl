@@ -189,6 +189,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 			}
 		}
 
+		assert !objekte.isEmpty();
 		return objekte;
 	}
 
@@ -223,6 +224,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 		List<SystemObjekt> objekte;
 
 		objekte = bestimmeModellobjekte(pid);
+		assert !objekte.isEmpty();
 		if (!objekte.isEmpty()) {
 			return objekte.get(0);
 		}
