@@ -27,29 +27,49 @@
 package de.bsvrz.sys.funclib.bitctrl.benutzer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.swing.event.EventListenerList;
+
+import com.bitctrl.util.CollectionUtilities;
+import com.bitctrl.util.Timestamp;
 
 import de.bsvrz.dav.daf.main.config.ConfigurationChangeException;
 import de.bsvrz.dav.daf.main.config.ConfigurationTaskException;
 import de.bsvrz.dav.daf.main.config.DataModel;
+import de.bsvrz.dav.daf.main.config.DynamicObject;
+import de.bsvrz.dav.daf.main.config.DynamicObjectType;
+import de.bsvrz.dav.daf.main.config.InvalidationListener;
+import de.bsvrz.dav.daf.main.config.DynamicObjectType.DynamicObjectCreatedListener;
 import de.bsvrz.dav.daf.main.config.management.UserAdministration;
 import de.bsvrz.sys.funclib.bitctrl.daf.DavTools;
 import de.bsvrz.sys.funclib.bitctrl.modell.AnmeldeException;
+import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent;
+import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensendeException;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Berechtigungsklasse;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Datenverteiler;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Region;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Rolle;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.onlinedaten.AngemeldeteApplikationen;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.onlinedaten.AngemeldeteApplikationen.Daten;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.parameter.PdBenutzerParameter;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.parameter.PdRollenRegionenPaareParameter;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.parameter.PdRollenRegionenPaareParameter.Daten.RolleRegionPaar;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Verwaltet die Benutzer des Datenverteilers.
  * 
+ * @todo Falls nötig, mit verschiedenen Dav-Anmeldungen arbeiten.
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
@@ -79,59 +99,333 @@ public final class Nutzerverwaltung {
 		return singleton;
 	}
 
-	/** Der Loginname der als Administrator verwendet wird. */
-	private String adminLoginname;
+	/**
+	 * Kapselt den Empfang von Login/Logout-Meldungen.
+	 */
+	private class PrivateListener implements DatensatzUpdateListener,
+			DynamicObjectCreatedListener, InvalidationListener {
 
-	/** Das Anmeldekennwort des Administrator. */
-	private String adminPasswort;
+		/** Das zuletzt empfangene Datum. */
+		private AngemeldeteApplikationen.Daten letztesDatum;
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public void datensatzAktualisiert(final DatensatzUpdateEvent event) {
+			if (event.getDatum() instanceof AngemeldeteApplikationen.Daten) {
+				final AngemeldeteApplikationen.Daten aktuellesDatum = (Daten) event
+						.getDatum();
+
+				for (final AngemeldeteApplikationen.Daten.AngemeldeteApplikation app : CollectionUtilities
+						.difference(aktuellesDatum, letztesDatum)) {
+					fireAngemeldet(app.getBenutzer(), app.getApplikation(), app
+							.getSeit());
+				}
+
+				for (final AngemeldeteApplikationen.Daten.AngemeldeteApplikation app : CollectionUtilities
+						.difference(letztesDatum, aktuellesDatum)) {
+					fireAbgemeldet(app.getBenutzer(), app.getApplikation(), app
+							.getSeit());
+				}
+
+				letztesDatum = aktuellesDatum;
+			} else if (event.getDatum() instanceof PdBenutzerParameter.Daten) {
+				final Benutzer benutzer = (Benutzer) event.getObjekt();
+				final Berechtigungsklasse berechtigungsklasse = ((PdBenutzerParameter.Daten) event
+						.getDatum()).getBerechtigungsklasse();
+				fireBenutzerChanged(benutzer, berechtigungsklasse);
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public void objectCreated(final DynamicObject createdObject) {
+			final ObjektFactory factory = ObjektFactory.getInstanz();
+			final Benutzer benutzer = (Benutzer) factory
+					.getModellobjekt(createdObject);
+			final PdBenutzerParameter param = benutzer
+					.getParameterDatensatz(PdBenutzerParameter.class);
+
+			param.addUpdateListener(this);
+			fireBenutzerAdded(benutzer);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public void invalidObject(final DynamicObject dynamicObject) {
+			final ObjektFactory factory = ObjektFactory.getInstanz();
+			final Benutzer benutzer = (Benutzer) factory
+					.getModellobjekt(dynamicObject);
+			final PdBenutzerParameter param = benutzer
+					.getParameterDatensatz(PdBenutzerParameter.class);
+
+			param.removeUpdateListener(this);
+			fireBenutzerRemoved(benutzer);
+		}
+
+	}
+
+	/** Der Logger der Klasse. */
+	private final Debug log;
+
+	/** Die angemeldeten Listener der Klasse. */
+	private final EventListenerList listeners;
 
 	/**
-	 * Konstruktor verstecken.
+	 * Inituialisierung.
 	 */
 	private Nutzerverwaltung() {
-		// nix zu tun
+		log = Debug.getLogger();
+		listeners = new EventListenerList();
+
+		final PrivateListener privateListener = new PrivateListener();
+
+		final ObjektFactory factory = ObjektFactory.getInstanz();
+		final Datenverteiler dav = (Datenverteiler) factory
+				.getModellobjekt(factory.getVerbindung().getLocalDav());
+		final AngemeldeteApplikationen datensatz = dav
+				.getOnlineDatensatz(AngemeldeteApplikationen.class);
+
+		// Listener auf An- und Abmelden
+		datensatz.addUpdateListener(AngemeldeteApplikationen.Aspekte.Standard
+				.getAspekt(), privateListener);
+
+		// Listener auf Änderungen der Menge der Benutzer
+		final DynamicObjectType typ = (DynamicObjectType) factory
+				.getModellobjekt(SystemModellGlobalTypen.Benutzer.getPid())
+				.getSystemObject();
+		typ.addObjectCreationListener(privateListener);
+		typ.addInvalidationListener(privateListener);
+
+		// Listener auf Änderungen der Berechtigungsklasse der Nutzer
+		for (final SystemObjekt so : factory
+				.bestimmeModellobjekte(SystemModellGlobalTypen.Benutzer
+						.getPid())) {
+			if (so instanceof Benutzer) {
+				final Benutzer benutzer = (Benutzer) so;
+				benutzer.getParameterDatensatz(PdBenutzerParameter.class)
+						.addUpdateListener(privateListener);
+			}
+		}
+
+		log.info("Schnittstelle zur Nutzerverwaltung initialisiert.");
 	}
 
 	/**
-	 * Legt den Benutzer fest, der als Administrator verwendet werden soll.
+	 * Registriert einen Listener an.
 	 * 
-	 * @param loginname
-	 *            der Loginname der als Administrator verwendet wird.
-	 * @param passwort
-	 *            das Anmeldekennwort des Administrator.
-	 * @see #clearAdmin()
+	 * @param l
+	 *            ein Listener.
 	 */
-	public void setAdmin(final String loginname, final String passwort) {
-		adminLoginname = loginname;
-		adminPasswort = passwort;
+	public void addLoginListener(final LoginListener l) {
+		listeners.add(LoginListener.class, l);
 	}
 
 	/**
-	 * "Vergisst" die Anmeldung als Administrator.
+	 * Meldet einen Listener wieder ab.
 	 * 
-	 * @see #setAdmin(String, String)
+	 * @param l
+	 *            ein Listener.
 	 */
-	public void clearAdmin() {
-		adminLoginname = null;
-		adminPasswort = null;
+	public void removeLoginListener(final LoginListener l) {
+		listeners.remove(LoginListener.class, l);
+	}
+
+	/**
+	 * Benachrichtigt die angmeldeten Listener über die Anmeldung eines
+	 * Benutzers.
+	 * 
+	 * @param benutzer
+	 *            der betroffene Benutzer.
+	 * @param applikation
+	 *            die betroffene Applikation.
+	 * @param anmeldezeit
+	 *            der Anmeldezeitpunkt.
+	 */
+	protected synchronized void fireAngemeldet(final Benutzer benutzer,
+			final Applikation applikation, final Timestamp anmeldezeit) {
+		final LoginEvent e = new LoginEvent(this, benutzer, applikation,
+				anmeldezeit);
+
+		for (final LoginListener l : listeners
+				.getListeners(LoginListener.class)) {
+			l.angemeldet(e);
+		}
+	}
+
+	/**
+	 * Benachrichtigt die angmeldeten Listener darüber, dass sich ein Benutzer
+	 * abgemeldet hat.
+	 * 
+	 * @param benutzer
+	 *            der betroffene Benutzer.
+	 * @param applikation
+	 *            die betroffene Applikation.
+	 * @param anmeldezeit
+	 *            der Anmeldezeitpunkt.
+	 */
+	protected synchronized void fireAbgemeldet(final Benutzer benutzer,
+			final Applikation applikation, final Timestamp anmeldezeit) {
+		final LoginEvent e = new LoginEvent(this, benutzer, applikation,
+				anmeldezeit);
+
+		for (final LoginListener l : listeners
+				.getListeners(LoginListener.class)) {
+			l.abgemeldet(e);
+		}
+	}
+
+	/**
+	 * Registriert einen Listener an.
+	 * 
+	 * @param l
+	 *            ein Listener.
+	 */
+	public void addBenutzerListener(final BenutzerListener l) {
+		listeners.add(BenutzerListener.class, l);
+	}
+
+	/**
+	 * Meldet einen Listener wieder ab.
+	 * 
+	 * @param l
+	 *            ein Listener.
+	 */
+	public void removeBenutzerListener(final BenutzerListener l) {
+		listeners.remove(BenutzerListener.class, l);
+	}
+
+	/**
+	 * Benachrichtigt die angmeldeten Listener darüber, dass ein neuer Benutzer
+	 * angelegt wurde.
+	 * 
+	 * @param benutzer
+	 *            der betroffene Benutzer.
+	 */
+	protected synchronized void fireBenutzerAdded(final Benutzer benutzer) {
+		final BenutzerEvent e = new BenutzerEvent(this, benutzer, null);
+
+		for (final BenutzerListener l : listeners
+				.getListeners(BenutzerListener.class)) {
+			l.benutzerAdded(e);
+		}
+	}
+
+	/**
+	 * Benachrichtigt die angmeldeten Listener darüber, dass ein Benutzer
+	 * gelöscht wurde.
+	 * 
+	 * @param benutzer
+	 *            der betroffene Benutzer.
+	 */
+	protected synchronized void fireBenutzerRemoved(final Benutzer benutzer) {
+		final BenutzerEvent e = new BenutzerEvent(this, benutzer, null);
+
+		for (final BenutzerListener l : listeners
+				.getListeners(BenutzerListener.class)) {
+			l.benutzerRemoved(e);
+		}
+	}
+
+	/**
+	 * Benachrichtigt die angmeldeten Listener darüber, dass die
+	 * Berechtigungsklasse eines Benutzer geändert wurde.
+	 * 
+	 * @param benutzer
+	 *            der betroffene Benutzer.
+	 * @param berechtigungsklasse
+	 *            die Berechtigungsklasse des Benutzers.
+	 */
+	protected synchronized void fireBenutzerChanged(final Benutzer benutzer,
+			final Berechtigungsklasse berechtigungsklasse) {
+		final BenutzerEvent e = new BenutzerEvent(this, benutzer,
+				berechtigungsklasse);
+
+		for (final BenutzerListener l : listeners
+				.getListeners(BenutzerListener.class)) {
+			l.benutzerChanged(e);
+		}
+	}
+
+	/**
+	 * Gibt den lokal angemeldeten Benutzer zurück.
+	 * 
+	 * @return der angemeldete Benutzer.
+	 */
+	public Benutzer getAngemeldetenBenutzer() {
+		final ObjektFactory factory = ObjektFactory.getInstanz();
+		return (Benutzer) factory.getModellobjekt(factory.getVerbindung()
+				.getLocalUser());
+	}
+
+	/**
+	 * Gibt eine unveränderbare Liste aller Benutzer im System zurück.
+	 * 
+	 * @return die Benutzerliste.
+	 */
+	public List<Benutzer> getBenutzer() {
+		final List<Benutzer> benutzer = new ArrayList<Benutzer>();
+		final ObjektFactory factory = ObjektFactory.getInstanz();
+
+		for (final SystemObjekt so : factory
+				.bestimmeModellobjekte(SystemModellGlobalTypen.Benutzer
+						.getPid())) {
+			benutzer.add((Benutzer) so);
+		}
+
+		return Collections.unmodifiableList(benutzer);
+	}
+
+	/**
+	 * Gibt eine unveränderbare Liste aller Berechtigungsklassen im System
+	 * zurück.
+	 * 
+	 * @return die Liste der Berechtigungsklassen.
+	 */
+	public List<Berechtigungsklasse> getBerechtigungsklasse() {
+		final List<Berechtigungsklasse> klassen = new ArrayList<Berechtigungsklasse>();
+		final ObjektFactory factory = ObjektFactory.getInstanz();
+
+		for (final SystemObjekt so : factory
+				.bestimmeModellobjekte(SystemModellGlobalTypen.Berechtigungsklasse
+						.getPid())) {
+			klassen.add((Berechtigungsklasse) so);
+		}
+
+		return Collections.unmodifiableList(klassen);
+	}
+
+	/**
+	 * Gibt eine Zusammenstellung aller Benutzer im System und deren
+	 * Benutzerklasse zurück.
+	 * 
+	 * @return die aktuelle Rechteverteilung.
+	 */
+	public Map<Benutzer, Berechtigungsklasse> getBenutzerUndKlassen() {
+		final Map<Benutzer, Berechtigungsklasse> rechte = new HashMap<Benutzer, Berechtigungsklasse>();
+
+		for (final Benutzer benutzer : getBenutzer()) {
+			rechte.put(benutzer, getBerechtigungsklasse(benutzer));
+		}
+
+		return rechte;
 	}
 
 	/**
 	 * Prüft, ob ein Bennutzer für Administratoraufgaben festgelegt wurde und
 	 * dieser über ausreichend Rechte verfügt.
 	 * 
+	 * @param loginname
+	 *            ein beliebiger Nutzername
 	 * @return {@code true}, wenn ein Bennutzer für Administratoraufgaben
 	 *         angegeben ist.
-	 * @see #setAdmin(String, String)
 	 */
-	public boolean checkAdmin() {
-		if (adminLoginname == null || adminPasswort == null) {
-			return false;
-		}
-
+	public boolean checkAdmin(final String loginname) {
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 		final Benutzer benutzer = (Benutzer) factory.getModellobjekt(DavTools
-				.generierePID(adminLoginname, Benutzer.PRAEFIX_PID));
+				.generierePID(loginname, Benutzer.PRAEFIX_PID));
 		final PdBenutzerParameter parameter = benutzer
 				.getParameterDatensatz(PdBenutzerParameter.class);
 		final PdBenutzerParameter.Daten datum = parameter.abrufenDatum();
@@ -154,29 +448,29 @@ public final class Nutzerverwaltung {
 	 *            eine Berechtuigungsklasse.
 	 * @return {@code true}, wenn der Benutzer zu der Berechtigungsklasse
 	 *         gehört.
-	 * @todo Diese Aktion muss der Dav ausführen, wenn er mit Rechteprüfung
-	 *       gestartet wird.
 	 */
 	public boolean isBerechtigungsklasse(final Benutzer benutzer,
 			final Berechtigungsklasse klasse) {
-		if (benutzer == null) {
-			throw new IllegalArgumentException(
-					"Der Benutzer darf nicht null sein.");
-		}
-		if (klasse == null) {
-			throw new IllegalArgumentException(
-					"Die Berechtigungsklasse darf nicht null sein.");
-		}
+		return klasse.equals(getBerechtigungsklasse(benutzer));
+	}
 
+	/**
+	 * Bestimmt die aktuelle Berechtigungsklasse des Benutzers.
+	 * 
+	 * @param benutzer
+	 *            ein Benutzer.
+	 * @return die Berechtigungsklasse des Benutzers.
+	 */
+	public Berechtigungsklasse getBerechtigungsklasse(final Benutzer benutzer) {
 		final PdBenutzerParameter parameter = benutzer
 				.getParameterDatensatz(PdBenutzerParameter.class);
 		final PdBenutzerParameter.Daten datum = parameter.abrufenDatum();
 
 		if (datum.isValid()) {
-			return datum.getBerechtigungsklasse().equals(klasse);
+			return datum.getBerechtigungsklasse();
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
@@ -222,7 +516,7 @@ public final class Nutzerverwaltung {
 	 * @return die Berechtigungsklasse oder {@code null}, wenn zu der PID keine
 	 *         existiert.
 	 */
-	public Berechtigungsklasse sucheBerechtigungsklasse(final String pid) {
+	public Berechtigungsklasse getBerechtigungsklasse(final String pid) {
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 		return (Berechtigungsklasse) factory.getModellobjekt(pid);
 	}
@@ -235,7 +529,7 @@ public final class Nutzerverwaltung {
 	 * @return die Zugriffsrolle oder {@code null}, wenn zu der PID keine
 	 *         existiert.
 	 */
-	public Rolle sucheRolle(final String pid) {
+	public Rolle getRolle(final String pid) {
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 		return (Rolle) factory.getModellobjekt(pid);
 	}
@@ -248,7 +542,7 @@ public final class Nutzerverwaltung {
 	 * @return die Zugriffsregion oder {@code null}, wenn zu der PID keine
 	 *         existiert.
 	 */
-	public Region sucheRegion(final String pid) {
+	public Region getRegion(final String pid) {
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 		return (Region) factory.getModellobjekt(pid);
 	}
@@ -261,20 +555,31 @@ public final class Nutzerverwaltung {
 	 * @return der Benutzer oder {@code null}, wenn kein Benutzer mit dem
 	 *         angegebenen Namen existiert.
 	 */
-	public Benutzer sucheBenutzer(final String loginname) {
+	public Benutzer getBenutzer(final String loginname) {
 		final ObjektFactory factory = ObjektFactory.getInstanz();
+		final String pid = DavTools.generierePID(loginname,
+				Benutzer.PRAEFIX_PID);
+		Benutzer benutzer = (Benutzer) factory.getModellobjekt(pid);
 
+		if (benutzer != null) {
+			return benutzer;
+		}
+
+		// Suche per PID erfolglos, weiter nach Namen suchen
 		for (final SystemObjekt so : factory
-				.bestimmeModellobjekte(SystemModellGlobalTypen.BENUTZER
+				.bestimmeModellobjekte(SystemModellGlobalTypen.Benutzer
 						.getPid())) {
-			final Benutzer benutzer = (Benutzer) so;
+			benutzer = (Benutzer) so;
 
 			if (benutzer.getName().equals(loginname)) {
-				return benutzer;
+				break;
 			}
 		}
 
-		return null;
+		log.fine("Die PID des Benutzers " + benutzer
+				+ " beginnt nicht mit dem Standardprefix "
+				+ Benutzer.PRAEFIX_PID);
+		return benutzer;
 	}
 
 	/**
@@ -301,7 +606,7 @@ public final class Nutzerverwaltung {
 		final List<Benutzer> benutzer = new ArrayList<Benutzer>();
 
 		for (final SystemObjekt so : factory
-				.bestimmeModellobjekte(SystemModellGlobalTypen.BENUTZER
+				.bestimmeModellobjekte(SystemModellGlobalTypen.Benutzer
 						.getPid())) {
 			final Benutzer b = (Benutzer) so;
 			boolean ok = false;
@@ -336,32 +641,25 @@ public final class Nutzerverwaltung {
 	 * festgelegt werden. Am Ende der Methode wird die Anmeldung als
 	 * Administrator wieder aufgehoben.
 	 * 
-	 * @param loginname
-	 *            der Loginname.
-	 * @param passwort
-	 *            das Anmeldekennwort.
-	 * @param nachname
-	 *            der Nachname des neuen Benutzers.
-	 * @param vorname
-	 *            der Vorname des neuen Benutzers.
-	 * @param zweiterVorname
-	 *            der zweite Vorname des neuen Benutzers.
-	 * @param organisation
-	 *            die Organsiation oder Firma des neuen Benutzers.
-	 * @param emailAdresse
-	 *            die E-Mail-Adresse des neuen Benutzers.
+	 * @param adminLoginname
+	 *            der Name des Administrators der die Aktion ausführt.
+	 * @param adminPasswort
+	 *            das Anmeldekennwort des Administrators der die Aktion
+	 *            ausführt.
+	 * @param benutzerInfo
+	 *            die Eigenschaften des neuen Benutzers.
 	 * @return der neue Benutzer
 	 * @throws KeineRechteException
 	 *             wenn kein Administrator festgelegt wurde oder dieser nicht
 	 *             über genügend Rechte verfügt.
+	 * @throws BenutzerChangeException
+	 *             wenn beim Anlegen des Benutzers ein Fehler eintrat.
 	 * @see #setAdmin(String, String)
-	 * @todo Fehler weiterleiten: Nutzer existiert bereits, keine Rechte usw.
 	 */
-	public Benutzer anlegenBenutzer(final String loginname,
-			final String passwort, final String nachname, final String vorname,
-			final String zweiterVorname, final String organisation,
-			final String emailAdresse) throws KeineRechteException {
-		if (!checkAdmin()) {
+	public Benutzer anlegenBenutzer(final String adminLoginname,
+			final String adminPasswort, final BenutzerInfo benutzerInfo)
+			throws KeineRechteException, BenutzerChangeException {
+		if (!checkAdmin(adminLoginname)) {
 			throw new KeineRechteException(
 					"Zum Anlegen eines neuen Benutzer, müssen Sie sich als Administrator anmelden und über ausreichend Rechte verfügen.");
 		}
@@ -369,37 +667,43 @@ public final class Nutzerverwaltung {
 		final String pid;
 		Benutzer benutzer;
 
-		pid = DavTools.generierePID(loginname, Benutzer.PRAEFIX_PID);
+		pid = DavTools.generierePID(benutzerInfo.getLoginname(),
+				Benutzer.PRAEFIX_PID);
 		try {
-			benutzer = Benutzer.anlegen(pid, loginname, vorname,
-					zweiterVorname, nachname, organisation, emailAdresse);
+			benutzer = Benutzer.anlegen(pid, benutzerInfo.getLoginname(),
+					benutzerInfo.getVorname(),
+					benutzerInfo.getZweiterVorname(), benutzerInfo
+							.getNachname(), benutzerInfo.getOrganisation(),
+					benutzerInfo.getEmailAdresse());
 
 			final ObjektFactory factory = ObjektFactory.getInstanz();
 			final DataModel modell = factory.getVerbindung().getDataModel();
 			final UserAdministration userAdmin = modell.getUserAdministration();
-			userAdmin.createNewUser(adminLoginname, adminPasswort, loginname,
-					pid, passwort, false, factory.getVerbindung()
-							.getLocalConfigurationAuthority()
+			userAdmin.createNewUser(adminLoginname, adminPasswort, benutzerInfo
+					.getLoginname(), pid, benutzerInfo.getPasswort(), false,
+					factory.getVerbindung().getLocalConfigurationAuthority()
 							.getConfigurationArea().getPid());
 		} catch (final ConfigurationChangeException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
-			benutzer = null;
+			throw new BenutzerChangeException("Der Benutzer "
+					+ benutzerInfo.getLoginname()
+					+ " konnte nicht angelegt werden.", ex);
 		} catch (final ConfigurationTaskException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
-			benutzer = null;
-		} finally {
-			clearAdmin();
+			throw new BenutzerChangeException("Der Benutzer "
+					+ benutzerInfo.getLoginname()
+					+ " konnte nicht angelegt werden.", ex);
 		}
 
 		return benutzer;
 	}
 
 	/**
-	 * Deaktiviert einen Benutzer. Seine Berechtigungsklasse wird auf "Kein
-	 * Zugriff" gesetzt.
+	 * Ändert die Berechtigungsklasse eines Benutzer.
 	 * 
+	 * @param adminLoginname
+	 *            der Name des Administrators der die Aktion ausführt.
+	 * @param adminPasswort
+	 *            das Anmeldekennwort des Administrators der die Aktion
+	 *            ausführt.
 	 * @param benutzer
 	 *            der zu deaktivierende Benutzers.
 	 * @param klasse
@@ -407,15 +711,14 @@ public final class Nutzerverwaltung {
 	 * @throws KeineRechteException
 	 *             wenn kein Administrator festgelegt wurde oder dieser nicht
 	 *             über genügend Rechte verfügt.
+	 * @throws BenutzerChangeException
+	 *             wenn beim Ändern der Benutzerrechte ein Fehler eintrat.
 	 */
-	public void setBerechtigungsklasse(final Benutzer benutzer,
-			final Berechtigungsklasse klasse) throws KeineRechteException {
-		if (benutzer == null) {
-			throw new IllegalArgumentException(
-					"Der Benutzer darf nicht null sein.");
-		}
-
-		if (!checkAdmin()) {
+	public void setBerechtigungsklasse(final String adminLoginname,
+			final String adminPasswort, final Benutzer benutzer,
+			final Berechtigungsklasse klasse) throws KeineRechteException,
+			BenutzerChangeException {
+		if (!checkAdmin(adminLoginname)) {
 			throw new KeineRechteException(
 					"Zum Anlegen eines neuen Benutzer, müssen Sie sich als Administrator anmelden und überausreichend Rechte verfügen.");
 		}
@@ -427,37 +730,62 @@ public final class Nutzerverwaltung {
 		try {
 			parameter.anmeldenSender();
 			parameter.sendeDaten(datum);
+
+			try {
+				if (PID_ADMINISTRATOR.equals(klasse.getPid())) {
+					final DataModel modell = ObjektFactory.getInstanz()
+							.getVerbindung().getDataModel();
+					final UserAdministration userAdmin = modell
+							.getUserAdministration();
+					userAdmin.changeUserRights(adminLoginname, adminPasswort,
+							benutzer.getName(), true);
+				} else {
+					final DataModel modell = ObjektFactory.getInstanz()
+							.getVerbindung().getDataModel();
+					final UserAdministration userAdmin = modell
+							.getUserAdministration();
+					userAdmin.changeUserRights(adminLoginname, adminPasswort,
+							benutzer.getName(), false);
+				}
+			} catch (final ConfigurationTaskException ex) {
+				throw new BenutzerChangeException(
+						"Die Adminrechte für den Benutzer " + benutzer
+								+ " konnten nicht geändert werden.", ex);
+			}
 		} catch (final AnmeldeException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
+			throw new BenutzerChangeException(
+					"Fehler beim Anmelden auf Parameter für Benutzer "
+							+ benutzer + ".", ex);
 		} catch (final DatensendeException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
+			throw new BenutzerChangeException(
+					"Fehler beim Senden des Parameters für Benutzer "
+							+ benutzer + ".", ex);
 		} finally {
 			parameter.abmeldenSender();
 		}
-
-		clearAdmin();
 	}
 
 	/**
 	 * Deaktiviert einen Benutzer. Seine Berechtigungsklasse wird auf "Kein
 	 * Zugriff" gesetzt.
 	 * 
+	 * @param adminLoginname
+	 *            der Name des Administrators der die Aktion ausführt.
+	 * @param adminPasswort
+	 *            das Anmeldekennwort des Administrators der die Aktion
+	 *            ausführt.
 	 * @param benutzer
 	 *            der zu deaktivierende Benutzers.
 	 * @throws KeineRechteException
 	 *             wenn kein Administrator festgelegt wurde oder dieser nicht
 	 *             über genügend Rechte verfügt.
+	 * @throws BenutzerChangeException
+	 *             wenn es beim deaktivieren einen Fehler gab.
 	 */
-	public void deaktiviereBenutzer(final Benutzer benutzer)
-			throws KeineRechteException {
-		if (benutzer == null) {
-			throw new IllegalArgumentException(
-					"Der Benutzer darf nicht null sein.");
-		}
-
-		if (!checkAdmin()) {
+	public void deaktiviereBenutzer(final String adminLoginname,
+			final String adminPasswort, final Benutzer benutzer)
+			throws KeineRechteException, BenutzerChangeException {
+		if (!checkAdmin(adminLoginname)) {
 			throw new KeineRechteException(
 					"Zum Anlegen eines neuen Benutzer, müssen Sie sich als Administrator anmelden und überausreichend Rechte verfügen.");
 		}
@@ -473,16 +801,16 @@ public final class Nutzerverwaltung {
 			parameter.anmeldenSender();
 			parameter.sendeDaten(datum);
 		} catch (final AnmeldeException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
+			throw new BenutzerChangeException(
+					"Fehler beim Anmelden auf Parameter für Benutzer "
+							+ benutzer + ".", ex);
 		} catch (final DatensendeException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
+			throw new BenutzerChangeException(
+					"Fehler beim Senden des Parameters für Benutzer "
+							+ benutzer + ".", ex);
 		} finally {
 			parameter.abmeldenSender();
 		}
-
-		clearAdmin();
 	}
 
 }
