@@ -48,16 +48,12 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Datum.Status;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung.Daten;
 import de.bsvrz.sys.funclib.debug.Debug;
+import de.bsvrz.sys.funclib.operatingMessage.MessageSender;
 
 /**
  * Hilfsklasse für den Umgang mit der Betriebsmeldungsverwaltung. Die Klasse
- * führt eine Liste der letzten Meldungen. Andere Klassen können sich ühber
+ * führt eine Liste der letzten Meldungen. Andere Klassen können sich über
  * Änderungen an dieser Liste informieren lassen.
- * <p>
- * <em>Hinweis:</em> Die Klasse ist nur für das Empfangen von
- * Betriebsmeldungen zuständig. Zum Senden von Betriebsmeldungen steht die
- * Klasse {@link de.bsvrz.sys.funclib.operatingMessage.MessageSender} zur
- * Verfügung.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
@@ -361,6 +357,18 @@ public final class Betriebsmeldungsverwaltung {
 	 */
 	public List<BetriebsMeldung.Daten> getMeldungsliste() {
 		return Collections.unmodifiableList(meldungsliste);
+	}
+
+	/**
+	 * Gibt den Sender von Betriebsmeldungen zurück. Die Methode ist identisch
+	 * mit dem Aufruf von {@link MessageSender#getInstance()}. Diese Methode
+	 * dient lediglich dazu, dass in Klassen nicht zwei
+	 * Betriebsmeldungsverwaltungen verwendet werden müssen.
+	 * 
+	 * @return der Sender.
+	 */
+	public MessageSender getSender() {
+		return MessageSender.getInstance();
 	}
 
 }
