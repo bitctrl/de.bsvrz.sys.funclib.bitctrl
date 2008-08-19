@@ -35,13 +35,14 @@ import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
-import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte.BetriebsMeldungsVerwaltung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKlasse;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsStatus;
@@ -114,7 +115,7 @@ public class BetriebsMeldung extends
 		private long laufendeNummer;
 
 		/** Typ der Applikation, die die Informationsmeldung erzeugt hat. */
-		private SystemObject applikationsTyp;
+		private SystemObjekt applikationsTyp;
 
 		/** Wird für einen Bezug zur vorherigen Meldung benötigt. */
 		private String applikationsKennung;
@@ -132,10 +133,19 @@ public class BetriebsMeldung extends
 		private MeldungsKlasse meldungsKlasse;
 
 		/** Referenz auf ein beliebiges Konfigurationsobjekt. */
-		private SystemObject referenz;
+		private SystemObjekt referenz;
 
 		/** Gibt den Meldungsstatus an. */
 		private MeldungsStatus meldungsStatus;
+
+		/** Referenz auf den Benutzer, der die Meldung erzeugt hat. */
+		private Benutzer urlasserBenutzer;
+
+		/** Angabe der Ursache für die Meldung. */
+		private String urlasserUrsache;
+
+		/** Veranlasser für die Meldung. */
+		private String urlasserVeranlasser;
 
 		/** Text der Meldung. */
 		private String meldungsText;
@@ -186,7 +196,7 @@ public class BetriebsMeldung extends
 		 * 
 		 * @return der Applikationstyp.
 		 */
-		public SystemObject getApplikationsTyp() {
+		public SystemObjekt getApplikationsTyp() {
 			return applikationsTyp;
 		}
 
@@ -197,7 +207,7 @@ public class BetriebsMeldung extends
 		 * @param applikationsTyp
 		 *            der Applikationstyp.
 		 */
-		public void setApplikationsTyp(final SystemObject applikationsTyp) {
+		public void setApplikationsTyp(final SystemObjekt applikationsTyp) {
 			this.applikationsTyp = applikationsTyp;
 		}
 
@@ -312,7 +322,7 @@ public class BetriebsMeldung extends
 		 * 
 		 * @return ein Systemobjekt oder {@code null}.
 		 */
-		public SystemObject getReferenz() {
+		public SystemObjekt getReferenz() {
 			return referenz;
 		}
 
@@ -323,7 +333,7 @@ public class BetriebsMeldung extends
 		 * @param referenz
 		 *            ein Systemobjekt oder {@code null}.
 		 */
-		public void setReferenz(final SystemObject referenz) {
+		public void setReferenz(final SystemObjekt referenz) {
 			this.referenz = referenz;
 		}
 
@@ -366,6 +376,63 @@ public class BetriebsMeldung extends
 		}
 
 		/**
+		 * Gibt den Benutzer zurück, der die Meldung erzeugt hat.
+		 * 
+		 * @return der Urlasser.
+		 */
+		public Benutzer getUrlasserBenutzer() {
+			return urlasserBenutzer;
+		}
+
+		/**
+		 * Legt den Benutzer fest, der die Meldung erzeugt hat.
+		 * 
+		 * @param urlasserBenutzer
+		 *            der Urlasser.
+		 */
+		public void setUrlasserBenutzer(final Benutzer urlasserBenutzer) {
+			this.urlasserBenutzer = urlasserBenutzer;
+		}
+
+		/**
+		 * Gibt die Ursache der Meldung an.
+		 * 
+		 * @return die Ursache.
+		 */
+		public String getUrlasserUrsache() {
+			return urlasserUrsache;
+		}
+
+		/**
+		 * Legt die Ursache der Meldung fest.
+		 * 
+		 * @param urlasserUrsache
+		 *            die Ursache.
+		 */
+		public void setUrlasserUrsache(final String urlasserUrsache) {
+			this.urlasserUrsache = urlasserUrsache;
+		}
+
+		/**
+		 * Gibt den Veranlasser der Meldung zurück.
+		 * 
+		 * @return der Veranlasser.
+		 */
+		public String getUrlasserVeranlasser() {
+			return urlasserVeranlasser;
+		}
+
+		/**
+		 * Legt den Veranlasser der Meldung fest.
+		 * 
+		 * @param urlasserVeranlasser
+		 *            der Veranlasser.
+		 */
+		public void setUrlasserVeranlasser(final String urlasserVeranlasser) {
+			this.urlasserVeranlasser = urlasserVeranlasser;
+		}
+
+		/**
 		 * {@inheritDoc}
 		 */
 		@Override
@@ -385,6 +452,9 @@ public class BetriebsMeldung extends
 			klon.meldungsTypZusatz = meldungsTypZusatz;
 			klon.referenz = referenz;
 			klon.meldungsStatus = meldungsStatus;
+			klon.urlasserBenutzer = urlasserBenutzer;
+			klon.urlasserUrsache = urlasserUrsache;
+			klon.urlasserVeranlasser = urlasserVeranlasser;
 
 			return klon;
 		}
@@ -406,17 +476,20 @@ public class BetriebsMeldung extends
 			s = getClass().getName() + "[";
 			s += "zeitpunkt=" + getZeitpunkt();
 			s += ", datenStatus=" + datenStatus;
-			s += ", " + applikation;
-			s += ", " + applikationsKennung;
-			s += ", " + applikationsTyp;
-			s += ", " + id;
-			s += ", " + laufendeNummer;
-			s += ", " + meldungsKlasse;
-			s += ", " + meldungsStatus;
-			s += ", " + meldungsTyp;
-			s += ", " + meldungsTypZusatz;
-			s += ", " + referenz;
-			s += ", " + meldungsText;
+			s += ", applikation=" + applikation;
+			s += ", applikationsKennung=" + applikationsKennung;
+			s += ", applikationsTyp=" + applikationsTyp;
+			s += ", id=" + id;
+			s += ", laufendeNummer=" + laufendeNummer;
+			s += ", meldungsKlasse=" + meldungsKlasse;
+			s += ", meldungsStatus=" + meldungsStatus;
+			s += ", meldungsTyp=" + meldungsTyp;
+			s += ", meldungsTypZusatz=" + meldungsTypZusatz;
+			s += ", referenz=" + referenz;
+			s += ", urlasserBenutzer=" + urlasserBenutzer;
+			s += ", urlasserUrsache=" + urlasserUrsache;
+			s += ", urlasserVeranlasser=" + urlasserVeranlasser;
+			s += ", meldungsText=" + meldungsText;
 			s += "]";
 
 			return s;
@@ -482,7 +555,7 @@ public class BetriebsMeldung extends
 		daten.getTextValue("ApplikationsKennung").setText(
 				datum.getApplikationsKennung());
 		daten.getReferenceValue("ApplikationsTyp").setSystemObject(
-				datum.getApplikationsTyp());
+				datum.getApplikationsTyp().getSystemObject());
 		daten.getTextValue("ID").setText(datum.getId());
 		daten.getUnscaledValue("LaufendeNummer").set(datum.getLaufendeNummer());
 		daten.getUnscaledValue("MeldungsKlasse").set(
@@ -494,8 +567,14 @@ public class BetriebsMeldung extends
 				datum.getMeldungsTyp().getCode());
 		daten.getTextValue("MeldungsTypZusatz").setText(
 				datum.getMeldungsTypZusatz());
-		daten.getReferenceValue("Referenz")
-				.setSystemObject(datum.getReferenz());
+		daten.getReferenceValue("Referenz").setSystemObject(
+				datum.getReferenz().getSystemObject());
+		daten.getItem("Urlasser").getReferenceValue("BenutzerReferenz")
+				.setSystemObject(datum.getUrlasserBenutzer().getSystemObject());
+		daten.getItem("Urlasser").getTextValue("Ursache").setText(
+				datum.getUrlasserUrsache());
+		daten.getItem("Urlasser").getTextValue("Veranlasser").setText(
+				datum.getUrlasserVeranlasser());
 
 		return daten;
 	}
@@ -529,8 +608,8 @@ public class BetriebsMeldung extends
 					.getReferenceValue("ApplikationsId").getSystemObject()));
 			datum.setApplikationsKennung(daten.getTextValue(
 					"ApplikationsKennung").getText());
-			datum.setApplikationsTyp(daten.getReferenceValue("ApplikationsTyp")
-					.getSystemObject());
+			datum.setApplikationsTyp(factory.getModellobjekt(daten
+					.getReferenceValue("ApplikationsTyp").getSystemObject()));
 			datum.setId(daten.getTextValue("ID").getText());
 			datum.setLaufendeNummer(daten.getUnscaledValue("LaufendeNummer")
 					.longValue());
@@ -543,8 +622,15 @@ public class BetriebsMeldung extends
 					.getUnscaledValue("MeldungsTyp").intValue()));
 			datum.setMeldungsTypZusatz(daten.getTextValue("MeldungsTypZusatz")
 					.getText());
-			datum.setReferenz(daten.getReferenceValue("Referenz")
-					.getSystemObject());
+			datum.setReferenz(factory.getModellobjekt(daten.getReferenceValue(
+					"Referenz").getSystemObject()));
+			datum.setUrlasserBenutzer((Benutzer) factory.getModellobjekt(daten
+					.getItem("Urlasser").getReferenceValue("BenutzerReferenz")
+					.getSystemObject()));
+			datum.setUrlasserUrsache(daten.getItem("Urlasser").getTextValue(
+					"Ursache").getText());
+			datum.setUrlasserVeranlasser(daten.getItem("Urlasser")
+					.getTextValue("Veranlasser").getText());
 		}
 
 		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()));
