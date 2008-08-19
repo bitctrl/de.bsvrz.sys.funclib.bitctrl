@@ -47,6 +47,9 @@ import de.bsvrz.sys.funclib.bitctrl.modell.mif.MifModellFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellaoe.SystemModellAoeObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellaoe.objekte.AutarkeOrganisationsEinheit;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Datenverteiler;
 import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenobjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsobjektFactory;
 
@@ -201,6 +204,35 @@ public final class ObjektFactory implements ModellObjektFactory {
 	public AutarkeOrganisationsEinheit getAOE() {
 		return (AutarkeOrganisationsEinheit) getModellobjekt(getVerbindung()
 				.getLocalConfigurationAuthority());
+	}
+
+	/**
+	 * Gibt die lokale Klientapplikation zurück.
+	 * 
+	 * @return die lokale Applikation.
+	 */
+	public Applikation getApplikation() {
+		return (Applikation) getModellobjekt(getVerbindung()
+				.getLocalApplicationObject());
+	}
+
+	/**
+	 * Gibt den Datenverteiler zurück, mit dem die lokale Applikation verbunden
+	 * ist.
+	 * 
+	 * @return der Datenverteiler.
+	 */
+	public Datenverteiler getDatenverteiler() {
+		return (Datenverteiler) getModellobjekt(getVerbindung().getLocalDav());
+	}
+
+	/**
+	 * Gibt den angemeldeten Benutzer für die lokale Applikation zurück.
+	 * 
+	 * @return der lokale Benutzer.
+	 */
+	public Benutzer getBenutzer() {
+		return (Benutzer) getModellobjekt(getVerbindung().getLocalUser());
 	}
 
 	/**
