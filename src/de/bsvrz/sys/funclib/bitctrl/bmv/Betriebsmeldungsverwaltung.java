@@ -41,13 +41,9 @@ import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.archive.ArchiveDataKind;
 import de.bsvrz.sys.funclib.bitctrl.archiv.ArchivIterator;
 import de.bsvrz.sys.funclib.bitctrl.archiv.ArchivUtilities;
-import de.bsvrz.sys.funclib.bitctrl.modell.AnmeldeException;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
-import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.VeWBetriebGlobalTypen;
-import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte.BetriebsMeldungsVerwaltung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung.Daten;
 import de.bsvrz.sys.funclib.debug.Debug;
@@ -62,7 +58,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * Klasse {@link de.bsvrz.sys.funclib.operatingMessage.MessageSender} zur
  * Verfügung.
  * 
- * @author BitCtrl Systems GmbH, Schumann
+ * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  * @see de.bsvrz.sys.funclib.operatingMessage.MessageSender
  */
@@ -93,7 +89,8 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Empfängt die Betriebsmeldungen und cacht diese.
+	 * Liest die letzen Betriebsmeldungen aus dem Archiv und cacht diese; meldet
+	 * sich auf neue Betriebsmeldungen als Empfänger an.
 	 */
 	private class Meldungsempfaenger implements DatensatzUpdateListener {
 
@@ -126,9 +123,6 @@ public final class Betriebsmeldungsverwaltung {
 	/** Die Liste der gecachten Meldungen. */
 	private final List<BetriebsMeldung.Daten> meldungsliste;
 
-	/** Die Betriebsmeldungsverwaltung, die hier verwaltet wird. */
-	private BetriebsMeldungsVerwaltung bmv;
-
 	/**
 	 * Die Zeit in die Vergangenheit, für die Meldungen initial gecacht werden
 	 * sollen.
@@ -139,51 +133,56 @@ public final class Betriebsmeldungsverwaltung {
 	private int maxAnzahl = DEFAULT_MAX_ANZAHL;
 
 	/**
-	 * Initialisierung.
+	 * Liest initial die letzten Betriebsmeldungen aus dem Archiv und cacht
+	 * diese.
 	 */
 	private Betriebsmeldungsverwaltung() {
 		log = Debug.getLogger();
 		listeners = new EventListenerList();
 		meldungsliste = new LinkedList<BetriebsMeldung.Daten>();
 
-		init();
-	}
+		final List<BetriebsMeldung.Daten> neu = new ArrayList<Daten>();
+		final List<BetriebsMeldung.Daten> entfernt;
+		final ObjektFactory factory = ObjektFactory.getInstanz();
 
-	/**
-	 * Sucht eine Applikation <em>Betriebsmeldungsverwaltung</em> im
-	 * Datenverteiler.
-	 */
-	private void findeBmv() {
-		if (bmv == null) {
-			final ObjektFactory factory = ObjektFactory.getInstanz();
-			final List<SystemObjekt> bmvs = factory
-					.bestimmeModellobjekte(VeWBetriebGlobalTypen.BetriebsMeldungsVerwaltung
-							.getPid());
-			if (bmvs.isEmpty()) {
-				log
-						.warning("Betriebsmeldungsverwaltung wurde nicht gestartet.");
-				bmv = null;
-			} else {
-				if (bmvs.size() > 1) {
-					log
-							.warning("Es wurde mehr als eine Betriebsmeldungsverwaltung gestartet.");
-				}
+		synchronized (meldungsliste) {
 
-				bmv = (BetriebsMeldungsVerwaltung) bmvs.get(0);
-				final BetriebsMeldung datensatz = bmv
-						.getOnlineDatensatz(BetriebsMeldung.class);
-				try {
-					datensatz.addUpdateListener(
-							BetriebsMeldung.Aspekte.Information.getAspekt(),
-							new Meldungsempfaenger());
-					datensatz
-							.anmeldenSender(BetriebsMeldung.Aspekte.Information
-									.getAspekt());
-				} catch (final AnmeldeException ex) {
-					log.error(ex.getLocalizedMessage(), ex);
-				}
+			// Factory wird umgangen, weil dieser Datensatz nur zur
+			// Konvertierung verwendet wird und anschlißend das Objekt wieder
+			// zerstört werden kann.
+			final BetriebsMeldung datensatz = new BetriebsMeldung(factory
+					.getAOE());
+
+			final DataDescription dbs = new DataDescription(datensatz
+					.getAttributGruppe(), BetriebsMeldung.Aspekte.Information
+					.getAspekt());
+			final long zeitstempel = factory.getVerbindung().getTime();
+			final ArchivIterator iterator = new ArchivIterator(factory
+					.getVerbindung(), ArchivUtilities.getAnfrage(Collections
+					.singletonList(factory.getAOE().getSystemObject()), dbs,
+					new Interval(zeitstempel - getMaxHistory(), zeitstempel),
+					ArchiveDataKind.ONLINE));
+
+			meldungsliste.clear();
+			while (iterator.hasNext()) {
+				datensatz.setDaten(iterator.next());
+				final Daten datum = datensatz
+						.getDatum(BetriebsMeldung.Aspekte.Information
+								.getAspekt());
+				meldungsliste.add(datum);
+				neu.add(datum);
 			}
+			entfernt = cleanUpMeldungen();
 		}
+
+		fireMeldungslisteChanged(neu, entfernt);
+
+		final BetriebsMeldung datensatz = factory.getAOE().getOnlineDatensatz(
+				BetriebsMeldung.class);
+		datensatz.addUpdateListener(BetriebsMeldung.Aspekte.Information
+				.getAspekt(), new Meldungsempfaenger());
+
+		log.info("Betriebsmeldungsverwaltung bereit.");
 	}
 
 	/**
@@ -215,52 +214,6 @@ public final class Betriebsmeldungsverwaltung {
 			}
 		}
 		return entfernt;
-	}
-
-	/**
-	 * Liest initial archivierte Betriebsmeldungen in den Meldungscache. Aktuell
-	 * gecachte Meldungen werden dabei überschrieben.
-	 */
-	public void init() {
-		final List<BetriebsMeldung.Daten> neu = new ArrayList<Daten>();
-		final List<BetriebsMeldung.Daten> entfernt;
-
-		synchronized (meldungsliste) {
-			findeBmv();
-
-			if (bmv == null) {
-				return;
-			}
-
-			// Factory wird umgangen, weil dieser Datensatz nur zur
-			// Konvertierung verwendet wird und anschlißend das Objekt wieder
-			// zerstört werden kann.
-			final BetriebsMeldung datensatz = new BetriebsMeldung(bmv);
-
-			final ObjektFactory factory = ObjektFactory.getInstanz();
-			final DataDescription dbs = new DataDescription(datensatz
-					.getAttributGruppe(), BetriebsMeldung.Aspekte.Information
-					.getAspekt());
-			final long zeitstempel = factory.getVerbindung().getTime();
-			final ArchivIterator iterator = new ArchivIterator(factory
-					.getVerbindung(), ArchivUtilities.getAnfrage(Collections
-					.singletonList(bmv.getSystemObject()), dbs, new Interval(
-					zeitstempel - getMaxHistory(), zeitstempel),
-					ArchiveDataKind.ONLINE));
-
-			meldungsliste.clear();
-			while (iterator.hasNext()) {
-				datensatz.setDaten(iterator.next());
-				final Daten datum = datensatz
-						.getDatum(BetriebsMeldung.Aspekte.Information
-								.getAspekt());
-				meldungsliste.add(datum);
-				neu.add(datum);
-			}
-			entfernt = cleanUpMeldungen();
-		}
-
-		fireMeldungslisteChanged(neu, entfernt);
 	}
 
 	/**
@@ -349,7 +302,7 @@ public final class Betriebsmeldungsverwaltung {
 	 * @param entfernt
 	 *            die Liste der entfernten Meldungen.
 	 */
-	protected void fireMeldungslisteChanged(
+	protected synchronized void fireMeldungslisteChanged(
 			final List<BetriebsMeldung.Daten> neu,
 			final List<BetriebsMeldung.Daten> entfernt) {
 		final BetriebsmeldungEvent e = new BetriebsmeldungEvent(this, neu,
