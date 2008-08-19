@@ -138,7 +138,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 * @return Tabelle von IDs und Modellobjekten
 	 */
 	public List<SystemObjekt> bestimmeModellobjekte(final String... pids) {
-		final DataModel dm = verbindung.getDataModel();
+		final DataModel dm = getVerbindung().getDataModel();
 		final List<SystemObjekt> objekte = new ArrayList<SystemObjekt>();
 
 		for (int i = 0; i < pids.length; i++) {
@@ -199,7 +199,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 * @return die AOE.
 	 */
 	public AutarkeOrganisationsEinheit getAOE() {
-		return (AutarkeOrganisationsEinheit) getModellobjekt(verbindung
+		return (AutarkeOrganisationsEinheit) getModellobjekt(getVerbindung()
 				.getLocalConfigurationAuthority());
 	}
 
