@@ -44,6 +44,7 @@ import de.bsvrz.sys.funclib.bitctrl.archiv.ArchivUtilities;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum.Status;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung.Daten;
 import de.bsvrz.sys.funclib.debug.Debug;
@@ -132,6 +133,9 @@ public final class Betriebsmeldungsverwaltung {
 	/** Die maximale Anzahl gecachter Meldungen. */
 	private int maxAnzahl = DEFAULT_MAX_ANZAHL;
 
+	/** Der Datensatz mit dem die Meldungen empfangen werden. */
+	private final BetriebsMeldung datensatzBetriebsMeldung;
+
 	/**
 	 * Liest initial die letzten Betriebsmeldungen aus dem Archiv und cacht
 	 * diese.
@@ -177,10 +181,11 @@ public final class Betriebsmeldungsverwaltung {
 
 		fireMeldungslisteChanged(neu, entfernt);
 
-		final BetriebsMeldung datensatz = factory.getAOE().getOnlineDatensatz(
+		datensatzBetriebsMeldung = factory.getAOE().getOnlineDatensatz(
 				BetriebsMeldung.class);
-		datensatz.addUpdateListener(BetriebsMeldung.Aspekte.Information
-				.getAspekt(), new Meldungsempfaenger());
+		datensatzBetriebsMeldung.addUpdateListener(
+				BetriebsMeldung.Aspekte.Information.getAspekt(),
+				new Meldungsempfaenger());
 
 		log.info("Betriebsmeldungsverwaltung bereit.");
 	}
@@ -234,6 +239,20 @@ public final class Betriebsmeldungsverwaltung {
 	 */
 	public void removeBetriebsmeldungListener(final BetriebsmeldungListener l) {
 		listeners.remove(BetriebsmeldungListener.class, l);
+	}
+
+	/**
+	 * Fragt, ob die Betriebsmeldungsverwaltung gestartet wurde. Dies ist nur
+	 * der Fall, wenn der Datensatz nach der Anmeldung <em>Keine Daten</em>
+	 * oder <em>Daten</em> liefert.
+	 * 
+	 * @return {@code true}, wenn Meldungen empfangen werden können.
+	 */
+	public boolean isBereit() {
+		final Status status = datensatzBetriebsMeldung.abrufenDatum(
+				BetriebsMeldung.Aspekte.Information.getAspekt())
+				.getDatenStatus();
+		return status == Status.DATEN || status == Status.KEINE_DATEN;
 	}
 
 	/**
