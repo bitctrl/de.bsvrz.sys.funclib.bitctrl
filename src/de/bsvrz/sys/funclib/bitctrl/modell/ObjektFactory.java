@@ -235,8 +235,8 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 * Versucht mit Hilfe der registrierten Fabriken ein Systemobjekt in ein
 	 * Modellobjekt zu überführen. Gibt es mehrere Fabriken, die dazu in der
 	 * Lage sind, wird die Fabrik benutzt, die zuerst registriert wurde.
-	 * Existiert keine passende Fabrik, wird entsprechend ein
-	 * {@link SystemObjektTyp} oder {@link SystemObjekt} zurückgegeben.
+	 * Existiert keine passende Fabrik, wird generisches {@link SystemObjekt}
+	 * zurückgegeben.
 	 * 
 	 * {@inheritDoc}
 	 * 
@@ -320,13 +320,8 @@ public final class ObjektFactory implements ModellObjektFactory {
 		if (so == null) {
 			System.err.println("Es existiert kein passendes Modellobjekt für "
 					+ obj + ".");
-			if (obj.isOfType("typ.typ")) {
-				@SuppressWarnings("deprecation")
-				final SystemObjekt deprecatedObj = new SystemObjektImpl(obj);
-				so = deprecatedObj;
-			}
 			@SuppressWarnings("deprecation")
-			final SystemObjekt deprecatedObj = new SystemObjektTypImpl(obj);
+			final SystemObjekt deprecatedObj = new SystemObjektImpl(obj);
 			so = deprecatedObj;
 		}
 
