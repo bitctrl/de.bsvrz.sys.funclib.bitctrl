@@ -36,6 +36,7 @@ import javax.swing.event.EventListenerList;
 
 import com.bitctrl.Constants;
 import com.bitctrl.util.Interval;
+import com.bitctrl.util.logging.LoggerTools;
 
 import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.archive.ArchiveDataKind;
@@ -47,8 +48,15 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum.Status;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung.Daten;
+import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKlasse;
+import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsStatus;
+import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsTyp;
 import de.bsvrz.sys.funclib.debug.Debug;
+import de.bsvrz.sys.funclib.operatingMessage.MessageCauser;
+import de.bsvrz.sys.funclib.operatingMessage.MessageGrade;
 import de.bsvrz.sys.funclib.operatingMessage.MessageSender;
+import de.bsvrz.sys.funclib.operatingMessage.MessageState;
+import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 
 /**
  * Hilfsklasse für den Umgang mit der Betriebsmeldungsverwaltung. Die Klasse
@@ -187,6 +195,7 @@ public final class Betriebsmeldungsverwaltung {
 
 		fireMeldungslisteChanged(neu, entfernt);
 
+		// Als Empfänger für Betriebsmeldungen anmelden
 		datensatzBetriebsMeldung = factory.getAOE().getOnlineDatensatz(
 				BetriebsMeldung.class);
 		datensatzBetriebsMeldung.addUpdateListener(
@@ -357,6 +366,156 @@ public final class Betriebsmeldungsverwaltung {
 	 */
 	public List<BetriebsMeldung.Daten> getMeldungsliste() {
 		return Collections.unmodifiableList(meldungsliste);
+	}
+
+	/**
+	 * Sendet eine Betriebsmeldung.
+	 * 
+	 * @param typ
+	 *            der Meldungstyp.
+	 * @param meldungsTypZusatz
+	 *            der Meldungstypzusatz.
+	 * @param klasse
+	 *            die Meldungsklasse.
+	 * @param text
+	 *            der Meldungstext.
+	 */
+	public void sende(final MeldungsTyp typ, final String meldungsTypZusatz,
+			final MeldungsKlasse klasse, final String text) {
+		getSender().sendMessage(
+				getMessageType(typ),
+				getMessageTypeAddOn(meldungsTypZusatz),
+				getMessageGrade(klasse),
+				null,
+				new MessageCauser(ObjektFactory.getInstanz().getBenutzer()
+						.getSystemObject(), "", ""), text);
+	}
+
+	/**
+	 * Sendet eine Betriebsmeldung.
+	 * 
+	 * @param typ
+	 *            der Meldungstyp.
+	 * @param meldungsTypZusatz
+	 *            der Meldungstypzusatz.
+	 * @param klasse
+	 *            die Meldungsklasse.
+	 * @param status
+	 *            der Meldungsstatus.
+	 * @param text
+	 *            der Meldungstext.
+	 */
+	public void sende(final MeldungsTyp typ, final String meldungsTypZusatz,
+			final MeldungsKlasse klasse, final MeldungsStatus status,
+			final String text) {
+		getSender().sendMessage("", getMessageType(typ),
+				getMessageTypeAddOn(meldungsTypZusatz),
+				getMessageGrade(klasse), getMessageState(status), text);
+	}
+
+	/**
+	 * Sendet eine Betriebsmeldung.
+	 * <p>
+	 * <em>Hinweis:</em> Diese Methode ist nur für das erneute Senden
+	 * (Quittieren, Kommentieren oder Wiederholen) einer empfangenen Meldung
+	 * gedacht.
+	 * 
+	 * @param meldung
+	 *            eine Meldung.
+	 */
+	public void sende(final BetriebsMeldung.Daten meldung) {
+		getSender().sendMessage(
+				meldung.getId(),
+				getMessageType(meldung.getMeldungsTyp()),
+				getMessageTypeAddOn(meldung.getMeldungsTypZusatz()),
+				getMessageGrade(meldung.getMeldungsKlasse()),
+				meldung.getReferenz().getSystemObject(),
+				getMessageState(meldung.getMeldungsStatus()),
+				new MessageCauser(meldung.getUrlasserBenutzer()
+						.getSystemObject(), meldung.getUrlasserUrsache(),
+						meldung.getUrlasserVeranlasser()),
+				meldung.getMeldungsText());
+	}
+
+	/**
+	 * Konvertiert von einem Modellwert in einen Datenverteilerwert.
+	 * 
+	 * @param typ
+	 *            ein Meldungstyp im Modell.
+	 * @return der Meldungstyp im Datenverteiler.
+	 */
+	private MessageType getMessageType(final MeldungsTyp typ) {
+		switch (typ) {
+		case Fach:
+			return MessageType.APPLICATION_DOMAIN;
+		case System:
+			return MessageType.SYSTEM_DOMAIN;
+		default:
+			log.warning("Unbekannter Meldungstyp: " + typ);
+			return MessageType.APPLICATION_DOMAIN;
+		}
+	}
+
+	/**
+	 * Konvertiert von einem Modellwert in einen Datenverteilerwert.
+	 * 
+	 * @param klasse
+	 *            eine Meldungsklasse im Modell.
+	 * @return die Meldungsklasse im Datenverteiler.
+	 */
+	private MessageGrade getMessageGrade(final MeldungsKlasse klasse) {
+		switch (klasse) {
+		case Information:
+			return MessageGrade.INFORMATION;
+		case Warnung:
+			return MessageGrade.WARNING;
+		case Fehler:
+			return MessageGrade.ERROR;
+		case Fatal:
+			return MessageGrade.FATAL;
+		default:
+			log.warning("Unbekannte Meldungsklasse: " + klasse);
+			return MessageGrade.INFORMATION;
+		}
+	}
+
+	/**
+	 * Konvertiert von einem Modellwert in einen Datenverteilerwert.
+	 * 
+	 * @param status
+	 *            ein Meldungsstatus im Modell.
+	 * @return der Meldungsstatus im Datenverteiler.
+	 */
+	private MessageState getMessageState(final MeldungsStatus status) {
+		switch (status) {
+		case Meldung:
+			return MessageState.MESSAGE;
+		case NeueMeldung:
+			return MessageState.NEW_MESSAGE;
+		case Wiederholungsmeldung:
+			return MessageState.REPEAT_MESSAGE;
+		case Aenderungsmeldung:
+			return MessageState.CHANGE_MESSAGE;
+		case Gutmeldung:
+			return MessageState.GOOD_MESSAGE;
+		default:
+			log.warning("Unbekannter Meldungsstatus: " + status);
+			return MessageState.MESSAGE;
+		}
+	}
+
+	/**
+	 * Generiert falls nötig einen Standardmeldungszusatz.
+	 * 
+	 * @param meldungsTypZusatz
+	 *            ein Zusatz, der {@code null} oder ein Leerstring sein kann.
+	 * @return ein gültiger Meldungstypzusatz.
+	 */
+	private String getMessageTypeAddOn(final String meldungsTypZusatz) {
+		if (meldungsTypZusatz == null || meldungsTypZusatz.isEmpty()) {
+			return LoggerTools.getCallPosition(new Throwable());
+		}
+		return meldungsTypZusatz;
 	}
 
 	/**

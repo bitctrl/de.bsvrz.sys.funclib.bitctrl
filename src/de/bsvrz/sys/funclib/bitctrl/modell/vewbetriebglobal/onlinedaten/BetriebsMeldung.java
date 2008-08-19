@@ -50,9 +50,14 @@ import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsTy
 
 /**
  * Kapselt die Attributgruppe {@code atg.betriebsMeldung}.
+ * <p>
+ * <em>Hinweis:</em> Dieser Datensatz ist mit bedacht zu verwenden, da er in
+ * der Regel mit Hilfe von speziellen Klassen bzw. Methoden verwendet wird.
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
+ * @see de.bsvrz.sys.funclib.operatingMessage.MessageSender
+ * @see de.bsvrz.sys.funclib.bitctrl.bmv.Betriebsmeldungsverwaltung
  */
 public class BetriebsMeldung extends
 		AbstractOnlineDatensatz<BetriebsMeldung.Daten> {
