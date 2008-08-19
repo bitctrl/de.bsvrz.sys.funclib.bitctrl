@@ -106,6 +106,12 @@ public final class Betriebsmeldungsverwaltung {
 				synchronized (meldungsliste) {
 					meldungsliste.add(datum);
 					neu.add(datum);
+
+					for (final BetriebsmeldungCommand befehl : befehlsliste) {
+						if (befehl.isTrigger(datum)) {
+							befehl.exec();
+						}
+					}
 				}
 			}
 
@@ -123,6 +129,9 @@ public final class Betriebsmeldungsverwaltung {
 
 	/** Die Liste der gecachten Meldungen. */
 	private final List<BetriebsMeldung.Daten> meldungsliste;
+
+	/** Liste er Befehle die beim Meldungsempfang verarbeitet werden. */
+	private final List<BetriebsmeldungCommand> befehlsliste;
 
 	/**
 	 * Die Zeit in die Vergangenheit, für die Meldungen initial gecacht werden
@@ -144,6 +153,7 @@ public final class Betriebsmeldungsverwaltung {
 		log = Debug.getLogger();
 		listeners = new EventListenerList();
 		meldungsliste = new LinkedList<BetriebsMeldung.Daten>();
+		befehlsliste = new ArrayList<BetriebsmeldungCommand>();
 
 		final List<BetriebsMeldung.Daten> neu = new ArrayList<Daten>();
 		final List<BetriebsMeldung.Daten> entfernt;
@@ -242,6 +252,46 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
+	 * Informiert die angemeldeten Listener über die Änderung der Meldungsliste.
+	 * 
+	 * @param neu
+	 *            die Liste der neu hinzugekommenen Meldungen.
+	 * @param entfernt
+	 *            die Liste der entfernten Meldungen.
+	 */
+	protected synchronized void fireMeldungslisteChanged(
+			final List<BetriebsMeldung.Daten> neu,
+			final List<BetriebsMeldung.Daten> entfernt) {
+		final BetriebsmeldungEvent e = new BetriebsmeldungEvent(this, neu,
+				entfernt);
+
+		for (final BetriebsmeldungListener l : listeners
+				.getListeners(BetriebsmeldungListener.class)) {
+			l.meldungslisteChanged(e);
+		}
+	}
+
+	/**
+	 * Fügt einen Befehl der Befehlsliste hinzu.
+	 * 
+	 * @param befehl
+	 *            ein Befehl.
+	 */
+	public void addBefehl(final BetriebsmeldungCommand befehl) {
+		befehlsliste.add(befehl);
+	}
+
+	/**
+	 * Entfernt einen Befehl aus der Befehlsliste.
+	 * 
+	 * @param befehl
+	 *            ein Befehl.
+	 */
+	public void removeBefehl(final BetriebsmeldungCommand befehl) {
+		befehlsliste.remove(befehl);
+	}
+
+	/**
 	 * Fragt, ob die Betriebsmeldungsverwaltung gestartet wurde. Dies ist nur
 	 * der Fall, wenn der Datensatz nach der Anmeldung <em>Keine Daten</em>
 	 * oder <em>Daten</em> liefert.
@@ -311,26 +361,6 @@ public final class Betriebsmeldungsverwaltung {
 	 */
 	public List<BetriebsMeldung.Daten> getMeldungsliste() {
 		return Collections.unmodifiableList(meldungsliste);
-	}
-
-	/**
-	 * Informiert die angemeldeten Listener über die Änderung der Meldungsliste.
-	 * 
-	 * @param neu
-	 *            die Liste der neu hinzugekommenen Meldungen.
-	 * @param entfernt
-	 *            die Liste der entfernten Meldungen.
-	 */
-	protected synchronized void fireMeldungslisteChanged(
-			final List<BetriebsMeldung.Daten> neu,
-			final List<BetriebsMeldung.Daten> entfernt) {
-		final BetriebsmeldungEvent e = new BetriebsmeldungEvent(this, neu,
-				entfernt);
-
-		for (final BetriebsmeldungListener l : listeners
-				.getListeners(BetriebsmeldungListener.class)) {
-			l.meldungslisteChanged(e);
-		}
 	}
 
 }
