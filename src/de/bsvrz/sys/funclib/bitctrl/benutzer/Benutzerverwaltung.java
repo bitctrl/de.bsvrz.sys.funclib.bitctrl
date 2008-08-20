@@ -73,7 +73,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public final class Nutzerverwaltung {
+public final class Benutzerverwaltung {
 
 	/** PID der Berechtigungsklasse ohne jede Zugriffsrechte. */
 	public static final String PID_KEIN_ZUGRIFF = "berechtigungsklasse.keinZugriff";
@@ -85,16 +85,16 @@ public final class Nutzerverwaltung {
 	public static final String PID_ROLLE_ALLES = "region.alles";
 
 	/** Das Singleton der Klasse. */
-	private static Nutzerverwaltung singleton;
+	private static Benutzerverwaltung singleton;
 
 	/**
 	 * Gibt die einzige Instanz der Klasse zurück.
 	 * 
 	 * @return die Nutzerverwaltung als Singleton.
 	 */
-	public static Nutzerverwaltung getInstanz() {
+	public static Benutzerverwaltung getInstanz() {
 		if (singleton == null) {
-			singleton = new Nutzerverwaltung();
+			singleton = new Benutzerverwaltung();
 		}
 		return singleton;
 	}
@@ -176,7 +176,7 @@ public final class Nutzerverwaltung {
 	/**
 	 * Inituialisierung.
 	 */
-	private Nutzerverwaltung() {
+	private Benutzerverwaltung() {
 		log = Debug.getLogger();
 		listeners = new EventListenerList();
 
