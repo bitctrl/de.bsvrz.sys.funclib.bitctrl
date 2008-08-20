@@ -27,7 +27,6 @@
 package de.bsvrz.sys.funclib.bitctrl.benutzer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -371,7 +370,7 @@ public final class Benutzerverwaltung {
 			}
 		}
 
-		return datum;
+		return apps;
 	}
 
 	/**
@@ -411,7 +410,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Gibt eine unveränderbare Liste aller Benutzer im System zurück.
+	 * Gibt eine Liste aller Benutzer im System zurück.
 	 * 
 	 * @return die Benutzerliste.
 	 */
@@ -425,12 +424,35 @@ public final class Benutzerverwaltung {
 			benutzer.add((Benutzer) so);
 		}
 
-		return Collections.unmodifiableList(benutzer);
+		return benutzer;
 	}
 
 	/**
-	 * Gibt eine unveränderbare Liste aller Berechtigungsklassen im System
-	 * zurück.
+	 * Gibt eine Liste aller Benutzer zurück, die einer bestimmten
+	 * Berechtigungsklasse angehören.
+	 * 
+	 * @param klasse
+	 *            eine Berechtigungsklase.
+	 * @return die Benutzerliste.
+	 */
+	public List<Benutzer> getBenutzer(final Berechtigungsklasse klasse) {
+		final List<Benutzer> benutzerListe = new ArrayList<Benutzer>();
+		final ObjektFactory factory = ObjektFactory.getInstanz();
+
+		for (final SystemObjekt so : factory
+				.bestimmeModellobjekte(SystemModellGlobalTypen.Benutzer
+						.getPid())) {
+			final Benutzer benutzer = (Benutzer) so;
+			if (isBerechtigungsklasse(benutzer, klasse)) {
+				benutzerListe.add(benutzer);
+			}
+		}
+
+		return benutzerListe;
+	}
+
+	/**
+	 * Gibt eine Liste aller Berechtigungsklassen im System zurück.
 	 * 
 	 * @return die Liste der Berechtigungsklassen.
 	 */
@@ -444,7 +466,7 @@ public final class Benutzerverwaltung {
 			klassen.add((Berechtigungsklasse) so);
 		}
 
-		return Collections.unmodifiableList(klassen);
+		return klassen;
 	}
 
 	/**
@@ -861,6 +883,19 @@ public final class Benutzerverwaltung {
 		} finally {
 			parameter.abmeldenSender();
 		}
+	}
+
+	/**
+	 * Flag ob ein bestimmter Benutzer im Moment an irgendeiner Applikation
+	 * angemeldet ist.
+	 * 
+	 * @param benutzer
+	 *            ein Benutzer.
+	 * @return {@code true}, wenn der Benutzer online ist.
+	 */
+	public boolean isOnline(final Benutzer benutzer) {
+		return !Benutzerverwaltung.getInstanz().getAnmeldungen(benutzer)
+				.isEmpty();
 	}
 
 }
