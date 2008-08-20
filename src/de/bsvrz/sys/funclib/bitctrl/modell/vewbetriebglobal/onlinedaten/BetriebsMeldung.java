@@ -105,7 +105,8 @@ public class BetriebsMeldung extends
 	/**
 	 * Kapselt die Daten des Datensatzes.
 	 */
-	public static class Daten extends AbstractDatum {
+	public static class Daten extends AbstractDatum implements
+			Comparable<Daten> {
 
 		/** Der aktuelle Status des Datensatzes. */
 		private Status datenStatus = Datum.Status.UNDEFINIERT;
@@ -438,6 +439,32 @@ public class BetriebsMeldung extends
 		}
 
 		/**
+		 * Zwei Betriebsmeldungen werden als gleich angesehen, wenn sie in
+		 * Meldungstyp, Meldungstypzusatz, Meldungsklasse, Referenz,
+		 * Meldungstext, Urlasserbenutzer und Urlasserursache übereinstimmen.
+		 * 
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean equals(final Object obj) {
+			if (obj == this) {
+				return true;
+			} else if (obj instanceof Daten) {
+				final Daten datum = (Daten) obj;
+
+				return datum.meldungsTyp.equals(meldungsTyp)
+						&& datum.meldungsTypZusatz.equals(meldungsTypZusatz)
+						&& datum.meldungsKlasse.equals(meldungsKlasse)
+						&& datum.referenz.equals(referenz)
+						&& datum.meldungsText.equals(meldungsText)
+						&& datum.urlasserBenutzer.equals(urlasserBenutzer)
+						&& datum.urlasserUrsache.equals(urlasserUrsache);
+			}
+
+			return false;
+		}
+
+		/**
 		 * {@inheritDoc}
 		 */
 		@Override
@@ -508,6 +535,20 @@ public class BetriebsMeldung extends
 		 */
 		protected void setDatenStatus(final Status neuerStatus) {
 			datenStatus = neuerStatus;
+		}
+
+		/**
+		 * Sortiert werden die Betriebsmeldungen nach ihrem Zeitstempel.
+		 * 
+		 * {@inheritDoc}
+		 */
+		public int compareTo(final Daten datum) {
+			if (getZeitstempel() < datum.getZeitstempel()) {
+				return -1;
+			} else if (getZeitstempel() > datum.getZeitstempel()) {
+				return 1;
+			}
+			return 0;
 		}
 
 	}
