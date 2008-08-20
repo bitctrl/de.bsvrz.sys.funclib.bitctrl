@@ -107,7 +107,7 @@ public final class Benutzerverwaltung {
 			DynamicObjectCreatedListener, InvalidationListener {
 
 		/** Das zuletzt empfangene Datum. */
-		private AngemeldeteApplikationen.Daten letztesDatum;
+		private AngemeldeteApplikationen.Daten letztesDatum = new AngemeldeteApplikationen.Daten();
 
 		/**
 		 * {@inheritDoc}
@@ -196,7 +196,7 @@ public final class Benutzerverwaltung {
 		// Listener auf Änderungen der Menge der Benutzer
 		final DynamicObjectType typ = (DynamicObjectType) factory
 				.getModellobjekt(SystemModellGlobalTypen.Benutzer.getPid())
-				.getSystemObject();
+				.getSystemObject().getType();
 		typ.addObjectCreationListener(privateListener);
 		typ.addInvalidationListener(privateListener);
 

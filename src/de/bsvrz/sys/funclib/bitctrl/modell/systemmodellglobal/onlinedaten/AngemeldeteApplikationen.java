@@ -42,6 +42,7 @@ import de.bsvrz.dav.daf.main.Data.Array;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
+import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractOnlineDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
@@ -187,10 +188,21 @@ public class AngemeldeteApplikationen extends
 				}
 				if (obj instanceof AngemeldeteApplikation) {
 					final AngemeldeteApplikation o = (AngemeldeteApplikation) obj;
+					boolean equals = true;
 
-					return o.applikation.equals(applikation)
-							&& o.benutzer.equals(benutzer)
-							&& o.seit.equals(seit);
+					if (applikation != null) {
+						equals &= applikation.equals(o.applikation);
+					} else {
+						equals &= applikation == o.applikation;
+					}
+
+					if (benutzer != null) {
+						equals &= benutzer.equals(o.benutzer);
+					} else {
+						equals &= benutzer == o.benutzer;
+					}
+
+					return equals;
 				}
 				return false;
 			}
@@ -529,15 +541,26 @@ public class AngemeldeteApplikationen extends
 		if (result.hasData()) {
 			final ObjektFactory factory = ObjektFactory.getInstanz();
 			final Data daten = result.getData();
-			final Array feld = daten.asArray();
+			final Array feld = daten.getArray("angemeldeteApplikation");
 
 			for (int i = 0; i < feld.getLength(); ++i) {
 				final AngemeldeteApplikation app = new AngemeldeteApplikation();
-				app.setApplikation((Applikation) factory.getModellobjekt(daten
-						.getReferenceValue("applikation").getSystemObject()));
-				app.setBenutzer((Benutzer) factory.getModellobjekt(daten
-						.getReferenceValue("benutzer").getSystemObject()));
-				app.setSeit(new Timestamp(daten.getTimeValue("seit")
+				SystemObject so;
+
+				so = feld.getItem(i).getReferenceValue("applikation")
+						.getSystemObject();
+				if (so != null) {
+					app.setApplikation((Applikation) factory
+							.getModellobjekt(so));
+				}
+
+				so = feld.getItem(i).getReferenceValue("benutzer")
+						.getSystemObject();
+				if (so != null) {
+					app.setBenutzer((Benutzer) factory.getModellobjekt(so));
+				}
+
+				app.setSeit(new Timestamp(feld.getItem(i).getTimeValue("seit")
 						.getMillis()));
 				datum.add(app);
 			}

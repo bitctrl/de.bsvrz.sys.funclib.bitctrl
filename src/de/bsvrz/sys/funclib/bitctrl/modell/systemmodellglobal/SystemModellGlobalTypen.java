@@ -54,7 +54,7 @@ public enum SystemModellGlobalTypen implements SystemObjektTyp {
 	Benutzer("typ.benutzer", Benutzer.class),
 
 	/** Berechtigungsklasse eines Benutzers. */
-	Berechtigungsklasse("typ.benutzer", Berechtigungsklasse.class),
+	Berechtigungsklasse("typ.berechtigungsklasse", Berechtigungsklasse.class),
 
 	/** Berechtigungsklasse eines Benutzers. */
 	Aktivitaet("typ.zugriffsAktivität", Aktivitaet.class),

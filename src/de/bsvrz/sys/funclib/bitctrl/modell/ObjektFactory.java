@@ -52,6 +52,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Datenverteiler;
 import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenobjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsobjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.VeWBetriebGlobalObjektFactory;
 
 /**
  * Eine "Super-Factory" f&uuml;r Modellobjekte. Dient dem Erzeugen von Objekten
@@ -416,14 +417,21 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 * <li>{@link SystemModellGlobalObjektFactory}</li>
 	 * <li>{@link UmfelddatenobjektFactory}</li>
 	 * <li>{@link VerkehrsobjektFactory}</li>
+	 * <li>{@link MifModellFactory}</li>
+	 * <li>{@link LmsObjektFactory}</li>
+	 * <li>{@link VeWBetriebGlobalObjektFactory}</li>
 	 * </ul>
 	 */
 	public void registerStandardFactories() {
-		registerFactory(new GeoModellFactory(), new KalenderobjektFactory(),
-				new SystemModellAoeObjektFactory(),
-				new SystemModellGlobalObjektFactory(),
-				new UmfelddatenobjektFactory(), new VerkehrsobjektFactory(),
-				new MifModellFactory(), new LmsObjektFactory());
+		registerFactory(new GeoModellFactory());
+		registerFactory(new KalenderobjektFactory());
+		registerFactory(new LmsObjektFactory());
+		registerFactory(new MifModellFactory());
+		registerFactory(new SystemModellAoeObjektFactory());
+		registerFactory(new SystemModellGlobalObjektFactory());
+		registerFactory(new UmfelddatenobjektFactory());
+		registerFactory(new VerkehrsobjektFactory());
+		registerFactory(new VeWBetriebGlobalObjektFactory());
 	}
 
 	/**
