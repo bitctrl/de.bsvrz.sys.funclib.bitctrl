@@ -61,6 +61,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Region;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Rolle;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.onlinedaten.AngemeldeteApplikationen;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.onlinedaten.AngemeldeteApplikationen.Daten;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.onlinedaten.AngemeldeteApplikationen.Daten.AngemeldeteApplikation;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.parameter.PdBenutzerParameter;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.parameter.PdRollenRegionenPaareParameter;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.parameter.PdRollenRegionenPaareParameter.Daten.RolleRegionPaar;
@@ -347,6 +348,55 @@ public final class Benutzerverwaltung {
 				.getListeners(BenutzerListener.class)) {
 			l.benutzerChanged(e);
 		}
+	}
+
+	/**
+	 * Gibt die Liste aller aktuell gültigen Anmeldungen eines Benutzers zurück.
+	 * 
+	 * @param benutzer
+	 *            ein Benutzer.
+	 * @return die Liste der Anmeldungen des Benutzers.
+	 */
+	public List<AngemeldeteApplikation> getAnmeldungen(final Benutzer benutzer) {
+		final ObjektFactory factory = ObjektFactory.getInstanz();
+		final Datenverteiler dav = factory.getDatenverteiler();
+		final AngemeldeteApplikationen.Daten datum = dav.getOnlineDatensatz(
+				AngemeldeteApplikationen.class).abrufenDatum(
+				AngemeldeteApplikationen.Aspekte.Standard.getAspekt());
+		final List<AngemeldeteApplikation> apps = new ArrayList<AngemeldeteApplikation>();
+
+		for (final AngemeldeteApplikation app : datum) {
+			if (benutzer.equals(app.getBenutzer())) {
+				apps.add(app);
+			}
+		}
+
+		return datum;
+	}
+
+	/**
+	 * Gibt die Anmeldung zu einer Applikation zurück. Der Rückgabewert kann
+	 * {@code null} sein, wenn es keine Anmeldung mehr zu dieser Applikation
+	 * gibt, dass heißt sie wurde beendet.
+	 * 
+	 * @param applikation
+	 *            eine Applikation.
+	 * @return die aktuelle Anmeldung der Applikation.
+	 */
+	public AngemeldeteApplikation getAnmeldungen(final Applikation applikation) {
+		final ObjektFactory factory = ObjektFactory.getInstanz();
+		final Datenverteiler dav = factory.getDatenverteiler();
+		final AngemeldeteApplikationen.Daten datum = dav.getOnlineDatensatz(
+				AngemeldeteApplikationen.class).abrufenDatum(
+				AngemeldeteApplikationen.Aspekte.Standard.getAspekt());
+
+		for (final AngemeldeteApplikation app : datum) {
+			if (applikation.equals(app.getApplikation())) {
+				return app;
+			}
+		}
+
+		return null;
 	}
 
 	/**

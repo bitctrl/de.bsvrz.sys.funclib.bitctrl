@@ -47,7 +47,9 @@ import de.bsvrz.sys.funclib.bitctrl.archiv.ArchivUtilities;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum.Status;
+import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung.Daten;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKlasse;
@@ -451,6 +453,44 @@ public final class Betriebsmeldungsverwaltung {
 		getSender().sendMessage("", getMessageType(typ),
 				getMessageTypeAddOn(meldungsTypZusatz),
 				getMessageGrade(klasse), getMessageState(status), text);
+	}
+
+	/**
+	 * Sendet eine Betriebsmeldung.
+	 * 
+	 * @param typ
+	 *            der Meldungstyp.
+	 * @param meldungsTypZusatz
+	 *            der Meldungstypzusatz.
+	 * @param klasse
+	 *            die Meldungsklasse.
+	 * @param status
+	 *            der Meldungsstatus.
+	 * @param referenz
+	 *            ein Systemobjekt auf das sich die Meldung bezieht.
+	 * @param text
+	 *            der Meldungstext.
+	 * @param urlasserBenutzer
+	 *            der Benutzer der die Meldung verurlasst.
+	 * @param urlasserUrsache
+	 *            die Ursache.
+	 * @param urlasserVeranlasser
+	 *            der der Veranlasser.
+	 */
+	public void sende(final MeldungsTyp typ, final String meldungsTypZusatz,
+			final MeldungsKlasse klasse, final MeldungsStatus status,
+			final SystemObjekt referenz, final String text,
+			final Benutzer urlasserBenutzer, final String urlasserUrsache,
+			final String urlasserVeranlasser) {
+		getSender().sendMessage(
+				"",
+				getMessageType(typ),
+				getMessageTypeAddOn(meldungsTypZusatz),
+				getMessageGrade(klasse),
+				referenz.getSystemObject(),
+				getMessageState(status),
+				new MessageCauser(urlasserBenutzer.getSystemObject(),
+						urlasserUrsache, urlasserVeranlasser), text);
 	}
 
 	/**
