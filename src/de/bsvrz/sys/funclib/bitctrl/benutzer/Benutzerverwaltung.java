@@ -29,6 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.benutzer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.swing.event.EventListenerList;
@@ -79,10 +80,16 @@ public final class Benutzerverwaltung {
 	public static final String PID_KEIN_ZUGRIFF = "berechtigungsklasse.keinZugriff";
 
 	/** PID der Berechtigungsklasse mit allen Zugriffsrechten. */
-	public static final String PID_ADMINISTRATOR = "berechtigungsklasse.administrator";
+	public static final String PID_KLASSE_ADMINISTRATOR = "berechtigungsklasse.administrator";
 
 	/** PID der Zugriffsregion für alle Objekte. */
-	public static final String PID_ROLLE_ALLES = "region.alles";
+	public static final String PID_REGION_ALLES = "region.alles";
+
+	/** PID der Zugriffsroll mit allen Zugriffsrechten. */
+	public static final String PID_ROLLE_ADMINISTRATOR = "rolle.administrator";
+
+	/** PID der Zugriffsrolle die das Parametrieren erlaubt. */
+	public static final String PID_ROLLE_PARAMETRIEREN = "rolle.parametrieren";
 
 	/** Das Singleton der Klasse. */
 	private static Benutzerverwaltung singleton;
@@ -486,28 +493,19 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Prüft, ob ein Bennutzer für Administratoraufgaben festgelegt wurde und
-	 * dieser über ausreichend Rechte verfügt.
+	 * Prüft, ob ein Bennutzer der Berechtigungsklasse
+	 * {@link #PID_KLASSE_ADMINISTRATOR} zugeordnet ist.
 	 * 
 	 * @param loginname
 	 *            ein beliebiger Nutzername
-	 * @return {@code true}, wenn ein Bennutzer für Administratoraufgaben
-	 *         angegeben ist.
+	 * @return {@code true}, wenn der Bennutzer Administratoraufgaben ausführen
+	 *         darf.
 	 */
-	public boolean checkAdmin(final String loginname) {
-		final ObjektFactory factory = ObjektFactory.getInstanz();
-		final Benutzer benutzer = (Benutzer) factory.getModellobjekt(DavTools
-				.generierePID(loginname, Benutzer.PRAEFIX_PID));
-		final PdBenutzerParameter parameter = benutzer
-				.getParameterDatensatz(PdBenutzerParameter.class);
-		final PdBenutzerParameter.Daten datum = parameter.abrufenDatum();
+	public boolean isAdmin(final String loginname) {
+		final Benutzer benutzer = getAngemeldetenBenutzer();
+		final Berechtigungsklasse klasse = getBerechtigungsklasse(PID_KLASSE_ADMINISTRATOR);
 
-		if (datum.isValid()) {
-			return datum.getBerechtigungsklasse().getPid().equals(
-					PID_ADMINISTRATOR);
-		}
-
-		return false;
+		return isBerechtigungsklasse(benutzer, klasse);
 	}
 
 	/**
@@ -554,7 +552,8 @@ public final class Benutzerverwaltung {
 	 * @param rolle
 	 *            eine Zugriffsrolle.
 	 * @param region
-	 *            eine Zugriffsregion.
+	 *            eine Zugriffsregion. Wenn {@code null}, wird die Region
+	 *            ignoriert und nur die Rolle geprüpft.
 	 * @return {@code true}, wenn der Benutzer in der Region die angegebene
 	 *         Rolle hat.
 	 */
@@ -572,9 +571,15 @@ public final class Benutzerverwaltung {
 				.abrufenDatum();
 
 		for (final RolleRegionPaar paar : datumPaare) {
-			if (region.equals(paar.getRegion())
-					&& rolle.equals(paar.getRolle())) {
-				return true;
+			if (region != null) {
+				if (region.equals(paar.getRegion())
+						&& rolle.equals(paar.getRolle())) {
+					return true;
+				}
+			} else {
+				if (rolle.equals(paar.getRolle())) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -631,7 +636,7 @@ public final class Benutzerverwaltung {
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 		final String pid = DavTools.generierePID(loginname,
 				Benutzer.PRAEFIX_PID);
-		Benutzer benutzer = (Benutzer) factory.getModellobjekt(pid);
+		final Benutzer benutzer = (Benutzer) factory.getModellobjekt(pid);
 
 		if (benutzer != null) {
 			return benutzer;
@@ -641,9 +646,9 @@ public final class Benutzerverwaltung {
 		for (final SystemObjekt so : factory
 				.bestimmeModellobjekte(SystemModellGlobalTypen.Benutzer
 						.getPid())) {
-			benutzer = (Benutzer) so;
+			final Benutzer b = (Benutzer) so;
 
-			if (benutzer.getName().equals(loginname)) {
+			if (b.getName().equals(loginname)) {
 				break;
 			}
 		}
@@ -731,9 +736,9 @@ public final class Benutzerverwaltung {
 	public Benutzer anlegenBenutzer(final String adminLoginname,
 			final String adminPasswort, final BenutzerInfo benutzerInfo)
 			throws KeineRechteException, BenutzerChangeException {
-		if (!checkAdmin(adminLoginname)) {
+		if (!isAdmin(adminLoginname)) {
 			throw new KeineRechteException(
-					"Zum Anlegen eines neuen Benutzer, müssen Sie sich als Administrator anmelden und über ausreichend Rechte verfügen.");
+					"Sie verfügen nicht über ausreichend Rechte zum Anlegen eines neuen Benutzer.");
 		}
 
 		final String pid;
@@ -790,9 +795,9 @@ public final class Benutzerverwaltung {
 			final String adminPasswort, final Benutzer benutzer,
 			final Berechtigungsklasse klasse) throws KeineRechteException,
 			BenutzerChangeException {
-		if (!checkAdmin(adminLoginname)) {
+		if (!isAdmin(adminLoginname)) {
 			throw new KeineRechteException(
-					"Zum Anlegen eines neuen Benutzer, müssen Sie sich als Administrator anmelden und überausreichend Rechte verfügen.");
+					"Sie verfügen nicht über ausreichend Rechte zum Ändern der Berechtigungsklasse eines Benutzers.");
 		}
 
 		final PdBenutzerParameter parameter = benutzer
@@ -804,7 +809,7 @@ public final class Benutzerverwaltung {
 			parameter.sendeDaten(datum);
 
 			try {
-				if (PID_ADMINISTRATOR.equals(klasse.getPid())) {
+				if (PID_KLASSE_ADMINISTRATOR.equals(klasse.getPid())) {
 					final DataModel modell = ObjektFactory.getInstanz()
 							.getVerbindung().getDataModel();
 					final UserAdministration userAdmin = modell
@@ -857,9 +862,9 @@ public final class Benutzerverwaltung {
 	public void deaktiviereBenutzer(final String adminLoginname,
 			final String adminPasswort, final Benutzer benutzer)
 			throws KeineRechteException, BenutzerChangeException {
-		if (!checkAdmin(adminLoginname)) {
+		if (!isAdmin(adminLoginname)) {
 			throw new KeineRechteException(
-					"Zum Anlegen eines neuen Benutzer, müssen Sie sich als Administrator anmelden und überausreichend Rechte verfügen.");
+					"Sie verfügen nicht über ausreichend Rechte zum Deaktivieren eines Benutzers.");
 		}
 
 		final ObjektFactory factory = ObjektFactory.getInstanz();
@@ -896,6 +901,125 @@ public final class Benutzerverwaltung {
 	public boolean isOnline(final Benutzer benutzer) {
 		return !Benutzerverwaltung.getInstanz().getAnmeldungen(benutzer)
 				.isEmpty();
+	}
+
+	/**
+	 * Prüft ein neues Passwort auf seine Sicherheit. Die Funktion wertet die
+	 * für die Vergabe von Passworten definierten Parameter aus und prüft, ob
+	 * das Passwort diesen Kriterien entspricht.
+	 * 
+	 * @param passwort
+	 *            das Passwort.
+	 * @param benutzer
+	 *            der Nutzer, für den das Passwort verwendet werden soll.
+	 * @param passwortInfo
+	 *            die Sicherheitskriterien.
+	 * @return das Passwort ist zulässig?
+	 */
+	public boolean checkPasswort(final String passwort,
+			final Benutzer benutzer, final PasswortInfo passwortInfo) {
+		boolean erg = true;
+
+		if (passwort == null) {
+			erg = false;
+		} else {
+			if (erg) {
+				final long minLaenge = passwortInfo.getMinLaenge();
+				if (minLaenge > 0) {
+					if (passwort.length() < minLaenge) {
+						erg = false;
+					}
+				}
+			}
+
+			final String lowerPasswort = passwort.toLowerCase(Locale
+					.getDefault());
+			if (erg) {
+				if (passwortInfo.isGemischteZeichen()) {
+					final int laenge = lowerPasswort.length();
+					int anzahl = 0;
+					for (int i = 0; i < laenge; i++) {
+						if (lowerPasswort.substring(i, i + 1).matches("[a-z]")) {
+							anzahl++;
+						}
+					}
+
+					if ((anzahl == 0) || (anzahl == laenge)) {
+						erg = false;
+					}
+				}
+			}
+
+			if (erg) {
+				if ((benutzer != null)
+						&& passwortInfo.isVergleicheBenutzerdaten()) {
+					final String nachname = benutzer.getNachname().toLowerCase(
+							Locale.getDefault());
+					final String loginname = benutzer.getName().toLowerCase(
+							Locale.getDefault());
+					final String vorname = benutzer.getVorname().toLowerCase(
+							Locale.getDefault());
+
+					if (lowerPasswort != null) {
+						if (lowerPasswort.contains(nachname.subSequence(0,
+								nachname.length() - 1))) {
+							erg = false;
+						}
+						if (erg) {
+							if (lowerPasswort.contains(loginname.subSequence(0,
+									loginname.length() - 1))) {
+								erg = false;
+							}
+						}
+
+						if (erg) {
+							if (vorname != null) {
+								if (vorname.length() != 0) {
+									if (lowerPasswort.contains(vorname
+											.subSequence(0,
+													vorname.length() - 1))) {
+										erg = false;
+									}
+								}
+							}
+						}
+						if (erg) {
+							if (lowerPasswort.length() != 0) {
+								if (nachname.contains(lowerPasswort
+										.subSequence(0,
+												lowerPasswort.length() - 1))) {
+									erg = false;
+								}
+							}
+						}
+
+						if (erg) {
+							if (vorname != null) {
+								if (lowerPasswort.length() != 0
+										&& vorname.length() != 0) {
+									if (vorname.contains(lowerPasswort
+											.subSequence(0, lowerPasswort
+													.length() - 1))) {
+										erg = false;
+									}
+								}
+							}
+						}
+						if (erg) {
+							if (lowerPasswort.length() != 0) {
+								if (loginname.contains(lowerPasswort
+										.subSequence(0,
+												lowerPasswort.length() - 1))) {
+									erg = false;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return erg;
 	}
 
 }
