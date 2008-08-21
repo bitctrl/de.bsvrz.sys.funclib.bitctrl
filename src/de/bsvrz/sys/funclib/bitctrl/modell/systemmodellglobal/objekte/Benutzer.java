@@ -107,11 +107,15 @@ public class Benutzer extends AbstractSystemObjekt {
 		asp = modell.getAspect("asp.eigenschaften");
 		atgVerwendung = atg.getAttributeGroupUsage(asp);
 		daten = dav.createData(atg);
-		daten.getTextValue("vorname").setText(vorname);
-		daten.getTextValue("zweiterVorname").setText(zweiterVorname);
-		daten.getTextValue("nachname").setText(nachname);
-		daten.getTextValue("organisation").setText(organisation);
-		daten.getTextValue("emailAdresse").setText(emailAdresse);
+		daten.getTextValue("vorname").setText(vorname != null ? vorname : "");
+		daten.getTextValue("zweiterVorname").setText(
+				zweiterVorname != null ? zweiterVorname : "");
+		daten.getTextValue("nachname")
+				.setText(nachname != null ? nachname : "");
+		daten.getTextValue("organisation").setText(
+				organisation != null ? organisation : "");
+		daten.getTextValue("emailAdresse").setText(
+				emailAdresse != null ? emailAdresse : "");
 		datenUndVerwendung = new DataAndATGUsageInformation(atgVerwendung,
 				daten);
 		so = kb.createDynamicObject(typ, pid, name, Collections
