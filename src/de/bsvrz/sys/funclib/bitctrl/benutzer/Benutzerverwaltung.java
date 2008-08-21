@@ -175,20 +175,16 @@ public final class Benutzerverwaltung {
 	}
 
 	/** Der Logger der Klasse. */
-	private final Debug log;
+	private final Debug log = Debug.getLogger();
 
 	/** Die angemeldeten Listener der Klasse. */
-	private final EventListenerList listeners;
+	private final EventListenerList listeners = new EventListenerList();
 
 	/**
 	 * Inituialisierung.
 	 */
 	private Benutzerverwaltung() {
-		log = Debug.getLogger();
-		listeners = new EventListenerList();
-
 		final PrivateListener privateListener = new PrivateListener();
-
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 		final Datenverteiler dav = (Datenverteiler) factory
 				.getModellobjekt(factory.getVerbindung().getLocalDav());
@@ -712,11 +708,6 @@ public final class Benutzerverwaltung {
 
 	/**
 	 * Legt einen neuen Benutzer an.
-	 * <p>
-	 * <em>Hinweis:</em> Vor dem Aufruf dieser Methode muss mit
-	 * {@link #setAdmin(String, String)} ein berechtigter Administrator
-	 * festgelegt werden. Am Ende der Methode wird die Anmeldung als
-	 * Administrator wieder aufgehoben.
 	 * 
 	 * @param adminLoginname
 	 *            der Name des Administrators der die Aktion ausführt.
@@ -727,8 +718,7 @@ public final class Benutzerverwaltung {
 	 *            die Eigenschaften des neuen Benutzers.
 	 * @return der neue Benutzer
 	 * @throws KeineRechteException
-	 *             wenn kein Administrator festgelegt wurde oder dieser nicht
-	 *             über genügend Rechte verfügt.
+	 *             wenn die Benutzerrechte für diese Aktion nicht ausreichen.
 	 * @throws BenutzerChangeException
 	 *             wenn beim Anlegen des Benutzers ein Fehler eintrat.
 	 * @see #setAdmin(String, String)
@@ -774,6 +764,84 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
+	 * Löscht einen Benutzer. Das entsprechende Systemobjekt wird invalidiert.
+	 * 
+	 * @param adminLoginname
+	 *            der Name des Administrators der die Aktion ausführt.
+	 * @param adminPasswort
+	 *            das Anmeldekennwort des Administrators der die Aktion
+	 *            ausführt.
+	 * @param benutzer
+	 *            der zu löschende Benutzers.
+	 * @throws KeineRechteException
+	 *             wenn die Benutzerrechte für diese Aktion nicht ausreichen.
+	 * @throws BenutzerChangeException
+	 *             wenn beim Löschen des Benutzers ein Fehler eintrat.
+	 * @deprecated Benutzer können derzeit nicht gelöscht werden. Das
+	 *             Systemobjekt kann zwar invalidiert werden, in der
+	 *             benutzerverwaltung.xml kann der Benutzer aber mangels
+	 *             entsprechender Funktion nicht ausgetragen werden.
+	 */
+	@Deprecated
+	public void entfernenBenutzer(final String adminLoginname,
+			final String adminPasswort, final Benutzer benutzer)
+			throws KeineRechteException, BenutzerChangeException {
+		if (!isAdmin(adminLoginname)) {
+			throw new KeineRechteException(
+					"Sie verfügen nicht über ausreichend Rechte zum Löschen eines Benutzer.");
+		}
+
+		try {
+			benutzer.entfernen();
+		} catch (final ConfigurationChangeException ex) {
+			throw new BenutzerChangeException("Der Benutzer "
+					+ benutzer.getName() + " konnte nicht gelöscht werden.", ex);
+		}
+	}
+
+	/**
+	 * Ändert das Anmeldekennwort eines Benutzer.
+	 * 
+	 * @param adminLoginname
+	 *            der Name des Administrators der die Aktion ausführt.
+	 * @param adminPasswort
+	 *            das Anmeldekennwort des Administrators der die Aktion
+	 *            ausführt.
+	 * @param benutzer
+	 *            der Benutzer, dessen Passwort geändert werden soll.
+	 * @param neuesPasswort
+	 *            das neue Passwort des Benutzer.
+	 * @return der neue Benutzer
+	 * @throws KeineRechteException
+	 *             wenn die Benutzerrechte für diese Aktion nicht ausreichen.
+	 * @throws BenutzerChangeException
+	 *             wenn beim Anlegen des Benutzers ein Fehler eintrat.
+	 * @see #setAdmin(String, String)
+	 */
+	public Benutzer changePasswort(final String adminLoginname,
+			final String adminPasswort, final Benutzer benutzer,
+			final String neuesPasswort) throws KeineRechteException,
+			BenutzerChangeException {
+		if (!isAdmin(adminLoginname)) {
+			throw new KeineRechteException(
+					"Sie verfügen nicht über ausreichend Rechte zum Ändern eines Benutzerpassworts.");
+		}
+
+		try {
+			final ObjektFactory factory = ObjektFactory.getInstanz();
+			final DataModel modell = factory.getVerbindung().getDataModel();
+			final UserAdministration userAdmin = modell.getUserAdministration();
+			userAdmin.changeUserPassword(adminLoginname, adminPasswort,
+					benutzer.getName(), neuesPasswort);
+		} catch (final ConfigurationTaskException ex) {
+			throw new BenutzerChangeException("Das Passwort des Benutzers "
+					+ benutzer.getName() + " konnte nicht geändert werden.", ex);
+		}
+
+		return benutzer;
+	}
+
+	/**
 	 * Ändert die Berechtigungsklasse eines Benutzer.
 	 * 
 	 * @param adminLoginname
@@ -786,8 +854,7 @@ public final class Benutzerverwaltung {
 	 * @param klasse
 	 *            die zu setzende Berechtigungsklasse.
 	 * @throws KeineRechteException
-	 *             wenn kein Administrator festgelegt wurde oder dieser nicht
-	 *             über genügend Rechte verfügt.
+	 *             wenn die Benutzerrechte für diese Aktion nicht ausreichen.
 	 * @throws BenutzerChangeException
 	 *             wenn beim Ändern der Benutzerrechte ein Fehler eintrat.
 	 */
@@ -854,8 +921,7 @@ public final class Benutzerverwaltung {
 	 * @param benutzer
 	 *            der zu deaktivierende Benutzers.
 	 * @throws KeineRechteException
-	 *             wenn kein Administrator festgelegt wurde oder dieser nicht
-	 *             über genügend Rechte verfügt.
+	 *             wenn die Benutzerrechte für diese Aktion nicht ausreichen.
 	 * @throws BenutzerChangeException
 	 *             wenn es beim deaktivieren einen Fehler gab.
 	 */
@@ -914,112 +980,77 @@ public final class Benutzerverwaltung {
 	 *            der Nutzer, für den das Passwort verwendet werden soll.
 	 * @param passwortInfo
 	 *            die Sicherheitskriterien.
-	 * @return das Passwort ist zulässig?
+	 * @return {@code null}, wenn das Passwort sicher ist, sonst eine
+	 *         Fehlerbeschreibung.
+	 * @todo Prüfen ob alle Sicherheitsaspekte geprüft werden.
 	 */
-	public boolean checkPasswort(final String passwort,
-			final Benutzer benutzer, final PasswortInfo passwortInfo) {
-		boolean erg = true;
-
+	public String checkPasswort(final String passwort, final Benutzer benutzer,
+			final PasswortInfo passwortInfo) {
 		if (passwort == null) {
-			erg = false;
-		} else {
-			if (erg) {
-				final long minLaenge = passwortInfo.getMinLaenge();
-				if (minLaenge > 0) {
-					if (passwort.length() < minLaenge) {
-						erg = false;
-					}
-				}
-			}
+			throw new IllegalArgumentException("Passwort darf nicht null sein.");
+		}
 
-			final String lowerPasswort = passwort.toLowerCase(Locale
-					.getDefault());
-			if (erg) {
-				if (passwortInfo.isGemischteZeichen()) {
-					final int laenge = lowerPasswort.length();
-					int anzahl = 0;
-					for (int i = 0; i < laenge; i++) {
-						if (lowerPasswort.substring(i, i + 1).matches("[a-z]")) {
-							anzahl++;
-						}
-					}
-
-					if ((anzahl == 0) || (anzahl == laenge)) {
-						erg = false;
-					}
-				}
-			}
-
-			if (erg) {
-				if ((benutzer != null)
-						&& passwortInfo.isVergleicheBenutzerdaten()) {
-					final String nachname = benutzer.getNachname().toLowerCase(
-							Locale.getDefault());
-					final String loginname = benutzer.getName().toLowerCase(
-							Locale.getDefault());
-					final String vorname = benutzer.getVorname().toLowerCase(
-							Locale.getDefault());
-
-					if (lowerPasswort != null) {
-						if (lowerPasswort.contains(nachname.subSequence(0,
-								nachname.length() - 1))) {
-							erg = false;
-						}
-						if (erg) {
-							if (lowerPasswort.contains(loginname.subSequence(0,
-									loginname.length() - 1))) {
-								erg = false;
-							}
-						}
-
-						if (erg) {
-							if (vorname != null) {
-								if (vorname.length() != 0) {
-									if (lowerPasswort.contains(vorname
-											.subSequence(0,
-													vorname.length() - 1))) {
-										erg = false;
-									}
-								}
-							}
-						}
-						if (erg) {
-							if (lowerPasswort.length() != 0) {
-								if (nachname.contains(lowerPasswort
-										.subSequence(0,
-												lowerPasswort.length() - 1))) {
-									erg = false;
-								}
-							}
-						}
-
-						if (erg) {
-							if (vorname != null) {
-								if (lowerPasswort.length() != 0
-										&& vorname.length() != 0) {
-									if (vorname.contains(lowerPasswort
-											.subSequence(0, lowerPasswort
-													.length() - 1))) {
-										erg = false;
-									}
-								}
-							}
-						}
-						if (erg) {
-							if (lowerPasswort.length() != 0) {
-								if (loginname.contains(lowerPasswort
-										.subSequence(0,
-												lowerPasswort.length() - 1))) {
-									erg = false;
-								}
-							}
-						}
-					}
-				}
+		final long minLaenge = passwortInfo.getMinLaenge();
+		if (minLaenge > 0) {
+			if (passwort.length() < minLaenge) {
+				return "Das Passwort muss mindestens " + minLaenge
+						+ " Zeichen lang sein.";
 			}
 		}
 
-		return erg;
+		final String lowerPasswort = passwort.toLowerCase(Locale.getDefault());
+		if (passwortInfo.isGemischteZeichen()) {
+			final int laenge = lowerPasswort.length();
+			int anzahl = 0;
+			for (int i = 0; i < laenge; i++) {
+				if (lowerPasswort.substring(i, i + 1).matches("[a-z]")) {
+					anzahl++;
+				}
+			}
+
+			if ((anzahl == 0) || (anzahl == laenge)) {
+				return "Das Passwort muss außer Buchstaben auch Zahlen oder Sonderzeichen enthalten.";
+			}
+		}
+
+		if ((benutzer != null) && passwortInfo.isVergleicheBenutzerdaten()) {
+			final String loginname = benutzer.getName().toLowerCase(
+					Locale.getDefault());
+			final String nachname = benutzer.getNachname().toLowerCase(
+					Locale.getDefault());
+			final String vorname = benutzer.getVorname().toLowerCase(
+					Locale.getDefault());
+
+			if (loginname.contains(lowerPasswort.subSequence(0, lowerPasswort
+					.length() - 1))) {
+				return "Das Passwort darf nicht im Loginnamen enthalten sein.";
+			}
+			if (lowerPasswort.contains(loginname.subSequence(0, loginname
+					.length() - 1))) {
+				return "Das Passwort darf nicht den Loginnamen enthalten.";
+			}
+
+			if (nachname.contains(lowerPasswort.subSequence(0, lowerPasswort
+					.length() - 1))) {
+				return "Das Passwort darf nicht im Nachnamen enthalten sein.";
+			}
+			if (lowerPasswort.contains(nachname.subSequence(0, nachname
+					.length() - 1))) {
+				return "Das Passwort darf nicht den Nachnamen enthalten.";
+			}
+
+			if (lowerPasswort.contains(vorname.subSequence(0,
+					vorname.length() - 1))) {
+				return "Das Passwort darf nicht im Vornamen enthalten sein.";
+			}
+			if (vorname.contains(lowerPasswort.subSequence(0, lowerPasswort
+					.length() - 1))) {
+				return "Das Passwort darf nicht den Vornamen enthalten.";
+			}
+		}
+
+		// Alle Tests bestanden
+		return null;
 	}
 
 }

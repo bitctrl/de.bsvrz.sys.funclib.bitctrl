@@ -26,7 +26,6 @@
 
 package de.bsvrz.sys.funclib.bitctrl.benutzer;
 
-
 /**
  * Beschreibt Anforderungen die an die Sicherheit eines Passworts gestellt
  * werden.
@@ -36,8 +35,8 @@ package de.bsvrz.sys.funclib.bitctrl.benutzer;
  */
 public class PasswortInfo {
 
-	/** Die mininamle Länge eines Passworts. */
-	private long minLaenge = 0;
+	/** Die minimale Länge eines Passworts. */
+	private long minLaenge = 1;
 
 	/** Die Gültigkeitsdauer eines Passworts. */
 	private long gueltiggeitsdauer = 0;
