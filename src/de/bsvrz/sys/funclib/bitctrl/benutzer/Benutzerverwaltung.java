@@ -82,6 +82,9 @@ public final class Benutzerverwaltung {
 	/** PID der Berechtigungsklasse mit allen Zugriffsrechten. */
 	public static final String PID_KLASSE_ADMINISTRATOR = "berechtigungsklasse.administrator";
 
+	/** PID der Berechtigungsklasse mit allen Zugriffsrechten. */
+	public static final String PID_KLASSE_BEOBACHTER = "berechtigungsklasse.beobachter";
+
 	/** PID der Zugriffsregion für alle Objekte. */
 	public static final String PID_REGION_ALLES = "region.alles";
 
@@ -90,6 +93,9 @@ public final class Benutzerverwaltung {
 
 	/** PID der Zugriffsrolle die das Parametrieren erlaubt. */
 	public static final String PID_ROLLE_PARAMETRIEREN = "rolle.parametrieren";
+
+	/** PID der Zugriffsrolle die nur beobachten darf. */
+	public static final String PID_ROLLE_BEOBACHTER = "rolle.beobachter";
 
 	/** Das Singleton der Klasse. */
 	private static Benutzerverwaltung singleton;
@@ -582,7 +588,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Suchte eine bestimmte Berechtigungsklasse.
+	 * Sucht eine bestimmte Berechtigungsklasse.
 	 * 
 	 * @param pid
 	 *            die PID einer Berechtigungsklasse.
@@ -595,7 +601,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Suchte eine bestimmte Zugriffsrolle.
+	 * Sucht eine bestimmte Zugriffsrolle.
 	 * 
 	 * @param pid
 	 *            die PID einer Zugriffsrolle.
@@ -608,7 +614,24 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Suchte eine bestimmte Zugriffsregion.
+	 * Gibt eine Liste aller Zugriffsrollen im System zurück.
+	 * 
+	 * @return die Liste der Zugriffsrollen.
+	 */
+	public List<Rolle> getRolle() {
+		final List<Rolle> rollen = new ArrayList<Rolle>();
+		final ObjektFactory factory = ObjektFactory.getInstanz();
+
+		for (final SystemObjekt so : factory
+				.bestimmeModellobjekte(SystemModellGlobalTypen.Rolle.getPid())) {
+			rollen.add((Rolle) so);
+		}
+
+		return rollen;
+	}
+
+	/**
+	 * Sucht eine bestimmte Zugriffsregion.
 	 * 
 	 * @param pid
 	 *            die PID einer Zugriffsregion.
@@ -618,6 +641,23 @@ public final class Benutzerverwaltung {
 	public Region getRegion(final String pid) {
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 		return (Region) factory.getModellobjekt(pid);
+	}
+
+	/**
+	 * Gibt eine Liste aller Zugriffsregionen im System zurück.
+	 * 
+	 * @return die Liste der Zugriffsregionen.
+	 */
+	public List<Region> getRegion() {
+		final List<Region> regionen = new ArrayList<Region>();
+		final ObjektFactory factory = ObjektFactory.getInstanz();
+
+		for (final SystemObjekt so : factory
+				.bestimmeModellobjekte(SystemModellGlobalTypen.Region.getPid())) {
+			regionen.add((Region) so);
+		}
+
+		return regionen;
 	}
 
 	/**
