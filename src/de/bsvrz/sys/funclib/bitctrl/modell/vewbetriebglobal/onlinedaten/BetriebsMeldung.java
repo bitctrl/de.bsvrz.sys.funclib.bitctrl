@@ -32,6 +32,7 @@ import java.util.Set;
 
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
+import de.bsvrz.dav.daf.main.Data.Array;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
@@ -596,8 +597,8 @@ public class BetriebsMeldung extends
 	protected Data konvertiere(final Daten datum) {
 		final Data daten = erzeugeSendeCache();
 
-		daten.getReferenceValue("ApplikationsId").setSystemObject(
-				datum.getApplikation().getSystemObject());
+		daten.getUnscaledValue("ApplikationsID").set(
+				datum.getApplikation().getId());
 		daten.getTextValue("ApplikationsKennung").setText(
 				datum.getApplikationsKennung());
 		daten.getReferenceValue("ApplikationsTyp").setSystemObject(
@@ -613,8 +614,16 @@ public class BetriebsMeldung extends
 				datum.getMeldungsTyp().getCode());
 		daten.getTextValue("MeldungsTypZusatz").setText(
 				datum.getMeldungsTypZusatz());
-		daten.getReferenceValue("Referenz").setSystemObject(
-				datum.getReferenz().getSystemObject());
+
+		if (datum.getReferenz() != null) {
+			Array array;
+
+			array = daten.getArray("Referenz");
+			array.setLength(1);
+			array.getItem(0).asReferenceValue().setSystemObject(
+					datum.getReferenz().getSystemObject());
+		}
+
 		daten.getItem("Urlasser").getReferenceValue("BenutzerReferenz")
 				.setSystemObject(datum.getUrlasserBenutzer().getSystemObject());
 		daten.getItem("Urlasser").getTextValue("Ursache").setText(
@@ -651,7 +660,7 @@ public class BetriebsMeldung extends
 			final Data daten = result.getData();
 
 			datum.setApplikation((Applikation) factory.getModellobjekt(daten
-					.getReferenceValue("ApplikationsId").getSystemObject()));
+					.getUnscaledValue("ApplikationsID").longValue()));
 			datum.setApplikationsKennung(daten.getTextValue(
 					"ApplikationsKennung").getText());
 			datum.setApplikationsTyp(factory.getModellobjekt(daten
@@ -668,8 +677,13 @@ public class BetriebsMeldung extends
 					.getUnscaledValue("MeldungsTyp").intValue()));
 			datum.setMeldungsTypZusatz(daten.getTextValue("MeldungsTypZusatz")
 					.getText());
-			datum.setReferenz(factory.getModellobjekt(daten.getReferenceValue(
-					"Referenz").getSystemObject()));
+
+			final Array array = daten.getArray("Referenz");
+			if (array.getLength() > 0) {
+				datum.setReferenz(factory.getModellobjekt(array.getItem(0)
+						.asReferenceValue().getSystemObject()));
+			}
+
 			datum.setUrlasserBenutzer((Benutzer) factory.getModellobjekt(daten
 					.getItem("Urlasser").getReferenceValue("BenutzerReferenz")
 					.getSystemObject()));

@@ -265,6 +265,24 @@ public final class ObjektFactory implements ModellObjektFactory {
 	}
 
 	/**
+	 * Sucht mit Hilfe der registrierten Fabriken nach einem Systemobjekt,
+	 * dessen Id bekannt ist.
+	 * 
+	 * @param id
+	 *            die Id eines Systemobjekts.
+	 * @return das korrespondierende Modellobjekt oder {@code null}, wenn es
+	 *         keines mit der Id gibt.
+	 */
+	public SystemObjekt getModellobjekt(final long id) {
+		final DataModel modell = getVerbindung().getDataModel();
+		final SystemObject so = modell.getObject(id);
+		if (so != null) {
+			return getModellobjekt(so);
+		}
+		return null;
+	}
+
+	/**
 	 * Versucht mit Hilfe der registrierten Fabriken ein Systemobjekt in ein
 	 * Modellobjekt zu überführen. Gibt es mehrere Fabriken, die dazu in der
 	 * Lage sind, wird die Fabrik benutzt, die zuerst registriert wurde.
@@ -275,7 +293,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 * 
 	 * @param obj
 	 *            Ein Systemobjekt
-	 * @return Das korrespondierende Modellobjekt, niemals {@code null}.
+	 * @return das korrespondierende Modellobjekt, niemals {@code null}.
 	 */
 	public SystemObjekt getModellobjekt(final SystemObject obj) {
 		if (obj == null) {
