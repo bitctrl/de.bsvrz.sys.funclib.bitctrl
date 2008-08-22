@@ -592,7 +592,7 @@ public final class Betriebsmeldungsverwaltung {
 	 * @return ein gültiger Meldungstypzusatz.
 	 */
 	private String getMessageTypeAddOn(final String meldungsTypZusatz) {
-		if (meldungsTypZusatz == null || meldungsTypZusatz.isEmpty()) {
+		if (meldungsTypZusatz == null || meldungsTypZusatz.length() == 0) {
 			return LoggerTools.getCallPosition(new Throwable());
 		}
 		return meldungsTypZusatz;
