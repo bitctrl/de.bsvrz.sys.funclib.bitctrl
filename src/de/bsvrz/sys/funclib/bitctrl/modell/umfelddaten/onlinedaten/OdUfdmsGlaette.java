@@ -106,10 +106,17 @@ public class OdUfdmsGlaette extends
 		/**
 		 * Die bekannten Messwerte am dem Datensatz.
 		 */
-		public enum Werte {
+		public static final class Werte {
 
 			/** Die Glätte als Zustand. */
-			Glätte;
+			public static final String GLAETTE = "Glätte";
+
+			/**
+			 * Konstruktor verstecken.
+			 */
+			private Werte() {
+				// nix
+			}
 
 		}
 
@@ -150,11 +157,9 @@ public class OdUfdmsGlaette extends
 		 * @see de.bsvrz.sys.funclib.bitctrl.modell.MesswertDatum#getWert(java.lang.String)
 		 */
 		public Number getWert(final String name) {
-			final Werte wert = Werte.valueOf(name);
-			switch (wert) {
-			case Glätte:
+			if (Werte.GLAETTE.equals(name)) {
 				return glaette;
-			default:
+			} else {
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + name + ".");
 			}
@@ -168,9 +173,8 @@ public class OdUfdmsGlaette extends
 		public List<String> getWerte() {
 			final List<String> werte = new ArrayList<String>();
 
-			for (final Werte w : Werte.values()) {
-				werte.add(w.name());
-			}
+			werte.add(Werte.GLAETTE);
+
 			return werte;
 		}
 
@@ -181,12 +185,9 @@ public class OdUfdmsGlaette extends
 		 *      java.lang.Number)
 		 */
 		public void setWert(final String name, final Number wert) {
-			final Werte w = Werte.valueOf(name);
-			switch (w) {
-			case Glätte:
+			if (Werte.GLAETTE.equals(name)) {
 				glaette = wert != null ? wert.intValue() : null;
-				break;
-			default:
+			} else {
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + wert + ".");
 			}
@@ -204,8 +205,8 @@ public class OdUfdmsGlaette extends
 			s = getClass().getName() + "[";
 			s += "zeitpunkt=" + getZeitpunkt();
 			s += ", valid=" + isValid();
-			for (final Werte w : Werte.values()) {
-				s += ", " + w.name() + "=" + getWert(w.name());
+			for (final String w : getWerte()) {
+				s += ", " + w + "=" + getWert(w);
 			}
 			s += "]";
 
@@ -219,7 +220,7 @@ public class OdUfdmsGlaette extends
 		 *            der neue Status
 		 */
 		protected void setDatenStatus(final Status neuerStatus) {
-			this.datenStatus = neuerStatus;
+			datenStatus = neuerStatus;
 		}
 
 	}
@@ -290,9 +291,9 @@ public class OdUfdmsGlaette extends
 
 			wert = daten.getUnscaledValue("AktuellerZustand").intValue();
 			if (wert <= 0) {
-				datum.setWert(Daten.Werte.Glätte.name(), null);
+				datum.setWert(Daten.Werte.GLAETTE, null);
 			} else {
-				datum.setWert(Daten.Werte.Glätte.name(), wert);
+				datum.setWert(Daten.Werte.GLAETTE, wert);
 			}
 		}
 
@@ -315,7 +316,7 @@ public class OdUfdmsGlaette extends
 		final String wert;
 		final Number n;
 
-		wert = OdUfdmsGlaette.Daten.Werte.Glätte.name();
+		wert = OdUfdmsGlaette.Daten.Werte.GLAETTE;
 		n = d.getWert(wert);
 		glaette = n != null ? n.intValue() : null;
 

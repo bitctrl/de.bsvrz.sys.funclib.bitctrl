@@ -105,10 +105,17 @@ public class OdUfdsNiederschlagsIntensitaet extends
 		/**
 		 * Die bekannten Messwerte am dem Datensatz.
 		 */
-		public enum Werte {
+		public static final class Werte {
 
 			/** Die Windrichtung in Grad. */
-			NiederschlagsIntensität;
+			public static final String NIEDERSCHLAGSINTENSITAET = "NiederschlagsIntensität";
+
+			/**
+			 * Konstruktor verstecken.
+			 */
+			private Werte() {
+				// nix
+			}
 
 		}
 
@@ -143,11 +150,9 @@ public class OdUfdsNiederschlagsIntensitaet extends
 		 * {@inheritDoc}
 		 */
 		public Number getWert(final String name) {
-			final Werte wert = Werte.valueOf(name);
-			switch (wert) {
-			case NiederschlagsIntensität:
+			if (Werte.NIEDERSCHLAGSINTENSITAET.equals(name)) {
 				return niederschlagsIntensitaet;
-			default:
+			} else {
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + name + ".");
 			}
@@ -159,9 +164,8 @@ public class OdUfdsNiederschlagsIntensitaet extends
 		public List<String> getWerte() {
 			final List<String> werte = new ArrayList<String>();
 
-			for (final Werte w : Werte.values()) {
-				werte.add(w.name());
-			}
+			werte.add(Werte.NIEDERSCHLAGSINTENSITAET);
+
 			return werte;
 		}
 
@@ -169,13 +173,10 @@ public class OdUfdsNiederschlagsIntensitaet extends
 		 * {@inheritDoc}
 		 */
 		public void setWert(final String name, final Number wert) {
-			final Werte w = Werte.valueOf(name);
-			switch (w) {
-			case NiederschlagsIntensität:
+			if (Werte.NIEDERSCHLAGSINTENSITAET.equals(name)) {
 				niederschlagsIntensitaet = wert != null ? wert.doubleValue()
 						: null;
-				break;
-			default:
+			} else {
 				throw new IllegalArgumentException("Das Datum " + getClass()
 						+ " kennt keinen Wert " + wert + ".");
 			}
@@ -191,8 +192,8 @@ public class OdUfdsNiederschlagsIntensitaet extends
 			s = getClass().getName() + "[";
 			s += "zeitpunkt=" + getZeitpunkt();
 			s += ", isValid" + isValid();
-			for (final Werte w : Werte.values()) {
-				s += ", " + w.name() + "=" + getWert(w.name());
+			for (final String w : getWerte()) {
+				s += ", " + w + "=" + getWert(w);
 			}
 			s += "]";
 
@@ -206,7 +207,7 @@ public class OdUfdsNiederschlagsIntensitaet extends
 		 *            der neue Status
 		 */
 		protected void setDatenStatus(final Status neuerStatus) {
-			this.datenStatus = neuerStatus;
+			datenStatus = neuerStatus;
 		}
 	}
 
@@ -271,12 +272,12 @@ public class OdUfdsNiederschlagsIntensitaet extends
 			final Data daten = result.getData();
 			NumberValue wert;
 
-			wert = daten.getItem(Daten.Werte.NiederschlagsIntensität.name())
+			wert = daten.getItem(Daten.Werte.NIEDERSCHLAGSINTENSITAET)
 					.getScaledValue("Wert");
 			if (wert.isState()) {
-				datum.setWert(Daten.Werte.NiederschlagsIntensität.name(), null);
+				datum.setWert(Daten.Werte.NIEDERSCHLAGSINTENSITAET, null);
 			} else {
-				datum.setWert(Daten.Werte.NiederschlagsIntensität.name(), wert
+				datum.setWert(Daten.Werte.NIEDERSCHLAGSINTENSITAET, wert
 						.doubleValue());
 			}
 		}
@@ -298,8 +299,7 @@ public class OdUfdsNiederschlagsIntensitaet extends
 		final String wert;
 		final Number n;
 
-		wert = OdUfdsNiederschlagsIntensitaet.Daten.Werte.NiederschlagsIntensität
-				.name();
+		wert = OdUfdsNiederschlagsIntensitaet.Daten.Werte.NIEDERSCHLAGSINTENSITAET;
 		n = d.getWert(wert);
 		ni = n != null ? n.intValue() : null;
 
