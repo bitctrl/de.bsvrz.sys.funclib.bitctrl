@@ -51,7 +51,7 @@ public enum MeldungsTyp implements Zustand<Integer> {
 	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
 	 *         wird eine {@link IllegalArgumentException} geworfen.
 	 */
-	public static MeldungsTyp getMeldungsTyp(final int code) {
+	public static MeldungsTyp valueOf(final int code) {
 		for (final MeldungsTyp situation : values()) {
 			if (situation.getCode() == code) {
 				return situation;

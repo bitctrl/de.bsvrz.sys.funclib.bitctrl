@@ -24,48 +24,65 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende;
+package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.zustaende;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definition der Werte für den Zustand der Meldungsklasse einer
- * Betriebsmeldung.
+ * Steht jeweils für eine Spalte in einer Betriebsmeldung.
  * 
- * @author BitCtrl Systems GmbH, Falko Schumann
+ * @author BitCtrl Systems GmbH, Falko
  * @version $Id$
  */
-public enum MeldungsKlasse implements Zustand<Integer> {
+public enum BetriebsMeldungSpalte implements Zustand<Integer> {
 
-	/** Die Meldungsklasse Fatal. */
-	Fatal("Fatal", 0),
+	Zeit("Zeit", 0),
 
-	/** Die Meldungsklasse Fehler. */
-	Fehler("Fehler", 1),
+	ApplikationsID("ApplikationsID", 1),
 
-	/** Die Meldungsklasse Warnung. */
-	Warnung("Warnung", 2),
+	LaufendeNummer("LaufendeNummer", 2),
 
-	/** Die Meldungsklasse Information. */
-	Information("Information", 3);
+	ApplikationsTyp("ApplikationsTyp", 3),
+
+	ApplikationsKennung("ApplikationsKennung", 4),
+
+	ID("ID", 5),
+
+	MeldungsTyp("MeldungsTyp", 6),
+
+	MeldungsTypZusatz("MeldungsTypZusatz", 7),
+
+	MeldungsKlasse("MeldungsKlasse", 8),
+
+	Referenz("Referenz", 9),
+
+	Status("Status", 10),
+
+	UrlasserBenutzer("Urlasserbenutzer", 11),
+
+	UrlasserUrsache("Urlasserursache", 12),
+
+	UrlasserVeranlasser("Urlasserveranlasser", 13),
+
+	MeldungsText("MeldungsText", 14);
 
 	/**
-	 * Liefert zu einem Code die dazugehörige Meldungsklasse.
+	 * Liefert zu einem Code den dazugehörigen Meldungstyp.
 	 * 
 	 * @param code
 	 *            der Code für den ein Zustand gesucht wird.
 	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
 	 *         wird eine {@link IllegalArgumentException} geworfen.
 	 */
-	public static MeldungsKlasse valueOf(final int code) {
-		for (final MeldungsKlasse situation : values()) {
-			if (situation.getCode() == code) {
-				return situation;
+	public static BetriebsMeldungSpalte valueOf(final int code) {
+		for (final BetriebsMeldungSpalte spalte : values()) {
+			if (spalte.getCode() == code) {
+				return spalte;
 			}
 		}
 
 		throw new IllegalArgumentException(
-				"Ungültiger Meldungsklasse mit Code: " + code);
+				"Ungültige Betriebsmeldungsspalte mit Code: " + code);
 	}
 
 	/** Der Code des Zustandes. */
@@ -82,7 +99,7 @@ public enum MeldungsKlasse implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code.
 	 */
-	private MeldungsKlasse(final String name, final int code) {
+	private BetriebsMeldungSpalte(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

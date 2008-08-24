@@ -36,7 +36,6 @@ import java.util.TreeSet;
 
 import javax.swing.event.EventListenerList;
 
-import com.bitctrl.Constants;
 import com.bitctrl.util.Interval;
 import com.bitctrl.util.logging.LoggerTools;
 
@@ -48,10 +47,11 @@ import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.Urlasser;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum.Status;
-import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.parameter.BcBetriebsMeldungDarstellung;
+import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte.BetriebsMeldungsVerwaltung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung;
-import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung.Daten;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKlasse;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsStatus;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsTyp;
@@ -73,14 +73,8 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
  */
 public final class Betriebsmeldungsverwaltung {
 
-	/**
-	 * Der Standardwert für das maximale Alter von Betriebsmeldungen, die aus
-	 * dem Archiv gelesen werden: {@value}.
-	 */
-	public static final long DEFAULT_HISTORY = 3 * Constants.MILLIS_PER_DAY;
-
-	/** Der Standardwert für die maximale Anzahl gecachter Meldungen: {@value}. */
-	public static final int DEFAULT_MAX_ANZAHL = 1000;
+	/** PID der BitCtrl-Betriebsmeldungsverwaltung mit erweiterten Parametern. */
+	public static final String PID_BITCTRL_BMV = "bmv.bitctrl";
 
 	/** Das einzige Objekt dieser Klasse. */
 	private static Betriebsmeldungsverwaltung singleton;
@@ -107,10 +101,11 @@ public final class Betriebsmeldungsverwaltung {
 		 * {@inheritDoc}
 		 */
 		public void datensatzAktualisiert(final DatensatzUpdateEvent event) {
-			final List<BetriebsMeldung.Daten> neu = new ArrayList<Daten>();
+			final List<BetriebsMeldung.Daten> neu = new ArrayList<BetriebsMeldung.Daten>();
 
 			if (event.getDatum() instanceof BetriebsMeldung.Daten) {
-				final BetriebsMeldung.Daten datum = (Daten) event.getDatum();
+				final BetriebsMeldung.Daten datum = (BetriebsMeldung.Daten) event
+						.getDatum();
 				synchronized (meldungsliste) {
 					meldungsliste.add(datum);
 					meldungslisteGefiltert.add(datum);
@@ -122,6 +117,9 @@ public final class Betriebsmeldungsverwaltung {
 						}
 					}
 				}
+			} else if (event.getDatum() instanceof BcBetriebsMeldungDarstellung.Daten) {
+				darstellungsparameter = (BcBetriebsMeldungDarstellung.Daten) event
+						.getDatum();
 			}
 
 			final List<BetriebsMeldung.Daten> entfernt = cleanUpMeldungen();
@@ -145,17 +143,11 @@ public final class Betriebsmeldungsverwaltung {
 	/** Liste er Befehle die beim Meldungsempfang verarbeitet werden. */
 	private final List<BetriebsmeldungCommand> befehlsliste;
 
-	/**
-	 * Die Zeit in die Vergangenheit, für die Meldungen initial gecacht werden
-	 * sollen.
-	 */
-	private long maxHistory = DEFAULT_HISTORY;
-
-	/** Die maximale Anzahl gecachter Meldungen. */
-	private int maxAnzahl = DEFAULT_MAX_ANZAHL;
-
 	/** Der Datensatz mit dem die Meldungen empfangen werden. */
 	private final BetriebsMeldung datensatzBetriebsMeldung;
+
+	/** Darstellungsoptionen der Meldungen. */
+	private BcBetriebsMeldungDarstellung.Daten darstellungsparameter;
 
 	/**
 	 * Liest initial die letzten Betriebsmeldungen aus dem Archiv und cacht
@@ -165,17 +157,20 @@ public final class Betriebsmeldungsverwaltung {
 		log = Debug.getLogger();
 		listeners = new EventListenerList();
 		meldungsliste = new LinkedList<BetriebsMeldung.Daten>();
-		meldungslisteGefiltert = new TreeSet<Daten>();
+		meldungslisteGefiltert = new TreeSet<BetriebsMeldung.Daten>();
 		befehlsliste = new ArrayList<BetriebsmeldungCommand>();
 
-		final List<BetriebsMeldung.Daten> neu = new ArrayList<Daten>();
-		final List<BetriebsMeldung.Daten> entfernt;
 		final ObjektFactory factory = ObjektFactory.getInstanz();
+		final BetriebsMeldungsVerwaltung bvBmv = (BetriebsMeldungsVerwaltung) factory
+				.getModellobjekt(PID_BITCTRL_BMV);
+		final BcBetriebsMeldungDarstellung param = bvBmv
+				.getParameterDatensatz(BcBetriebsMeldungDarstellung.class);
+		darstellungsparameter = param.abrufenDatum();
 
 		synchronized (meldungsliste) {
 
 			// Factory wird umgangen, weil dieser Datensatz nur zur
-			// Konvertierung verwendet wird und anschlißend das Objekt wieder
+			// Konvertierung verwendet wird und anschließend das Objekt wieder
 			// zerstört werden kann.
 			final BetriebsMeldung datensatz = new BetriebsMeldung(factory
 					.getAOE());
@@ -187,29 +182,32 @@ public final class Betriebsmeldungsverwaltung {
 			final ArchivIterator iterator = new ArchivIterator(factory
 					.getVerbindung(), ArchivUtilities.getAnfrage(Collections
 					.singletonList(factory.getAOE().getSystemObject()), dbs,
-					new Interval(zeitstempel - getMaxHistory(), zeitstempel),
-					ArchiveDataKind.ONLINE));
+					new Interval(zeitstempel
+							- darstellungsparameter.getMaxHistory(),
+							zeitstempel), ArchiveDataKind.ONLINE));
 
 			while (iterator.hasNext()) {
 				datensatz.setDaten(iterator.next());
-				final Daten datum = datensatz
+				final BetriebsMeldung.Daten datum = datensatz
 						.getDatum(BetriebsMeldung.Aspekte.Information
 								.getAspekt());
 				meldungsliste.add(datum);
 				meldungslisteGefiltert.add(datum);
-				neu.add(datum);
 			}
-			entfernt = cleanUpMeldungen();
+
+			cleanUpMeldungen();
 		}
 
-		fireMeldungslisteChanged(neu, entfernt);
+		final Meldungsempfaenger empfaenger = new Meldungsempfaenger();
 
 		// Als Empfänger für Betriebsmeldungen anmelden
 		datensatzBetriebsMeldung = factory.getAOE().getOnlineDatensatz(
 				BetriebsMeldung.class);
 		datensatzBetriebsMeldung.addUpdateListener(
-				BetriebsMeldung.Aspekte.Information.getAspekt(),
-				new Meldungsempfaenger());
+				BetriebsMeldung.Aspekte.Information.getAspekt(), empfaenger);
+
+		// Für Änderung der Darstellungsparameter anmelden
+		param.addUpdateListener(empfaenger);
 
 		log.info("Betriebsmeldungsverwaltung bereit.");
 	}
@@ -222,11 +220,11 @@ public final class Betriebsmeldungsverwaltung {
 	 * @see #getMaxAnzahl()
 	 */
 	private List<BetriebsMeldung.Daten> cleanUpMeldungen() {
-		final List<BetriebsMeldung.Daten> entfernt = new ArrayList<Daten>();
+		final List<BetriebsMeldung.Daten> entfernt = new ArrayList<BetriebsMeldung.Daten>();
 		synchronized (meldungsliste) {
 			// Entferne Meldungenm, die zu alte sind.
 			final long maxZeitstempel = System.currentTimeMillis()
-					- getMaxHistory();
+					- darstellungsparameter.getMaxHistory();
 			final Iterator<BetriebsMeldung.Daten> iterator = meldungsliste
 					.iterator();
 			while (iterator.hasNext()) {
@@ -238,7 +236,7 @@ public final class Betriebsmeldungsverwaltung {
 			}
 
 			// Entferne Meldungen, die zuviel sind.
-			while (meldungsliste.size() > getMaxAnzahl()) {
+			while (meldungsliste.size() > darstellungsparameter.getMaxAnzahl()) {
 				entfernt.add(meldungsliste.remove(0));
 			}
 		}
@@ -246,7 +244,7 @@ public final class Betriebsmeldungsverwaltung {
 		synchronized (meldungslisteGefiltert) {
 			// Entferne Meldungenm, die zu alte sind.
 			final long maxZeitstempel = System.currentTimeMillis()
-					- getMaxHistory();
+					- darstellungsparameter.getMaxHistory();
 			final Iterator<BetriebsMeldung.Daten> iterator = meldungslisteGefiltert
 					.iterator();
 			while (iterator.hasNext()) {
@@ -257,7 +255,8 @@ public final class Betriebsmeldungsverwaltung {
 			}
 
 			// Entferne Meldungen, die zuviel sind.
-			while (meldungslisteGefiltert.size() > getMaxAnzahl()) {
+			while (meldungslisteGefiltert.size() > darstellungsparameter
+					.getMaxAnzahl()) {
 				meldungslisteGefiltert.remove(0);
 			}
 		}
@@ -337,55 +336,6 @@ public final class Betriebsmeldungsverwaltung {
 				BetriebsMeldung.Aspekte.Information.getAspekt())
 				.getDatenStatus();
 		return status == Status.DATEN || status == Status.KEINE_DATEN;
-	}
-
-	/**
-	 * Gibt die Zeit in die Vergangenheit zurück, für die initial archivierte
-	 * Meldungen gelesen und gecacht werden.
-	 * 
-	 * @return das maximale Alter von archivierten Betriebsmeldungen.
-	 */
-	public long getMaxHistory() {
-		return maxHistory;
-	}
-
-	/**
-	 * Legt die Zeit in die Vergangenheit fest, für die initial archivierte
-	 * Meldungen gelesen und gecacht werden.
-	 * 
-	 * @param maxHistory
-	 *            das maximale Alter von archivierten Betriebsmeldungen.
-	 */
-	public void setMaxHistory(final long maxHistory) {
-		// Nur der Absolutwert wird übernommen.
-		if (maxHistory >= 0) {
-			this.maxHistory = maxHistory;
-		} else {
-			this.maxHistory = maxHistory * -1;
-		}
-	}
-
-	/**
-	 * Gibt die maximale Anzahl gecachter Meldungen zurück.
-	 * 
-	 * @return die Maximalanzahl gecachter Meldungen.
-	 */
-	public int getMaxAnzahl() {
-		return maxAnzahl;
-	}
-
-	/**
-	 * Legt die maximale Anzahl gecachter Meldungen fest.
-	 * 
-	 * @param maxAnzahl
-	 *            die Maximalanzahl gecachter Meldungen.
-	 */
-	public void setMaxAnzahl(final int maxAnzahl) {
-		if (maxAnzahl <= 0) {
-			throw new IllegalArgumentException(
-					"Die maximale Anzahl gecachter Betriebsmeldungen muss größer 0 sein.");
-		}
-		this.maxAnzahl = maxAnzahl;
 	}
 
 	/**
@@ -470,27 +420,24 @@ public final class Betriebsmeldungsverwaltung {
 	 *            ein Systemobjekt auf das sich die Meldung bezieht.
 	 * @param text
 	 *            der Meldungstext.
-	 * @param urlasserBenutzer
-	 *            der Benutzer der die Meldung verurlasst.
-	 * @param urlasserUrsache
-	 *            die Ursache.
-	 * @param urlasserVeranlasser
-	 *            der der Veranlasser.
+	 * @param urlasser
+	 *            die Urlasserinformation.
 	 */
 	public void sende(final MeldungsTyp typ, final String meldungsTypZusatz,
 			final MeldungsKlasse klasse, final MeldungsStatus status,
 			final SystemObjekt referenz, final String text,
-			final Benutzer urlasserBenutzer, final String urlasserUrsache,
-			final String urlasserVeranlasser) {
-		getSender().sendMessage(
-				"",
-				getMessageType(typ),
-				getMessageTypeAddOn(meldungsTypZusatz),
-				getMessageGrade(klasse),
-				referenz.getSystemObject(),
-				getMessageState(status),
-				new MessageCauser(urlasserBenutzer.getSystemObject(),
-						urlasserUrsache, urlasserVeranlasser), text);
+			final Urlasser urlasser) {
+		getSender()
+				.sendMessage(
+						"",
+						getMessageType(typ),
+						getMessageTypeAddOn(meldungsTypZusatz),
+						getMessageGrade(klasse),
+						referenz.getSystemObject(),
+						getMessageState(status),
+						new MessageCauser(urlasser.getBenutzer()
+								.getSystemObject(), urlasser.getUrsache(),
+								urlasser.getVeranlasser()), text);
 	}
 
 	/**
@@ -511,9 +458,9 @@ public final class Betriebsmeldungsverwaltung {
 				getMessageGrade(meldung.getMeldungsKlasse()),
 				meldung.getReferenz().getSystemObject(),
 				getMessageState(meldung.getMeldungsStatus()),
-				new MessageCauser(meldung.getUrlasserBenutzer()
-						.getSystemObject(), meldung.getUrlasserUrsache(),
-						meldung.getUrlasserVeranlasser()),
+				new MessageCauser(meldung.getUrlasser().getBenutzer()
+						.getSystemObject(), meldung.getUrlasser().getUrsache(),
+						meldung.getUrlasser().getVeranlasser()),
 				meldung.getMeldungsText());
 	}
 
@@ -608,6 +555,15 @@ public final class Betriebsmeldungsverwaltung {
 	 */
 	public MessageSender getSender() {
 		return MessageSender.getInstance();
+	}
+
+	/**
+	 * Gibt die aktuellen Darstellungsparameter für Betriebsmeldungen zurück.
+	 * 
+	 * @return die Darstellungsparameter.
+	 */
+	public BcBetriebsMeldungDarstellung.Daten getDarstellungsparameter() {
+		return darstellungsparameter.clone();
 	}
 
 }
