@@ -45,6 +45,7 @@ import de.bsvrz.sys.funclib.bitctrl.archiv.ArchivIterator;
 import de.bsvrz.sys.funclib.bitctrl.archiv.ArchivUtilities;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateEvent;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
+import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.Urlasser;
@@ -160,15 +161,24 @@ public final class Betriebsmeldungsverwaltung {
 		meldungslisteGefiltert = new TreeSet<BetriebsMeldung.Daten>();
 		befehlsliste = new ArrayList<BetriebsmeldungCommand>();
 
+		final Meldungsempfaenger empfaenger = new Meldungsempfaenger();
 		final ObjektFactory factory = ObjektFactory.getInstanz();
+
+		// Darstellungsparameter
 		final BetriebsMeldungsVerwaltung bvBmv = (BetriebsMeldungsVerwaltung) factory
 				.getModellobjekt(PID_BITCTRL_BMV);
-		final BcBetriebsMeldungDarstellung param = bvBmv
-				.getParameterDatensatz(BcBetriebsMeldungDarstellung.class);
-		darstellungsparameter = param.abrufenDatum();
+		if (bvBmv != null) {
+			final BcBetriebsMeldungDarstellung param = bvBmv
+					.getParameterDatensatz(BcBetriebsMeldungDarstellung.class);
+			darstellungsparameter = param.abrufenDatum();
+			param.addUpdateListener(empfaenger);
 
+		} else {
+			darstellungsparameter = new BcBetriebsMeldungDarstellung.Daten();
+		}
+
+		// Meldungen aus dem Archiv auslesen
 		synchronized (meldungsliste) {
-
 			// Factory wird umgangen, weil dieser Datensatz nur zur
 			// Konvertierung verwendet wird und anschließend das Objekt wieder
 			// zerstört werden kann.
@@ -198,16 +208,11 @@ public final class Betriebsmeldungsverwaltung {
 			cleanUpMeldungen();
 		}
 
-		final Meldungsempfaenger empfaenger = new Meldungsempfaenger();
-
 		// Als Empfänger für Betriebsmeldungen anmelden
 		datensatzBetriebsMeldung = factory.getAOE().getOnlineDatensatz(
 				BetriebsMeldung.class);
 		datensatzBetriebsMeldung.addUpdateListener(
 				BetriebsMeldung.Aspekte.Information.getAspekt(), empfaenger);
-
-		// Für Änderung der Darstellungsparameter anmelden
-		param.addUpdateListener(empfaenger);
 
 		log.info("Betriebsmeldungsverwaltung bereit.");
 	}
@@ -233,6 +238,10 @@ public final class Betriebsmeldungsverwaltung {
 					entfernt.add(meldung);
 					iterator.remove();
 				}
+
+				if (meldung.getDatenStatus() != Datum.Status.DATEN) {
+					iterator.remove();
+				}
 			}
 
 			// Entferne Meldungen, die zuviel sind.
@@ -250,6 +259,10 @@ public final class Betriebsmeldungsverwaltung {
 			while (iterator.hasNext()) {
 				final BetriebsMeldung.Daten meldung = iterator.next();
 				if (meldung.getZeitstempel() < maxZeitstempel) {
+					iterator.remove();
+				}
+
+				if (meldung.getDatenStatus() != Datum.Status.DATEN) {
 					iterator.remove();
 				}
 			}
