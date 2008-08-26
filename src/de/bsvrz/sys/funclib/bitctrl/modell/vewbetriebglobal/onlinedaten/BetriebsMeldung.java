@@ -442,7 +442,7 @@ public class BetriebsMeldung extends
 			klon.meldungsTypZusatz = meldungsTypZusatz;
 			klon.referenz = referenz;
 			klon.meldungsStatus = meldungsStatus;
-			klon.urlasser = urlasser.clone();
+			klon.urlasser = urlasser != null ? urlasser.clone() : null;
 
 			return klon;
 		}
@@ -626,8 +626,8 @@ public class BetriebsMeldung extends
 			datum.setMeldungsStatus(MeldungsStatus.valueOf(daten
 					.getUnscaledValue("Status").intValue()));
 			datum.setMeldungsText(daten.getTextValue("MeldungsText").getText());
-			datum.setMeldungsTyp(MeldungsTyp.valueOf(daten
-					.getUnscaledValue("MeldungsTyp").intValue()));
+			datum.setMeldungsTyp(MeldungsTyp.valueOf(daten.getUnscaledValue(
+					"MeldungsTyp").intValue()));
 			datum.setMeldungsTypZusatz(daten.getTextValue("MeldungsTypZusatz")
 					.getText());
 
