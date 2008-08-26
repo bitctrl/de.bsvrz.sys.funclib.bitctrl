@@ -24,7 +24,7 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.parameter;
+package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.parameter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,9 +41,9 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.objekte.BcBetriebsMeldungsVerwaltung;
-import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.parameter.BcBetriebsMeldungDarstellung.Daten.Darstellung;
-import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.zustaende.BetriebsMeldungSpalte;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBetriebsMeldungsVerwaltung;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.parameter.BcBetriebsMeldungDarstellung.Daten.Darstellung;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.zustaende.BetriebsMeldungSpalte;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKlasse;
 
 /**

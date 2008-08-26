@@ -24,56 +24,42 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl;
+package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte;
 
-import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
-import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.objekte.BcBetriebsMeldungsVerwaltung;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.BitCtrlTypen;
 
 /**
- * Fasst alle BitCtrl-Objekttypen zusammen.
+ * Repräsentiert die BitCtrl-Betriebsmeldungsverwaltung. Ein Objekt dieses Typs
+ * dient nur der Parametrierung von ergänzenden Funktionen.
  * 
- * @author BitCtrl Systems GmbH, Schumann
+ * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public enum BitCtrlTypen implements SystemObjektTyp {
-
-	/** Die BitCtrl-Erweiterung der Betriebsmeltungsverwaltung. */
-	BcBetriebsMeldungsVerwaltung("typ.bcBetriebsMeldungsVerwaltung",
-			BcBetriebsMeldungsVerwaltung.class);
-
-	/** PID des Objekttyps im Datenverteiler. */
-	private final String pid;
-
-	/** Klasse des Systemobjekts im Modell. */
-	private final Class<? extends SystemObjekt> klasse;
+public class BcBetriebsMeldungsVerwaltung extends AbstractSystemObjekt {
 
 	/**
-	 * Privater Konstruktor.
+	 * Konstruiert ein Ereignis aus einem {@code SystemObject}.
 	 * 
-	 * @param pid
-	 *            Die PID des Typs
-	 * @param klasse
-	 *            Die Klasse des Modellobjekts
+	 * @param obj
+	 *            ein {@code SystemObject}, welches ein Ereignis sein muss.
 	 */
-	private BitCtrlTypen(final String pid,
-			final Class<? extends SystemObjekt> klasse) {
-		this.pid = pid;
-		this.klasse = klasse;
+	public BcBetriebsMeldungsVerwaltung(final SystemObject obj) {
+		super(obj);
+
+		if (!obj.isOfType(getTyp().getPid())) {
+			throw new IllegalArgumentException(
+					"Systemobjekt ist kein Ereignis.");
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Class<? extends SystemObjekt> getKlasse() {
-		return klasse;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getPid() {
-		return pid;
+	public SystemObjektTyp getTyp() {
+		return BitCtrlTypen.BcBetriebsMeldungsVerwaltung;
 	}
 
 }

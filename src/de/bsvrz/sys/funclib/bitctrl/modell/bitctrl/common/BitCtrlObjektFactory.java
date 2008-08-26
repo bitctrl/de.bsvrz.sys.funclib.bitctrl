@@ -24,42 +24,46 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.objekte;
+package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
-import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.BitCtrlTypen;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBetriebsMeldungsVerwaltung;
 
 /**
- * Repräsentiert die BitCtrl-Betriebsmeldungsverwaltung. Ein Objekt dieses Typs
- * dient nur der Parametrierung von ergänzenden Funktionen.
+ * Fabrikmethode für gekapselte Systemobjekte aus dem ergänzenden
+ * BitCtrl-Modell.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
+ * @version $Id: KalenderobjektFactory.java 5951 2008-01-28 12:51:06Z Schumann $
  */
-public class BcBetriebsMeldungsVerwaltung extends AbstractSystemObjekt {
+public class BitCtrlObjektFactory implements ModellObjektFactory {
 
 	/**
-	 * Konstruiert ein Ereignis aus einem {@code SystemObject}.
-	 * 
-	 * @param obj
-	 *            ein {@code SystemObject}, welches ein Ereignis sein muss.
+	 * {@inheritDoc}
 	 */
-	public BcBetriebsMeldungsVerwaltung(final SystemObject obj) {
-		super(obj);
-
-		if (!obj.isOfType(getTyp().getPid())) {
-			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Ereignis.");
+	public SystemObjekt getModellobjekt(final SystemObject objekt) {
+		if (objekt == null) {
+			throw new IllegalArgumentException("Argument darf nicht null sein.");
 		}
+
+		SystemObjekt obj = null;
+		if (objekt.isOfType(BitCtrlTypen.BcBetriebsMeldungsVerwaltung.getPid())) {
+			obj = new BcBetriebsMeldungsVerwaltung(objekt);
+		}
+
+		return obj;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public SystemObjektTyp getTyp() {
-		return BitCtrlTypen.BcBetriebsMeldungsVerwaltung;
+	public Collection<? extends SystemObjektTyp> getTypen() {
+		return Arrays.asList(BitCtrlTypen.values());
 	}
-
 }

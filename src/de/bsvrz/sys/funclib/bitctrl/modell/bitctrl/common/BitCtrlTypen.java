@@ -24,46 +24,56 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl;
+package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-import de.bsvrz.dav.daf.main.config.SystemObject;
-import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
-import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.objekte.BcBetriebsMeldungsVerwaltung;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBetriebsMeldungsVerwaltung;
 
 /**
- * Fabrikmethode für gekapselte Systemobjekte aus dem ergänzenden
- * BitCtrl-Modell.
+ * Fasst alle BitCtrl-Objekttypen zusammen.
  * 
- * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: KalenderobjektFactory.java 5951 2008-01-28 12:51:06Z Schumann $
+ * @author BitCtrl Systems GmbH, Schumann
+ * @version $Id$
  */
-public class BitCtrlObjektFactory implements ModellObjektFactory {
+public enum BitCtrlTypen implements SystemObjektTyp {
+
+	/** Die BitCtrl-Erweiterung der Betriebsmeltungsverwaltung. */
+	BcBetriebsMeldungsVerwaltung("typ.bcBetriebsMeldungsVerwaltung",
+			BcBetriebsMeldungsVerwaltung.class);
+
+	/** PID des Objekttyps im Datenverteiler. */
+	private final String pid;
+
+	/** Klasse des Systemobjekts im Modell. */
+	private final Class<? extends SystemObjekt> klasse;
 
 	/**
-	 * {@inheritDoc}
+	 * Privater Konstruktor.
+	 * 
+	 * @param pid
+	 *            Die PID des Typs
+	 * @param klasse
+	 *            Die Klasse des Modellobjekts
 	 */
-	public SystemObjekt getModellobjekt(final SystemObject objekt) {
-		if (objekt == null) {
-			throw new IllegalArgumentException("Argument darf nicht null sein.");
-		}
-
-		SystemObjekt obj = null;
-		if (objekt.isOfType(BitCtrlTypen.BcBetriebsMeldungsVerwaltung.getPid())) {
-			obj = new BcBetriebsMeldungsVerwaltung(objekt);
-		}
-
-		return obj;
+	private BitCtrlTypen(final String pid,
+			final Class<? extends SystemObjekt> klasse) {
+		this.pid = pid;
+		this.klasse = klasse;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Collection<? extends SystemObjektTyp> getTypen() {
-		return Arrays.asList(BitCtrlTypen.values());
+	public Class<? extends SystemObjekt> getKlasse() {
+		return klasse;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getPid() {
+		return pid;
+	}
+
 }

@@ -24,7 +24,7 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.zustaende;
+package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.zustaende;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
