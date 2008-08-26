@@ -49,7 +49,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.Urlasser;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum.Status;
-import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.parameter.BcBetriebsMeldungDarstellung;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.parameter.BcBetriebsMeldungDarstellung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte.BetriebsMeldungsVerwaltung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKlasse;
