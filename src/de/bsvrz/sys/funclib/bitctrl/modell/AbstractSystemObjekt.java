@@ -305,4 +305,11 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public int compareTo(final SystemObjekt o) {
+		return objekt.compareTo(o);
+	}
+
 }

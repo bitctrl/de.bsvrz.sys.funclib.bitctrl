@@ -41,7 +41,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
  * @version $Id$
  * 
  */
-public interface SystemObjekt {
+public interface SystemObjekt extends Comparable<SystemObjekt> {
 
 	/**
 	 * Klasse zum Vergleich zweier Systemobjekte per PID.
@@ -63,7 +63,7 @@ public interface SystemObjekt {
 		 * 
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
-		public int compare(SystemObjekt o1, SystemObjekt o2) {
+		public int compare(final SystemObjekt o1, final SystemObjekt o2) {
 
 			int result = 0;
 

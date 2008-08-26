@@ -26,7 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
-import de.bsvrz.sys.funclib.bitctrl.daf.DavTools;
+import com.bitctrl.util.Timestamp;
 
 /**
  * Implementiert die Gemeinsamkeiten der Schnittstelle {@code Datum}.
@@ -49,7 +49,7 @@ public abstract class AbstractDatum implements Datum {
 	 * {@inheritDoc}
 	 */
 	public String getZeitpunkt() {
-		return DavTools.absoluteZeit(zeitstempel);
+		return Timestamp.absoluteTime(zeitstempel);
 	}
 
 	/**
