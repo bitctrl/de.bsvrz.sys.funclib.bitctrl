@@ -36,35 +36,35 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
  */
 public enum BetriebsMeldungSpalte implements Zustand<Integer> {
 
-	Zeit("Zeit", 0),
+	Zeit("Zeit", 0, 150),
 
-	ApplikationsID("ApplikationsID", 1),
+	ApplikationsID("ApplikationsID", 1, 150),
 
-	LaufendeNummer("LaufendeNummer", 2),
+	LaufendeNummer("LaufendeNummer", 2, 150),
 
-	ApplikationsTyp("ApplikationsTyp", 3),
+	ApplikationsTyp("ApplikationsTyp", 3, 100),
 
-	ApplikationsKennung("ApplikationsKennung", 4),
+	ApplikationsKennung("ApplikationsKennung", 4, 100),
 
-	ID("ID", 5),
+	ID("ID", 5, 100),
 
-	MeldungsTyp("MeldungsTyp", 6),
+	MeldungsTyp("MeldungsTyp", 6, 100),
 
-	MeldungsTypZusatz("MeldungsTypZusatz", 7),
+	MeldungsTypZusatz("MeldungsTypZusatz", 7, 100),
 
-	MeldungsKlasse("MeldungsKlasse", 8),
+	MeldungsKlasse("MeldungsKlasse", 8, 100),
 
-	Referenz("Referenz", 9),
+	Referenz("Referenz", 9, 100),
 
-	Status("Status", 10),
+	Status("Status", 10, 100),
 
-	UrlasserBenutzer("Urlasserbenutzer", 11),
+	UrlasserBenutzer("Urlasserbenutzer", 11, 100),
 
-	UrlasserUrsache("Urlasserursache", 12),
+	UrlasserUrsache("Urlasserursache", 12, 100),
 
-	UrlasserVeranlasser("Urlasserveranlasser", 13),
+	UrlasserVeranlasser("Urlasserveranlasser", 13, 100),
 
-	MeldungsText("MeldungsText", 14);
+	MeldungsText("MeldungsText", 14, 250);
 
 	/**
 	 * Liefert zu einem Code den dazugehörigen Meldungstyp.
@@ -86,10 +86,13 @@ public enum BetriebsMeldungSpalte implements Zustand<Integer> {
 	}
 
 	/** Der Code des Zustandes. */
-	private int code;
+	private final int code;
 
 	/** Der Name des Zustandes. */
-	private String name;
+	private final String name;
+
+	/** Die empfohlene Spaltenbreite. */
+	private final int breite;
 
 	/**
 	 * Konstruktor.
@@ -98,10 +101,14 @@ public enum BetriebsMeldungSpalte implements Zustand<Integer> {
 	 *            der Name des Zustands.
 	 * @param code
 	 *            der verwendete Code.
+	 * @param breite
+	 *            die empfohlene Spaltenbreite.
 	 */
-	private BetriebsMeldungSpalte(final String name, final int code) {
+	private BetriebsMeldungSpalte(final String name, final int code,
+			final int breite) {
 		this.name = name;
 		this.code = code;
+		this.breite = breite;
 	}
 
 	/**
@@ -124,6 +131,15 @@ public enum BetriebsMeldungSpalte implements Zustand<Integer> {
 	@Override
 	public String toString() {
 		return name + " (" + code + ")";
+	}
+
+	/**
+	 * Gibt die empfohlene Spaltenbreite zurück.
+	 * 
+	 * @return
+	 */
+	public int getBreite() {
+		return breite;
 	}
 
 }

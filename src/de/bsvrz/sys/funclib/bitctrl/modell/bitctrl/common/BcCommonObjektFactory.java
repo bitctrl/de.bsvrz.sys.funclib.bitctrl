@@ -26,54 +26,44 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common;
 
+import java.util.Arrays;
+import java.util.Collection;
+
+import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBetriebsMeldungsVerwaltung;
 
 /**
- * Fasst alle BitCtrl-Objekttypen zusammen.
+ * Fabrikmethode für gekapselte Systemobjekte aus dem ergänzenden
+ * BitCtrl-Modell.
  * 
- * @author BitCtrl Systems GmbH, Schumann
- * @version $Id$
+ * @author BitCtrl Systems GmbH, Falko Schumann
+ * @version $Id: KalenderobjektFactory.java 5951 2008-01-28 12:51:06Z Schumann $
  */
-public enum BitCtrlTypen implements SystemObjektTyp {
-
-	/** Die BitCtrl-Erweiterung der Betriebsmeltungsverwaltung. */
-	BcBetriebsMeldungsVerwaltung("typ.bcBetriebsMeldungsVerwaltung",
-			BcBetriebsMeldungsVerwaltung.class);
-
-	/** PID des Objekttyps im Datenverteiler. */
-	private final String pid;
-
-	/** Klasse des Systemobjekts im Modell. */
-	private final Class<? extends SystemObjekt> klasse;
+public class BcCommonObjektFactory implements ModellObjektFactory {
 
 	/**
-	 * Privater Konstruktor.
-	 * 
-	 * @param pid
-	 *            Die PID des Typs
-	 * @param klasse
-	 *            Die Klasse des Modellobjekts
+	 * {@inheritDoc}
 	 */
-	private BitCtrlTypen(final String pid,
-			final Class<? extends SystemObjekt> klasse) {
-		this.pid = pid;
-		this.klasse = klasse;
+	public SystemObjekt getModellobjekt(final SystemObject objekt) {
+		if (objekt == null) {
+			throw new IllegalArgumentException("Argument darf nicht null sein.");
+		}
+
+		SystemObjekt obj = null;
+		if (objekt.isOfType(BcCommonTypen.BcBetriebsMeldungsVerwaltung.getPid())) {
+			obj = new BcBetriebsMeldungsVerwaltung(objekt);
+		}
+
+		return obj;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Class<? extends SystemObjekt> getKlasse() {
-		return klasse;
+	public Collection<? extends SystemObjektTyp> getTypen() {
+		return Arrays.asList(BcCommonTypen.values());
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getPid() {
-		return pid;
-	}
-
 }
