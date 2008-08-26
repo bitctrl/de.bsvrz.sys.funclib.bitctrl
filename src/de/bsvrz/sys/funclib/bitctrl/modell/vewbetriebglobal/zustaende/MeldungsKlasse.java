@@ -57,7 +57,7 @@ public enum MeldungsKlasse implements Zustand<Integer> {
 	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
 	 *         wird eine {@link IllegalArgumentException} geworfen.
 	 */
-	public static MeldungsKlasse valueOf(final int code) {
+	public static MeldungsKlasse getMeldungsKlasse(final int code) {
 		for (final MeldungsKlasse situation : values()) {
 			if (situation.getCode() == code) {
 				return situation;

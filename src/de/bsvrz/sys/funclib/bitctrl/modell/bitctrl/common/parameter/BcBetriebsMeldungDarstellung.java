@@ -443,7 +443,7 @@ public class BcBetriebsMeldungDarstellung extends
 				final Data item = darstellung.getItem(i);
 				final Darstellung d = new Darstellung();
 
-				d.setKlasse(MeldungsKlasse.valueOf(daten.getUnscaledValue(
+				d.setKlasse(MeldungsKlasse.getMeldungsKlasse(daten.getUnscaledValue(
 						"Klasse").intValue()));
 				d.setVordergrundfarbe(item.getUnscaledValue("Vordergrundfarbe")
 						.longValue());

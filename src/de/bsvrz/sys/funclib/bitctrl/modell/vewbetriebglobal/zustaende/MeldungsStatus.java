@@ -71,7 +71,7 @@ public enum MeldungsStatus implements Zustand<Integer> {
 	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
 	 *         wird eine {@link IllegalArgumentException} geworfen.
 	 */
-	public static MeldungsStatus valueOf(final int code) {
+	public static MeldungsStatus getMeldungsStatus(final int code) {
 		for (final MeldungsStatus situation : values()) {
 			if (situation.getCode() == code) {
 				return situation;

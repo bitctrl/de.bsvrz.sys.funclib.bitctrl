@@ -621,12 +621,12 @@ public class BetriebsMeldung extends
 			datum.setId(daten.getTextValue("ID").getText());
 			datum.setLaufendeNummer(daten.getUnscaledValue("LaufendeNummer")
 					.longValue());
-			datum.setMeldungsKlasse(MeldungsKlasse.valueOf(daten
+			datum.setMeldungsKlasse(MeldungsKlasse.getMeldungsKlasse(daten
 					.getUnscaledValue("MeldungsKlasse").intValue()));
-			datum.setMeldungsStatus(MeldungsStatus.valueOf(daten
+			datum.setMeldungsStatus(MeldungsStatus.getMeldungsStatus(daten
 					.getUnscaledValue("Status").intValue()));
 			datum.setMeldungsText(daten.getTextValue("MeldungsText").getText());
-			datum.setMeldungsTyp(MeldungsTyp.valueOf(daten.getUnscaledValue(
+			datum.setMeldungsTyp(MeldungsTyp.getMeldungsTyp(daten.getUnscaledValue(
 					"MeldungsTyp").intValue()));
 			datum.setMeldungsTypZusatz(daten.getTextValue("MeldungsTypZusatz")
 					.getText());
