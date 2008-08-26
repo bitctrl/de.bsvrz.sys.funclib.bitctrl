@@ -256,24 +256,4 @@ public class Benutzer extends AbstractSystemObjekt {
 		konfigDatenGelesen = true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString() {
-		String s;
-
-		s = getClass().getName() + "[";
-		s += "name=" + getName();
-		s += ", pid=" + getPid();
-		s += ", organisation=" + organisation;
-		s += ", nachname=" + nachname;
-		s += ", vorname=" + vorname;
-		s += ", zweiterVorname=" + zweiterVorname;
-		s += ", emailAdresse=" + emailAdresse;
-		s += "]";
-
-		return s;
-	}
-
 }

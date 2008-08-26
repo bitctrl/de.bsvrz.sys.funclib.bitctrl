@@ -309,7 +309,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	 * {@inheritDoc}
 	 */
 	public int compareTo(final SystemObjekt o) {
-		return objekt.compareTo(o);
+		return objekt.compareTo(o.getSystemObject());
 	}
 
 }
