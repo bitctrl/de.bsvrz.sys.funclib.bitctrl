@@ -349,6 +349,24 @@ public class BcBetriebsMeldungDarstellung extends
 			return s;
 		}
 
+		/**
+		 * Sucht in der Liste der Darstellungsoptionen nach der mit einer
+		 * bestimmten Meldungsklasse.
+		 * 
+		 * @param klasse
+		 *            eine Meldungsklasse.
+		 * @return die passenden Darstellungsparameter oder {@code null}, wenn
+		 *         die Liste keine passenden enthält.
+		 */
+		public Darstellung getDarstellung(final MeldungsKlasse klasse) {
+			for (final Darstellung d : getDarstellung()) {
+				if (klasse.equals(d.getKlasse())) {
+					return d;
+				}
+			}
+			return null;
+		}
+
 	}
 
 	/** Die PID der Attributgruppe. */

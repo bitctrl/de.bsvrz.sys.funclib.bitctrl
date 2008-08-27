@@ -508,7 +508,7 @@ public class BetriebsMeldung extends
 	}
 
 	/** Die PID der Attributgruppe. */
-	private static final String ATG_BETRIEBSMELDUNG = "atg.betriebsMeldung";
+	public static final String ATG_BETRIEBSMELDUNG = "atg.betriebsMeldung";
 
 	/** Die Attributgruppe kann von allen Instanzen gemeinsam genutzt werden. */
 	private static AttributeGroup atg;
@@ -626,8 +626,8 @@ public class BetriebsMeldung extends
 			datum.setMeldungsStatus(MeldungsStatus.getMeldungsStatus(daten
 					.getUnscaledValue("Status").intValue()));
 			datum.setMeldungsText(daten.getTextValue("MeldungsText").getText());
-			datum.setMeldungsTyp(MeldungsTyp.getMeldungsTyp(daten.getUnscaledValue(
-					"MeldungsTyp").intValue()));
+			datum.setMeldungsTyp(MeldungsTyp.getMeldungsTyp(daten
+					.getUnscaledValue("MeldungsTyp").intValue()));
 			datum.setMeldungsTypZusatz(daten.getTextValue("MeldungsTypZusatz")
 					.getText());
 

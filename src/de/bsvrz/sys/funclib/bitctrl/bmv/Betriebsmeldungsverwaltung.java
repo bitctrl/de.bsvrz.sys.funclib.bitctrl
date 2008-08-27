@@ -181,8 +181,7 @@ public final class Betriebsmeldungsverwaltung {
 			// Factory wird umgangen, weil dieser Datensatz nur zur
 			// Konvertierung verwendet wird und anschließend das Objekt wieder
 			// zerstört werden kann.
-			final BetriebsMeldung datensatz = new BetriebsMeldung(factory
-					.getAOE());
+			final BetriebsMeldung datensatz = new BetriebsMeldung(null);
 
 			final DataDescription dbs = new DataDescription(datensatz
 					.getAttributGruppe(), BetriebsMeldung.Aspekte.Information
