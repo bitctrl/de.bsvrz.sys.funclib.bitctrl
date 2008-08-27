@@ -68,7 +68,7 @@ public class BcBetriebsMeldungDarstellung extends
 
 			private MeldungsKlasse klasse = MeldungsKlasse.Information;
 			private long vordergrundfarbe = 0L;
-			private long hintergrundfarbe = 0xFFFFF;
+			private long hintergrundfarbe = 0xFFFFFF;
 			private String schriftart = "Arial";
 			private boolean fettdruck = false;
 			private boolean kursivdruck = false;
@@ -443,7 +443,7 @@ public class BcBetriebsMeldungDarstellung extends
 				final Data item = darstellung.getItem(i);
 				final Darstellung d = new Darstellung();
 
-				d.setKlasse(MeldungsKlasse.getMeldungsKlasse(daten
+				d.setKlasse(MeldungsKlasse.getMeldungsKlasse(item
 						.getUnscaledValue("Klasse").intValue()));
 				d.setVordergrundfarbe(item.getUnscaledValue("Vordergrundfarbe")
 						.longValue());
