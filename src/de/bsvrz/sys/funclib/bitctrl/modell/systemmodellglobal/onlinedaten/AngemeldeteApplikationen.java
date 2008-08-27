@@ -57,7 +57,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.onlinedaten.Angeme
  * Kapselt die Attributgruppe {@code atg.angemeldeteApplikationen}.
  * 
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id$
+ * @version $Id: AngemeldeteApplikationen.java 11211 2008-08-20 13:11:48Z
+ *          Schumann $
  */
 public class AngemeldeteApplikationen extends
 		AbstractOnlineDatensatz<AngemeldeteApplikationen.Daten> {

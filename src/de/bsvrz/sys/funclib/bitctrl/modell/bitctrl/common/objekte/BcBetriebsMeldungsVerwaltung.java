@@ -30,6 +30,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractSystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.BcCommonTypen;
+import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte.BetriebsMeldungsVerwaltung;
 
 /**
  * Repräsentiert die BitCtrl-Betriebsmeldungsverwaltung. Ein Objekt dieses Typs
@@ -38,7 +39,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.BcCommonTypen;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class BcBetriebsMeldungsVerwaltung extends AbstractSystemObjekt {
+public class BcBetriebsMeldungsVerwaltung extends AbstractSystemObjekt
+		implements BetriebsMeldungsVerwaltung {
 
 	/**
 	 * Konstruiert ein Ereignis aus einem {@code SystemObject}.
@@ -51,7 +53,7 @@ public class BcBetriebsMeldungsVerwaltung extends AbstractSystemObjekt {
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Ereignis.");
+					"Systemobjekt ist keine BcBetriebsMeldungsVerwaltung.");
 		}
 	}
 

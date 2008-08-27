@@ -50,6 +50,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.Urlasser;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum.Status;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBetriebsMeldungsVerwaltung;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.parameter.BcBetriebsMeldungDarstellung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte.BetriebsMeldungsVerwaltung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung;
@@ -75,7 +76,7 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 public final class Betriebsmeldungsverwaltung {
 
 	/** PID der BitCtrl-Betriebsmeldungsverwaltung mit erweiterten Parametern. */
-	public static final String PID_BITCTRL_BMV = "bmv.bitctrl";
+	public static final String PID_BITCTRL_BMV = "bitctrl.bmv";
 
 	/** Das einzige Objekt dieser Klasse. */
 	private static Betriebsmeldungsverwaltung singleton;
@@ -147,7 +148,7 @@ public final class Betriebsmeldungsverwaltung {
 	/** Der Datensatz mit dem die Meldungen empfangen werden. */
 	private final BetriebsMeldung datensatzBetriebsMeldung;
 
-	/** Darstellungsoptionen der Meldungen. */
+	/** Die Darstellungsparameter für Meldungen. */
 	private BcBetriebsMeldungDarstellung.Daten darstellungsparameter;
 
 	/**
@@ -171,8 +172,6 @@ public final class Betriebsmeldungsverwaltung {
 			final BcBetriebsMeldungDarstellung param = bvBmv
 					.getParameterDatensatz(BcBetriebsMeldungDarstellung.class);
 			darstellungsparameter = param.abrufenDatum();
-			param.addUpdateListener(empfaenger);
-
 		} else {
 			darstellungsparameter = new BcBetriebsMeldungDarstellung.Daten();
 		}
@@ -576,7 +575,16 @@ public final class Betriebsmeldungsverwaltung {
 	 * @return die Darstellungsparameter.
 	 */
 	public BcBetriebsMeldungDarstellung.Daten getDarstellungsparameter() {
-		return darstellungsparameter.clone();
+		final ObjektFactory factory = ObjektFactory.getInstanz();
+		final BcBetriebsMeldungsVerwaltung bvBmv = (BcBetriebsMeldungsVerwaltung) factory
+				.getModellobjekt(PID_BITCTRL_BMV);
+		if (bvBmv != null) {
+			final BcBetriebsMeldungDarstellung param = bvBmv
+					.getParameterDatensatz(BcBetriebsMeldungDarstellung.class);
+			return param.abrufenDatum();
+		} else {
+			return new BcBetriebsMeldungDarstellung.Daten();
+		}
 	}
 
 }

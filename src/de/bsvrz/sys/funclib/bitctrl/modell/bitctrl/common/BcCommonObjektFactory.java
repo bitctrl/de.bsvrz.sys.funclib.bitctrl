@@ -33,6 +33,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBedienStelle;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBetriebsMeldungsVerwaltung;
 
 /**
@@ -53,8 +54,11 @@ public class BcCommonObjektFactory implements ModellObjektFactory {
 		}
 
 		SystemObjekt obj = null;
-		if (objekt.isOfType(BcCommonTypen.BcBetriebsMeldungsVerwaltung.getPid())) {
+		if (objekt
+				.isOfType(BcCommonTypen.BcBetriebsMeldungsVerwaltung.getPid())) {
 			obj = new BcBetriebsMeldungsVerwaltung(objekt);
+		} else if (objekt.isOfType(BcCommonTypen.BcBedienStelle.getPid())) {
+			obj = new BcBedienStelle(objekt);
 		}
 
 		return obj;

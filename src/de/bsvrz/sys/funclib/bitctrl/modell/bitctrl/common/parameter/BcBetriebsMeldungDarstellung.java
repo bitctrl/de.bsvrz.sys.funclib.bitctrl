@@ -66,12 +66,12 @@ public class BcBetriebsMeldungDarstellung extends
 		 */
 		public static class Darstellung {
 
-			private MeldungsKlasse klasse;
-			private long vordergrundfarbe;
-			private long hintergrundfarbe;
-			private String schriftart;
-			private boolean fettdruck;
-			private boolean kursivdruck;
+			private MeldungsKlasse klasse = MeldungsKlasse.Information;
+			private long vordergrundfarbe = 0L;
+			private long hintergrundfarbe = 0xFFFFF;
+			private String schriftart = "Arial";
+			private boolean fettdruck = false;
+			private boolean kursivdruck = false;
 
 			/**
 			 * @return the klasse
@@ -209,8 +209,8 @@ public class BcBetriebsMeldungDarstellung extends
 		private int maxAnzahl = DEFAULT_MAX_ANZAHL;
 
 		/** Die Liste der anzuzeigenden Spalten einer Meldung. */
-		private List<BetriebsMeldungSpalte> anzuzeigendeSpalten = Arrays
-				.asList(BetriebsMeldungSpalte.values());
+		private List<BetriebsMeldungSpalte> anzuzeigendeSpalten = new ArrayList<BetriebsMeldungSpalte>(
+				Arrays.asList(BetriebsMeldungSpalte.values()));
 
 		/** Die Liste der Darstellungsbeschreibungen. */
 		private List<Darstellung> darstellung = new ArrayList<Darstellung>();
@@ -443,8 +443,8 @@ public class BcBetriebsMeldungDarstellung extends
 				final Data item = darstellung.getItem(i);
 				final Darstellung d = new Darstellung();
 
-				d.setKlasse(MeldungsKlasse.getMeldungsKlasse(daten.getUnscaledValue(
-						"Klasse").intValue()));
+				d.setKlasse(MeldungsKlasse.getMeldungsKlasse(daten
+						.getUnscaledValue("Klasse").intValue()));
 				d.setVordergrundfarbe(item.getUnscaledValue("Vordergrundfarbe")
 						.longValue());
 				d.setHintergrundfarbe(item.getUnscaledValue("Hintergrundfarbe")
@@ -458,16 +458,19 @@ public class BcBetriebsMeldungDarstellung extends
 				datum.getDarstellung().add(d);
 			}
 
-			datum.setMaxAnzahl(daten.getUnscaledValue("MaxAnzahl").intValue());
+			// TODO Wert als 32 Bit Integer im DaK abbilden.
+			datum.setMaxAnzahl((int) daten.getUnscaledValue("MaxAnzahl")
+					.longValue());
 			datum.setMaxHistory(daten.getUnscaledValue("MaxHistory")
 					.longValue());
 
 			anzuzeigendeSpalten = daten.getArray("AnzuzeigendeSpalten");
+			datum.getAnzuzeigendeSpalten().clear();
 			for (int i = 0; i < anzuzeigendeSpalten.getLength(); ++i) {
 				final Data item = anzuzeigendeSpalten.getItem(i);
 				datum.getAnzuzeigendeSpalten().add(
-						BetriebsMeldungSpalte.valueOf(item.getUnscaledValue(
-								"AnzuzeigendeSpalten").intValue()));
+						BetriebsMeldungSpalte.valueOf(item.asUnscaledValue()
+								.intValue()));
 			}
 		}
 

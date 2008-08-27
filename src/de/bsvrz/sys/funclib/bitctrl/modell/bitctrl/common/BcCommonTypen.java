@@ -28,6 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBedienStelle;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBetriebsMeldungsVerwaltung;
 
 /**
@@ -37,6 +38,9 @@ import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBetriebsMeld
  * @version $Id$
  */
 public enum BcCommonTypen implements SystemObjektTyp {
+
+	/** Eine BitCtrl Bedienstelle. */
+	BcBedienStelle("typ.bcBedienStelle", BcBedienStelle.class),
 
 	/** Die BitCtrl-Erweiterung der Betriebsmeltungsverwaltung. */
 	BcBetriebsMeldungsVerwaltung("typ.bcBetriebsMeldungsVerwaltung",
