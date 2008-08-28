@@ -66,12 +66,12 @@ public class BcBetriebsMeldungDarstellung extends
 		 */
 		public static class Darstellung {
 
-			private MeldungsKlasse klasse = MeldungsKlasse.Information;
-			private long vordergrundfarbe = 0L;
-			private long hintergrundfarbe = 0xFFFFFF;
-			private String schriftart = "Arial";
-			private boolean fettdruck = false;
-			private boolean kursivdruck = false;
+			private MeldungsKlasse klasse;
+			private long vordergrundfarbe;
+			private long hintergrundfarbe;
+			private String schriftart;
+			private boolean fettdruck;
+			private boolean kursivdruck;
 
 			/**
 			 * @return the klasse
@@ -188,25 +188,13 @@ public class BcBetriebsMeldungDarstellung extends
 		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
-		 * Der Standardwert für das maximale Alter von Betriebsmeldungen, die
-		 * aus dem Archiv gelesen werden: {@value}.
-		 */
-		public static final long DEFAULT_HISTORY = 3 * Constants.MILLIS_PER_DAY;
-
-		/**
-		 * Der Standardwert für die maximale Anzahl gecachter Meldungen:
-		 * {@value}.
-		 */
-		public static final int DEFAULT_MAX_ANZAHL = 1000;
-
-		/**
 		 * Die Zeit in die Vergangenheit, für die Meldungen initial gecacht
 		 * werden sollen.
 		 */
-		private long maxHistory = DEFAULT_HISTORY;
+		private long maxHistory;
 
 		/** Die maximale Anzahl gecachter Meldungen. */
-		private int maxAnzahl = DEFAULT_MAX_ANZAHL;
+		private int maxAnzahl;
 
 		/** Die Liste der anzuzeigenden Spalten einer Meldung. */
 		private List<BetriebsMeldungSpalte> anzuzeigendeSpalten = new ArrayList<BetriebsMeldungSpalte>(
@@ -433,7 +421,8 @@ public class BcBetriebsMeldungDarstellung extends
 		}
 
 		daten.getUnscaledValue("MaxAnzahl").set(datum.getMaxAnzahl());
-		daten.getUnscaledValue("MaxHistory").set(datum.getMaxHistory());
+		daten.getUnscaledValue("MaxHistory").set(
+				datum.getMaxHistory() / Constants.MILLIS_PER_DAY);
 
 		anzuzeigendeSpalten = daten.getArray("AnzuzeigendeSpalten");
 		anzuzeigendeSpalten.setLength(datum.getAnzuzeigendeSpalten().size());
@@ -476,11 +465,9 @@ public class BcBetriebsMeldungDarstellung extends
 				datum.getDarstellung().add(d);
 			}
 
-			// TODO Wert als 32 Bit Integer im DaK abbilden.
-			datum.setMaxAnzahl((int) daten.getUnscaledValue("MaxAnzahl")
-					.longValue());
-			datum.setMaxHistory(daten.getUnscaledValue("MaxHistory")
-					.longValue());
+			datum.setMaxAnzahl(daten.getUnscaledValue("MaxAnzahl").intValue());
+			datum.setMaxHistory(Constants.MILLIS_PER_DAY
+					* daten.getUnscaledValue("MaxHistory").intValue());
 
 			anzuzeigendeSpalten = daten.getArray("AnzuzeigendeSpalten");
 			datum.getAnzuzeigendeSpalten().clear();
