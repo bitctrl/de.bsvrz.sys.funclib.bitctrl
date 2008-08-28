@@ -42,7 +42,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.AbstractParameterDatensatz;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBetriebsMeldungsVerwaltung;
-import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.parameter.BcBetriebsMeldungDarstellung.Daten.Darstellung;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.parameter.PdBcBetriebsMeldungDarstellung.Daten.Darstellung;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.zustaende.BetriebsMeldungSpalte;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKlasse;
 
@@ -53,11 +53,11 @@ import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKl
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public class BcBetriebsMeldungDarstellung extends
-		AbstractParameterDatensatz<BcBetriebsMeldungDarstellung.Daten> {
+public class PdBcBetriebsMeldungDarstellung extends
+		AbstractParameterDatensatz<PdBcBetriebsMeldungDarstellung.Daten> {
 
 	/**
-	 * Repräsentation der Daten des Ereignisparameters.
+	 * Repräsentation der Daten des Parameters.
 	 */
 	public static class Daten extends AbstractDatum {
 
@@ -369,7 +369,7 @@ public class BcBetriebsMeldungDarstellung extends
 	 * @param objekt
 	 *            ein Ereignis.
 	 */
-	public BcBetriebsMeldungDarstellung(
+	public PdBcBetriebsMeldungDarstellung(
 			final BcBetriebsMeldungsVerwaltung objekt) {
 		super(objekt);
 

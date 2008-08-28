@@ -51,7 +51,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.Urlasser;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum.Status;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBetriebsMeldungsVerwaltung;
-import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.parameter.BcBetriebsMeldungDarstellung;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.parameter.PdBcBetriebsMeldungDarstellung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte.BetriebsMeldungsVerwaltung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKlasse;
@@ -119,8 +119,8 @@ public final class Betriebsmeldungsverwaltung {
 						}
 					}
 				}
-			} else if (event.getDatum() instanceof BcBetriebsMeldungDarstellung.Daten) {
-				darstellungsparameter = (BcBetriebsMeldungDarstellung.Daten) event
+			} else if (event.getDatum() instanceof PdBcBetriebsMeldungDarstellung.Daten) {
+				darstellungsparameter = (PdBcBetriebsMeldungDarstellung.Daten) event
 						.getDatum();
 			}
 
@@ -149,7 +149,7 @@ public final class Betriebsmeldungsverwaltung {
 	private final BetriebsMeldung datensatzBetriebsMeldung;
 
 	/** Die Darstellungsparameter für Meldungen. */
-	private BcBetriebsMeldungDarstellung.Daten darstellungsparameter;
+	private PdBcBetriebsMeldungDarstellung.Daten darstellungsparameter;
 
 	/**
 	 * Liest initial die letzten Betriebsmeldungen aus dem Archiv und cacht
@@ -169,11 +169,11 @@ public final class Betriebsmeldungsverwaltung {
 		final BetriebsMeldungsVerwaltung bvBmv = (BetriebsMeldungsVerwaltung) factory
 				.getModellobjekt(PID_BITCTRL_BMV);
 		if (bvBmv != null) {
-			final BcBetriebsMeldungDarstellung param = bvBmv
-					.getParameterDatensatz(BcBetriebsMeldungDarstellung.class);
+			final PdBcBetriebsMeldungDarstellung param = bvBmv
+					.getParameterDatensatz(PdBcBetriebsMeldungDarstellung.class);
 			darstellungsparameter = param.abrufenDatum();
 		} else {
-			darstellungsparameter = new BcBetriebsMeldungDarstellung.Daten();
+			darstellungsparameter = new PdBcBetriebsMeldungDarstellung.Daten();
 		}
 
 		// Meldungen aus dem Archiv auslesen
@@ -573,16 +573,16 @@ public final class Betriebsmeldungsverwaltung {
 	 * 
 	 * @return die Darstellungsparameter.
 	 */
-	public BcBetriebsMeldungDarstellung.Daten getDarstellungsparameter() {
+	public PdBcBetriebsMeldungDarstellung.Daten getDarstellungsparameter() {
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 		final BcBetriebsMeldungsVerwaltung bvBmv = (BcBetriebsMeldungsVerwaltung) factory
 				.getModellobjekt(PID_BITCTRL_BMV);
 		if (bvBmv != null) {
-			final BcBetriebsMeldungDarstellung param = bvBmv
-					.getParameterDatensatz(BcBetriebsMeldungDarstellung.class);
+			final PdBcBetriebsMeldungDarstellung param = bvBmv
+					.getParameterDatensatz(PdBcBetriebsMeldungDarstellung.class);
 			return param.abrufenDatum();
 		} else {
-			return new BcBetriebsMeldungDarstellung.Daten();
+			return new PdBcBetriebsMeldungDarstellung.Daten();
 		}
 	}
 
