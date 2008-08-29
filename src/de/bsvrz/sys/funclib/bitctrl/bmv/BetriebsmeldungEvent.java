@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.EventObject;
 import java.util.List;
 
-import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung;
+import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.OdBetriebsMeldung;
 
 /**
  * Beschreibt die Änderung der Betriebsmeldungsliste.
@@ -42,10 +42,10 @@ import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.Betriebs
 public class BetriebsmeldungEvent extends EventObject {
 
 	/** Die neu hinzugekommenen Meldungen. */
-	private final List<BetriebsMeldung.Daten> neueMeldungen;
+	private final List<OdBetriebsMeldung.Daten> neueMeldungen;
 
 	/** Die entfernten Meldungen. */
-	private final List<BetriebsMeldung.Daten> entfernteMeldungen;
+	private final List<OdBetriebsMeldung.Daten> entfernteMeldungen;
 
 	/**
 	 * Eventkonstruktor.
@@ -58,14 +58,14 @@ public class BetriebsmeldungEvent extends EventObject {
 	 *            die Liste der entfernten Meldungen
 	 */
 	public BetriebsmeldungEvent(final Object source,
-			final List<BetriebsMeldung.Daten> neueMeldungen,
-			final List<BetriebsMeldung.Daten> entfernteMeldungen) {
+			final List<OdBetriebsMeldung.Daten> neueMeldungen,
+			final List<OdBetriebsMeldung.Daten> entfernteMeldungen) {
 		super(source);
 
 		this.neueMeldungen = neueMeldungen != null ? neueMeldungen
-				: new ArrayList<BetriebsMeldung.Daten>();
+				: new ArrayList<OdBetriebsMeldung.Daten>();
 		this.entfernteMeldungen = entfernteMeldungen != null ? entfernteMeldungen
-				: new ArrayList<BetriebsMeldung.Daten>();
+				: new ArrayList<OdBetriebsMeldung.Daten>();
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class BetriebsmeldungEvent extends EventObject {
 	 * 
 	 * @return eine unveränderliche Liste der neuen Meldungen.
 	 */
-	public List<BetriebsMeldung.Daten> getNeueMeldungen() {
+	public List<OdBetriebsMeldung.Daten> getNeueMeldungen() {
 		return Collections.unmodifiableList(neueMeldungen);
 	}
 
@@ -82,7 +82,7 @@ public class BetriebsmeldungEvent extends EventObject {
 	 * 
 	 * @return eine unveränderliche Liste der entfernten Meldungen.
 	 */
-	public List<BetriebsMeldung.Daten> getEntfernteMeldungen() {
+	public List<OdBetriebsMeldung.Daten> getEntfernteMeldungen() {
 		return Collections.unmodifiableList(entfernteMeldungen);
 	}
 

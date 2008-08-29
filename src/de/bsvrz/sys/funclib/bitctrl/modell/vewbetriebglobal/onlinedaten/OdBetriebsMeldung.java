@@ -60,8 +60,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsTy
  * @see de.bsvrz.sys.funclib.operatingMessage.MessageSender
  * @see de.bsvrz.sys.funclib.bitctrl.bmv.Betriebsmeldungsverwaltung
  */
-public class BetriebsMeldung extends
-		AbstractOnlineDatensatz<BetriebsMeldung.Daten> {
+public class OdBetriebsMeldung extends
+		AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 
 	/**
 	 * Die vorhandenen Aspekte des Datensatzes.
@@ -520,7 +520,7 @@ public class BetriebsMeldung extends
 	 *            die Betriebsmeldungsverwaltung, dessen Onlinedaten verwalten
 	 *            werden sollen.
 	 */
-	public BetriebsMeldung(final BetriebsMeldungsVerwaltung bmv) {
+	public OdBetriebsMeldung(final BetriebsMeldungsVerwaltung bmv) {
 		super(bmv);
 
 		if (atg == null) {

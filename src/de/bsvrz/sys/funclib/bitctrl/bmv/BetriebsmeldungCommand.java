@@ -28,7 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.bmv;
 
 import com.bitctrl.commands.Command;
 
-import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung;
+import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.OdBetriebsMeldung;
 
 /**
  * Beschreibt einen Befehl beim Eintreffen bestimmter Betriebsmeldungen
@@ -46,6 +46,6 @@ public interface BetriebsmeldungCommand extends Command {
 	 *            eine Betriebsmeldung.
 	 * @return {@code true}, wenn der Befehl ausgeführt werden soll.
 	 */
-	boolean isTrigger(BetriebsMeldung.Daten meldung);
+	boolean isTrigger(OdBetriebsMeldung.Daten meldung);
 
 }

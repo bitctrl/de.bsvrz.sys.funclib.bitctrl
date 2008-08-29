@@ -53,7 +53,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Datum.Status;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBetriebsMeldungsVerwaltung;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.parameter.PdBcBetriebsMeldungDarstellung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte.BetriebsMeldungsVerwaltung;
-import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.BetriebsMeldung;
+import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.OdBetriebsMeldung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKlasse;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsStatus;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsTyp;
@@ -103,10 +103,10 @@ public final class Betriebsmeldungsverwaltung {
 		 * {@inheritDoc}
 		 */
 		public void datensatzAktualisiert(final DatensatzUpdateEvent event) {
-			final List<BetriebsMeldung.Daten> neu = new ArrayList<BetriebsMeldung.Daten>();
+			final List<OdBetriebsMeldung.Daten> neu = new ArrayList<OdBetriebsMeldung.Daten>();
 
-			if (event.getDatum() instanceof BetriebsMeldung.Daten) {
-				final BetriebsMeldung.Daten datum = (BetriebsMeldung.Daten) event
+			if (event.getDatum() instanceof OdBetriebsMeldung.Daten) {
+				final OdBetriebsMeldung.Daten datum = (OdBetriebsMeldung.Daten) event
 						.getDatum();
 				synchronized (meldungsliste) {
 					meldungsliste.add(datum);
@@ -124,7 +124,7 @@ public final class Betriebsmeldungsverwaltung {
 						.getDatum();
 			}
 
-			final List<BetriebsMeldung.Daten> entfernt = cleanUpMeldungen();
+			final List<OdBetriebsMeldung.Daten> entfernt = cleanUpMeldungen();
 			fireMeldungslisteChanged(neu, entfernt);
 		}
 
@@ -137,16 +137,16 @@ public final class Betriebsmeldungsverwaltung {
 	private final EventListenerList listeners;
 
 	/** Die Liste der gecachten Meldungen. */
-	private final List<BetriebsMeldung.Daten> meldungsliste;
+	private final List<OdBetriebsMeldung.Daten> meldungsliste;
 
 	/** Die gefilterte Meldungsliste. */
-	private final SortedSet<BetriebsMeldung.Daten> meldungslisteGefiltert;
+	private final SortedSet<OdBetriebsMeldung.Daten> meldungslisteGefiltert;
 
 	/** Liste er Befehle die beim Meldungsempfang verarbeitet werden. */
 	private final List<BetriebsmeldungCommand> befehlsliste;
 
 	/** Der Datensatz mit dem die Meldungen empfangen werden. */
-	private final BetriebsMeldung datensatzBetriebsMeldung;
+	private final OdBetriebsMeldung datensatzBetriebsMeldung;
 
 	/** Die Darstellungsparameter für Meldungen. */
 	private PdBcBetriebsMeldungDarstellung.Daten darstellungsparameter;
@@ -158,8 +158,8 @@ public final class Betriebsmeldungsverwaltung {
 	private Betriebsmeldungsverwaltung() {
 		log = Debug.getLogger();
 		listeners = new EventListenerList();
-		meldungsliste = new LinkedList<BetriebsMeldung.Daten>();
-		meldungslisteGefiltert = new TreeSet<BetriebsMeldung.Daten>();
+		meldungsliste = new LinkedList<OdBetriebsMeldung.Daten>();
+		meldungslisteGefiltert = new TreeSet<OdBetriebsMeldung.Daten>();
 		befehlsliste = new ArrayList<BetriebsmeldungCommand>();
 
 		final Meldungsempfaenger empfaenger = new Meldungsempfaenger();
@@ -181,10 +181,10 @@ public final class Betriebsmeldungsverwaltung {
 			// Factory wird umgangen, weil dieser Datensatz nur zur
 			// Konvertierung verwendet wird und anschließend das Objekt wieder
 			// zerstört werden kann.
-			final BetriebsMeldung datensatz = new BetriebsMeldung(null);
+			final OdBetriebsMeldung datensatz = new OdBetriebsMeldung(null);
 
 			final DataDescription dbs = new DataDescription(datensatz
-					.getAttributGruppe(), BetriebsMeldung.Aspekte.Information
+					.getAttributGruppe(), OdBetriebsMeldung.Aspekte.Information
 					.getAspekt());
 			final long zeitstempel = factory.getVerbindung().getTime();
 			final ArchivIterator iterator = new ArchivIterator(factory
@@ -196,8 +196,8 @@ public final class Betriebsmeldungsverwaltung {
 
 			while (iterator.hasNext()) {
 				datensatz.setDaten(iterator.next());
-				final BetriebsMeldung.Daten datum = datensatz
-						.getDatum(BetriebsMeldung.Aspekte.Information
+				final OdBetriebsMeldung.Daten datum = datensatz
+						.getDatum(OdBetriebsMeldung.Aspekte.Information
 								.getAspekt());
 				meldungsliste.add(datum);
 				meldungslisteGefiltert.add(datum);
@@ -208,9 +208,9 @@ public final class Betriebsmeldungsverwaltung {
 
 		// Als Empfänger für Betriebsmeldungen anmelden
 		datensatzBetriebsMeldung = factory.getAOE().getOnlineDatensatz(
-				BetriebsMeldung.class);
+				OdBetriebsMeldung.class);
 		datensatzBetriebsMeldung.addUpdateListener(
-				BetriebsMeldung.Aspekte.Information.getAspekt(), empfaenger);
+				OdBetriebsMeldung.Aspekte.Information.getAspekt(), empfaenger);
 
 		log.info("Betriebsmeldungsverwaltung bereit.");
 	}
@@ -222,16 +222,16 @@ public final class Betriebsmeldungsverwaltung {
 	 * @see #getMaxHistory()
 	 * @see #getMaxAnzahl()
 	 */
-	private List<BetriebsMeldung.Daten> cleanUpMeldungen() {
-		final List<BetriebsMeldung.Daten> entfernt = new ArrayList<BetriebsMeldung.Daten>();
+	private List<OdBetriebsMeldung.Daten> cleanUpMeldungen() {
+		final List<OdBetriebsMeldung.Daten> entfernt = new ArrayList<OdBetriebsMeldung.Daten>();
 		synchronized (meldungsliste) {
 			// Entferne Meldungenm, die zu alte sind.
 			final long maxZeitstempel = System.currentTimeMillis()
 					- darstellungsparameter.getMaxHistory();
-			final Iterator<BetriebsMeldung.Daten> iterator = meldungsliste
+			final Iterator<OdBetriebsMeldung.Daten> iterator = meldungsliste
 					.iterator();
 			while (iterator.hasNext()) {
-				final BetriebsMeldung.Daten meldung = iterator.next();
+				final OdBetriebsMeldung.Daten meldung = iterator.next();
 				if (meldung.getZeitstempel() < maxZeitstempel) {
 					entfernt.add(meldung);
 					iterator.remove();
@@ -252,10 +252,10 @@ public final class Betriebsmeldungsverwaltung {
 			// Entferne Meldungenm, die zu alte sind.
 			final long maxZeitstempel = System.currentTimeMillis()
 					- darstellungsparameter.getMaxHistory();
-			final Iterator<BetriebsMeldung.Daten> iterator = meldungslisteGefiltert
+			final Iterator<OdBetriebsMeldung.Daten> iterator = meldungslisteGefiltert
 					.iterator();
 			while (iterator.hasNext()) {
-				final BetriebsMeldung.Daten meldung = iterator.next();
+				final OdBetriebsMeldung.Daten meldung = iterator.next();
 				if (meldung.getZeitstempel() < maxZeitstempel) {
 					iterator.remove();
 				}
@@ -304,8 +304,8 @@ public final class Betriebsmeldungsverwaltung {
 	 *            die Liste der entfernten Meldungen.
 	 */
 	protected synchronized void fireMeldungslisteChanged(
-			final List<BetriebsMeldung.Daten> neu,
-			final List<BetriebsMeldung.Daten> entfernt) {
+			final List<OdBetriebsMeldung.Daten> neu,
+			final List<OdBetriebsMeldung.Daten> entfernt) {
 		final BetriebsmeldungEvent e = new BetriebsmeldungEvent(this, neu,
 				entfernt);
 
@@ -344,7 +344,7 @@ public final class Betriebsmeldungsverwaltung {
 	 */
 	public boolean isBereit() {
 		final Status status = datensatzBetriebsMeldung.abrufenDatum(
-				BetriebsMeldung.Aspekte.Information.getAspekt())
+				OdBetriebsMeldung.Aspekte.Information.getAspekt())
 				.getDatenStatus();
 		return status == Status.DATEN || status == Status.KEINE_DATEN;
 	}
@@ -354,7 +354,7 @@ public final class Betriebsmeldungsverwaltung {
 	 * 
 	 * @return eine unveränderliche Liste der aktuellen Meldungen.
 	 */
-	public List<BetriebsMeldung.Daten> getMeldungsliste() {
+	public List<OdBetriebsMeldung.Daten> getMeldungsliste() {
 		return Collections.unmodifiableList(meldungsliste);
 	}
 
@@ -365,9 +365,9 @@ public final class Betriebsmeldungsverwaltung {
 	 * @return eine unveränderliche Liste der aktuellen Meldungen.
 	 * @see BetriebsMeldung.Daten#equals(Object)
 	 */
-	public List<BetriebsMeldung.Daten> getMeldungslisteGefiltert() {
+	public List<OdBetriebsMeldung.Daten> getMeldungslisteGefiltert() {
 		return Collections
-				.unmodifiableList(new ArrayList<BetriebsMeldung.Daten>(
+				.unmodifiableList(new ArrayList<OdBetriebsMeldung.Daten>(
 						meldungslisteGefiltert));
 	}
 
@@ -461,7 +461,7 @@ public final class Betriebsmeldungsverwaltung {
 	 * @param meldung
 	 *            eine Meldung.
 	 */
-	public void sende(final BetriebsMeldung.Daten meldung) {
+	public void sende(final OdBetriebsMeldung.Daten meldung) {
 		getSender().sendMessage(
 				meldung.getId(),
 				getMessageType(meldung.getMeldungsTyp()),
