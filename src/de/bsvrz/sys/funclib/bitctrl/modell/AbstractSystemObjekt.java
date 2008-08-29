@@ -62,7 +62,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	private final Map<Class<? extends OnlineDatensatz<? extends Datum>>, OnlineDatensatz<? extends Datum>> onlineDaten;
 
 	/**
-	 * Weist lediglich das Systemobjekt zu.
+	 * Weist das Systemobjekt zu und prüft ob der Typ stimmt.
 	 * 
 	 * @param obj
 	 *            Das zu kapselnde Systemobjekt
@@ -73,6 +73,11 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 				.synchronizedMap(new HashMap<Class<? extends ParameterDatensatz<? extends Datum>>, ParameterDatensatz<? extends Datum>>());
 		onlineDaten = Collections
 				.synchronizedMap(new HashMap<Class<? extends OnlineDatensatz<? extends Datum>>, OnlineDatensatz<? extends Datum>>());
+
+		if (!obj.isOfType(getTyp().getPid())) {
+			throw new IllegalArgumentException("Systemobjekt ist kein "
+					+ getClass().getSimpleName() + ".");
+		}
 	}
 
 	/**
