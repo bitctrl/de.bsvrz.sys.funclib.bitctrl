@@ -52,6 +52,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensendeException;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBedienStelle;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
@@ -1048,12 +1049,12 @@ public final class Benutzerverwaltung {
 				}
 			}
 
-			if ((anzahl == 0) || (anzahl == laenge)) {
+			if (anzahl == 0 || anzahl == laenge) {
 				return "Das Passwort muss außer Buchstaben auch Zahlen oder Sonderzeichen enthalten.";
 			}
 		}
 
-		if ((benutzer != null) && passwortInfo.isVergleicheBenutzerdaten()) {
+		if (benutzer != null && passwortInfo.isVergleicheBenutzerdaten()) {
 			final String loginname = benutzer.getName().toLowerCase(
 					Locale.getDefault());
 			final String nachname = benutzer.getNachname().toLowerCase(
@@ -1091,6 +1092,45 @@ public final class Benutzerverwaltung {
 
 		// Alle Tests bestanden
 		return null;
+	}
+
+	/**
+	 * Gibt die Bedienstelle zurück, an der ein Benutzer aktuell angemeldet ist.
+	 * 
+	 * @param benutzer
+	 *            ein Benutzer.
+	 * @return die Bedienstelle oder {@code null}, wenn der Benutzer an keiner
+	 *         Bedienstelle angemeldet ist.
+	 */
+	public BcBedienStelle getBedienStelle(final Benutzer benutzer) {
+		final List<BcBedienStelle> anmeldungen = new ArrayList<BcBedienStelle>();
+		for (final AngemeldeteApplikation app : getAnmeldungen(benutzer)) {
+			if (app.getApplikation() instanceof BcBedienStelle) {
+				anmeldungen.add((BcBedienStelle) app.getApplikation());
+			}
+		}
+
+		if (anmeldungen.isEmpty()) {
+			return null;
+		}
+
+		if (anmeldungen.size() > 1) {
+			log.warning("Der Benutzer " + benutzer
+					+ " ist an mehreren Bedienstellen angemeldet: "
+					+ anmeldungen);
+		}
+
+		return anmeldungen.get(0);
+	}
+
+	/**
+	 * Gibt die Bedienstelle des lokalen Benutzers zurück.
+	 * 
+	 * @return die Bedienstelle oder {@code null}, wenn die lokale Applikation
+	 *         keine Bedienstelle ist.
+	 */
+	public BcBedienStelle getBedienStelle() {
+		return getBedienStelle(getAngemeldetenBenutzer());
 	}
 
 }
