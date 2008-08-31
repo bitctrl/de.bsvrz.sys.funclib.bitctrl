@@ -70,7 +70,8 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
  * Änderungen an dieser Liste informieren lassen.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
+ * @version $Id: Betriebsmeldungsverwaltung.java 11478 2008-08-29 15:07:45Z
+ *          Schumann $
  * @see de.bsvrz.sys.funclib.operatingMessage.MessageSender
  */
 public final class Betriebsmeldungsverwaltung {
@@ -376,18 +377,18 @@ public final class Betriebsmeldungsverwaltung {
 	 * 
 	 * @param typ
 	 *            der Meldungstyp.
-	 * @param meldungsTypZusatz
+	 * @param mtz
 	 *            der Meldungstypzusatz.
 	 * @param klasse
 	 *            die Meldungsklasse.
 	 * @param text
 	 *            der Meldungstext.
 	 */
-	public void sende(final MeldungsTyp typ, final String meldungsTypZusatz,
+	public void sende(final MeldungsTyp typ, final MeldungsTypZusatz mtz,
 			final MeldungsKlasse klasse, final String text) {
 		getSender().sendMessage(
 				getMessageType(typ),
-				getMessageTypeAddOn(meldungsTypZusatz),
+				getMessageTypeAddOn(mtz.compile()),
 				getMessageGrade(klasse),
 				null,
 				new MessageCauser(ObjektFactory.getInstanz().getBenutzer()
@@ -399,7 +400,7 @@ public final class Betriebsmeldungsverwaltung {
 	 * 
 	 * @param typ
 	 *            der Meldungstyp.
-	 * @param meldungsTypZusatz
+	 * @param mtz
 	 *            der Meldungstypzusatz.
 	 * @param klasse
 	 *            die Meldungsklasse.
@@ -408,12 +409,12 @@ public final class Betriebsmeldungsverwaltung {
 	 * @param text
 	 *            der Meldungstext.
 	 */
-	public void sende(final MeldungsTyp typ, final String meldungsTypZusatz,
+	public void sende(final MeldungsTyp typ, final MeldungsTypZusatz mtz,
 			final MeldungsKlasse klasse, final MeldungsStatus status,
 			final String text) {
 		getSender().sendMessage("", getMessageType(typ),
-				getMessageTypeAddOn(meldungsTypZusatz),
-				getMessageGrade(klasse), getMessageState(status), text);
+				getMessageTypeAddOn(mtz.compile()), getMessageGrade(klasse),
+				getMessageState(status), text);
 	}
 
 	/**
@@ -421,7 +422,7 @@ public final class Betriebsmeldungsverwaltung {
 	 * 
 	 * @param typ
 	 *            der Meldungstyp.
-	 * @param meldungsTypZusatz
+	 * @param mtz
 	 *            der Meldungstypzusatz.
 	 * @param klasse
 	 *            die Meldungsklasse.
@@ -434,7 +435,7 @@ public final class Betriebsmeldungsverwaltung {
 	 * @param urlasser
 	 *            die Urlasserinformation.
 	 */
-	public void sende(final MeldungsTyp typ, final String meldungsTypZusatz,
+	public void sende(final MeldungsTyp typ, final MeldungsTypZusatz mtz,
 			final MeldungsKlasse klasse, final MeldungsStatus status,
 			final SystemObjekt referenz, final String text,
 			final Urlasser urlasser) {
@@ -442,7 +443,7 @@ public final class Betriebsmeldungsverwaltung {
 				.sendMessage(
 						"",
 						getMessageType(typ),
-						getMessageTypeAddOn(meldungsTypZusatz),
+						getMessageTypeAddOn(mtz.compile()),
 						getMessageGrade(klasse),
 						referenz.getSystemObject(),
 						getMessageState(status),

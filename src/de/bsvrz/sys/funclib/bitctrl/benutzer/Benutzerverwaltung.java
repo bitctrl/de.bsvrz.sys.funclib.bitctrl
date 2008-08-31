@@ -568,6 +568,12 @@ public final class Benutzerverwaltung {
 				.abrufenDatum();
 		final Berechtigungsklasse klasse = datumBenutzer
 				.getBerechtigungsklasse();
+		if (klasse == null) {
+			log.info("Dem Benutzer " + benutzer
+					+ " ist keine Berechtigungsklasse zugeordnet.");
+			return false;
+		}
+
 		final PdRollenRegionenPaareParameter paramPaare = klasse
 				.getParameterDatensatz(PdRollenRegionenPaareParameter.class);
 		final PdRollenRegionenPaareParameter.Daten datumPaare = paramPaare
