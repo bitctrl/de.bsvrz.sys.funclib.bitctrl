@@ -95,8 +95,7 @@ public class OdStoerfallZustand extends
 		 *            die PID eines Aspekts.
 		 */
 		private Aspekte(String pid) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-					.getDataModel();
+			DataModel modell = ObjektFactory.getInstanz().getVerbindung().getDataModel();
 			aspekt = modell.getAspect(pid);
 			assert aspekt != null;
 		}
@@ -316,8 +315,7 @@ public class OdStoerfallZustand extends
 		super(si);
 
 		if (atg == null) {
-			DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-					.getDataModel();
+			DataModel modell = ObjektFactory.getInstanz().getVerbindung().getDataModel();
 			atg = modell.getAttributeGroup(ATG_STOERFALL_ZUSTAND);
 			assert atg != null;
 		}
@@ -393,8 +391,13 @@ public class OdStoerfallZustand extends
 	protected Data konvertiere(Daten datum) {
 		Data daten = erzeugeSendeCache();
 
-		daten.getItem("Güte").getScaledValue("Index")
-				.set(datum.getGueteIndex());
+		double gIndex = datum.getGueteIndex();
+		if (gIndex < 0) {
+			daten.getItem("Güte").getUnscaledValue("Index").set((int) gIndex);
+		} else {
+			daten.getItem("Güte").getScaledValue("Index").set(gIndex);
+		}
+
 		daten.getItem("Güte").getUnscaledValue("Verfahren").set(
 				datum.getGueteVerfahren().getCode());
 		daten.getTimeValue("Horizont").setMillis(datum.getHorizont());
@@ -416,14 +419,19 @@ public class OdStoerfallZustand extends
 		if (result.hasData()) {
 			Data daten = result.getData();
 
-			datum.setGueteIndex(daten.getItem("Güte").getScaledValue("Index")
-					.doubleValue());
-			datum.setGueteVerfahren(GueteVerfahren.getGueteVerfahren(daten
-					.getItem("Güte").getUnscaledValue("Verfahren").intValue()));
+			if (daten.getItem("Güte").getUnscaledValue("Index").isState()) {
+				datum.setGueteIndex(daten.getItem("Güte").getUnscaledValue(
+						"Index").intValue());
+			} else {
+				datum.setGueteIndex(daten.getItem("Güte").getScaledValue(
+						"Index").doubleValue());
+			}
+			datum.setGueteVerfahren(GueteVerfahren.getGueteVerfahren(daten.getItem(
+					"Güte").getUnscaledValue("Verfahren").intValue()));
 			datum.setHorizont(daten.getTimeValue("Horizont").getMillis());
 			datum.setT(daten.getTimeValue("T").getMillis());
-			datum.setSituation(StoerfallSituation.getSituation(daten
-					.getUnscaledValue("Situation").intValue()));
+			datum.setSituation(StoerfallSituation.getSituation(daten.getUnscaledValue(
+					"Situation").intValue()));
 		}
 
 		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()));
