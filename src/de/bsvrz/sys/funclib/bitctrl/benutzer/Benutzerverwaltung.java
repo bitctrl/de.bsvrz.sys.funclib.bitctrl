@@ -562,6 +562,14 @@ public final class Benutzerverwaltung {
 	 */
 	public boolean isRolleUndRegion(final Benutzer benutzer, final Rolle rolle,
 			final Region region) {
+		if (benutzer == null) {
+			throw new IllegalArgumentException("Benutzer darf nicht null sein.");
+		}
+		if (rolle == null) {
+			throw new IllegalArgumentException(
+					"Zugriffsrolle darf nicht null sein.");
+		}
+
 		final PdBenutzerParameter paramBenutzer = benutzer
 				.getParameterDatensatz(PdBenutzerParameter.class);
 		final PdBenutzerParameter.Daten datumBenutzer = paramBenutzer
