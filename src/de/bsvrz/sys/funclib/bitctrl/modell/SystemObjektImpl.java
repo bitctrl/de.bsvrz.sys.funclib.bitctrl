@@ -29,7 +29,8 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
- * Generischer Wrapper für unbekannte Systemobjekte.
+ * Generischer Wrapper für unbekannte Systemobjekte. Diese Klasse dient nur als
+ * Rückfallebene bis die entsprechenden Typen im Modell implementiert sind.
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
@@ -50,11 +51,28 @@ public class SystemObjektImpl extends AbstractSystemObjekt {
 	}
 
 	/**
+	 * Gibt nur rudimentäre Typinformation zurück, also ob es sich um ein
+	 * Konfigurationsobjekt oder ein dynamisches handelt.
+	 * 
 	 * {@inheritDoc}
 	 */
 	public SystemObjektTyp getTyp() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SystemObjektTyp() {
+
+			public Class<? extends SystemObjekt> getKlasse() {
+				return SystemObjekt.class;
+			}
+
+			public String getPid() {
+				if (getSystemObject().isOfType("typ.konfigurationsObjekt")) {
+					return "typ.konfigurationsObjekt";
+				} else if (getSystemObject().isOfType("typ.dynamischesObjekt")) {
+					return "typ.dynamischesObjekt";
+				}
+				return getSystemObject().getType().getPid();
+			}
+
+		};
 	}
 
 }

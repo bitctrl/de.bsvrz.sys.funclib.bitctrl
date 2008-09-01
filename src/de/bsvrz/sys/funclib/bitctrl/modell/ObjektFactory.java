@@ -372,7 +372,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 
 		if (so == null) {
 			System.err.println("Es existiert kein passendes Modellobjekt für "
-					+ obj + ".");
+					+ obj + " vom Typ " + obj.getType() + ".");
 			@SuppressWarnings("deprecation")
 			final SystemObjekt deprecatedObj = new SystemObjektImpl(obj);
 			so = deprecatedObj;

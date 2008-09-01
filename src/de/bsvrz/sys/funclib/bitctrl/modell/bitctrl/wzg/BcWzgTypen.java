@@ -29,6 +29,9 @@ package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg.objekte.BcGrundProgrammGruppe;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg.objekte.BcSchaltProgrammTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg.objekte.BcSonderProgrammGruppe;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg.objekte.BcWvzServer;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg.objekte.BcWvzStandort;
 
 /**
@@ -39,12 +42,22 @@ import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg.objekte.BcWvzStandort;
  */
 public enum BcWzgTypen implements SystemObjektTyp {
 
+	/** Der BitCtrl Wvz-Server. */
+	BcWvzServer("typ.bcWvzServer", BcWvzServer.class),
+
 	/** Die BitCtrl-Erweiterung BcWvzStandort. */
 	BcWvzStandort("typ.bcWvzStandort", BcWvzStandort.class),
 
 	/** Die BitCtrl-Erweiterung BcGrundProgrammGruppe. */
 	BcGrundProgrammGruppe("typ.bcGrundProgrammGruppe",
-			BcGrundProgrammGruppe.class);
+			BcGrundProgrammGruppe.class),
+
+	/** Die BitCtrl-Erweiterung BcGrundProgrammGruppe. */
+	BcSchaltProgrammTyp("typ.bcSchaltProgrammTyp", BcSchaltProgrammTyp.class),
+
+	/** Die BitCtrl-Erweiterung BcSonderProgrammGruppe. */
+	BcSonderProgrammGruppe("typ.bcSonderProgrammGruppe",
+			BcSonderProgrammGruppe.class);
 
 	/** PID des Objekttyps im Datenverteiler. */
 	private final String pid;

@@ -34,6 +34,9 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg.objekte.BcGrundProgrammGruppe;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg.objekte.BcSchaltProgrammTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg.objekte.BcSonderProgrammGruppe;
+import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg.objekte.BcWvzServer;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg.objekte.BcWvzStandort;
 
 /**
@@ -54,10 +57,16 @@ public class BcWzgObjektFactory implements ModellObjektFactory {
 		}
 
 		SystemObjekt obj = null;
-		if (objekt.isOfType(BcWzgTypen.BcWvzStandort.getPid())) {
+		if (objekt.isOfType(BcWzgTypen.BcWvzServer.getPid())) {
+			obj = new BcWvzServer(objekt);
+		} else if (objekt.isOfType(BcWzgTypen.BcWvzStandort.getPid())) {
 			obj = new BcWvzStandort(objekt);
 		} else if (objekt.isOfType(BcWzgTypen.BcGrundProgrammGruppe.getPid())) {
 			obj = new BcGrundProgrammGruppe(objekt);
+		} else if (objekt.isOfType(BcWzgTypen.BcSonderProgrammGruppe.getPid())) {
+			obj = new BcSonderProgrammGruppe(objekt);
+		} else if (objekt.isOfType(BcWzgTypen.BcSchaltProgrammTyp.getPid())) {
+			obj = new BcSchaltProgrammTyp(objekt);
 		}
 
 		return obj;
