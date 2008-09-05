@@ -41,7 +41,6 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dav.daf.main.config.SystemObjectType;
 import de.bsvrz.sys.funclib.bitctrl.daf.Konfigurationsbereich;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.BcCommonObjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.wzg.BcWzgObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.GeoModellFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderobjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.LmsObjektFactory;
@@ -464,7 +463,6 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 */
 	public void registerBitCtrlFactories() {
 		registerFactory(new BcCommonObjektFactory());
-		registerFactory(new BcWzgObjektFactory());
 	}
 
 	/**
