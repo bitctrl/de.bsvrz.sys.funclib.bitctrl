@@ -33,6 +33,9 @@ import de.bsvrz.dav.daf.main.Data;
  * Datensatzdatum sollten die Attributlisten auch auf Objekte abgebildet werden.
  * Diese Schnittstelle erlaubt die Konvertierung der Daten zwischen einer
  * Dav-Attributliste und einem Java-Objekt.
+ * <p>
+ * Eine Attributliste sollte als JavaBean implementiert werden, also in der
+ * Regel nur über die üblichen getXXX- und setXXX-Methoden verfügen.
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
@@ -45,7 +48,7 @@ public interface Attributliste {
 	 * @param daten
 	 *            die zum Objekt korrespondierende Attributliste.
 	 */
-	void extrahiereDaten(final Data daten);
+	void bean2Atl(final Data daten);
 
 	/**
 	 * Liest die Daten aus der übergebenen Attributliste und übernimmt sie in
@@ -54,6 +57,6 @@ public interface Attributliste {
 	 * @param daten
 	 *            die zum Objekt korrespondierende Attributliste.
 	 */
-	void setDaten(final Data daten);
+	void atl2Bean(final Data daten);
 
 }
