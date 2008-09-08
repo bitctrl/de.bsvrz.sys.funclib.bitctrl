@@ -54,6 +54,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Datenverte
 import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenobjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsobjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.VeWBetriebGlobalObjektFactory;
+import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Eine "Super-Factory" f&uuml;r Modellobjekte. Dient dem Erzeugen von Objekten
@@ -114,6 +115,9 @@ public final class ObjektFactory implements ModellObjektFactory {
 	 * werden und wird von den Autoupdatern der Datensätze benötigt.
 	 */
 	private ClientDavInterface verbindung;
+
+	/** Der Logger der Klasse. */
+	private final Debug log = Debug.getLogger();
 
 	/**
 	 * Cacht die erstellten Objekten und stellt sicher, dass es jedes Objekt nur
@@ -370,8 +374,8 @@ public final class ObjektFactory implements ModellObjektFactory {
 		}
 
 		if (so == null) {
-			System.err.println("Es existiert kein passendes Modellobjekt für "
-					+ obj + " vom Typ " + obj.getType() + ".");
+			log.fine("Es existiert kein passendes Modellobjekt für " + obj
+					+ " vom Typ " + obj.getType() + ".");
 			@SuppressWarnings("deprecation")
 			final SystemObjekt deprecatedObj = new SystemObjektImpl(obj);
 			so = deprecatedObj;
