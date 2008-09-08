@@ -44,7 +44,7 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageSender;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public class StandardApplicationRunner {
+public class BcStandardApplicationRunner {
 
 	/**
 	 * Die Methode baut mit Hilfe der Kommandozeilenargumente eine Verbindung
@@ -171,7 +171,7 @@ public class StandardApplicationRunner {
 	/**
 	 * Konstruktor verstecken. Der Standardkonstruktor tut nichts.
 	 */
-	protected StandardApplicationRunner() {
+	protected BcStandardApplicationRunner() {
 		// nix
 	}
 
