@@ -31,8 +31,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import javax.swing.event.EventListenerList;
 
@@ -70,8 +68,7 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
  * Änderungen an dieser Liste informieren lassen.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: Betriebsmeldungsverwaltung.java 11478 2008-08-29 15:07:45Z
- *          Schumann $
+ * @version $Id$
  * @see de.bsvrz.sys.funclib.operatingMessage.MessageSender
  */
 public final class Betriebsmeldungsverwaltung {
@@ -141,7 +138,7 @@ public final class Betriebsmeldungsverwaltung {
 	private final List<OdBetriebsMeldung.Daten> meldungsliste;
 
 	/** Die gefilterte Meldungsliste. */
-	private final SortedSet<OdBetriebsMeldung.Daten> meldungslisteGefiltert;
+	private final List<OdBetriebsMeldung.Daten> meldungslisteGefiltert;
 
 	/** Liste er Befehle die beim Meldungsempfang verarbeitet werden. */
 	private final List<BetriebsmeldungCommand> befehlsliste;
@@ -160,7 +157,7 @@ public final class Betriebsmeldungsverwaltung {
 		log = Debug.getLogger();
 		listeners = new EventListenerList();
 		meldungsliste = new LinkedList<OdBetriebsMeldung.Daten>();
-		meldungslisteGefiltert = new TreeSet<OdBetriebsMeldung.Daten>();
+		meldungslisteGefiltert = new LinkedList<OdBetriebsMeldung.Daten>();
 		befehlsliste = new ArrayList<BetriebsmeldungCommand>();
 
 		final Meldungsempfaenger empfaenger = new Meldungsempfaenger();
@@ -236,9 +233,7 @@ public final class Betriebsmeldungsverwaltung {
 				if (meldung.getZeitstempel() < maxZeitstempel) {
 					entfernt.add(meldung);
 					iterator.remove();
-				}
-
-				if (meldung.getDatenStatus() != Datum.Status.DATEN) {
+				} else if (meldung.getDatenStatus() != Datum.Status.DATEN) {
 					iterator.remove();
 				}
 			}
