@@ -400,7 +400,7 @@ public class OdBetriebsMeldung extends
 		/**
 		 * Zwei Betriebsmeldungen werden als gleich angesehen, wenn sie in
 		 * Meldungstyp, Meldungstypzusatz, Meldungsklasse, Referenz,
-		 * Meldungstext, Urlasserbenutzer und Urlasserursache übereinstimmen.
+		 * Meldungstext, Urlasserinformation übereinstimmen.
 		 * 
 		 * {@inheritDoc}
 		 */
@@ -409,14 +409,23 @@ public class OdBetriebsMeldung extends
 			if (obj == this) {
 				return true;
 			} else if (obj instanceof Daten) {
-				final Daten datum = (Daten) obj;
+				final Daten o = (Daten) obj;
+				boolean result = true;
 
-				return datum.meldungsTyp.equals(meldungsTyp)
-						&& datum.meldungsTypZusatz.equals(meldungsTypZusatz)
-						&& datum.meldungsKlasse.equals(meldungsKlasse)
-						&& datum.referenz.equals(referenz)
-						&& datum.meldungsText.equals(meldungsText)
-						&& datum.urlasser.equals(urlasser);
+				result &= meldungsTyp == null ? o.meldungsTyp == null
+						: meldungsTyp.equals(o.meldungsTyp);
+				result &= meldungsTypZusatz == null ? o.meldungsTypZusatz == null
+						: meldungsTypZusatz.equals(o.meldungsTypZusatz);
+				result &= meldungsKlasse == null ? o.meldungsKlasse == null
+						: meldungsKlasse.equals(o.meldungsKlasse);
+				result &= referenz == null ? o.referenz == null : referenz
+						.equals(o.referenz);
+				result &= meldungsText == null ? o.meldungsText == null
+						: meldungsText.equals(o.meldungsText);
+				result &= urlasser == null ? o.urlasser == null : urlasser
+						.equals(o.urlasser);
+
+				return result;
 			}
 
 			return false;

@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.swing.event.EventListenerList;
 
@@ -138,7 +140,7 @@ public final class Betriebsmeldungsverwaltung {
 	private final List<OdBetriebsMeldung.Daten> meldungsliste;
 
 	/** Die gefilterte Meldungsliste. */
-	private final List<OdBetriebsMeldung.Daten> meldungslisteGefiltert;
+	private final SortedSet<OdBetriebsMeldung.Daten> meldungslisteGefiltert;
 
 	/** Liste er Befehle die beim Meldungsempfang verarbeitet werden. */
 	private final List<BetriebsmeldungCommand> befehlsliste;
@@ -157,7 +159,7 @@ public final class Betriebsmeldungsverwaltung {
 		log = Debug.getLogger();
 		listeners = new EventListenerList();
 		meldungsliste = new LinkedList<OdBetriebsMeldung.Daten>();
-		meldungslisteGefiltert = new LinkedList<OdBetriebsMeldung.Daten>();
+		meldungslisteGefiltert = new TreeSet<OdBetriebsMeldung.Daten>();
 		befehlsliste = new ArrayList<BetriebsmeldungCommand>();
 
 		final Meldungsempfaenger empfaenger = new Meldungsempfaenger();
@@ -264,7 +266,7 @@ public final class Betriebsmeldungsverwaltung {
 			// Entferne Meldungen, die zuviel sind.
 			while (meldungslisteGefiltert.size() > darstellungsparameter
 					.getMaxAnzahl()) {
-				meldungslisteGefiltert.remove(0);
+				meldungslisteGefiltert.remove(meldungslisteGefiltert.first());
 			}
 		}
 

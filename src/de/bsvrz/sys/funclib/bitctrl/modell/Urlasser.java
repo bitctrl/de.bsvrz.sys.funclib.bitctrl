@@ -117,7 +117,7 @@ public class Urlasser implements Cloneable {
 			if (benutzer == null || o.benutzer == null) {
 				result = benutzer == o.benutzer;
 			} else if (benutzer != null) {
-				result = benutzer.equals(o);
+				result = benutzer.equals(o.benutzer);
 			} else {
 				result = o.benutzer.equals(benutzer);
 			}
