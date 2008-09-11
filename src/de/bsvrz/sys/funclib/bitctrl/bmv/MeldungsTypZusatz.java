@@ -33,6 +33,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
+import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
+
 /**
  * Hilfsklasse zum Generieren und parsen von Meldungstypzusätzen.
  * 
@@ -41,35 +44,41 @@ import java.util.Map.Entry;
  */
 public class MeldungsTypZusatz {
 
+	public static final String SYM_PARAMETER = "::";
+
+	public static final String SYM_ASSIGN = ":=";
+
+	public static final String SYM_DELIMITER = ";;";
+
 	private final Map<String, String> parameter = new HashMap<String, String>();
 	private final String id;
 
 	public static MeldungsTypZusatz parse(final String meldungsTypZusatz)
 			throws ParseException {
 		final MeldungsTypZusatz mtz;
-		String[] rest = meldungsTypZusatz.split(":");
+		String[] rest = meldungsTypZusatz.split(SYM_PARAMETER);
 
 		if (rest.length == 1) {
 			mtz = new MeldungsTypZusatz(rest[0]);
 		} else if (rest.length == 2) {
 			mtz = new MeldungsTypZusatz(rest[0]);
 
-			rest = rest[1].split(",");
+			rest = rest[1].split(SYM_DELIMITER);
 			for (final String param : rest) {
-				final String[] s = param.split("=");
+				final String[] s = param.split(SYM_ASSIGN);
 				if (s.length == 1) {
 					mtz.set(s[0], "");
 				} else if (s.length == 2) {
 					mtz.set(s[0], s[1]);
 				} else {
-					throw new ParseException(
-							"Das Trennzeichen \"=\" kommt mehr als einmal im Parameter \""
-									+ s[0] + "\" vor.", 0);
+					throw new ParseException("Das Trennzeichen \"" + SYM_ASSIGN
+							+ "\" kommt mehr als einmal im Parameter \"" + s[0]
+							+ "\" vor.", 0);
 				}
 			}
 		} else {
-			throw new ParseException(
-					"Das Trennzeichen \":\" kommt mehr als einmal vor.", 0);
+			throw new ParseException("Das Trennzeichen \"" + SYM_PARAMETER
+					+ "\" kommt mehr als einmal vor.", 0);
 		}
 
 		return mtz;
@@ -83,14 +92,14 @@ public class MeldungsTypZusatz {
 		String s = id;
 
 		if (!parameter.isEmpty()) {
-			s += ":";
+			s += SYM_PARAMETER;
 			final Iterator<Entry<String, String>> iterator = parameter
 					.entrySet().iterator();
 			while (iterator.hasNext()) {
 				final Entry<String, String> e = iterator.next();
-				s += e.getKey() + "=" + e.getValue();
+				s += e.getKey() + SYM_ASSIGN + e.getValue();
 				if (iterator.hasNext()) {
-					s += ",";
+					s += SYM_DELIMITER;
 				}
 			}
 		}
@@ -136,6 +145,36 @@ public class MeldungsTypZusatz {
 	 */
 	public void set(final String name, final String value) {
 		parameter.put(name, value);
+	}
+
+	/**
+	 * Gibt {@code null} zurück, wenn unter dem Namen kein Parameter angelegt
+	 * ist oder dieser ein Leerstring ist.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public SystemObjekt getObjekt(final String name) {
+		if (parameter.get(name) != null && !parameter.get(name).equals("")) {
+			return ObjektFactory.getInstanz().getModellobjekt(
+					parameter.get(name));
+		}
+
+		return null;
+	}
+
+	/**
+	 * Legt einen Leerstring ab, wenn {@code value == null}.
+	 * 
+	 * @param name
+	 * @param value
+	 */
+	public void set(final String name, final SystemObjekt value) {
+		if (value != null) {
+			parameter.put(name, value.getPid());
+		} else {
+			parameter.put(name, "");
+		}
 	}
 
 	/**

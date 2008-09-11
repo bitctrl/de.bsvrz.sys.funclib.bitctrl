@@ -71,8 +71,9 @@ public final class ArchivUtilities {
 	 * @return die Liste der Archivdaten.
 	 */
 	public static List<ResultData> getArchivdaten(final ClientDavInterface dav,
-			final Collection<SystemObject> objekte, final DataDescription dbs,
-			final Interval intervall, final ArchiveDataKind... dataKinds) {
+			final Collection<? extends SystemObject> objekte,
+			final DataDescription dbs, final Interval intervall,
+			final ArchiveDataKind... dataKinds) {
 		final Iterator<ResultData> iterator = new ArchivIterator(dav,
 				getAnfrage(objekte, dbs, intervall, dataKinds));
 		final List<ResultData> liste = new ArrayList<ResultData>();
@@ -99,8 +100,9 @@ public final class ArchivUtilities {
 	 * @return die Liste der Archivanfragen.
 	 */
 	public static List<ArchiveDataSpecification> getAnfrage(
-			final Collection<SystemObject> objekte, final DataDescription dbs,
-			final Interval intervall, final ArchiveDataKind... dataKinds) {
+			final Collection<? extends SystemObject> objekte,
+			final DataDescription dbs, final Interval intervall,
+			final ArchiveDataKind... dataKinds) {
 		final ArchiveTimeSpecification timeSpec = new ArchiveTimeSpecification(
 				TimingType.DATA_TIME, false, intervall.getStart(), intervall
 						.getEnd());

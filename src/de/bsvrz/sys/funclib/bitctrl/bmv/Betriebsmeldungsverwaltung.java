@@ -219,8 +219,6 @@ public final class Betriebsmeldungsverwaltung {
 	 * Entfernt nicht mehr gültige Meldungen aus der Liste.
 	 * 
 	 * @return die Liste der entfernten Meldungen.
-	 * @see #getMaxHistory()
-	 * @see #getMaxAnzahl()
 	 */
 	private List<OdBetriebsMeldung.Daten> cleanUpMeldungen() {
 		final List<OdBetriebsMeldung.Daten> entfernt = new ArrayList<OdBetriebsMeldung.Daten>();
@@ -361,7 +359,7 @@ public final class Betriebsmeldungsverwaltung {
 	 * alle doppelten Einträge.
 	 * 
 	 * @return eine unveränderliche Liste der aktuellen Meldungen.
-	 * @see BetriebsMeldung.Daten#equals(Object)
+	 * @see OdBetriebsMeldung.Daten#equals(Object)
 	 */
 	public List<OdBetriebsMeldung.Daten> getMeldungslisteGefiltert() {
 		return Collections
