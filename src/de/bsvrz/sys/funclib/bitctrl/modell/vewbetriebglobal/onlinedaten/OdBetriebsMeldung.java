@@ -399,8 +399,8 @@ public class OdBetriebsMeldung extends
 
 		/**
 		 * Zwei Betriebsmeldungen werden als gleich angesehen, wenn sie in
-		 * Meldungstyp, Meldungstypzusatz, Meldungsklasse, Referenz,
-		 * Meldungstext, Urlasserinformation übereinstimmen.
+		 * ApplikationsId, Meldungstyp, Meldungstypzusatz, Meldungsklasse,
+		 * Referenz und Meldungstext übereinstimmen.
 		 * 
 		 * {@inheritDoc}
 		 */
@@ -412,6 +412,7 @@ public class OdBetriebsMeldung extends
 				final Daten o = (Daten) obj;
 				boolean result = true;
 
+				result &= applikationsId == o.applikationsId;
 				result &= meldungsTyp == null ? o.meldungsTyp == null
 						: meldungsTyp.equals(o.meldungsTyp);
 				result &= meldungsTypZusatz == null ? o.meldungsTypZusatz == null
@@ -422,8 +423,6 @@ public class OdBetriebsMeldung extends
 						.equals(o.referenz);
 				result &= meldungsText == null ? o.meldungsText == null
 						: meldungsText.equals(o.meldungsText);
-				result &= urlasser == null ? o.urlasser == null : urlasser
-						.equals(o.urlasser);
 
 				return result;
 			}
