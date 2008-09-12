@@ -640,6 +640,7 @@ public class OdBetriebsMeldung extends
 
 			final Urlasser urlasser = new Urlasser();
 			urlasser.atl2Bean(daten.getItem("Urlasser"));
+			datum.setUrlasser(urlasser);
 		}
 
 		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()));

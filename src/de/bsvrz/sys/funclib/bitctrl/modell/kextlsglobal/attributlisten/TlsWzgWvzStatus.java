@@ -65,4 +65,27 @@ public class TlsWzgWvzStatus implements Attributliste {
 		daten.getUnscaledValue("Programm").set(getProgramm().getCode());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public TlsWzgWvzStatus clone() {
+		final TlsWzgWvzStatus clone = new TlsWzgWvzStatus();
+		clone.fehler = fehler;
+		clone.programm = programm;
+		return clone;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		String s = getClass().getName() + "[";
+		s += "fehler=" + fehler;
+		s += ", programm=" + programm;
+		s += "]";
+		return s;
+	}
+
 }

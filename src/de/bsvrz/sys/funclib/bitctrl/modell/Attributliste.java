@@ -59,4 +59,12 @@ public interface Attributliste {
 	 */
 	void atl2Bean(final Data daten);
 
+	/**
+	 * Erzeugt eine Kopie der Attributliste.
+	 * 
+	 * @return die Kopie.
+	 * @see Object#clone()
+	 */
+	Attributliste clone();
+
 }

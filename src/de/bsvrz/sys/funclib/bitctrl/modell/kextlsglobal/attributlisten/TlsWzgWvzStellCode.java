@@ -13,7 +13,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal.zustaende.TlsWzgStellCod
  */
 public class TlsWzgWvzStellCode implements Attributliste {
 
-	private TlsWzgStellCode Code;
+	private TlsWzgStellCode code;
 	private TlsWzgWvzBlinken blinken;
 	private TlsWzgWvzStatus status;
 
@@ -21,14 +21,14 @@ public class TlsWzgWvzStellCode implements Attributliste {
 	 * @return
 	 */
 	public TlsWzgStellCode getCode() {
-		return Code;
+		return code;
 	}
 
 	/**
 	 * @param code
 	 */
 	public void setCode(final TlsWzgStellCode code) {
-		Code = code;
+		this.code = code;
 	}
 
 	/**
@@ -84,6 +84,31 @@ public class TlsWzgWvzStellCode implements Attributliste {
 		daten.getUnscaledValue("Code").set(getCode().getCode());
 		getBlinken().bean2Atl(daten.getItem("Blinken"));
 		getStatus().bean2Atl(daten.getItem("Status"));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public TlsWzgWvzStellCode clone() {
+		final TlsWzgWvzStellCode clone = new TlsWzgWvzStellCode();
+		clone.code = code;
+		clone.status = status.clone();
+		clone.blinken = blinken.clone();
+		return clone;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		String s = getClass().getName() + "[";
+		s += "code=" + code;
+		s += ", status=" + status;
+		s += ", blinken=" + blinken;
+		s += "]";
+		return s;
 	}
 
 }

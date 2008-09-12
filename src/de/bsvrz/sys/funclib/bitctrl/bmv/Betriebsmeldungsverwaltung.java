@@ -254,9 +254,7 @@ public final class Betriebsmeldungsverwaltung {
 				final OdBetriebsMeldung.Daten meldung = iterator.next();
 				if (meldung.getZeitstempel() < maxZeitstempel) {
 					iterator.remove();
-				}
-
-				if (meldung.getDatenStatus() != Datum.Status.DATEN) {
+				} else if (meldung.getDatenStatus() != Datum.Status.DATEN) {
 					iterator.remove();
 				}
 			}

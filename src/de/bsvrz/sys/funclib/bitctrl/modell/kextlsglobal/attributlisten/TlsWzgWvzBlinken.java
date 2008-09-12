@@ -66,4 +66,30 @@ public class TlsWzgWvzBlinken implements Attributliste {
 		daten.getUnscaledValue("Dauer").set(getDauer());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public TlsWzgWvzBlinken clone() {
+		final TlsWzgWvzBlinken clone = new TlsWzgWvzBlinken();
+		clone.dauer = dauer;
+		clone.status = status;
+		return clone;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		String s;
+
+		s = getClass().getName() + "[";
+		s += "status=" + status;
+		s += ", dauer=" + dauer;
+		s += "]";
+
+		return s;
+	}
+
 }

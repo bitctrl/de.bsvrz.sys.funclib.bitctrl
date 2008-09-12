@@ -38,6 +38,51 @@ public class PdTlsWzgGrundEinstellung extends
 		private TlsWzgWvzStellCode stellCode;
 
 		/**
+		 * @return the urlasser
+		 */
+		public Urlasser getUrlasser() {
+			return urlasser;
+		}
+
+		/**
+		 * @param urlasser
+		 *            the urlasser to set
+		 */
+		public void setUrlasser(final Urlasser urlasser) {
+			this.urlasser = urlasser;
+		}
+
+		/**
+		 * @return the anzeigePrinzip
+		 */
+		public TlsWzgAnzeigePrinzip getAnzeigePrinzip() {
+			return anzeigePrinzip;
+		}
+
+		/**
+		 * @param anzeigePrinzip
+		 *            the anzeigePrinzip to set
+		 */
+		public void setAnzeigePrinzip(final TlsWzgAnzeigePrinzip anzeigePrinzip) {
+			this.anzeigePrinzip = anzeigePrinzip;
+		}
+
+		/**
+		 * @return the stellCode
+		 */
+		public TlsWzgWvzStellCode getStellCode() {
+			return stellCode;
+		}
+
+		/**
+		 * @param stellCode
+		 *            the stellCode to set
+		 */
+		public void setStellCode(final TlsWzgWvzStellCode stellCode) {
+			this.stellCode = stellCode;
+		}
+
+		/**
 		 * {@inheritDoc}
 		 */
 		public Status getDatenStatus() {
@@ -64,7 +109,7 @@ public class PdTlsWzgGrundEinstellung extends
 			klon.setZeitstempel(getZeitstempel());
 			klon.datenStatus = datenStatus;
 			klon.urlasser = urlasser.clone();
-			klon.anzeigePrinzip = anzeigePrinzip.clone();
+			klon.anzeigePrinzip = anzeigePrinzip;
 			klon.stellCode = stellCode.clone();
 
 			return klon;
@@ -114,8 +159,14 @@ public class PdTlsWzgGrundEinstellung extends
 	 */
 	@Override
 	protected Data konvertiere(final Daten datum) {
-		// TODO Auto-generated method stub
-		return null;
+		final Data daten = erzeugeSendeCache();
+
+		datum.getUrlasser().bean2Atl(daten.getItem("Urlasser"));
+		daten.getUnscaledValue("AnzeigePrinzip").set(
+				datum.getAnzeigePrinzip().getCode());
+		datum.getStellCode().bean2Atl(daten.getItem("StellCode"));
+
+		return daten;
 	}
 
 	/**
@@ -135,9 +186,30 @@ public class PdTlsWzgGrundEinstellung extends
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setDaten(final ResultData daten) {
-		// TODO Auto-generated method stub
+	public void setDaten(final ResultData result) {
+		check(result);
 
+		final Daten datum = new Daten();
+		if (result.hasData()) {
+			final Data daten = result.getData();
+
+			final Urlasser urlasser = new Urlasser();
+			urlasser.atl2Bean(daten.getItem("Urlasser"));
+			datum.setUrlasser(urlasser);
+
+			datum.setAnzeigePrinzip(TlsWzgAnzeigePrinzip.valueOf(daten
+					.getUnscaledValue("AnzeigePrinzip").byteValue()));
+
+			final TlsWzgWvzStellCode stellCode = new TlsWzgWvzStellCode();
+			stellCode.atl2Bean(daten.getItem("StellCode"));
+			datum.setStellCode(stellCode);
+		}
+
+		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()));
+		datum.setZeitstempel(result.getDataTime());
+		setDatum(result.getDataDescription().getAspect(), datum);
+		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
+				datum.clone());
 	}
 
 }
