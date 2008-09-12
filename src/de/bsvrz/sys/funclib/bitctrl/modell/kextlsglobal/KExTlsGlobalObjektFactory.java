@@ -33,11 +33,12 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal.objekte.DeWzg;
 import de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal.objekte.Uz;
 
 /**
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: KalenderobjektFactory.java 5951 2008-01-28 12:51:06Z Schumann $
+ * @version $Id$
  */
 public class KExTlsGlobalObjektFactory implements ModellObjektFactory {
 
@@ -52,6 +53,8 @@ public class KExTlsGlobalObjektFactory implements ModellObjektFactory {
 		SystemObjekt obj = null;
 		if (objekt.isOfType(KExTlsGlobalTypen.Uz.getPid())) {
 			obj = new Uz(objekt);
+		} else if (objekt.isOfType(KExTlsGlobalTypen.DeWzg.getPid())) {
+			obj = new DeWzg(objekt);
 		}
 
 		return obj;
@@ -63,4 +66,5 @@ public class KExTlsGlobalObjektFactory implements ModellObjektFactory {
 	public Collection<? extends SystemObjektTyp> getTypen() {
 		return Arrays.asList(KExTlsGlobalTypen.values());
 	}
+
 }

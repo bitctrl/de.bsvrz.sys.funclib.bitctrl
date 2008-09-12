@@ -69,7 +69,7 @@ public enum MeldungsStatus implements Zustand<Integer> {
 	 * @param code
 	 *            der Code für den ein Zustand gesucht wird.
 	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
-	 *         wird eine {@link IllegalArgumentException} geworfen.
+	 *         wird {@code null} zurückgegeben.
 	 */
 	public static MeldungsStatus getMeldungsStatus(final int code) {
 		for (final MeldungsStatus situation : values()) {
@@ -78,8 +78,7 @@ public enum MeldungsStatus implements Zustand<Integer> {
 			}
 		}
 
-		throw new IllegalArgumentException("Ungültiger Status mit Code: "
-				+ code);
+		return null;
 	}
 
 	/** Der Code des Zustandes. */

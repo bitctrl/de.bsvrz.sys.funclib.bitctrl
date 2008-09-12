@@ -49,7 +49,7 @@ public enum MeldungsTyp implements Zustand<Integer> {
 	 * @param code
 	 *            der Code für den ein Zustand gesucht wird.
 	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
-	 *         wird eine {@link IllegalArgumentException} geworfen.
+	 *         wird {@code null} zurückgegeben.
 	 */
 	public static MeldungsTyp getMeldungsTyp(final int code) {
 		for (final MeldungsTyp situation : values()) {
@@ -58,8 +58,7 @@ public enum MeldungsTyp implements Zustand<Integer> {
 			}
 		}
 
-		throw new IllegalArgumentException("Ungültiger Meldungstyp mit Code: "
-				+ code);
+		return null;
 	}
 
 	/** Der Code des Zustandes. */

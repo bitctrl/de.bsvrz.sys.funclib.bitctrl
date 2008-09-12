@@ -42,8 +42,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Aspekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
-import de.bsvrz.sys.funclib.bitctrl.modell.Urlasser;
-import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
+import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.attributlisten.Urlasser;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte.BetriebsMeldungsVerwaltung;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKlasse;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsStatus;
@@ -584,13 +583,7 @@ public class OdBetriebsMeldung extends
 					datum.getReferenz().getSystemObject());
 		}
 
-		daten.getItem("Urlasser").getReferenceValue("BenutzerReferenz")
-				.setSystemObject(
-						datum.getUrlasser().getBenutzer().getSystemObject());
-		daten.getItem("Urlasser").getTextValue("Ursache").setText(
-				datum.getUrlasser().getUrsache());
-		daten.getItem("Urlasser").getTextValue("Veranlasser").setText(
-				datum.getUrlasser().getVeranlasser());
+		datum.getUrlasser().bean2Atl(daten.getItem("Urlasser"));
 
 		return daten;
 	}
@@ -646,14 +639,7 @@ public class OdBetriebsMeldung extends
 			}
 
 			final Urlasser urlasser = new Urlasser();
-			urlasser.setBenutzer((Benutzer) factory.getModellobjekt(daten
-					.getItem("Urlasser").getReferenceValue("BenutzerReferenz")
-					.getSystemObject()));
-			urlasser.setUrsache(daten.getItem("Urlasser").getTextValue(
-					"Ursache").getText());
-			urlasser.setVeranlasser(daten.getItem("Urlasser").getTextValue(
-					"Veranlasser").getText());
-			datum.setUrlasser(urlasser);
+			urlasser.atl2Bean(daten.getItem("Urlasser"));
 		}
 
 		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()));

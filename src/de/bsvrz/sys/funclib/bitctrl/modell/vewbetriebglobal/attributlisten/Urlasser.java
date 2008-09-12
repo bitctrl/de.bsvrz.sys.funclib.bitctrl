@@ -24,17 +24,20 @@
  * mailto: info@bitctrl.de
  */
 
-package de.bsvrz.sys.funclib.bitctrl.modell;
+package de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.attributlisten;
 
+import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.sys.funclib.bitctrl.modell.Attributliste;
+import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
 
 /**
- * Fasst die Urlasserinformationen eines Datensatzes zusammen.
+ * Die Attributliste {@code atl.urlasser}.
  * 
  * @author BitCtrl Systems GmbH, Falko
  * @version $Id$
  */
-public class Urlasser implements Cloneable {
+public class Urlasser implements Cloneable, Attributliste {
 
 	/** Der Benutzer, der den Datensatz verschickt. */
 	private Benutzer benutzer;
@@ -158,6 +161,28 @@ public class Urlasser implements Cloneable {
 		s += "]";
 
 		return s;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void atl2Bean(final Data daten) {
+		final ObjektFactory factory = ObjektFactory.getInstanz();
+
+		setBenutzer((Benutzer) factory.getModellobjekt(daten.getReferenceValue(
+				"BenutzerReferenz").getSystemObject()));
+		setUrsache(daten.getTextValue("Ursache").getText());
+		setVeranlasser(daten.getTextValue("Veranlasser").getText());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void bean2Atl(final Data daten) {
+		daten.getReferenceValue("BenutzerReferenz").setSystemObject(
+				getBenutzer().getSystemObject());
+		daten.getTextValue("Ursache").setText(getUrsache());
+		daten.getTextValue("Veranlasser").setText(getVeranlasser());
 	}
 
 }

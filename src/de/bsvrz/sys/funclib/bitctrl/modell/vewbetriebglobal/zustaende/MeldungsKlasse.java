@@ -55,7 +55,7 @@ public enum MeldungsKlasse implements Zustand<Integer> {
 	 * @param code
 	 *            der Code für den ein Zustand gesucht wird.
 	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
-	 *         wird eine {@link IllegalArgumentException} geworfen.
+	 *         wird {@code null} zurückgegegeben.
 	 */
 	public static MeldungsKlasse getMeldungsKlasse(final int code) {
 		for (final MeldungsKlasse situation : values()) {
@@ -64,8 +64,7 @@ public enum MeldungsKlasse implements Zustand<Integer> {
 			}
 		}
 
-		throw new IllegalArgumentException(
-				"Ungültiger Meldungsklasse mit Code: " + code);
+		return null;
 	}
 
 	/** Der Code des Zustandes. */
