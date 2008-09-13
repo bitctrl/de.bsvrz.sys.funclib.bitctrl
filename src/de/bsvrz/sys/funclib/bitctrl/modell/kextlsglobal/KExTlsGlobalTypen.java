@@ -28,6 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal.objekte.De;
 import de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal.objekte.DeWzg;
 import de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal.objekte.Uz;
 
@@ -40,7 +41,10 @@ public enum KExTlsGlobalTypen implements SystemObjektTyp {
 	/** Der Typ Unterzentrale. */
 	Uz("typ.uz", Uz.class),
 
-	/** Der Typ Unterzentrale. */
+	/** Der Typ DE. */
+	De("typ.de", De.class),
+
+	/** Der Typ DE-Wzg. */
 	DeWzg("typ.deWzg", DeWzg.class);
 
 	/** PID des Objekttyps im Datenverteiler. */

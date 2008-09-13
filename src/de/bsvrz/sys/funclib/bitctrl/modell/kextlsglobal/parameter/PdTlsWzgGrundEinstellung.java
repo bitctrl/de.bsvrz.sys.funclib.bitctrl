@@ -3,8 +3,12 @@
  */
 package de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal.parameter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.ResultData;
+import de.bsvrz.dav.daf.main.Data.Array;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.sys.funclib.bitctrl.modell.AbstractDatum;
@@ -35,7 +39,7 @@ public class PdTlsWzgGrundEinstellung extends
 
 		private Urlasser urlasser;
 		private TlsWzgAnzeigePrinzip anzeigePrinzip;
-		private TlsWzgWvzStellCode stellCode;
+		private final List<TlsWzgWvzStellCode> stellCode = new ArrayList<TlsWzgWvzStellCode>();
 
 		/**
 		 * @return the urlasser
@@ -70,16 +74,8 @@ public class PdTlsWzgGrundEinstellung extends
 		/**
 		 * @return the stellCode
 		 */
-		public TlsWzgWvzStellCode getStellCode() {
+		public List<TlsWzgWvzStellCode> getStellCode() {
 			return stellCode;
-		}
-
-		/**
-		 * @param stellCode
-		 *            the stellCode to set
-		 */
-		public void setStellCode(final TlsWzgWvzStellCode stellCode) {
-			this.stellCode = stellCode;
 		}
 
 		/**
@@ -110,7 +106,7 @@ public class PdTlsWzgGrundEinstellung extends
 			klon.datenStatus = datenStatus;
 			klon.urlasser = urlasser.clone();
 			klon.anzeigePrinzip = anzeigePrinzip;
-			klon.stellCode = stellCode.clone();
+			klon.stellCode.addAll(stellCode);
 
 			return klon;
 		}
@@ -161,10 +157,17 @@ public class PdTlsWzgGrundEinstellung extends
 	protected Data konvertiere(final Daten datum) {
 		final Data daten = erzeugeSendeCache();
 
-		datum.getUrlasser().bean2Atl(daten.getItem("Urlasser"));
+		if (datum.getUrlasser() != null) {
+			datum.getUrlasser().bean2Atl(daten.getItem("Urlasser"));
+		}
 		daten.getUnscaledValue("AnzeigePrinzip").set(
 				datum.getAnzeigePrinzip().getCode());
-		datum.getStellCode().bean2Atl(daten.getItem("StellCode"));
+
+		final Array stellCode = daten.getArray("StellCode");
+		stellCode.setLength(datum.getStellCode().size());
+		for (int i = 0; i < stellCode.getLength(); ++i) {
+			datum.getStellCode().get(i).bean2Atl(stellCode.getItem(i));
+		}
 
 		return daten;
 	}
@@ -200,9 +203,12 @@ public class PdTlsWzgGrundEinstellung extends
 			datum.setAnzeigePrinzip(TlsWzgAnzeigePrinzip.valueOf(daten
 					.getUnscaledValue("AnzeigePrinzip").byteValue()));
 
-			final TlsWzgWvzStellCode stellCode = new TlsWzgWvzStellCode();
-			stellCode.atl2Bean(daten.getItem("StellCode"));
-			datum.setStellCode(stellCode);
+			final Array stellCodeArray = daten.getArray("StellCode");
+			for (int i = 0; i < stellCodeArray.getLength(); ++i) {
+				final TlsWzgWvzStellCode stellCode = new TlsWzgWvzStellCode();
+				stellCode.atl2Bean(daten.getItem("StellCode"));
+				datum.getStellCode().add(stellCode);
+			}
 		}
 
 		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()));
