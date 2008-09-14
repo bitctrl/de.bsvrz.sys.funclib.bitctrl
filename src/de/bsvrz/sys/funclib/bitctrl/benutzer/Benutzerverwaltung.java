@@ -52,7 +52,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.DatensatzUpdateListener;
 import de.bsvrz.sys.funclib.bitctrl.modell.DatensendeException;
 import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
-import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.objekte.BcBedienStelle;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Applikation;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
@@ -360,6 +359,15 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
+	 * Gibt die lokale Klientapplikation zurück.
+	 * 
+	 * @return die lokale Applikation.
+	 */
+	public Applikation getApplikation() {
+		return ObjektFactory.getInstanz().getApplikation();
+	}
+
+	/**
 	 * Gibt die Liste aller aktuell gültigen Anmeldungen eines Benutzers zurück.
 	 * 
 	 * @param benutzer
@@ -414,9 +422,7 @@ public final class Benutzerverwaltung {
 	 * @return der angemeldete Benutzer.
 	 */
 	public Benutzer getAngemeldetenBenutzer() {
-		final ObjektFactory factory = ObjektFactory.getInstanz();
-		return (Benutzer) factory.getModellobjekt(factory.getVerbindung()
-				.getLocalUser());
+		return ObjektFactory.getInstanz().getBenutzer();
 	}
 
 	/**
@@ -1106,45 +1112,6 @@ public final class Benutzerverwaltung {
 
 		// Alle Tests bestanden
 		return null;
-	}
-
-	/**
-	 * Gibt die Bedienstelle zurück, an der ein Benutzer aktuell angemeldet ist.
-	 * 
-	 * @param benutzer
-	 *            ein Benutzer.
-	 * @return die Bedienstelle oder {@code null}, wenn der Benutzer an keiner
-	 *         Bedienstelle angemeldet ist.
-	 */
-	public BcBedienStelle getBedienStelle(final Benutzer benutzer) {
-		final List<BcBedienStelle> anmeldungen = new ArrayList<BcBedienStelle>();
-		for (final AngemeldeteApplikation app : getAnmeldungen(benutzer)) {
-			if (app.getApplikation() instanceof BcBedienStelle) {
-				anmeldungen.add((BcBedienStelle) app.getApplikation());
-			}
-		}
-
-		if (anmeldungen.isEmpty()) {
-			return null;
-		}
-
-		if (anmeldungen.size() > 1) {
-			log.warning("Der Benutzer " + benutzer
-					+ " ist an mehreren Bedienstellen angemeldet: "
-					+ anmeldungen);
-		}
-
-		return anmeldungen.get(0);
-	}
-
-	/**
-	 * Gibt die Bedienstelle des lokalen Benutzers zurück.
-	 * 
-	 * @return die Bedienstelle oder {@code null}, wenn die lokale Applikation
-	 *         keine Bedienstelle ist.
-	 */
-	public BcBedienStelle getBedienStelle() {
-		return getBedienStelle(getAngemeldetenBenutzer());
 	}
 
 }

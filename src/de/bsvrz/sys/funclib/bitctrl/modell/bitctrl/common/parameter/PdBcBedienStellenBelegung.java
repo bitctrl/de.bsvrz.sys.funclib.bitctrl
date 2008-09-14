@@ -139,7 +139,7 @@ public class PdBcBedienStellenBelegung extends
 	}
 
 	/** Die PID der Attributgruppe. */
-	public static final String ATG_BC_BMV_MESSAGE_DISPLAY = "atg.bcBetriebsmeldungDarstellung";
+	public static final String PID_ATG = "atg.bcBedienStellenBelegung";
 
 	/** Die Attributgruppe, in der die Eigenschaften enthalten sind. */
 	private static AttributeGroup atg;
@@ -156,7 +156,7 @@ public class PdBcBedienStellenBelegung extends
 		if (atg == null) {
 			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
-			atg = modell.getAttributeGroup(ATG_BC_BMV_MESSAGE_DISPLAY);
+			atg = modell.getAttributeGroup(PID_ATG);
 			assert atg != null;
 		}
 	}
