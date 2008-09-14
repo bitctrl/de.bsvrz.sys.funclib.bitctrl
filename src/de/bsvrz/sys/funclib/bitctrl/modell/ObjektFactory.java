@@ -67,7 +67,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id$
  */
-public final class ObjektFactory implements ModellObjektFactory {
+public class ObjektFactory implements ModellObjektFactory {
 
 	/** Das Singleton der Factory. */
 	private static ObjektFactory singleton;
@@ -132,7 +132,7 @@ public final class ObjektFactory implements ModellObjektFactory {
 	/**
 	 * Konstruktor verstecken, da Klasse nur statische Objekte besitzt.
 	 */
-	private ObjektFactory() {
+	protected ObjektFactory() {
 		factories = new HashMap<Class<? extends ModellObjektFactory>, ModellObjektFactory>();
 		cache = new HashMap<Long, SystemObjekt>();
 	}
