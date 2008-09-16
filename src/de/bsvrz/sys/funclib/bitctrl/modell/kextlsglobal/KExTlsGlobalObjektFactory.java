@@ -33,6 +33,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.modell.ModellObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
+import de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal.objekte.AnschlussPunkt;
 import de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal.objekte.De;
 import de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal.objekte.DeWzg;
 import de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal.objekte.Uz;
@@ -54,6 +55,8 @@ public class KExTlsGlobalObjektFactory implements ModellObjektFactory {
 		SystemObjekt obj = null;
 		if (objekt.isOfType(KExTlsGlobalTypen.Uz.getPid())) {
 			obj = new Uz(objekt);
+		} else if (objekt.isOfType(KExTlsGlobalTypen.AnschlussPunkt.getPid())) {
+			obj = new AnschlussPunkt(objekt);
 		} else if (objekt.isOfType(KExTlsGlobalTypen.DeWzg.getPid())) {
 			obj = new DeWzg(objekt);
 		} else if (objekt.isOfType(KExTlsGlobalTypen.De.getPid())) {
