@@ -40,7 +40,7 @@ import de.bsvrz.dav.daf.main.Data;
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
  */
-public interface Attributliste {
+public interface Attributliste extends Cloneable {
 
 	/**
 	 * Schreibt die Daten des Java-Objekts in die übergebenen Attributliste.
