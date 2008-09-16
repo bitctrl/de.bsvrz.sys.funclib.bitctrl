@@ -690,6 +690,10 @@ public final class Benutzerverwaltung {
 	 *         angegebenen Namen existiert.
 	 */
 	public Benutzer getBenutzer(final String loginname) {
+		if (loginname == null || loginname.length() == 0) {
+			throw new IllegalArgumentException(
+					"Der Benutzername darf weder null noch ein Leerstring sein.");
+		}
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 		final String pid = DavTools.generierePID(loginname,
 				Benutzer.PRAEFIX_PID);
@@ -782,7 +786,6 @@ public final class Benutzerverwaltung {
 	 *             wenn die Benutzerrechte für diese Aktion nicht ausreichen.
 	 * @throws BenutzerChangeException
 	 *             wenn beim Anlegen des Benutzers ein Fehler eintrat.
-	 * @see #setAdmin(String, String)
 	 */
 	public Benutzer anlegenBenutzer(final String adminLoginname,
 			final String adminPasswort, final BenutzerInfo benutzerInfo)
@@ -877,7 +880,6 @@ public final class Benutzerverwaltung {
 	 *             wenn die Benutzerrechte für diese Aktion nicht ausreichen.
 	 * @throws BenutzerChangeException
 	 *             wenn beim Anlegen des Benutzers ein Fehler eintrat.
-	 * @see #setAdmin(String, String)
 	 */
 	public Benutzer changePasswort(final String adminLoginname,
 			final String adminPasswort, final Benutzer benutzer,
