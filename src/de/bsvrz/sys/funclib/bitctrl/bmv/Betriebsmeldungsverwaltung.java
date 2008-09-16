@@ -70,7 +70,7 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
  * Änderungen an dieser Liste informieren lassen.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
+ * @version $Id:$
  * @see de.bsvrz.sys.funclib.operatingMessage.MessageSender
  */
 public final class Betriebsmeldungsverwaltung {
@@ -146,7 +146,10 @@ public final class Betriebsmeldungsverwaltung {
 	private final List<BetriebsmeldungCommand> befehlsliste;
 
 	/** Der Datensatz mit dem die Meldungen empfangen werden. */
-	private final OdBetriebsMeldung datensatzBetriebsMeldung;
+	private OdBetriebsMeldung datensatzBetriebsMeldung;
+
+	/** Empfänger der Betriebsmeldungen. */
+	private Meldungsempfaenger empfaenger;
 
 	/** Die Darstellungsparameter für Meldungen. */
 	private PdBcBetriebsMeldungDarstellung.Daten darstellungsparameter;
@@ -162,7 +165,21 @@ public final class Betriebsmeldungsverwaltung {
 		meldungslisteGefiltert = new TreeSet<OdBetriebsMeldung.Daten>();
 		befehlsliste = new ArrayList<BetriebsmeldungCommand>();
 
-		final Meldungsempfaenger empfaenger = new Meldungsempfaenger();
+		log.info("Betriebsmeldungsverwaltung bereit.");
+	}
+
+	/**
+	 * Führt falls noch nicht geschehen die Empfängeranmeldung für
+	 * Betriebsmeldungen und das Auslesen der letzten Meldungen aus dem Archiv
+	 * aus.
+	 */
+	private void anmeldenMeldungsenpfaenger() {
+		if (empfaenger != null) {
+			// Anmeldung bereits durchgeführt.
+			return;
+		}
+
+		empfaenger = new Meldungsempfaenger();
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 
 		// Darstellungsparameter
@@ -211,8 +228,6 @@ public final class Betriebsmeldungsverwaltung {
 				OdBetriebsMeldung.class);
 		datensatzBetriebsMeldung.addUpdateListener(
 				OdBetriebsMeldung.Aspekte.Information.getAspekt(), empfaenger);
-
-		log.info("Betriebsmeldungsverwaltung bereit.");
 	}
 
 	/**
@@ -270,12 +285,15 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Registriert einen Listener für Betriebsmeldungen.
+	 * Registriert einen Listener für Betriebsmeldungen. Die Anmeldung für den
+	 * Empfang der Betriebsmeldungen und das Auslesen der letzten Meldungen aus
+	 * dem Archiv erfolgt einmalig beim ersten Aufruf der Methode.
 	 * 
 	 * @param l
 	 *            ein Listener.
 	 */
 	public void addBetriebsmeldungListener(final BetriebsmeldungListener l) {
+		anmeldenMeldungsenpfaenger();
 		listeners.add(BetriebsmeldungListener.class, l);
 	}
 
@@ -344,22 +362,30 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Gibt die gecachter Meldungen zurück.
+	 * Gibt die gecachter Meldungen zurück. Die Anmeldung für den Empfang der
+	 * Betriebsmeldungen und das Auslesen der letzten Meldungen aus dem Archiv
+	 * erfolgt einmalig beim ersten Aufruf der Methode.
+	 * 
 	 * 
 	 * @return eine unveränderliche Liste der aktuellen Meldungen.
 	 */
 	public List<OdBetriebsMeldung.Daten> getMeldungsliste() {
+		anmeldenMeldungsenpfaenger();
 		return Collections.unmodifiableList(meldungsliste);
 	}
 
 	/**
 	 * Gibt die gecachter Meldungen gefiltert, zurück. Herausgefiltert werden
-	 * alle doppelten Einträge.
+	 * alle doppelten Einträge. Die Anmeldung für den Empfang der
+	 * Betriebsmeldungen und das Auslesen der letzten Meldungen aus dem Archiv
+	 * erfolgt einmalig beim ersten Aufruf der Methode.
+	 * 
 	 * 
 	 * @return eine unveränderliche Liste der aktuellen Meldungen.
 	 * @see OdBetriebsMeldung.Daten#equals(Object)
 	 */
 	public List<OdBetriebsMeldung.Daten> getMeldungslisteGefiltert() {
+		anmeldenMeldungsenpfaenger();
 		return Collections
 				.unmodifiableList(new ArrayList<OdBetriebsMeldung.Daten>(
 						meldungslisteGefiltert));
