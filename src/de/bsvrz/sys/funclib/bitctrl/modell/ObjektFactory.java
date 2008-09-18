@@ -43,7 +43,6 @@ import de.bsvrz.sys.funclib.bitctrl.daf.Konfigurationsbereich;
 import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.BcCommonObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.GeoModellFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderobjektFactory;
-import de.bsvrz.sys.funclib.bitctrl.modell.kextlsglobal.KExTlsGlobalObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.LmsObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.mif.MifModellFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellaoe.SystemModellAoeObjektFactory;
@@ -437,7 +436,6 @@ public class ObjektFactory implements ModellObjektFactory {
 	 * <ul>
 	 * <li>{@link GeoModellFactory}</li>
 	 * <li>{@link KalenderobjektFactory}</li>
-	 * <li>{@link KExTlsGlobalObjektFactory}</li>
 	 * <li>{@link SystemModellAoeObjektFactory}</li>
 	 * <li>{@link SystemModellGlobalObjektFactory}</li>
 	 * <li>{@link UmfelddatenobjektFactory}</li>
@@ -450,7 +448,6 @@ public class ObjektFactory implements ModellObjektFactory {
 	public void registerStandardFactories() {
 		registerFactory(new GeoModellFactory());
 		registerFactory(new KalenderobjektFactory());
-		registerFactory(new KExTlsGlobalObjektFactory());
 		registerFactory(new LmsObjektFactory());
 		registerFactory(new MifModellFactory());
 		registerFactory(new SystemModellAoeObjektFactory());
