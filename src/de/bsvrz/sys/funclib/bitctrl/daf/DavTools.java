@@ -28,15 +28,22 @@ package de.bsvrz.sys.funclib.bitctrl.daf;
 
 import java.text.Collator;
 import java.text.DateFormat;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.bitctrl.util.CollectionUtilities;
+
 import de.bsvrz.dav.daf.main.config.SystemObject;
+import de.bsvrz.dav.daf.main.config.SystemObjectType;
 
 /**
  * Allgemeine Funktionen im Zusammenhang mit
@@ -55,7 +62,7 @@ public final class DavTools {
 	 *            ein Zeitstempel.
 	 * @return die entsprechende Zeit als lesbaren String.
 	 */
-	public static String absoluteZeit(long zeitstempel) {
+	public static String absoluteZeit(final long zeitstempel) {
 		return DateFormat.getDateTimeInstance().format(new Date(zeitstempel));
 	}
 
@@ -71,7 +78,7 @@ public final class DavTools {
 	 *            der Präfix für die PID (mit Punkt abgeschlossen).
 	 * @return die gültige PID zum Objektnamen.
 	 */
-	public static String generierePID(String name, String praefix) {
+	public static String generierePID(final String name, final String praefix) {
 		String pid, regex;
 		Matcher matcher;
 
@@ -83,7 +90,7 @@ public final class DavTools {
 			regex = "(\\s)+(\\S)+";
 			matcher = Pattern.compile(regex).matcher(name);
 			while (matcher.find()) {
-				String s = matcher.group(0).trim();
+				final String s = matcher.group(0).trim();
 				pid += s.substring(0, 1).toUpperCase();
 				pid += s.substring(1);
 			}
@@ -103,7 +110,7 @@ public final class DavTools {
 	 *            der Boolwert
 	 * @return der Integerwert
 	 */
-	public static int intWertVonBoolean(boolean wert) {
+	public static int intWertVonBoolean(final boolean wert) {
 		int ergebnis = 0;
 		if (wert) {
 			ergebnis = 1;
@@ -123,16 +130,74 @@ public final class DavTools {
 	 * @return die sortierte Liste.
 	 */
 	public static List<? extends SystemObject> sortiere(
-			List<? extends SystemObject> objekte) {
+			final List<? extends SystemObject> objekte) {
 		Collections.sort(objekte, new Comparator<SystemObject>() {
 
-			public int compare(SystemObject so1, SystemObject so2) {
-				Collator de = Collator.getInstance(Locale.GERMANY);
+			public int compare(final SystemObject so1, final SystemObject so2) {
+				final Collator de = Collator.getInstance(Locale.GERMANY);
 				return de.compare(so1.toString(), so2.toString());
 			}
 
 		});
 		return objekte;
+	}
+
+	public static SystemObjectType getSuperType(
+			final Collection<SystemObject> objects) {
+		Set<SystemObjectType> basis = null;
+
+		for (final SystemObject so : objects) {
+			if (basis == null) {
+				basis = getSuperTypes(so.getType());
+			} else {
+				basis = CollectionUtilities.intersection(basis,
+						getSuperTypes(so.getType()));
+			}
+		}
+
+		if (basis.isEmpty()) {
+			return null;
+		}
+
+		while (basis.size() > 1) {
+			final Iterator<SystemObjectType> iterator = basis.iterator();
+			final SystemObjectType type1 = iterator.next();
+			final Set<SystemObjectType> remove = new HashSet<SystemObjectType>();
+
+			while (iterator.hasNext()) {
+				final SystemObjectType type2 = iterator.next();
+				if (type1.inheritsFrom(type2)) {
+					remove.add(type2);
+				}
+				if (type2.inheritsFrom(type1)) {
+					remove.add(type1);
+				}
+			}
+
+			basis.removeAll(remove);
+		}
+
+		return basis.iterator().next();
+	}
+
+	/**
+	 * Bestimmt rekursiv alle Supertypen eines Systemobjekttyps.
+	 * 
+	 * @param objectType
+	 *            ein Systemobjekttyp.
+	 * @return alle Typen, die der übergebene Typ direkt oder indirekt
+	 *         erweitert.
+	 */
+	public static Set<SystemObjectType> getSuperTypes(
+			final SystemObjectType objectType) {
+		final Set<SystemObjectType> superTypes = new HashSet<SystemObjectType>(
+				objectType.getSuperTypes());
+
+		for (final SystemObjectType type : superTypes) {
+			superTypes.addAll(getSuperTypes(type));
+		}
+
+		return superTypes;
 	}
 
 	/**
@@ -143,10 +208,10 @@ public final class DavTools {
 	 * @param sim
 	 *            die Simulationsvariante
 	 */
-	public static void validiereSimulationsVariante(short sim) {
+	public static void validiereSimulationsVariante(final short sim) {
 		try {
 			validiereSimulationsVariante(sim, false);
-		} catch (NoSimulationException e) {
+		} catch (final NoSimulationException e) {
 			// Alle gültigen Simulationsvarianten werden akzeptiert
 		}
 	}
@@ -166,10 +231,10 @@ public final class DavTools {
 	 * @throws NoSimulationException
 	 *             wenn die Simulationsvariante 0 ist.
 	 */
-	public static void validiereSimulationsVariante(short sim,
-			boolean simulation) throws NoSimulationException {
+	public static void validiereSimulationsVariante(final short sim,
+			final boolean simulation) throws NoSimulationException {
 
-		if ((sim < 0) || (sim > 999)) {
+		if (sim < 0 || sim > 999) {
 			throw new RuntimeException(
 					"Die Verwendung der ungültigen Simulationsvariante: \""
 							+ sim + "\" ist nicht erlaubt");
