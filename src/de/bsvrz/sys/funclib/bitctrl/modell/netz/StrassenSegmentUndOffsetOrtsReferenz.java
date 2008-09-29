@@ -35,8 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenTeilSegment;
  * Implementation des OrtsReferenzStrassenSegmentUndOffsetInterface.
  * 
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id: OrtsReferenzStrassenSegmentUndOffset.java 7485 2008-03-17
- *          14:49:20Z gieseler $
+ * @version $Id:$
  * 
  */
 public class StrassenSegmentUndOffsetOrtsReferenz implements
@@ -96,10 +95,10 @@ public class StrassenSegmentUndOffsetOrtsReferenz implements
 		}
 	}
 
-	/**
+	/** 
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzStrassenSegmentUndOffsetInterface#ermittleOrtsReferenzAsbStationierung()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.netz.StrassenSegmentUndOffsetOrtsReferenzInterface#ermittleOrtsReferenzAsbStationierung()
 	 */
 	public AsbStationierungOrtsReferenzInterface ermittleOrtsReferenzAsbStationierung()
 			throws NetzReferenzException {
@@ -107,10 +106,11 @@ public class StrassenSegmentUndOffsetOrtsReferenz implements
 				.ermittleOrtsReferenzAsbStationierung(this);
 	}
 
-	/**
+
+	/** 
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzStrassenSegmentUndOffsetInterface#ermittleOrtsReferenzStrasseUndBetriebsKilometer()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.netz.StrassenSegmentUndOffsetOrtsReferenzInterface#ermittleOrtsReferenzStrasseUndBetriebsKilometer()
 	 */
 	public StrasseUndBetriebsKilometerOrtsReferenzInterface ermittleOrtsReferenzStrasseUndBetriebsKilometer()
 			throws NetzReferenzException {
@@ -121,7 +121,7 @@ public class StrassenSegmentUndOffsetOrtsReferenz implements
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzStrassenSegmentUndOffsetInterface#getLaengsNeigung()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.netz.StrassenSegmentUndOffsetOrtsReferenzInterface#getLaengsNeigung()
 	 */
 	public Integer getLaengsNeigung() throws NetzReferenzException {
 		float offsetSTS = 0;
@@ -148,19 +148,20 @@ public class StrassenSegmentUndOffsetOrtsReferenz implements
 		return modelSegment;
 	}
 
+
 	/**
-	 * {@inheritDoc}
+	 * Gibt den Namen des Segmentes zur&uuml;ck.
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.StrassenSegmentInterface#getName()
+	 * @return Name des Segmentes
 	 */
 	public String getName() {
 		return modelSegment.getName();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Gibt die PID des Segmentes zur&uuml;ck.
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.StrassenSegmentInterface#getPid()
+	 * @return PID des Segmentes
 	 */
 	public String getPid() {
 		return modelSegment.getPid();
@@ -169,7 +170,7 @@ public class StrassenSegmentUndOffsetOrtsReferenz implements
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzStrassenSegmentUndOffsetInterface#getStartOffset()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.netz.StrassenSegmentUndOffsetOrtsReferenzInterface#getStartOffset()
 	 */
 	public long getStartOffset() {
 		return startOffset;
@@ -178,67 +179,10 @@ public class StrassenSegmentUndOffsetOrtsReferenz implements
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzStrassenSegmentUndOffsetInterface#getStrassenSegment()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.netz.StrassenSegmentUndOffsetOrtsReferenzInterface#getStrassenSegment()
 	 */
 	public StrassenSegment getStrassenSegment() {
 		return modelSegment;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzStrassenSegmentUndOffsetInterface#getZuflussMessQuerschnitt()
-	 */
-//	public MessQuerschnittInterface getZuflussMessQuerschnitt()
-//			throws NetzReferenzException {
-//		List<MessQuerschnittAllgemein> mqs = modelSegment.getMessquerschnitte();
-//		List<MessQuerschnittAllgemein> aufsegment = new ArrayList<MessQuerschnittAllgemein>();
-//
-//		MessQuerschnittAllgemein foundmq = null;
-//
-//		// bestimme alle MQ auf dem Segment
-//		for (MessQuerschnittAllgemein mq : mqs) {
-//			if (mq.getLinie().equals(modelSegment)) {
-//				aufsegment.add(mq);
-//			}
-//		}
-//
-//		if (aufsegment.size() > 0) {
-//			// sortieren nach Offset
-//			Collections.sort(aufsegment,
-//					new Comparator<MessQuerschnittAllgemein>() {
-//						public int compare(final MessQuerschnittAllgemein o1,
-//								final MessQuerschnittAllgemein o2) {
-//							return new Float(o1.getOffset())
-//									.compareTo(new Float(o2.getOffset()));
-//						}
-//					});
-//
-//			// passenden suchen
-//			MessQuerschnittAllgemein vor = null;
-//			for (MessQuerschnittAllgemein mq : aufsegment) {
-//				if (mq.getOffset() < startOffset) {
-//					vor = mq;
-//				}
-//
-//				if (foundmq == null || mq.getOffset() > foundmq.getOffset()) {
-//					foundmq = mq;
-//				}
-//
-//				if (foundmq != null && mq.getOffset() > startOffset) {
-//					break;
-//				}
-//			}
-//			if (vor != null) {
-//				foundmq = vor;
-//			}
-//		}
-//
-//		if (foundmq != null) {
-//			return new MessQuerschnitt(foundmq);
-//		}
-//
-//		return null;
-//	}
 
 }

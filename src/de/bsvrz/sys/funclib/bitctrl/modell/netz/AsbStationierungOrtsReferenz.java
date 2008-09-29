@@ -30,6 +30,12 @@ import java.util.List;
 
 import de.bsvrz.sys.funclib.bitctrl.modell.netz.NetzInterface.ASBStationierungsRichtung;
 
+/**
+ * Implementation des {@link AsbStationierungOrtsReferenzInterface}.
+ * 
+ * @author BitCtrl Systems GmbH, Gieseler
+ * @version $Id: $
+ */
 public class AsbStationierungOrtsReferenz implements
 		AsbStationierungOrtsReferenzInterface {
 
@@ -78,7 +84,7 @@ public class AsbStationierungOrtsReferenz implements
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzAsbStationierungInterface#ermittleOrtsReferenzStrassenSegmentUndOffset()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.netz.AsbStationierungOrtsReferenzInterface#ermittleOrtsReferenzStrassenSegmentUndOffset()
 	 */
 	public List<StrassenSegmentUndOffsetOrtsReferenzInterface> ermittleOrtsReferenzStrassenSegmentUndOffset()
 			throws NetzReferenzException {
@@ -89,7 +95,7 @@ public class AsbStationierungOrtsReferenz implements
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzAsbStationierungInterface#ermittleOrtsReferenzStrasseUndBetriebsKilometer()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.netz.AsbStationierungOrtsReferenzInterface#ermittleOrtsReferenzStrasseUndBetriebsKilometer()
 	 */
 	public List<StrasseUndBetriebsKilometerOrtsReferenzInterface> ermittleOrtsReferenzStrasseUndBetriebsKilometer()
 			throws NetzReferenzException {
@@ -100,7 +106,7 @@ public class AsbStationierungOrtsReferenz implements
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzAsbStationierungInterface#getAnfangsKnoten()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.netz.AsbStationierungOrtsReferenzInterface#getAnfangsKnoten()
 	 */
 	public String getAnfangsKnoten() {
 		return anfangsKnoten;
@@ -109,12 +115,12 @@ public class AsbStationierungOrtsReferenz implements
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzAsbStationierungInterface#getAsbStationierungsRichtung()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.netz.AsbStationierungOrtsReferenzInterface#getAsbStationierungsRichtung()
 	 */
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzAsbStationierungInterface#getAsbStationierungsRichtung()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.netz.AsbStationierungOrtsReferenzInterface#getAsbStationierungsRichtung()
 	 */
 	public ASBStationierungsRichtung getAsbStationierungsRichtung() {
 		return richtung;
@@ -123,7 +129,7 @@ public class AsbStationierungOrtsReferenz implements
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzAsbStationierungInterface#getEndKnoten()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.netz.AsbStationierungOrtsReferenzInterface#getEndKnoten()
 	 */
 	public String getEndKnoten() {
 		return endKnoten;
@@ -132,7 +138,7 @@ public class AsbStationierungOrtsReferenz implements
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see de.bsvrz.kex.isis.isis.OrtsReferenzAsbStationierungInterface#getStationierung()
+	 * @see de.bsvrz.sys.funclib.bitctrl.modell.netz.AsbStationierungOrtsReferenzInterface#getStationierung()
 	 */
 	public long getStationierung() {
 		return stationierung;

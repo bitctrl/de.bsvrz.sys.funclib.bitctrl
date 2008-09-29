@@ -28,15 +28,11 @@ package de.bsvrz.sys.funclib.bitctrl.modell.netz;
 
 
 /**
- * Legt das Interface zu einem BaustellenInformationsSystem (BIS) fest.
- * &Uuml;ber eine Klasse, die dieses Interface implementiert, k&ouml;nnen
- * bestehende Baustelleninformationssysteme an die AK-VRZ Software angebunden
- * werden.
+ * Definitionen zur Netzreferenzumrechnung.
  * 
- * @author inovat, innovative systeme - verkehr - tunnel - technik
- * @author Hans Christian Kniﬂ (HCK)
- * @version $Revision: 144 $ / $Date: 2006-12-14 01:04:03 +0100 (Do, 14 Dez
- *          2006) $ / ($Author: HCK $)
+ * 
+ * @author BitCtrl Systems GmbH, Gieseler
+ * @version $Id: $
  */
 
 public interface NetzInterface {

@@ -45,7 +45,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenTeilSegment.B
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende.Verkehrsrichtung;
 
 /**
- * Klasse zur Umrechnung zwischen den Referenzierungsarten.
+ * (Singleton-)Klasse zur Umrechnung zwischen den Referenzierungsarten.
  * 
  * @author BitCtrl Systems GmbH, Gieseler
  * @version $Id: NetzReferenzen.java 9929 2008-06-26 09:53:00Z gieseler $
@@ -147,6 +147,40 @@ public class NetzReferenzen {
 		return segmentLaenge / asbLaenge;
 	}
 
+	/**
+	 * Initialisiert die Klasse.
+	 *  
+	 * @param dav Datenverteiler-Verbindung
+	 * @param netz Netz
+	 * @throws NetzReferenzException wenn das Netz nicht initialisiert werden kann
+	 */
+	public void init(final ClientDavInterface dav, final String netz) throws NetzReferenzException {
+		
+		if (dav == null) {
+			throw new IllegalArgumentException("Parameter 'dav' darf nicht null sein!");
+		}
+		
+		if (netz == null) {
+			throw new IllegalArgumentException("Parameter 'netz' darf nicht null sein!");
+		}
+		
+		// initialisiere das Netzmodell
+		SystemObject netzObjekt = dav.getDataModel().getObject(netz);
+		if (netzObjekt == null) {
+			throw new NetzReferenzException("Das Netz '"
+					+ netz
+					+ "' kann nicht initialisiert werden");
+		}
+		ObjektFactory.getInstanz().setVerbindung(dav);
+		ObjektFactory.getInstanz().registerStandardFactories();
+
+		netzmodell = (VerkehrModellNetz) ObjektFactory.getInstanz()
+				.getModellobjekt(netzObjekt);
+
+		// initialisiere das Referenznetz
+		NetzReferenzen.getInstanz().setNetzmodell(netzmodell);
+	}
+	
 	/**
 	 * Rechnet Ortsreferenzen mit Stra&szlig;enSegment und den Offset in
 	 * Ortsangabe &uuml;ber das ASB-Stationierungssystem um.
@@ -567,43 +601,6 @@ public class NetzReferenzen {
 		}
 
 		return asbStationierung;
-	}
-
-	/**
-	 * Findet eine Betriebskilometerangabe f&uuml;r einen bestimmten Offset
-	 * innerhalb eines Stra&szlig;enteilsegmentes.
-	 * 
-	 * @param teilSegment
-	 *            Stra&szlig;enteilsegment
-	 * @param offset
-	 *            Offset auf dem Stra&szlig;enteilsegment
-	 * @return Betriebskilometerangabe
-	 * @throws NetzReferenzException
-	 *             wenn keine passende Betriebskilometerangabe bestimmt werden
-	 *             konnte
-	 */
-	private BetriebsKilometer findeBetriebsKilometerAmOffset(
-			final StrassenTeilSegment teilSegment, final double offset)
-			throws NetzReferenzException {
-		BetriebsKilometer betriebsKilometer = null;
-
-		// die Betriebskilometerangaben sollten nach Offset innerhalb des
-		// Teilsegmentes geordnet sein,
-		// d.h. es wird die letzte Angabe benutzt, deren Offset innerhalb des
-		// Teilsegmentes < als
-		// der verbleibende Offset innerhalb des Teilsegmentes ist
-		for (BetriebsKilometer bk : teilSegment.getBetriebsKilometer()) {
-			if (bk.getOffset() < offset) {
-				betriebsKilometer = bk;
-			}
-		}
-
-		if (betriebsKilometer == null) {
-			throw new NetzReferenzException(
-					"Es kann keine passende Betriebskilometerangabe gefunden werden");
-		}
-
-		return betriebsKilometer;
 	}
 
 	/**

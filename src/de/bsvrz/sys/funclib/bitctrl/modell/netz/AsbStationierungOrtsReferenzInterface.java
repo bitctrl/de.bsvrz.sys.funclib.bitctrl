@@ -55,10 +55,8 @@ import java.util.List;
  * Informationen von Abschnitten und &Auml;sten &uuml;ber das
  * Stationierungssystem auf die Stra&szlig;enelemente &uuml;bertragen.
  * 
- * @author inovat, innovative systeme - verkehr - tunnel - technik
- * @author Hans Christian Kniﬂ (HCK)
- * @version $Revision: 143 $ / $Date: 2006-12-14 00:40:06 +0100 (Do, 14 Dez
- *          2006) $ / ($Author: HCK $)
+ * @author BitCtrl Systems GmbH, Gieseler
+ * @version $Id: $
  */
 
 public interface AsbStationierungOrtsReferenzInterface {
@@ -80,7 +78,7 @@ public interface AsbStationierungOrtsReferenzInterface {
 	 * @throws NetzReferenzException
 	 *             wenn keine Abbildung m&ouml;glich ist.
 	 */
-	public List<StrassenSegmentUndOffsetOrtsReferenzInterface> ermittleOrtsReferenzStrassenSegmentUndOffset()
+	List<StrassenSegmentUndOffsetOrtsReferenzInterface> ermittleOrtsReferenzStrassenSegmentUndOffset()
 			throws NetzReferenzException;
 
 	/**
@@ -93,7 +91,7 @@ public interface AsbStationierungOrtsReferenzInterface {
 	 * @throws NetzReferenzException
 	 *             wenn keine Abbildung m&ouml;glich ist
 	 */
-	public List<StrasseUndBetriebsKilometerOrtsReferenzInterface> ermittleOrtsReferenzStrasseUndBetriebsKilometer()
+	List<StrasseUndBetriebsKilometerOrtsReferenzInterface> ermittleOrtsReferenzStrasseUndBetriebsKilometer()
 			throws NetzReferenzException;
 
 	/**
@@ -109,14 +107,14 @@ public interface AsbStationierungOrtsReferenzInterface {
 	 *         eindeutig festgelegt. Eine nicht vorhandene Kennung wird als
 	 *         o(hne) eingetragen.
 	 */
-	public String getAnfangsKnoten();
+	String getAnfangsKnoten();
 
 	/**
 	 * Gibt die Stationierungsrichtung f&uuml;r den ASB Abschnitt zur&uuml;ck.
 	 * 
 	 * @return Stationierungsrichtung f&uuml;r den ASB Abschnitt.
 	 */
-	public NetzInterface.ASBStationierungsRichtung getAsbStationierungsRichtung();
+	NetzInterface.ASBStationierungsRichtung getAsbStationierungsRichtung();
 
 	/**
 	 * Gibt den Endknoten der ASB Stationierung zur&uuml;ck.
@@ -131,12 +129,12 @@ public interface AsbStationierungOrtsReferenzInterface {
 	 *         eindeutig festgelegt. Eine nicht vorhandene Kennung wird als
 	 *         o(hne) eingetragen.
 	 */
-	public String getEndKnoten();
+	String getEndKnoten();
 
 	/**
 	 * Gibt die Stationierung (in Metern) auf dem ASB Abschnitt zur&uuml;ck.
 	 * 
 	 * @return Stationierung (in Metern) auf dem ASB Abschnitt.
 	 */
-	public long getStationierung();
+	long getStationierung();
 }

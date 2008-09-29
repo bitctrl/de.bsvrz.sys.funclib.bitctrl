@@ -33,10 +33,9 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Strasse;
  * Repr&auml;sentiert eine Ortsrefererenz &uuml;ber die Angabe einer
  * Stra&szlig;e und des Betriebskilometers.
  * 
- * @author inovat, innovative systeme - verkehr - tunnel - technik
- * @author Hans Christian Kniﬂ (HCK)
- * @version $Revision: 143 $ / $Date: 2006-12-14 00:40:06 +0100 (Do, 14 Dez
- *          2006) $ / ($Author: HCK $)
+ * @author BitCtrl Systems GmbH, Gieseler
+ * @version $Id:$
+ * 
  */
 
 public interface StrasseUndBetriebsKilometerOrtsReferenzInterface {

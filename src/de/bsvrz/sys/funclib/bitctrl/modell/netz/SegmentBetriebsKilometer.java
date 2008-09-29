@@ -39,8 +39,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenTeilSegment.B
  * Betriebskilometerangaben eines Stra&szlig:ensegmentes.
  * 
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id: SegmentBetriebsKilometer.java 9722 2008-06-16 16:34:21Z
- *          gieseler $
+ * @version $Id:$
  * 
  */
 

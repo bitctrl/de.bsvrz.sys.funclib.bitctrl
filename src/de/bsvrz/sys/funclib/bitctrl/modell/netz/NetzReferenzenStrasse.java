@@ -50,29 +50,64 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenTeilSegment.B
  */
 
 public class NetzReferenzenStrasse extends Strasse {
+	/**
+	 * Repr&auml;sentiert eine Betriebskilometerangabe der Stra&szlig;e.
+	 * 
+	 * @author BitCtrl Systems GmbH, Gieseler
+	 *
+	 */
 	public class BetriebsKilometerStrasse {
 
+		/**
+		 * Betriebskilometerwert.
+		 */
 		long betriebsKilometer;
+
+		/**
+		 * Blocknummer.
+		 */
 		int blockNummer;
 
+		/**
+		 * Konstruktor.
+		 * 
+		 * @param betriebsKilometer Betriebskilometerwert
+		 * @param blockNummer Blocknummer
+		 */
 		public BetriebsKilometerStrasse(long betriebsKilometer, int blockNummer) {
 			super();
 			this.betriebsKilometer = betriebsKilometer;
 			this.blockNummer = blockNummer;
 		}
 
+		/**
+		 * Gibt den Betriebskilometer zur&uuml;ck.
+		 * 
+		 * @return Betriebskilometer
+		 */
 		public long getBetriebsKilometer() {
 			return betriebsKilometer;
 		}
 
+		/**
+		 * Gibt die Blocknummer zur&uuml;ck.
+		 * 
+		 * @return Blocknummer
+		 */
 		public int getBlockNummer() {
 			return blockNummer;
 		}
 
 	}
 
+	/**
+	 * Die Fahrtrichtung auf der Str&szlig;e.
+	 */
 	private final TmcRichtung fahrtRichtung;
 
+	/**
+	 * Die Liste der Teilsegmente der Str&szlig;e.
+	 */
 	private final ArrayList<StrassenTeilSegment> teilSegmente = new ArrayList<StrassenTeilSegment>();
 
 	/**
@@ -93,7 +128,10 @@ public class NetzReferenzenStrasse extends Strasse {
 	}
 
 	/**
-	 * @param referenz
+	 * Sucht eine Betriebskilometerangabe zu einem Stra&szlig;enelement und Offset 
+	 * auf der Stra&szlig;e.
+	 * 
+	 * @param referenz StrassenSegmentUndOffsetOrtsReferenz 
 	 * @return Betriebskilometer-Angabe
 	 */
 	public BetriebsKilometerStrasse findeBetriebsKilometerZuSegmentUndOffset(
