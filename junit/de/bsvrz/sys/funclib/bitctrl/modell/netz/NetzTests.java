@@ -40,6 +40,11 @@ import java.util.logging.Logger;
 import com.bitctrl.resource.Configuration;
 import com.bitctrl.util.logging.LoggerTools;
 
+import de.bsvrz.dav.daf.main.ClientDavConnection;
+import de.bsvrz.dav.daf.main.CommunicationError;
+import de.bsvrz.dav.daf.main.ConnectionException;
+import de.bsvrz.dav.daf.main.InconsistentLoginException;
+import de.bsvrz.dav.daf.main.MissingParameterException;
 import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 import de.bsvrz.sys.funclib.debug.Debug;
 
@@ -52,6 +57,11 @@ import de.bsvrz.sys.funclib.debug.Debug;
  */
 
 public final class NetzTests {
+	/**
+	 * Datenverteiler-Verbindung.
+	 */
+	private static ClientDavConnection verbindung;
+	
 	/** Der Logger der Klassse. */
 	private static Logger log = Logger
 			.getLogger("Netztests");
@@ -62,18 +72,33 @@ public final class NetzTests {
 	public static Configuration konfig = null;
 
 	/**
+	 * .
 	 * @throws FileNotFoundException
 	 * @throws IOException
+	 * @throws MissingParameterException 
+	 * @throws ConnectionException 
+	 * @throws CommunicationError 
+	 * @throws InconsistentLoginException 
 	 * @throws BisInterfaceException
 	 */
 	static void init() throws FileNotFoundException, IOException,
-			NetzReferenzException {
+			NetzReferenzException, MissingParameterException, CommunicationError, ConnectionException, InconsistentLoginException {
 		final Level level;
 
 		konfig = Configuration.getConfiguration();
 		level = Level.parse(konfig.getString("debug.level"));
 		LoggerTools.setLogggerLevel(level);
 		log.setLevel(level);
+		log.info("Stelle Verbindung zum Datenverteiler her ...");
+		verbindung = new ClientDavConnection();
+		verbindung.getClientDavParameters().setDavCommunicationAddress(
+				konfig.getString("dav.host"));
+		verbindung.getClientDavParameters().setDavCommunicationSubAddress(
+				konfig.getInt("dav.port"));
+		verbindung.connect();
+		verbindung.login(konfig.getString("dav.benutzer"), konfig
+				.getString("dav.kennwort"));
+
 
 		// String[] commandArguments = {
 		ArgumentList al = new ArgumentList(
@@ -91,5 +116,11 @@ public final class NetzTests {
 		/**
 		 * 
 		 */
+	}
+
+
+
+	public static ClientDavConnection getVerbindung() {
+		return verbindung;
 	}
 }

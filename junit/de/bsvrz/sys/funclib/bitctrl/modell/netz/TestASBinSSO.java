@@ -37,6 +37,8 @@ import org.junit.Test;
 
 
 /**
+ * Testfall Netzreferenzumrechnung ASB in Segment-Und-Offset.
+ * 
  * @author BitCtrl Systems GmbH, Gieseler
  * @version $Id:$
  * 
@@ -46,15 +48,18 @@ public class TestASBinSSO {
 
 
 	/**
-	 * @throws java.lang.Exception
+	 * .
+	 * @throws java.lang.Exception bei Ausnahmen
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		System.out.println("Netzreferenzen-Prüfung");
+		NetzTests.init();
 	}
 
 	/**
-	 * @throws java.lang.Exception
+	 * .
+	 * @throws java.lang.Exception bei Ausnahmen
 	 */
 	@After
 	public void tearDown() throws Exception {
@@ -66,8 +71,12 @@ public class TestASBinSSO {
 	@Test
 	public void testUmrechnung() {
 		try {
-			String Anfangsknoten = NetzTests.konfig.getString("Anfangsknoten");
-			String Endknoten = NetzTests.konfig.getString("Endknoten");
+			NetzReferenzen.getInstanz().init(NetzTests.getVerbindung(), 
+					NetzTests.konfig.getString("Netz"));
+			
+			
+			String anfangsknoten = NetzTests.konfig.getString("Anfangsknoten");
+			String endknoten = NetzTests.konfig.getString("Endknoten");
 			long stationierung = Long.parseLong(NetzTests.konfig
 					.getString("Stationierung"));
 			String richtung = NetzTests.konfig
@@ -85,13 +94,13 @@ public class TestASBinSSO {
 
 			System.out
 					.println("Test Referenzierungsumrechnung ASB in Segment und Offset");
-			System.out.println("Anfangsknoten: " + Anfangsknoten);
-			System.out.println("Endknoten:     " + Endknoten);
+			System.out.println("Anfangsknoten: " + anfangsknoten);
+			System.out.println("Endknoten:     " + endknoten);
 			System.out.println("Stationierung: " + stationierung);
 			System.out.println("Richtung:      " + asbRichtung);
 
 			AsbStationierungOrtsReferenz asbref = new AsbStationierungOrtsReferenz(
-					Anfangsknoten, Endknoten, asbRichtung, stationierung);
+					anfangsknoten, endknoten, asbRichtung, stationierung);
 
 			assertNotNull(asbref);
 
