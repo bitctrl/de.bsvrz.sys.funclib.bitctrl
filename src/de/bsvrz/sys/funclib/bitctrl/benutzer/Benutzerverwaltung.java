@@ -77,7 +77,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public final class Benutzerverwaltung {
 
 	/** PID der Berechtigungsklasse ohne jede Zugriffsrechte. */
-	public static final String PID_KEIN_ZUGRIFF = "berechtigungsklasse.keinZugriff";
+	public static final String PID_KLASSE_KEIN_ZUGRIFF = "berechtigungsklasse.keinZugriff";
 
 	/** PID der Berechtigungsklasse mit allen Zugriffsrechten. */
 	public static final String PID_KLASSE_ADMINISTRATOR = "berechtigungsklasse.administrator";
@@ -998,7 +998,7 @@ public final class Benutzerverwaltung {
 
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 		final Berechtigungsklasse klasse = (Berechtigungsklasse) factory
-				.getModellobjekt(PID_KEIN_ZUGRIFF);
+				.getModellobjekt(PID_KLASSE_KEIN_ZUGRIFF);
 		final PdBenutzerParameter parameter = benutzer
 				.getParameterDatensatz(PdBenutzerParameter.class);
 		final PdBenutzerParameter.Daten datum = parameter.erzeugeDatum();
