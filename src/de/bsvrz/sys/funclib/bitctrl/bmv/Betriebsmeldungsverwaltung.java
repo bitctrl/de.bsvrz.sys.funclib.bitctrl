@@ -70,7 +70,7 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
  * Änderungen an dieser Liste informieren lassen.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id:$
+ * @version $Id$
  * @see de.bsvrz.sys.funclib.operatingMessage.MessageSender
  */
 public final class Betriebsmeldungsverwaltung {
@@ -487,7 +487,8 @@ public final class Betriebsmeldungsverwaltung {
 				getMessageType(meldung.getMeldungsTyp()),
 				getMessageTypeAddOn(meldung.getMeldungsTypZusatz()),
 				getMessageGrade(meldung.getMeldungsKlasse()),
-				meldung.getReferenz().getSystemObject(),
+				meldung.getReferenz() != null ? meldung.getReferenz()
+						.getSystemObject() : null,
 				getMessageState(meldung.getMeldungsStatus()),
 				new MessageCauser(meldung.getUrlasser().getBenutzer()
 						.getSystemObject(), meldung.getUrlasser().getUrsache(),
