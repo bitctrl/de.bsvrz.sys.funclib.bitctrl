@@ -227,7 +227,7 @@ public class Benutzer extends AbstractSystemObjekt {
 	 * Liest die konfigurierenden Daten des Objekts bei Bedarf.
 	 */
 	private void leseKonfigEigenschaften() {
-		if (!konfigDatenGelesen) {
+		if (konfigDatenGelesen) {
 			return;
 		}
 
@@ -245,6 +245,7 @@ public class Benutzer extends AbstractSystemObjekt {
 			nachname = datum.getTextValue("nachname").getText();
 			organisation = datum.getTextValue("organisation").getText();
 			emailAdresse = datum.getTextValue("emailAdresse").getText();
+			konfigDatenGelesen = true;
 		} else {
 			vorname = null;
 			zweiterVorname = null;
@@ -252,8 +253,6 @@ public class Benutzer extends AbstractSystemObjekt {
 			organisation = null;
 			emailAdresse = null;
 		}
-
-		konfigDatenGelesen = true;
 	}
 
 }
