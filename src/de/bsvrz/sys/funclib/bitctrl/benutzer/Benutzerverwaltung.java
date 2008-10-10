@@ -828,13 +828,15 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Löscht einen Benutzer. Das entsprechende Systemobjekt wird invalidiert.
+	 * Deaktiviert und löscht einen Benutzer. Das entsprechende Systemobjekt
+	 * wird invalidiert.
 	 * 
 	 * @param adminLoginname
 	 *            der Name des Administrators der die Aktion ausführt.
 	 * @param adminPasswort
 	 *            das Anmeldekennwort des Administrators der die Aktion
 	 *            ausführt.
+	 *            <em>Wird derzeit ignoriert, da es nicht benötigt wird!</em>
 	 * @param benutzer
 	 *            der zu löschende Benutzers.
 	 * @throws KeineRechteException
@@ -854,6 +856,8 @@ public final class Benutzerverwaltung {
 			throw new KeineRechteException(
 					"Sie verfügen nicht über ausreichend Rechte zum Löschen eines Benutzer.");
 		}
+
+		deaktiviereBenutzer(adminLoginname, adminPasswort, benutzer);
 
 		try {
 			benutzer.entfernen();
@@ -975,12 +979,15 @@ public final class Benutzerverwaltung {
 	/**
 	 * Deaktiviert einen Benutzer. Seine Berechtigungsklasse wird auf "Kein
 	 * Zugriff" gesetzt.
+	 * <p>
+	 * TODO Passwort überprüfen.
 	 * 
 	 * @param adminLoginname
 	 *            der Name des Administrators der die Aktion ausführt.
 	 * @param adminPasswort
 	 *            das Anmeldekennwort des Administrators der die Aktion
 	 *            ausführt.
+	 *            <em>Wird derzeit ignoriert, da es nicht benötigt wird!</em>
 	 * @param benutzer
 	 *            der zu deaktivierende Benutzers.
 	 * @throws KeineRechteException
@@ -991,32 +998,10 @@ public final class Benutzerverwaltung {
 	public void deaktiviereBenutzer(final String adminLoginname,
 			final String adminPasswort, final Benutzer benutzer)
 			throws KeineRechteException, BenutzerChangeException {
-		if (!isAdmin(adminLoginname)) {
-			throw new KeineRechteException(
-					"Sie verfügen nicht über ausreichend Rechte zum Deaktivieren eines Benutzers.");
-		}
-
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 		final Berechtigungsklasse klasse = (Berechtigungsklasse) factory
 				.getModellobjekt(PID_KLASSE_KEIN_ZUGRIFF);
-		final PdBenutzerParameter parameter = benutzer
-				.getParameterDatensatz(PdBenutzerParameter.class);
-		final PdBenutzerParameter.Daten datum = parameter.erzeugeDatum();
-		datum.setBerechtigungsklasse(klasse);
-		try {
-			parameter.anmeldenSender();
-			parameter.sendeDaten(datum);
-		} catch (final AnmeldeException ex) {
-			throw new BenutzerChangeException(
-					"Fehler beim Anmelden auf Parameter für Benutzer "
-							+ benutzer + ".", ex);
-		} catch (final DatensendeException ex) {
-			throw new BenutzerChangeException(
-					"Fehler beim Senden des Parameters für Benutzer "
-							+ benutzer + ".", ex);
-		} finally {
-			parameter.abmeldenSender();
-		}
+		setBerechtigungsklasse(adminLoginname, adminPasswort, benutzer, klasse);
 	}
 
 	/**
