@@ -464,7 +464,7 @@ public final class Betriebsmeldungsverwaltung {
 						getMessageType(typ),
 						getMessageTypeAddOn(mtz.compile()),
 						getMessageGrade(klasse),
-						referenz.getSystemObject(),
+						referenz != null ? referenz.getSystemObject() : null,
 						getMessageState(status),
 						new MessageCauser(urlasser.getBenutzer()
 								.getSystemObject(), urlasser.getUrsache(),
