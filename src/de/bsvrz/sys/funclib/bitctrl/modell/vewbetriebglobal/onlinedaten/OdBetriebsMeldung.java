@@ -397,39 +397,6 @@ public class OdBetriebsMeldung extends
 		}
 
 		/**
-		 * Zwei Betriebsmeldungen werden als gleich angesehen, wenn sie in
-		 * ApplikationsId, Meldungstyp, Meldungstypzusatz, Meldungsklasse,
-		 * Referenz und Meldungstext übereinstimmen.
-		 * 
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean equals(final Object obj) {
-			if (obj == this) {
-				return true;
-			} else if (obj instanceof Daten) {
-				final Daten o = (Daten) obj;
-				boolean result = true;
-
-				result &= applikationsId == o.applikationsId;
-				result &= meldungsTyp == null ? o.meldungsTyp == null
-						: meldungsTyp.equals(o.meldungsTyp);
-				result &= meldungsTypZusatz == null ? o.meldungsTypZusatz == null
-						: meldungsTypZusatz.equals(o.meldungsTypZusatz);
-				result &= meldungsKlasse == null ? o.meldungsKlasse == null
-						: meldungsKlasse.equals(o.meldungsKlasse);
-				result &= referenz == null ? o.referenz == null : referenz
-						.equals(o.referenz);
-				result &= meldungsText == null ? o.meldungsText == null
-						: meldungsText.equals(o.meldungsText);
-
-				return result;
-			}
-
-			return false;
-		}
-
-		/**
 		 * {@inheritDoc}
 		 */
 		@Override
@@ -510,6 +477,38 @@ public class OdBetriebsMeldung extends
 				return 1;
 			}
 			return 0;
+		}
+
+		/**
+		 * Zwei Betriebsmeldungen werden als gleich angesehen, wenn sie in
+		 * Meldungsklasse, Meldungstyp, Meldungstypzusatz, Referenz und
+		 * Meldungstext übereinstimmen.
+		 * 
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean equals(final Object obj) {
+			if (this == obj) {
+				return true;
+			} else if (obj instanceof Daten) {
+				final Daten o = (Daten) obj;
+				boolean equals = true;
+
+				equals &= meldungsTyp == o.meldungsTyp;
+				equals &= meldungsKlasse == o.meldungsKlasse;
+				equals &= meldungsTypZusatz == null
+						&& o.meldungsTypZusatz == null
+						|| meldungsTypZusatz != null
+						&& meldungsTypZusatz.equals(o.meldungsTypZusatz);
+				equals &= referenz == null && o.referenz == null
+						|| referenz != null && referenz.equals(o.referenz);
+				equals &= meldungsText == null && o.meldungsText == null
+						|| meldungsText != null
+						&& meldungsText.equals(o.meldungsText);
+
+				return equals;
+			}
+			return false;
 		}
 
 	}
