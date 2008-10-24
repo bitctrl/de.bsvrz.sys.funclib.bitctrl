@@ -31,8 +31,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import javax.swing.event.EventListenerList;
 
@@ -110,7 +108,6 @@ public final class Betriebsmeldungsverwaltung {
 						.getDatum();
 				synchronized (meldungsliste) {
 					meldungsliste.add(datum);
-					meldungslisteGefiltert.add(datum);
 					neu.add(datum);
 
 					for (final BetriebsmeldungCommand befehl : befehlsliste) {
@@ -139,9 +136,6 @@ public final class Betriebsmeldungsverwaltung {
 	/** Die Liste der gecachten Meldungen. */
 	private final List<OdBetriebsMeldung.Daten> meldungsliste;
 
-	/** Die gefilterte Meldungsliste. */
-	private final SortedSet<OdBetriebsMeldung.Daten> meldungslisteGefiltert;
-
 	/** Liste er Befehle die beim Meldungsempfang verarbeitet werden. */
 	private final List<BetriebsmeldungCommand> befehlsliste;
 
@@ -162,7 +156,6 @@ public final class Betriebsmeldungsverwaltung {
 		log = Debug.getLogger();
 		listeners = new EventListenerList();
 		meldungsliste = new LinkedList<OdBetriebsMeldung.Daten>();
-		meldungslisteGefiltert = new TreeSet<OdBetriebsMeldung.Daten>();
 		befehlsliste = new ArrayList<BetriebsmeldungCommand>();
 
 		log.info("Betriebsmeldungsverwaltung bereit.");
@@ -217,7 +210,6 @@ public final class Betriebsmeldungsverwaltung {
 						.getDatum(OdBetriebsMeldung.Aspekte.Information
 								.getAspekt());
 				meldungsliste.add(datum);
-				meldungslisteGefiltert.add(datum);
 			}
 
 			cleanUpMeldungen();
@@ -256,28 +248,6 @@ public final class Betriebsmeldungsverwaltung {
 			// Entferne Meldungen, die zuviel sind.
 			while (meldungsliste.size() > darstellungsparameter.getMaxAnzahl()) {
 				entfernt.add(meldungsliste.remove(0));
-			}
-		}
-
-		synchronized (meldungslisteGefiltert) {
-			// Entferne Meldungenm, die zu alte sind.
-			final long maxZeitstempel = System.currentTimeMillis()
-					- darstellungsparameter.getMaxHistory();
-			final Iterator<OdBetriebsMeldung.Daten> iterator = meldungslisteGefiltert
-					.iterator();
-			while (iterator.hasNext()) {
-				final OdBetriebsMeldung.Daten meldung = iterator.next();
-				if (meldung.getZeitstempel() < maxZeitstempel) {
-					iterator.remove();
-				} else if (meldung.getDatenStatus() != Datum.Status.DATEN) {
-					iterator.remove();
-				}
-			}
-
-			// Entferne Meldungen, die zuviel sind.
-			while (meldungslisteGefiltert.size() > darstellungsparameter
-					.getMaxAnzahl()) {
-				meldungslisteGefiltert.remove(meldungslisteGefiltert.first());
 			}
 		}
 
@@ -372,23 +342,6 @@ public final class Betriebsmeldungsverwaltung {
 	public List<OdBetriebsMeldung.Daten> getMeldungsliste() {
 		anmeldenMeldungsenpfaenger();
 		return Collections.unmodifiableList(meldungsliste);
-	}
-
-	/**
-	 * Gibt die gecachter Meldungen gefiltert, zurück. Herausgefiltert werden
-	 * alle doppelten Einträge. Die Anmeldung für den Empfang der
-	 * Betriebsmeldungen und das Auslesen der letzten Meldungen aus dem Archiv
-	 * erfolgt einmalig beim ersten Aufruf der Methode.
-	 * 
-	 * 
-	 * @return eine unveränderliche Liste der aktuellen Meldungen.
-	 * @see OdBetriebsMeldung.Daten#equals(Object)
-	 */
-	public List<OdBetriebsMeldung.Daten> getMeldungslisteGefiltert() {
-		anmeldenMeldungsenpfaenger();
-		return Collections
-				.unmodifiableList(new ArrayList<OdBetriebsMeldung.Daten>(
-						meldungslisteGefiltert));
 	}
 
 	/**
