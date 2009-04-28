@@ -26,6 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.daf;
 
+import java.lang.reflect.Field;
 import java.text.MessageFormat;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -33,6 +34,8 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+
+import com.bitctrl.util.logging.LoggerTools;
 
 import de.bsvrz.sys.funclib.debug.Debug;
 import de.bsvrz.sys.funclib.operatingMessage.MessageGrade;
@@ -56,8 +59,10 @@ public final class LogTools {
 	 * @param level
 	 *            der Loglevel.
 	 * @return {@code true}, wenn eine Ausgabe auf der Konsole erfolgt.
+	 * @deprecated neu: {@link #isLogbar(Debug, Level)}
 	 */
-	public static boolean isLogbar(Class<?> klasse, Level level) {
+	@Deprecated
+	public static boolean isLogbar(final Class<?> klasse, final Level level) {
 		Logger logger;
 		LogRecord logRecord;
 		boolean result;
@@ -67,7 +72,8 @@ public final class LogTools {
 		logRecord = new LogRecord(level, "");
 		result = false;
 
-		for (Handler h : Logger.getLogger(klasse.getSimpleName()).getHandlers()) {
+		for (final Handler h : Logger.getLogger(klasse.getSimpleName())
+				.getHandlers()) {
 			result = logger.isLoggable(level) && h.isLoggable(logRecord);
 			break;
 		}
@@ -84,8 +90,11 @@ public final class LogTools {
 	 * @param level
 	 *            der Loglevel.
 	 * @return {@code true}, wenn eine Ausgabe auf der Konsole erfolgt.
+	 * @deprecated neu: {@link #isLogbar(Debug, Level, Class)}
 	 */
-	public static boolean isLogbarAufConsole(Class<?> klasse, Level level) {
+	@Deprecated
+	public static boolean isLogbarAufConsole(final Class<?> klasse,
+			final Level level) {
 		Logger logger;
 		LogRecord logRecord;
 		boolean result;
@@ -95,7 +104,8 @@ public final class LogTools {
 		logRecord = new LogRecord(level, "");
 		result = false;
 
-		for (Handler h : Logger.getLogger(klasse.getSimpleName()).getHandlers()) {
+		for (final Handler h : Logger.getLogger(klasse.getSimpleName())
+				.getHandlers()) {
 			if (h instanceof ConsoleHandler) {
 				result = logger.isLoggable(level) && h.isLoggable(logRecord);
 				break;
@@ -114,8 +124,11 @@ public final class LogTools {
 	 * @param level
 	 *            der Loglevel.
 	 * @return {@code true}, wenn eine Ausgabe auf der Konsole erfolgt.
+	 * @deprecated neu: {@link #isLogbar(Debug, Level, Class)}
 	 */
-	public static boolean isLogbarInFile(Class<?> klasse, Level level) {
+	@Deprecated
+	public static boolean isLogbarInFile(final Class<?> klasse,
+			final Level level) {
 		Logger logger;
 		LogRecord logRecord;
 		boolean result;
@@ -125,7 +138,8 @@ public final class LogTools {
 		logRecord = new LogRecord(level, "");
 		result = false;
 
-		for (Handler h : Logger.getLogger(klasse.getSimpleName()).getHandlers()) {
+		for (final Handler h : Logger.getLogger(klasse.getSimpleName())
+				.getHandlers()) {
 			if (h instanceof FileHandler) {
 				result = logger.isLoggable(level) && h.isLoggable(logRecord);
 				break;
@@ -133,6 +147,64 @@ public final class LogTools {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Testet ob auf einem Logger mit einem bestimmten Level geloggt wird.
+	 * 
+	 * @param debug
+	 *            ein Logger.
+	 * @param level
+	 *            der zu prüfende Level.
+	 * @return <code>true</code>, wenn der Logger auf dem angegebenen Level
+	 *         Ausgaben macht.
+	 */
+	public static boolean isLogbar(final Debug debug, final Level level) {
+		return isLogbar(debug, level, null);
+	}
+
+	/**
+	 * Testet ob auf einem Logger mit einem bestimmten Level geloggt wird.
+	 * Zusätzlich kann auf einen bestimmten Handler z.&nbsp;B.
+	 * <code>ConsoleHandler</code> oder <code>FileHandler</code> geprüft werden.
+	 * 
+	 * @param debug
+	 *            ein Logger.
+	 * @param level
+	 *            der zu prüfende Level.
+	 * @param handlerClazz
+	 *            die Klasse eines Log-Handlers.
+	 * @return <code>true</code>, wenn der Logger auf dem angegebenen Handler
+	 *         und Level Ausgaben macht. Wenn der Handler <code>null</code> ist,
+	 *         wird <code>true</code> zurückgegeben, wenn der Logger auf dem
+	 *         angegebenen Level Ausgaben macht, der Handler wird dann
+	 *         ignoriert.
+	 */
+	public static boolean isLogbar(final Debug debug, final Level level,
+			final Class<? extends Handler> handlerClazz) {
+		try {
+			final Field field = Debug.class.getDeclaredField("_logger");
+			field.setAccessible(true);
+			final Logger logger = (Logger) field.get(debug);
+
+			return LoggerTools.isLogable(logger, level, handlerClazz);
+		} catch (final SecurityException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+			throw new IllegalStateException(ex);
+		} catch (final NoSuchFieldException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+			throw new IllegalStateException(ex);
+		} catch (final IllegalArgumentException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+			throw new IllegalStateException(ex);
+		} catch (final IllegalAccessException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+			throw new IllegalStateException(ex);
+		}
 	}
 
 	/**
@@ -148,48 +220,69 @@ public final class LogTools {
 	 *            optional eine beliebige Anzahl Argumente, falls Platzhalter in
 	 *            der Nachricht vorkommen.
 	 */
-	public static void log(Debug log, LogNachricht nachricht,
-			Object... arguments) {
-		final MessageSender msg = MessageSender.getInstance();
-		String txt;
-		final Level logLevel;
-		final MessageGrade bmvLevel;
+	public static void log(final Debug log, final LogNachricht nachricht,
+			final Object... arguments) {
+		if (isLogbar(log, nachricht.getLogLevel())) {
+			String txt;
+			if (arguments != null) {
+				txt = MessageFormat.format(nachricht.toString(), arguments);
+			} else {
+				txt = nachricht.toString();
+			}
 
-		if (arguments != null) {
-			txt = MessageFormat.format(nachricht.toString(), arguments);
-		} else {
-			txt = nachricht.toString();
-		}
-
-		// Ausgabe Logger
-		if (log != null) {
-			logLevel = nachricht.getLogLevel();
-			if (logLevel.equals(Debug.ERROR)) {
-				log.error(txt);
-			} else if (logLevel.equals(Debug.WARNING)) {
-				log.warning(txt);
-			} else if (logLevel.equals(Debug.INFO)) {
-				log.info(txt);
-			} else if (logLevel.equals(Debug.CONFIG)) {
-				log.config(txt);
-			} else if (logLevel.equals(Debug.FINE)) {
-				log.fine(txt);
-			} else if (logLevel.equals(Debug.FINER)) {
-				log.finer(txt);
-			} else if (logLevel.equals(Debug.FINEST)) {
-				log.finest(txt);
+			// Ausgabe Logger
+			if (log != null) {
+				final Level logLevel = nachricht.getLogLevel();
+				if (logLevel.equals(Debug.ERROR)) {
+					log.error(txt);
+				} else if (logLevel.equals(Debug.WARNING)) {
+					log.warning(txt);
+				} else if (logLevel.equals(Debug.INFO)) {
+					log.info(txt);
+				} else if (logLevel.equals(Debug.CONFIG)) {
+					log.config(txt);
+				} else if (logLevel.equals(Debug.FINE)) {
+					log.fine(txt);
+				} else if (logLevel.equals(Debug.FINER)) {
+					log.finer(txt);
+				} else if (logLevel.equals(Debug.FINEST)) {
+					log.finest(txt);
+				}
 			}
 		}
 
-		// Ausgabe Betriebsmeldung
-		bmvLevel = nachricht.getBmvLevel();
+		sendeBetriebsmeldung(nachricht, arguments);
+	}
+
+	/**
+	 * Gibt eine Nachricht als Betriebsmeldung aus. Der Level wird aus der
+	 * Nachricht gelesen.
+	 * 
+	 * @param nachricht
+	 *            die Nachricht.
+	 * @param arguments
+	 *            optional eine beliebige Anzahl Argumente, falls Platzhalter in
+	 *            der Nachricht vorkommen.
+	 */
+	public static void sendeBetriebsmeldung(final LogNachricht nachricht,
+			final Object... arguments) {
+		final MessageGrade bmvLevel = nachricht.getBmvLevel();
 		if (bmvLevel != null) {
+			String txt;
+			if (arguments != null) {
+				txt = MessageFormat.format(nachricht.toString(), arguments);
+			} else {
+				txt = nachricht.toString();
+			}
+
+			// Ausgabe Betriebsmeldung
 			// TODO Textlänge muss gekürzt werden, da writeUTF die Länge
 			// begrenzt. (UTFDataFormatException)
 			if (txt.length() > 20000) {
 				txt = txt.substring(0, 20000);
 			}
-			msg.sendMessage(MessageType.APPLICATION_DOMAIN, bmvLevel, txt);
+			MessageSender.getInstance().sendMessage(
+					MessageType.APPLICATION_DOMAIN, bmvLevel, txt);
 		}
 	}
 
