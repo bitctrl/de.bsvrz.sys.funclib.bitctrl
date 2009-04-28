@@ -15,10 +15,14 @@ oder potentiell genutzt werden können.
 Versionsgeschichte
 ==================
 
-  - Viele neue Funktionen hinzugefügt
+2009-04-28
 
-  - Paketstruktur von de.bsvrz.sys.funclib in de.bsvrz.sys.funclib.bitctrl
-    geändert
+  - NEU: boolean LogTools.isLogbar(Debug, Level) prüft ob ein Logger auf einem
+    bestimmten Level Ausgaben auf einem beliebigen Handler macht.
+    
+  - UPDATE: void LogTools.log(Debug, LogNachricht, Object...) baut Meldungen
+    erst dann zusammen (Nachrichtentext und Parameter), wenn sie tatsächlich
+    benötigt werden. Verwendet LogTools.isLogbar(Debug, Level).
 
 
 Bemerkungen
