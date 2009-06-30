@@ -168,7 +168,7 @@ public class TestSortierteListe {
 	 */
 	@Test
 	public void testFirst() {
-		assertEquals(0, liste.first());
+		assertEquals((Integer)0, liste.first());
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class TestSortierteListe {
 	 */
 	@Test
 	public void testLast() {
-		assertEquals(9, liste.last());
+		assertEquals((Integer)9, liste.last());
 	}
 
 	/**
