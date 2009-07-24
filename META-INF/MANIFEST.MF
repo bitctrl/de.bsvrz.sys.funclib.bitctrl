@@ -5,7 +5,7 @@ Bundle-SymbolicName: de.bsvrz.sys.funclib.bitctrl
 Bundle-Version: 1.2.1
 Bundle-Vendor: BitCtrl Systems GmbH
 Require-Bundle: BitCtrlJavaCommon;visibility:=reexport,
- de.bitctrl.lib.eclipse.dav;bundle-version="3.4.9"
+ de.bsvrz.kernsoftware.bibliothek;bundle-version="4.3.1"
 Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application",
  de.bsvrz.sys.funclib.bitctrl.archiv,
  de.bsvrz.sys.funclib.bitctrl.benutzer,
