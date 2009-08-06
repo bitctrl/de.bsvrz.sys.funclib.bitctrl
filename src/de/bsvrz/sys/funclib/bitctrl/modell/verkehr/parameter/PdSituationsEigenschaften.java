@@ -50,7 +50,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenSegment;
  * "atg.situationsEigenschaften".
  * 
  * @author BitCtrl Systems GmbH, Peuker
- * @version $Id$
+ * @version $Id: PdSituationsEigenschaften.java 9779 2008-06-18 14:28:36Z peuker
+ *          $
  */
 public class PdSituationsEigenschaften extends
 		AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
@@ -114,7 +115,7 @@ public class PdSituationsEigenschaften extends
 		 *            das zu kopierende Datum
 		 */
 		Daten(final Daten daten) {
-			this.datenStatus = daten.datenStatus;
+			datenStatus = daten.datenStatus;
 			setZeitstempel(daten.getZeitstempel());
 			startZeit = daten.startZeit;
 			dauer = daten.dauer;
@@ -139,8 +140,10 @@ public class PdSituationsEigenschaften extends
 				dauer = daten.getTimeValue("Dauer").getMillis();
 				Data.Array segmentArray = daten.getArray("StraﬂenSegment");
 				for (int idx = 0; idx < segmentArray.getLength(); idx++) {
-					segmente.add((StrassenSegment) ObjektFactory.getInstanz().getModellobjekt(
-							segmentArray.getReferenceValue(idx).getSystemObject()));
+					segmente.add((StrassenSegment) ObjektFactory.getInstanz()
+							.getModellobjekt(
+									segmentArray.getReferenceValue(idx)
+											.getSystemObject()));
 				}
 				startOffset = daten.getUnscaledValue("StartOffset").longValue();
 				endOffset = daten.getUnscaledValue("EndOffset").longValue();
@@ -217,10 +220,11 @@ public class PdSituationsEigenschaften extends
 
 			List<StrassenSegment> segmentListe = getSegmente();
 			if (segmentListe.size() > 0) {
-				StrassenSegment segment = segmentListe.get(segmentListe.size() - 1);
+				StrassenSegment segment = segmentListe
+						.get(segmentListe.size() - 1);
 				if (segment instanceof InneresStrassenSegment) {
 					InneresStrassenSegment iss = (InneresStrassenSegment) segment;
-					if (iss.getVonSegment() != null) {
+					if (iss.getNachSegment() != null) {
 						result = iss.getNachSegment().getNachKnoten();
 					}
 					if (result == null) {
@@ -229,7 +233,8 @@ public class PdSituationsEigenschaften extends
 						}
 					}
 				} else if (segment instanceof AeusseresStrassenSegment) {
-					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment).getNachKnoten();
+					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
+							.getNachKnoten();
 					if (knoten != null) {
 						result = knoten;
 					}
@@ -262,8 +267,7 @@ public class PdSituationsEigenschaften extends
 
 		/**
 		 * liefert den vor der Situation liegenden Messquerschnitt. Wird kein
-		 * Messquerschnitt gefunden, wird der Wert <code>null</code>
-		 * geliefert.
+		 * Messquerschnitt gefunden, wird der Wert <code>null</code> geliefert.
 		 * 
 		 * @return den Messquerschnitt oder <code>null</code>
 		 */
@@ -272,7 +276,8 @@ public class PdSituationsEigenschaften extends
 			StrassenSegment usedSegment = segment;
 			MessQuerschnittAllgemein mqDavor = null;
 			while ((mqDavor == null) && (usedSegment != null)) {
-				List<MessQuerschnittAllgemein> mqs = usedSegment.getMessquerschnitte();
+				List<MessQuerschnittAllgemein> mqs = usedSegment
+						.getMessquerschnitte();
 				if (segment == usedSegment) {
 					for (int idx = mqs.size(); idx > 0; idx--) {
 						MessQuerschnittAllgemein mq = mqs.get(idx - 1);
@@ -286,15 +291,18 @@ public class PdSituationsEigenschaften extends
 					break;
 				}
 				if (usedSegment instanceof AeusseresStrassenSegment) {
-					StrassenKnoten vonKnoten = ((AeusseresStrassenSegment) usedSegment).getVonKnoten();
+					StrassenKnoten vonKnoten = ((AeusseresStrassenSegment) usedSegment)
+							.getVonKnoten();
 					StrassenSegment result = null;
 					if (vonKnoten != null) {
-						for (InneresStrassenSegment innen : vonKnoten.getInnereSegmente()) {
+						for (InneresStrassenSegment innen : vonKnoten
+								.getInnereSegmente()) {
 							if (innen.getVonSegment() != null) {
 								if (usedSegment.equals(innen.getNachSegment())) {
 									Strasse strasse = segment.getStrasse();
 									if ((strasse == null)
-											|| (strasse.equals(innen.getStrasse()))) {
+											|| (strasse.equals(innen
+													.getStrasse()))) {
 										result = innen;
 										break;
 									}
@@ -304,7 +312,8 @@ public class PdSituationsEigenschaften extends
 					}
 					usedSegment = result;
 				} else if (usedSegment instanceof InneresStrassenSegment) {
-					usedSegment = ((InneresStrassenSegment) usedSegment).getVonSegment();
+					usedSegment = ((InneresStrassenSegment) usedSegment)
+							.getVonSegment();
 				} else {
 					usedSegment = null;
 				}
@@ -320,7 +329,7 @@ public class PdSituationsEigenschaften extends
 		 *            der gesuchte Index
 		 * @return die Liste der Segmente
 		 */
-		public StrassenSegment getSegment(int idx) {
+		public StrassenSegment getSegment(final int idx) {
 			StrassenSegment result = null;
 			if ((idx >= 0) && (segmente.size() > idx)) {
 				result = segmente.get(idx);
@@ -389,16 +398,17 @@ public class PdSituationsEigenschaften extends
 				StrassenSegment segment = segmentListe.get(0);
 				if (segment instanceof InneresStrassenSegment) {
 					InneresStrassenSegment iss = (InneresStrassenSegment) segment;
-					if (iss.getNachSegment() != null) {
-						result = iss.getNachSegment().getVonKnoten();
+					if (iss.getVonSegment() != null) {
+						result = iss.getVonSegment().getVonKnoten();
 					}
 					if (result == null) {
 						if (iss.getVonSegment() != null) {
-							result = iss.getNachSegment().getNachKnoten();
+							result = iss.getVonSegment().getNachKnoten();
 						}
 					}
 				} else if (segment instanceof AeusseresStrassenSegment) {
-					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment).getVonKnoten();
+					StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
+							.getVonKnoten();
 					if (knoten != null) {
 						result = knoten;
 					}
@@ -414,8 +424,8 @@ public class PdSituationsEigenschaften extends
 		 * @param neuerStatus
 		 *            der neue Status
 		 */
-		protected void setDatenStatus(Status neuerStatus) {
-			this.datenStatus = neuerStatus;
+		protected void setDatenStatus(final Status neuerStatus) {
+			datenStatus = neuerStatus;
 		}
 
 		/**
@@ -489,9 +499,10 @@ public class PdSituationsEigenschaften extends
 	 */
 	public PdSituationsEigenschaften(final SystemObjekt objekt) {
 		super(objekt);
-		if (attributGruppe == null) {
-			attributGruppe = objekt.getSystemObject().getDataModel().getAttributeGroup(
-					"atg.situationsEigenschaften");
+		if (PdSituationsEigenschaften.attributGruppe == null) {
+			PdSituationsEigenschaften.attributGruppe = objekt.getSystemObject()
+					.getDataModel().getAttributeGroup(
+							"atg.situationsEigenschaften");
 		}
 	}
 
@@ -510,7 +521,7 @@ public class PdSituationsEigenschaften extends
 	 * @see de.bsvrz.sys.funclib.bitctrl.modell.Datensatz#getAttributGruppe()
 	 */
 	public AttributeGroup getAttributGruppe() {
-		return attributGruppe;
+		return PdSituationsEigenschaften.attributGruppe;
 	}
 
 	/**
@@ -526,8 +537,8 @@ public class PdSituationsEigenschaften extends
 		List<StrassenSegment> segmente = datum.getSegmente();
 		result.getArray("StraﬂenSegment").setLength(segmente.size());
 		for (int idx = 0; idx < segmente.size(); idx++) {
-			result.getArray("StraﬂenSegment").getReferenceValue(idx).setSystemObject(
-					segmente.get(idx).getSystemObject());
+			result.getArray("StraﬂenSegment").getReferenceValue(idx)
+					.setSystemObject(segmente.get(idx).getSystemObject());
 		}
 		result.getUnscaledValue("StartOffset").set(datum.getStartOffset());
 		result.getUnscaledValue("EndOffset").set(datum.getEndOffset());
