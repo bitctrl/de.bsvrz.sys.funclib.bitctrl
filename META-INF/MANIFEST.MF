@@ -7,7 +7,7 @@ Bundle-Vendor: BitCtrl Systems GmbH
 Require-Bundle: BitCtrlJavaCommon;visibility:=reexport,
  de.bsvrz.kernsoftware.bibliothek;resolution:=optional,
  de.bitctrl.lib.eclipse.dav;resolution:=optional,
- de.bsvrz.dav.daf;resolution:=optional
+ de.bsvrz.dav.daf;resolution:=optional;visibility:=reexport
 Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application",
  de.bsvrz.sys.funclib.bitctrl.archiv,
  de.bsvrz.sys.funclib.bitctrl.benutzer,
