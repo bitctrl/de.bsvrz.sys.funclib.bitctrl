@@ -259,12 +259,10 @@ public class ObjektFactory implements ModellObjektFactory {
 	 *         es nicht als Modellobjekt darstellbar ist.
 	 */
 	public SystemObjekt getModellobjekt(final String pid) {
-		List<SystemObjekt> objekte;
-
-		objekte = bestimmeModellobjekte(pid);
-		assert !objekte.isEmpty();
-		if (!objekte.isEmpty()) {
-			return objekte.get(0);
+		final DataModel modell = getVerbindung().getDataModel();
+		final SystemObject so = modell.getObject(pid);
+		if (so != null) {
+			return getModellobjekt(so);
 		}
 		return null;
 	}
