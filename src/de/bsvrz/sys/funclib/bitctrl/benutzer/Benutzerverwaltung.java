@@ -500,6 +500,36 @@ public final class Benutzerverwaltung {
 
 		return rechte;
 	}
+	
+	/**
+	 * Pr&uuml;ft, ob ein Bennutzer Administratorrechte am DAV besitzt.
+	 * Administratoren d&uuml;rfen u. a. Benutzer l&ouml;schen, Passworte 
+	 * anderer Benuzter &auml;ndern und Autorisierungspassworte f&uuml;r 
+	 * andere Benuzter anlegen.<br>
+	 * Da sich der Zustand des Admin-Flags derzeit nicht direkt &uuml;ber 
+	 * das DAV-API ermitteln l&auml;&szlig;t, hilft folgender Trick: Man 
+	 * versucht den Benuzter mit sich selbst zum Admin zu machen, klappt 
+	 * dies, so ist er bereits Admin gewesen, ansonsten ist er kein Admin.
+ 	 * 
+	 * @param loginname
+	 *            ein Nutzername
+	 * @param passwort 
+	 *            das Passwort des Benutzers
+	 * @return {@code true}, wenn der Bennutzer Administratorrechte besitzt.
+	 */
+	public boolean isDAVAdmin(final String loginname, final String passwort) {
+		try {
+			final ObjektFactory factory = ObjektFactory.getInstanz();
+			final DataModel modell = factory.getVerbindung().getDataModel();
+			final UserAdministration userAdmin = modell.getUserAdministration();
+			userAdmin.changeUserRights(loginname, passwort, loginname, true);
+			return true;
+		} catch (final ConfigurationChangeException ex) {
+			return false;
+		} catch (final ConfigurationTaskException ex) {
+			return false;
+		}
+	}
 
 	/**
 	 * Prüft, ob ein Bennutzer der Berechtigungsklasse
