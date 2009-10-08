@@ -204,7 +204,7 @@ public final class Benutzerverwaltung {
 		// Listener auf Änderungen der Menge der Benutzer
 		final DynamicObjectType typ = (DynamicObjectType) factory
 				.getModellobjekt(SystemModellGlobalTypen.Benutzer.getPid())
-				.getSystemObject().getType();
+				.getSystemObject();
 		typ.addObjectCreationListener(privateListener);
 		typ.addInvalidationListener(privateListener);
 
