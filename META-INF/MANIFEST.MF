@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Datenverteiler, allgemeine Funktionen
 Bundle-SymbolicName: de.bsvrz.sys.funclib.bitctrl
-Bundle-Version: 1.2.1.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: BitCtrl Systems GmbH
 Require-Bundle: BitCtrlJavaCommon;visibility:=reexport,
  de.bsvrz.kernsoftware.bibliothek;resolution:=optional,
