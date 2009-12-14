@@ -206,7 +206,7 @@ extends MessQuerschnittAllgemein {
 		} catch (KeineDatenException e) {
 			e.printStackTrace();
 			Debug.getLogger().warning(
-					"\"atg.messQuerschnittVirtuellStandard\" von MessQuerschnittVirtuell-Objekt "
+					"\"atg.messQuerschnittVirtuellVLage\" von MessQuerschnittVirtuell-Objekt "
 							+ mqvObjekt + " konnten nicht ausgelesen werden:\n"
 							+ e.getMessage());
 		}

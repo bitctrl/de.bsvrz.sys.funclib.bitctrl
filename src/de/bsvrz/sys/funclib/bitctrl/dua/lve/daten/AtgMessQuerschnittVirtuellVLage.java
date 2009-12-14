@@ -79,7 +79,7 @@ public class AtgMessQuerschnittVirtuellVLage {
 				.getAttributeGroup(DUAKonstanten.ATG_MQ_VIRTUELL_V_LAGE));
 		if (atgData == null) {
 			throw new KeineDatenException(
-					"Die Attributgruppe \"atg.messQuerschnittVirtuell\" von VMQ "
+					"Die Attributgruppe \"atg.messQuerschnittVirtuellVLage\" von VMQ "
 							+ objekt + " ist nicht definiert.");
 		}
 	
