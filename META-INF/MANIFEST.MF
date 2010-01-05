@@ -5,8 +5,23 @@ Bundle-SymbolicName: de.bsvrz.sys.funclib.bitctrl
 Bundle-Version: 1.2.1.qualifier
 Bundle-Vendor: BitCtrl Systems GmbH
 Require-Bundle: BitCtrlJavaCommon;visibility:=reexport,
- de.bsvrz.kernsoftware.bibliothek;resolution:=optional,
- de.bitctrl.lib.eclipse.dav;resolution:=optional
+ de.bitctrl.lib.eclipse.dav;resolution:=optional,
+ de.bsvrz.sys.funclib.application;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.sys.funclib.commandLineArgs;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.sys.funclib.concurrent;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.sys.funclib.configObjectAcquisition;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.sys.funclib.consoleProcessFrame;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.sys.funclib.crypt;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.sys.funclib.dataIdentificationSettings;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.sys.funclib.debug;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.sys.funclib.filelock;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.sys.funclib.hexdump;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.sys.funclib.operatingMessage;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.sys.funclib.timeout;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.dav.daf.plus.funclibErweiterung;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.sys.funclib.asyncReceiver;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.pat.sysprot;bundle-version="3.4.10";resolution:=optional;visibility:=reexport,
+ de.bsvrz.pat.onlprot;bundle-version="3.4.10";resolution:=optional;visibility:=reexport
 Export-Package: de.bsvrz.sys.funclib.bitctrl.app;uses:="sys.funclib.application",
  de.bsvrz.sys.funclib.bitctrl.archiv,
  de.bsvrz.sys.funclib.bitctrl.benutzer,
