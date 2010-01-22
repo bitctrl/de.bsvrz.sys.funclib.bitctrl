@@ -29,7 +29,6 @@ package de.bsvrz.sys.funclib.bitctrl.daf;
 import com.bitctrl.util.CronScheduler;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
-import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 
 /**
  * Erweitert den allgemeinen Scheduler für die Zusammenarbeit mit dem
@@ -41,26 +40,34 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 public class CronSchedulerDav extends CronScheduler {
 
 	/** Die zu verwendende Datenverteilerverbindung. */
-	private ClientDavInterface verbindung;
+	private final ClientDavInterface verbindung;
 
 	/**
-	 * Erzeugt einen Scheduler. Entspricht {@code new CronSchedulerDav(false)}.
+	 * Erzeugt einen Scheduler, der kein Daemon ist.
 	 * 
-	 * @see #CronSchedulerDav(boolean)
+	 * @param verbindung
+	 *            die zu verwendende Datenverteilerverbindung.
 	 */
-	public CronSchedulerDav() {
-		this(false);
+	public CronSchedulerDav(final ClientDavInterface verbindung) {
+		this(verbindung, false);
 	}
 
 	/**
 	 * Erzeugt einen Scheduler.
 	 * 
+	 * @param verbindung
+	 *            die zu verwendende Datenverteilerverbindung.
 	 * @param daemon
 	 *            {@code true}, wenn der Scheduler-Thread als Daemon laufen
 	 *            soll.
 	 */
-	public CronSchedulerDav(final boolean daemon) {
+	public CronSchedulerDav(final ClientDavInterface verbindung,
+			final boolean daemon) {
 		super(daemon);
+		if (verbindung == null) {
+			throw new NullPointerException("Verbindung darf nicht null sein.");
+		}
+		this.verbindung = verbindung;
 	}
 
 	/**
@@ -70,27 +77,7 @@ public class CronSchedulerDav extends CronScheduler {
 	 */
 	@Override
 	public long getTime() {
-		if (verbindung != null) {
-			return verbindung.getTime();
-		}
-
-		return ObjektFactory.getInstanz().getVerbindung().getTime();
-	}
-
-	/**
-	 * Legt die zu verwendende Datenverteilerverbindung fest. Wird hier keine
-	 * festgelegt, wird die von {@link ObjektFactory#getVerbindung()} verwendet.
-	 * 
-	 * @param verbindung
-	 *            eine Datenverteilerverbindung.
-	 */
-	public void setVerbindung(final ClientDavInterface verbindung) {
-		if (verbindung != null) {
-			throw new IllegalStateException(
-					"Die Verbindung wurde bereits festgelegt.");
-		}
-
-		this.verbindung = verbindung;
+		return verbindung.getTime();
 	}
 
 	/**
@@ -100,11 +87,7 @@ public class CronSchedulerDav extends CronScheduler {
 	 */
 	@Override
 	public void sleep(final long millis) throws InterruptedException {
-		if (verbindung != null) {
-			verbindung.sleep(millis);
-		} else {
-			ObjektFactory.getInstanz().getVerbindung().sleep(millis);
-		}
+		verbindung.sleep(millis);
 	}
 
 }

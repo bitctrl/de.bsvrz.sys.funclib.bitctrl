@@ -31,7 +31,7 @@ package de.bsvrz.sys.funclib.bitctrl.math;
  * <p>
  * 
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id$
+ * @version $Id: Festkommazahl.java 6846 2008-02-21 14:33:41Z peuker $
  */
 public class Festkommazahl extends Number implements Comparable<Festkommazahl> {
 

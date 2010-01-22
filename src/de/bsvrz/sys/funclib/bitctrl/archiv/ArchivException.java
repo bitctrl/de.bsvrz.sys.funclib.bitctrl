@@ -34,11 +34,13 @@ package de.bsvrz.sys.funclib.bitctrl.archiv;
  */
 public class ArchivException extends RuntimeException {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Eine Ausnahme ohne Hinweistext und vorangegangenen Grund.
 	 */
 	public ArchivException() {
-
+		// tut nix
 	}
 
 	/**

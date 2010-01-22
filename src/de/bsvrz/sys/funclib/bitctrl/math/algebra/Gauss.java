@@ -33,7 +33,7 @@ import de.bsvrz.sys.funclib.bitctrl.math.RationaleZahl;
  * Gleichunssystemen.
  * 
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id$
+ * @version $Id: Gauss.java 6386 2008-02-08 08:24:20Z Schumann $
  */
 public final class Gauss {
 

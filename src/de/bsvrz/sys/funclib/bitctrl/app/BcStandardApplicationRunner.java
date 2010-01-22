@@ -60,8 +60,8 @@ public class BcStandardApplicationRunner {
 	 *            die Kommandozeilenargumente der Applikation.
 	 * @param appTypePID
 	 *            die PID die der Applikation als Typ anstelle von
-	 *            <em>typ.applikation</em> gesetzt werden soll. Wenn
-	 *            {@code null}, wird der Applikationstyp nicht geändert.
+	 *            <em>typ.applikation</em> gesetzt werden soll. Wenn {@code
+	 *            null}, wird der Applikationstyp nicht geändert.
 	 * @param autoReadyMsg
 	 *            dieses Flag sagt aus, ob nach der Initialisierung der
 	 *            Anwendung automatisch das Readysignal gesendet werden soll.

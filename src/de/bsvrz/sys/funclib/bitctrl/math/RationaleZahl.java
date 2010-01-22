@@ -30,7 +30,7 @@ package de.bsvrz.sys.funclib.bitctrl.math;
  * Repr&auml;sentiert eine rationale Zahl.
  * 
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id$
+ * @version $Id: RationaleZahl.java 6357 2008-02-07 16:08:38Z Schumann $
  */
 public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 

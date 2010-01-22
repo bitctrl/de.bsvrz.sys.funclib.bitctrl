@@ -29,30 +29,28 @@ package de.bsvrz.sys.funclib.bitctrl.geolib;
 /**
  * Klasse zur Repr&auml;sentation einer Koordinate in WGS84.
  * 
- * 
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id$
- * 
+ * @version $Id: WGS84Koordinate.java 10022 2008-07-01 09:51:37Z gieseler $
  */
 public class WGS84Koordinate {
 
 	/**
-	 * kleinster zul&auml;ssiger Wert für die L&auml;nge.
+	 * Kleinster zul&auml;ssiger Wert für die L&auml;nge.
 	 */
 	public static final double MIN_LAENGE = -180;
 
 	/**
-	 * gr&ouml;ßter zul&auml;ssiger Wert für die Lä&auml;nge.
+	 * Gr&ouml;ßter zul&auml;ssiger Wert für die Lä&auml;nge.
 	 */
 	public static final double MAX_LAENGE = 180;
 
 	/**
-	 * kleinster zul&auml;ssiger Wert für die Breite.
+	 * Kleinster zul&auml;ssiger Wert für die Breite.
 	 */
 	public static final double MIN_BREITE = -90;
 
 	/**
-	 * gr&ouml;ßter zul&auml;ssiger Wert für die Breite.
+	 * Gr&ouml;ßter zul&auml;ssiger Wert für die Breite.
 	 */
 	public static final double MAX_BREITE = 90;
 
@@ -74,28 +72,23 @@ public class WGS84Koordinate {
 	 * @param breite
 	 *            geographische Breite in Dezimalgrad
 	 */
-	public WGS84Koordinate(double laenge, double breite) {
+	public WGS84Koordinate(final double laenge, final double breite) {
 		if (testBreite(breite)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Breite ist ungültig!"); //$NON-NLS-1$
+					"Der Wert für die Breite ist ungültig!");
 		}
 
 		if (testLaenge(laenge)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Länge ist ungültig!"); //$NON-NLS-1$
+					"Der Wert für die Länge ist ungültig!");
 		}
 
 		this.laenge = laenge;
 		this.breite = breite;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -135,11 +128,6 @@ public class WGS84Koordinate {
 		return laenge;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -155,31 +143,41 @@ public class WGS84Koordinate {
 	/**
 	 * Setzt die geographische Breite.
 	 * 
-	 * @param neuebreite
+	 * @param breite
 	 *            neue geographische Breite in Dezimalgrad
+	 * @deprecated Die Breite wird im Konstruktor gesetzt und sollte nicht mehr
+	 *             verändert werden. Andernfalls kann die Klassenkapselung
+	 *             verletzt werden (Java übergibt Parameter immer per
+	 *             Referenz!).
 	 */
-	public void setBreite(double neuebreite) {
-		if (testBreite(neuebreite)) {
+	@Deprecated
+	public void setBreite(final double breite) {
+		if (testBreite(breite)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Breite ist ungültig!"); //$NON-NLS-1$
+					"Der Wert für die Breite ist ungültig!");
 		}
 
-		this.breite = neuebreite;
+		this.breite = breite;
 	}
 
 	/**
 	 * Setzt die geographische L&auml;nge.
 	 * 
-	 * @param neuelaenge
+	 * @param laenge
 	 *            neue geographische L&auml;nge in Dezimalgrad
+	 * @deprecated Die Länge wird im Konstruktor gesetzt und sollte nicht mehr
+	 *             verändert werden. Andernfalls kann die Klassenkapselung
+	 *             verletzt werden (Java übergibt Parameter immer per
+	 *             Referenz!).
 	 */
-	public void setLaenge(double neuelaenge) {
-		if (testLaenge(neuelaenge)) {
+	@Deprecated
+	public void setLaenge(final double laenge) {
+		if (testLaenge(laenge)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Länge ist ungültig!"); //$NON-NLS-1$
+					"Der Wert für die Länge ist ungültig!");
 		}
 
-		this.laenge = neuelaenge;
+		this.laenge = laenge;
 	}
 
 	/**
@@ -189,7 +187,7 @@ public class WGS84Koordinate {
 	 *            Breite
 	 * @return true, wenn ok sonst false
 	 */
-	private boolean testBreite(double tbreite) {
+	private boolean testBreite(final double tbreite) {
 		return ((tbreite < MIN_BREITE) || (tbreite > MAX_BREITE));
 	}
 
@@ -200,7 +198,18 @@ public class WGS84Koordinate {
 	 *            L&auml;nge
 	 * @return true, wenn ok sonst false
 	 */
-	private boolean testLaenge(double tlaenge) {
+	private boolean testLaenge(final double tlaenge) {
 		return ((tlaenge < MIN_LAENGE) || (tlaenge > MAX_LAENGE));
 	}
+
+	@Override
+	public String toString() {
+		String result = "WGS84-Koordinate";
+		result += "[";
+		result += "laenge=" + laenge;
+		result += ", breite=" + breite;
+		result += "]";
+		return result;
+	}
+
 }

@@ -33,15 +33,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Polygonzug in WGS84-Koordinaten.
  * 
- * 
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id$
- * 
+ * @version $Id: WGS84Polygon.java 9032 2008-05-21 08:32:43Z gieseler $
  */
 public class WGS84Polygon {
 
@@ -58,10 +57,11 @@ public class WGS84Polygon {
 	 * @return Punktkoordinaten
 	 */
 	private static strictfp Point2D.Double berecheneBildPunkt(
-			Line2D.Double line, double alpha, double laenge) {
-		double yl = Math.sin(alpha) * laenge;
-		double xl = ((float) Math.cos(alpha)) * laenge;
+			final Line2D.Double line, final double alpha, final double laenge) {
+		final double yl = Math.sin(alpha) * laenge;
+		final double xl = ((float) Math.cos(alpha)) * laenge;
 
+		// XXX Auskommentierten Quelltext löschen?
 		// Test
 		// yl = Math.round(yl * 100000000.0)/100000000.0;
 		// xl = Math.round(xl * 100000000.0)/100000000.0;
@@ -84,26 +84,29 @@ public class WGS84Polygon {
 	 *            der Offset beginnend vom Anfang der Strecke, bei dem der Punkt
 	 *            liegen soll
 	 * 
-	 * @return Punkt bzw. IllegalArgumentException
+	 * @return der Punkt.
+	 * @throws IllegalArgumentException
 	 */
-	public static WGS84Punkt bildPunktAufStrecke(WGS84Punkt s1, WGS84Punkt s2,
-			double offset) {
+	public static WGS84Punkt bildPunktAufStrecke(final WGS84Punkt s1,
+			final WGS84Punkt s2, final double offset) {
 		if (WGS84Punkt.abstandExakt(s1, s2) < offset) {
-			throw new IllegalArgumentException(
-					"Der Offset ("
-							+ offset
-							+ ") ist größer als die Streckenlänge (" + WGS84Punkt.abstandExakt(s1, s2) + ")."); //$NON-NLS-1$
+			throw new IllegalArgumentException("Der Offset (" + offset
+					+ ") ist größer als die Streckenlänge ("
+					+ WGS84Punkt.abstandExakt(s1, s2) + ").");
 		}
 
 		if (offset < 0.0) {
-			throw new IllegalArgumentException("Der Offset muss positiv sein."); //$NON-NLS-1$
+			throw new IllegalArgumentException("Der Offset muss positiv sein.");
 		}
 
 		// alle Berechnungen auf den kartesischen Koordinaten
 		Point2D.Double ergebnis;
-		Line2D.Double line = new Line2D.Double(s1.getUtmX(), s1.getUtmY(), s2
-				.getUtmX(), s2.getUtmY());
-		double alpha = Math.atan((line.y2 - line.y1) / (line.x2 - line.x1));
+		final UTMKoordinate utm1 = s1.toUTMKoordinate();
+		final UTMKoordinate utm2 = s2.toUTMKoordinate();
+		final Line2D.Double line = new Line2D.Double(utm1.getX(), utm1.getY(),
+				utm2.getX(), utm2.getY());
+		final double alpha = Math.atan((line.y2 - line.y1)
+				/ (line.x2 - line.x1));
 
 		ergebnis = berecheneBildPunkt(line, alpha, offset);
 
@@ -114,9 +117,9 @@ public class WGS84Polygon {
 
 		// Ruecktransformation in Winkelkoordinaten
 		// die Zone des ersten Streckenpunktes wird benutzt
-		WGS84Koordinate w = GeoTransformation
+		final WGS84Koordinate w = GeoTransformation
 				.uTMnachWGS84Punkt(new UTMKoordinate(ergebnis.x, ergebnis.y, s1
-						.getUTMZone()));
+						.toUTMKoordinate().getZone()));
 
 		return new WGS84Punkt(w);
 
@@ -140,8 +143,8 @@ public class WGS84Polygon {
 	 * 
 	 * @return die Koordinaten des Bildpunktes
 	 */
-	public static WGS84Punkt bildPunktAufStrecke(WGS84Punkt s1, WGS84Punkt s2,
-			WGS84Punkt punkt) {
+	public static WGS84Punkt bildPunktAufStrecke(final WGS84Punkt s1,
+			final WGS84Punkt s2, final WGS84Punkt punkt) {
 
 		if (punktLiegtAufStrecke(s1, s2, punkt)) {
 			return punkt;
@@ -161,10 +164,13 @@ public class WGS84Polygon {
 
 		// alle Berechnungen auf den kartesischen Koordinaten
 		Point2D.Double ergebnis;
-		Line2D.Double line = new Line2D.Double(s1.getUtmX(), s1.getUtmY(), s2
-				.getUtmX(), s2.getUtmY());
-		Point2D.Double point = new Point2D.Double(punkt.getUtmX(), punkt
-				.getUtmY());
+		final UTMKoordinate utm1 = s1.toUTMKoordinate();
+		final UTMKoordinate utm2 = s2.toUTMKoordinate();
+		final UTMKoordinate utmPunkt = punkt.toUTMKoordinate();
+		final Line2D.Double line = new Line2D.Double(utm1.getX(), utm1.getY(),
+				utm2.getX(), utm2.getY());
+		final Point2D.Double point = new Point2D.Double(utmPunkt.getX(),
+				utmPunkt.getY());
 
 		if (line.x1 == line.x2) {
 			// die Strecke liegt auf der X-Koordinate, wir sparen uns die
@@ -172,18 +178,18 @@ public class WGS84Polygon {
 			ergebnis = new Point2D.Double(line.x1, point.y);
 			// Ruecktransformation in Winkelkoordinaten
 			// die Zone des ersten Streckenpunktes wird benutzt
-			WGS84Koordinate w = GeoTransformation
+			final WGS84Koordinate w = GeoTransformation
 					.uTMnachWGS84Punkt(new UTMKoordinate(ergebnis.x,
-							ergebnis.y, s1.getUTMZone()));
+							ergebnis.y, utm1.getZone()));
 
 			return new WGS84Punkt(w);
 		}
 
-		double hoehe = line.ptLineDist(point);
-		double hypo = WGS84Punkt.abstandExakt(s1, punkt);
+		final double hoehe = line.ptLineDist(point);
+		final double hypo = WGS84Punkt.abstandExakt(s1, punkt);
 
 		// Laenge auf der Strecke bis zum Punkt
-		double fusspunktlaenge = Math.sqrt(Math.pow(hypo, 2.0)
+		final double fusspunktlaenge = Math.sqrt(Math.pow(hypo, 2.0)
 				- Math.pow(hoehe, 2.0));
 
 		return WGS84Polygon.bildPunktAufStrecke(s1, s2, fusspunktlaenge);
@@ -207,6 +213,7 @@ public class WGS84Polygon {
 	 * 
 	 * @return die Koordinaten des Bildpunktes
 	 */
+	// XXX Auskommentierten Quelltext löschen?
 	// public static WGS84Punkt bildPunktAufStrecke_old(WGS84Punkt s1,
 	// WGS84Punkt s2, WGS84Punkt punkt) {
 	//
@@ -276,16 +283,15 @@ public class WGS84Polygon {
 	 *            Punkt
 	 * @return abbildbar ja/nein
 	 */
-	@SuppressWarnings("unused")
-	private static boolean istAbbildbar(Line2D.Double line, Point2D.Double point) {
-		double ld = line.ptLineDistSq(point);
-		double l = line.ptSegDistSq(point);
+	private static boolean istAbbildbar(final Line2D.Double line,
+			final Point2D.Double point) {
+		final double ld = line.ptLineDistSq(point);
+		final double l = line.ptSegDistSq(point);
 
 		// Bei den obigen Berechnungen treten numerische Fehler auf. Hier wird
-		// deshalb ein
-		// zusaetzliches Kriterium definiert.
-		double maxdiff = 0.000001;
-		double relfehler = (ld - l) / ld;
+		// deshalb ein zusaetzliches Kriterium definiert.
+		final double maxdiff = 0.000001;
+		final double relfehler = (ld - l) / ld;
 
 		return (line.ptLineDist(point) == line.ptSegDist(point))
 				|| (relfehler < maxdiff);
@@ -304,21 +310,25 @@ public class WGS84Polygon {
 	 * 
 	 * @return abbildbar ja/nein
 	 */
-	private static boolean istAbbildbar(WGS84Punkt s1, WGS84Punkt s2,
-			WGS84Punkt punkt) {
-		Line2D.Double line = new Line2D.Double(s1.getUtmX(), s1.getUtmY(), s2
-				.getUtmX(), s2.getUtmY());
-		Point2D.Double point = new Point2D.Double(punkt.getUtmX(), punkt
-				.getUtmY());
+	private static boolean istAbbildbar(final WGS84Punkt s1,
+			final WGS84Punkt s2, final WGS84Punkt punkt) {
+		final UTMKoordinate utm1 = s1.toUTMKoordinate();
+		final UTMKoordinate utm2 = s2.toUTMKoordinate();
+		final UTMKoordinate utmPunkt = punkt.toUTMKoordinate();
+		final Line2D.Double line = new Line2D.Double(utm1.getX(), utm1.getY(),
+				utm2.getX(), utm2.getY());
+		final Point2D.Double point = new Point2D.Double(utmPunkt.getX(),
+				utmPunkt.getY());
 
-		double hoehe = line.ptLineDist(point);
-		double hypo = WGS84Punkt.abstandExakt(s1, punkt);
+		final double hoehe = line.ptLineDist(point);
+		final double hypo = WGS84Punkt.abstandExakt(s1, punkt);
 
 		// Laenge auf der Strecke bis zum Punkt
-		double fusspunktlaenge = Math.sqrt(Math.pow(hypo, 2.0)
+		final double fusspunktlaenge = Math.sqrt(Math.pow(hypo, 2.0)
 				- Math.pow(hoehe, 2.0));
 
-		boolean abbildbar = fusspunktlaenge <= WGS84Punkt.abstandExakt(s1, s2);
+		final boolean abbildbar = fusspunktlaenge <= WGS84Punkt.abstandExakt(
+				s1, s2);
 
 		return abbildbar;
 	}
@@ -334,12 +344,14 @@ public class WGS84Polygon {
 	 *            Punkt
 	 * @return Abstand des Punktes von der Strecke in Meter
 	 */
-	public static double punktAbstandStrecke(WGS84Punkt l1, WGS84Punkt l2,
-			WGS84Punkt punkt) {
-
-		Line2D.Double l2d = new Line2D.Double(l1.getUtmX(), l1.getUtmY(), l2
-				.getUtmX(), l2.getUtmY());
-		double abstand = l2d.ptSegDist(punkt.getUtmX(), punkt.getUtmY());
+	public static double punktAbstandStrecke(final WGS84Punkt l1,
+			final WGS84Punkt l2, final WGS84Punkt punkt) {
+		final UTMKoordinate utm1 = l1.toUTMKoordinate();
+		final UTMKoordinate utm2 = l2.toUTMKoordinate();
+		final UTMKoordinate utmPunkt = punkt.toUTMKoordinate();
+		final Line2D.Double l2d = new Line2D.Double(utm1.getX(), utm1.getY(),
+				utm2.getX(), utm2.getY());
+		final double abstand = l2d.ptSegDist(utmPunkt.getX(), utmPunkt.getY());
 
 		// zur Vermeidung von numerischen Problemen mit 3 Nachkommastellen
 		return Math.round(abstand * 1000.0) / 1000.0;
@@ -356,8 +368,8 @@ public class WGS84Polygon {
 	 *            Punkt
 	 * @return true, wenn der Punkt auf der Strecke liegt, sonst false.
 	 */
-	public static boolean punktLiegtAufStrecke(WGS84Punkt l1, WGS84Punkt l2,
-			WGS84Punkt punkt) {
+	public static boolean punktLiegtAufStrecke(final WGS84Punkt l1,
+			final WGS84Punkt l2, final WGS84Punkt punkt) {
 		return punktAbstandStrecke(l1, l2, punkt) == 0.0;
 	}
 
@@ -375,8 +387,9 @@ public class WGS84Polygon {
 	 *            maximal zul&auml;ssige Abweichung in m
 	 * @return true, wenn der Punkt auf der Strecke liegt, sonst false.
 	 */
-	public static boolean punktLiegtAufStrecke(WGS84Punkt l1, WGS84Punkt l2,
-			WGS84Punkt punkt, double maxAbweichungMeter) {
+	public static boolean punktLiegtAufStrecke(final WGS84Punkt l1,
+			final WGS84Punkt l2, final WGS84Punkt punkt,
+			final double maxAbweichungMeter) {
 		return punktAbstandStrecke(l1, l2, punkt) <= maxAbweichungMeter;
 	}
 
@@ -389,8 +402,9 @@ public class WGS84Polygon {
 	 *            der zu testende Punkt
 	 * @return ja/nein
 	 */
-	private static boolean richtungOK(Line2D.Double line, Point2D.Double punkt) {
-		Rectangle2D r = line.getBounds2D();
+	private static boolean richtungOK(final Line2D.Double line,
+			final Point2D.Double punkt) {
+		final Rectangle2D r = line.getBounds2D();
 
 		return r.contains(punkt);
 	}
@@ -409,18 +423,20 @@ public class WGS84Polygon {
 	 *            L&auml;nge
 	 * @param breite
 	 *            Breite
+	 * @throws IllegalArgumentException
+	 *             wenn die beiden Felder eine unterschliedliche Länge besitzen.
 	 */
-	public WGS84Polygon(double[] laenge, double[] breite) {
+	public WGS84Polygon(final double[] laenge, final double[] breite) {
 
 		if (laenge.length != breite.length) {
 			throw new IllegalArgumentException(
-					"Die Anzahl der Koordinaten für Länge und Breite muss übereinstimmen"); //$NON-NLS-1$
+					"Die Anzahl der Koordinaten für Länge und Breite muss übereinstimmen");
 		}
 
 		punkte = new ArrayList<WGS84Punkt>(laenge.length);
 
 		for (int i = 0; i < laenge.length; i++) {
-			WGS84Punkt p = new WGS84Punkt(laenge[i], breite[i]);
+			final WGS84Punkt p = new WGS84Punkt(laenge[i], breite[i]);
 			punkte.add(p);
 		}
 	}
@@ -431,7 +447,7 @@ public class WGS84Polygon {
 	 * @param punktliste
 	 *            Punktliste
 	 */
-	public WGS84Polygon(List<WGS84Punkt> punktliste) {
+	public WGS84Polygon(final List<WGS84Punkt> punktliste) {
 
 		punkte = new ArrayList<WGS84Punkt>(punktliste);
 	}
@@ -447,24 +463,24 @@ public class WGS84Polygon {
 	 *            der Offset beginnend vom Anfang des Polygones, bei dem der
 	 *            Schnitt- punkt liegen soll
 	 * 
-	 * @return Teil des Polygones bis zum Offset-Punkt oder
-	 *         IllegalArgumentException
+	 * @return Teil des Polygones bis zum Offset-Punkt.
+	 * @throws IllegalArgumentException
 	 */
-	public WGS84Polygon anfangAbschneiden(double offset) {
+	public WGS84Polygon anfangAbschneiden(final double offset) {
 		if (laenge() < offset) {
 			throw new IllegalArgumentException(
-					"Der Offset ist größer als die Polygonlänge"); //$NON-NLS-1$
+					"Der Offset ist größer als die Polygonlänge");
 		}
 
 		if (laenge() == offset) {
-			WGS84Polygon ret = new WGS84Polygon(this.punkte);
-			this.punkte.clear();
+			final WGS84Polygon ret = new WGS84Polygon(punkte);
+			punkte.clear();
 			return ret;
 		}
 
-		WGS84Koordinate bk = bildPunkt(offset);
-		WGS84Punkt bp = new WGS84Punkt(bk.getLaenge(), bk.getBreite());
-		List<WGS84Punkt> apunkte = new ArrayList<WGS84Punkt>();
+		final WGS84Koordinate bk = bildPunkt(offset);
+		final WGS84Punkt bp = new WGS84Punkt(bk.getLaenge(), bk.getBreite());
+		final List<WGS84Punkt> apunkte = new ArrayList<WGS84Punkt>();
 
 		int found = -1;
 		for (int i = 0; i < punkte.size() - 1; i++) {
@@ -481,7 +497,7 @@ public class WGS84Polygon {
 		}
 
 		// entferne Anfang von this
-		for (WGS84Punkt p : apunkte) {
+		for (final WGS84Punkt p : apunkte) {
 			punkte.remove(p);
 		}
 		// Bildpunkt an den Anfang
@@ -502,16 +518,16 @@ public class WGS84Polygon {
 	 * 
 	 * @param punkt
 	 *            Schnittpunkt
-	 * @return Teil des Polygones bis zum Offset-Punkt oder
-	 *         IllegalArgumentException
+	 * @return Teil des Polygones bis zum Offset-Punkt.
+	 * @throws IllegalArgumentException
 	 */
-	public WGS84Polygon anfangAbschneiden(WGS84Punkt punkt) {
+	public WGS84Polygon anfangAbschneiden(final WGS84Punkt punkt) {
 		if (!liegtAufPolygon(punkt, 0.001)) {
 			throw new IllegalArgumentException(
-					"Der Punkt liegt nicht auf dem Polygon"); //$NON-NLS-1$
+					"Der Punkt liegt nicht auf dem Polygon");
 		}
 
-		List<WGS84Punkt> apunkte = new ArrayList<WGS84Punkt>();
+		final List<WGS84Punkt> apunkte = new ArrayList<WGS84Punkt>();
 
 		int found = -1;
 		for (int i = 0; i < punkte.size() - 1; i++) {
@@ -525,11 +541,11 @@ public class WGS84Polygon {
 
 		if (found == -1) {
 			throw new IllegalArgumentException(
-					"Der Punkt liegt nicht auf dem Polygon"); //$NON-NLS-1$
+					"Der Punkt liegt nicht auf dem Polygon");
 		}
 
 		// entferne Anfang von this
-		for (WGS84Punkt p : apunkte) {
+		for (final WGS84Punkt p : apunkte) {
 			punkte.remove(p);
 		}
 		// Bildpunkt an den Anfang
@@ -548,12 +564,14 @@ public class WGS84Polygon {
 	 * @param punkt
 	 *            Punkt, f&uuml;r den der Offset berechnet werden soll
 	 * 
-	 * @return Offset (in m) bzw. IllegalArgumentException
+	 * @return Offset (in m).
+	 * @throws IllegalArgumentException
+	 *             wenn der Punkt nicht auf dem Polygon liegt.
 	 */
-	public double berecheneOffset(WGS84Punkt punkt) {
+	public double berecheneOffset(final WGS84Punkt punkt) {
 		if (!liegtAufPolygon(punkt)) {
 			throw new IllegalArgumentException(
-					"Der Offset kann nicht bestimmt werden"); //$NON-NLS-1$
+					"Der Offset kann nicht bestimmt werden");
 		}
 
 		double offset = 0.0;
@@ -581,19 +599,21 @@ public class WGS84Polygon {
 	 *            der Offset beginnend vom Anfang des Polygones, bei dem der
 	 *            Punkt liegen soll
 	 * 
-	 * @return Punkt bzw. IllegalArgumentException
+	 * @return der berechnete Punkt.
+	 * @throws IllegalArgumentException
+	 *             wenn der Offset länger als das Polygon ist.
 	 */
-	public strictfp WGS84Punkt bildPunkt(double offset) {
+	public strictfp WGS84Punkt bildPunkt(final double offset) {
 		if (laenge() < offset) {
 			throw new IllegalArgumentException(
-					"Der Offset ist größer als die Polygonlänge"); //$NON-NLS-1$
+					"Der Offset ist größer als die Polygonlänge");
 		}
 
 		double laenge = 0.0;
 
 		for (int i = 0; i < punkte.size() - 1; i++) {
-			double slaenge = WGS84Punkt.abstandExakt(punkte.get(i), punkte
-					.get(i + 1));
+			final double slaenge = WGS84Punkt.abstandExakt(punkte.get(i),
+					punkte.get(i + 1));
 			double tmplaenge = laenge + slaenge;
 			tmplaenge = Math.round(tmplaenge * 1000.0) / 1000.0;
 			if (tmplaenge >= offset) {
@@ -607,7 +627,7 @@ public class WGS84Polygon {
 
 		// this should not happen!!!
 		throw new IllegalStateException(
-				"Der Offset kann nicht auf das Polygon abgebildet werden"); //$NON-NLS-1$
+				"Der Offset kann nicht auf das Polygon abgebildet werden");
 	}
 
 	/**
@@ -622,14 +642,15 @@ public class WGS84Polygon {
 	 * @param punkt
 	 *            der abzubildende Punkt
 	 * 
-	 * @return Punkt bzw. IllegalArgumentException
+	 * @return Punkt.
+	 * @throws IllegalArgumentException
 	 */
-	public WGS84Punkt bildPunkt(WGS84Punkt punkt) {
+	public WGS84Punkt bildPunkt(final WGS84Punkt punkt) {
 		if (liegtAufPolygon(punkt)) {
 			return punkt;
 		}
 
-		WGS84Polygon strecke = findeTeilstreckeKleinsterAbstand(punkt);
+		final WGS84Polygon strecke = findeTeilstreckeKleinsterAbstand(punkt);
 		int iterationen = 0;
 
 		if (strecke != null) {
@@ -642,7 +663,7 @@ public class WGS84Polygon {
 
 				if (++iterationen > 10) {
 					throw new IllegalArgumentException(
-							"Der Bildpunkt kann nicht genau bestimmt werden"); //$NON-NLS-1$
+							"Der Bildpunkt kann nicht genau bestimmt werden");
 				}
 			} while (!liegtAufPolygon(bp));
 
@@ -650,7 +671,7 @@ public class WGS84Polygon {
 		}
 
 		throw new IllegalArgumentException(
-				"Der Bildpunkt kann nicht bestimmt werden"); //$NON-NLS-1$
+				"Der Bildpunkt kann nicht bestimmt werden");
 	}
 
 	/**
@@ -665,14 +686,15 @@ public class WGS84Polygon {
 	 * @param punkt
 	 *            der abzubildende Punkt
 	 * 
-	 * @return Punkt bzw. IllegalArgumentException
+	 * @return der Punkt.
+	 * @throws IllegalArgumentException
 	 */
-	public WGS84Punkt bildPunktTest(WGS84Punkt punkt) {
+	public WGS84Punkt bildPunktTest(final WGS84Punkt punkt) {
 		if (liegtAufPolygon(punkt)) {
 			return punkt;
 		}
 
-		WGS84Polygon strecke = findeTeilstreckeKleinsterAbstand(punkt);
+		final WGS84Polygon strecke = findeTeilstreckeKleinsterAbstand(punkt);
 		int iterationen = 0;
 
 		if (strecke != null) {
@@ -680,13 +702,14 @@ public class WGS84Polygon {
 
 			// iteriere um numerische Fehler bei grossem Abstand zu eliminieren
 			do {
-				WGS84Punkt sp1 = strecke.punkte.get(0);
-				WGS84Punkt sp2 = strecke.punkte.get(1);
+				final WGS84Punkt sp1 = strecke.punkte.get(0);
+				final WGS84Punkt sp2 = strecke.punkte.get(1);
 
 				System.out.println("Iterationen: " + iterationen);
 				System.out.println("Abstand: "
 						+ punktAbstandStrecke(sp1, sp2, bp));
 
+				// XXX Auskommentierten Quelltext löschen?
 				// if(punktAbstandStrecke(sp1, sp2, bp) < 10) {
 				// System.out.println("WGS");
 				// bp = WGS84Polygon.bildPunktAufStreckeTest(sp1, sp2, bp);
@@ -698,7 +721,7 @@ public class WGS84Polygon {
 
 				if (++iterationen > 10000) {
 					throw new IllegalArgumentException(
-							"Der Bildpunkt kann nicht genau bestimmt werden"); //$NON-NLS-1$
+							"Der Bildpunkt kann nicht genau bestimmt werden");
 				}
 			} while (!liegtAufPolygon(bp));
 
@@ -706,7 +729,7 @@ public class WGS84Polygon {
 		}
 
 		throw new IllegalArgumentException(
-				"Der Bildpunkt kann nicht bestimmt werden"); //$NON-NLS-1$
+				"Der Bildpunkt kann nicht bestimmt werden");
 	}
 
 	/**
@@ -717,18 +740,19 @@ public class WGS84Polygon {
 	 *            Punkt
 	 * @return gefundene Teilstrecke als Polygon oder null
 	 */
-	public WGS84Polygon findeTeilstreckeKleinsterAbstand(WGS84Punkt punkt) {
+	public WGS84Polygon findeTeilstreckeKleinsterAbstand(final WGS84Punkt punkt) {
 		double abstand = Double.MAX_VALUE;
 		WGS84Punkt p1 = null, p2 = null;
 		WGS84Polygon strecke = null;
 
 		for (int i = 0; i < punkte.size() - 1; i++) {
-			double sabstand = WGS84Polygon.punktAbstandStrecke(punkte.get(i),
-					punkte.get(i + 1), punkt);
+			final double sabstand = WGS84Polygon.punktAbstandStrecke(punkte
+					.get(i), punkte.get(i + 1), punkt);
 			if (sabstand > abstand) {
 				continue;
 			}
 
+			// XXX Auskommentierten Quelltext löschen?
 			// if(sabstand == abstand) {
 			// // die beiden aufeinanderfolgenden Strecken haben den gleichen
 			// Abstand, da sie
@@ -743,7 +767,7 @@ public class WGS84Polygon {
 		}
 
 		if (p1 != null && p2 != null) {
-			WGS84Punkt[] spunkte = { p1, p2 };
+			final WGS84Punkt[] spunkte = { p1, p2 };
 			strecke = new WGS84Polygon(Arrays.asList(spunkte));
 		}
 
@@ -768,7 +792,7 @@ public class WGS84Polygon {
 	 * @return true, wenn der Punkt der Anfangs- oder Endpunkt des Polygons ist,
 	 *         sonst false
 	 */
-	public boolean istAnfangsOderEndPunkt(WGS84Punkt punkt) {
+	public boolean istAnfangsOderEndPunkt(final WGS84Punkt punkt) {
 		return istAnfangsPunkt(punkt) || istEndPunkt(punkt);
 	}
 
@@ -785,8 +809,8 @@ public class WGS84Polygon {
 	 *         oder maximal <code>maxAbstandMeter</code> vom Anfangs- oder
 	 *         Endpunkt entfernt ist, sonst false
 	 */
-	public boolean istAnfangsOderEndPunkt(WGS84Punkt punkt,
-			double maxAbstandMeter) {
+	public boolean istAnfangsOderEndPunkt(final WGS84Punkt punkt,
+			final double maxAbstandMeter) {
 		return istAnfangsPunkt(punkt, maxAbstandMeter)
 				|| istEndPunkt(punkt, maxAbstandMeter);
 	}
@@ -800,7 +824,7 @@ public class WGS84Polygon {
 	 * @return true, wenn der Punkt der Anfangspunkt des Polygons ist, sonst
 	 *         false
 	 */
-	public boolean istAnfangsPunkt(WGS84Punkt punkt) {
+	public boolean istAnfangsPunkt(final WGS84Punkt punkt) {
 		if (punkte.size() == 0) {
 			return false;
 		}
@@ -821,7 +845,8 @@ public class WGS84Polygon {
 	 *         maximal <code>maxAbstandMeter</code> vom Anfangspunkt entfernt
 	 *         ist, sonst false
 	 */
-	public boolean istAnfangsPunkt(WGS84Punkt punkt, double maxAbstandMeter) {
+	public boolean istAnfangsPunkt(final WGS84Punkt punkt,
+			final double maxAbstandMeter) {
 		if (punkte.size() == 0) {
 			return false;
 		}
@@ -838,7 +863,7 @@ public class WGS84Polygon {
 	 * 
 	 * @return true, wenn der Punkt der Endpunkt des Polygons ist, sonst false
 	 */
-	public boolean istEndPunkt(WGS84Punkt punkt) {
+	public boolean istEndPunkt(final WGS84Punkt punkt) {
 		if (punkte.size() == 0) {
 			return false;
 		}
@@ -859,7 +884,8 @@ public class WGS84Polygon {
 	 *         <code>maxAbstandMeter</code> vom Endpunkt entfernt ist, sonst
 	 *         false
 	 */
-	public boolean istEndPunkt(WGS84Punkt punkt, double maxAbstandMeter) {
+	public boolean istEndPunkt(final WGS84Punkt punkt,
+			final double maxAbstandMeter) {
 		if (punkte.size() == 0) {
 			return false;
 		}
@@ -879,23 +905,28 @@ public class WGS84Polygon {
 	 *            maximal zul&auml;ssige Abweichung in Grad
 	 * @return true, wenn die Polygone im o.g. Sinne identisch sind, sonst false
 	 */
-	public boolean istIdentisch(WGS84Polygon testpolygon,
-			double maxabweichungGrad) {
-//		double abstandmeter = GeoTransformation
-//				.winkelInMeter(maxabweichungGrad);
-		
-		if (this.punkte.size() != testpolygon.punkte.size()) {
+	public boolean istIdentisch(final WGS84Polygon testpolygon,
+			final double maxabweichungGrad) {
+		// XXX Auskommentierten Quelltext löschen?
+
+		// double abstandmeter = GeoTransformation
+		// .winkelInMeter(maxabweichungGrad);
+
+		if (punkte.size() != testpolygon.punkte.size()) {
 			return false;
 		}
-		
+
 		for (int i = 0; i < punkte.size(); i++) {
-//			if(WGS84Punkt.abstand(punkte.get(i), testpolygon.punkte.get(i)) > abstandmeter)
-//			boolean b = punkte.get(i).equals(testpolygon.punkte.get(i), maxabweichungGrad);
-			if (!punkte.get(i).equals(testpolygon.punkte.get(i), maxabweichungGrad)) {
+			// if(WGS84Punkt.abstand(punkte.get(i), testpolygon.punkte.get(i)) >
+			// abstandmeter)
+			// boolean b = punkte.get(i).equals(testpolygon.punkte.get(i),
+			// maxabweichungGrad);
+			if (!punkte.get(i).equals(testpolygon.punkte.get(i),
+					maxabweichungGrad)) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -906,8 +937,8 @@ public class WGS84Polygon {
 	 *            Der Punkt, f&uuml;r den der Abstand bestimmt werden soll
 	 * @return der kleinste Abstand des Punktes vom Polygon (in m)
 	 */
-	public double kleinsterPunktAbstand(WGS84Punkt punkt) {
-		WGS84Polygon strecke = findeTeilstreckeKleinsterAbstand(punkt);
+	public double kleinsterPunktAbstand(final WGS84Punkt punkt) {
+		final WGS84Polygon strecke = findeTeilstreckeKleinsterAbstand(punkt);
 
 		if (strecke != null) {
 			return WGS84Polygon.punktAbstandStrecke(strecke.punkte.get(0),
@@ -915,9 +946,9 @@ public class WGS84Polygon {
 		}
 
 		throw new IllegalArgumentException(
-				"Der Abstand des Punktes kann nicht bestimmt werden"); //$NON-NLS-1$
+				"Der Abstand des Punktes kann nicht bestimmt werden");
 	}
-	
+
 	/**
 	 * Bestimmt den gr&ouml;ssten Abstand eines Punktes vom Polygon.
 	 * 
@@ -925,12 +956,12 @@ public class WGS84Polygon {
 	 *            Der Punkt, f&uuml;r den der Abstand bestimmt werden soll
 	 * @return der gr&ouml;sste Abstand des Punktes vom Polygon (in m)
 	 */
-	public double groessterPunktAbstand(WGS84Punkt punkt) {
+	public double groessterPunktAbstand(final WGS84Punkt punkt) {
 		double punktabstand = 0;
-		
+
 		for (int i = 0; i < punkte.size() - 1; i++) {
-			double abstand = WGS84Polygon.punktAbstandStrecke(punkte.get(i),
-					punkte.get(i + 1), punkt);
+			final double abstand = WGS84Polygon.punktAbstandStrecke(punkte
+					.get(i), punkte.get(i + 1), punkt);
 			if (abstand > punktabstand) {
 				punktabstand = abstand;
 			}
@@ -973,6 +1004,7 @@ public class WGS84Polygon {
 
 		for (int i = 0; i < punkte.size() - 1; i++) {
 			laenge += WGS84Punkt.abstandExakt(punkte.get(i), punkte.get(i + 1));
+			// XXX Auskommentierten Quelltext löschen?
 			// laenge += WGS84Punkt.Abstand(_punkte.get(i), _punkte.get(i+1));
 		}
 		// zur Vermeidung von numerischen Problemen mit 3 Nachkommastellen
@@ -1002,8 +1034,7 @@ public class WGS84Polygon {
 	 *            Punkt
 	 * @return true, wenn der Punkt auf dem Polygonzug liegt, sonst false
 	 */
-	public boolean liegtAufPolygon(WGS84Punkt punkt) {
-
+	public boolean liegtAufPolygon(final WGS84Punkt punkt) {
 		for (int i = 0; i < punkte.size() - 1; i++) {
 			if (punktLiegtAufStrecke(punkte.get(i), punkte.get(i + 1), punkt)) {
 				return true;
@@ -1022,7 +1053,8 @@ public class WGS84Polygon {
 	 *            maximal zul&auml;ssige Abweichung in m
 	 * @return true, wenn der Punkt auf dem Polygonzug liegt, sonst false
 	 */
-	public boolean liegtAufPolygon(WGS84Punkt punkt, double maxAbweichungMeter) {
+	public boolean liegtAufPolygon(final WGS84Punkt punkt,
+			final double maxAbweichungMeter) {
 
 		for (int i = 0; i < punkte.size() - 1; i++) {
 			if (punktLiegtAufStrecke(punkte.get(i), punkte.get(i + 1), punkt,
@@ -1035,30 +1067,30 @@ public class WGS84Polygon {
 	}
 
 	/**
-	 * sortiert das Polygon.
+	 * Sortiert das Polygon.
 	 */
 	public void sort() {
 		Collections.sort(punkte, new Comparator<WGS84Punkt>() {
-			public int compare(WGS84Punkt o1, WGS84Punkt o2) {
+			public int compare(final WGS84Punkt o1, final WGS84Punkt o2) {
 				return o1.compareTo(o2);
 			}
 		});
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		String ret = "WGS84-Polygon: [";
-		for (WGS84Punkt p : punkte) {
-			ret += "(" + p.getLaenge() + ", " + p.getBreite() + ") ";
+		String result = "WGS84-Polygon";
+		result += "[";
+		final Iterator<WGS84Punkt> iterator = punkte.iterator();
+		while (iterator.hasNext()) {
+			final WGS84Punkt p = iterator.next();
+			result += "(" + p.getLaenge() + ", " + p.getBreite() + ")";
+			if (iterator.hasNext()) {
+				result += ", ";
+			}
 		}
-
-		ret += "]";
-		return ret;
+		result += "]";
+		return result;
 	}
+
 }

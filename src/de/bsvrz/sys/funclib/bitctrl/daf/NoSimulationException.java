@@ -24,15 +24,15 @@
 package de.bsvrz.sys.funclib.bitctrl.daf;
 
 /**
- * Exception, die geworfen wird, wenn eine Simulationsvariante keine "echte"
- * Simulation ist, das heißt ihr Wert == 0 ist.
- *
- * @author peuker
+ * Exception, die geworfen wird, wenn eine Simulationsvariante keine gültige
+ * oder keine echte Simulationvariante ist. Eine gültige Simulationsvariante
+ * liegt in 0..999, eine echte in 1..999.
+ * 
+ * @author BitCtrl Systems GmbH, Uwe Peuker
+ * @version $Id$
  */
 public class NoSimulationException extends Exception {
 
-	/**
-	 * VersionsID für die Serialisierung.
-	 */
 	private static final long serialVersionUID = 1L;
+
 }

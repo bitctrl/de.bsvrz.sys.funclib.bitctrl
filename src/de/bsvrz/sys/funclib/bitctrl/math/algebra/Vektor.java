@@ -32,7 +32,7 @@ import de.bsvrz.sys.funclib.bitctrl.math.RationaleZahl;
  * Repr&auml;sentiert einen Zahlenvektor.
  * 
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id$
+ * @version $Id: Vektor.java 6386 2008-02-08 08:24:20Z Schumann $
  */
 public class Vektor implements Cloneable {
 

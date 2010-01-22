@@ -43,7 +43,6 @@ import de.bsvrz.dav.daf.main.archive.ArchiveDataSpecification;
 import de.bsvrz.dav.daf.main.archive.ArchiveDataStream;
 import de.bsvrz.dav.daf.main.archive.ArchiveQueryPriority;
 import de.bsvrz.dav.daf.main.archive.ArchiveRequestManager;
-import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Der Archiviterator erleichtert die Iteration über die Ergebnisse einer
@@ -54,17 +53,11 @@ import de.bsvrz.sys.funclib.debug.Debug;
  */
 public class ArchivIterator implements Iterator<ResultData> {
 
-	/** Der Logger der Klasse. */
-	private final Debug log = Debug.getLogger();
+	private final Iterator<ArchiveDataStream> streams;
 
-	/** Die Archivdatenströme. */
-	private final Iterator<ArchiveDataStream> stroeme;
+	private ArchiveDataStream currentStream;
 
-	/** Der aktuelle Archivdatenstrom. */
-	private ArchiveDataStream strom;
-
-	/** Der aktuelle Archivdatensatz. */
-	private ArchiveData archivdaten;
+	private ArchiveData currentData;
 
 	/**
 	 * Führt die Archivanfrage durch und initialisiert den Iterator.
@@ -73,89 +66,83 @@ public class ArchivIterator implements Iterator<ResultData> {
 	 *            eine Datenverteilerverbindung.
 	 * @param specs
 	 *            die Spezifikation der Archivanfragen.
+	 * @throws ArchivException
+	 *             wenn die ein Fehler bei der Archivanfrage passiert erst.
 	 */
 	public ArchivIterator(final ClientDavInterface dav,
 			final List<ArchiveDataSpecification> specs) {
 		final ArchiveRequestManager archiv = dav.getArchive();
 
 		if (!archiv.isArchiveAvailable()) {
-			stroeme = null;
-			log.warning("Das Archiv steht nicht zur Verfügung.");
-		} else {
-			final ArchiveDataQueryResult antwort = archiv.request(
-					ArchiveQueryPriority.MEDIUM, specs);
-
-			// Alle Ströme abrufen
-			try {
-				stroeme = new FieldIterator<ArchiveDataStream>(antwort
-						.getStreams());
-			} catch (final IllegalStateException ex) {
-				throw new ArchivException(
-						"Fehler beim Empfang des Archivdatenstroms", ex);
-			} catch (final InterruptedException ex) {
-				throw new ArchivException(
-						"Fehler beim Empfang des Archivdatenstroms", ex);
-			}
-
-			// Den ersten Archivdatensatz abrufen
-			if (stroeme.hasNext()) {
-				strom = stroeme.next();
-			}
-			fetch();
+			streams = null;
+			throw new ArchivException("Das Archiv steht nicht zur Verfügung.");
 		}
+
+		final ArchiveDataQueryResult antwort = archiv.request(
+				ArchiveQueryPriority.MEDIUM, specs);
+
+		// Alle Ströme abrufen
+		try {
+			streams = new FieldIterator<ArchiveDataStream>(antwort.getStreams());
+		} catch (final IllegalStateException ex) {
+			throw new ArchivException(
+					"Fehler beim Empfang des Archivdatenstroms", ex);
+		} catch (final InterruptedException ex) {
+			throw new ArchivException(
+					"Fehler beim Empfang des Archivdatenstroms", ex);
+		}
+
+		// Den ersten Archivdatensatz abrufen
+		if (streams.hasNext()) {
+			currentStream = streams.next();
+		}
+		fetchNextData();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public boolean hasNext() {
-		return archivdaten != null;
+		return currentData != null;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @throws ArchivException
+	 *             wenn die ein Fehler bei der Archivanfrage passiert erst.
 	 */
 	public ResultData next() {
 		if (!hasNext()) {
 			throw new NoSuchElementException();
 		}
 
-		final boolean delayed = archivdaten.getDataKind().equals(
+		final boolean delayed = currentData.getDataKind().equals(
 				ArchiveDataKind.ONLINE_DELAYED)
-				|| archivdaten.getDataKind().equals(
+				|| currentData.getDataKind().equals(
 						ArchiveDataKind.REQUESTED_DELAYED);
-		final Data daten = archivdaten.getData();
-		final ResultData datensatz = new ResultData(archivdaten.getObject(),
-				archivdaten.getDataDescription(), delayed, archivdaten
-						.getDataIndex(), archivdaten.getDataTime(),
-				(byte) (archivdaten.getDataType().getCode() - 1), daten);
+		final Data daten = currentData.getData();
+		final ResultData datensatz = new ResultData(currentData.getObject(),
+				currentData.getDataDescription(), delayed, currentData
+						.getDataIndex(), currentData.getDataTime(),
+				(byte) (currentData.getDataType().getCode() - 1), daten);
 
 		// Den nächsten Archivdatensatz abrufen
-		fetch();
+		fetchNextData();
 
 		return datensatz;
 	}
 
 	/**
 	 * Wird nicht unterstützt.
-	 * 
-	 * {@inheritDoc}
 	 */
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * Ruft den nächsten Archivdatensatz ab.
-	 */
-	private void fetch() {
-		if (strom == null) {
+	private void fetchNextData() {
+		if (currentStream == null) {
 			return;
 		}
 
 		while (true) {
 			try {
-				archivdaten = strom.take();
+				currentData = currentStream.take();
 			} catch (final IllegalStateException ex) {
 				throw new ArchivException(
 						"Fehler beim Empfang eines Archivdatensatzes", ex);
@@ -167,12 +154,12 @@ public class ArchivIterator implements Iterator<ResultData> {
 						"Fehler beim Empfang eines Archivdatensatzes", ex);
 			}
 
-			if (archivdaten != null) {
+			if (currentData != null) {
 				// Nächsten Archivdatensatz empfangen
 				break;
-			} else if (stroeme.hasNext()) {
+			} else if (streams.hasNext()) {
 				// Prüfe den nächsten Strom auf Daten
-				strom = stroeme.next();
+				currentStream = streams.next();
 			} else {
 				// Kein weiterer Archivdatensatz verfügbar
 				break;

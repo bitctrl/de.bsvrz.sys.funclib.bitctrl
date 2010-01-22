@@ -30,7 +30,7 @@ package de.bsvrz.sys.funclib.bitctrl.math;
  * Hilfsklasse für den vergleich von Zahlen.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
+ * @version $Id: Vergleich.java 6726 2008-02-19 12:27:55Z Schumann $
  * @deprecated verschoben nach {@link com.bitctrl.math.MathTools}.
  */
 @Deprecated

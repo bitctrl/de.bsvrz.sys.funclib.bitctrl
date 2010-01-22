@@ -33,7 +33,7 @@ import de.bsvrz.sys.funclib.bitctrl.math.RationaleZahl;
  * Anzahl von Zeilen ({@link Vektor}) mit beliebiger L&auml;nge.
  * 
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id$
+ * @version $Id: Matrix.java 6386 2008-02-08 08:24:20Z Schumann $
  */
 public class Matrix {
 

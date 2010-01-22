@@ -30,44 +30,22 @@ package de.bsvrz.sys.funclib.bitctrl.geolib;
  * Klasse zur Repr&auml;sentation einer Koordinate im UTM (Universal Transverse
  * Mercator) Koordinatensystem.
  * 
- * 
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id$
- * 
+ * @version $Id: UTMKoordinate.java 7465 2008-03-14 16:31:41Z gieseler $
  */
 public class UTMKoordinate {
 
 	/**
 	 * Konstantendefinition f&uuml;r die Hemisph&auml;re.
 	 */
-	public static final class UTMHEMI {
+	public static enum UTMHEMI {
 
-		/**
-		 * Konstante für die n&ouml;rdliche Hemisph&auml;re.
-		 */
-		public static final UTMHEMI HORDHALBKUGEL = new UTMHEMI(0);
+		/** Konstante für die n&ouml;rdliche Hemisph&auml;re. */
+		NORDHALBKUGEL,
 
-		/**
-		 * Konstante für die s&uuml;dliche Hemisph&auml;re.
-		 */
-		public static final UTMHEMI SUEDHALBKUGEL = new UTMHEMI(1);
+		/** Konstante für die s&uuml;dliche Hemisph&auml;re. */
+		SUEDHALBKUGEL;
 
-		/**
-		 * Hemisph&auml;re.
-		 */
-		@SuppressWarnings("unused")
-		private final int hemi;
-
-		/**
-		 * Nicht &ouml;ffentlicher Konstruktor der zum Erzeugen der
-		 * vordefinierten Werte benutzt wird.
-		 * 
-		 * @param wert
-		 *            Wert
-		 */
-		private UTMHEMI(int wert) {
-			hemi = wert;
-		}
 	}
 
 	/**
@@ -81,24 +59,24 @@ public class UTMKoordinate {
 	private static final int UTM_ZONE_MAX = 60;
 
 	/**
-	 * der Rechtswert (X-Koordinate).
+	 * Der Rechtswert (X-Koordinate).
 	 */
 	private final double xwert;
 
 	/**
-	 * der Hochwert (Y-Koordinate).
+	 * Der Hochwert (Y-Koordinate).
 	 */
 	private final double ywert;
 
 	/**
-	 * die Zone (1-60).
+	 * Die Zone (1-60).
 	 */
 	private final int utmzone;
 
 	/**
-	 * die Hemisphäre.
+	 * Die Hemisphäre.
 	 */
-	private UTMHEMI utmhemisphaere = UTMHEMI.HORDHALBKUGEL;
+	private UTMHEMI utmhemisphaere = UTMHEMI.NORDHALBKUGEL;
 
 	/**
 	 * Konstruktor f&uuml;r eine UTM-Koordinate auf der n&ouml;rdlichen
@@ -111,16 +89,16 @@ public class UTMKoordinate {
 	 * @param zone
 	 *            Zone
 	 */
-	public UTMKoordinate(double x, double y, int zone) {
+	public UTMKoordinate(final double x, final double y, final int zone) {
 		if (testZone(zone)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Zone ist ungültig!"); //$NON-NLS-1$
+					"Der Wert für die Zone ist ungültig!");
 		}
 
 		xwert = x;
 		ywert = y;
 		utmzone = zone;
-		utmhemisphaere = UTMHEMI.HORDHALBKUGEL;
+		utmhemisphaere = UTMHEMI.NORDHALBKUGEL;
 	}
 
 	/**
@@ -135,10 +113,11 @@ public class UTMKoordinate {
 	 * @param hemisphaere
 	 *            die Erdhalbkugel
 	 */
-	public UTMKoordinate(double x, double y, int zone, UTMHEMI hemisphaere) {
+	public UTMKoordinate(final double x, final double y, final int zone,
+			final UTMHEMI hemisphaere) {
 		if (testZone(zone)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Zone ist ungültig!"); //$NON-NLS-1$
+					"Der Wert für die Zone ist ungültig!");
 		}
 
 		xwert = x;
@@ -188,9 +167,13 @@ public class UTMKoordinate {
 	 * 
 	 * @param hemisphaere
 	 *            Hemisph&auml;re
+	 * @deprecated Die Hemisphäre wird im Konstruktor gesetzt und sollte nicht
+	 *             mehr verändert werden.
+	 * @see #UTMKoordinate(double, double, int, UTMHEMI)
 	 */
-	public void setHemisphaere(UTMHEMI hemisphaere) {
-		this.utmhemisphaere = hemisphaere;
+	@Deprecated
+	public void setHemisphaere(final UTMHEMI hemisphaere) {
+		utmhemisphaere = hemisphaere;
 	}
 
 	/**
@@ -200,8 +183,20 @@ public class UTMKoordinate {
 	 *            Zone
 	 * @return true wenn ok sonst false
 	 */
-	private boolean testZone(int zone) {
+	private boolean testZone(final int zone) {
 		return ((zone < UTM_ZONE_MIN) || (zone > UTM_ZONE_MAX));
+	}
+
+	@Override
+	public String toString() {
+		String result = "UTM-Koordinate";
+		result += "[";
+		result += "xwert=" + xwert;
+		result += ", ywert=" + ywert;
+		result += ", utmzone=" + utmzone;
+		result += ", utmhemisphaere=" + utmhemisphaere;
+		result += "]";
+		return result;
 	}
 
 }

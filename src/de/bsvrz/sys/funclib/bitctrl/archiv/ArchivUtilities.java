@@ -46,7 +46,7 @@ import de.bsvrz.dav.daf.main.archive.TimingType;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
- * Diverse Hilfsmetzhoden für Archivanfragen.
+ * Diverse Hilfsmethoden für Archivanfragen.
  * 
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id$
@@ -57,6 +57,12 @@ public final class ArchivUtilities {
 	 * Ruft Archivdaten in einen Rutsch ab. Diese Methode sollte nur verwendet
 	 * werden, wenn die zu erwartenden Liste der Archivdaten nicht zu groß ist.
 	 * 
+	 * <p>
+	 * <em>Hinweis:</em> Diese Methode sollte nur für Anfragen benutzt werden,
+	 * die relativ kleine Datenmengen abfragen, da die Abfrage sonst sehr lange
+	 * dauern oder gar fehlschlagen kann. Besser ist es den
+	 * {@link ArchivIterator} zu verwenden.
+	 * 
 	 * @param dav
 	 *            eine Datenverteilerverbindung.
 	 * @param objekte
@@ -65,17 +71,24 @@ public final class ArchivUtilities {
 	 *            die Datenbeschreibung der Archivdaten.
 	 * @param intervall
 	 *            das Zeitintervall der Archivanfrage.
+	 * @param nurAenderungen
+	 *            <code>true</code>, wenn nur geänderten Datensätze zurückgeben
+	 *            werden sollen. Aufeinanderfolgende identische Datensätze
+	 *            werden hierbei zu einem Datensatz zusammengefasst.
 	 * @param dataKinds
 	 *            die gewünschten Datensatzarten. Wenn nicht angegeben, werden
 	 *            nur Onlinedaten abgefragt.
 	 * @return die Liste der Archivdaten.
+	 * @see ArchivIterator
+	 * @see #getAnfrage(Collection, DataDescription, Interval, boolean,
+	 *      ArchiveDataKind...)
 	 */
 	public static List<ResultData> getArchivdaten(final ClientDavInterface dav,
 			final Collection<? extends SystemObject> objekte,
 			final DataDescription dbs, final Interval intervall,
-			final ArchiveDataKind... dataKinds) {
+			final boolean nurAenderungen, final ArchiveDataKind... dataKinds) {
 		final Iterator<ResultData> iterator = new ArchivIterator(dav,
-				getAnfrage(objekte, dbs, intervall, dataKinds));
+				getAnfrage(objekte, dbs, intervall, nurAenderungen, dataKinds));
 		final List<ResultData> liste = new ArrayList<ResultData>();
 
 		while (iterator.hasNext()) {
@@ -86,7 +99,57 @@ public final class ArchivUtilities {
 	}
 
 	/**
-	 * Erzeugt aus den Parametern eine äquivalente Archivanfrage.
+	 * Liefert eine beliebige Anzahl an Archivdatensätzen vor einem definierten
+	 * Zeitpunkt.
+	 * 
+	 * <p>
+	 * <em>Hinweis:</em> Diese Methode sollte nur für Anfragen benutzt werden,
+	 * die relativ kleine Datenmengen abfragen, da die Abfrage sonst sehr lange
+	 * dauern oder gar fehlschlagen kann. Besser ist es den
+	 * {@link ArchivIterator} zu verwenden.
+	 * 
+	 * @param dav
+	 *            eine Datenverteilerverbindung.
+	 * @param objekte
+	 *            die Objekte, dessen Archivdaten abgefragt werden sollen.
+	 * @param dbs
+	 *            die Datenbeschreibung der Archivdaten.
+	 * @param zeitstempel
+	 *            der Zeitpunkt vor dem die Datensätze liegen sollen.
+	 * @param anzahlDatensaetze
+	 *            die Anzahl der gewünschten Datensätze.
+	 * @param nurAenderungen
+	 *            <code>true</code>, wenn nur geänderten Datensätze zurückgeben
+	 *            werden sollen. Aufeinanderfolgende identische Datensätze
+	 *            werden hierbei zu einem Datensatz zusammengefasst.
+	 * @param dataKinds
+	 *            die gewünschten Datensatzarten. Wenn nicht angegeben, werden
+	 *            nur Onlinedaten abgefragt.
+	 * @return die Liste der Archivdaten.
+	 * @see ArchivIterator
+	 * @see #getAnfrage(Collection, DataDescription, long, int, boolean,
+	 *      ArchiveDataKind...)
+	 */
+	public static List<ResultData> getArchivdaten(final ClientDavInterface dav,
+			final Collection<? extends SystemObject> objekte,
+			final DataDescription dbs, final long zeitstempel,
+			final int anzahlDatensaetze, final boolean nurAenderungen,
+			final ArchiveDataKind... dataKinds) {
+		final Iterator<ResultData> iterator = new ArchivIterator(dav,
+				getAnfrage(objekte, dbs, zeitstempel, anzahlDatensaetze,
+						nurAenderungen, dataKinds));
+		final List<ResultData> liste = new ArrayList<ResultData>();
+
+		while (iterator.hasNext()) {
+			liste.add(iterator.next());
+		}
+
+		return liste;
+	}
+
+	/**
+	 * Erzeugt aus den Parametern eine äquivalente Archivanfrage für einen
+	 * Zeitraum.
 	 * 
 	 * @param objekte
 	 *            die Objekte, dessen Archivdaten abgefragt werden sollen.
@@ -94,19 +157,81 @@ public final class ArchivUtilities {
 	 *            die Datenbeschreibung der Archivdaten.
 	 * @param intervall
 	 *            das Zeitintervall der Archivanfrage.
+	 * @param nurAenderungen
+	 *            <code>true</code>, wenn nur geänderten Datensätze zurückgeben
+	 *            werden sollen. Aufeinanderfolgende identische Datensätze
+	 *            werden hierbei zu einem Datensatz zusammengefasst.
 	 * @param dataKinds
 	 *            die gewünschten Datensatzarten. Wenn nicht angegeben, werden
 	 *            nur Onlinedaten abgefragt.
 	 * @return die Liste der Archivanfragen.
+	 * @see ArchivIterator
 	 */
 	public static List<ArchiveDataSpecification> getAnfrage(
 			final Collection<? extends SystemObject> objekte,
 			final DataDescription dbs, final Interval intervall,
-			final ArchiveDataKind... dataKinds) {
+			final boolean nurAenderungen, final ArchiveDataKind... dataKinds) {
 		final ArchiveTimeSpecification timeSpec = new ArchiveTimeSpecification(
 				TimingType.DATA_TIME, false, intervall.getStart(), intervall
 						.getEnd());
 		final List<ArchiveDataSpecification> specs = new ArrayList<ArchiveDataSpecification>();
+
+		for (final SystemObject so : objekte) {
+			specs.add(new ArchiveDataSpecification(timeSpec,
+					createArchiveDataKindCombination(dataKinds),
+					ArchiveOrder.BY_DATA_TIME,
+					nurAenderungen ? ArchiveRequestOption.DELTA
+							: ArchiveRequestOption.NORMAL, dbs, so));
+		}
+
+		return specs;
+	}
+
+	/**
+	 * Erzeugt aus den Parametern eine äquivalente Archivanfrage für eine
+	 * bestimmte Anzahl Datensätze vor einem Endzeitpunkt.
+	 * 
+	 * @param objekte
+	 *            die Objekte, dessen Archivdaten abgefragt werden sollen.
+	 * @param dbs
+	 *            die Datenbeschreibung der Archivdaten.
+	 * @param zeitstempel
+	 *            der Zeitpunkt vor dem die Datensätze liegen sollen.
+	 * @param anzahlDatensaetze
+	 *            die Anzahl der gewünschten Datensätze.
+	 * @param nurAenderungen
+	 *            <code>true</code>, wenn nur geänderten Datensätze zurückgeben
+	 *            werden sollen. Aufeinanderfolgende identische Datensätze
+	 *            werden hierbei zu einem Datensatz zusammengefasst.
+	 * @param dataKinds
+	 *            die gewünschten Datensatzarten. Wenn nicht angegeben, werden
+	 *            nur Onlinedaten abgefragt.
+	 * @return die Liste der Archivanfragen.
+	 * @see ArchivIterator
+	 */
+	public static List<ArchiveDataSpecification> getAnfrage(
+			final Collection<? extends SystemObject> objekte,
+			final DataDescription dbs, final long zeitstempel,
+			final int anzahlDatensaetze, final boolean nurAenderungen,
+			final ArchiveDataKind... dataKinds) {
+		final ArchiveTimeSpecification timeSpec = new ArchiveTimeSpecification(
+				TimingType.DATA_TIME, true, anzahlDatensaetze, zeitstempel);
+		final List<ArchiveDataSpecification> specs = new ArrayList<ArchiveDataSpecification>();
+
+		for (final SystemObject so : objekte) {
+			specs.add(new ArchiveDataSpecification(timeSpec,
+					createArchiveDataKindCombination(dataKinds),
+					ArchiveOrder.BY_DATA_TIME,
+					nurAenderungen ? ArchiveRequestOption.DELTA
+							: ArchiveRequestOption.NORMAL, dbs, so));
+		}
+
+		return specs;
+
+	}
+
+	private static ArchiveDataKindCombination createArchiveDataKindCombination(
+			final ArchiveDataKind... dataKinds) {
 		final ArchiveDataKindCombination dataKindComb;
 
 		switch (dataKinds.length) {
@@ -129,21 +254,11 @@ public final class ArchivUtilities {
 			dataKindComb = new ArchiveDataKindCombination(
 					ArchiveDataKind.ONLINE);
 		}
-
-		for (final SystemObject so : objekte) {
-			specs.add(new ArchiveDataSpecification(timeSpec, dataKindComb,
-					ArchiveOrder.BY_DATA_TIME, ArchiveRequestOption.NORMAL,
-					dbs, so));
-		}
-
-		return specs;
+		return dataKindComb;
 	}
 
-	/**
-	 * Konstruktor verstecken.
-	 */
 	private ArchivUtilities() {
-		// nix
+		// Keine Instanzen von Utility-Klassen erlaubt.
 	}
 
 }

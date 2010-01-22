@@ -33,7 +33,7 @@ package de.bsvrz.sys.funclib.bitctrl.geolib;
  * (http://home.hiwaay.net/~taylorc/toolbox/geography/geoutm.html)
  * 
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id$
+ * @version $Id: GeoTransformation.java 7465 2008-03-14 16:31:41Z gieseler $
  * 
  */
 public final class GeoTransformation {

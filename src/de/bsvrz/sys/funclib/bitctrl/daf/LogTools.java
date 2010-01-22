@@ -28,11 +28,8 @@ package de.bsvrz.sys.funclib.bitctrl.daf;
 
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import com.bitctrl.util.logging.LoggerTools;
@@ -49,105 +46,6 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
  * @version $Id$
  */
 public final class LogTools {
-
-	/**
-	 * Prüft, ob für einen Logger auf einem bestimmten Level eine Ausgabe
-	 * mittels dem {@link ConsoleHandler} erfolgt.
-	 * 
-	 * @param klasse
-	 *            die Klasse, die den Logger angelegt hat.
-	 * @param level
-	 *            der Loglevel.
-	 * @return {@code true}, wenn eine Ausgabe auf der Konsole erfolgt.
-	 * @deprecated neu: {@link #isLogbar(Debug, Level)}
-	 */
-	@Deprecated
-	public static boolean isLogbar(final Class<?> klasse, final Level level) {
-		Logger logger;
-		LogRecord logRecord;
-		boolean result;
-
-		logger = Logger.getLogger(klasse.getSimpleName() + "."
-				+ klasse.getPackage().getName() + "." + klasse.getSimpleName());
-		logRecord = new LogRecord(level, "");
-		result = false;
-
-		for (final Handler h : Logger.getLogger(klasse.getSimpleName())
-				.getHandlers()) {
-			result = logger.isLoggable(level) && h.isLoggable(logRecord);
-			break;
-		}
-
-		return result;
-	}
-
-	/**
-	 * Prüft, ob für einen Logger auf einem bestimmten Level eine Ausgabe
-	 * mittels dem {@link ConsoleHandler} erfolgt.
-	 * 
-	 * @param klasse
-	 *            die Klasse, die den Logger angelegt hat.
-	 * @param level
-	 *            der Loglevel.
-	 * @return {@code true}, wenn eine Ausgabe auf der Konsole erfolgt.
-	 * @deprecated neu: {@link #isLogbar(Debug, Level, Class)}
-	 */
-	@Deprecated
-	public static boolean isLogbarAufConsole(final Class<?> klasse,
-			final Level level) {
-		Logger logger;
-		LogRecord logRecord;
-		boolean result;
-
-		logger = Logger.getLogger(klasse.getSimpleName() + "."
-				+ klasse.getPackage().getName() + "." + klasse.getSimpleName());
-		logRecord = new LogRecord(level, "");
-		result = false;
-
-		for (final Handler h : Logger.getLogger(klasse.getSimpleName())
-				.getHandlers()) {
-			if (h instanceof ConsoleHandler) {
-				result = logger.isLoggable(level) && h.isLoggable(logRecord);
-				break;
-			}
-		}
-
-		return result;
-	}
-
-	/**
-	 * Prüft, ob für einen Logger auf einem bestimmten Level eine Ausgabe
-	 * mittels dem {@link ConsoleHandler} erfolgt.
-	 * 
-	 * @param klasse
-	 *            die Klasse, die den Logger angelegt hat.
-	 * @param level
-	 *            der Loglevel.
-	 * @return {@code true}, wenn eine Ausgabe auf der Konsole erfolgt.
-	 * @deprecated neu: {@link #isLogbar(Debug, Level, Class)}
-	 */
-	@Deprecated
-	public static boolean isLogbarInFile(final Class<?> klasse,
-			final Level level) {
-		Logger logger;
-		LogRecord logRecord;
-		boolean result;
-
-		logger = Logger.getLogger(klasse.getSimpleName() + "."
-				+ klasse.getPackage().getName() + "." + klasse.getSimpleName());
-		logRecord = new LogRecord(level, "");
-		result = false;
-
-		for (final Handler h : Logger.getLogger(klasse.getSimpleName())
-				.getHandlers()) {
-			if (h instanceof FileHandler) {
-				result = logger.isLoggable(level) && h.isLoggable(logRecord);
-				break;
-			}
-		}
-
-		return result;
-	}
 
 	/**
 	 * Testet ob auf einem Logger mit einem bestimmten Level geloggt wird.
@@ -189,19 +87,15 @@ public final class LogTools {
 
 			return LoggerTools.isLogable(logger, level, handlerClazz);
 		} catch (final SecurityException ex) {
-			// TODO Auto-generated catch block
 			ex.printStackTrace();
 			throw new IllegalStateException(ex);
 		} catch (final NoSuchFieldException ex) {
-			// TODO Auto-generated catch block
 			ex.printStackTrace();
 			throw new IllegalStateException(ex);
 		} catch (final IllegalArgumentException ex) {
-			// TODO Auto-generated catch block
 			ex.printStackTrace();
 			throw new IllegalStateException(ex);
 		} catch (final IllegalAccessException ex) {
-			// TODO Auto-generated catch block
 			ex.printStackTrace();
 			throw new IllegalStateException(ex);
 		}
@@ -275,9 +169,10 @@ public final class LogTools {
 				txt = nachricht.toString();
 			}
 
-			// Ausgabe Betriebsmeldung
-			// TODO Textlänge muss gekürzt werden, da writeUTF die Länge
-			// begrenzt. (UTFDataFormatException)
+			/*
+			 * FIXME Textlänge muss gekürzt werden, da writeUTF die Länge
+			 * begrenzt. (UTFDataFormatException)
+			 */
 			if (txt.length() > 20000) {
 				txt = txt.substring(0, 20000);
 			}
@@ -286,11 +181,8 @@ public final class LogTools {
 		}
 	}
 
-	/**
-	 * Konstruktor verstecken.
-	 */
 	private LogTools() {
-		// nix
+		// Keine Instanzen von Utilities-Klassen erlaubt.
 	}
 
 }
