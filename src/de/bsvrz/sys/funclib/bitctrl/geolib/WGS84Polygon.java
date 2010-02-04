@@ -39,6 +39,9 @@ import java.util.List;
 /**
  * Polygonzug in WGS84-Koordinaten.
  * 
+ * Alle Längenangaben für Offsets u.&nbsp;ä. werden, wenn nicht anders
+ * angegeben, in Meter notiert.
+ * 
  * @author BitCtrl Systems GmbH, Gieseler
  * @version $Id: WGS84Polygon.java 9032 2008-05-21 08:32:43Z gieseler $
  */
@@ -53,7 +56,7 @@ public class WGS84Polygon {
 	 * @param alpha
 	 *            Anstiegswinkel
 	 * @param laenge
-	 *            Offset des Punktes auf der Linie
+	 *            Offset des Punktes auf der Linie in Meter.
 	 * @return Punktkoordinaten
 	 */
 	private static strictfp Point2D.Double berecheneBildPunkt(
@@ -81,8 +84,8 @@ public class WGS84Polygon {
 	 * @param s2
 	 *            der Endpunkt der Strecke
 	 * @param offset
-	 *            der Offset beginnend vom Anfang der Strecke, bei dem der Punkt
-	 *            liegen soll
+	 *            der Offset (in Meter) beginnend vom Anfang der Strecke, bei
+	 *            dem der Punkt liegen soll
 	 * 
 	 * @return der Punkt.
 	 * @throws IllegalArgumentException
@@ -427,7 +430,6 @@ public class WGS84Polygon {
 	 *             wenn die beiden Felder eine unterschliedliche Länge besitzen.
 	 */
 	public WGS84Polygon(final double[] laenge, final double[] breite) {
-
 		if (laenge.length != breite.length) {
 			throw new IllegalArgumentException(
 					"Die Anzahl der Koordinaten für Länge und Breite muss übereinstimmen");
@@ -448,7 +450,6 @@ public class WGS84Polygon {
 	 *            Punktliste
 	 */
 	public WGS84Polygon(final List<WGS84Punkt> punktliste) {
-
 		punkte = new ArrayList<WGS84Punkt>(punktliste);
 	}
 
@@ -460,9 +461,8 @@ public class WGS84Polygon {
 	 * IllegalArgumentException geworfen.
 	 * 
 	 * @param offset
-	 *            der Offset beginnend vom Anfang des Polygones, bei dem der
-	 *            Schnitt- punkt liegen soll
-	 * 
+	 *            der Offset (in Meter) beginnend vom Anfang des Polygones, bei
+	 *            dem der Schnittpunkt liegen soll
 	 * @return Teil des Polygones bis zum Offset-Punkt.
 	 * @throws IllegalArgumentException
 	 */
@@ -596,8 +596,8 @@ public class WGS84Polygon {
 	 * IllegalArgumentException geworfen.
 	 * 
 	 * @param offset
-	 *            der Offset beginnend vom Anfang des Polygones, bei dem der
-	 *            Punkt liegen soll
+	 *            der Offset (in Meter) beginnend vom Anfang des Polygones, bei
+	 *            dem der Punkt liegen soll
 	 * 
 	 * @return der berechnete Punkt.
 	 * @throws IllegalArgumentException
@@ -788,7 +788,6 @@ public class WGS84Polygon {
 	 * 
 	 * @param punkt
 	 *            zu testender Punkt
-	 * 
 	 * @return true, wenn der Punkt der Anfangs- oder Endpunkt des Polygons ist,
 	 *         sonst false
 	 */
@@ -804,7 +803,6 @@ public class WGS84Polygon {
 	 *            zu testender Punkt
 	 * @param maxAbstandMeter
 	 *            max. zul&auml;ssiger Abstand in Meter
-	 * 
 	 * @return true, wenn der Punkt der Anfangs- oder Endpunkt des Polygons ist
 	 *         oder maximal <code>maxAbstandMeter</code> vom Anfangs- oder
 	 *         Endpunkt entfernt ist, sonst false
@@ -820,7 +818,6 @@ public class WGS84Polygon {
 	 * 
 	 * @param punkt
 	 *            zu testender Punkt
-	 * 
 	 * @return true, wenn der Punkt der Anfangspunkt des Polygons ist, sonst
 	 *         false
 	 */
@@ -840,7 +837,6 @@ public class WGS84Polygon {
 	 *            zu testender Punkt
 	 * @param maxAbstandMeter
 	 *            max. zul&auml;ssiger Abstand in Meter
-	 * 
 	 * @return true, wenn der Punkt der Anfangpunkt des Polygons ist oder
 	 *         maximal <code>maxAbstandMeter</code> vom Anfangspunkt entfernt
 	 *         ist, sonst false
@@ -860,7 +856,6 @@ public class WGS84Polygon {
 	 * 
 	 * @param punkt
 	 *            zu testender Punkt
-	 * 
 	 * @return true, wenn der Punkt der Endpunkt des Polygons ist, sonst false
 	 */
 	public boolean istEndPunkt(final WGS84Punkt punkt) {
@@ -879,7 +874,6 @@ public class WGS84Polygon {
 	 *            zu testender Punkt
 	 * @param maxAbstandMeter
 	 *            max. zul&auml;ssiger Abstand in Meter
-	 * 
 	 * @return true, wenn der Punkt der Endpunkt des Polygons ist oder maximal
 	 *         <code>maxAbstandMeter</code> vom Endpunkt entfernt ist, sonst
 	 *         false
@@ -1075,6 +1069,18 @@ public class WGS84Polygon {
 				return o1.compareTo(o2);
 			}
 		});
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj instanceof WGS84Polygon) {
+			final WGS84Polygon other = (WGS84Polygon) obj;
+			return punkte.equals(other.punkte);
+		}
+		return false;
 	}
 
 	@Override
