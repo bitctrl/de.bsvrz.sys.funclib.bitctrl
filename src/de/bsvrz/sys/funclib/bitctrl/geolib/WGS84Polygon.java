@@ -454,19 +454,18 @@ public class WGS84Polygon {
 	}
 
 	/**
-	 * Schneidet den Anfangsteil des Polygones bis zur L&auml;nge des
-	 * angegebenen Offsets ab und gibt diesen Teil zurück. Das Polygon wird um
-	 * den entsprechenden Teil gekürzt. Wenn der gegebene Offset
-	 * gr&ouml;&szlig;er als die L&auml;nge des Polygones ist, wird eine
-	 * IllegalArgumentException geworfen.
+	 * Schneidet das Ende des Polygones ab dem angegebenen Offset ab und gibt
+	 * den Anfang zurueck. Das Polygon wird um den entsprechenden Teil gekürzt.
+	 * Wenn der gegebene Offset gr&ouml;&szlig;er als die L&auml;nge des
+	 * Polygones ist, wird eine IllegalArgumentException geworfen.
 	 * 
 	 * @param offset
 	 *            der Offset (in Meter) beginnend vom Anfang des Polygones, bei
 	 *            dem der Schnittpunkt liegen soll
-	 * @return Teil des Polygones bis zum Offset-Punkt.
+	 * @return Teil des Polygones ab zum Offset-Punkt.
 	 * @throws IllegalArgumentException
 	 */
-	public WGS84Polygon anfangAbschneiden(final double offset) {
+	public WGS84Polygon endeAbschneiden(final double offset) {
 		if (laenge() < offset) {
 			throw new IllegalArgumentException(
 					"Der Offset ist größer als die Polygonlänge");
@@ -496,18 +495,64 @@ public class WGS84Polygon {
 			return null;
 		}
 
-		// entferne Anfang von this
-		for (final WGS84Punkt p : apunkte) {
-			punkte.remove(p);
-		}
-		// Bildpunkt an den Anfang
-		punkte.add(0, bp);
-
-		// Bildpunkt an das Ende der Ergebnisliste
 		apunkte.add(bp);
+		punkte.clear();
+		punkte.addAll(apunkte);
+
+		return new WGS84Polygon(apunkte);
+	}
+
+	/**
+	 * Schneidet den Anfangsteil des Polygones bis zur L&auml;nge des
+	 * angegebenen Offsets ab und gibt diesen Teil zurück. Das Polygon wird um
+	 * den entsprechenden Teil gekürzt. Wenn der gegebene Offset
+	 * gr&ouml;&szlig;er als die L&auml;nge des Polygones ist, wird eine
+	 * IllegalArgumentException geworfen.
+	 * 
+	 * @param offset
+	 *            der Offset (in Meter) beginnend vom Anfang des Polygones, bei
+	 *            dem der Schnittpunkt liegen soll
+	 * @return Teil des Polygones bis zum Offset-Punkt.
+	 * @throws IllegalArgumentException
+	 */
+	public WGS84Polygon anfangAbschneiden(final double offset) {
+		if (laenge() < offset) {
+			throw new IllegalArgumentException(
+					"Der Offset ist größer als die Polygonlänge");
+		}
+
+		if (laenge() == offset) {
+			final WGS84Polygon ret = new WGS84Polygon(punkte);
+			punkte.clear();
+			return ret;
+		}
+
+		final WGS84Koordinate bk = bildPunkt(offset);
+		final WGS84Punkt bp = new WGS84Punkt(bk.getLaenge(), bk.getBreite());
+		final List<WGS84Punkt> epunkte = new ArrayList<WGS84Punkt>();
+
+		int found = -1;
+		for (int i = 0; i < punkte.size() - 1; i++) {
+			if (punktLiegtAufStrecke(punkte.get(i), punkte.get(i + 1), bp,
+					0.001)) {
+				found = i;
+				break;
+			}
+		}
+
+		if (found == -1) {
+			return null;
+		}
+
+		epunkte.add(bp);
+		for (int i = found + 1; i < punkte.size(); i++) {
+			epunkte.add(punkte.get(i));
+		}
+		punkte.clear();
+		punkte.addAll(epunkte);
 
 		// return Anfangsteil
-		return new WGS84Polygon(apunkte);
+		return new WGS84Polygon(epunkte);
 	}
 
 	/**
