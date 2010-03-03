@@ -6,7 +6,7 @@ Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: BitCtrl Systems GmbH
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: com.bitctrl;bundle-version="1.0.0";visibility:=reexport,
- de.bsvrz.sys.funclib.dynobj;bundle-version="1.0.2";visibility:=reexport,
+ de.bsvrz.sys.funclib.dynobj;bundle-version="1.0.0";visibility:=reexport,
  de.bsvrz.dav.daf.plus.funclibErweiterung;bundle-version="3.4.10";visibility:=reexport,
  de.bsvrz.sys.funclib.application;bundle-version="3.4.10";visibility:=reexport,
  de.bsvrz.sys.funclib.commandLineArgs;bundle-version="3.4.10";visibility:=reexport,
