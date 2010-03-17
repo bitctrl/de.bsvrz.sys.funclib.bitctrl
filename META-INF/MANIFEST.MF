@@ -30,7 +30,8 @@ Export-Package: de.bsvrz.sys.funclib.bitctrl.app,
  de.bsvrz.sys.funclib.bitctrl.math,
  de.bsvrz.sys.funclib.bitctrl.math.algebra,
  de.bsvrz.sys.funclib.bitctrl.model,
- de.bsvrz.sys.funclib.bitctrl.util
+ de.bsvrz.sys.funclib.bitctrl.util,
+ de.bsvrz.sys.funclib.bitctrl.util.monitor
 Bundle-ActivationPolicy: lazy
 Import-Package: org.osgi.framework,
  org.osgi.util.tracker
