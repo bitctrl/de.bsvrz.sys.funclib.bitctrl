@@ -485,6 +485,7 @@ public class WGS84Polygon {
 		int found = -1;
 		for (int i = 0; i < punkte.size() - 1; i++) {
 			apunkte.add(punkte.get(i));
+
 			if (punktLiegtAufStrecke(punkte.get(i), punkte.get(i + 1), bp,
 					0.001)) {
 				found = i;
