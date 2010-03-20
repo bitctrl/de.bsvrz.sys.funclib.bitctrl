@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BitCtrl-Systembibliothek
+Bundle-Name: BitCtrl-Funktionsbibliothek
 Bundle-SymbolicName: de.bsvrz.sys.funclib.bitctrl
 Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: BitCtrl Systems GmbH

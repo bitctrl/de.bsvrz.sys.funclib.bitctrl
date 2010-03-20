@@ -1,5 +1,5 @@
 ********************************************************************************
-*                     Generierte BitCtrl Funktionsbibliothek                   *
+*                       BitCtrl-Funktionsbibliothek                            *
 ********************************************************************************
 
 Version: @Version@
@@ -7,24 +7,32 @@ Version: @Version@
 
 Übersicht
 =========
-Die direkt aus dem XML-Datenkatalog generierte Funktionsbibliothek.
+
+Enthält (hoffentlich) nützliche Erweiterungen der Datenverteiler-API.
 
 
 Versionsgeschichte
 ==================
-20090812 Verschiedene Bugfixes (SVN commit ID 18721 bis 19039)
-20090526 Portierung aus Dav2
+
+2.0.0
+
+  - Portierung von manuell erstellten Modell auf generiertes. Diese SWE enthält
+    nur noch den Teil der alten Funktionsbibliothek, der kein Modell verwendet.
+    Der Modellteil ist ausgelagert nach de.bsvrz.sys.funclib.bitctrl.modell.
 
 
 Bemerkungen
 ===========
 
+Diese Funktionsbibliothek kann am einfachsten verwendet werden, in dem die 
+Datei de.bsvrz.sys.funclib.bitctrl-runtime.jar in den Classpath aufgenommen
+wird. Im darin enthaltenen Manifest sind alle notwendigen Abhängkeiten erfasst.  
 
 
 Disclaimer
 ==========
 
-Generierte BitCtrl Funktionsbibliothek
+BitCtrl-Funktionsbibliothek
 Copyright (C) 2009 BitCtrl Systems GmbH 
 
 This program is free software; you can redistribute it and/or modify it under
