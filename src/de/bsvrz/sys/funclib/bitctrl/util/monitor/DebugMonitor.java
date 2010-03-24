@@ -1,19 +1,22 @@
 package de.bsvrz.sys.funclib.bitctrl.util.monitor;
 
-import com.bitctrl.util.monitor.IMonitor;
+import com.bitctrl.util.monitor.AbstractMonitor;
 
 import de.bsvrz.sys.funclib.debug.Debug;
 
-public class DebugMonitor implements IMonitor {
+public class DebugMonitor extends AbstractMonitor {
 
 	private final Debug log = Debug.getLogger();
 	private String name;
 	private boolean canceled;
-	private int totalWork;
+	private int leftWork;
+	private double totalWork;
+	private double allWork = 0.0;
 
 	public void beginTask(final String name, final int totalWork) {
 		this.name = name;
 		log.info("DebugMonitor : " + name + " : beginTask(" + totalWork + ")");
+		leftWork = totalWork;
 		this.totalWork = totalWork;
 	}
 
@@ -43,9 +46,13 @@ public class DebugMonitor implements IMonitor {
 	}
 
 	public void worked(final int work) {
-		totalWork -= work;
+		leftWork -= work;
 		log.fine("DebugMonitor : " + name + " : worked(" + work + ") : "
-				+ totalWork + " left");
+				+ leftWork + " left");
+		if (totalWork > 0) {
+			allWork += work;
+			notifyMonitorListeners(allWork / totalWork);
+		}
 	}
 
 }
