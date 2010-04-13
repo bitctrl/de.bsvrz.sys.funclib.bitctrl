@@ -1,26 +1,11 @@
 Manifest-Version: 1.0
+Bundle-ActivationPolicy: lazy
 Bundle-ManifestVersion: 2
 Bundle-Name: BitCtrl-Funktionsbibliothek
-Bundle-SymbolicName: de.bsvrz.sys.funclib.bitctrl
-Bundle-Version: 2.0.0.qualifier
-Bundle-Vendor: BitCtrl Systems GmbH
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Require-Bundle: com.bitctrl;bundle-version="1.0.0";visibility:=reexport,
- de.bsvrz.sys.funclib.dynobj;bundle-version="1.0.0";visibility:=reexport,
- de.bsvrz.dav.daf.plus.funclibErweiterung;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.application;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.commandLineArgs;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.concurrent;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.configObjectAcquisition;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.consoleProcessFrame;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.crypt;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.debug;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.filelock;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.hexdump;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.operatingMessage;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.timeout;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.dataIdentificationSettings;bundle-version="3.4.10";visibility:=reexport,
- de.bsvrz.sys.funclib.asyncReceiver;bundle-version="3.4.10";visibility:=reexport
+Bundle-SymbolicName: de.bsvrz.sys.funclib.bitctrl
+Bundle-Vendor: BitCtrl Systems GmbH
+Bundle-Version: 2.0.0.qualifier
 Export-Package: de.bsvrz.sys.funclib.bitctrl.app,
  de.bsvrz.sys.funclib.bitctrl.archiv,
  de.bsvrz.sys.funclib.bitctrl.daf,
@@ -32,6 +17,21 @@ Export-Package: de.bsvrz.sys.funclib.bitctrl.app,
  de.bsvrz.sys.funclib.bitctrl.model,
  de.bsvrz.sys.funclib.bitctrl.util,
  de.bsvrz.sys.funclib.bitctrl.util.monitor
-Bundle-ActivationPolicy: lazy
 Import-Package: org.osgi.framework,
  org.osgi.util.tracker
+Require-Bundle: com.bitctrl;bundle-version="1.0.0";visibility:=reexport,
+ de.bsvrz.dav.daf.plus.funclibErweiterung;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.application;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.asyncReceiver;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.commandLineArgs;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.concurrent;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.configObjectAcquisition;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.consoleProcessFrame;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.crypt;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.dataIdentificationSettings;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.debug;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.dynobj;bundle-version="1.0.0";visibility:=reexport,
+ de.bsvrz.sys.funclib.filelock;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.hexdump;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.operatingMessage;bundle-version="3.4.10";visibility:=reexport,
+ de.bsvrz.sys.funclib.timeout;bundle-version="3.4.10";visibility:=reexport
