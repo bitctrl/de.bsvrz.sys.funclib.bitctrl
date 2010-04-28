@@ -98,7 +98,7 @@ public final class DavTools {
 
 	/**
 	 * Generiert aus einem Objektnamen eine gültige PID. Es wird jedes Zeichen
-	 * vor einem Leerzeichen in einen Großbuchstaben verwandelt, danach alle
+	 * nach einem Leerzeichen in einen Großbuchstaben verwandelt, danach alle
 	 * Leerzeichen entfernt und der erste Buchstabe des Namens in einen
 	 * Kleinbuchstaben umgewandelt.
 	 * 
