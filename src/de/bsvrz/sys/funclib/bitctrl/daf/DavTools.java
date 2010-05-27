@@ -109,6 +109,38 @@ public final class DavTools {
 	 * @return die gültige PID zum Objektnamen.
 	 */
 	public static String generierePID(final String name, final String praefix) {
+		return generierePID(name, praefix, false);
+	}
+
+	/**
+	 * Generiert aus einem Objektnamen eine gültige PID. Es wird jedes Zeichen
+	 * nach einem Leerzeichen in einen Großbuchstaben verwandelt, danach alle
+	 * Leerzeichen entfernt und der erste Buchstabe des Namens in einen
+	 * Kleinbuchstaben umgewandelt.
+	 * 
+	 * Mit dem Parameter ersetzteUmlaute kann erzwungen werden, dass Umlaute
+	 * ersetzt werden. Die Ersetzung erfolgt wir folgt:
+	 * <ul>
+	 * <li>ä wird ae</li>
+	 * <li>ö wird oe</li>
+	 * <li>ü wird ue</li>
+	 * <li>Ä wird Äe</li>
+	 * <li>Ö wird Oe</li>
+	 * <li>Ü wird Ue</li>
+	 * <li>ß wird sz</li>
+	 * </ul>
+	 * 
+	 * Die Ersetzung erfolgt dabei nur im generierten Teil ein Präfix, der
+	 * Umlaute enthält behölt diese.
+	 * 
+	 * @param name
+	 *            der Objektname.
+	 * @param praefix
+	 *            der Präfix für die PID (mit Punkt abgeschlossen).
+	 * @return die gültige PID zum Objektnamen.
+	 */
+	public static String generierePID(final String name, final String praefix,
+			final boolean ersetzeUmlaute) {
 		String pid, regex;
 		Matcher matcher;
 
@@ -128,6 +160,16 @@ public final class DavTools {
 			pid = name;
 		}
 		pid = pid.substring(0, 1).toLowerCase() + pid.substring(1);
+
+		if (ersetzeUmlaute) {
+			pid = pid.replace("ä", "ae");
+			pid = pid.replace("ö", "oe");
+			pid = pid.replace("ü", "ue");
+			pid = pid.replace("Ä", "Ae");
+			pid = pid.replace("Ö", "Oe");
+			pid = pid.replace("Ü", "Ue");
+			pid = pid.replace("ß", "sz");
+		}
 
 		return praefix + pid;
 	}
