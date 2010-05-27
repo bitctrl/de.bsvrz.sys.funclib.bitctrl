@@ -137,6 +137,8 @@ public final class DavTools {
 	 *            der Objektname.
 	 * @param praefix
 	 *            der Präfix für die PID (mit Punkt abgeschlossen).
+	 * @param ersetzeUmlaute
+	 *            Umlaute in der generierten PID ersetzen?
 	 * @return die gültige PID zum Objektnamen.
 	 */
 	public static String generierePID(final String name, final String praefix,
