@@ -112,11 +112,6 @@ public class DefaultDavProvider implements DavProvider, DavConnectionListener {
 	}
 
 	public ClientDavInterface getDav() {
-		if (!isVerbunden()) {
-			throw new IllegalStateException(
-					"Keine Verbindung zum Datenverteiler");
-		}
-
 		return dav;
 	}
 
