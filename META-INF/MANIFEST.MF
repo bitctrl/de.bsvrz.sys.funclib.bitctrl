@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ActivationPolicy: lazy
 Bundle-ManifestVersion: 2
-Bundle-Name: BitCtrl-Funktionsbibliothek
+Bundle-Name: Funktionsbibliothek
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-SymbolicName: de.bsvrz.sys.funclib.bitctrl
 Bundle-Vendor: BitCtrl Systems GmbH
