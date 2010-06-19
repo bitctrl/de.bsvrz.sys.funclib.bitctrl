@@ -1,12 +1,12 @@
 package de.bsvrz.sys.funclib.bitctrl.daf;
 
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 /**
- * Überwacht alle {@link DavProvider} die als OSGi-Service
- * registriert wurden.
+ * Überwacht alle {@link DavProvider} die als OSGi-Service registriert wurden.
  * 
  * <p>
  * Wird eine neue Verbindung zum Datenverteiler aufgebaut, wird diese als neuer
@@ -20,7 +20,8 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
  * {@link DefaultDavProvider} dienen.
  * 
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
+ * @version $Id: DavProviderServiceTracker.java 20127 2009-10-23 12:27:22Z
+ *          schumann $
  * @see BundleContext#registerService(String, Object, java.util.Dictionary)
  */
 public class DavProviderServiceTracker extends ServiceTracker {
@@ -47,6 +48,48 @@ public class DavProviderServiceTracker extends ServiceTracker {
 	public DavProviderServiceTracker(final BundleContext context,
 			final ServiceTrackerCustomizer customizer) {
 		super(context, DavProvider.class.getName(), customizer);
+	}
+
+	/**
+	 * Gibt die Objekt Factory der Nutzerverbindung zurück.
+	 * 
+	 * @return die Objekt Factory oder <code>null</code>, wenn keine verfügbar
+	 *         ist.
+	 */
+	public DavProvider getNutzerverbindung() {
+		final ServiceReference[] serviceReferences = getServiceReferences();
+		if (serviceReferences != null) {
+			for (final ServiceReference reference : serviceReferences) {
+				final Object name = reference
+						.getProperty(DavProvider.PROP_NAME);
+				if (DavProvider.NUTZVERVERBINDUNG.equals(name)) {
+					return (DavProvider) getService(reference);
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Gibt die Objekt Factory der Urlasserverbindung zurück.
+	 * 
+	 * @return die Objekt Factory oder <code>null</code>, wenn keine verfügbar
+	 *         ist.
+	 */
+	public DavProvider getUrlasserverbindung() {
+		final ServiceReference[] serviceReferences = getServiceReferences();
+		if (serviceReferences != null) {
+			for (final ServiceReference reference : serviceReferences) {
+				final Object name = reference
+						.getProperty(DavProvider.PROP_NAME);
+				if (DavProvider.URLASSERVERBINDUNG.equals(name)) {
+					return (DavProvider) getService(reference);
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -79,8 +122,7 @@ public class DavProviderServiceTracker extends ServiceTracker {
 	 * @return die gesuchte Verbindung oder <code>null</code>, wenn diese im
 	 *         Moment nicht zur Verfügung steht.
 	 */
-	public DavProvider getDatenverteilerVerbindung(
-			final String name) {
+	public DavProvider getDatenverteilerVerbindung(final String name) {
 		final DavProvider[] verbindungen = getDatenverteilerVerbindungen();
 		if (verbindungen != null) {
 			for (final DavProvider v : verbindungen) {

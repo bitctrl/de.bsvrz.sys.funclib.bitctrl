@@ -21,6 +21,12 @@ public interface DavProvider {
 	/** Name der Property, die das Flag <em>verbunden</em> hält. */
 	String PROP_VERBUNDEN = "verbunden";
 
+	/** Der Defaultname für die Nutzerverbindung. */
+	String NUTZVERVERBINDUNG = "Nutzerverbindung";
+
+	/** Der Defaultname für die Urlasserverbindung. */
+	String URLASSERVERBINDUNG = "Urlasserverbindung";
+
 	/**
 	 * Gibt den Namen der Verbindung zurück.
 	 * 
