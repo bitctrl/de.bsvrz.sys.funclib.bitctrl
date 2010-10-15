@@ -34,11 +34,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.bitctrl.util.CollectionUtilities;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
@@ -230,6 +233,51 @@ public final class DavTools {
 
 		});
 		return objekte;
+	}
+
+	/**
+	 * Bestimmt den Supertyp einer Menge von Objekten.
+	 * 
+	 * @param objects
+	 *            die Menge
+	 * @return der Typ. Kann null sein.
+	 */
+	public static SystemObjectType getSuperType(
+			final Collection<SystemObject> objects) {
+		Set<SystemObjectType> basis = null;
+
+		for (final SystemObject so : objects) {
+			if (basis == null) {
+				basis = getSuperTypes(so.getType());
+			} else {
+				basis = CollectionUtilities.intersection(basis,
+						getSuperTypes(so.getType()));
+			}
+		}
+
+		if (null == basis || basis.isEmpty()) {
+			return null;
+		}
+
+		while (basis.size() > 1) {
+			final Iterator<SystemObjectType> iterator = basis.iterator();
+			final SystemObjectType type1 = iterator.next();
+			final Set<SystemObjectType> remove = new HashSet<SystemObjectType>();
+
+			while (iterator.hasNext()) {
+				final SystemObjectType type2 = iterator.next();
+				if (type1.inheritsFrom(type2)) {
+					remove.add(type2);
+				}
+				if (type2.inheritsFrom(type1)) {
+					remove.add(type1);
+				}
+			}
+
+			basis.removeAll(remove);
+		}
+
+		return basis.iterator().next();
 	}
 
 	/**
