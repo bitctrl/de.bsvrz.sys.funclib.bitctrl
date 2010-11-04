@@ -9,6 +9,7 @@ Bundle-Version: 2.0.0.qualifier
 Export-Package: de.bsvrz.sys.funclib.bitctrl.app,
  de.bsvrz.sys.funclib.bitctrl.archiv,
  de.bsvrz.sys.funclib.bitctrl.daf,
+ de.bsvrz.sys.funclib.bitctrl.datenpunkt,
  de.bsvrz.sys.funclib.bitctrl.dua,
  de.bsvrz.sys.funclib.bitctrl.dua.adapter,
  de.bsvrz.sys.funclib.bitctrl.dua.av,
