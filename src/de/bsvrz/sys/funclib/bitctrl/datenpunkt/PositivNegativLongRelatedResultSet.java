@@ -25,6 +25,9 @@
  */
 package de.bsvrz.sys.funclib.bitctrl.datenpunkt;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import com.bitctrl.util.resultset.IRelatedResultSetContainer;
 import com.bitctrl.util.resultset.RelatedResultSet;
 
@@ -37,10 +40,21 @@ import de.bsvrz.dav.daf.main.impl.InvalidArgumentException;
  * Zusammenhängende Menge von Long-Ergebnissen einer atl.positivNegativListe.
  * 
  * @author BitCtrl Systems GmbH, Albrecht Uhlmann
- * @version $Id$
+ * @version $Id: PositivNegativLongRelatedResultSet.java 27387 2010-11-05
+ *          09:52:03Z uhlmann $
  */
 public class PositivNegativLongRelatedResultSet extends
 		RelatedResultSet<Long, ResultData> {
+
+	/**
+	 * die Positivliste.
+	 */
+	private final Set<DavUnscaledValueIndividualResult> positivListe = new LinkedHashSet<DavUnscaledValueIndividualResult>();
+
+	/**
+	 * die Negativliste.
+	 */
+	private final Set<DavUnscaledValueIndividualResult> negativListe = new LinkedHashSet<DavUnscaledValueIndividualResult>();
 
 	/**
 	 * Konstruktor wertet beide Listen aus und lädt die Objekte beider in die
@@ -74,13 +88,32 @@ public class PositivNegativLongRelatedResultSet extends
 					this);
 			r.setConnection(connection);
 			r.setAtlDatenpunkt(atlPositivArray.getItem(loop));
+			positivListe.add(r);
 		}
 		for (loop = 0; loop < atlNegativArray.getLength(); ++loop) {
 			final DavUnscaledValueIndividualResult r = new DavUnscaledValueIndividualResult(
 					this);
 			r.setConnection(connection);
 			r.setAtlDatenpunkt(atlNegativArray.getItem(loop));
+			negativListe.add(r);
 		}
 	}
 
+	/**
+	 * die Positivliste.
+	 * 
+	 * @return Liefert die Positivliste.
+	 */
+	public Set<DavUnscaledValueIndividualResult> getPositivListe() {
+		return positivListe;
+	}
+
+	/**
+	 * Liefert die Negativliste.
+	 * 
+	 * @return die Negativliste.
+	 */
+	public Set<DavUnscaledValueIndividualResult> getNegativListe() {
+		return negativListe;
+	}
 }
