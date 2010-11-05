@@ -87,4 +87,8 @@ public class DavUnscaledValueIndividualResult extends Datenpunkt implements
 		return o.getName();
 	}
 
+	public void dispose() {
+		abmelden();
+	}
+
 }

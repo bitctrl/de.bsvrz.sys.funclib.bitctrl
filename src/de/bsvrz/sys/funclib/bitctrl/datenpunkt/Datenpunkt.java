@@ -36,8 +36,10 @@ import de.bsvrz.dav.daf.main.ReceiverRole;
 import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
+import de.bsvrz.dav.daf.main.config.AttributeGroupUsage;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.dav.daf.main.config.SystemObjectType;
+import de.bsvrz.dav.daf.main.config.AttributeGroupUsage.Usage;
 import de.bsvrz.dav.daf.main.impl.InvalidArgumentException;
 
 /**
@@ -64,7 +66,10 @@ public class Datenpunkt implements ClientReceiverInterface {
 
 	private String[] pfadKomponenten;
 
-	private void abmelden() {
+	/**
+	 * Abmeldung vom Datenverteiler. Falls schon abgemeldet, passiert nichts.
+	 */
+	protected void abmelden() {
 		if (null == atlDatenpunkt) {
 			return;
 		}
@@ -108,8 +113,21 @@ public class Datenpunkt implements ClientReceiverInterface {
 		}
 		dataDescription = new DataDescription(atg, asp);
 		object = o;
+		final ReceiverRole role;
+		final Usage usage = atg.getAttributeGroupUsage(asp).getUsage();
+		if (AttributeGroupUsage.Usage.OnlineDataAsSenderDrain.equals(usage)) {
+			role = ReceiverRole.drain();
+		} else if (AttributeGroupUsage.Usage.OnlineDataAsSourceReceiver
+				.equals(usage)
+				|| AttributeGroupUsage.Usage.OnlineDataAsSourceReceiverOrSenderDrain
+						.equals(usage)) {
+			role = ReceiverRole.receiver();
+		} else {
+			throw new InvalidArgumentException(
+					"Unzulässige Attributgruppenverwendung: " + usage);
+		}
 		connection.subscribeReceiver(this, o, dataDescription, ReceiveOptions
-				.normal(), ReceiverRole.receiver());
+				.normal(), role);
 	}
 
 	/**
