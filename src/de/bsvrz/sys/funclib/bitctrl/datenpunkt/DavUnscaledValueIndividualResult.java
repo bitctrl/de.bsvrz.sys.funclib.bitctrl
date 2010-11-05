@@ -37,12 +37,13 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
  * Ganzzahliger Ergebniswert aus dem Datenverteiler.
  * 
  * @author BitCtrl Systems GmbH, uhlmann
- * @version $Id$
+ * @version $Id: DavUnscaledValueIndividualResult.java 27375 2010-11-04
+ *          16:30:14Z uhlmann $
  */
 public class DavUnscaledValueIndividualResult extends Datenpunkt implements
-		IIndividualResult<Long> {
+		IIndividualResult<Long, ResultData> {
 
-	private final IRelatedResultSet<Long> parent;
+	private final IRelatedResultSet<Long, ResultData> parent;
 
 	/**
 	 * Konstruktor weist nur das Elternobjekt zu.
@@ -50,7 +51,8 @@ public class DavUnscaledValueIndividualResult extends Datenpunkt implements
 	 * @param parent
 	 *            das Elternobjekt, also die ERgebnismenge, der wir angehören
 	 */
-	public DavUnscaledValueIndividualResult(final IRelatedResultSet<Long> parent) {
+	public DavUnscaledValueIndividualResult(
+			final IRelatedResultSet<Long, ResultData> parent) {
 		super();
 		this.parent = parent;
 	}
@@ -67,16 +69,13 @@ public class DavUnscaledValueIndividualResult extends Datenpunkt implements
 		return currentValue;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.bsvrz.sys.funclib.bitctrl.datenpunkt.Datenpunkt#update(de.bsvrz.dav
-	 * .daf.main.ResultData[])
-	 */
+	public ResultData getCurrentBaseSetValue() {
+		return getLastResult();
+	}
+
 	@Override
-	public void update(final ResultData[] results) {
-		super.update(results);
+	public void update(final ResultData result) {
+		super.update(result);
 		parent.neuerWert(this, getCurrentValue());
 	}
 

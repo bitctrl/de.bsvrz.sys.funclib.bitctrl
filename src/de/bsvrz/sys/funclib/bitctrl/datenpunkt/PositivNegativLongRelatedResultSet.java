@@ -30,6 +30,7 @@ import com.bitctrl.util.resultset.RelatedResultSet;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
+import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.impl.InvalidArgumentException;
 
 /**
@@ -38,7 +39,8 @@ import de.bsvrz.dav.daf.main.impl.InvalidArgumentException;
  * @author BitCtrl Systems GmbH, Albrecht Uhlmann
  * @version $Id$
  */
-public class PositivNegativLongRelatedResultSet extends RelatedResultSet<Long> {
+public class PositivNegativLongRelatedResultSet extends
+		RelatedResultSet<Long, ResultData> {
 
 	/**
 	 * Konstruktor wertet beide Listen aus und lädt die Objekte beider in die

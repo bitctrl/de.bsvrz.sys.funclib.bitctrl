@@ -29,6 +29,7 @@ import com.bitctrl.util.resultset.IRelatedResultSetContainer;
 import com.bitctrl.util.resultset.RelatedResultSet;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
+import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.Data.Array;
 import de.bsvrz.dav.daf.main.impl.InvalidArgumentException;
 
@@ -39,7 +40,8 @@ import de.bsvrz.dav.daf.main.impl.InvalidArgumentException;
  * @author BitCtrl Systems GmbH, Albrecht Uhlmann
  * @version $Id$
  */
-public class DavUnscaledValueRelatedResultSet extends RelatedResultSet<Long> {
+public class DavUnscaledValueRelatedResultSet extends
+		RelatedResultSet<Long, ResultData> {
 
 	/**
 	 * Konstruktor erzeugt für jedes Feldelement aus der atl.datenpunkt ein
@@ -58,9 +60,10 @@ public class DavUnscaledValueRelatedResultSet extends RelatedResultSet<Long> {
 	 *             Falls bei der Anmeldung etwas fehlschlägt
 	 * @see Datenpunkt
 	 */
-	public DavUnscaledValueRelatedResultSet(final IRelatedResultSetContainer container,
-			final int timeoutMs, final ClientDavInterface connection,
-			final Array atlDatenpunktArray) throws InvalidArgumentException {
+	public DavUnscaledValueRelatedResultSet(
+			final IRelatedResultSetContainer container, final int timeoutMs,
+			final ClientDavInterface connection, final Array atlDatenpunktArray)
+			throws InvalidArgumentException {
 		super(container, timeoutMs);
 		int loop;
 		for (loop = 0; loop < atlDatenpunktArray.getLength(); ++loop) {

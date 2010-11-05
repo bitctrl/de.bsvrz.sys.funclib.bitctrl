@@ -54,6 +54,8 @@ public class Datenpunkt implements ClientReceiverInterface {
 
 	private Data lastValue;
 
+	private ResultData lastResult;
+
 	private ClientDavInterface connection;
 
 	private SystemObject object;
@@ -150,19 +152,31 @@ public class Datenpunkt implements ClientReceiverInterface {
 			return;
 		}
 		for (final ResultData result : results) {
-			if (result.getDataDescription().equals(dataDescription)) {
-				if (!result.hasData()) {
-					lastValue = null;
-				} else {
-					try {
-						Data currentData = result.getData();
-						for (final String pfad : pfadKomponenten) {
-							currentData = currentData.getItem(pfad);
-						}
-						lastValue = currentData;
-					} catch (final NoSuchElementException e) {
-						lastValue = null;
+			update(result);
+		}
+	}
+
+	/**
+	 * Aktualisiert einen Ergebnisdatensatz aus dem Feld von
+	 * Ergebnisdatensätzen, die über die DAF-API kamen.
+	 * 
+	 * @param result
+	 *            der Ergebnisdatensatz
+	 */
+	protected void update(final ResultData result) {
+		if (result.getDataDescription().equals(dataDescription)) {
+			lastResult = result;
+			if (!result.hasData()) {
+				lastValue = null;
+			} else {
+				try {
+					Data currentData = result.getData();
+					for (final String pfad : pfadKomponenten) {
+						currentData = currentData.getItem(pfad);
 					}
+					lastValue = currentData;
+				} catch (final NoSuchElementException e) {
+					lastValue = null;
 				}
 			}
 		}
@@ -257,5 +271,17 @@ public class Datenpunkt implements ClientReceiverInterface {
 	 */
 	public SystemObject getObject() {
 		return object;
+	}
+
+	/**
+	 * Liefert den letzten empfangenen Ergebnisdatensatz.
+	 * 
+	 * @return der Ergebnisdatensatz. Kann <code>null</code> sein, wenn noch nie
+	 *         einer empfangen wurde. Für den Fall, dass der Ergebnisdatensatz
+	 *         keine Daten enthält, wird er trotzdem gespeichert, nur #lastValue
+	 *         wird null.
+	 */
+	public ResultData getLastResult() {
+		return lastResult;
 	}
 }
