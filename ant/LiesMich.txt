@@ -13,6 +13,8 @@ Enthält (hoffentlich) nützliche Erweiterungen der Datenverteiler-API.
 
 Versionsgeschichte
 ==================
+2.1.0
+  - Zusammenführung von altem SendRegistrationStore mit neuem Modell.
 
 2.0.0
 
