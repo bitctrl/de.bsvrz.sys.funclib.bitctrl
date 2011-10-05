@@ -13,6 +13,9 @@ Enthält (hoffentlich) nützliche Erweiterungen der Datenverteiler-API.
 
 Versionsgeschichte
 ==================
+2.1.3
+  - Erweiterte Logging-Funktionen aus Los C1+C2.
+
 2.1.0
   - Zusammenführung von altem SendRegistrationStore mit neuem Modell.
 

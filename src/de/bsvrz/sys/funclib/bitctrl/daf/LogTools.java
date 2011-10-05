@@ -37,6 +37,7 @@ import com.bitctrl.util.logging.LoggerTools;
 import de.bsvrz.sys.funclib.debug.Debug;
 import de.bsvrz.sys.funclib.operatingMessage.MessageGrade;
 import de.bsvrz.sys.funclib.operatingMessage.MessageSender;
+import de.bsvrz.sys.funclib.operatingMessage.MessageState;
 import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 
 /**
@@ -46,6 +47,15 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
  * @version $Id$
  */
 public final class LogTools {
+
+	/**
+	 * definiert, ob die ID für eine Meldung gegebenenfalls explizit berechnet
+	 * werden soll.
+	 */
+	private static boolean calculateId = true;
+
+	/** das Tool zum Bestimmen der ID für eine Betriebsmeldung. */
+	private static BetriebsmeldungIdKonverter konverter = new DefaultBetriebsMeldungsIdKonverter();
 
 	/**
 	 * Testet ob auf einem Logger mit einem bestimmten Level geloggt wird.
@@ -145,21 +155,72 @@ public final class LogTools {
 			}
 		}
 
-		sendeBetriebsmeldung(nachricht, arguments);
+		sendeBetriebsmeldung(null, nachricht, arguments);
 	}
 
 	/**
-	 * Gibt eine Nachricht als Betriebsmeldung aus. Der Level wird aus der
-	 * Nachricht gelesen.
+	 * Gibt die Meldung auf dem Logger aus. Wenn es die Nachricht verlangt, wird
+	 * ebenfalls eine Betriebsmeldung versandt. Wenn der Logger {@code null}
+	 * ist, dann wird nur eine Betriebsmeldung versandt.
 	 * 
+	 * @param log
+	 *            der Logger.
+	 * @param daten
+	 *            die Daten für den Versand als Betriebsmeldung
 	 * @param nachricht
 	 *            die Nachricht.
 	 * @param arguments
 	 *            optional eine beliebige Anzahl Argumente, falls Platzhalter in
 	 *            der Nachricht vorkommen.
 	 */
-	public static void sendeBetriebsmeldung(final LogNachricht nachricht,
-			final Object... arguments) {
+	public static void log(final Debug log, final BetriebsmeldungDaten daten,
+			final LogNachricht nachricht, final Object... arguments) {
+		if (isLogbar(log, nachricht.getLogLevel())) {
+			String txt;
+			if (arguments != null) {
+				txt = MessageFormat.format(nachricht.toString(), arguments);
+			} else {
+				txt = nachricht.toString();
+			}
+
+			// Ausgabe Logger
+			if (log != null) {
+				final Level logLevel = nachricht.getLogLevel();
+				if (logLevel.equals(Debug.ERROR)) {
+					log.error(txt);
+				} else if (logLevel.equals(Debug.WARNING)) {
+					log.warning(txt);
+				} else if (logLevel.equals(Debug.INFO)) {
+					log.info(txt);
+				} else if (logLevel.equals(Debug.CONFIG)) {
+					log.config(txt);
+				} else if (logLevel.equals(Debug.FINE)) {
+					log.fine(txt);
+				} else if (logLevel.equals(Debug.FINER)) {
+					log.finer(txt);
+				} else if (logLevel.equals(Debug.FINEST)) {
+					log.finest(txt);
+				}
+			}
+		}
+
+		sendeBetriebsmeldung(daten, nachricht, arguments);
+	}
+
+	/**
+	 * Gibt eine Nachricht als Betriebsmeldung aus. Der Level wird aus der
+	 * Nachricht gelesen.
+	 * 
+	 * @param daten
+	 *            die Daten für die Betriebsmeldung
+	 * @param nachricht
+	 *            die Nachricht.
+	 * @param arguments
+	 *            optional eine beliebige Anzahl Argumente, falls Platzhalter in
+	 *            der Nachricht vorkommen.
+	 */
+	public static void sendeBetriebsmeldung(final BetriebsmeldungDaten daten,
+			final LogNachricht nachricht, final Object... arguments) {
 		final MessageGrade bmvLevel = nachricht.getBmvLevel();
 		if (bmvLevel != null) {
 			String txt;
@@ -169,15 +230,30 @@ public final class LogTools {
 				txt = nachricht.toString();
 			}
 
-			/*
-			 * FIXME Textlänge muss gekürzt werden, da writeUTF die Länge
-			 * begrenzt. (UTFDataFormatException)
-			 */
+			// Ausgabe Betriebsmeldung
+			// TODO Textlänge muss gekürzt werden, da writeUTF die Länge
+			// begrenzt. (UTFDataFormatException)
 			if (txt.length() > 20000) {
 				txt = txt.substring(0, 20000);
 			}
-			MessageSender.getInstance().sendMessage(
-					MessageType.APPLICATION_DOMAIN, bmvLevel, txt);
+
+			String sendId = null;
+			if (calculateId) {
+				sendId = konverter.konvertiere(daten, nachricht, arguments);
+			} else if (daten != null) {
+				sendId = daten.getId();
+			}
+
+			if (daten == null) {
+				MessageSender.getInstance().sendMessage(sendId,
+						MessageType.APPLICATION_DOMAIN, null, bmvLevel,
+						MessageState.MESSAGE, txt);
+
+			} else {
+				MessageSender.getInstance().sendMessage(sendId,
+						daten.getType(), null, bmvLevel, daten.getReference(),
+						daten.getState(), daten.getCauser(), txt);
+			}
 		}
 	}
 
