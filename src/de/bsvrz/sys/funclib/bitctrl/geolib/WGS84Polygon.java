@@ -467,6 +467,12 @@ public class WGS84Polygon {
 	 * @throws IllegalArgumentException
 	 */
 	public WGS84Polygon anfangAbschneiden(final double offset) {
+		final List<WGS84Punkt> apunkte = new ArrayList<WGS84Punkt>();
+
+		if (offset == 0) {
+			return new WGS84Polygon(apunkte);
+		}
+
 		if (laenge() < offset) {
 			throw new IllegalArgumentException(
 					"Der Offset ist größer als die Polygonlänge");
@@ -480,7 +486,6 @@ public class WGS84Polygon {
 
 		final WGS84Koordinate bk = bildPunkt(offset);
 		final WGS84Punkt bp = new WGS84Punkt(bk.getLaenge(), bk.getBreite());
-		final List<WGS84Punkt> apunkte = new ArrayList<WGS84Punkt>();
 
 		int found = -1;
 		for (int i = 0; i < punkte.size() - 1; i++) {
@@ -578,8 +583,8 @@ public class WGS84Polygon {
 		double offset = 0.0;
 
 		for (int i = 0; i < punkte.size() - 1; i++) {
-			if (WGS84Polygon.punktLiegtAufStrecke(punkte.get(i), punkte
-					.get(i + 1), punkt)) {
+			if (WGS84Polygon.punktLiegtAufStrecke(punkte.get(i),
+					punkte.get(i + 1), punkt)) {
 				offset += WGS84Punkt.abstand(punkt, punkte.get(i));
 				break;
 			}
@@ -618,8 +623,8 @@ public class WGS84Polygon {
 			double tmplaenge = laenge + slaenge;
 			tmplaenge = Math.round(tmplaenge * 1000.0) / 1000.0;
 			if (tmplaenge >= offset) {
-				return WGS84Polygon.bildPunktAufStrecke(punkte.get(i), punkte
-						.get(i + 1),
+				return WGS84Polygon.bildPunktAufStrecke(punkte.get(i),
+						punkte.get(i + 1),
 						Math.round((offset - laenge) * 1000.0) / 1000.0);
 			}
 
@@ -747,8 +752,8 @@ public class WGS84Polygon {
 		WGS84Polygon strecke = null;
 
 		for (int i = 0; i < punkte.size() - 1; i++) {
-			final double sabstand = WGS84Polygon.punktAbstandStrecke(punkte
-					.get(i), punkte.get(i + 1), punkt);
+			final double sabstand = WGS84Polygon.punktAbstandStrecke(
+					punkte.get(i), punkte.get(i + 1), punkt);
 			if (sabstand > abstand) {
 				continue;
 			}
@@ -955,8 +960,8 @@ public class WGS84Polygon {
 		double punktabstand = 0;
 
 		for (int i = 0; i < punkte.size() - 1; i++) {
-			final double abstand = WGS84Polygon.punktAbstandStrecke(punkte
-					.get(i), punkte.get(i + 1), punkt);
+			final double abstand = WGS84Polygon.punktAbstandStrecke(
+					punkte.get(i), punkte.get(i + 1), punkt);
 			if (abstand > punktabstand) {
 				punktabstand = abstand;
 			}
@@ -1015,8 +1020,8 @@ public class WGS84Polygon {
 		double laenge = 0;
 
 		for (int i = 0; i < punkte.size() - 1; i++) {
-			laenge += WGS84Punkt.abstandKartesisch(punkte.get(i), punkte
-					.get(i + 1));
+			laenge += WGS84Punkt.abstandKartesisch(punkte.get(i),
+					punkte.get(i + 1));
 		}
 
 		return laenge;
@@ -1066,6 +1071,7 @@ public class WGS84Polygon {
 	 */
 	public void sort() {
 		Collections.sort(punkte, new Comparator<WGS84Punkt>() {
+			@Override
 			public int compare(final WGS84Punkt o1, final WGS84Punkt o2) {
 				return o1.compareTo(o2);
 			}
