@@ -5,7 +5,7 @@ Bundle-Name: Funktionsbibliothek BitCtrl
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-SymbolicName: de.bsvrz.sys.funclib.bitctrl
 Bundle-Vendor: BitCtrl Systems GmbH
-Bundle-Version: 2.6.0.qualifier
+Bundle-Version: 2.7.0.qualifier
 Export-Package: de.bsvrz.sys.funclib.bitctrl.app,
  de.bsvrz.sys.funclib.bitctrl.archiv,
  de.bsvrz.sys.funclib.bitctrl.daf,
