@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.event.EventListenerList;
+
 import com.bitctrl.Constants;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
@@ -107,6 +109,8 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	 * Sendeerlaubnis empfangen wurde.
 	 */
 	private static final Set<SystemObjectDataDescription> sendeerlaubnise = new HashSet<SendRegistrationStore.SystemObjectDataDescription>();
+
+	private static final Map<SystemObjectDataDescription, EventListenerList> dataRequestListeners = new HashMap<SendRegistrationStore.SystemObjectDataDescription, EventListenerList>();
 
 	/**
 	 * Privater Standardkonstruktor.
@@ -236,6 +240,58 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	}
 
 	/**
+	 * F&uuml;gt einen {@link SendRegistrationStoreDataRequestListener} hinzu.
+	 * 
+	 * @param object
+	 *            das Objekt
+	 * @param dbs
+	 *            die Datensatzbeschreibung
+	 * @param listener
+	 *            der Listener
+	 */
+	public static void addSendRegistrationStoreDataRequestListener(
+			final SystemObject object, final DataDescription dbs,
+			final SendRegistrationStoreDataRequestListener listener) {
+		synchronized (dataRequestListeners) {
+			final SystemObjectDataDescription sods = getInstance().new SystemObjectDataDescription(
+					object, dbs);
+			// Falls notwendig Initialisierung
+			if (!dataRequestListeners.containsKey(sods)) {
+				dataRequestListeners.put(sods, new EventListenerList());
+			}
+			dataRequestListeners.get(sods).add(
+					SendRegistrationStoreDataRequestListener.class, listener);
+		}
+	}
+
+	/**
+	 * Entfernt einen {@link SendRegistrationStoreDataRequestListener} hinzu.
+	 * 
+	 * @param object
+	 *            das Objekt
+	 * @param dbs
+	 *            die Datensatzbeschreibung
+	 * @param listener
+	 *            der Listener
+	 */
+	public static void removeSendRegistrationStoreDataRequestListener(
+			final SystemObject object, final DataDescription dbs,
+			final SendRegistrationStoreDataRequestListener listener) {
+		synchronized (dataRequestListeners) {
+			final SystemObjectDataDescription sods = getInstance().new SystemObjectDataDescription(
+					object, dbs);
+
+			final EventListenerList listenerListe = dataRequestListeners
+					.get(sods);
+			if (listenerListe != null) {
+				listenerListe.remove(
+						SendRegistrationStoreDataRequestListener.class,
+						listener);
+			}
+		}
+	}
+
+	/**
 	 * Rückmeldung der Sendesteuerung für die gegebene Kombination aus Objekt
 	 * und Datenverteiler-Datensatzbeschreibung.
 	 * 
@@ -255,6 +311,25 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 			sendeerlaubnise.remove(new SystemObjectDataDescription(obj, desc));
 		}
 
+		notifyListener(obj, desc, state);
+	}
+
+	private void notifyListener(final SystemObject obj,
+			final DataDescription desc, final byte state) {
+		synchronized (dataRequestListeners) {
+			final SystemObjectDataDescription sods = getInstance().new SystemObjectDataDescription(
+					obj, desc);
+
+			final EventListenerList listenerListe = dataRequestListeners
+					.get(sods);
+
+			if (listenerListe != null) {
+				for (final SendRegistrationStoreDataRequestListener listener : listenerListe
+						.getListeners(SendRegistrationStoreDataRequestListener.class)) {
+					listener.registrationStoreDataRequest(obj, desc, state);
+				}
+			}
+		}
 	}
 
 	/**
