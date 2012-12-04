@@ -360,9 +360,10 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 						"Anmeldung als Sender für " + object + "; " + dataDesc
 								+ " erfolgreich.");
 			} catch (final OneSubscriptionPerSendData e) {
-				// TODO irgendwas von sich geben, wenns nicht klappt
-				// da hat wohl jemand das SendRegistrationStore nocht verwendet.
-				// e.printStackTrace();
+				Debug.getLogger()
+						.warning(
+								"Mehr als eine Anmeldung als Sender! Es muß der SendRegistrationStore verwendet werden.",
+								e);
 			}
 		} else {
 			storage.put(sysDesc, ++anzahlAnmeldungen);
@@ -442,8 +443,10 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 						"Anmeldung als Sender für " + nochNichtAngemeldet
 								+ "; " + dataDesc + " erfolgreich.");
 			} catch (final OneSubscriptionPerSendData ex) {
-				// da hat wohl jemand das SendRegistrationStore nocht verwendet.
-				// ex.printStackTrace();
+				Debug.getLogger()
+						.warning(
+								"Mehr als eine Anmeldung als Sender! Es muß der SendRegistrationStore verwendet werden.",
+								ex);
 			}
 		}
 	}
