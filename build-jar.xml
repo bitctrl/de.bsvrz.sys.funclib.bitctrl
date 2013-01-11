@@ -14,25 +14,25 @@
 	<property name="tmp.dir" location="tmp" />
 
 	<path id="build.classpath">
-		<fileset dir="${eclipse.home}/plugins">
+		<fileset dir="${basedir}/../com.bitctrl">
 			<include name="org.apache.commons.codec_1.3.0*.jar" />
 		</fileset>
 		<fileset dir="${basedir}/../com.bitctrl">
 			<include name="com.bitctrl.jar" />
 		</fileset>
-		<fileset dir="${basedir}/../de.bsvrz.dav.daf.plus.funclibErweiterung/distributionspakete/de.bsvrz.dav.daf">
+		<fileset dir="${basedir}/../Kernsoftware-Basissystem/distributionspakete/de.bsvrz.dav.daf">
 			<include name="de.bsvrz.dav.daf-runtime.jar" />
 		</fileset>
-		<fileset dir="${basedir}/../de.bsvrz.sys.funclib.application/distributionspakete/de.bsvrz.sys.funclib.application">
+		<fileset dir="${basedir}/../Kernsoftware-Basissystem/distributionspakete/de.bsvrz.sys.funclib.application">
 			<include name="de.bsvrz.sys.funclib.application-runtime.jar" />
 		</fileset>
-		<fileset dir="${basedir}/../de.bsvrz.sys.funclib.commandLineArgs/distributionspakete/de.bsvrz.sys.funclib.commandLineArgs">
+		<fileset dir="${basedir}/../Kernsoftware-Basissystem/distributionspakete/de.bsvrz.sys.funclib.commandLineArgs">
 			<include name="de.bsvrz.sys.funclib.commandLineArgs-runtime.jar" />
 		</fileset>
-		<fileset dir="${basedir}/../de.bsvrz.sys.funclib.debug/distributionspakete/de.bsvrz.sys.funclib.debug">
+		<fileset dir="${basedir}/../Kernsoftware-Basissystem/distributionspakete/de.bsvrz.sys.funclib.debug">
 			<include name="de.bsvrz.sys.funclib.debug-runtime.jar" />
 		</fileset>
-			<fileset dir="${basedir}/../de.bsvrz.sys.funclib.operatingMessage/distributionspakete/de.bsvrz.sys.funclib.operatingMessage">
+			<fileset dir="${basedir}/../Kernsoftware-Basissystem/distributionspakete/de.bsvrz.sys.funclib.operatingMessage">
 				<include name="de.bsvrz.sys.funclib.operatingMessage-runtime.jar" />
 			</fileset>
 	</path>
