@@ -32,9 +32,12 @@
 		<fileset dir="${basedir}/../Kernsoftware-Basissystem/distributionspakete/de.bsvrz.sys.funclib.debug">
 			<include name="de.bsvrz.sys.funclib.debug-runtime.jar" />
 		</fileset>
-			<fileset dir="${basedir}/../Kernsoftware-Basissystem/distributionspakete/de.bsvrz.sys.funclib.operatingMessage">
-				<include name="de.bsvrz.sys.funclib.operatingMessage-runtime.jar" />
-			</fileset>
+		<fileset dir="${basedir}/../Kernsoftware-Basissystem/distributionspakete/de.bsvrz.sys.funclib.operatingMessage">
+			<include name="de.bsvrz.sys.funclib.operatingMessage-runtime.jar" />
+		</fileset>
+		<fileset dir="${basedir}/../Kernsoftware-Basissystem/distributionspakete/de.bsvrz.sys.funclib.dynobj">
+		     <include name="de.bsvrz.sys.funclib.dynobj-runtime.jar" />
+		</fileset>
 	</path>
 
 	<!-- - - - - - - - - - - - - - - Targets - - - - - - - - - - - - - - - - -->
