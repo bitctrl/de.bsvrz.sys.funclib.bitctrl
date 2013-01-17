@@ -356,7 +356,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 			try {
 				dav.subscribeSender(instance, object, dataDesc,
 						SenderRole.sender());
-				Debug.getLogger().info(
+				Debug.getLogger().fine(
 						"Anmeldung als Sender für " + object + "; " + dataDesc
 								+ " erfolgreich.");
 			} catch (final OneSubscriptionPerSendData e) {
@@ -397,7 +397,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 			SendRegistrationStore.storage.put(sysDesc, --anzahlAnmeldungen);
 		} else {
 			dav.unsubscribeSender(instance, object, desc);
-			Debug.getLogger().info(
+			Debug.getLogger().fine(
 					"Abmeldung als Sender für " + object + "; " + desc
 							+ " erfolgreich.");
 			storage.remove(sysDesc);
@@ -439,7 +439,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 			try {
 				dav.subscribeSender(instance, nochNichtAngemeldet, dataDesc,
 						SenderRole.sender());
-				Debug.getLogger().info(
+				Debug.getLogger().fine(
 						"Anmeldung als Sender für " + nochNichtAngemeldet
 								+ "; " + dataDesc + " erfolgreich.");
 			} catch (final OneSubscriptionPerSendData ex) {
