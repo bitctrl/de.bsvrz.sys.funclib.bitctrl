@@ -34,9 +34,7 @@ public class DebugMonitor extends AbstractMonitor {
 	}
 
 	public void setTaskName(final String name) {
-		log
-				.info("DebugMonitor : " + this.name + " : setTaskName(" + name
-						+ ")");
+		log.info("DebugMonitor : " + this.name + " : setTaskName(" + name + ")");
 		this.name = name;
 
 	}
