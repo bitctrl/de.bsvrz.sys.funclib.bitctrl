@@ -133,7 +133,6 @@ public class DefaultDavProvider implements DavProvider, DavConnectionListener {
 
 		this.dav = dav;
 		if (dav == null) {
-			System.err.println("Setze Verbunden == false");
 			setVerbunden(false);
 		} else {
 			// FIXME Workaround für fehlendes ClientDavConnection.isConnected()
