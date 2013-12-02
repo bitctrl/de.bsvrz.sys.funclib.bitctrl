@@ -14,7 +14,9 @@ import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
@@ -139,8 +141,10 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 
 		int loop = 0;
 		while ((loop < 20) && (startZeit < now)) {
-			for (final SystemObject fahrStreifen : fahrStreifenListe) {
-				try {
+			final List<ResultData> resultList = new ArrayList<ResultData>();
+
+			try {
+				for (final SystemObject fahrStreifen : fahrStreifenListe) {
 					Data data;
 					if (useFileData) {
 						data = getTestDatenFromFile();
@@ -150,18 +154,22 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 					}
 					final ResultData result = new ResultData(fahrStreifen,
 							descKurzzeitDaten, startZeit - delay, data);
+					resultList.add(result);
 					latestResultsKzd.put(fahrStreifen, result);
-					if (aktiv) {
-						con.sendData(result);
-						LOGGER.info("Kurzzeitdaten versendet: " + result);
-					}
-				} catch (final DataNotSubscribedException e) {
-					LOGGER.warning(e.getLocalizedMessage());
-				} catch (final SendSubscriptionNotConfirmed e) {
-					LOGGER.warning(e.getLocalizedMessage());
-				} catch (final Exception e) {
-					LOGGER.severe(e.getLocalizedMessage());
 				}
+				if (aktiv) {
+					con.sendData(resultList.toArray(new ResultData[resultList
+							.size()]));
+					LOGGER.info("Kurzzeitdaten mit Zeitstempel "
+							+ new Date(startZeit - delay) + " versendet für "
+							+ resultList.size() + " Objekte");
+				}
+			} catch (final DataNotSubscribedException e) {
+				LOGGER.warning(e.getLocalizedMessage());
+			} catch (final SendSubscriptionNotConfirmed e) {
+				LOGGER.warning(e.getLocalizedMessage());
+			} catch (final Exception e) {
+				LOGGER.severe(e.getLocalizedMessage());
 			}
 			startZeit += (1L * delay);
 			loop++;
