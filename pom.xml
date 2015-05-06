@@ -23,7 +23,8 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${maven-checkstyle-plugin-version}</version>
 				<configuration>
-					<configLocation>releng/checkstyle.xml</configLocation>
+					<propertyExpansion>basedir=${project.basedir}</propertyExpansion>
+					<configLocation>${basedir}/releng/checkstyle.xml</configLocation>
 				</configuration>
 			</plugin>
 		</plugins>
