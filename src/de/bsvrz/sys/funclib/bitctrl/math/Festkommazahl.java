@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.math;
 /**
  * Repr&auml;sentiert eine Zahl mit einer festen Anzahl Kommastellen.
  * <p>
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id: Festkommazahl.java 6846 2008-02-21 14:33:41Z peuker $
  */
@@ -53,24 +53,24 @@ public class Festkommazahl extends Number implements Comparable<Festkommazahl> {
 	/**
 	 * Konstruiert eine Festkommazahl mit dem angegebenen Wert und dem
 	 * Skalierungsfaktor 1.
-	 * 
+	 *
 	 * @param wert
 	 *            Der skalierte Wert der neuen Festkommzahl
 	 */
-	public Festkommazahl(double wert) {
+	public Festkommazahl(final double wert) {
 		this(wert, 1);
 	}
 
 	/**
 	 * Konstruiert eine Festkommazahl mit dem angegebenen Wert und
 	 * Skalierungsfaktor.
-	 * 
+	 *
 	 * @param wert
 	 *            Der skalierte Wert der neuen Festkommzahl
 	 * @param skalierung
 	 *            Faktor mit dem der Wert skaliert wird
 	 */
-	public Festkommazahl(double wert, float skalierung) {
+	public Festkommazahl(final double wert, final float skalierung) {
 		this.wert = Math.round(wert / skalierung);
 		this.skalierung = skalierung;
 	}
@@ -78,7 +78,7 @@ public class Festkommazahl extends Number implements Comparable<Festkommazahl> {
 	/**
 	 * Konstruiert eine Festkommazahl mit dem angegebenen Wert und der genannten
 	 * Anzahl Dezimalstellen.
-	 * 
+	 *
 	 * @param wert
 	 *            Der skalierte Wert der neuen Festkommzahl
 	 * @param stellen
@@ -86,14 +86,14 @@ public class Festkommazahl extends Number implements Comparable<Festkommazahl> {
 	 *            soll. Eine Zahl kleiner 0 entspricht dabei Kommastellen und
 	 *            eine Zahl größer 0 entspricht Zehnerpotenzen.
 	 */
-	public Festkommazahl(double wert, int stellen) {
+	public Festkommazahl(final double wert, final int stellen) {
 		this(wert, (float) Math.pow(10, stellen));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int compareTo(Festkommazahl zahl) {
+	public int compareTo(final Festkommazahl zahl) {
 		Long a, b;
 
 		a = wert;

@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -37,10 +37,11 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * Allgemeine Klasse für die Beschreibung von Objekten, die <b>nur</b> Daten
  * halten, auf welche über Getter-Methoden (<b>ohne Argumente</b>) zugegriffen
  * werden kann. (z.B. Attributgruppeninhalte)
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id: AllgemeinerDatenContainer.java 8742 2008-05-07 17:01:36Z tfelder $
+ *
+ * @version $Id: AllgemeinerDatenContainer.java 8742 2008-05-07 17:01:36Z
+ *          tfelder $
  */
 public class AllgemeinerDatenContainer {
 
@@ -48,16 +49,16 @@ public class AllgemeinerDatenContainer {
 	 * Vergleicht dieses Objekt mit dem übergebenen Objekt. Die beiden Objekte
 	 * sind dann gleich, wenn sie vom selben Typ sind und wenn alle
 	 * Getter-Methoden die gleichen Werte zurückliefern.
-	 * 
+	 *
 	 * @param that
 	 *            ein anderes Objekt
 	 * @return ob die beiden Objekte inhaltlich gleich sind
 	 */
 	@Override
-	public boolean equals(Object that) {
+	public boolean equals(final Object that) {
 		if (that != null) {
 			if (that.getClass().equals(this.getClass())) {
-				for (Method method : this.getClass().getMethods()) {
+				for (final Method method : this.getClass().getMethods()) {
 					if (method.getName().startsWith("get")) { //$NON-NLS-1$
 						Object thisInhalt;
 						Object thatInhalt;
@@ -68,11 +69,11 @@ public class AllgemeinerDatenContainer {
 							if (!thisInhalt.equals(thatInhalt)) {
 								return false;
 							}
-						} catch (IllegalAccessException e) {
+						} catch (final IllegalAccessException e) {
 							Debug.getLogger().error(Constants.EMPTY_STRING, e);
 							e.printStackTrace();
 							return false;
-						} catch (InvocationTargetException e) {
+						} catch (final InvocationTargetException e) {
 							Debug.getLogger().error(Constants.EMPTY_STRING, e);
 							e.printStackTrace();
 							return false;
@@ -89,26 +90,26 @@ public class AllgemeinerDatenContainer {
 	/**
 	 * Erfragt eine Zeichenkette, welche die aktuellen Werte aller über
 	 * Getter-Methoden zugänglichen Member-Variable enthält.
-	 * 
+	 *
 	 * @return eine Inhaltsangabe dieses Objektes
 	 */
 	@Override
 	public String toString() {
 		String s = Constants.EMPTY_STRING;
 
-		for (Method methode : this.getClass().getMethods()) {
+		for (final Method methode : this.getClass().getMethods()) {
 			if (methode.getName().startsWith("get") && //$NON-NLS-1$
 					methode.getDeclaringClass().equals(this.getClass())) {
 				s += methode.getName().substring(3) + " = "; //$NON-NLS-1$
 				try {
 					s += methode.invoke(this, new Object[0]);
-				} catch (IllegalArgumentException e) {
+				} catch (final IllegalArgumentException e) {
 					e.printStackTrace();
 					s += "unbekannt"; //$NON-NLS-1$
-				} catch (IllegalAccessException e) {
+				} catch (final IllegalAccessException e) {
 					e.printStackTrace();
 					s += "unbekannt"; //$NON-NLS-1$
-				} catch (InvocationTargetException e) {
+				} catch (final InvocationTargetException e) {
 					e.printStackTrace();
 					s += "unbekannt"; //$NON-NLS-1$
 				}
@@ -118,17 +119,17 @@ public class AllgemeinerDatenContainer {
 				s += methode.getName().substring(2) + " = "; //$NON-NLS-1$
 				try {
 					s += methode.invoke(this, new Object[0]);
-				} catch (IllegalArgumentException e) {
+				} catch (final IllegalArgumentException e) {
 					e.printStackTrace();
 					s += "unbekannt"; //$NON-NLS-1$
-				} catch (IllegalAccessException e) {
+				} catch (final IllegalAccessException e) {
 					e.printStackTrace();
 					s += "unbekannt"; //$NON-NLS-1$
-				} catch (InvocationTargetException e) {
+				} catch (final InvocationTargetException e) {
 					e.printStackTrace();
 					s += "unbekannt"; //$NON-NLS-1$
 				}
-				s += "\n"; //$NON-NLS-1${
+				s += "\n"; //$NON-NLS-1$ {
 			}
 		}
 

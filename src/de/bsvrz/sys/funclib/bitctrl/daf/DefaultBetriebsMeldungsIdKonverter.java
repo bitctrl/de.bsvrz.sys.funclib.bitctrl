@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -26,23 +26,22 @@
 
 package de.bsvrz.sys.funclib.bitctrl.daf;
 
-
 /**
  * Standardumsetzer für die Ermittlung einer ID aus den Daten für eine
  * Betriebsmeldung.
- * 
+ *
  * Die ID der Betriebsmeldung ist identisch mit der PID bzw. der ID eines mit
  * der Betriebsmeldung assoziierten Systemobjekts. Eine bereits explizit
  * gesetzte ID wird nicht überschrieben.
- * 
+ *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  * @version $Id$
  */
-public class DefaultBetriebsMeldungsIdKonverter implements
-		BetriebsmeldungIdKonverter {
+public class DefaultBetriebsMeldungsIdKonverter
+		implements BetriebsmeldungIdKonverter {
 
-	public String konvertiere(BetriebsmeldungDaten daten,
-			LogNachricht nachricht, Object... arguments) {
+	public String konvertiere(final BetriebsmeldungDaten daten,
+			final LogNachricht nachricht, final Object... arguments) {
 		String result = null;
 		if (daten != null) {
 			result = daten.getId();

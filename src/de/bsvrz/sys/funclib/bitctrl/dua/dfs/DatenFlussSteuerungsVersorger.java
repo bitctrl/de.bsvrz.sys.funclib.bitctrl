@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -47,10 +47,11 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * Diese Klasse liest die Parameter der Datenflusssteuerung aus und meldet
  * Änderungen formatiert an andere Module des Typs
  * <code>IDatenFlussSteuerungsListener</code> weiter.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id: DatenFlussSteuerungsVersorger.java 23685 2010-06-09 15:42:02Z uhlmann $
+ *
+ * @version $Id: DatenFlussSteuerungsVersorger.java 23685 2010-06-09 15:42:02Z
+ *          uhlmann $
  */
 public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 
@@ -69,7 +70,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	 * der Datenflusssteuerung aus und meldet Änderungen formatiert an
 	 * angemeldete Module des Typs <code>IDatenFlussSteuerungsListener</code>
 	 * weiter.
-	 * 
+	 *
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
 	 * @return die statische Instanz dieser Klasse
@@ -107,7 +108,8 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 			// : null);
 			//
 			// if (dfsObjekte.length == 1) {
-			// Debug.getLogger().fine("Es wurde genau ein Objekt vom Typ " + //$NON-NLS-1$
+			// Debug.getLogger().fine("Es wurde genau ein Objekt vom Typ " +
+			// //$NON-NLS-1$
 			// DFSKonstanten.TYP + " identifiziert"); //$NON-NLS-1$
 			// } else if (dfsObjekte.length > 1) {
 			// Debug.getLogger().warning("Es liegen mehrere Objekte vom Typ " +
@@ -145,7 +147,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
 	 * @param dfsObjekt
@@ -159,16 +161,17 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	protected DatenFlussSteuerungsVersorger(final IVerwaltung verwaltung,
 			final SystemObject dfsObjekt) throws DUAInitialisierungsException {
 		if (verwaltung == null) {
-			throw new DUAInitialisierungsException(STD_FEHLER
-					+ "\nKeine Verbindung zum Datenverteiler"); //$NON-NLS-1$
+			throw new DUAInitialisierungsException(
+					STD_FEHLER + "\nKeine Verbindung zum Datenverteiler"); //$NON-NLS-1$
 		}
 		this.verwaltung = verwaltung;
 
 		if (dfsObjekt != null) {
-			DataDescription dd = new DataDescription(verwaltung.getVerbindung()
-					.getDataModel().getAttributeGroup(DFSKonstanten.ATG),
-					verwaltung.getVerbindung().getDataModel().getAspect(
-							DaVKonstanten.ASP_PARAMETER_SOLL));
+			final DataDescription dd = new DataDescription(
+					verwaltung.getVerbindung().getDataModel()
+					.getAttributeGroup(DFSKonstanten.ATG),
+					verwaltung.getVerbindung().getDataModel()
+					.getAspect(DaVKonstanten.ASP_PARAMETER_SOLL));
 
 			verwaltung.getVerbindung().subscribeReceiver(this, dfsObjekt, dd,
 					ReceiveOptions.normal(), ReceiverRole.receiver());
@@ -187,13 +190,14 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	 * Fügt diesem Element einen neuen Beobachter hinzu. Jedes neue
 	 * Beobachterobjekt wird sofort nach der Anmeldung mit den aktuellen Daten
 	 * versorgt.
-	 * 
+	 *
 	 * @param listener
 	 *            der neue Beobachter
 	 */
-	public final void addListener(final IDatenFlussSteuerungsListener listener) {
-		synchronized (this.listenerListe) {
-			this.listenerListe.add(listener);
+	public final void addListener(
+			final IDatenFlussSteuerungsListener listener) {
+		synchronized (listenerListe) {
+			listenerListe.add(listener);
 			if (letzteDfs != null) {
 				listener.aktualisierePublikation(letzteDfs);
 			}
@@ -202,15 +206,15 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 
 	/**
 	 * Löscht ein Beobachterobjekt.
-	 * 
+	 *
 	 * @param listener
 	 *            das zu löschende Beobachterobjekt
 	 */
 	public final void removeListener(
 			final IDatenFlussSteuerungsListener listener) {
 		if (listener != null) {
-			synchronized (this.listenerListe) {
-				this.listenerListe.remove(listener);
+			synchronized (listenerListe) {
+				listenerListe.remove(listener);
 			}
 		}
 	}
@@ -218,7 +222,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void update(ResultData[] resultate) {
+	public void update(final ResultData[] resultate) {
 		letzteDfs = new DatenFlussSteuerung();
 
 		if (resultate != null && resultate.length > 0) {
@@ -232,38 +236,43 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 					&& !resultat.isNoDataAvailable() && resultat.hasData()
 					&& resultat.getData() != null) {
 
-				Data.Array ps = resultat.getData().getArray(
-						DFSKonstanten.ATL_PARA_SATZ);
+				final Data.Array ps = resultat.getData()
+						.getArray(DFSKonstanten.ATL_PARA_SATZ);
 
 				for (int i = 0; i < ps.getLength(); i++) {
-					Data satz = ps.getItem(i);
+					final Data satz = ps.getItem(i);
 					if (satz != null) {
-						ParameterSatz dfParameterSatz = new ParameterSatz();
+						final ParameterSatz dfParameterSatz = new ParameterSatz();
 
-						final SWETyp swe = SWETyp.getZustand((int) satz
-								.getUnscaledValue(DFSKonstanten.ATT_SWE)
-								.getState().getValue());
+						final SWETyp swe = SWETyp
+								.getZustand(
+										(int) satz
+										.getUnscaledValue(
+												DFSKonstanten.ATT_SWE)
+												.getState().getValue());
 						dfParameterSatz.setSwe(swe);
 
 						/**
 						 * Iteriere über alle Publikationszuordnungen innerhalb
 						 * dieses Parametersatzes
 						 */
-						for (int j = 0; j < satz.getArray(
-								DFSKonstanten.ATT_PUB_ZUORDNUNG).getLength(); j++) {
-							Data paraZuordnung = satz.getArray(
-									DFSKonstanten.ATT_PUB_ZUORDNUNG).getItem(j);
+						for (int j = 0; j < satz
+								.getArray(DFSKonstanten.ATT_PUB_ZUORDNUNG)
+								.getLength(); j++) {
+							final Data paraZuordnung = satz
+									.getArray(DFSKonstanten.ATT_PUB_ZUORDNUNG)
+									.getItem(j);
 							PublikationsZuordung dfParaZuordnung;
 							dfParaZuordnung = new PublikationsZuordung(
 									paraZuordnung, verwaltung);
 							dfParameterSatz.add(dfParaZuordnung);
 						}
 
-						ParameterSatz dummy = letzteDfs
+						final ParameterSatz dummy = letzteDfs
 								.getParameterSatzFuerSWE(swe);
 
 						if (dummy != null) {
-							for (PublikationsZuordung neuePz : dfParameterSatz
+							for (final PublikationsZuordung neuePz : dfParameterSatz
 									.getPubZuordnung()) {
 								dummy.add(neuePz);
 							}
@@ -276,8 +285,8 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 		}
 
 		if (letzteDfs != null) {
-			synchronized (this.listenerListe) {
-				for (IDatenFlussSteuerungsListener listener : this.listenerListe) {
+			synchronized (listenerListe) {
+				for (final IDatenFlussSteuerungsListener listener : listenerListe) {
 					listener.aktualisierePublikation(letzteDfs);
 				}
 			}

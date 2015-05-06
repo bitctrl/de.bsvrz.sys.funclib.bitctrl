@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -33,9 +33,9 @@ import de.bsvrz.sys.funclib.bitctrl.daf.AbstractDavZustand;
 
 /**
  * Korrespondiert mit dem Zustandsraum eines Messwertes.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
+ *
  * @version $Id: MesswertZustand.java 8054 2008-04-09 15:11:59Z tfelder $
  */
 public final class MesswertZustand extends AbstractDavZustand {
@@ -72,25 +72,25 @@ public final class MesswertZustand extends AbstractDavZustand {
 
 	/**
 	 * Interner Konstruktor.
-	 * 
+	 *
 	 * @param code
 	 *            der Code
 	 * @param name
 	 *            die Bezeichnung
 	 */
-	private MesswertZustand(String name, int code) {
+	private MesswertZustand(final String name, final int code) {
 		super(code, name);
 		werteBereich.put(code, this);
 	}
 
 	/**
 	 * Erfragt den Wert dieses DAV-Enumerationstypen mit dem übergebenen Code.
-	 * 
+	 *
 	 * @param code
 	 *            der Code des Enumerations-Wertes
 	 * @return den Wert dieses DAV-Enumerationstypen mit dem übergebenen Code.
 	 */
-	public static MesswertZustand getZustand(int code) {
+	public static MesswertZustand getZustand(final int code) {
 		return werteBereich.get(code);
 	}
 

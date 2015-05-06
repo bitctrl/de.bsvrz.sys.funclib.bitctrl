@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -32,7 +32,7 @@ import java.util.Set;
 
 /**
  * Basisklasse aller Symbole des Interpeters.
- * 
+ *
  * @author BitCtrl Systems GmbH, Uwe Peuker, Schumann
  * @version $Id: Ausdruck.java 6835 2008-02-21 13:04:58Z peuker $
  */
@@ -41,7 +41,7 @@ public interface Ausdruck {
 	/**
 	 * Behelfsklasse, um ein paar n&uuml;tzliche statische Methoden im Interface
 	 * unterzubringen.
-	 * 
+	 *
 	 * @author BitCtrl Systems GmbH, Schumann
 	 * @version $Id: Ausdruck.java 6835 2008-02-21 13:04:58Z peuker $
 	 */
@@ -50,12 +50,12 @@ public interface Ausdruck {
 		/**
 		 * Bestimmt Rekursiv die Menge der Termsymbole im Ausdruck, die
 		 * Variablen darstellen.
-		 * 
+		 *
 		 * @param ausdruck
 		 *            Ein beliebiger Ausdruck
 		 * @return Menge der Variablennamen
 		 */
-		public static Set<String> getVariablen(Ausdruck ausdruck) {
+		public static Set<String> getVariablen(final Ausdruck ausdruck) {
 			Set<String> variablen;
 
 			variablen = new HashSet<String>();
@@ -64,7 +64,7 @@ public interface Ausdruck {
 				variablen.add(((Variable) ausdruck).getName());
 			} else if (ausdruck.getNachfolger() != null) {
 				// Ausdruck ist kein Terminalsymbol
-				for (Ausdruck a : ausdruck.getNachfolger()) {
+				for (final Ausdruck a : ausdruck.getNachfolger()) {
 					// Rekursion
 					variablen.addAll(getVariablen(a));
 				}
@@ -87,7 +87,7 @@ public interface Ausdruck {
 	 * <em>Hinweis:</em> Terminalsymbole liefern keine leere Liste sondern
 	 * {@code null} zur&uuml;ck. Eine leere Liste ist demnach ein Hinweis auf
 	 * einen unvollst&auml;ndigen Syntaxbaum.
-	 * 
+	 *
 	 * @return Liste der Ausdr&uuml;cke <em>direkt</em> unter diesen Ausdruck.
 	 *         Die Methode arbeiten im Gegensatz zu {@link #interpret(Kontext)}
 	 *         nicht rekursiv.
@@ -96,7 +96,7 @@ public interface Ausdruck {
 
 	/**
 	 * Interpretiert den Ausdruck im gegebenen Kontext.
-	 * 
+	 *
 	 * @param kontext
 	 *            Kontext, indem der Ausdruck ausgewertet wird
 	 * @return Wert des interpretierten Ausdrucks

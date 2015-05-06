@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -31,7 +31,7 @@ import de.bsvrz.sys.funclib.bitctrl.math.RationaleZahl;
 /**
  * Enth&auml;t verschiedene Algorithmen zur L&ouml;sung von linearen
  * Gleichunssystemen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id: Gauss.java 6386 2008-02-08 08:24:20Z Schumann $
  */
@@ -41,12 +41,12 @@ public final class Gauss {
 	 * F&uuml;hrt die LR-Zerlegung einer Matrix durch. Die beiden Matrizen L und
 	 * R stehen im Ergebnis in einer Matrix, wobei die diagonalen Elemente der
 	 * Matrix L die immer gleich 1 sind, nicht gespeichert werden.
-	 * 
+	 *
 	 * @param a
 	 *            Eine quadratische Matrix
 	 * @return Das Ergebnis der LR-Zerlegung
 	 */
-	public static Matrix bestimmeLRZerlegung(Matrix a) {
+	public static Matrix bestimmeLRZerlegung(final Matrix a) {
 		if (a.anzahlZeilen() != a.anzahlSpalten()) {
 			throw new IllegalArgumentException(
 					"Die Anzahl der Zeilen und Spalten der Matrix sind nicht identisch.");
@@ -81,8 +81,8 @@ public final class Gauss {
 				neueZeile = lr.getZeilenvektor(i);
 				neueZeile.set(j, f);
 				for (int k = j + 1; k < neueZeile.anzahlKomponenten(); k++) {
-					neueZeile.set(k, RationaleZahl.subtrahiere(
-							neueZeile.get(k), v0.get(k)));
+					neueZeile.set(k, RationaleZahl.subtrahiere(neueZeile.get(k),
+							v0.get(k)));
 				}
 				lr.setZeilenvektor(i, neueZeile);
 			}
@@ -93,12 +93,12 @@ public final class Gauss {
 
 	/**
 	 * Extrahiert aus der LR-Matrix die untere Dreiecksmatrix L.
-	 * 
+	 *
 	 * @param lr
 	 *            Eine LR-Zerlegung
 	 * @return Die untere Dreiecksmatrix L.
 	 */
-	public static Matrix extrahiereMatrixL(Matrix lr) {
+	public static Matrix extrahiereMatrixL(final Matrix lr) {
 		Matrix l;
 
 		l = new Matrix(lr.anzahlZeilen(), lr.anzahlSpalten());
@@ -117,12 +117,12 @@ public final class Gauss {
 
 	/**
 	 * Extrahiert aus der LR-Matrix die obere Dreiecksmatrix R.
-	 * 
+	 *
 	 * @param lr
 	 *            Eine LR-Zerlegung
 	 * @return Die obere Dreiecksmatrix R.
 	 */
-	public static Matrix extrahiereMatrixR(Matrix lr) {
+	public static Matrix extrahiereMatrixR(final Matrix lr) {
 		Matrix r;
 
 		r = new Matrix(lr.anzahlZeilen(), lr.anzahlSpalten());
@@ -140,14 +140,14 @@ public final class Gauss {
 	/**
 	 * L&ouml;st ein lineares Gleichungssystem durch vollst&auml;ndige
 	 * Elimination.
-	 * 
+	 *
 	 * @param a
 	 *            Koeffizientenmatrix des LGS
 	 * @param b
 	 *            Absoultes Glied des LGS
 	 * @return Der L&ouml;sungsvektor
 	 */
-	public static Vektor loeseLGS(Matrix a, Vektor b) {
+	public static Vektor loeseLGS(final Matrix a, final Vektor b) {
 		Matrix d;
 
 		if (a.anzahlZeilen() != a.anzahlSpalten()) {
@@ -196,12 +196,12 @@ public final class Gauss {
 
 	/**
 	 * Bestimmt die obere Dreiecksmatrix mittels Gauss-Algorithmus.
-	 * 
+	 *
 	 * @param m
 	 *            Eine Matrix
 	 * @return Die berechnte obere Dreiecksmatrix
 	 */
-	public static Matrix obereDreiecksmatrix(Matrix m) {
+	public static Matrix obereDreiecksmatrix(final Matrix m) {
 		Matrix d;
 
 		d = new Matrix(m);
@@ -245,12 +245,12 @@ public final class Gauss {
 
 	/**
 	 * Bestimmt die untere Dreiecksmatrix mittels Gauss-Algorithmus.
-	 * 
+	 *
 	 * @param m
 	 *            Eine Matrix
 	 * @return Die berechnte untere Dreiecksmatrix
 	 */
-	public static Matrix untereDreiecksmatrix(Matrix m) {
+	public static Matrix untereDreiecksmatrix(final Matrix m) {
 		Matrix d;
 
 		d = new Matrix(m);
@@ -294,7 +294,7 @@ public final class Gauss {
 
 	/**
 	 * Konstruktor verstecken, da es nur statische Methoden gibt.
-	 * 
+	 *
 	 */
 	private Gauss() {
 		// nix

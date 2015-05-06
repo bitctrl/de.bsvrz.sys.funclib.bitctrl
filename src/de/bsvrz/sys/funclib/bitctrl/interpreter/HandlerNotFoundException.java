@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -29,9 +29,10 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter;
 /**
  * Exceptions, die geworfen wird, wenn für die Ausführung einer Operation kein
  * gültiger Handler gefunden werden konnte.
- * 
+ *
  * @author BitCtrl Systems GmbH, Uwe Peuker
- * @version $Id: HandlerNotFoundException.java 6835 2008-02-21 13:04:58Z peuker $
+ * @version $Id: HandlerNotFoundException.java 6835 2008-02-21 13:04:58Z peuker
+ *          $
  */
 public class HandlerNotFoundException extends InterpreterException {
 
@@ -42,11 +43,11 @@ public class HandlerNotFoundException extends InterpreterException {
 
 	/**
 	 * Konstruktor.
-	 * 
+	 *
 	 * @param string
 	 *            der Meldungstext
 	 */
-	public HandlerNotFoundException(String string) {
+	public HandlerNotFoundException(final String string) {
 		super(string);
 	}
 }

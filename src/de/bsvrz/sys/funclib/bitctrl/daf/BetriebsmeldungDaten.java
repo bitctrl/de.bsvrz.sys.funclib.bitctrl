@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 /**
  * Klasse zur Speicherung aller für die Erstellung einer Betriebsmeldung
  * relevanten Daten.
- * 
+ *
  * @author BitCtrl Systems GmbH, peuker
  * @version $Id$
  */
@@ -56,7 +56,7 @@ public class BetriebsmeldungDaten {
 	/** der Status der Meldung. */
 	private MessageState state = MessageState.MESSAGE;
 
-	/** Standard-Konstruktor.	 */
+	/** Standard-Konstruktor. */
 	public BetriebsmeldungDaten() {
 		causer = new MessageCauser(null, "", "");
 	}
@@ -64,11 +64,11 @@ public class BetriebsmeldungDaten {
 	/**
 	 * Erzeugt eine Instanz des {@link BetriebsmeldungDaten} mit Standardwerten
 	 * und der übergebenen Referenz.
-	 * 
+	 *
 	 * @param reference
 	 *            das Referenzobjekt
 	 */
-	public BetriebsmeldungDaten(SystemObject reference) {
+	public BetriebsmeldungDaten(final SystemObject reference) {
 		this();
 		setReference(reference);
 	}
@@ -78,7 +78,7 @@ public class BetriebsmeldungDaten {
 	 * mit einer Referenz auf den aktuellen Nutzer der zu Grunde liegenden
 	 * Datenverteilerverbindung und leeren Kommentartexten. Dies entspricht dem
 	 * Standardverhalten des {@link MessageSender}.
-	 * 
+	 *
 	 * @return den Verursacher
 	 */
 	public MessageCauser getCauser() {
@@ -88,7 +88,7 @@ public class BetriebsmeldungDaten {
 	/**
 	 * liefert die definierte ID der Meldung. Der Standardwert ist
 	 * <code>null</code>.
-	 * 
+	 *
 	 * @return die ID oder <code>null</code>
 	 */
 	public String getId() {
@@ -98,7 +98,7 @@ public class BetriebsmeldungDaten {
 	/**
 	 * liefert das mit der Meldung assoziierte Systemobjekt. Der Standardwert
 	 * ist <code>null</code>.
-	 * 
+	 *
 	 * @return das Objekt oder <code>null</code>
 	 */
 	public SystemObject getReference() {
@@ -108,7 +108,7 @@ public class BetriebsmeldungDaten {
 	/**
 	 * liefert den Status der Meldung (Meldung, widerholte Meldung, Gutmeldung,
 	 * ...). Der Standardwert ist {@link MessageState#MESSAGE}, einfach Meldung.
-	 * 
+	 *
 	 * @return den Status
 	 */
 	public MessageState getState() {
@@ -118,7 +118,7 @@ public class BetriebsmeldungDaten {
 	/**
 	 * liefert den Typ der Meldung. Der Standardwert ist
 	 * {@link MessageType#APPLICATION_DOMAIN}.
-	 * 
+	 *
 	 * @return den Typ
 	 */
 	public MessageType getType() {
@@ -128,12 +128,12 @@ public class BetriebsmeldungDaten {
 	/**
 	 * setzt den Verursacher der Meldung. Wenn <code>null</code> übergeben wird,
 	 * wird ein Standardverursacher erzeugt.
-	 * 
+	 *
 	 * @param causer
 	 *            der definierte Verursacher oder <code>null</code> für den
 	 *            Standardwert
 	 */
-	public void setCauser(MessageCauser causer) {
+	public void setCauser(final MessageCauser causer) {
 		if (causer == null) {
 			this.causer = new MessageCauser(null, "", "");
 		} else {
@@ -143,32 +143,32 @@ public class BetriebsmeldungDaten {
 
 	/**
 	 * setzt explizit die ID der Meldung.
-	 * 
+	 *
 	 * @param id
 	 *            die ID
 	 */
-	public void setId(String id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 
 	/**
 	 * setzt das mit der Meldung assoziierte Systemobjekt.
-	 * 
+	 *
 	 * @param reference
 	 *            das Objekt
 	 */
-	public void setReference(SystemObject reference) {
+	public void setReference(final SystemObject reference) {
 		this.reference = reference;
 	}
 
 	/**
 	 * setzt den Status der Meldung. Wenn <code>null</code> übergeben wird, wird
 	 * der Standardwert {@link MessageState#MESSAGE} gesetzt.
-	 * 
+	 *
 	 * @param state
 	 *            der Status oder <code>null</code> für den Standardwert
 	 */
-	public void setState(MessageState state) {
+	public void setState(final MessageState state) {
 		if (state == null) {
 			this.state = MessageState.MESSAGE;
 		} else {
@@ -179,11 +179,11 @@ public class BetriebsmeldungDaten {
 	/**
 	 * setzt den Typ der Meldung. Wenn <code>null</code> übergeben wird, wird
 	 * der Standardwert {@link MessageType#APPLICATION_DOMAIN} gesetzt.
-	 * 
+	 *
 	 * @param type
 	 *            der Typ oder <code>null</code> für den Standardwert
 	 */
-	public void setType(MessageType type) {
+	public void setType(final MessageType type) {
 		if (type != null) {
 			this.type = MessageType.APPLICATION_DOMAIN;
 		} else {

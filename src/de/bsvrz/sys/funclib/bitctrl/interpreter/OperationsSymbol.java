@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Ein Nicht-Terminal-Symbol des Interpreters, sprich ein Operatorsymbol bzw
  * eine Operation.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id: OperationsSymbol.java 6835 2008-02-21 13:04:58Z peuker $
  */
@@ -52,7 +52,7 @@ public class OperationsSymbol implements Ausdruck {
 
 	/**
 	 * Konstruiert ein Symbol mit den gegebenen Operator und Operanden.
-	 * 
+	 *
 	 * @param operator
 	 *            Operator
 	 * @param operanden
@@ -60,7 +60,8 @@ public class OperationsSymbol implements Ausdruck {
 	 * @throws NullPointerException
 	 *             Wenn ein Funktionsparameter {@code null} ist
 	 */
-	public OperationsSymbol(Operator operator, Ausdruck... operanden) {
+	public OperationsSymbol(final Operator operator,
+			final Ausdruck... operanden) {
 		if (operator == null || operanden == null) {
 			throw new NullPointerException();
 		}
@@ -74,7 +75,7 @@ public class OperationsSymbol implements Ausdruck {
 
 	/**
 	 * Konstruiert ein Symbol mit den gegebenen Operator und Operanden.
-	 * 
+	 *
 	 * @param operator
 	 *            Operator
 	 * @param operanden
@@ -82,14 +83,14 @@ public class OperationsSymbol implements Ausdruck {
 	 * @throws NullPointerException
 	 *             Wenn ein Funktionsparameter {@code null} ist
 	 */
-	public OperationsSymbol(Operator operator,
-			List<? extends Ausdruck> operanden) {
+	public OperationsSymbol(final Operator operator,
+			final List<? extends Ausdruck> operanden) {
 		this(operator, operanden.toArray(new Ausdruck[0]));
 	}
 
 	/**
 	 * Konstruiert ein Symbol mit den gegebenen Operatorsymbol und Operanden.
-	 * 
+	 *
 	 * @param operatorSymbol
 	 *            Operator
 	 * @param operanden
@@ -97,13 +98,14 @@ public class OperationsSymbol implements Ausdruck {
 	 * @throws NullPointerException
 	 *             Wenn ein Funktionsparameter {@code null} ist
 	 */
-	public OperationsSymbol(String operatorSymbol, Ausdruck... operanden) {
+	public OperationsSymbol(final String operatorSymbol,
+			final Ausdruck... operanden) {
 		this(Operator.getOperator(operatorSymbol), operanden);
 	}
 
 	/**
 	 * Konstruiert ein Symbol mit den gegebenen Operatorsymbol und Operanden.
-	 * 
+	 *
 	 * @param operatorSymbol
 	 *            Operator
 	 * @param operanden
@@ -111,8 +113,8 @@ public class OperationsSymbol implements Ausdruck {
 	 * @throws NullPointerException
 	 *             Wenn ein Funktionsparameter {@code null} ist
 	 */
-	public OperationsSymbol(String operatorSymbol,
-			List<? extends Ausdruck> operanden) {
+	public OperationsSymbol(final String operatorSymbol,
+			final List<? extends Ausdruck> operanden) {
 		this(operatorSymbol, operanden.toArray(new Ausdruck[0]));
 	}
 
@@ -125,7 +127,7 @@ public class OperationsSymbol implements Ausdruck {
 
 	/**
 	 * Gibt die Operanden der Operation zur&uuml;ck.
-	 * 
+	 *
 	 * @return Die Liste der Operanden
 	 */
 	public List<? extends Ausdruck> getOperanden() {
@@ -134,7 +136,7 @@ public class OperationsSymbol implements Ausdruck {
 
 	/**
 	 * Gibt den Operator dieser Operation zur&uuml;ck.
-	 * 
+	 *
 	 * @return Operator
 	 */
 	public Operator getOperator() {
@@ -146,11 +148,11 @@ public class OperationsSymbol implements Ausdruck {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Object interpret(Kontext kontext) {
+	public Object interpret(final Kontext kontext) {
 		assert operator != null;
 
-		List<Object> values = new ArrayList<Object>();
-		for (Ausdruck a : operanden) {
+		final List<Object> values = new ArrayList<Object>();
+		for (final Ausdruck a : operanden) {
 			if (a != null) {
 				values.add(a.interpret(kontext));
 			} else {
@@ -163,7 +165,7 @@ public class OperationsSymbol implements Ausdruck {
 
 	/**
 	 * {@inheritDoc}.<br>
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -178,7 +180,7 @@ public class OperationsSymbol implements Ausdruck {
 			result += operator + " " + operanden.get(0);
 		} else {
 			// Es gibt mehr als einen Operanden
-			Iterator<Ausdruck> i = operanden.iterator();
+			final Iterator<Ausdruck> i = operanden.iterator();
 			Ausdruck a = i.next();
 
 			result += a.toString(); // erster Operand

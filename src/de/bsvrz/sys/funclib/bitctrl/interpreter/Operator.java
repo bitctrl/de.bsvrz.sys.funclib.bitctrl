@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -40,7 +40,7 @@ import com.bitctrl.i18n.Messages;
  * Operatorsymbol kann abh&auml;ngig vom Kontext im Ausdruck eine andere
  * Operation darstellen. Deshalb f&uuml;hrt jeder Operator eine Liste von
  * {@link Handler} die ihn behandeln können.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id: Operator.java 6835 2008-02-21 13:04:58Z peuker $
  */
@@ -53,13 +53,13 @@ public final class Operator {
 	/**
 	 * ermiitelt, ob in der Menge der Operatoren ein Operator mit dem gegebenen
 	 * Namen existiert..
-	 * 
+	 *
 	 * @param symbol
 	 *            Operationsymbol
 	 * @return true, wenn der Operator existiert
 	 */
-	public static boolean enthaelt(String symbol) {
-		String sym = symbol.trim();
+	public static boolean enthaelt(final String symbol) {
+		final String sym = symbol.trim();
 
 		return operatorMenge.containsKey(sym);
 	}
@@ -67,18 +67,18 @@ public final class Operator {
 	/**
 	 * Gibt den Operator zu einem Symbol zur&uuml;ck. Der Operator wird neu
 	 * erzeugt, wenn das Symbol noch unbekannt ist.
-	 * 
+	 *
 	 * @param symbol
 	 *            Operationsymbol
 	 * @return Operator
 	 */
-	public static Operator getOperator(String symbol) {
+	public static Operator getOperator(final String symbol) {
 		if (!isPrintable(symbol)) {
-			throw new InterpreterException(Messages
-					.get(InterpreterMessages.BadSymbol));
+			throw new InterpreterException(
+					Messages.get(InterpreterMessages.BadSymbol));
 		}
 
-		String sym = symbol.trim();
+		final String sym = symbol.trim();
 
 		if (operatorMenge.containsKey(sym)) {
 			return operatorMenge.get(sym);
@@ -90,17 +90,17 @@ public final class Operator {
 	/**
 	 * Registriert einen Handler. Der Handler wird in die jeweiligen Listen der
 	 * von ihm unterst&uuml;tzten Operatoren eingetragen.
-	 * 
+	 *
 	 * @param handler
 	 *            Handler
 	 */
-	public static void registerHandler(Handler handler) {
+	public static void registerHandler(final Handler handler) {
 		if (handler == null) {
-			throw new InterpreterException(Messages
-					.get(InterpreterMessages.BadHandlerNull));
+			throw new InterpreterException(
+					Messages.get(InterpreterMessages.BadHandlerNull));
 		}
 
-		for (Operator o : handler.getHandledOperators()) {
+		for (final Operator o : handler.getHandledOperators()) {
 			o.addHandler(handler);
 		}
 	}
@@ -113,29 +113,29 @@ public final class Operator {
 	/**
 	 * Menge aller Handler dieses Operators.
 	 */
-	private List<Handler> handler = new ArrayList<Handler>();
+	private final List<Handler> handler = new ArrayList<Handler>();
 
 	/**
 	 * Konstruktor verstecken.
-	 * 
+	 *
 	 * @param symbol
 	 *            Die Zeichenkette, die das Operatorsymbol darstellt
 	 */
-	private Operator(String symbol) {
+	private Operator(final String symbol) {
 		this.symbol = symbol;
 		operatorMenge.put(symbol, this);
 	}
 
 	/**
 	 * Liste der Handler dieses Operators erg&auml;nzen.
-	 * 
+	 *
 	 * @param h
 	 *            Ein neuer Handler
 	 */
-	private void addHandler(Handler h) {
+	private void addHandler(final Handler h) {
 		assert h != null;
 		Handler replace = null;
-		for (Handler item : handler) {
+		for (final Handler item : handler) {
 			if ((h.getClass().equals(item.getClass()))
 					|| (h.getClass().isInstance(item))) {
 				return;
@@ -154,15 +154,15 @@ public final class Operator {
 	/**
 	 * {@inheritDoc}.<br>
 	 * Zwei Operatoren sind gleich, wenn sie das selbe Symbol darstellen.
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (obj instanceof Operator) {
-			Operator op = (Operator) obj;
+			final Operator op = (Operator) obj;
 
-			if (this.getSymbol() == op.getSymbol()) {
+			if (getSymbol() == op.getSymbol()) {
 				return true;
 			}
 		}
@@ -175,18 +175,18 @@ public final class Operator {
 	 * von links nach rechts bzw. in der Reihenfolge der Iteration abgearbeitet.
 	 * Wenn kein passender Handler gefunden wurde, wird eine
 	 * {@link InterpreterException} geworfen.
-	 * 
+	 *
 	 * @param werte
 	 *            Menge von Operanden
 	 * @return Ergebnis der Operation
 	 */
-	public Object execute(List<Object> werte) {
+	public Object execute(final List<Object> werte) {
 		if (handler.size() == 0) {
-			throw new InterpreterException(Messages.get(
-					InterpreterMessages.HandlerNotFound, getSymbol()));
+			throw new InterpreterException(Messages
+					.get(InterpreterMessages.HandlerNotFound, getSymbol()));
 		}
 
-		for (Handler h : handler) {
+		for (final Handler h : handler) {
 			if (h.validiereHandler(this, werte).isValid()) {
 				return h.perform(this, werte);
 			}
@@ -201,26 +201,26 @@ public final class Operator {
 	 * von links nach rechts bzw. in der Reihenfolge der Iteration abgearbeitet.
 	 * Wenn kein passender Handler für die Operation gefunden wird, wird eine
 	 * {@link InterpreterException} geworfen.
-	 * 
+	 *
 	 * @param werte
 	 *            Menge von Operanden
 	 * @return Ergebnis der Operation
 	 */
-	public Object execute(Object... werte) {
+	public Object execute(final Object... werte) {
 		return execute(Arrays.asList(werte));
 	}
 
 	/**
 	 * Liefert den Name des Symbols mit den Typen der Operanden.
-	 * 
+	 *
 	 * @param werte
 	 *            Die Operanden
 	 * @return Den Text
 	 */
 	@SuppressWarnings("nls")
-	private String getAufrufString(List<Object> werte) {
-		StringBuffer meldung = new StringBuffer("(");
-		for (Object wert : werte) {
+	private String getAufrufString(final List<Object> werte) {
+		final StringBuffer meldung = new StringBuffer("(");
+		for (final Object wert : werte) {
 			if (meldung.length() > 1) {
 				meldung.append(',');
 			}
@@ -238,7 +238,7 @@ public final class Operator {
 
 	/**
 	 * Gibt das Symbol des Operators zur&uuml;ck.
-	 * 
+	 *
 	 * @return Operatorsymbol
 	 */
 	public String getSymbol() {
@@ -250,7 +250,7 @@ public final class Operator {
 	/**
 	 * {@inheritDoc}.<br>
 	 * Gibt das Symbol des Operators zur&uuml;ck
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

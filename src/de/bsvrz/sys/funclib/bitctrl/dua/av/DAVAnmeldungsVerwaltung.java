@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -39,10 +39,11 @@ import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Abstrakte Verwaltungsklasse für Datenanmeldungen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id: DAVAnmeldungsVerwaltung.java 8272 2008-04-16 07:28:31Z tfelder $
+ *
+ * @version $Id: DAVAnmeldungsVerwaltung.java 8272 2008-04-16 07:28:31Z tfelder
+ *          $
  */
 public abstract class DAVAnmeldungsVerwaltung {
 
@@ -64,7 +65,7 @@ public abstract class DAVAnmeldungsVerwaltung {
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param dav
 	 *            Datenverteilerverbindung
 	 */
@@ -78,7 +79,7 @@ public abstract class DAVAnmeldungsVerwaltung {
 	 * bleiben.<br>
 	 * D.h. insbesondere, dass eine übergebene leere Liste alle bereits
 	 * durchgeführten Anmeldungen wieder rückgängig macht.
-	 * 
+	 *
 	 * @param neueObjektAnmeldungen
 	 *            die neue Liste mit Objektanmeldungen
 	 */
@@ -88,22 +89,22 @@ public abstract class DAVAnmeldungsVerwaltung {
 		// Debug Anfang
 		String info = Constants.EMPTY_STRING;
 		if (DEBUG) {
-			info = "Verlangte Anmeldungen (" + this.getInfo() + "): "; //$NON-NLS-1$ //$NON-NLS-2$
+			info = "Verlangte Anmeldungen (" + getInfo() + "): "; //$NON-NLS-1$ //$NON-NLS-2$
 			if (neueObjektAnmeldungen.size() == 0) {
 				info += "keine\n"; //$NON-NLS-1$
 			} else {
 				info += "\n"; //$NON-NLS-1$
 			}
-			for (DAVObjektAnmeldung neueObjektAnmeldung : neueObjektAnmeldungen) {
+			for (final DAVObjektAnmeldung neueObjektAnmeldung : neueObjektAnmeldungen) {
 				info += neueObjektAnmeldung;
 			}
-			info += "Bisherige Anmeldungen (" + this.getInfo() + "): "; //$NON-NLS-1$ //$NON-NLS-2$
+			info += "Bisherige Anmeldungen (" + getInfo() + "): "; //$NON-NLS-1$ //$NON-NLS-2$
 			if (aktuelleObjektAnmeldungen.size() == 0) {
 				info += "keine\n"; //$NON-NLS-1$
 			} else {
 				info += "\n"; //$NON-NLS-1$
 			}
-			for (DAVObjektAnmeldung aktuelleObjektAnmeldung : aktuelleObjektAnmeldungen
+			for (final DAVObjektAnmeldung aktuelleObjektAnmeldung : aktuelleObjektAnmeldungen
 					.keySet()) {
 				info += aktuelleObjektAnmeldung;
 			}
@@ -111,15 +112,15 @@ public abstract class DAVAnmeldungsVerwaltung {
 		// Debug Ende
 
 		synchronized (this) {
-			Collection<DAVObjektAnmeldung> diffObjekteAnmeldungen = new TreeSet<DAVObjektAnmeldung>();
-			for (DAVObjektAnmeldung neueAnmeldung : neueObjektAnmeldungen) {
+			final Collection<DAVObjektAnmeldung> diffObjekteAnmeldungen = new TreeSet<DAVObjektAnmeldung>();
+			for (final DAVObjektAnmeldung neueAnmeldung : neueObjektAnmeldungen) {
 				if (!aktuelleObjektAnmeldungen.containsKey(neueAnmeldung)) {
 					diffObjekteAnmeldungen.add(neueAnmeldung);
 				}
 			}
 
-			Collection<DAVObjektAnmeldung> diffObjekteAbmeldungen = new TreeSet<DAVObjektAnmeldung>();
-			for (DAVObjektAnmeldung aktuelleAnmeldung : aktuelleObjektAnmeldungen
+			final Collection<DAVObjektAnmeldung> diffObjekteAbmeldungen = new TreeSet<DAVObjektAnmeldung>();
+			for (final DAVObjektAnmeldung aktuelleAnmeldung : aktuelleObjektAnmeldungen
 					.keySet()) {
 				if (!neueObjektAnmeldungen.contains(aktuelleAnmeldung)) {
 					diffObjekteAbmeldungen.add(aktuelleAnmeldung);
@@ -141,7 +142,7 @@ public abstract class DAVAnmeldungsVerwaltung {
 
 	/**
 	 * Führt alle übergebenen Daten<b>ab</b>meldungen durch.
-	 * 
+	 *
 	 * @param abmeldungen
 	 *            durchzuführende Daten<b>ab</b>meldungen
 	 * @return eine Liste aller <b>ab</b>gemeldeten Einzel-Anmeldungen als
@@ -152,7 +153,7 @@ public abstract class DAVAnmeldungsVerwaltung {
 
 	/**
 	 * Führt alle übergebenen Daten<b>an</b>meldungen durch.
-	 * 
+	 *
 	 * @param anmeldungen
 	 *            durchzuführende Daten<b>an</b>meldungen
 	 * @return eine Liste aller neu <b>an</b>gemeldeten Einzel-Anmeldungen als
@@ -163,7 +164,7 @@ public abstract class DAVAnmeldungsVerwaltung {
 
 	/**
 	 * Erfragt Informationen zum Anmeldungsverhalten.
-	 * 
+	 *
 	 * @return Informationen zum Anmeldungsverhalten
 	 */
 	protected abstract String getInfo();
@@ -171,9 +172,9 @@ public abstract class DAVAnmeldungsVerwaltung {
 	/**
 	 * Der Zustand einer Datenbeschreibung bwzüglich der Sendesteuerung und der
 	 * aktuell veroeffentlichten Daten.
-	 * 
+	 *
 	 * @author BitCtrl Systems GmbH, Thierfelder
-	 * 
+	 *
 	 */
 	protected class SendeStatus {
 
@@ -196,7 +197,7 @@ public abstract class DAVAnmeldungsVerwaltung {
 
 		/**
 		 * Standardkonstruktor.
-		 * 
+		 *
 		 * @param status
 		 *            aktueller Zustand der Sendesteuerung
 		 * @param imMomentKeineDaten
@@ -204,30 +205,30 @@ public abstract class DAVAnmeldungsVerwaltung {
 		 *            <code>keine Daten</code> oder <code>keine Quelle</code>
 		 *            steht
 		 */
-		public SendeStatus(byte status, boolean imMomentKeineDaten) {
+		public SendeStatus(final byte status,
+				final boolean imMomentKeineDaten) {
 			this.status = status;
 			this.imMomentKeineDaten = imMomentKeineDaten;
 		}
 
 		/**
 		 * Erfragt den aktuellen Zustand der Sendesteuerung.
-		 * 
+		 *
 		 * @return aktueller Zustand der Sendesteuerung
 		 */
 		public final byte getStatus() {
-			return this.status;
+			return status;
 		}
 
 		/**
 		 * Erfragt ob die Datenbeschreibung im Moment auf
 		 * <code>keine Daten</code> oder <code>keine Quelle</code> steht.
-		 * 
+		 *
 		 * @return ob die Datenbeschreibung im Moment auf
-		 *         <code>keine Daten</code> oder <code>keine Quelle</code>
-		 *         steht
+		 *         <code>keine Daten</code> oder <code>keine Quelle</code> steht
 		 */
 		public final boolean isImMomentKeineDaten() {
-			return this.imMomentKeineDaten;
+			return imMomentKeineDaten;
 		}
 
 	}

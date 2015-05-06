@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter;
 /**
  * Basis-Implementierung f&uuml;r alle Runtime-Exceptions, die vom Interpreter
  * aktiv geworfen werden k&ouml;nnen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  * @version $Id: InterpreterException.java 6835 2008-02-21 13:04:58Z peuker $
  */
@@ -50,11 +50,11 @@ public class InterpreterException extends RuntimeException {
 	/**
 	 * Konstruktor mit Angabe der Meldung, die die Exception n&auml;her
 	 * beschreibt.
-	 * 
+	 *
 	 * @param meldung
 	 *            der Meldungstext
 	 */
-	public InterpreterException(String meldung) {
+	public InterpreterException(final String meldung) {
 		super(meldung);
 	}
 
@@ -62,24 +62,24 @@ public class InterpreterException extends RuntimeException {
 	 * Konstruktor mit Angabe der urspr&uuml;nglichen Exception, die diese
 	 * ausgel&ouml;st hat und des Meldungstextes, der die Exception n&auml;her
 	 * beschreibt.
-	 * 
+	 *
 	 * @param meldung
 	 *            der Text der Meldung
 	 * @param cause
 	 *            die Ursache
 	 */
-	public InterpreterException(String meldung, Throwable cause) {
+	public InterpreterException(final String meldung, final Throwable cause) {
 		super(meldung, cause);
 	}
 
 	/**
 	 * Konstruktor mit Angabe der urspr&uuml;nglichen Exception, die diese
 	 * ausgel&ouml;st hat.
-	 * 
+	 *
 	 * @param cause
 	 *            die Ursache
 	 */
-	public InterpreterException(Throwable cause) {
+	public InterpreterException(final Throwable cause) {
 		super(cause);
 	}
 

@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -31,9 +31,9 @@ import java.util.HashSet;
 import java.util.TreeSet;
 
 import de.bsvrz.dav.daf.main.Data;
-import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.Data.ReferenceArray;
 import de.bsvrz.dav.daf.main.Data.ReferenceValue;
+import de.bsvrz.dav.daf.main.DataDescription;
 import de.bsvrz.dav.daf.main.config.Aspect;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.SystemObject;
@@ -47,9 +47,9 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
  * Publikationsverhalten bezüglich <b>einer</b> bestimmten SWE, <b>einem</b>
  * bestimmten Modul-Typ und <b>einem</b> Publikationsaspekt beschreiben
  * innerhalb der Datenflusssteuerung beschreiben.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
+ *
  * @version $Id: PublikationsZuordung.java 23685 2010-06-09 15:42:02Z uhlmann $
  */
 public class PublikationsZuordung {
@@ -67,12 +67,12 @@ public class PublikationsZuordung {
 	/**
 	 * die (finalen) Objekte, für die ein Publikationsverhalten beschrieben ist.
 	 */
-	private Collection<SystemObject> objekte = new HashSet<SystemObject>();
+	private final Collection<SystemObject> objekte = new HashSet<SystemObject>();
 
 	/**
 	 * die Attributgruppen, für die ein Publikationsverhalten vorgesehen ist.
 	 */
-	private Collection<AttributeGroup> atgs = new HashSet<AttributeGroup>();
+	private final Collection<AttributeGroup> atgs = new HashSet<AttributeGroup>();
 
 	/**
 	 * soll publiziert werden.
@@ -84,7 +84,7 @@ public class PublikationsZuordung {
 	 * vorgesehen sind (bzw. bei <code>publizieren ==  false</code> explizit
 	 * nicht vorgesehen)
 	 */
-	private Collection<DAVObjektAnmeldung> anmeldungen = new TreeSet<DAVObjektAnmeldung>();
+	private final Collection<DAVObjektAnmeldung> anmeldungen = new TreeSet<DAVObjektAnmeldung>();
 
 	/**
 	 * Standardkonstruktor<br>
@@ -92,49 +92,53 @@ public class PublikationsZuordung {
 	 * Attributgruppen leer sein, so werden <b>alle</b> Objekte bzw.
 	 * Attributgruppen in den übergebenen Konfigurationskereichen (bzw. im
 	 * Standardkonfigurationsbereich) angenommen.
-	 * 
+	 *
 	 * @param data
 	 *            ein Datenverteiler-Datum mit den mit einer
 	 *            Publikationszuordnung assoziierten Daten
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
 	 */
-	protected PublikationsZuordung(final Data data, final IVerwaltung verwaltung) {
-		this.aspekt = (Aspect) data.getReferenceValue(DFSKonstanten.ATT_ASP)
+	protected PublikationsZuordung(final Data data,
+			final IVerwaltung verwaltung) {
+		aspekt = (Aspect) data.getReferenceValue(DFSKonstanten.ATT_ASP)
 				.getSystemObject();
-		this.modulTyp = ModulTyp.getZustand((int) data.getUnscaledValue(
-				DFSKonstanten.ATT_MODUL_TYP).getState().getValue());
-		this.publizieren = data.getTextValue(DFSKonstanten.ATT_PUBLIZIEREN)
-				.getText().toLowerCase().equals("ja"); //$NON-NLS-1$
+		modulTyp = ModulTyp.getZustand(
+				(int) data.getUnscaledValue(DFSKonstanten.ATT_MODUL_TYP)
+				.getState().getValue());
+		publizieren = data.getTextValue(DFSKonstanten.ATT_PUBLIZIEREN).getText()
+				.toLowerCase().equals("ja"); //$NON-NLS-1$
 
-		ReferenceArray objArray = data.getReferenceArray(DFSKonstanten.ATT_OBJ);
+		final ReferenceArray objArray = data
+				.getReferenceArray(DFSKonstanten.ATT_OBJ);
 		if (objArray.getLength() == 0) {
-			this.objekte.addAll(DUAUtensilien.getBasisInstanzen(null,
-					verwaltung.getVerbindung(), verwaltung
-							.getKonfigurationsBereiche()));
+			objekte.addAll(DUAUtensilien.getBasisInstanzen(null,
+					verwaltung.getVerbindung(),
+					verwaltung.getKonfigurationsBereiche()));
 		} else {
-			for (ReferenceValue refVal : objArray.getReferenceValues()) {
-				this.objekte.addAll(DUAUtensilien.getBasisInstanzen(refVal
-						.getSystemObject(), verwaltung.getVerbindung(),
+			for (final ReferenceValue refVal : objArray.getReferenceValues()) {
+				objekte.addAll(DUAUtensilien.getBasisInstanzen(
+						refVal.getSystemObject(), verwaltung.getVerbindung(),
 						verwaltung.getKonfigurationsBereiche()));
 			}
 		}
 
-		ReferenceArray atgArray = data.getReferenceArray(DFSKonstanten.ATT_ATG);
+		final ReferenceArray atgArray = data
+				.getReferenceArray(DFSKonstanten.ATT_ATG);
 		if (atgArray.getLength() == 0) {
-			this.atgs.add(null);
+			atgs.add(null);
 		} else {
-			for (ReferenceValue refVal : atgArray.getReferenceValues()) {
-				this.atgs.add((AttributeGroup) refVal.getSystemObject());
+			for (final ReferenceValue refVal : atgArray.getReferenceValues()) {
+				atgs.add((AttributeGroup) refVal.getSystemObject());
 			}
 		}
 
-		for (AttributeGroup atg : this.atgs) {
-			DataDescription datenBeschreibung = new DataDescription(atg,
-					this.aspekt);
+		for (final AttributeGroup atg : atgs) {
+			final DataDescription datenBeschreibung = new DataDescription(atg,
+					aspekt);
 
-			for (SystemObject finObj : this.objekte) {
-				this.anmeldungen.addAll(DUAUtensilien.getAlleObjektAnmeldungen(
+			for (final SystemObject finObj : objekte) {
+				anmeldungen.addAll(DUAUtensilien.getAlleObjektAnmeldungen(
 						finObj, datenBeschreibung, verwaltung.getVerbindung()));
 			}
 		}
@@ -144,16 +148,16 @@ public class PublikationsZuordung {
 	 * Erfragt die Objektanmeldungen, die innerhalb dieser Publikationszuordnung
 	 * vorgesehen sind (bzw. bei <code>publizieren ==  false</code> explizit
 	 * nicht vorgesehen sind)
-	 * 
+	 *
 	 * @return eine Menge von Objektanmeldungen
 	 */
 	public Collection<DAVObjektAnmeldung> getObjektAnmeldungen() {
-		return this.anmeldungen;
+		return anmeldungen;
 	}
 
 	/**
 	 * Erfragt den Aspekt.
-	 * 
+	 *
 	 * @return den Aspekt
 	 */
 	public Aspect getAspekt() {
@@ -162,7 +166,7 @@ public class PublikationsZuordung {
 
 	/**
 	 * Erfragt den Modul-Typ, für den diese Piblikationszuordnung gilt.
-	 * 
+	 *
 	 * @return der Modul-Typs
 	 */
 	public final ModulTyp getModulTyp() {
@@ -171,7 +175,7 @@ public class PublikationsZuordung {
 
 	/**
 	 * Erfragt das Publikations-FLAG.
-	 * 
+	 *
 	 * @return das Publikations-FLAG
 	 */
 	public final boolean isPublizieren() {
@@ -180,7 +184,7 @@ public class PublikationsZuordung {
 
 	/**
 	 * Erfragt alle hier definierten Attributgruppen.
-	 * 
+	 *
 	 * @return alle hier definierten Attributgruppen
 	 */
 	public final Collection<AttributeGroup> getAtgs() {
@@ -189,11 +193,11 @@ public class PublikationsZuordung {
 
 	/**
 	 * Erfragt die Menge aller hier definierten (finalen) Objekte.
-	 * 
+	 *
 	 * @return die Menge aller hier definierten (finalen) Objekte
 	 */
 	public final Collection<SystemObject> getObjekte() {
-		return this.objekte;
+		return objekte;
 	}
 
 	/**
@@ -206,31 +210,31 @@ public class PublikationsZuordung {
 	 * 4. eine Objekt-Überschneidung innerhalb der Member-SystemObjekte von
 	 * <code>this</code> und <code>vergleichsObj</code> besteht UND<br>
 	 * 5. die Schnittmenge der Member-Attributgruppen nicht leer ist.<br>
-	 * 
+	 *
 	 * @param that
 	 *            das Objekt, mit dem dieses verglichen werden soll
 	 * @return <code>null</code> wenn kein Widerspruch vorliegt und eine den
 	 *         Widerspruch illustrierende Fehlermeldung sonst.
 	 */
 	public final String isKompatibelMit(final PublikationsZuordung that) {
-		if (this.modulTyp.equals(that.getModulTyp()) && // 1.
-				this.isPublizieren() && that.isPublizieren() && // 2.
-				!this.getAspekt().equals(that.getAspekt())) { // 3.
+		if (modulTyp.equals(that.getModulTyp()) && // 1.
+				isPublizieren() && that.isPublizieren() && // 2.
+				!getAspekt().equals(that.getAspekt())) { // 3.
 
-			for (DAVObjektAnmeldung thisAnmeldung : this.getObjektAnmeldungen()) { // 4. &
-																					// 5.
-				for (DAVObjektAnmeldung thatAnmeldung : that
+			for (final DAVObjektAnmeldung thisAnmeldung : getObjektAnmeldungen()) { // 4.
+				// &
+				// 5.
+				for (final DAVObjektAnmeldung thatAnmeldung : that
 						.getObjektAnmeldungen()) {
-					if (thisAnmeldung.getObjekt().equals(
-							thatAnmeldung.getObjekt())
+					if (thisAnmeldung.getObjekt()
+							.equals(thatAnmeldung.getObjekt())
 							&& thisAnmeldung.getDatenBeschreibung()
-									.getAttributeGroup().equals(
-											thatAnmeldung
-													.getDatenBeschreibung()
-													.getAttributeGroup())) {
+									.getAttributeGroup()
+							.equals(thatAnmeldung.getDatenBeschreibung()
+									.getAttributeGroup())) {
 						return "Die beiden Objektanmeldungen sind für" + //$NON-NLS-1$
-								" die Datenflusssteuerung widersprüchlich:\n" + //$NON-NLS-1$ 
-								thisAnmeldung + "\n" + thatAnmeldung; //$NON-NLS-1$							
+								" die Datenflusssteuerung widersprüchlich:\n" + //$NON-NLS-1$
+								thisAnmeldung + "\n" + thatAnmeldung; //$NON-NLS-1$
 					}
 				}
 			}
@@ -247,10 +251,10 @@ public class PublikationsZuordung {
 		String s = "Modul-Typ: " + modulTyp + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		s += "Aspekt: " + aspekt + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		s += "Publizieren: " + (publizieren ? "ja" : "nein") + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		for (SystemObject obj : objekte) {
+		for (final SystemObject obj : objekte) {
 			s += "Objekt: " + obj + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		for (AttributeGroup atg : atgs) {
+		for (final AttributeGroup atg : atgs) {
 			s += "Atg: " + atg + "\n"; //$NON-NLS-1$//$NON-NLS-2$
 		}
 

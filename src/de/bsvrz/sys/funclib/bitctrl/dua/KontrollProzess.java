@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -39,13 +39,14 @@ import de.bsvrz.sys.funclib.debug.Debug;
 /**
  * Instanzen dieser Klasse rufen zu bestimmten Zeitpunkten all ihre Beobachter
  * auf und teilen diesen dann eine bestimmte Information des generischen Typs
- * <code>T</code> mit. Der Zeitpunkt sowie die Information können dabei
- * während der Laufzeit verändert werden
- * 
+ * <code>T</code> mit. Der Zeitpunkt sowie die Information können dabei während
+ * der Laufzeit verändert werden
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @param <T> Information
- * 
+ *
+ * @param <T>
+ *            Information
+ *
  * @version $Id: KontrollProzess.java 8272 2008-04-16 07:28:31Z tfelder $
  */
 public class KontrollProzess<T> {
@@ -53,12 +54,12 @@ public class KontrollProzess<T> {
 	/**
 	 * der Timer, der den Prozess steuert.
 	 */
-	private Timer timer = null;
+	private final Timer timer;
 
 	/**
 	 * aktueller Prozess.
 	 */
-	private Prozess prozess = null;
+	private Prozess prozess;
 
 	/**
 	 * nächster Zeitpunkt, zu dem dieser Prozess seine Beobachter informiert.
@@ -69,7 +70,7 @@ public class KontrollProzess<T> {
 	 * ein Objekt mit einer bestimmten Information, das beim nächsten
 	 * Aufrufzeitpunkt an alle Beobachterobjekte weitergeleitet wird.
 	 */
-	protected T aktuelleInformation = null;
+	protected T aktuelleInformation;
 
 	/**
 	 * Menge von Beobachtern, die auf diesen Prozess hören.
@@ -90,7 +91,7 @@ public class KontrollProzess<T> {
 	 * informiert<br>
 	 * <b>Achtung:</b> Wenn der nächste Aufrufzeitpunkt in der Vergangenheit
 	 * liegt, wird er sofort ausgeführt.
-	 * 
+	 *
 	 * @param zeitpunktInMillis
 	 *            nächster Zeitpunkt, zu dem dieser Prozess seine Beobachter
 	 *            informiert
@@ -98,14 +99,13 @@ public class KontrollProzess<T> {
 	public final synchronized void setNaechstenAufrufZeitpunkt(
 			final long zeitpunktInMillis) {
 		if (this.naechsterAufrufZeitpunkt != zeitpunktInMillis) {
-			Debug.getLogger().info("Der eingeplante Kontrollzeitpunkt wird verändert" + //$NON-NLS-1$
+			Debug.getLogger()
+			.info("Der eingeplante Kontrollzeitpunkt wird verändert" + //$NON-NLS-1$
 					"\nAlt: "
-					+ DUAKonstanten.ZEIT_FORMAT_GENAU.format(new Date(
-							this.naechsterAufrufZeitpunkt))
-					+ //$NON-NLS-1$
-					"\nNeu: "
-					+ DUAKonstanten.ZEIT_FORMAT_GENAU.format(new Date(
-							zeitpunktInMillis))); //$NON-NLS-1$
+					+ DUAKonstanten.ZEIT_FORMAT_GENAU.format(
+							new Date(this.naechsterAufrufZeitpunkt))
+					+ "\nNeu: " + DUAKonstanten.ZEIT_FORMAT_GENAU
+					.format(new Date(zeitpunktInMillis)));
 			this.naechsterAufrufZeitpunkt = zeitpunktInMillis;
 			this.prozess.cancel();
 			this.timer.purge();
@@ -121,7 +121,7 @@ public class KontrollProzess<T> {
 	 * Beobachter weitergereicht werden soll. Sollte dieser Zeitpunkt identisch
 	 * mit dem bislang eingeplanten Zeitpunkt sein, so werden nur die
 	 * Informationen angepasst
-	 * 
+	 *
 	 * @param zeitpunktInMillis
 	 *            nächster Zeitpunkt, zu dem dieser Prozess seine Beobachter
 	 *            informiert
@@ -138,7 +138,7 @@ public class KontrollProzess<T> {
 	/**
 	 * Erfragt den nächsten Zeitpunkt, zu dem dieser Prozess seine Beobachter
 	 * informiert.
-	 * 
+	 *
 	 * @return nächster Zeitpunkt, zu dem dieser Prozess seine Beobachter
 	 *         informiert
 	 */
@@ -149,7 +149,7 @@ public class KontrollProzess<T> {
 	/**
 	 * Setzt ein Objekt mit einer bestimmten Information, das beim nächsten
 	 * Aufrufzeitpunkt an alle Beobachterobjekte weitergeleitet wird.
-	 * 
+	 *
 	 * @param information
 	 *            ein Objekt mit einer bestimmten Information, das beim nächsten
 	 *            Aufrufzeitpunkt an alle Beobachterobjekte weitergeleitet wird
@@ -161,7 +161,7 @@ public class KontrollProzess<T> {
 	/**
 	 * Erfragt das Objekt mit einer bestimmten Information, das beim nächsten
 	 * Aufrufzeitpunkt an alle Beobachterobjekte weitergeleitet wird.
-	 * 
+	 *
 	 * @return das Objekt mit einer bestimmten Information, das beim nächsten
 	 *         Aufrufzeitpunkt an alle Beobachterobjekte weitergeleitet wird
 	 */
@@ -171,7 +171,7 @@ public class KontrollProzess<T> {
 
 	/**
 	 * Fügt diesem Element einen neuen Beobachter hinzu.
-	 * 
+	 *
 	 * @param listener
 	 *            der neue Beobachter
 	 */
@@ -185,11 +185,12 @@ public class KontrollProzess<T> {
 
 	/**
 	 * Löscht ein Beobachterobjekt.
-	 * 
+	 *
 	 * @param listener
 	 *            das zu löschende Beobachterobjekt
 	 */
-	public final void removeListener(final IKontrollProzessListener<T> listener) {
+	public final void removeListener(
+			final IKontrollProzessListener<T> listener) {
 		if (listener != null) {
 			synchronized (this.listenerMenge) {
 				this.listenerMenge.remove(listener);
@@ -199,9 +200,9 @@ public class KontrollProzess<T> {
 
 	/**
 	 * Prozess, der zu einem bestimmten Zeitpunkt alle Beobachter informiert.
-	 * 
+	 *
 	 * @author BitCtrl Systems GmbH, Thierfelder
-	 * 
+	 *
 	 */
 	protected class Prozess extends TimerTask {
 
@@ -211,7 +212,7 @@ public class KontrollProzess<T> {
 		@Override
 		public void run() {
 			synchronized (KontrollProzess.this.listenerMenge) {
-				for (IKontrollProzessListener<T> listener : KontrollProzess.this.listenerMenge) {
+				for (final IKontrollProzessListener<T> listener : KontrollProzess.this.listenerMenge) {
 					listener.trigger(KontrollProzess.this.aktuelleInformation);
 				}
 			}

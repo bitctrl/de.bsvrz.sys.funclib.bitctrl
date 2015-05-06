@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -28,7 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.math;
 
 /**
  * Hilfsklasse für den vergleich von Zahlen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id: Vergleich.java 6726 2008-02-19 12:27:55Z Schumann $
  * @deprecated verschoben nach {@link com.bitctrl.math.MathTools}.
@@ -39,7 +39,7 @@ public final class Vergleich {
 	/**
 	 * Testet ob die zwei Werte ungef&auml;hr gleich sind. Die maximal erlaubte
 	 * Abweichung wird als dritter Parameter angegeben.
-	 * 
+	 *
 	 * @param a
 	 *            Ein Wert
 	 * @param b
@@ -48,7 +48,8 @@ public final class Vergleich {
 	 *            Maximal erlaubte Abweichung
 	 * @return {@code true}, wenn die beiden Werte ungef&auml;hr gleich sind
 	 */
-	public static boolean ungefaehr(double a, double b, double abweichung) {
+	public static boolean ungefaehr(final double a, final double b,
+			final double abweichung) {
 		if (Math.abs(a - b) < abweichung) {
 			return true;
 		}

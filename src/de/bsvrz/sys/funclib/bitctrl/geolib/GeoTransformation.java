@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -28,13 +28,13 @@ package de.bsvrz.sys.funclib.bitctrl.geolib;
 
 /**
  * Universal Transverse Mercator Projektion.
- * 
+ *
  * Mit Genehmigung von Chuck Taylor
  * (http://home.hiwaay.net/~taylorc/toolbox/geography/geoutm.html)
- * 
+ *
  * @author BitCtrl Systems GmbH, Gieseler
  * @version $Id: GeoTransformation.java 7465 2008-03-14 16:31:41Z gieseler $
- * 
+ *
  */
 public final class GeoTransformation {
 
@@ -77,24 +77,24 @@ public final class GeoTransformation {
 
 	/**
 	 * ArcLengthOfMeridian
-	 * 
+	 *
 	 * Computes the ellipsoidal distance from the equator to a point at a given
 	 * latitude.
-	 * 
+	 *
 	 * Reference: Hoffmann-Wellenhof, B., Lichtenegger, H., and Collins, J.,
 	 * GPS: Theory and Practice, 3rd ed. New York: Springer-Verlag Wien, 1994.
-	 * 
+	 *
 	 * Globals: sm_a - Ellipsoid model major axis. sm_b - Ellipsoid model minor
 	 * axis.
-	 * 
+	 *
 	 * @param phi
 	 *            Latitude of the point, in radians.
-	 * 
+	 *
 	 * @return The ellipsoidal distance of the point from the equator, in
 	 *         meters.
-	 * 
+	 *
 	 */
-	private static double arcLengthOfMeridian(double phi) {
+	private static double arcLengthOfMeridian(final double phi) {
 		double alpha, beta, gamma, delta, epsilon, n;
 		double result;
 
@@ -121,30 +121,28 @@ public final class GeoTransformation {
 		epsilon = (315.0 * Math.pow(n, 4.0) / 512.0);
 
 		/* Now calculate the sum of the series and return */
-		result = alpha
-				* (phi + (beta * Math.sin(2.0 * phi))
-						+ (gamma * Math.sin(4.0 * phi))
-						+ (delta * Math.sin(6.0 * phi)) + (epsilon * Math
-						.sin(8.0 * phi)));
+		result = alpha * (phi + (beta * Math.sin(2.0 * phi))
+				+ (gamma * Math.sin(4.0 * phi)) + (delta * Math.sin(6.0 * phi))
+				+ (epsilon * Math.sin(8.0 * phi)));
 
 		return result;
 	}
 
 	/**
 	 * FootpointLatitude
-	 * 
+	 *
 	 * Computes the footpoint latitude for use in converting transverse Mercator
 	 * coordinates to ellipsoidal coordinates.
-	 * 
+	 *
 	 * Reference: Hoffmann-Wellenhof, B., Lichtenegger, H., and Collins, J.,
 	 * GPS: Theory and Practice, 3rd ed. New York: Springer-Verlag Wien, 1994.
-	 * 
+	 *
 	 * @param y
 	 *            The UTM northing coordinate, in meters.
 	 * @return The UTM northing coordinate, in meters.
-	 * 
+	 *
 	 */
-	private static double footpointLatitude(double y) {
+	private static double footpointLatitude(final double y) {
 		double yF, alphaF, betaF, gammaF, deltaF, epsilonF, n;
 		double result;
 
@@ -184,27 +182,27 @@ public final class GeoTransformation {
 
 	/**
 	 * LatLonToUTMXY
-	 * 
+	 *
 	 * Converts a latitude/longitude pair to x and y coordinates in the
 	 * Universal Transverse Mercator projection.
-	 * 
+	 *
 	 * Inputs: lat - Latitude of the point, in radians. lon - Longitude of the
 	 * point, in radians. zone - UTM zone to be used for calculating values for
 	 * x and y. If zone is less than 1 or greater than 60, the routine will
 	 * determine the appropriate zone from the value of lon.
-	 * 
+	 *
 	 * Outputs: xy - A 2-element array where the UTM x and y values will be
 	 * stored.
-	 * 
+	 *
 	 * Returns: The UTM zone used for calculating the values of x and y.
-	 * 
+	 *
 	 * @param lat
 	 *            Latitude of the point, in radians.
 	 * @param lon
 	 *            Longitude of the point, in radians.
-	 * 
+	 *
 	 */
-	private static void latLonToUTMXY(double lat, double lon) {
+	private static void latLonToUTMXY(final double lat, final double lon) {
 		mapLatLonToXY(lat, lon, uTMCentralMeridian(zone));
 
 		/* Adjust easting and northing for UTM system. */
@@ -218,32 +216,33 @@ public final class GeoTransformation {
 
 	/**
 	 * MapLatLonToXY
-	 * 
+	 *
 	 * Converts a latitude/longitude pair to x and y coordinates in the
 	 * Transverse Mercator projection. Note that Transverse Mercator is not the
 	 * same as UTM; a scale factor is required to convert between them.
-	 * 
+	 *
 	 * Reference: Hoffmann-Wellenhof, B., Lichtenegger, H., and Collins, J.,
 	 * GPS: Theory and Practice, 3rd ed. New York: Springer-Verlag Wien, 1994.
-	 * 
+	 *
 	 * Inputs: phi - Latitude of the point, in radians. lambda - Longitude of
 	 * the point, in radians. lambda0 - Longitude of the central meridian to be
 	 * used, in radians.
-	 * 
+	 *
 	 * Outputs: xy - A 2-element array containing the x and y coordinates of the
 	 * computed point.
-	 * 
+	 *
 	 * Returns: The function does not return a value.
-	 * 
+	 *
 	 * @param phi
 	 *            Latitude of the point, in radians.
 	 * @param lambda
 	 *            Longitude of the point, in radians.
 	 * @param lambda0
 	 *            Longitude of the central meridian to be used, in radians.
-	 * 
+	 *
 	 */
-	private static void mapLatLonToXY(double phi, double lambda, double lambda0) {
+	private static void mapLatLonToXY(final double phi, final double lambda,
+			final double lambda0) {
 		double nF, nu2, ep2, t, t2, l;
 		double l3coef, l4coef, l5coef, l6coef, l7coef, l8coef;
 		@SuppressWarnings("unused")
@@ -284,65 +283,64 @@ public final class GeoTransformation {
 		l8coef = 1385.0 - 3111.0 * t2 + 543.0 * (t2 * t2) - (t2 * t2 * t2);
 
 		/* Calculate easting (x) */
-		xy[0] = nF
-				* Math.cos(phi)
-				* l
-				+ (nF / 6.0 * Math.pow(Math.cos(phi), 3.0) * l3coef * Math.pow(
-						l, 3.0))
-				+ (nF / 120.0 * Math.pow(Math.cos(phi), 5.0) * l5coef * Math
-						.pow(l, 5.0))
-				+ (nF / 5040.0 * Math.pow(Math.cos(phi), 7.0) * l7coef * Math
-						.pow(l, 7.0));
+		xy[0] = nF * Math.cos(phi) * l
+				+ (nF / 6.0 * Math.pow(Math.cos(phi), 3.0) * l3coef
+						* Math.pow(l, 3.0))
+						+ (nF / 120.0 * Math.pow(Math.cos(phi), 5.0) * l5coef
+						* Math.pow(l, 5.0))
+								+ (nF / 5040.0 * Math.pow(Math.cos(phi), 7.0) * l7coef
+						* Math.pow(l, 7.0));
 
 		/* Calculate northing (y) */
 		xy[1] = arcLengthOfMeridian(phi)
-				+ (t / 2.0 * nF * Math.pow(Math.cos(phi), 2.0) * Math.pow(l,
-						2.0))
-				+ (t / 24.0 * nF * Math.pow(Math.cos(phi), 4.0) * l4coef * Math
-						.pow(l, 4.0))
-				+ (t / 720.0 * nF * Math.pow(Math.cos(phi), 6.0) * l6coef * Math
-						.pow(l, 6.0))
-				+ (t / 40320.0 * nF * Math.pow(Math.cos(phi), 8.0) * l8coef * Math
-						.pow(l, 8.0));
+				+ (t / 2.0 * nF * Math.pow(Math.cos(phi), 2.0)
+						* Math.pow(l, 2.0))
+						+ (t / 24.0 * nF * Math.pow(Math.cos(phi), 4.0) * l4coef
+						* Math.pow(l, 4.0))
+								+ (t / 720.0 * nF * Math.pow(Math.cos(phi), 6.0) * l6coef
+						* Math.pow(l, 6.0))
+										+ (t / 40320.0 * nF * Math.pow(Math.cos(phi), 8.0) * l8coef
+						* Math.pow(l, 8.0));
 
 		return;
 	}
 
 	/**
 	 * MapXYToLatLon
-	 * 
+	 *
 	 * Converts x and y coordinates in the Transverse Mercator projection to a
 	 * latitude/longitude pair. Note that Transverse Mercator is not the same as
 	 * UTM; a scale factor is required to convert between them.
-	 * 
+	 *
 	 * Reference: Hoffmann-Wellenhof, B., Lichtenegger, H., and Collins, J.,
 	 * GPS: Theory and Practice, 3rd ed. New York: Springer-Verlag Wien, 1994.
-	 * 
+	 *
 	 * Inputs: x - The easting of the point, in meters. y - The northing of the
 	 * point, in meters. lambda0 - Longitude of the central meridian to be used,
 	 * in radians.
-	 * 
+	 *
 	 * Outputs: philambda - A 2-element containing the latitude and longitude in
 	 * radians.
-	 * 
+	 *
 	 * Returns: The function does not return a value.
-	 * 
+	 *
 	 * Remarks: The local variables Nf, nuf2, tf, and tf2 serve the same purpose
 	 * as N, nu2, t, and t2 in MapLatLonToXY, but they are computed with respect
 	 * to the footpoint latitude phif.
-	 * 
+	 *
 	 * x1frac, x2frac, x2poly, x3poly, etc. are to enhance readability and to
 	 * optimize computations.
-	 * 
+	 *
 	 * @param x
 	 *            The easting of the point, in meters.
 	 * @param y
 	 *            The northing of the point, in meters.
 	 * @param lambda0
 	 *            Longitude of the central meridian to be used, in radians.
-	 * 
+	 *
 	 */
-	private static void mapXYToLatLon(double x, double y, double lambda0) {
+	private static void mapXYToLatLon(final double x, final double y,
+			final double lambda0) {
 		double phif, nF, nfpow, nuf2, ep2, tf, tf2, tf4, cf;
 		double x1frac, x2frac, x3frac, x4frac, x5frac, x6frac, x7frac, x8frac;
 		double x2poly, x3poly, x4poly, x5poly, x6poly, x7poly, x8poly;
@@ -403,50 +401,51 @@ public final class GeoTransformation {
 
 		x3poly = -1.0 - 2 * tf2 - nuf2;
 
-		x4poly = 5.0 + 3.0 * tf2 + 6.0 * nuf2 - 6.0 * tf2 * nuf2 - 3.0
-				* (nuf2 * nuf2) - 9.0 * tf2 * (nuf2 * nuf2);
+		x4poly = 5.0 + 3.0 * tf2 + 6.0 * nuf2 - 6.0 * tf2 * nuf2
+				- 3.0 * (nuf2 * nuf2) - 9.0 * tf2 * (nuf2 * nuf2);
 
 		x5poly = 5.0 + 28.0 * tf2 + 24.0 * tf4 + 6.0 * nuf2 + 8.0 * tf2 * nuf2;
 
-		x6poly = -61.0 - 90.0 * tf2 - 45.0 * tf4 - 107.0 * nuf2 + 162.0 * tf2
-				* nuf2;
+		x6poly = -61.0 - 90.0 * tf2 - 45.0 * tf4 - 107.0 * nuf2
+				+ 162.0 * tf2 * nuf2;
 
 		x7poly = -61.0 - 662.0 * tf2 - 1320.0 * tf4 - 720.0 * (tf4 * tf2);
 
 		x8poly = 1385.0 + 3633.0 * tf2 + 4095.0 * tf4 + 1575 * (tf4 * tf2);
 
 		/* Calculate latitude */
-		latlon[0] = phif + x2frac * x2poly * (x * x) + x4frac * x4poly
-				* Math.pow(x, 4.0) + x6frac * x6poly * Math.pow(x, 6.0)
+		latlon[0] = phif + x2frac * x2poly * (x * x)
+				+ x4frac * x4poly * Math.pow(x, 4.0)
+				+ x6frac * x6poly * Math.pow(x, 6.0)
 				+ x8frac * x8poly * Math.pow(x, 8.0);
 
 		/* Calculate longitude */
 		latlon[1] = lambda0 + x1frac * x + x3frac * x3poly * Math.pow(x, 3.0)
-				+ x5frac * x5poly * Math.pow(x, 5.0) + x7frac * x7poly
-				* Math.pow(x, 7.0);
+		+ x5frac * x5poly * Math.pow(x, 5.0)
+				+ x7frac * x7poly * Math.pow(x, 7.0);
 
 		return;
 	}
 
 	/**
 	 * UTMCentralMeridian.
-	 * 
+	 *
 	 * Determines the central meridian for the given UTM zone.
-	 * 
+	 *
 	 * Inputs: zone - An integer value designating the UTM zone, range [1,60].
-	 * 
+	 *
 	 * Returns: The central meridian for the given UTM zone, in radians, or zero
 	 * if the UTM zone parameter is outside the range [1,60]. Range of the
 	 * central meridian is the radian equivalent of [-177,+177].
-	 * 
+	 *
 	 * @param zonep
 	 *            An integer value designating the UTM zone, range [1,60].
 	 * @return The central meridian for the given UTM zone, in radians, or zero
 	 *         if the UTM zone parameter is outside the range [1,60]. Range of
 	 *         the central meridian is the radian equivalent of [-177,+177].
-	 * 
+	 *
 	 */
-	private static double uTMCentralMeridian(int zonep) {
+	private static double uTMCentralMeridian(final int zonep) {
 		double cmeridian;
 
 		cmeridian = Math.toRadians(-183.0 + (zonep * 6.0));
@@ -456,12 +455,12 @@ public final class GeoTransformation {
 
 	/**
 	 * Transformiert UTM-Koordinaten nach WGS84.
-	 * 
+	 *
 	 * @param utm
 	 *            Koordinaten in UTM
 	 * @return die transformierten Koordinaten
 	 */
-	public static WGS84Koordinate uTMnachWGS84Punkt(UTMKoordinate utm) {
+	public static WGS84Koordinate uTMnachWGS84Punkt(final UTMKoordinate utm) {
 		boolean southhemi;
 		if (utm.getHemisphaere() == UTMKoordinate.UTMHEMI.SUEDHALBKUGEL) {
 			southhemi = true;
@@ -473,25 +472,25 @@ public final class GeoTransformation {
 
 		uTMXYToLatLon(utm.getX(), utm.getY(), utm.getZone(), southhemi);
 
-		return new WGS84Koordinate(Math.toDegrees(latlon[1]), Math
-				.toDegrees(latlon[0]));
+		return new WGS84Koordinate(Math.toDegrees(latlon[1]),
+				Math.toDegrees(latlon[0]));
 	}
 
 	/**
 	 * UTMXYToLatLon
-	 * 
+	 *
 	 * Converts x and y coordinates in the Universal Transverse Mercator
 	 * projection to a latitude/longitude pair.
-	 * 
+	 *
 	 * Inputs: x - The easting of the point, in meters. y - The northing of the
-	 * point, in meters. zone - The UTM zone in which the point lies. southhemi -
-	 * True if the point is in the southern hemisphere; false otherwise.
-	 * 
+	 * point, in meters. zone - The UTM zone in which the point lies. southhemi
+	 * - True if the point is in the southern hemisphere; false otherwise.
+	 *
 	 * Outputs: latlon - A 2-element array containing the latitude and longitude
 	 * of the point, in radians.
-	 * 
+	 *
 	 * Returns: The function does not return a value.
-	 * 
+	 *
 	 * @param x
 	 *            The easting of the point, in meters.
 	 * @param y
@@ -501,10 +500,10 @@ public final class GeoTransformation {
 	 * @param southhemi
 	 *            True if the point is in the southern hemisphere; false
 	 *            otherwise.
-	 * 
+	 *
 	 */
-	private static void uTMXYToLatLon(double x, double y, int utmzone,
-			boolean southhemi) {
+	private static void uTMXYToLatLon(final double x, final double y,
+			final int utmzone, final boolean southhemi) {
 		double cmeridian;
 		double ly = y;
 		double lx = x - 500000.0;
@@ -523,17 +522,17 @@ public final class GeoTransformation {
 
 	/**
 	 * Transformiert WGS84-Koordinaten nach UTM.
-	 * 
+	 *
 	 * @param wgs84laenge
 	 *            geographische L&auml;nge in Dezimalgrad
 	 * @param wgs84breite
 	 *            geographische Breite in Dezimalgrad
 	 * @return die transformierten Koordinaten
 	 */
-	public static UTMKoordinate wGS84nachUTM(double wgs84laenge,
-			double wgs84breite) {
-		double lon = Math.toRadians(wgs84laenge);
-		double lat = Math.toRadians(wgs84breite);
+	public static UTMKoordinate wGS84nachUTM(final double wgs84laenge,
+			final double wgs84breite) {
+		final double lon = Math.toRadians(wgs84laenge);
+		final double lat = Math.toRadians(wgs84breite);
 
 		// Compute the UTM zone.
 		zone = (int) Math.floor((wgs84laenge + 180.0) / 6) + 1;
@@ -548,12 +547,12 @@ public final class GeoTransformation {
 	/**
 	 * Berechnet die L&auml;nge des Kreisbogens auf der Erdoberfl&auml;che zu
 	 * einem Winkel.
-	 * 
+	 *
 	 * @param winkel
 	 *            Winkel in Grad
 	 * @return Kreisbogenl&auml;nge in m
 	 */
-	public static double winkelInMeter(double winkel) {
+	public static double winkelInMeter(final double winkel) {
 		return (winkel * R_M * 2 * Math.PI / 360);
 	}
 

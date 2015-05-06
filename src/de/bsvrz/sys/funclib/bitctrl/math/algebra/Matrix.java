@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -31,7 +31,7 @@ import de.bsvrz.sys.funclib.bitctrl.math.RationaleZahl;
 /**
  * Repr&auml;sentiert eine Matrix. Die Matrix besteht aus aus einer beliebigen
  * Anzahl von Zeilen ({@link Vektor}) mit beliebiger L&auml;nge.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id: Matrix.java 6386 2008-02-08 08:24:20Z Schumann $
  */
@@ -39,7 +39,7 @@ public class Matrix {
 
 	/**
 	 * Addiert zwei Matrizen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste Matrix
 	 * @param b
@@ -48,7 +48,7 @@ public class Matrix {
 	 * @throws IllegalArgumentException
 	 *             Wenn die beiden Matrizen nicht die selbe Ordung besitzen
 	 */
-	public static Matrix addiere(Matrix a, Matrix b) {
+	public static Matrix addiere(final Matrix a, final Matrix b) {
 		if (a.anzahlZeilen() != b.anzahlZeilen()
 				|| a.anzahlSpalten() != b.anzahlSpalten()) {
 			throw new IllegalArgumentException(
@@ -69,46 +69,46 @@ public class Matrix {
 
 	/**
 	 * Dividiert eine Matrix durch ein Skalar.
-	 * 
+	 *
 	 * @param a
 	 *            Eine matrix
 	 * @param s
 	 *            Ein Skalar
 	 * @return Das Vielfache der Matrix
 	 */
-	public static Matrix dividiere(Matrix a, long s) {
+	public static Matrix dividiere(final Matrix a, final long s) {
 		return multipliziere(a, new RationaleZahl(s));
 	}
 
 	/**
 	 * Dividiert eine Matrix durch ein Skalar.
-	 * 
+	 *
 	 * @param a
 	 *            Eine matrix
 	 * @param s
 	 *            Ein Skalar
 	 * @return Das Vielfache der Matrix
 	 */
-	public static Matrix dividiere(Matrix a, RationaleZahl s) {
+	public static Matrix dividiere(final Matrix a, final RationaleZahl s) {
 		return multipliziere(a, s.kehrwert());
 	}
 
 	/**
 	 * Multipliziert eine Matrix mit einem Skalar.
-	 * 
+	 *
 	 * @param a
 	 *            Eine matrix
 	 * @param s
 	 *            Ein Skalar
 	 * @return Das Vielfache der Matrix
 	 */
-	public static Matrix multipliziere(Matrix a, long s) {
+	public static Matrix multipliziere(final Matrix a, final long s) {
 		return multipliziere(a, new RationaleZahl(s));
 	}
 
 	/**
 	 * Multipliziert die beiden Matrizen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste Matrix
 	 * @param b
@@ -118,7 +118,7 @@ public class Matrix {
 	 *             Wenn die Spaltenanzahl der ersten Matrix nicht mit der
 	 *             Zeilenanzahl der zweiten &uuml;bereinstimmt
 	 */
-	public static Matrix multipliziere(Matrix a, Matrix b) {
+	public static Matrix multipliziere(final Matrix a, final Matrix b) {
 		if (a.anzahlSpalten() != b.anzahlZeilen()) {
 			throw new IllegalArgumentException(
 					"Spaltenanzahl der ersten Matrix stimmt nicht mit der Zeilenanzahl der zweiten überein.");
@@ -142,14 +142,14 @@ public class Matrix {
 
 	/**
 	 * Multipliziert eine Matrix mit einem Skalar.
-	 * 
+	 *
 	 * @param a
 	 *            Eine matrix
 	 * @param s
 	 *            Ein Skalar
 	 * @return Das Vielfache der Matrix
 	 */
-	public static Matrix multipliziere(Matrix a, RationaleZahl s) {
+	public static Matrix multipliziere(final Matrix a, final RationaleZahl s) {
 		Matrix m;
 
 		m = new Matrix(a.anzahlZeilen(), a.anzahlSpalten());
@@ -164,7 +164,7 @@ public class Matrix {
 
 	/**
 	 * Multipliziert eine Matrix mit einem Vektor.
-	 * 
+	 *
 	 * @param a
 	 *            Eine Matrix
 	 * @param v
@@ -174,7 +174,7 @@ public class Matrix {
 	 *             Wenn die Spaltenanzahl der Matrix nicht mit der
 	 *             Komponentenanzahl des Vektors &uuml;bereinstimmt
 	 */
-	public static Matrix multipliziere(Matrix a, Vektor v) {
+	public static Matrix multipliziere(final Matrix a, final Vektor v) {
 		if (a.anzahlSpalten() != v.anzahlKomponenten()) {
 			throw new IllegalArgumentException(
 					"Spaltenanzahl der Matrix stimmt nicht mit der Komponentenanzahl des Vektors überein.");
@@ -199,7 +199,7 @@ public class Matrix {
 
 	/**
 	 * Subtrahiert zwei Matrizen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste Matrix
 	 * @param b
@@ -208,7 +208,7 @@ public class Matrix {
 	 * @throws IllegalArgumentException
 	 *             Wenn die beiden Matrizen nicht die selbe Ordung besitzen
 	 */
-	public static Matrix subtrahiere(Matrix a, Matrix b) {
+	public static Matrix subtrahiere(final Matrix a, final Matrix b) {
 		if (a.anzahlZeilen() != b.anzahlZeilen()
 				|| a.anzahlSpalten() != b.anzahlSpalten()) {
 			throw new IllegalArgumentException(
@@ -220,9 +220,8 @@ public class Matrix {
 		m = new Matrix(a.anzahlZeilen(), a.anzahlSpalten());
 		for (int i = 0; i < a.anzahlZeilen(); i++) {
 			for (int j = 0; j < a.anzahlSpalten(); j++) {
-				m
-						.set(i, j, RationaleZahl.subtrahiere(a.get(i, j), b
-								.get(i, j)));
+				m.set(i, j,
+						RationaleZahl.subtrahiere(a.get(i, j), b.get(i, j)));
 			}
 		}
 
@@ -234,7 +233,7 @@ public class Matrix {
 
 	/**
 	 * Konstruiert eine leere Matrix.
-	 * 
+	 *
 	 * @param n
 	 *            Anzahl Zeilen der Matrix
 	 * @param m
@@ -242,7 +241,7 @@ public class Matrix {
 	 * @throws IllegalArgumentException
 	 *             Wenn die Zeilen- oder Spaltenanzahl kleiner 1 ist
 	 */
-	public Matrix(int n, int m) {
+	public Matrix(final int n, final int m) {
 		if (n < 1 || m < 1) {
 			throw new IllegalArgumentException(
 					"Die Zeilen- und Spaltenanzahl muss größer oder gleich 1 sein.");
@@ -258,11 +257,11 @@ public class Matrix {
 
 	/**
 	 * Konstruiert eine Matrix aus einet bestehenden Matrix.
-	 * 
+	 *
 	 * @param matrix
 	 *            Eine Matrix
 	 */
-	public Matrix(Matrix matrix) {
+	public Matrix(final Matrix matrix) {
 		this(matrix.anzahlZeilen(), matrix.anzahlSpalten());
 		for (int i = 0; i < matrix.anzahlZeilen(); i++) {
 			for (int j = 0; j < matrix.anzahlSpalten(); j++) {
@@ -275,7 +274,7 @@ public class Matrix {
 	 * Konstruiert eine Matrix aus einem Vektor. Abh&auml;ngig vom zweiten
 	 * Parameter wird der Vektor zur ersten und einzigen Zeile oder zur ersten
 	 * und einzigen Spalte.
-	 * 
+	 *
 	 * @param vektor
 	 *            Ein Vektor
 	 * @param zeilenvektor
@@ -283,7 +282,7 @@ public class Matrix {
 	 *            soll. {@code false}, wenn der Vektor zur Spalte der Matrix
 	 *            werden soll.
 	 */
-	public Matrix(Vektor vektor, boolean zeilenvektor) {
+	public Matrix(final Vektor vektor, final boolean zeilenvektor) {
 		if (zeilenvektor) {
 			matrix = new RationaleZahl[1][vektor.anzahlKomponenten()];
 			for (int j = 0; j < vektor.anzahlKomponenten(); j++) {
@@ -299,7 +298,7 @@ public class Matrix {
 
 	/**
 	 * Gibt die Anzahl der Spalten in der Matrix zur&uuml;ck.
-	 * 
+	 *
 	 * @return Spaltenanzahl
 	 */
 	public int anzahlSpalten() {
@@ -308,7 +307,7 @@ public class Matrix {
 
 	/**
 	 * Gibt die Anzahl der Zeilen in der Matrix zur&uuml;ck.
-	 * 
+	 *
 	 * @return Zeilenanzahl
 	 */
 	public int anzahlZeilen() {
@@ -318,13 +317,13 @@ public class Matrix {
 	/**
 	 * Zwei Matrizen sind gleich, wenn sie gleiche Ordnung haben und in allen
 	 * Elementen &uuml;bereinstimmen.
-	 * 
+	 *
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see java.lang.Object#equals(Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 		if (o instanceof Matrix) {
 			Matrix m;
 			boolean gleich;
@@ -353,25 +352,25 @@ public class Matrix {
 
 	/**
 	 * Gibt ein bestimmtes Element der Matrix zur&uuml;ck.
-	 * 
+	 *
 	 * @param i
 	 *            Zeilenindex des gesuchten Elements
 	 * @param j
 	 *            Spaltenindex des gesuchten Elements
 	 * @return Wert des gesuchten Elements
 	 */
-	public RationaleZahl get(int i, int j) {
+	public RationaleZahl get(final int i, final int j) {
 		return matrix[i][j];
 	}
 
 	/**
 	 * Gibt eine bestimmte Spalte der Matrix als Vektor zur&uuml;ck.
-	 * 
+	 *
 	 * @param j
 	 *            Spalteindex
 	 * @return Die Matrixspalte als Vektor
 	 */
-	public Vektor getSpaltenvektor(int j) {
+	public Vektor getSpaltenvektor(final int j) {
 		Vektor v;
 
 		v = new Vektor(anzahlZeilen());
@@ -387,7 +386,7 @@ public class Matrix {
 	 * die Matrix entweder aus genau einer Zeile oder genau einer Spalte
 	 * besteht. In allen anderen F&auml;llen wird {@code null}
 	 * zur&uuml;ckgegeben.
-	 * 
+	 *
 	 * @return Die Matrix als Vektor oder {@code null}, wenn dies nicht
 	 *         m&ouml;glich ist
 	 */
@@ -403,18 +402,18 @@ public class Matrix {
 
 	/**
 	 * Gibt eine bestimmte Zeile der Matrix als Vektor zur&uuml;ck.
-	 * 
+	 *
 	 * @param i
 	 *            Zeilenindex
 	 * @return Die Matrixzeile als Vektor
 	 */
-	public Vektor getZeilenvektor(int i) {
+	public Vektor getZeilenvektor(final int i) {
 		return new Vektor(matrix[i]);
 	}
 
 	/**
 	 * Legt den Wert eines bestimmten Elements der Matrix fest.
-	 * 
+	 *
 	 * @param i
 	 *            Zeilenindex des Elements
 	 * @param j
@@ -422,13 +421,13 @@ public class Matrix {
 	 * @param wert
 	 *            Neuer Wert des Elements
 	 */
-	public void set(int i, int j, long wert) {
+	public void set(final int i, final int j, final long wert) {
 		set(i, j, new RationaleZahl(wert));
 	}
 
 	/**
 	 * Legt den Wert eines bestimmten Elements der Matrix fest.
-	 * 
+	 *
 	 * @param i
 	 *            Zeilenindex des Elements
 	 * @param j
@@ -436,19 +435,19 @@ public class Matrix {
 	 * @param wert
 	 *            Neuer Wert des Elements
 	 */
-	public void set(int i, int j, RationaleZahl wert) {
+	public void set(final int i, final int j, final RationaleZahl wert) {
 		matrix[i][j] = new RationaleZahl(wert);
 	}
 
 	/**
 	 * &Uuml;berschreibt eine Spalte der Matrix mit einem gegebenen Vektor.
-	 * 
+	 *
 	 * @param j
 	 *            Die Matrixspalte, die &uuml;berschrieben werden soll
 	 * @param v
 	 *            Der Vektor, durch den die Matrixspalte ersetzt werden soll
 	 */
-	public void setSpaltenvektor(int j, Vektor v) {
+	public void setSpaltenvektor(final int j, final Vektor v) {
 		if (anzahlZeilen() != v.anzahlKomponenten()) {
 			throw new IllegalArgumentException(
 					"Der Anzahl der Vektorelemente stimmt nicht mit der Zeilenanzahl der Matrix überein.");
@@ -461,13 +460,13 @@ public class Matrix {
 
 	/**
 	 * &Uuml;berschreibt eine Zeile der Matrix mit einem gegebenen Vektor.
-	 * 
+	 *
 	 * @param i
 	 *            Die Matrixzeile, die &uuml;berschrieben werden soll
 	 * @param v
 	 *            Der Vektor, durch den die Matrixzeile ersetzt werden soll
 	 */
-	public void setZeilenvektor(int i, Vektor v) {
+	public void setZeilenvektor(final int i, final Vektor v) {
 		if (anzahlSpalten() != v.anzahlKomponenten()) {
 			throw new IllegalArgumentException(
 					"Der Anzahl der Vektorelemente stimmt nicht mit der Spaltenanzahl der Matrix überein.");
@@ -480,7 +479,7 @@ public class Matrix {
 
 	/**
 	 * Ist die Matrix symetrisch?
-	 * 
+	 *
 	 * @return {@code true}, wenn die Matrix symetrisch ist
 	 */
 	public boolean symetrisch() {
@@ -489,7 +488,7 @@ public class Matrix {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -514,7 +513,7 @@ public class Matrix {
 
 	/**
 	 * Bestimmt die transponierte Matrix.
-	 * 
+	 *
 	 * @return Die transponierte Matrix
 	 */
 	public Matrix transponiert() {

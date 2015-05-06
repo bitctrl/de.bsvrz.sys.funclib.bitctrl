@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -33,7 +33,7 @@ import com.bitctrl.i18n.Messages;
 
 /**
  * Kontext eines Ausdrucks. Speichert alle Variablen in einer Menge.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id: Kontext.java 6716 2008-02-18 17:32:51Z Schumann $
  */
@@ -46,17 +46,17 @@ public class Kontext {
 	 * Prüft ob der String ein gültiger Variablenname ist. Es wird nicht
 	 * geprüft, ob die Variable existiert, nur ob der Name den Regeln
 	 * entspricht.
-	 * 
+	 *
 	 * @param name
 	 *            Zu prüfender Variablenname
 	 * @throws InterpreterException
 	 *             Wenn der Name {@code null} ist oder nur aus Leerzeichen
 	 *             besteht
 	 */
-	public static void pruefeName(String name) {
+	public static void pruefeName(final String name) {
 		if (!pruefer.pruefe(name)) {
-			throw new InterpreterException(Messages.get(
-					InterpreterMessages.BadVariableName, name));
+			throw new InterpreterException(
+					Messages.get(InterpreterMessages.BadVariableName, name));
 		}
 	}
 
@@ -72,39 +72,39 @@ public class Kontext {
 
 	/**
 	 * Kopierkonstruktor.
-	 * 
+	 *
 	 * @param kontext
 	 *            Ein anderer Kontext, dessen Inhalt in den neuen kopiert wird
 	 */
-	public Kontext(Kontext kontext) {
+	public Kontext(final Kontext kontext) {
 		this();
 		this.kontext.putAll(kontext.kontext);
 	}
 
 	/**
 	 * F&uuml;gt den Inhalt eines Kontextes hinzu.
-	 * 
+	 *
 	 * @param neu
 	 *            Zu kopierender Kontext
 	 */
-	public void addKontext(Kontext neu) {
-		this.kontext.putAll(neu.kontext);
+	public void addKontext(final Kontext neu) {
+		kontext.putAll(neu.kontext);
 	}
 
 	/**
 	 * Schaut nach, ob im Kontext eine bestimmte Variable existiert.
-	 * 
+	 *
 	 * @param name
 	 *            Name der Variable
 	 * @return {@code true}, wenn die Variable existiert, sonst {@code false}
 	 */
-	public boolean enthaelt(String name) {
+	public boolean enthaelt(final String name) {
 		return kontext.containsKey(name.trim());
 	}
 
 	/**
 	 * Liefert den Wert einer Variable.
-	 * 
+	 *
 	 * @param name
 	 *            Name der Variablen
 	 * @return Wert der Variable
@@ -114,13 +114,13 @@ public class Kontext {
 	 * @throws SymbolUndefiniertException
 	 *             Wenn zu dem Namen keine Variable im Kontext existiert
 	 */
-	public Object get(String name) {
+	public Object get(final String name) {
 		pruefeName(name);
 
-		Object wert = kontext.get(name.trim());
+		final Object wert = kontext.get(name.trim());
 		if (wert == null) {
-			throw new SymbolUndefiniertException(Messages.get(
-					InterpreterMessages.NoVariableWithName, name));
+			throw new SymbolUndefiniertException(
+					Messages.get(InterpreterMessages.NoVariableWithName, name));
 		}
 
 		return wert;
@@ -128,7 +128,7 @@ public class Kontext {
 
 	/**
 	 * Liefert den Wert einer Variable und pr&uuml;ft gleichzeitig deren Typ.
-	 * 
+	 *
 	 * @param name
 	 *            Name der Variablen
 	 * @param typ
@@ -139,16 +139,16 @@ public class Kontext {
 	 *             Variablenname nur aus Whitespaces betsteht oder der Typ der
 	 *             Variable nicht korrekt ist
 	 */
-	public Object get(String name, Class<?>... typ) {
+	public Object get(final String name, final Class<?>... typ) {
 		if (typ == null) {
-			throw new InterpreterException(Messages
-					.get(InterpreterMessages.BadTypNull));
+			throw new InterpreterException(
+					Messages.get(InterpreterMessages.BadTypNull));
 		}
 
-		Object wert = get(name);
+		final Object wert = get(name);
 		boolean ok = false;
 
-		for (Class<? extends Object> c : typ) {
+		for (final Class<? extends Object> c : typ) {
 			if (c.isInstance(wert)) {
 				ok = true;
 			}
@@ -163,7 +163,7 @@ public class Kontext {
 
 	/**
 	 * Gibt alle im Kontext enthaltenen Variablenname zur&uuml;ck.
-	 * 
+	 *
 	 * @return kontext Menge von Name/Wert-Paaren
 	 */
 	public Set<String> getVariablen() {
@@ -172,7 +172,7 @@ public class Kontext {
 
 	/**
 	 * Setzt den Wert einer Variable.
-	 * 
+	 *
 	 * @param name
 	 *            Name der Variable
 	 * @param wert
@@ -181,12 +181,12 @@ public class Kontext {
 	 *             Wenn der Variablenname oder der Wert {@code null} ist oder
 	 *             der Variablenname nur aus Whitespaces besteht
 	 */
-	public synchronized void set(String name, Object wert) {
+	public synchronized void set(final String name, final Object wert) {
 		pruefeName(name);
 
 		if (wert == null) {
-			throw new InterpreterException(Messages
-					.get(InterpreterMessages.BadValueNull));
+			throw new InterpreterException(
+					Messages.get(InterpreterMessages.BadValueNull));
 		}
 
 		kontext.put(name.trim(), wert);

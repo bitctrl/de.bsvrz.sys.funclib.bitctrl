@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -29,9 +29,10 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter;
 /**
  * Wird ausgel&ouml;st, wenn die Variable zu einem Symbolnamen im Kontext nicht
  * existiert.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: SymbolUndefiniertException.java 6835 2008-02-21 13:04:58Z peuker $
+ * @version $Id: SymbolUndefiniertException.java 6835 2008-02-21 13:04:58Z
+ *          peuker $
  */
 public class SymbolUndefiniertException extends InterpreterException {
 
@@ -50,11 +51,11 @@ public class SymbolUndefiniertException extends InterpreterException {
 	/**
 	 * Konstruktor mit Angabe der Meldung, die die Exception n&auml;her
 	 * beschreibt.
-	 * 
+	 *
 	 * @param meldung
 	 *            Der Meldungstext
 	 */
-	public SymbolUndefiniertException(String meldung) {
+	public SymbolUndefiniertException(final String meldung) {
 		super(meldung);
 	}
 
@@ -62,24 +63,25 @@ public class SymbolUndefiniertException extends InterpreterException {
 	 * Konstruktor mit Angabe der urspr&uuml;nglichen Exception, die diese
 	 * ausgel&ouml;st hat und des Meldungstextes, der die Exception n&auml;her
 	 * beschreibt.
-	 * 
+	 *
 	 * @param meldung
 	 *            Der Text der Meldung
 	 * @param ursache
 	 *            Die Ursache
 	 */
-	public SymbolUndefiniertException(String meldung, Throwable ursache) {
+	public SymbolUndefiniertException(final String meldung,
+			final Throwable ursache) {
 		super(meldung, ursache);
 	}
 
 	/**
 	 * Konstruktor mit Angabe der urspr&uuml;nglichen Exception, die diese
 	 * ausgel&ouml;st hat.
-	 * 
+	 *
 	 * @param ursache
 	 *            Die Ursache
 	 */
-	public SymbolUndefiniertException(Throwable ursache) {
+	public SymbolUndefiniertException(final Throwable ursache) {
 		super(ursache);
 	}
 

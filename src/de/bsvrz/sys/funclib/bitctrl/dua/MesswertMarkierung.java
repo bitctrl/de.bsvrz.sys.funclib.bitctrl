@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -30,9 +30,9 @@ import com.bitctrl.Constants;
 
 /**
  * Klasse, die alle Markierungen eines Messwertes speichert.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
+ *
  * @version $Id: MesswertMarkierung.java 8054 2008-04-09 15:11:59Z tfelder $
  */
 public class MesswertMarkierung implements Cloneable {
@@ -78,70 +78,71 @@ public class MesswertMarkierung implements Cloneable {
 	protected boolean veraendert = false;
 
 	/**
-	 * Erfragt den Wert von <code>*.Status.MessWertErsetzung.Interpoliert</code>.
-	 * 
+	 * Erfragt den Wert von <code>*.Status.MessWertErsetzung.Interpoliert</code>
+	 * .
+	 *
 	 * @return der Wert von <code>*.Status.MessWertErsetzung.Interpoliert</code>
 	 */
 	public final boolean isInterpoliert() {
-		return this.interpoliert;
+		return interpoliert;
 	}
 
 	/**
 	 * Setzt den Wert von <code>*.Status.MessWertErsetzung.Interpoliert</code>.
-	 * 
+	 *
 	 * @param interpoliert
 	 *            der Wert von
 	 *            <code>*.Status.MessWertErsetzung.Interpoliert</code>
 	 */
-	public final void setInterpoliert(boolean interpoliert) {
-		this.veraendert = true;
+	public final void setInterpoliert(final boolean interpoliert) {
+		veraendert = true;
 		this.interpoliert = interpoliert;
 	}
 
 	/**
 	 * Erfragt den Wert von <code>*.Status.MessWertErsetzung.Implausibel</code>.
-	 * 
+	 *
 	 * @return der Wert von <code>*.Status.MessWertErsetzung.Implausibel</code>
 	 */
 	public final boolean isImplausibel() {
-		return this.implausibel;
+		return implausibel;
 	}
 
 	/**
 	 * Setzt den Wert von <code>*.Status.MessWertErsetzung.Implausibel</code>.
-	 * 
+	 *
 	 * @param implausibel
 	 *            der Wert von
 	 *            <code>*.Status.MessWertErsetzung.Implausibel</code>
 	 */
-	public final void setImplausibel(boolean implausibel) {
-		this.veraendert = true;
+	public final void setImplausibel(final boolean implausibel) {
+		veraendert = true;
 		this.implausibel = implausibel;
 	}
 
 	/**
 	 * Erfragt den Wert von <code>*.Status.Erfassung.NichtErfasst</code>.
-	 * 
+	 *
 	 * @return der Wert von <code>*.Status.Erfassung.NichtErfasst</code>
 	 */
 	public final boolean isNichtErfasst() {
-		return this.nichtErfasst;
+		return nichtErfasst;
 	}
 
 	/**
 	 * Setzt den Wert von <code>*.Status.Erfassung.NichtErfasst</code>.
-	 * 
+	 *
 	 * @param nichtErfasst
 	 *            der Wert von <code>*.Status.Erfassung.NichtErfasst</code>
 	 */
-	public final void setNichtErfasst(boolean nichtErfasst) {
-		this.veraendert = true;
+	public final void setNichtErfasst(final boolean nichtErfasst) {
+		veraendert = true;
 		this.nichtErfasst = nichtErfasst;
 	}
 
 	/**
 	 * Erfragt den Wert von <code>*.Status.PlFormal.WertMax</code>.
-	 * 
+	 *
 	 * @return den Wert von <code>*.Status.PlFormal.WertMax</code>
 	 */
 	public final boolean isFormalMax() {
@@ -150,18 +151,18 @@ public class MesswertMarkierung implements Cloneable {
 
 	/**
 	 * Setzt den Wert von <code>*.Status.PlFormal.WertMax</code>.
-	 * 
+	 *
 	 * @param formalMax
 	 *            der Wert von <code>*.Status.PlFormal.WertMax</code>
 	 */
-	public final void setFormalMax(boolean formalMax) {
-		this.veraendert = true;
+	public final void setFormalMax(final boolean formalMax) {
+		veraendert = true;
 		this.formalMax = formalMax;
 	}
 
 	/**
 	 * Erfragt den Wert von <code>*.Status.PlFormal.WertMin</code>.
-	 * 
+	 *
 	 * @return den Wert von <code>*.Status.PlFormal.WertMin</code>
 	 */
 	public final boolean isFormalMin() {
@@ -170,18 +171,18 @@ public class MesswertMarkierung implements Cloneable {
 
 	/**
 	 * Setzt den Wert von <code>*.Status.PlFormal.WertMin</code>.
-	 * 
+	 *
 	 * @param formalMin
 	 *            der Wert von <code>*.Status.PlFormal.WertMin</code>
 	 */
-	public final void setFormalMin(boolean formalMin) {
-		this.veraendert = true;
+	public final void setFormalMin(final boolean formalMin) {
+		veraendert = true;
 		this.formalMin = formalMin;
 	}
 
 	/**
 	 * Erfragt den Wert von <code>*.Status.PlLogisch.WertMaxLogisch</code>.
-	 * 
+	 *
 	 * @return den Wert von <code>*.Status.PlLogisch.WertMaxLogisch</code>
 	 */
 	public final boolean isLogischMax() {
@@ -190,18 +191,18 @@ public class MesswertMarkierung implements Cloneable {
 
 	/**
 	 * Setzt den Wert von <code>*.Status.PlLogisch.WertMaxLogisch</code>.
-	 * 
+	 *
 	 * @param logischMax
 	 *            der Wert von <code>*.Status.PlLogisch.WertMaxLogisch</code>
 	 */
-	public final void setLogischMax(boolean logischMax) {
-		this.veraendert = true;
+	public final void setLogischMax(final boolean logischMax) {
+		veraendert = true;
 		this.logischMax = logischMax;
 	}
 
 	/**
 	 * Erfragt den Wert von <code>*.Status.PlLogisch.WertMinLogisch</code>.
-	 * 
+	 *
 	 * @return der Wert von <code>*.Status.PlLogisch.WertMinLogisch</code>
 	 */
 	public final boolean isLogischMin() {
@@ -210,40 +211,40 @@ public class MesswertMarkierung implements Cloneable {
 
 	/**
 	 * Setzt den Wert von <code>*.Status.PlLogisch.WertMinLogisch</code>.
-	 * 
+	 *
 	 * @param logischMin
 	 *            der Wert von <code>*.Status.PlLogisch.WertMinLogisch</code>
 	 */
-	public final void setLogischMin(boolean logischMin) {
-		this.veraendert = true;
+	public final void setLogischMin(final boolean logischMin) {
+		veraendert = true;
 		this.logischMin = logischMin;
 	}
 
 	/**
 	 * Erfragt, ob dieser Wert veraendert wurde.
-	 * 
+	 *
 	 * @return ob dieser Wert veraendert wurde
 	 */
 	public final boolean isVeraendert() {
-		return this.veraendert;
+		return veraendert;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		boolean gleich = false;
 
 		if (obj instanceof MesswertMarkierung) {
-			MesswertMarkierung that = (MesswertMarkierung) obj;
-			gleich = this.nichtErfasst == that.nichtErfasst
-					&& this.implausibel == that.implausibel
-					&& this.interpoliert == that.interpoliert
-					&& this.formalMax == that.formalMax
-					&& this.formalMin == that.formalMin
-					&& this.logischMax == that.logischMax
-					&& this.logischMin == that.logischMin;
+			final MesswertMarkierung that = (MesswertMarkierung) obj;
+			gleich = nichtErfasst == that.nichtErfasst
+					&& implausibel == that.implausibel
+					&& interpoliert == that.interpoliert
+					&& formalMax == that.formalMax
+					&& formalMin == that.formalMin
+					&& logischMax == that.logischMax
+					&& logischMin == that.logischMin;
 		}
 
 		return gleich;
@@ -254,12 +255,12 @@ public class MesswertMarkierung implements Cloneable {
 	 */
 	@Override
 	public String toString() {
-		return (this.nichtErfasst ? "nErf " : Constants.EMPTY_STRING) + //$NON-NLS-1$
-				(this.formalMax ? "fMax " : Constants.EMPTY_STRING) + //$NON-NLS-1$
-				(this.formalMin ? "fMin " : Constants.EMPTY_STRING) + //$NON-NLS-1$
-				(this.logischMax ? "lMax " : Constants.EMPTY_STRING) + //$NON-NLS-1$
-				(this.logischMin ? "lMin " : Constants.EMPTY_STRING) + //$NON-NLS-1$
-				(this.implausibel ? "Impl " : Constants.EMPTY_STRING) + //$NON-NLS-1$
-				(this.interpoliert ? "Intp " : Constants.EMPTY_STRING); //$NON-NLS-1$
+		return (nichtErfasst ? "nErf " : Constants.EMPTY_STRING) + //$NON-NLS-1$
+				(formalMax ? "fMax " : Constants.EMPTY_STRING) + //$NON-NLS-1$
+				(formalMin ? "fMin " : Constants.EMPTY_STRING) + //$NON-NLS-1$
+				(logischMax ? "lMax " : Constants.EMPTY_STRING) + //$NON-NLS-1$
+				(logischMin ? "lMin " : Constants.EMPTY_STRING) + //$NON-NLS-1$
+				(implausibel ? "Impl " : Constants.EMPTY_STRING) + //$NON-NLS-1$
+				(interpoliert ? "Intp " : Constants.EMPTY_STRING); //$NON-NLS-1$
 	}
 }

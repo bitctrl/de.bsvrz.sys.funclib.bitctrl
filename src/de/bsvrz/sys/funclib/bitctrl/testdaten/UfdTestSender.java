@@ -1,4 +1,28 @@
-/*---------------------------------------------------------------*/
+/*
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
+ *
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
+ * mailto: info@bitctrl.de
+ */
 /* Copyright by BitCtrl Systems Leipzig */
 /* BitCtrl Systems Leipzig */
 /* Weisenfelser Str. 67 */
@@ -40,14 +64,14 @@ import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 /**
  * Test-Applikation zur Erzeugung einigermaßen realistischer Kurzzeitdaten.
  */
-public class UfdTestSender extends TimerTask implements StandardApplication,
-		ClientSenderInterface {
+public final class UfdTestSender extends TimerTask
+		implements StandardApplication, ClientSenderInterface {
 
 	/**
 	 * der Logger
 	 */
-	protected final Logger LOGGER = Logger.getLogger(KzdTestSender.class
-			.getName());
+	protected final Logger LOGGER = Logger
+			.getLogger(KzdTestSender.class.getName());
 
 	/**
 	 * Liste aller Umfelddatensensoren mit ihrem aktuellen Verbindungszustand
@@ -55,22 +79,22 @@ public class UfdTestSender extends TimerTask implements StandardApplication,
 	protected final Collection<SystemObject> umfeldDatenSensorenListe = new ArrayList<SystemObject>();
 
 	/**
-	 * 
+	 *
 	 */
 	private DataDescription descKurzzeitDaten;
 
 	/**
-	 * 
+	 *
 	 */
 	Timer checkTimer = new Timer("UfdCheckTimer", true); //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 */
 	Random dataSource = new Random();
 
 	/**
-	 * 
+	 *
 	 */
 	private long startZeit;
 
@@ -104,7 +128,8 @@ public class UfdTestSender extends TimerTask implements StandardApplication,
 			startZeit = (now / 60000L) * 60000L;
 		}
 
-		LOGGER.fine("Sende Daten für " + umfeldDatenSensorenListe.size() + " Umfelddatensensoren"); //$NON-NLS-1$
+		LOGGER.fine("Sende Daten für " + umfeldDatenSensorenListe.size() //$NON-NLS-1$
+				+ " Umfelddatensensoren");
 
 		int loop = 0;
 		while ((loop < 20) && (startZeit < now)) {
@@ -113,13 +138,11 @@ public class UfdTestSender extends TimerTask implements StandardApplication,
 					Data data;
 					data = getUmfelddatenDaten(sensor);
 					final SystemObjectType typ = sensor.getType();
-					final Aspect asp = con.getDataModel().getAspect(
-							"asp.externeErfassung");
+					final Aspect asp = con.getDataModel()
+							.getAspect("asp.externeErfassung");
 					final AttributeGroup atg = con.getDataModel()
-							.getAttributeGroup(
-									"atg."
-											+ typ.getPidOrNameOrId().replace(
-													"typ.", ""));
+							.getAttributeGroup("atg." + typ.getPidOrNameOrId()
+									.replace("typ.", ""));
 					final DataDescription desc = new DataDescription(atg, asp);
 					final ResultData result = new ResultData(sensor, desc,
 							startZeit, data);
@@ -163,11 +186,11 @@ public class UfdTestSender extends TimerTask implements StandardApplication,
 						final SystemObjectType typ = obj.getType();
 						final AttributeGroup atg = con.getDataModel()
 								.getAttributeGroup(
-										"atg."
-												+ typ.getPidOrNameOrId()
-														.replace("typ.", ""));
-						con.subscribeSender(this, obj, new DataDescription(atg,
-								asp), SenderRole.source());
+										"atg." + typ.getPidOrNameOrId()
+												.replace("typ.", ""));
+						con.subscribeSender(this, obj,
+								new DataDescription(atg, asp),
+								SenderRole.source());
 					}
 				}
 			} catch (final OneSubscriptionPerSendData e) {
@@ -189,8 +212,8 @@ public class UfdTestSender extends TimerTask implements StandardApplication,
 	@Override
 	public void parseArguments(final ArgumentList argumentList)
 			throws Exception {
-		final String startStr = argumentList
-				.fetchArgument("-startDatum=").asString(); //$NON-NLS-1$
+		final String startStr = argumentList.fetchArgument("-startDatum=") //$NON-NLS-1$
+				.asString();
 		if ((startStr != null) && (startStr.length() > 0)) {
 			startZeit = DateFormat.getDateInstance().parse(startStr).getTime();
 		}
@@ -199,7 +222,7 @@ public class UfdTestSender extends TimerTask implements StandardApplication,
 
 	/**
 	 * Die Hauptfunktion des Observers.
-	 * 
+	 *
 	 * @param args
 	 *            Programm-Argumente
 	 */
@@ -209,7 +232,7 @@ public class UfdTestSender extends TimerTask implements StandardApplication,
 
 	/**
 	 * {@inheritDoc}.
-	 * 
+	 *
 	 * @see stauma.dav.clientside.ClientSenderInterface#dataRequest(stauma.dav.configuration.interfaces.SystemObject,
 	 *      stauma.dav.clientside.DataDescription, byte)
 	 */
@@ -224,7 +247,7 @@ public class UfdTestSender extends TimerTask implements StandardApplication,
 
 	/**
 	 * {@inheritDoc}.
-	 * 
+	 *
 	 * @see stauma.dav.clientside.ClientSenderInterface#isRequestSupported(stauma.dav.configuration.interfaces.SystemObject,
 	 *      stauma.dav.clientside.DataDescription)
 	 */
@@ -236,9 +259,9 @@ public class UfdTestSender extends TimerTask implements StandardApplication,
 			result = true;
 		} else {
 			LOGGER.warning("Unerwarteter Request: Attributgruppe "
-					+ dataDescription.getAttributeGroup().getName()
-					+ " Aspekt " + dataDescription.getAspect().getName()
-					+ " Objekt " + object.getPid());
+					+ dataDescription.getAttributeGroup().getName() + " Aspekt "
+					+ dataDescription.getAspect().getName() + " Objekt "
+					+ object.getPid());
 		}
 		return result;
 	}
@@ -257,25 +280,25 @@ public class UfdTestSender extends TimerTask implements StandardApplication,
 		final Data result = con.createData(atg);
 		result.setToDefault();
 		result.getTimeValue("T").setSeconds(60);
-		final Data embbededItem = result.getItem(typ.getPidOrNameOrId()
-				.replace("typ.ufds", ""));
+		final Data embbededItem = result
+				.getItem(typ.getPidOrNameOrId().replace("typ.ufds", ""));
 
 		embbededItem.getScaledValue("Wert").set(new Random().nextDouble());
 		final Data statusItem = embbededItem.getItem("Status");
 		statusItem.getItem("Erfassung").getUnscaledValue("NichtErfasst")
-				.setText("Nein");
+		.setText("Nein");
 
 		statusItem.getItem("PlFormal").getUnscaledValue("WertMax")
-				.setText("Nein");
+		.setText("Nein");
 		statusItem.getItem("PlFormal").getUnscaledValue("WertMin")
-				.setText("Nein");
+		.setText("Nein");
 		statusItem.getItem("MessWertErsetzung").getUnscaledValue("Implausibel")
+		.setText("Nein");
+		statusItem.getItem("MessWertErsetzung").getUnscaledValue("Interpoliert")
 				.setText("Nein");
-		statusItem.getItem("MessWertErsetzung")
-				.getUnscaledValue("Interpoliert").setText("Nein");
 
 		final Data gueteItem = embbededItem.getItem("Güte");
-		gueteItem.getUnscaledValue("Index").set(-1); //$NON-NLS-1$ 
+		gueteItem.getUnscaledValue("Index").set(-1); //$NON-NLS-1$
 		gueteItem.getUnscaledValue("Verfahren").set(0);
 
 		return result;

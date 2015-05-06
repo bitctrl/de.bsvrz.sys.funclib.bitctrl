@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -51,9 +51,9 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
  * ausgeschaltet werden<br>
  * 3.) Für das selbe Systemobjekt darf nicht zweimal hintereinander die Kennung
  * <code>keine Daten</code> versendet werden
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
+ *
  * @version $Id: PublikationsModul.java 23685 2010-06-09 15:42:02Z uhlmann $
  */
 public class PublikationsModul extends AbstraktBearbeitungsKnotenAdapter {
@@ -71,23 +71,23 @@ public class PublikationsModul extends AbstraktBearbeitungsKnotenAdapter {
 	/**
 	 * Zustand <code>keine Daten</code> jedes Objektes.
 	 */
-	private Map<SystemObject, Boolean> keineDaten = new HashMap<SystemObject, Boolean>();
+	private final Map<SystemObject, Boolean> keineDaten = new HashMap<SystemObject, Boolean>();
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param stdAspekte
 	 *            Informationen zu den Standardpublikationsaspekten für dieses
 	 *            Modul
 	 * @param modulTyp
 	 *            der Typ des Moduls, für den dieser Bearbeitungsknoten
-	 *            publizieren soll oder <code>null</code>, wenn die
-	 *            Publikation hier nicht dynamisch sein soll (sich also nicht an
-	 *            der Datenflusssteuerung für dieses Modul orientieren soll)
+	 *            publizieren soll oder <code>null</code>, wenn die Publikation
+	 *            hier nicht dynamisch sein soll (sich also nicht an der
+	 *            Datenflusssteuerung für dieses Modul orientieren soll)
 	 */
 	public PublikationsModul(final IStandardAspekte stdAspekte,
 			final ModulTyp modulTyp) {
-		this.standardAspekte = stdAspekte;
+		standardAspekte = stdAspekte;
 		this.modulTyp = modulTyp;
 	}
 
@@ -95,65 +95,61 @@ public class PublikationsModul extends AbstraktBearbeitungsKnotenAdapter {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void initialisiere(IVerwaltung dieVerwaltung)
+	public void initialisiere(final IVerwaltung dieVerwaltung)
 			throws DUAInitialisierungsException {
 		super.initialisiere(dieVerwaltung);
-		this.publikationsAnmeldungen
-				.modifiziereObjektAnmeldung(this.standardAspekte
-						.getStandardAnmeldungen(this.verwaltung
-								.getSystemObjekte()));
-		for (SystemObject objekt : this.verwaltung.getSystemObjekte()) {
-			this.keineDaten.put(objekt, true);
+		publikationsAnmeldungen.modifiziereObjektAnmeldung(standardAspekte
+				.getStandardAnmeldungen(verwaltung.getSystemObjekte()));
+		for (final SystemObject objekt : verwaltung.getSystemObjekte()) {
+			keineDaten.put(objekt, true);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void aktualisiereDaten(ResultData[] resultate) {
+	public void aktualisiereDaten(final ResultData[] resultate) {
 		if (resultate != null) {
-			for (ResultData resultat : resultate) {
+			for (final ResultData resultat : resultate) {
 				if (resultat != null) {
 					ResultData publikationsDatum = null;
 
-					if (this.modulTyp != null) {
+					if (modulTyp != null) {
 						publikationsDatum = iDfsMod.getPublikationsDatum(
-								resultat, resultat.getData(), standardAspekte
-										.getStandardAspekt(resultat));
+								resultat, resultat.getData(),
+								standardAspekte.getStandardAspekt(resultat));
 					} else {
-						publikationsDatum = new ResultData(
-								resultat.getObject(), new DataDescription(
+						publikationsDatum = new ResultData(resultat.getObject(),
+								new DataDescription(
 										resultat.getDataDescription()
-												.getAttributeGroup(),
+										.getAttributeGroup(),
 										standardAspekte
-												.getStandardAspekt(resultat)),
-										resultat.getDataTime(),
-								resultat.getData());
+										.getStandardAspekt(resultat)),
+								resultat.getDataTime(), resultat.getData());
 
 					}
 
 					if (publikationsDatum != null) {
 						if (publikationsDatum.getData() == null) {
-							Boolean objektStehtAktuellAufKeineDaten = this.keineDaten
+							final Boolean objektStehtAktuellAufKeineDaten = keineDaten
 									.get(publikationsDatum.getObject());
 							if (objektStehtAktuellAufKeineDaten != null
 									&& !objektStehtAktuellAufKeineDaten) {
-								this.publikationsAnmeldungen
-										.sende(publikationsDatum);
+								publikationsAnmeldungen
+								.sende(publikationsDatum);
 							}
 						} else {
-							this.publikationsAnmeldungen
-									.sende(publikationsDatum);
+							publikationsAnmeldungen.sende(publikationsDatum);
 						}
 
-						this.keineDaten.put(publikationsDatum.getObject(),
+						keineDaten.put(publikationsDatum.getObject(),
 								publikationsDatum.getData() == null);
 					}
 				}
 			}
 
-			if (this.knoten != null) {
-				this.knoten.aktualisiereDaten(resultate);
+			if (knoten != null) {
+				knoten.aktualisiereDaten(resultate);
 			}
 		}
 	}
@@ -162,32 +158,30 @@ public class PublikationsModul extends AbstraktBearbeitungsKnotenAdapter {
 	 * {@inheritDoc}
 	 */
 	public ModulTyp getModulTyp() {
-		return this.modulTyp;
+		return modulTyp;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void aktualisierePublikation(IDatenFlussSteuerung iDfs) {
-		if (this.modulTyp != null) {
-			this.iDfsMod = iDfs.getDFSFuerModul(this.verwaltung.getSWETyp(),
-					this.getModulTyp());
+	public void aktualisierePublikation(final IDatenFlussSteuerung iDfs) {
+		if (modulTyp != null) {
+			iDfsMod = iDfs.getDFSFuerModul(verwaltung.getSWETyp(),
+					getModulTyp());
 
 			Collection<DAVObjektAnmeldung> anmeldungenStd = new ArrayList<DAVObjektAnmeldung>();
 
-			if (this.standardAspekte != null) {
-				anmeldungenStd = this.standardAspekte
-						.getStandardAnmeldungen(this.verwaltung
-								.getSystemObjekte());
+			if (standardAspekte != null) {
+				anmeldungenStd = standardAspekte
+						.getStandardAnmeldungen(verwaltung.getSystemObjekte());
 			}
 
-			Collection<DAVObjektAnmeldung> anmeldungen = this.iDfsMod
-					.getDatenAnmeldungen(this.verwaltung.getSystemObjekte(),
+			final Collection<DAVObjektAnmeldung> anmeldungen = iDfsMod
+					.getDatenAnmeldungen(verwaltung.getSystemObjekte(),
 							anmeldungenStd);
 
 			synchronized (this) {
-				this.publikationsAnmeldungen
-						.modifiziereObjektAnmeldung(anmeldungen);
+				publikationsAnmeldungen.modifiziereObjektAnmeldung(anmeldungen);
 			}
 		}
 	}

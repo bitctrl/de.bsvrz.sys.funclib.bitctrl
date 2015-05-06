@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -28,7 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter;
 
 /**
  * Repr&auml;sentation des Ergebnisses einer Handler-Validierung.<br>
- * 
+ *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  * @version $Id: HandlerValidation.java 6835 2008-02-21 13:04:58Z peuker $
  */
@@ -47,22 +47,23 @@ public class HandlerValidation {
 
 	/**
 	 * Konstruktor.
-	 * 
+	 *
 	 * @param richtigeAnzahl
 	 *            die Anzahl der Operanden ist korrekt
 	 * @param richtigerTyp
 	 *            die Operanden haben passende Typen
 	 */
-	public HandlerValidation(boolean richtigeAnzahl, boolean richtigerTyp) {
+	public HandlerValidation(final boolean richtigeAnzahl,
+			final boolean richtigerTyp) {
 		this.richtigeAnzahl = richtigeAnzahl;
 		this.richtigerTyp = richtigerTyp;
 	}
 
 	/**
 	 * ermittelt, ob das Ergebnis die korrekte Anzahl von Operanden bescheinigt.
-	 * 
-	 * @return <i>true</i>, wenn die Anzahl der gepr&uuml;ften Operanden
-	 *         korrekt war
+	 *
+	 * @return <i>true</i>, wenn die Anzahl der gepr&uuml;ften Operanden korrekt
+	 *         war
 	 */
 	public boolean isRichtigeAnzahl() {
 		return richtigeAnzahl;
@@ -70,7 +71,7 @@ public class HandlerValidation {
 
 	/**
 	 * ermittelt, ob das Ergebnis die passenden Operanden bescheinigt.
-	 * 
+	 *
 	 * @return <i>true</i>, wenn die gepr&uuml;ften Operanden passend sind
 	 */
 	public boolean isRichtigerTyp() {
@@ -80,7 +81,7 @@ public class HandlerValidation {
 	/**
 	 * ermittelt, ob das Ergebnis von der Validierung eines passenden Handler
 	 * generiert wurde.
-	 * 
+	 *
 	 * @return <i>true</i>, wenn der Handler, der das Ergebnis geliefert hat,
 	 *         passend ist
 	 */

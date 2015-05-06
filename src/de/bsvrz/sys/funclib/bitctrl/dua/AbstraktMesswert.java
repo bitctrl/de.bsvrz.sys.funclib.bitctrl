@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -30,13 +30,13 @@ import de.bsvrz.dav.daf.main.Data;
 
 /**
  * Messwert <b>für ein Attribut</b> mit Plausibilisierungsinformationen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
+ *
  * @version $Id: AbstraktMesswert.java 8054 2008-04-09 15:11:59Z tfelder $
  */
-public abstract class AbstraktMesswert extends MesswertMarkierung implements
-		Comparable<AbstraktMesswert> {
+public abstract class AbstraktMesswert extends MesswertMarkierung
+implements Comparable<AbstraktMesswert> {
 
 	/**
 	 * Der Attributname dieses Messwertes.
@@ -65,7 +65,7 @@ public abstract class AbstraktMesswert extends MesswertMarkierung implements
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param attName
 	 *            der Attributname dieses Messwertes
 	 * @param datum
@@ -80,44 +80,44 @@ public abstract class AbstraktMesswert extends MesswertMarkierung implements
 		}
 		this.attName = attName;
 
-		if (!this.isSkaliert()) {
-			this.wertUnskaliert = datum.getItem(attName).getUnscaledValue(
-					"Wert").longValue(); //$NON-NLS-1$
+		if (!isSkaliert()) {
+			wertUnskaliert = datum.getItem(attName).getUnscaledValue("Wert") //$NON-NLS-1$
+					.longValue();
 		}
 
-		this.nichtErfasst = datum.getItem(attName)
-				.getItem("Status").getItem("Erfassung").//$NON-NLS-1$ //$NON-NLS-2$
+		nichtErfasst = datum.getItem(attName).getItem("Status") //$NON-NLS-1$
+				.getItem("Erfassung").//$NON-NLS-1$
 				getUnscaledValue("NichtErfasst").intValue() == DUAKonstanten.JA; //$NON-NLS-1$
-		this.formalMax = datum.getItem(attName)
-				.getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMax").intValue() == DUAKonstanten.JA; //$NON-NLS-1$
-		this.formalMin = datum.getItem(attName)
-				.getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMin").intValue() == DUAKonstanten.JA; //$NON-NLS-1$
+		formalMax = datum.getItem(attName).getItem("Status").getItem("PlFormal") //$NON-NLS-1$ //$NON-NLS-2$
+				.getUnscaledValue("WertMax").intValue() == DUAKonstanten.JA; //$NON-NLS-1$
+		formalMin = datum.getItem(attName).getItem("Status").getItem("PlFormal") //$NON-NLS-1$ //$NON-NLS-2$
+				.getUnscaledValue("WertMin").intValue() == DUAKonstanten.JA; //$NON-NLS-1$
 
-		this.logischMax = datum.getItem(attName)
-				.getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMaxLogisch").intValue() == DUAKonstanten.JA; //$NON-NLS-1$
-		this.logischMin = datum.getItem(attName)
-				.getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMinLogisch").intValue() == DUAKonstanten.JA; //$NON-NLS-1$
+		logischMax = datum.getItem(attName).getItem("Status") //$NON-NLS-1$
+				.getItem("PlLogisch").//$NON-NLS-1$
+				getUnscaledValue("WertMaxLogisch") //$NON-NLS-1$
+				.intValue() == DUAKonstanten.JA;
+		logischMin = datum.getItem(attName).getItem("Status") //$NON-NLS-1$
+				.getItem("PlLogisch").//$NON-NLS-1$
+				getUnscaledValue("WertMinLogisch") //$NON-NLS-1$
+				.intValue() == DUAKonstanten.JA;
 
-		this.implausibel = datum.getItem(attName)
-				.getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
+		implausibel = datum.getItem(attName).getItem("Status") //$NON-NLS-1$
+				.getItem("MessWertErsetzung").//$NON-NLS-1$
 				getUnscaledValue("Implausibel").intValue() == DUAKonstanten.JA; //$NON-NLS-1$
-		this.interpoliert = datum.getItem(attName)
-				.getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
+		interpoliert = datum.getItem(attName).getItem("Status") //$NON-NLS-1$
+				.getItem("MessWertErsetzung").//$NON-NLS-1$
 				getUnscaledValue("Interpoliert").intValue() == DUAKonstanten.JA; //$NON-NLS-1$
 
-		this.guete.setWert(datum.getItem(attName)
-				.getItem("Güte").getUnscaledValue("Index").longValue()); //$NON-NLS-1$ //$NON-NLS-2$
-		this.verfahren = datum.getItem(attName)
-				.getItem("Güte").getUnscaledValue("Verfahren").intValue(); //$NON-NLS-1$ //$NON-NLS-2$
+		guete.setWert(datum.getItem(attName).getItem("Güte") //$NON-NLS-1$
+				.getUnscaledValue("Index").longValue()); //$NON-NLS-1$
+		verfahren = datum.getItem(attName).getItem("Güte") //$NON-NLS-1$
+				.getUnscaledValue("Verfahren").intValue(); //$NON-NLS-1$
 	}
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param attName
 	 *            der Attributname dieses Messwertes
 	 */
@@ -128,7 +128,7 @@ public abstract class AbstraktMesswert extends MesswertMarkierung implements
 	/**
 	 * Erfragt, ob es sich um einen Wert handelt, der skaliert gelesen bzw.
 	 * geschrieben werden soll
-	 * 
+	 *
 	 * @return ob es sich um einen Wert handelt, der skaliert gelesen bzw.
 	 *         geschrieben werden soll
 	 */
@@ -136,26 +136,26 @@ public abstract class AbstraktMesswert extends MesswertMarkierung implements
 
 	/**
 	 * Erfragt die Guete dieses Attributwertes.
-	 * 
+	 *
 	 * @return die Guete dieses Attributwertes
 	 */
 	public final GanzZahl getGueteIndex() {
-		return this.guete;
+		return guete;
 	}
 
 	/**
 	 * Setzte die Guete dieses Attributwertes.
-	 * 
+	 *
 	 * @param guete1
 	 *            die Guete dieses Attributwertes
 	 */
 	public final void setGueteIndex(final GanzZahl guete1) {
-		this.guete = guete1;
+		guete = guete1;
 	}
 
 	/**
 	 * Erfragt das Gueteverfahren.
-	 * 
+	 *
 	 * @return das Gueteverfahren
 	 */
 	public final int getVerfahren() {
@@ -164,204 +164,198 @@ public abstract class AbstraktMesswert extends MesswertMarkierung implements
 
 	/**
 	 * Setzt das Gueteverfahren.
-	 * 
+	 *
 	 * @param verfahren
 	 *            das Gueteverfahren
 	 */
-	public final void setVerfahren(int verfahren) {
+	public final void setVerfahren(final int verfahren) {
 		this.verfahren = verfahren;
 	}
 
 	/**
 	 * Setzt den skalierten Attributwert.
-	 * 
+	 *
 	 * @param wert
 	 *            der skalierte Attributwert
 	 */
 	public final void setWertSkaliert(final double wert) {
-		this.wertSkaliert = wert;
+		wertSkaliert = wert;
 	}
 
 	/**
 	 * Erfragt den skalierten Attributwert.
-	 * 
+	 *
 	 * @return den skalierten Attributwert
 	 */
 	public final double getWertSkaliert() {
-		return this.wertSkaliert;
+		return wertSkaliert;
 	}
 
 	/**
 	 * Setzt den unskalierte Attributwert.
-	 * 
+	 *
 	 * @param wert
 	 *            der unskalierte Attributwert
 	 */
 	public final void setWertUnskaliert(final long wert) {
-		this.wertUnskaliert = wert;
+		wertUnskaliert = wert;
 	}
 
 	/**
 	 * Erfragt den unskalierten Attributwert.
-	 * 
+	 *
 	 * @return der unskalierte Attributwert
 	 */
 	public final long getWertUnskaliert() {
-		return this.wertUnskaliert;
+		return wertUnskaliert;
 	}
 
 	/**
 	 * Erfragt, ob dieser Messwert entweder <code>fehlerhaft</code>,
 	 * <code>nicht ermittelbar/fehlerhaft</code> oder <code>implausibel</code>
 	 * ist.
-	 * 
+	 *
 	 * @return ob dieser Messwert entweder <code>fehlerhaft</code>,
 	 *         <code>nicht ermittelbar/fehlerhaft</code> oder
 	 *         <code>implausibel</code> ist
 	 */
 	public final boolean isFehlerhaftBzwImplausibel() {
-		return this.wertUnskaliert == DUAKonstanten.FEHLERHAFT
-				|| this.wertUnskaliert == DUAKonstanten.NICHT_ERMITTELBAR_BZW_FEHLERHAFT
-				|| this.implausibel;
+		return wertUnskaliert == DUAKonstanten.FEHLERHAFT
+				|| wertUnskaliert == DUAKonstanten.NICHT_ERMITTELBAR_BZW_FEHLERHAFT
+				|| implausibel;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int compareTo(AbstraktMesswert that) {
-		return this.isSkaliert() ? new Double(this.getWertSkaliert())
-				.compareTo(that.getWertSkaliert()) : new Long(this
-				.getWertUnskaliert()).compareTo(that.getWertUnskaliert());
+	public int compareTo(final AbstraktMesswert that) {
+		return isSkaliert()
+				? new Double(getWertSkaliert())
+						.compareTo(that.getWertSkaliert())
+						: new Long(getWertUnskaliert())
+						.compareTo(that.getWertUnskaliert());
 	}
 
 	/**
 	 * Kopiert den Inhalt dieses Objektes in das übergebene Datum.
-	 * 
+	 *
 	 * @param datum
 	 *            ein veränderbares Datum
 	 */
 	public final void kopiereInhaltNach(final Data datum) {
-		if (this.isSkaliert()) {
-			datum.getItem(attName)
-					.getScaledValue("Wert").set(this.wertSkaliert); //$NON-NLS-1$	
+		if (isSkaliert()) {
+			datum.getItem(attName).getScaledValue("Wert").set(wertSkaliert); //$NON-NLS-1$
 		} else {
-			if (DUAUtensilien.isWertInWerteBereich(datum.getItem(attName)
-					.getItem("Wert"), this.wertUnskaliert)) { //$NON-NLS-1$
-				datum.getItem(attName)
-						.getUnscaledValue("Wert").set(this.wertUnskaliert); //$NON-NLS-1$
+			if (DUAUtensilien.isWertInWerteBereich(
+					datum.getItem(attName).getItem("Wert"), wertUnskaliert)) { //$NON-NLS-1$
+				datum.getItem(attName).getUnscaledValue("Wert") //$NON-NLS-1$
+				.set(wertUnskaliert);
 			} else {
-				datum
-						.getItem(attName)
-						.getUnscaledValue("Wert").set(DUAKonstanten.NICHT_ERMITTELBAR_BZW_FEHLERHAFT); //$NON-NLS-1$
+				datum.getItem(attName).getUnscaledValue("Wert") //$NON-NLS-1$
+				.set(DUAKonstanten.NICHT_ERMITTELBAR_BZW_FEHLERHAFT);
 			}
 		}
 
-		datum.getItem(attName)
-				.getItem("Status").getItem("Erfassung").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("NichtErfasst").set(this.nichtErfasst ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
+		datum.getItem(attName).getItem("Status").getItem("Erfassung").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("NichtErfasst") //$NON-NLS-1$
+		.set(nichtErfasst ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
-		datum.getItem(attName)
-				.getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMax").set(this.formalMax ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
-		datum.getItem(attName)
-				.getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMin").set(this.formalMin ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
+		datum.getItem(attName).getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("WertMax") //$NON-NLS-1$
+		.set(formalMax ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		datum.getItem(attName).getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("WertMin") //$NON-NLS-1$
+		.set(formalMin ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
-		datum.getItem(attName)
-				.getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMaxLogisch").set(this.logischMax ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
-		datum.getItem(attName)
-				.getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMinLogisch").set(this.logischMin ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
+		datum.getItem(attName).getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("WertMaxLogisch") //$NON-NLS-1$
+		.set(logischMax ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		datum.getItem(attName).getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("WertMinLogisch") //$NON-NLS-1$
+		.set(logischMin ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
-		datum.getItem(attName)
-				.getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("Implausibel").set(this.implausibel ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
-		datum.getItem(attName)
-				.getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("Interpoliert").set(this.interpoliert ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
+		datum.getItem(attName).getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("Implausibel") //$NON-NLS-1$
+		.set(implausibel ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		datum.getItem(attName).getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("Interpoliert") //$NON-NLS-1$
+		.set(interpoliert ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
-		datum
-				.getItem(attName)
-				.getItem("Güte").getUnscaledValue("Index").set(this.guete.getWert()); //$NON-NLS-1$ //$NON-NLS-2$
-		datum
-				.getItem(attName)
-				.getItem("Güte").getUnscaledValue("Verfahren").set(this.verfahren); //$NON-NLS-1$ //$NON-NLS-2$
+		datum.getItem(attName).getItem("Güte").getUnscaledValue("Index") //$NON-NLS-1$ //$NON-NLS-2$
+		.set(guete.getWert());
+		datum.getItem(attName).getItem("Güte").getUnscaledValue("Verfahren") //$NON-NLS-1$ //$NON-NLS-2$
+		.set(verfahren);
 	}
 
 	/**
 	 * Kopiert den Inhalt dieses Objektes in das übergebene Datum.
-	 * 
+	 *
 	 * @param datum
 	 *            ein veränderbares Datum
 	 */
 	public final void kopiereInhaltNachModifiziereIndex(final Data datum) {
-		if (this.isSkaliert()) {
-			datum.getItem(attName)
-					.getScaledValue("Wert").set(this.wertSkaliert); //$NON-NLS-1$	
+		if (isSkaliert()) {
+			datum.getItem(attName).getScaledValue("Wert").set(wertSkaliert); //$NON-NLS-1$
 		} else {
-			if (DUAUtensilien.isWertInWerteBereich(datum.getItem(attName)
-					.getItem("Wert"), this.wertUnskaliert)) { //$NON-NLS-1$
-				datum.getItem(attName)
-						.getUnscaledValue("Wert").set(this.wertUnskaliert); //$NON-NLS-1$
+			if (DUAUtensilien.isWertInWerteBereich(
+					datum.getItem(attName).getItem("Wert"), wertUnskaliert)) { //$NON-NLS-1$
+				datum.getItem(attName).getUnscaledValue("Wert") //$NON-NLS-1$
+				.set(wertUnskaliert);
 			} else {
-				datum
-						.getItem(attName)
-						.getUnscaledValue("Wert").set(DUAKonstanten.NICHT_ERMITTELBAR_BZW_FEHLERHAFT); //$NON-NLS-1$
+				datum.getItem(attName).getUnscaledValue("Wert") //$NON-NLS-1$
+				.set(DUAKonstanten.NICHT_ERMITTELBAR_BZW_FEHLERHAFT);
 			}
 		}
 
-		datum.getItem(attName)
-				.getItem("Status").getItem("Erfassung").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("NichtErfasst").set(this.nichtErfasst ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
+		datum.getItem(attName).getItem("Status").getItem("Erfassung").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("NichtErfasst") //$NON-NLS-1$
+		.set(nichtErfasst ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
-		datum.getItem(attName)
-				.getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMax").set(this.formalMax ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
-		datum.getItem(attName)
-				.getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMin").set(this.formalMin ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
+		datum.getItem(attName).getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("WertMax") //$NON-NLS-1$
+		.set(formalMax ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		datum.getItem(attName).getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("WertMin") //$NON-NLS-1$
+		.set(formalMin ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
-		datum.getItem(attName)
-				.getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMaxLogisch").set(this.logischMax ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
-		datum.getItem(attName)
-				.getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMinLogisch").set(this.logischMin ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
+		datum.getItem(attName).getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("WertMaxLogisch") //$NON-NLS-1$
+		.set(logischMax ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		datum.getItem(attName).getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("WertMinLogisch") //$NON-NLS-1$
+		.set(logischMin ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
-		datum.getItem(attName)
-				.getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("Implausibel").set(this.implausibel ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
-		datum.getItem(attName)
-				.getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("Interpoliert").set(this.interpoliert ? DUAKonstanten.JA : DUAKonstanten.NEIN); //$NON-NLS-1$
+		datum.getItem(attName).getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("Implausibel") //$NON-NLS-1$
+		.set(implausibel ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		datum.getItem(attName).getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
+				getUnscaledValue("Interpoliert") //$NON-NLS-1$
+		.set(interpoliert ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
 		if (datum.getItem(attName).getUnscaledValue("Wert").longValue() < 0) { //$NON-NLS-1$
-			datum.getItem(attName)
-					.getItem("Güte").getUnscaledValue("Index").set(0); //$NON-NLS-1$ //$NON-NLS-2$
+			datum.getItem(attName).getItem("Güte").getUnscaledValue("Index") //$NON-NLS-1$ //$NON-NLS-2$
+			.set(0);
 		} else {
-			datum
-					.getItem(attName)
-					.getItem("Güte").getUnscaledValue("Index").set(this.guete.getWert()); //$NON-NLS-1$ //$NON-NLS-2$
+			datum.getItem(attName).getItem("Güte").getUnscaledValue("Index") //$NON-NLS-1$ //$NON-NLS-2$
+			.set(guete.getWert());
 		}
-		datum
-				.getItem(attName)
-				.getItem("Güte").getUnscaledValue("Verfahren").set(this.verfahren); //$NON-NLS-1$ //$NON-NLS-2$
+		datum.getItem(attName).getItem("Güte").getUnscaledValue("Verfahren") //$NON-NLS-1$ //$NON-NLS-2$
+		.set(verfahren);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		boolean gleich = false;
 
 		if (obj instanceof AbstraktMesswert) {
-			AbstraktMesswert that = (AbstraktMesswert) obj;
+			final AbstraktMesswert that = (AbstraktMesswert) obj;
 
 			gleich = super.equals(obj)
-					&& this.getWertUnskaliert() == that.getWertUnskaliert()
-					&& this.guete.equals(that.guete);
+					&& getWertUnskaliert() == that.getWertUnskaliert()
+					&& guete.equals(that.guete);
 		}
 
 		return gleich;
@@ -372,15 +366,14 @@ public abstract class AbstraktMesswert extends MesswertMarkierung implements
 	 */
 	@Override
 	public String toString() {
-		return (this.isSkaliert() ? this.getWertSkaliert() : this
-				.getWertUnskaliert())
-				+ " " + super.toString() + " " + this.guete.getSkaliertenWert() + //$NON-NLS-1$ //$NON-NLS-2$
-				" (" + this.verfahren + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		return (isSkaliert() ? getWertSkaliert() : getWertUnskaliert()) + " " //$NON-NLS-1$
+				+ super.toString() + " " + guete.getSkaliertenWert() + //$NON-NLS-1$
+				" (" + verfahren + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
 	 * Erfragt den Namen dieses Messwertes.
-	 * 
+	 *
 	 * @return der Name dieses Messwertes
 	 */
 	public final String getName() {

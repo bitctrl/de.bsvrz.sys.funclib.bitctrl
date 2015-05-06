@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -29,6 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter.logik;
 import java.util.List;
 
 import com.bitctrl.i18n.Messages;
+
 import de.bsvrz.sys.funclib.bitctrl.interpreter.AbstractHandler;
 import de.bsvrz.sys.funclib.bitctrl.interpreter.HandlerValidation;
 import de.bsvrz.sys.funclib.bitctrl.interpreter.InterpreterException;
@@ -38,7 +39,7 @@ import de.bsvrz.sys.funclib.bitctrl.interpreter.Operator;
 /**
  * Handler f&uuml;r (fuzzy-)logische Ausdr&uuml;cke. Abgebildet sind die
  * Basisoperatoren, alle anderen lassen auf diese zur&uuml;ckf&uuml;hren.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id:LogikHandler.java 559 2007-04-02 12:25:14Z peuker $
  */
@@ -71,11 +72,12 @@ public class LogikHandler extends AbstractHandler {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Object perform(Operator operator, List<Object> operanden) {
+	public Object perform(final Operator operator,
+			final List<Object> operanden) {
 		if (operator == null
 				|| !validiereHandler(operator, operanden).isValid()) {
-			throw new InterpreterException(Messages
-					.get(InterpreterMessages.HandlerNotFound));
+			throw new InterpreterException(
+					Messages.get(InterpreterMessages.HandlerNotFound));
 		}
 
 		LogischerWert result = null;
@@ -96,8 +98,8 @@ public class LogikHandler extends AbstractHandler {
 	/**
 	 * {@inheritDoc}
 	 */
-	public HandlerValidation validiereHandler(Operator operator,
-			List<? extends Object> operanden) {
+	public HandlerValidation validiereHandler(final Operator operator,
+			final List<? extends Object> operanden) {
 		assert operanden != null : "Liste der Operanden darf nicht null sein.";
 
 		boolean anzahlOk = false;
@@ -128,9 +130,9 @@ public class LogikHandler extends AbstractHandler {
 		}
 
 		// Alle Operanden müssen ein logischer Wert sein
-		for (Object obj : operanden) {
+		for (final Object obj : operanden) {
 			if (obj instanceof LogischerWert) {
-				LogischerWert lw = (LogischerWert) obj;
+				final LogischerWert lw = (LogischerWert) obj;
 				if (!lw.isBoolWert()) {
 					typOk = false;
 					break;
@@ -146,36 +148,36 @@ public class LogikHandler extends AbstractHandler {
 
 	/**
 	 * Bestimmt das Ergebnis der Implikation: nicht a oder b.
-	 * 
+	 *
 	 * @param operanden
 	 *            Operandenliste mit genau zwei Operanden: a und b
 	 * @return Logischer Wert mit berechneter Zugeh&ouml;rigkeit oder booleschen
 	 *         Wert, wenn alle Operanden boolesche Werte haben
 	 */
-	protected LogischerWert implikation(Object[] operanden) {
+	protected LogischerWert implikation(final Object[] operanden) {
 		assert operanden != null : "Argument operanden darf nicht null sein.";
 		assert operanden.length == 2 : "Anzahl der Operanden muss gleich 2 sein.";
 		assert operanden[0] instanceof LogischerWert : "Operanden müssen logische Werte sein.";
 		assert operanden[1] instanceof LogischerWert : "Operanden müssen logische Werte sein.";
 
-		LogischerWert na = komplement(operanden[0]);
-		LogischerWert[] ab = { na, (LogischerWert) operanden[1] };
+		final LogischerWert na = komplement(operanden[0]);
+		final LogischerWert[] ab = { na, (LogischerWert) operanden[1] };
 		return maximum(ab);
 	}
 
 	/**
 	 * Berechnet das Komplement: 1 - a. Entspricht dem logischen "nicht".
-	 * 
+	 *
 	 * @param operand
 	 *            Operand
 	 * @return Logischer Wert mit berechneter Zugeh&ouml;rigkeit oder booleschen
 	 *         Wert, wenn alle Operanden boolesche Werte haben
 	 */
-	protected LogischerWert komplement(Object operand) {
+	protected LogischerWert komplement(final Object operand) {
 		assert operand != null : "Argument operand darf nicht null sein.";
 		assert operand instanceof LogischerWert : "Operand muss ein logische Werte sein.";
 
-		LogischerWert wert = (LogischerWert) operand;
+		final LogischerWert wert = (LogischerWert) operand;
 
 		if (wert.isBoolWert()) {
 			return new LogischerWert(!wert.getBoolWert());
@@ -185,26 +187,26 @@ public class LogikHandler extends AbstractHandler {
 			return new LogischerWert(null);
 		}
 
-		Double d = Math.abs(1.0 - wert.getZugehoerigkeit());
+		final Double d = Math.abs(1.0 - wert.getZugehoerigkeit());
 		return new LogischerWert(d.floatValue());
 	}
 
 	/**
 	 * Bestimmt das Maximum: max(a, b, ...). Entspricht dem logischen "oder".
-	 * 
+	 *
 	 * @param operanden
 	 *            Operandenliste mit mindestens einem Operanden
 	 * @return Logischer Wert mit berechneter Zugeh&ouml;rigkeit oder booleschen
 	 *         Wert, wenn alle Operanden boolesche Werte haben
 	 */
-	protected LogischerWert maximum(Object[] operanden) {
+	protected LogischerWert maximum(final Object[] operanden) {
 		assert operanden != null : "Argument operanden darf nicht null sein.";
 		assert operanden.length > 0 : "Anzahl der Operanden muss größer 0 sein.";
 
 		Float wert = null;
 		boolean boolWert = true;
 
-		for (Object obj : operanden) {
+		for (final Object obj : operanden) {
 			assert obj instanceof LogischerWert : "Operanden müssen logische Werte sein.";
 
 			LogischerWert operand;
@@ -242,20 +244,20 @@ public class LogikHandler extends AbstractHandler {
 
 	/**
 	 * Bestimmt das Minimum: min(a, b, ...). Entspricht dem logischen "und".
-	 * 
+	 *
 	 * @param operanden
 	 *            Operandenliste mit mindestens einem Operanden
 	 * @return Logischer Wert mit berechneter Zugeh&ouml;rigkeit oder booleschen
 	 *         Wert, wenn alle Operanden boolesche Werte haben
 	 */
-	protected LogischerWert minimum(Object[] operanden) {
+	protected LogischerWert minimum(final Object[] operanden) {
 		assert operanden != null : "Argument operanden darf nicht null sein.";
 		assert operanden.length > 0 : "Anzahl der Operanden muss größer 0 sein.";
 
 		Float wert = null;
 		boolean boolWert = true;
 
-		for (Object obj : operanden) {
+		for (final Object obj : operanden) {
 			assert obj instanceof LogischerWert : "Operanden müssen logische Werte sein.";
 
 			LogischerWert operand;

@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -48,9 +48,9 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 
 /**
  * Adapterklasse für Verwaltungsmodule.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
+ *
  * @version $Id: AbstraktVerwaltungsAdapter.java 8742 2008-05-07 17:01:36Z
  *          tfelder $
  */
@@ -85,39 +85,38 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 	 * {@inheritDoc}
 	 */
 	public final Collection<ConfigurationArea> getKonfigurationsBereiche() {
-		return this.kBereiche;
+		return kBereiche;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final SystemObject[] getSystemObjekte() {
-		return this.objekte;
+		return objekte;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final ClientDavInterface getVerbindung() {
-		return this.verbindung;
+		return verbindung;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void initialize(ClientDavInterface dieVerbindung) throws Exception {
+	public void initialize(final ClientDavInterface dieVerbindung)
+			throws Exception {
 		try {
 
-			this.verbindung = dieVerbindung;
-			if (this.komArgumente != null) {
-				this.kBereiche = DUAUtensilien
-						.getKonfigurationsBereicheAlsObjekte(
-								this.verbindung,
-								DUAUtensilien
-										.getArgument(
-												DUAKonstanten.ARG_KONFIGURATIONS_BEREICHS_PID,
-												this.komArgumente));
-				this.dfsHilfe = DatenFlussSteuerungsVersorger.getInstanz(this);
+			verbindung = dieVerbindung;
+			if (komArgumente != null) {
+				kBereiche = DUAUtensilien.getKonfigurationsBereicheAlsObjekte(
+						verbindung,
+						DUAUtensilien.getArgument(
+								DUAKonstanten.ARG_KONFIGURATIONS_BEREICHS_PID,
+								komArgumente));
+				dfsHilfe = DatenFlussSteuerungsVersorger.getInstanz(this);
 			} else {
 				throw new DUAInitialisierungsException("Es wurden keine" + //$NON-NLS-1$
 						" Kommandozeilenargumente übergeben"); //$NON-NLS-1$
@@ -126,13 +125,13 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 			/**
 			 * Initialisiere das eigentliche Verwaltungsmodul
 			 */
-			this.initialisiere();
+			initialisiere();
 
-			Debug.getLogger().config(this.toString());
+			Debug.getLogger().config(toString());
 
-		} catch (DUAInitialisierungsException ex) {
-			String fehler = "Initialisierung der Applikation " + //$NON-NLS-1$
-					this.getSWETyp().toString() + " fehlgeschlagen"; //$NON-NLS-1$
+		} catch (final DUAInitialisierungsException ex) {
+			final String fehler = "Initialisierung der Applikation " + //$NON-NLS-1$
+					getSWETyp().toString() + " fehlgeschlagen"; //$NON-NLS-1$
 			Debug.getLogger().error(fehler, ex);
 			ex.printStackTrace();
 
@@ -142,7 +141,7 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 						fehler);
 			}
 
-			if (this.verbindung != null) {
+			if (verbindung != null) {
 				verbindung.disconnect(true, fehler);
 			} else {
 				System.exit(0);
@@ -153,12 +152,13 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void parseArguments(ArgumentList argumente) throws Exception {
+	public void parseArguments(final ArgumentList argumente) throws Exception {
 
-		Thread
-				.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-					public void uncaughtException(@SuppressWarnings("unused")
-					Thread t, Throwable e) {
+		Thread.setDefaultUncaughtExceptionHandler(
+				new Thread.UncaughtExceptionHandler() {
+					public void uncaughtException(
+							@SuppressWarnings("unused") final Thread t,
+							final Throwable e) {
 						Debug.getLogger().error("Applikation wird wegen" + //$NON-NLS-1$
 								" unerwartetem Fehler beendet", e); //$NON-NLS-1$
 						e.printStackTrace();
@@ -166,9 +166,9 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 					}
 				});
 
-		for (String s : argumente.getArgumentStrings()) {
+		for (final String s : argumente.getArgumentStrings()) {
 			if (s != null) {
-				this.komArgumente.add(s);
+				komArgumente.add(s);
 			}
 		}
 
@@ -180,12 +180,12 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 	 */
 	@Override
 	public String toString() {
-		String s = "SWE: " + this.getSWETyp() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+		final String s = "SWE: " + getSWETyp() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		String dummy = "---keine Konfigurationsbereiche angegeben---\n"; //$NON-NLS-1$
 		if (kBereiche.size() > 0) {
 			dummy = Constants.EMPTY_STRING;
-			for (ConfigurationArea kb : kBereiche) {
+			for (final ConfigurationArea kb : kBereiche) {
 				dummy += kb + "\n"; //$NON-NLS-1$
 			}
 		}
@@ -196,8 +196,8 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getArgument(String schluessel) {
-		return DUAUtensilien.getArgument(schluessel, this.komArgumente);
+	public String getArgument(final String schluessel) {
+		return DUAUtensilien.getArgument(schluessel, komArgumente);
 	}
 
 	/**
@@ -205,7 +205,7 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 	 * die Argumente der Kommandozeile, als auch die Datenverteilerverbindung
 	 * übergeben wurden (also nach dem Aufruf der Methoden
 	 * <code>parseArguments(..)</code> und <code>initialize(..)</code>).
-	 * 
+	 *
 	 * @throws DUAInitialisierungsException
 	 *             falls es Probleme bei der Initialisierung geben sollte
 	 */

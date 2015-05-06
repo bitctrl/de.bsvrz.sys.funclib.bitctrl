@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -34,7 +34,7 @@ import de.bsvrz.sys.funclib.bitctrl.interpreter.Literal;
 
 /**
  * Ein boolesches Terminalsymbol (Literal).
- * 
+ *
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @version $Id: LogischesLiteral.java 5262 2007-12-18 09:33:29Z Schumann $
  */
@@ -47,31 +47,31 @@ public class LogischesLiteral implements Literal {
 
 	/**
 	 * Konstruiert ein Terminalsymbol mit dem angegebenen Wert.
-	 * 
+	 *
 	 * @param wert
 	 *            Wert
 	 */
-	public LogischesLiteral(boolean wert) {
+	public LogischesLiteral(final boolean wert) {
 		this.wert = new LogischerWert(wert);
 	}
 
 	/**
 	 * Konstruiert ein Terminalsymbol mit dem angegebenen Wert.
-	 * 
+	 *
 	 * @param wert
 	 *            Wert
 	 */
-	public LogischesLiteral(Float wert) {
+	public LogischesLiteral(final Float wert) {
 		this.wert = new LogischerWert(wert);
 	}
 
 	/**
 	 * Konstruiert ein Terminalsymbol mit dem angegebenen Wert.
-	 * 
+	 *
 	 * @param wert
 	 *            Wert
 	 */
-	public LogischesLiteral(LogischerWert wert) {
+	public LogischesLiteral(final LogischerWert wert) {
 		if (wert.isBoolWert()) {
 			this.wert = new LogischerWert(wert.getBoolWert());
 		} else {
@@ -90,7 +90,7 @@ public class LogischesLiteral implements Literal {
 
 	/**
 	 * Nennt den Wert des Terminalsymbols.
-	 * 
+	 *
 	 * @return Wert des Literal
 	 */
 	public LogischerWert getWert() {
@@ -100,13 +100,13 @@ public class LogischesLiteral implements Literal {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Object interpret(Kontext kontext) {
+	public Object interpret(final Kontext kontext) {
 		return wert;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

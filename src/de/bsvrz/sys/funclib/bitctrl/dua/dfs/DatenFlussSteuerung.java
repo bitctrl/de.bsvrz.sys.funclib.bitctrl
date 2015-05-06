@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -38,9 +38,9 @@ import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.SWETyp;
  * Diese Klasse repräsentiert die Attributgruppe
  * <code>atg.datenFlussSteuerung</code> des Typs
  * <code>typ.datenFlussSteuerung</code>.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
+ *
  * @version $Id: DatenFlussSteuerung.java 8054 2008-04-09 15:11:59Z tfelder $
  */
 public class DatenFlussSteuerung implements IDatenFlussSteuerung {
@@ -48,11 +48,11 @@ public class DatenFlussSteuerung implements IDatenFlussSteuerung {
 	/**
 	 * Liste aller Parametersätze innerhalb der Attributgruppe.
 	 */
-	private List<ParameterSatz> parameterSaetze = new ArrayList<ParameterSatz>();
+	private final List<ParameterSatz> parameterSaetze = new ArrayList<ParameterSatz>();
 
 	/**
 	 * Fügt diesem Objekt einen Parametersatz hinzu.
-	 * 
+	 *
 	 * @param ps
 	 *            der neue Parametersatz
 	 */
@@ -68,7 +68,7 @@ public class DatenFlussSteuerung implements IDatenFlussSteuerung {
 	 * widersprüchliche Informationen innerhalb der Parametersätze enthalten
 	 * sein, so werden alle Parametersätze, die diesen Widerspruch enthalten
 	 * ignoriert.</b>
-	 * 
+	 *
 	 * @param swe
 	 *            die SWE
 	 * @return der Parametersatz der Datenflusssteuerung für die übergebene SWE
@@ -78,7 +78,7 @@ public class DatenFlussSteuerung implements IDatenFlussSteuerung {
 	protected final ParameterSatz getParameterSatzFuerSWE(final SWETyp swe) {
 		ParameterSatz ps = null;
 
-		for (ParameterSatz psDummy : parameterSaetze) {
+		for (final ParameterSatz psDummy : parameterSaetze) {
 			if (psDummy.getSwe().equals(swe)) {
 				ps = psDummy;
 				break;
@@ -91,13 +91,14 @@ public class DatenFlussSteuerung implements IDatenFlussSteuerung {
 	/**
 	 * {@inheritDoc}
 	 */
-	public IDatenFlussSteuerungFuerModul getDFSFuerModul(SWETyp swe,
-			ModulTyp modulTyp) {
-		DatenFlussSteuerungFuerModul dfsModul = new DatenFlussSteuerungFuerModul();
-		ParameterSatz ps = getParameterSatzFuerSWE(swe);
+	public IDatenFlussSteuerungFuerModul getDFSFuerModul(final SWETyp swe,
+			final ModulTyp modulTyp) {
+		final DatenFlussSteuerungFuerModul dfsModul = new DatenFlussSteuerungFuerModul();
+		final ParameterSatz ps = getParameterSatzFuerSWE(swe);
 
 		if (ps != null) {
-			for (PublikationsZuordung pzFuerModul : ps.getPubZuordnung()) {
+			for (final PublikationsZuordung pzFuerModul : ps
+					.getPubZuordnung()) {
 				if (pzFuerModul.getModulTyp().equals(modulTyp)) {
 					dfsModul.add(pzFuerModul);
 				}

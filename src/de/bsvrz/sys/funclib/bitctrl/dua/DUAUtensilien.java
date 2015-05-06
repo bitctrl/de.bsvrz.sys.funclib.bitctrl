@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -69,9 +69,9 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 /**
  * Einige hilfreiche Methoden, die an verschiedenen Stellen innerhalb der DUA
  * Verwendung finden.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
+ *
  * @version $Id: DUAUtensilien.java 23685 2010-06-09 15:42:02Z uhlmann $
  */
 public final class DUAUtensilien {
@@ -99,16 +99,15 @@ public final class DUAUtensilien {
 	 * <code>"a.b.c.Status.PlFormal.WertMax" = ersetzeLetztesElemInAttPfad(
 	 * "a.b.c.Wert", "Status.PlFormal.WertMax")</code><br>
 	 * bewirkt bspw., dass auf den Statuswert <code>max</code> der formalen
-	 * Plausibilisierung des Elements <code>a.b.c</code> zugegriffen werden
-	 * kann
-	 * 
+	 * Plausibilisierung des Elements <code>a.b.c</code> zugegriffen werden kann
+	 *
 	 * @param attPfad
 	 *            der orginale Attributpfad
 	 * @param ersetzung
 	 *            die Zeichenkette, durch die der letzte Teil des Attributpfades
 	 *            ersetzt werden soll
-	 * @return einen veränderten Attributpfad oder <code>null</code>, wenn
-	 *         die Ersetzung nicht durchgeführt werden konnte
+	 * @return einen veränderten Attributpfad oder <code>null</code>, wenn die
+	 *         Ersetzung nicht durchgeführt werden konnte
 	 */
 	public static String ersetzeLetztesElemInAttPfad(final String attPfad,
 			final String ersetzung) {
@@ -116,7 +115,7 @@ public final class DUAUtensilien {
 
 		if (attPfad != null && attPfad.length() > 0 && ersetzung != null
 				&& ersetzung.length() > 0) {
-			int letzterPunkt = attPfad.lastIndexOf("."); //$NON-NLS-1$
+			final int letzterPunkt = attPfad.lastIndexOf("."); //$NON-NLS-1$
 			if (letzterPunkt != -1) {
 				ergebnis = attPfad.substring(0, letzterPunkt + 1) + ersetzung;
 			} else {
@@ -128,14 +127,14 @@ public final class DUAUtensilien {
 	}
 
 	/**
-	 * Erfragt die Menge von <code>DAVObjektAnmeldung</code>-Objekten, die
-	 * alle Anmeldungen unter der übergebenen Datenbeschreibung für das
-	 * übergebene Objekt enthält.<br>
+	 * Erfragt die Menge von <code>DAVObjektAnmeldung</code>-Objekten, die alle
+	 * Anmeldungen unter der übergebenen Datenbeschreibung für das übergebene
+	 * Objekt enthält.<br>
 	 * <b>Achtung:</b> Das Objekt wird in seine finalen Instanzen aufgelöst.
 	 * Sollte für das Objekt <code>null</code> übergeben worden sein, so wird
 	 * 'Alle Objekte' angenommen. Gleiches gilt für die Elemente der
 	 * Datenbeschreibung.
-	 * 
+	 *
 	 * @param obj
 	 *            ein Systemobjekt (auch Typ)
 	 * @param datenBeschreibung
@@ -147,40 +146,45 @@ public final class DUAUtensilien {
 	public static Collection<DAVObjektAnmeldung> getAlleObjektAnmeldungen(
 			final SystemObject obj, final DataDescription datenBeschreibung,
 			final ClientDavInterface dav) {
-		Collection<DAVObjektAnmeldung> anmeldungen = new TreeSet<DAVObjektAnmeldung>();
+		final Collection<DAVObjektAnmeldung> anmeldungen = new TreeSet<DAVObjektAnmeldung>();
 
-		Collection<SystemObject> finObjekte = getBasisInstanzen(obj, dav);
+		final Collection<SystemObject> finObjekte = getBasisInstanzen(obj, dav);
 
-		for (SystemObject finObj : finObjekte) {
+		for (final SystemObject finObj : finObjekte) {
 			if (datenBeschreibung == null
-					|| (datenBeschreibung.getAttributeGroup() == null && datenBeschreibung
-							.getAspect() == null)) {
-				for (AttributeGroup atg : finObj.getType().getAttributeGroups()) {
-					for (Aspect asp : atg.getAspects()) {
+					|| (datenBeschreibung.getAttributeGroup() == null
+					&& datenBeschreibung.getAspect() == null)) {
+				for (final AttributeGroup atg : finObj.getType()
+						.getAttributeGroups()) {
+					for (final Aspect asp : atg.getAspects()) {
 						anmeldungen.add(new DAVObjektAnmeldung(finObj,
 								new DataDescription(atg, asp)));
 					}
 				}
 			} else if (datenBeschreibung.getAttributeGroup() == null) {
-				for (AttributeGroup atg : finObj.getType().getAttributeGroups()) {
+				for (final AttributeGroup atg : finObj.getType()
+						.getAttributeGroups()) {
 					try {
 						anmeldungen.add(new DAVObjektAnmeldung(finObj,
-								new DataDescription(atg, datenBeschreibung
-										.getAspect())));
-					} catch (IllegalArgumentException ex) {
+								new DataDescription(atg,
+										datenBeschreibung.getAspect())));
+					} catch (final IllegalArgumentException ex) {
 						Debug.getLogger().fine(Constants.EMPTY_STRING, ex);
 					}
 				}
 			} else if (datenBeschreibung.getAspect() == null) {
-				for (Aspect asp : datenBeschreibung.getAttributeGroup()
+				for (final Aspect asp : datenBeschreibung.getAttributeGroup()
 						.getAspects()) {
-					anmeldungen.add(new DAVObjektAnmeldung(finObj,
-							new DataDescription(datenBeschreibung
-									.getAttributeGroup(), asp)));
+					anmeldungen
+					.add(new DAVObjektAnmeldung(finObj,
+							new DataDescription(
+									datenBeschreibung
+									.getAttributeGroup(),
+									asp)));
 				}
 			} else {
-				anmeldungen.add(new DAVObjektAnmeldung(finObj,
-						datenBeschreibung));
+				anmeldungen
+				.add(new DAVObjektAnmeldung(finObj, datenBeschreibung));
 			}
 		}
 
@@ -189,7 +193,7 @@ public final class DUAUtensilien {
 
 	/**
 	 * Liest eine Argument aus der ArgumentListe der Kommandozeile aus.
-	 * 
+	 *
 	 * @param schluessel
 	 *            der Schlüssel
 	 * @param argumentListe
@@ -202,8 +206,8 @@ public final class DUAUtensilien {
 		String ergebnis = null;
 
 		if (schluessel != null && argumentListe != null) {
-			for (String argument : argumentListe) {
-				String[] teile = argument.split("="); //$NON-NLS-1$
+			for (final String argument : argumentListe) {
+				final String[] teile = argument.split("="); //$NON-NLS-1$
 				if (teile != null && teile.length > 1) {
 					if (teile[0].equals("-" + schluessel)) { //$NON-NLS-1$
 						ergebnis = teile[1];
@@ -218,7 +222,7 @@ public final class DUAUtensilien {
 
 	/**
 	 * Extrahiert aus einem übergebenen Datum ein darin enthaltenes Datum.
-	 * 
+	 *
 	 * @param attributPfad
 	 *            gibt den kompletten Pfad zu einem Attribut innerhalb einer
 	 *            Attributgruppe an. Die einzelnen Pfadbestandteile sind jeweils
@@ -242,26 +246,27 @@ public final class DUAUtensilien {
 			if (attributPfad != null) {
 				final String[] elemente = attributPfad.split("[.]"); //$NON-NLS-1$
 				ergebnis = datum;
-				for (String element : elemente) {
+				for (final String element : elemente) {
 					if (ergebnis != null) {
 						if (element.length() == 0) {
-							Debug.getLogger().warning(
-									"Syntaxfehler in Attributpfad: \""//$NON-NLS-1$
+							Debug.getLogger()
+							.warning("Syntaxfehler in Attributpfad: \""//$NON-NLS-1$
 											+ attributPfad + "\""); //$NON-NLS-1$
 							return null;
 						}
 
 						if (element.matches(NATUERLICHE_ZAHL)) {
-							ergebnis = ergebnis.asArray().getItem(
-									Integer.parseInt(element));
+							ergebnis = ergebnis.asArray()
+									.getItem(Integer.parseInt(element));
 						} else {
 							ergebnis = ergebnis.getItem(element);
 						}
 
 					} else {
-						Debug.getLogger().warning(
-								"Datensatz " + datum + " kann nicht bis \"" + //$NON-NLS-1$ //$NON-NLS-2$
-										attributPfad + "\" exploriert werden."); //$NON-NLS-1$
+						Debug.getLogger()
+						.warning("Datensatz " + datum //$NON-NLS-1$
+								+ " kann nicht bis \"" + //$NON-NLS-1$
+								attributPfad + "\" exploriert werden."); //$NON-NLS-1$
 					}
 				}
 			} else {
@@ -269,8 +274,8 @@ public final class DUAUtensilien {
 						"Übergebener Attributpfad ist " + DUAKonstanten.NULL); //$NON-NLS-1$
 			}
 		} else {
-			Debug.getLogger().warning(
-					"Übergebenes Datum ist " + DUAKonstanten.NULL); //$NON-NLS-1$
+			Debug.getLogger()
+			.warning("Übergebenes Datum ist " + DUAKonstanten.NULL); //$NON-NLS-1$
 		}
 
 		return ergebnis;
@@ -280,9 +285,9 @@ public final class DUAUtensilien {
 	 * Erfragt die Menge aller Konfigurationsobjekte bzw. Dynamischen Objekte
 	 * (finale Objekte), die unter Umständen im Parameter <code>obj</code>
 	 * 'versteckt' sind. Sollte als Objekte <code>
-	 * null</code> übergeben worden
-	 * sein, so werden alle (finalen) Objekte zurückgegeben.
-	 * 
+	 * null</code> übergeben worden sein, so werden alle (finalen) Objekte
+	 * zurückgegeben.
+	 *
 	 * @param obj
 	 *            ein Systemobjekt (finales Objekt oder Typ)
 	 * @param dav
@@ -291,25 +296,23 @@ public final class DUAUtensilien {
 	 */
 	public static Collection<SystemObject> getBasisInstanzen(
 			final SystemObject obj, final ClientDavInterface dav) {
-		Collection<SystemObject> finaleObjekte = new HashSet<SystemObject>();
+		final Collection<SystemObject> finaleObjekte = new HashSet<SystemObject>();
 
 		if (obj == null || obj.getPid().equals(DaVKonstanten.TYP_TYP)) {
-			SystemObjectType typTyp = dav.getDataModel().getType(
-					DaVKonstanten.TYP_TYP);
-			for (SystemObject typ : typTyp.getElements()) {
+			final SystemObjectType typTyp = dav.getDataModel()
+					.getType(DaVKonstanten.TYP_TYP);
+			for (final SystemObject typ : typTyp.getElements()) {
 				if (typ.isValid()) {
 					if (typ instanceof SystemObjectType) {
-						for (SystemObject elem : ((SystemObjectType) typ)
+						for (final SystemObject elem : ((SystemObjectType) typ)
 								.getElements()) {
 							if (elem.isValid()) {
-								if (elem.getClass().equals(
-										DafConfigurationObject.class)
+								if (elem.getClass()
+										.equals(DafConfigurationObject.class)
+										|| elem.getClass()
+										.equals(DafDynamicObject.class)
 										|| elem.getClass().equals(
-												DafDynamicObject.class)
-										|| elem
-												.getClass()
-												.equals(
-														DafConfigurationAuthority.class)) {
+												DafConfigurationAuthority.class)) {
 									finaleObjekte.add(elem);
 								}
 							}
@@ -318,8 +321,8 @@ public final class DUAUtensilien {
 				}
 			}
 		} else if (obj instanceof SystemObjectType) {
-			SystemObjectType typ = (SystemObjectType) obj;
-			for (SystemObject elem : typ.getElements()) {
+			final SystemObjectType typ = (SystemObjectType) obj;
+			for (final SystemObject elem : typ.getElements()) {
 				if (elem.isValid()) {
 					finaleObjekte.addAll(getBasisInstanzen(elem, dav));
 				}
@@ -342,9 +345,9 @@ public final class DUAUtensilien {
 	 * (finale Objekte), die unter Umständen im Argument <code>obj</code>
 	 * 'versteckt' sind <b>und außerdem innerhalb der übergebenen
 	 * Konfigurationsbereiche liegen</b>. Sollte als Objekte <code>
-	 * null</code>
-	 * übergeben worden sein, so werden alle (finalen) Objekte zurückgegeben.
-	 * 
+	 * null</code> übergeben worden sein, so werden alle (finalen) Objekte
+	 * zurückgegeben.
+	 *
 	 * @param obj
 	 *            ein Systemobjekt (finales Objekt oder Typ)
 	 * @param dav
@@ -358,7 +361,7 @@ public final class DUAUtensilien {
 	public static Collection<SystemObject> getBasisInstanzen(
 			final SystemObject obj, final ClientDavInterface dav,
 			final Collection<ConfigurationArea> kBereichsFilter) {
-		Collection<SystemObject> finaleObjekte = new HashSet<SystemObject>();
+		final Collection<SystemObject> finaleObjekte = new HashSet<SystemObject>();
 		Collection<ConfigurationArea> benutzteBereiche = new HashSet<ConfigurationArea>();
 
 		if (kBereichsFilter != null && kBereichsFilter.size() > 0) {
@@ -373,34 +376,34 @@ public final class DUAUtensilien {
 		}
 
 		if (obj == null || obj.getPid().equals(DaVKonstanten.TYP_TYP)) {
-			Collection<SystemObjectType> typColl = new TreeSet<SystemObjectType>();
-			for (SystemObject typ : dav.getDataModel().getType(
-					DaVKonstanten.TYP_TYP).getElements()) {
+			final Collection<SystemObjectType> typColl = new TreeSet<SystemObjectType>();
+			for (final SystemObject typ : dav.getDataModel()
+					.getType(DaVKonstanten.TYP_TYP).getElements()) {
 				if (typ.isValid() && typ instanceof SystemObjectType) {
 					typColl.add((SystemObjectType) typ);
 				}
 			}
-			for (ConfigurationArea kb : benutzteBereiche) {
-				for (SystemObject elem : kb.getObjects(typColl,
+			for (final ConfigurationArea kb : benutzteBereiche) {
+				for (final SystemObject elem : kb.getObjects(typColl,
 						ObjectTimeSpecification.valid())) {
 					if (elem.getClass().equals(DafConfigurationObject.class)
 							|| elem.getClass().equals(DafDynamicObject.class)
-							|| elem.getClass().equals(
-									DafConfigurationAuthority.class)) {
+							|| elem.getClass()
+							.equals(DafConfigurationAuthority.class)) {
 						finaleObjekte.add(elem);
 					}
 				}
 			}
 		} else if (obj instanceof SystemObjectType) {
-			Collection<SystemObjectType> typColl = new ArrayList<SystemObjectType>();
+			final Collection<SystemObjectType> typColl = new ArrayList<SystemObjectType>();
 			typColl.add((SystemObjectType) obj);
-			for (ConfigurationArea kb : benutzteBereiche) {
-				for (SystemObject elem : kb.getObjects(typColl,
+			for (final ConfigurationArea kb : benutzteBereiche) {
+				for (final SystemObject elem : kb.getObjects(typColl,
 						ObjectTimeSpecification.valid())) {
 					if (elem.getClass().equals(DafConfigurationObject.class)
 							|| elem.getClass().equals(DafDynamicObject.class)
-							|| elem.getClass().equals(
-									DafConfigurationAuthority.class)) {
+							|| elem.getClass()
+							.equals(DafConfigurationAuthority.class)) {
 						finaleObjekte.add(elem);
 					}
 				}
@@ -422,7 +425,7 @@ public final class DUAUtensilien {
 
 	/**
 	 * Gibt die Anhahl der Stunden zurück, die dieser Tag hat.
-	 * 
+	 *
 	 * @param zeitStempel
 	 *            ein Zeitpunkt, der innerhalb des entsprechenden Tages liegt
 	 * @return Anzahl der Stunden, die dieser Tag hat
@@ -430,8 +433,8 @@ public final class DUAUtensilien {
 	public static int getStundenVonTag(final long zeitStempel) {
 		int stundenDesTages = 24;
 
-		GregorianCalendar cal1 = new GregorianCalendar();
-		GregorianCalendar cal2 = new GregorianCalendar();
+		final GregorianCalendar cal1 = new GregorianCalendar();
+		final GregorianCalendar cal2 = new GregorianCalendar();
 		cal1.setTimeInMillis(zeitStempel);
 		cal2.setTimeInMillis(zeitStempel);
 		cal1.set(Calendar.HOUR_OF_DAY, 0);
@@ -454,7 +457,7 @@ public final class DUAUtensilien {
 	 * bei 0 (inklusive) beginnt und der die Zustände <code>fehlerhaft</code>,
 	 * <code>nicht ermittelbar</code> oder
 	 * <code>nicht ermittelbar/fehlerhaft</code> besitzen kann.
-	 * 
+	 *
 	 * @param messwert
 	 *            ein Messwert
 	 * @return die textliche Entsprechung eines Messwertes
@@ -478,7 +481,7 @@ public final class DUAUtensilien {
 	/**
 	 * Erfragt, ob die übergebene Systemobjekt-Attributgruppen-Aspekt-
 	 * Kombination gültig bzw. kompatibel (bzw. so anmeldbar) ist.
-	 * 
+	 *
 	 * @param obj
 	 *            das (finale) Systemobjekt
 	 * @param datenBeschreibung
@@ -499,8 +502,8 @@ public final class DUAUtensilien {
 			result = "Attributgruppe ist " + DUAKonstanten.NULL; //$NON-NLS-1$
 		} else if (datenBeschreibung.getAspect() == null) {
 			result = "Aspekt ist " + DUAKonstanten.NULL; //$NON-NLS-1$
-		} else if (!obj.getType().getAttributeGroups().contains(
-				datenBeschreibung.getAttributeGroup())) {
+		} else if (!obj.getType().getAttributeGroups()
+				.contains(datenBeschreibung.getAttributeGroup())) {
 			result = "Attributgruppe " + datenBeschreibung.getAttributeGroup() + //$NON-NLS-1$
 					" ist für Objekt " + obj + //$NON-NLS-1$
 					" nicht definiert"; //$NON-NLS-1$
@@ -509,10 +512,10 @@ public final class DUAUtensilien {
 			result = "Aspekt " + datenBeschreibung.getAspect() + //$NON-NLS-1$
 					" ist für Attributgruppe " //$NON-NLS-1$
 					+ datenBeschreibung.getAttributeGroup()
-					+ " nicht definiert"; //$NON-NLS-1$)
+					+ " nicht definiert"; //$NON-NLS-1$ )
 		} else if (!(obj.getClass().equals(DafConfigurationObject.class)
-				|| obj.getClass().equals(DafDynamicObject.class) || obj
-				.getClass().equals(DafConfigurationAuthority.class))) {
+				|| obj.getClass().equals(DafDynamicObject.class)
+				|| obj.getClass().equals(DafConfigurationAuthority.class))) {
 			result = "Es handelt sich weder um ein Konfigurationsobjekt, " + //$NON-NLS-1$
 					"ein dynamisches Objekt noch eine Konfigurationsautorität: " //$NON-NLS-1$
 					+ obj;
@@ -524,29 +527,29 @@ public final class DUAUtensilien {
 	/**
 	 * Ermittelt, ob der übergebene Wert im Wertebereich des übergebenen
 	 * Attributs liegt (für skalierte Ganzzahlen).
-	 * 
+	 *
 	 * @param attribut
 	 *            das skalierte Ganzzahl-Attribut
 	 * @param wertSkaliert
 	 *            der skalierte Wert
-	 * @return <code>false</code>, wenn das übergebene Attribut ein
-	 *         skaliertes Ganzzahl-Attribut ist <b>und</b> einen Wertebereich
-	 *         besitzt <b>und</b> dieser durch den übergebenen Wert verletzt
-	 *         ist, sonst <code>true</code>
+	 * @return <code>false</code>, wenn das übergebene Attribut ein skaliertes
+	 *         Ganzzahl-Attribut ist <b>und</b> einen Wertebereich besitzt
+	 *         <b>und</b> dieser durch den übergebenen Wert verletzt ist, sonst
+	 *         <code>true</code>
 	 */
-	public static boolean isWertInWerteBereich(Data attribut,
-			double wertSkaliert) {
+	public static boolean isWertInWerteBereich(final Data attribut,
+			final double wertSkaliert) {
 		boolean ergebnis = true;
 
 		if (attribut != null) {
-			AttributeType typ = attribut.getAttributeType();
+			final AttributeType typ = attribut.getAttributeType();
 
 			if (typ instanceof IntegerAttributeType) {
-				IntegerValueRange wertebereich = ((IntegerAttributeType) typ)
+				final IntegerValueRange wertebereich = ((IntegerAttributeType) typ)
 						.getRange();
 
-				long wertUnskaliert = Math.round(wertSkaliert
-						/ wertebereich.getConversionFactor());
+				final long wertUnskaliert = Math.round(
+						wertSkaliert / wertebereich.getConversionFactor());
 				if (wertebereich != null) {
 					if (wertUnskaliert < wertebereich.getMinimum()
 							|| wertUnskaliert > wertebereich.getMaximum()) {
@@ -564,27 +567,28 @@ public final class DUAUtensilien {
 	/**
 	 * Ermittelt, ob der uebergebene Wert im Wertebereich des uebergebenen
 	 * Attributs liegt.
-	 * 
+	 *
 	 * @param attribut
 	 *            das Ganzzahl-Attribut
 	 * @param wert
 	 *            der Wert
 	 * @return <code>false</code>, wenn das uebergebene Attribut ein
 	 *         Ganzzahl-Attribut ist <b>und</b> einen Wertebereich besitzt
-	 *         <b>und</b> dieser durch den uebergebenen Wert verletzt ist,
-	 *         sonst <code>true</code>
+	 *         <b>und</b> dieser durch den uebergebenen Wert verletzt ist, sonst
+	 *         <code>true</code>
 	 */
-	public static boolean isWertInWerteBereich(Data attribut, long wert) {
+	public static boolean isWertInWerteBereich(final Data attribut,
+			final long wert) {
 		boolean ergebnis = true;
 
 		if (attribut != null) {
-			AttributeType typ = attribut.getAttributeType();
+			final AttributeType typ = attribut.getAttributeType();
 
 			if (typ instanceof IntegerAttributeType) {
-				List<IntegerValueState> statuss = ((IntegerAttributeType) typ)
+				final List<IntegerValueState> statuss = ((IntegerAttributeType) typ)
 						.getStates();
 				if (!statuss.isEmpty()) {
-					for (IntegerValueState status : ((IntegerAttributeType) typ)
+					for (final IntegerValueState status : ((IntegerAttributeType) typ)
 							.getStates()) {
 						if (wert == status.getValue()) {
 							return true;
@@ -592,7 +596,7 @@ public final class DUAUtensilien {
 					}
 				}
 
-				IntegerValueRange wertebereich = ((IntegerAttributeType) typ)
+				final IntegerValueRange wertebereich = ((IntegerAttributeType) typ)
 						.getRange();
 				if (wertebereich != null) {
 					if (wert < wertebereich.getMinimum()
@@ -610,41 +614,41 @@ public final class DUAUtensilien {
 
 	/**
 	 * Erfragt den gerundeten Wert als Zeichenkette.
-	 * 
+	 *
 	 * @param wert
 	 *            ein Wert
 	 * @param nachkommastellen
 	 *            Rundungsstellen
 	 * @return der gerundete Wert als Zeichenkette
 	 */
-	public static String runde(double wert, int nachkommastellen) {
-		double nachkommaDouble = Math.pow(10, nachkommastellen);
+	public static String runde(final double wert, final int nachkommastellen) {
+		final double nachkommaDouble = Math.pow(10, nachkommastellen);
 		return new Double(Math.round(wert * nachkommaDouble) / nachkommaDouble)
 				.toString();
 	}
 
 	/**
 	 * Wandelt eine Zeitspanne in Millisekunden in einen Text um.
-	 * 
+	 *
 	 * @param vergleichsIntervallInMs
 	 *            zeit in Millisekunden
 	 * @return die uebergebene Zeitspanne in Millisekunden als Text
 	 */
 	public static String getVergleichsIntervallInText(
-			long vergleichsIntervallInMs) {
-		StringBuffer text = new StringBuffer();
+			final long vergleichsIntervallInMs) {
+		final StringBuffer text = new StringBuffer();
 
 		try {
 			long val = vergleichsIntervallInMs;
-			int millis = (int) (val % 1000);
+			final int millis = (int) (val % 1000);
 			val /= 1000;
-			int seconds = (int) (val % 60);
+			final int seconds = (int) (val % 60);
 			val /= 60;
-			int minutes = (int) (val % 60);
+			final int minutes = (int) (val % 60);
 			val /= 60;
-			int hours = (int) (val % 24);
+			final int hours = (int) (val % 24);
 			val /= 24;
-			long days = val;
+			final long days = val;
 			if (days != 0) {
 				if (days == 1) {
 					text.append("1 Tag "); //$NON-NLS-1$
@@ -672,8 +676,8 @@ public final class DUAUtensilien {
 					text.append(minutes).append(" Minuten "); //$NON-NLS-1$
 				}
 			}
-			if (seconds != 0
-					|| (days == 0 && hours == 0 && minutes == 0 && millis == 0)) {
+			if (seconds != 0 || (days == 0 && hours == 0 && minutes == 0
+					&& millis == 0)) {
 				if (seconds == 1) {
 					text.append("1 Sekunde "); //$NON-NLS-1$
 				} else if (seconds == -1) {
@@ -692,7 +696,7 @@ public final class DUAUtensilien {
 				}
 			}
 			text.setLength(text.length() - 1);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			return "[" + vergleichsIntervallInMs + "ms]"; //$NON-NLS-1$//$NON-NLS-2$
 		}
 
@@ -701,19 +705,19 @@ public final class DUAUtensilien {
 
 	/**
 	 * Erfragt eine Kurzinformation eines Objektarrays.
-	 * 
+	 *
 	 * @param objekte
 	 *            alle Objekte
 	 * @return eine Kurzinformation eines Objektarrays
 	 */
-	public static String getArrayKurzInfo(Object[] objekte) {
+	public static String getArrayKurzInfo(final Object[] objekte) {
 		String kurzInfo = ""; //$NON-NLS-1$
 
 		if (objekte != null) {
 			kurzInfo = new Integer(objekte.length).toString();
 			if (objekte.length > 0) {
 				kurzInfo += " ["; //$NON-NLS-1$
-				for (Object obj : objekte) {
+				for (final Object obj : objekte) {
 					String dummy = null;
 					if (obj == null) {
 						dummy = "<<null>>"; //$NON-NLS-1$
@@ -743,15 +747,15 @@ public final class DUAUtensilien {
 	/**
 	 * Erfragt, ob ein Systemobjekt in einem der uebergebenen
 	 * Konfigurationsbereiche enthalten ist.
-	 * 
+	 *
 	 * @param obj
 	 *            ein Systemobjekt
 	 * @param kbs
 	 *            eine Menge von Konfigurationsbereichen
 	 * @return <code>true</code>, wenn das Systemobjekt in einem der
 	 *         uebergebenen Konfigurationsbereiche enthalten ist bzw. wenn die
-	 *         Menge der Konfigurationsbereiche <code>null</code> oder leer
-	 *         ist. Sonst <code>false</code>
+	 *         Menge der Konfigurationsbereiche <code>null</code> oder leer ist.
+	 *         Sonst <code>false</code>
 	 */
 	public static boolean isObjektInKBsEnthalten(final SystemObject obj,
 			final ConfigurationArea[] kbs) {
@@ -759,7 +763,7 @@ public final class DUAUtensilien {
 
 		if (kbs != null && kbs.length > 0) {
 			enthalten = false;
-			for (ConfigurationArea kb : kbs) {
+			for (final ConfigurationArea kb : kbs) {
 				if (obj.getConfigurationArea().equals(kb)) {
 					enthalten = true;
 					break;
@@ -773,14 +777,14 @@ public final class DUAUtensilien {
 	/**
 	 * Parametriert die Parametrierung dergestalt, dass von dieser <b>alle</b>
 	 * Parameter erfasst werden.
-	 * 
+	 *
 	 * @param dav
 	 *            Verbindung zum Datenverteiler
 	 */
 	public static void setAlleParameter(final ClientDavInterface dav) {
-		DataDescription datenBeschreibung = new DataDescription(dav
-				.getDataModel().getAttributeGroup("atg.parametrierung"), dav
-				.getDataModel().getAspect("asp.parameterVorgabe"));
+		final DataDescription datenBeschreibung = new DataDescription(
+				dav.getDataModel().getAttributeGroup("atg.parametrierung"),
+				dav.getDataModel().getAspect("asp.parameterVorgabe"));
 
 		if (parameterSender == null) {
 			parameterSender = new ClientSenderInterface() {
@@ -788,36 +792,38 @@ public final class DUAUtensilien {
 				/**
 				 * {@inheritDoc}
 				 */
-				public void dataRequest(SystemObject object,
-						DataDescription dataDescription, byte state) {
+				public void dataRequest(final SystemObject object,
+						final DataDescription dataDescription,
+						final byte state) {
 					//
 				}
 
 				/**
 				 * {@inheritDoc}
 				 */
-				public boolean isRequestSupported(SystemObject object,
-						DataDescription dataDescription) {
+				public boolean isRequestSupported(final SystemObject object,
+						final DataDescription dataDescription) {
 					return false;
 				}
 
 			};
 
 			try {
-				dav.subscribeSender(parameterSender, dav.getDataModel()
-						.getConfigurationAuthority(), datenBeschreibung,
-						SenderRole.sender());
+				dav.subscribeSender(parameterSender,
+						dav.getDataModel().getConfigurationAuthority(),
+						datenBeschreibung, SenderRole.sender());
 				try {
 					Thread.sleep(2000L);
-				} catch (InterruptedException ex) {
+				} catch (final InterruptedException ex) {
 					//
 				}
-			} catch (OneSubscriptionPerSendData e) {
+			} catch (final OneSubscriptionPerSendData e) {
 				throw new RuntimeException(e);
 			}
 		}
 
-		Data atgData = dav.createData(datenBeschreibung.getAttributeGroup());
+		final Data atgData = dav
+				.createData(datenBeschreibung.getAttributeGroup());
 
 		atgData.getItem("Urlasser").getReferenceValue("BenutzerReferenz")
 				.setSystemObject(null);
@@ -825,92 +831,91 @@ public final class DUAUtensilien {
 		atgData.getItem("Urlasser").getTextValue("Veranlasser").setText("");
 
 		atgData.getArray("ParameterSatz").setLength(1);
-		atgData.getArray("ParameterSatz").getItem(0).getReferenceArray(
-				"Bereich").setLength(0);
-		atgData.getArray("ParameterSatz").getItem(0).getArray(
-				"DatenSpezifikation").setLength(1);
-		atgData.getArray("ParameterSatz").getItem(0).getArray(
-				"DatenSpezifikation").getItem(0).getReferenceArray("Objekt")
-				.setLength(0);
-		atgData.getArray("ParameterSatz").getItem(0).getArray(
-				"DatenSpezifikation").getItem(0).getReferenceArray(
-				"AttributGruppe").setLength(0);
-		atgData.getArray("ParameterSatz").getItem(0).getArray(
-				"DatenSpezifikation").getItem(0).getUnscaledValue(
-				"SimulationsVariante").set(0);
+		atgData.getArray("ParameterSatz").getItem(0)
+		.getReferenceArray("Bereich").setLength(0);
+		atgData.getArray("ParameterSatz").getItem(0)
+		.getArray("DatenSpezifikation").setLength(1);
+		atgData.getArray("ParameterSatz").getItem(0)
+		.getArray("DatenSpezifikation").getItem(0)
+		.getReferenceArray("Objekt").setLength(0);
+		atgData.getArray("ParameterSatz").getItem(0)
+		.getArray("DatenSpezifikation").getItem(0)
+		.getReferenceArray("AttributGruppe").setLength(0);
+		atgData.getArray("ParameterSatz").getItem(0)
+		.getArray("DatenSpezifikation").getItem(0)
+		.getUnscaledValue("SimulationsVariante").set(0);
 		atgData.getArray("ParameterSatz").getItem(0).getItem("Einstellungen")
 				.getUnscaledValue("Parametrieren").set(DUAKonstanten.JA);
 
-		ResultData resultat = new ResultData(dav.getDataModel()
-				.getConfigurationAuthority(), datenBeschreibung, System
-				.currentTimeMillis(), atgData);
+		final ResultData resultat = new ResultData(
+				dav.getDataModel().getConfigurationAuthority(),
+				datenBeschreibung, System.currentTimeMillis(), atgData);
 
 		try {
 			dav.sendData(resultat);
-		} catch (DataNotSubscribedException e) {
+		} catch (final DataNotSubscribedException e) {
 			throw new RuntimeException(e);
-		} catch (SendSubscriptionNotConfirmed e) {
+		} catch (final SendSubscriptionNotConfirmed e) {
 			throw new RuntimeException(e);
 		}
 
 		try {
 			Thread.sleep(5000L);
-		} catch (InterruptedException ex) {
+		} catch (final InterruptedException ex) {
 			//
 		}
 	}
 
 	/**
 	 * Sendet eine Betriebsmeldung.
-	 * 
+	 *
 	 * @param dav
 	 *            Verbindung zum Datenverteiler.
 	 * @param grade
-	 *            die Art der Meldung (<code>FATAL</code>,
-	 *            <code>ERROR</code>, <code>WARNING</code>,
-	 *            <code>INFORMATION</code>).
+	 *            die Art der Meldung (<code>FATAL</code>, <code>ERROR</code>,
+	 *            <code>WARNING</code>, <code>INFORMATION</code>).
 	 * @param objekt
 	 *            Referenziertes Systemobjekt.
 	 * @param nachricht
 	 *            die Betriebsmeldung.
 	 */
-	public static void sendeBetriebsmeldung(ClientDavInterface dav,
-			MessageGrade grade, SystemObject objekt, String nachricht) {
-		MessageSender.getInstance().sendMessage(
-				MessageType.APPLICATION_DOMAIN,
-				null,
-				grade,
-				objekt,
-				new MessageCauser(dav.getLocalUser(), Constants.EMPTY_STRING,
-						Constants.EMPTY_STRING), nachricht);
+	public static void sendeBetriebsmeldung(final ClientDavInterface dav,
+			final MessageGrade grade, final SystemObject objekt,
+			final String nachricht) {
+		MessageSender.getInstance().sendMessage(MessageType.APPLICATION_DOMAIN,
+				null, grade,
+				objekt, new MessageCauser(dav.getLocalUser(),
+						Constants.EMPTY_STRING, Constants.EMPTY_STRING),
+						nachricht);
 	}
 
 	/**
 	 * Extrahiert aus einer Zeichenkette alle über Kommata getrennten
 	 * Konfigurationsbereiche und gibt deren Systemobjekte zurück.
+	 *
 	 * @param dav
-	 * 			  Verbindung zum Datenverteiler
+	 *            Verbindung zum Datenverteiler
 	 * @param kbString
 	 *            Zeichenkette mit den Konfigurationsbereichen
-	 * @return (ggf. leere) <code>ConfigurationArea-Collection</code> mit
-	 *         allen extrahierten Konfigurationsbereichen.
+	 * @return (ggf. leere) <code>ConfigurationArea-Collection</code> mit allen
+	 *         extrahierten Konfigurationsbereichen.
 	 */
-	public static Collection<ConfigurationArea> getKonfigurationsBereicheAlsObjekte(ClientDavInterface dav,
-			final String kbString) {
-		List<String> resultListe = new ArrayList<String>();
+	public static Collection<ConfigurationArea> getKonfigurationsBereicheAlsObjekte(
+			final ClientDavInterface dav, final String kbString) {
+		final List<String> resultListe = new ArrayList<String>();
 
 		if (kbString != null) {
-			String[] s = kbString.split(","); //$NON-NLS-1$
-			for (String dummy : s) {
+			final String[] s = kbString.split(","); //$NON-NLS-1$
+			for (final String dummy : s) {
 				if (dummy != null && dummy.length() > 0) {
 					resultListe.add(dummy);
 				}
 			}
 		}
-		Collection<ConfigurationArea> kbListe = new HashSet<ConfigurationArea>();
+		final Collection<ConfigurationArea> kbListe = new HashSet<ConfigurationArea>();
 
-		for (String kb : resultListe) {
-			ConfigurationArea area = dav.getDataModel()
+		for (final String kb : resultListe) {
+			final ConfigurationArea area = dav.getDataModel()
 					.getConfigurationArea(kb);
 			if (area != null) {
 				kbListe.add(area);
@@ -919,5 +924,5 @@ public final class DUAUtensilien {
 
 		return kbListe;
 	}
-	
+
 }

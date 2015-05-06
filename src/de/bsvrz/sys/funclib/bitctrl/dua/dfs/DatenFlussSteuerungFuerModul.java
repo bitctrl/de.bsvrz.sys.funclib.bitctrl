@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -47,38 +47,39 @@ import de.bsvrz.sys.funclib.bitctrl.dua.dfs.schnittstellen.IDatenFlussSteuerungF
  * <code>IDatenFlussSteuerungFuerModul</code> alle Informationen über die
  * Datenflusssteuerung einer bestimmten SWE in Zusammenhang mit einem bestimmten
  * Modul-Typ zur Verfügung.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id: DatenFlussSteuerungFuerModul.java 23685 2010-06-09 15:42:02Z uhlmann $
+ *
+ * @version $Id: DatenFlussSteuerungFuerModul.java 23685 2010-06-09 15:42:02Z
+ *          uhlmann $
  */
-public class DatenFlussSteuerungFuerModul implements
-		IDatenFlussSteuerungFuerModul {
+public class DatenFlussSteuerungFuerModul
+		implements IDatenFlussSteuerungFuerModul {
 
 	/**
 	 * Liste aller Publikationszuordnungen innerhalb der Attributgruppe.
 	 */
-	private Collection<PublikationsZuordung> publikationsZuordnungen = new ArrayList<PublikationsZuordung>();
+	private final Collection<PublikationsZuordung> publikationsZuordnungen = new ArrayList<PublikationsZuordung>();
 
 	/**
 	 * Eine Map von einer Objekt-Attributgruppe-Kombination auf die Information
 	 * ob, und unter welchem Aspekt publiziert werden soll.
 	 */
-	private Map<PublikationObjAtg, PublikationFuerDatum> publikationsMap = new TreeMap<PublikationObjAtg, PublikationFuerDatum>();
+	private final Map<PublikationObjAtg, PublikationFuerDatum> publikationsMap = new TreeMap<PublikationObjAtg, PublikationFuerDatum>();
 
 	/**
 	 * Fügt diesem Objekt eine Publikationszuordung hinzu.
-	 * 
+	 *
 	 * @param pz
 	 *            die neue Publikationszuordung
 	 */
 	public final void add(final PublikationsZuordung pz) {
-		for (DAVObjektAnmeldung anmeldung : pz.getObjektAnmeldungen()) {
-			PublikationObjAtg pubObjAtg = new PublikationObjAtg(anmeldung
-					.getObjekt(), anmeldung.getDatenBeschreibung()
-					.getAttributeGroup());
-			PublikationFuerDatum pub = new PublikationFuerDatum(pz
-					.isPublizieren(), pz.getAspekt());
+		for (final DAVObjektAnmeldung anmeldung : pz.getObjektAnmeldungen()) {
+			final PublikationObjAtg pubObjAtg = new PublikationObjAtg(
+					anmeldung.getObjekt(),
+					anmeldung.getDatenBeschreibung().getAttributeGroup());
+			final PublikationFuerDatum pub = new PublikationFuerDatum(
+					pz.isPublizieren(), pz.getAspekt());
 
 			publikationsMap.put(pubObjAtg, pub);
 		}
@@ -91,17 +92,17 @@ public class DatenFlussSteuerungFuerModul implements
 	public Collection<DAVObjektAnmeldung> getDatenAnmeldungen(
 			final SystemObject[] filterObjekte,
 			final Collection<DAVObjektAnmeldung> standardAnmeldungen) {
-		Collection<DAVObjektAnmeldung> alleAnmeldungen = new TreeSet<DAVObjektAnmeldung>();
-		Collection<DAVObjektAnmeldung> stdAnmeldungen = new TreeSet<DAVObjektAnmeldung>();
+		final Collection<DAVObjektAnmeldung> alleAnmeldungen = new TreeSet<DAVObjektAnmeldung>();
+		final Collection<DAVObjektAnmeldung> stdAnmeldungen = new TreeSet<DAVObjektAnmeldung>();
 		stdAnmeldungen.addAll(standardAnmeldungen);
 
-		for (PublikationsZuordung pz : publikationsZuordnungen) {
+		for (final PublikationsZuordung pz : publikationsZuordnungen) {
 			if (pz.isPublizieren()) {
-				Collection<SystemObject> pzAnzumeldendeObjekte = new HashSet<SystemObject>();
+				final Collection<SystemObject> pzAnzumeldendeObjekte = new HashSet<SystemObject>();
 
 				if (filterObjekte != null && filterObjekte.length > 0) {
-					for (SystemObject obj : pz.getObjekte()) {
-						for (SystemObject filterObj : filterObjekte) {
+					for (final SystemObject obj : pz.getObjekte()) {
+						for (final SystemObject filterObj : filterObjekte) {
 							if (obj.equals(filterObj)) {
 								pzAnzumeldendeObjekte.add(obj);
 								break;
@@ -112,8 +113,10 @@ public class DatenFlussSteuerungFuerModul implements
 					pzAnzumeldendeObjekte.addAll(pz.getObjekte());
 				}
 
-				for (DAVObjektAnmeldung pzAnmeldung : pz.getObjektAnmeldungen()) {
-					if (pzAnzumeldendeObjekte.contains(pzAnmeldung.getObjekt())) {
+				for (final DAVObjektAnmeldung pzAnmeldung : pz
+						.getObjektAnmeldungen()) {
+					if (pzAnzumeldendeObjekte
+							.contains(pzAnmeldung.getObjekt())) {
 						alleAnmeldungen.add(pzAnmeldung);
 					}
 				}
@@ -129,16 +132,15 @@ public class DatenFlussSteuerungFuerModul implements
 	/**
 	 * {@inheritDoc}
 	 */
-	public final ResultData getPublikationsDatum(
-			final ResultData originalDatum, final Data plausibilisiertesDatum,
-			final Aspect standardAspekt) {
+	public final ResultData getPublikationsDatum(final ResultData originalDatum,
+			final Data plausibilisiertesDatum, final Aspect standardAspekt) {
 		ResultData ergebnis = null;
 		Aspect publikationsAspect = null;
 
-		PublikationObjAtg pubObjAtg = new PublikationObjAtg(originalDatum
-				.getObject(), originalDatum.getDataDescription()
-				.getAttributeGroup());
-		PublikationFuerDatum pubDatum = this.publikationsMap.get(pubObjAtg);
+		final PublikationObjAtg pubObjAtg = new PublikationObjAtg(
+				originalDatum.getObject(),
+				originalDatum.getDataDescription().getAttributeGroup());
+		final PublikationFuerDatum pubDatum = publikationsMap.get(pubObjAtg);
 
 		if (pubDatum != null) {
 			if (pubDatum.publizieren) {
@@ -153,8 +155,8 @@ public class DatenFlussSteuerungFuerModul implements
 		}
 
 		if (publikationsAspect != null) {
-			DataDescription dd = new DataDescription(originalDatum
-					.getDataDescription().getAttributeGroup(),
+			final DataDescription dd = new DataDescription(
+					originalDatum.getDataDescription().getAttributeGroup(),
 					publikationsAspect);
 			ergebnis = new ResultData(originalDatum.getObject(), dd,
 					originalDatum.getDataTime(), plausibilisiertesDatum);
@@ -171,7 +173,7 @@ public class DatenFlussSteuerungFuerModul implements
 		String s = "\nDatenflusssteuerung für Modul:\n"; //$NON-NLS-1$
 
 		int i = 0;
-		for (PublikationsZuordung pz : publikationsZuordnungen) {
+		for (final PublikationsZuordung pz : publikationsZuordnungen) {
 			s += "Publikationszuordnung: " + (i++) + "\n" + pz; //$NON-NLS-1$//$NON-NLS-2$
 		}
 
@@ -184,9 +186,9 @@ public class DatenFlussSteuerungFuerModul implements
 	 * (finales) Systemobjekt zusammen mit einer Attributgruppe. Die Klasse ist
 	 * so designed, dass sie effektiv als Schlüssel innerhalb von
 	 * <code>TreeMap</code>-Objekten eingesetzt werden kann.
-	 * 
+	 *
 	 * @author BitCtrl Systems GmbH, Thierfelder
-	 * 
+	 *
 	 */
 	protected class PublikationObjAtg implements Comparable<PublikationObjAtg> {
 
@@ -202,7 +204,7 @@ public class DatenFlussSteuerungFuerModul implements
 
 		/**
 		 * Standardkonstruktor.
-		 * 
+		 *
 		 * @param obj
 		 *            ein Objekt
 		 * @param atg
@@ -217,13 +219,11 @@ public class DatenFlussSteuerungFuerModul implements
 		/**
 		 * {@inheritDoc}
 		 */
-		public int compareTo(PublikationObjAtg that) {
-			int result = Long.valueOf(this.obj.getId()).compareTo(
-					that.obj.getId());
+		public int compareTo(final PublikationObjAtg that) {
+			int result = Long.valueOf(obj.getId()).compareTo(that.obj.getId());
 
 			if (result == 0) {
-				result = Long.valueOf(this.atg.getId()).compareTo(
-						that.atg.getId());
+				result = Long.valueOf(atg.getId()).compareTo(that.atg.getId());
 			}
 
 			return result;
@@ -231,19 +231,19 @@ public class DatenFlussSteuerungFuerModul implements
 
 		/**
 		 * {@inheritDoc}
-		 * 
+		 *
 		 * Diese Methode muss implementiert werden, da nach der Exploration des
 		 * Baums über <code>compareTo(..)</code> (bspw. beim Aufruf von
 		 * <code>contains()</code>) nochmals mit <code>equals(..)</code>
 		 * explizit auf Gleichheit getestet wird.
 		 */
 		@Override
-		public boolean equals(Object obj1) {
+		public boolean equals(final Object obj1) {
 			boolean result = false;
 
 			if (obj1 instanceof PublikationObjAtg) {
-				PublikationObjAtg that = (PublikationObjAtg) obj1;
-				result = this.obj.equals(that.obj) && that.atg.equals(that.atg);
+				final PublikationObjAtg that = (PublikationObjAtg) obj1;
+				result = obj.equals(that.obj) && that.atg.equals(that.atg);
 			}
 
 			return result;
@@ -254,11 +254,11 @@ public class DatenFlussSteuerungFuerModul implements
 	/**
 	 * Diese Klasse wird nur als Wert-Objekt zu einem Schlüssel vom Typ
 	 * <code>PublikationObjAtg</code> innerhalb der internen Struktur
-	 * <code>publikationsMap</code> benötigt. Sie speichert die Information,
-	 * ob und unter welchem Aspekt publiziert werden soll.
-	 * 
+	 * <code>publikationsMap</code> benötigt. Sie speichert die Information, ob
+	 * und unter welchem Aspekt publiziert werden soll.
+	 *
 	 * @author BitCtrl Systems GmbH, Thierfelder
-	 * 
+	 *
 	 */
 	protected class PublikationFuerDatum {
 
@@ -274,7 +274,7 @@ public class DatenFlussSteuerungFuerModul implements
 
 		/**
 		 * Standardkonstruktor.
-		 * 
+		 *
 		 * @param publizieren
 		 *            soll publiziert werden?
 		 * @param asp

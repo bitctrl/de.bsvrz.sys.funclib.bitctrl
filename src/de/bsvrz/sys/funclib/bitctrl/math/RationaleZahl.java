@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -28,7 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.math;
 
 /**
  * Repr&auml;sentiert eine rationale Zahl.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id: RationaleZahl.java 6357 2008-02-07 16:08:38Z Schumann $
  */
@@ -45,40 +45,41 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * Addiert zwei ganze Zahlen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste ganze Zahl
 	 * @param b
 	 *            Zweite ganze Zahl
 	 * @return Das Ergebnis der Addition
 	 */
-	public static RationaleZahl addiere(long a, long b) {
+	public static RationaleZahl addiere(final long a, final long b) {
 		return addiere(new RationaleZahl(a), new RationaleZahl(b));
 	}
 
 	/**
 	 * Addiert eine rationale mit einer ganzen Zahl.
-	 * 
+	 *
 	 * @param a
 	 *            Eine rationale Zahl
 	 * @param b
 	 *            Eine ganze Zahl
 	 * @return Das Ergebnis der Addition
 	 */
-	public static RationaleZahl addiere(RationaleZahl a, long b) {
+	public static RationaleZahl addiere(final RationaleZahl a, final long b) {
 		return addiere(a, new RationaleZahl(b));
 	}
 
 	/**
 	 * Addiert zwei rationale Zahlen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste rationale Zahl
 	 * @param b
 	 *            Zweite rationale Zahl
 	 * @return Das Ergebnis der Addition
 	 */
-	public static RationaleZahl addiere(RationaleZahl a, RationaleZahl b) {
+	public static RationaleZahl addiere(final RationaleZahl a,
+			final RationaleZahl b) {
 		long z, n;
 
 		z = a.zaehler * b.nenner + b.zaehler * a.nenner;
@@ -89,66 +90,67 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * Dividiert zwei ganze Zahlen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste ganze Zahl
 	 * @param b
 	 *            Zweite ganze Zahl
 	 * @return Das Ergebnis der Division
 	 */
-	public static RationaleZahl dividiere(long a, long b) {
+	public static RationaleZahl dividiere(final long a, final long b) {
 		return dividiere(new RationaleZahl(a), new RationaleZahl(b));
 	}
 
 	/**
 	 * Dividiert eine ganze durch eine rationale Zahl.
-	 * 
+	 *
 	 * @param a
 	 *            Eine ganze Zahl
 	 * @param b
 	 *            Eine rationale Zahl
 	 * @return Das Ergebnis der Division
 	 */
-	public static RationaleZahl dividiere(long a, RationaleZahl b) {
+	public static RationaleZahl dividiere(final long a, final RationaleZahl b) {
 		return dividiere(new RationaleZahl(a), b);
 	}
 
 	/**
 	 * Dividiert eine rationale durch eine ganze Zahl.
-	 * 
+	 *
 	 * @param a
 	 *            Eine rationale Zahl
 	 * @param b
 	 *            Eine ganze Zahl
 	 * @return Das Ergebnis der Division
 	 */
-	public static RationaleZahl dividiere(RationaleZahl a, long b) {
+	public static RationaleZahl dividiere(final RationaleZahl a, final long b) {
 		return dividiere(a, new RationaleZahl(b));
 	}
 
 	/**
 	 * Dividiert zwei rationale Zahlen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste rationale Zahl
 	 * @param b
 	 *            Zweite rationale Zahl
 	 * @return Das Ergebnis der Division
 	 */
-	public static RationaleZahl dividiere(RationaleZahl a, RationaleZahl b) {
+	public static RationaleZahl dividiere(final RationaleZahl a,
+			final RationaleZahl b) {
 		return multipliziere(a, b.kehrwert());
 	}
 
 	/**
 	 * Bestimmt den gr&ouml;&szlig;ten gemeinsamen Teiler zweier ganzer Zahlen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste ganze Zahl
 	 * @param b
 	 *            Zweite ganze Zahl
 	 * @return Der gr&ouml;&szlig;te gemeinsame Teiler beider Zahlen
 	 */
-	public static long ggT(long a, long b) {
+	public static long ggT(final long a, final long b) {
 		if (b == 0) {
 			return a;
 		}
@@ -158,25 +160,25 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * Bestimmt das kleinste gemeinsame Vielfache zweier ganzer Zahlen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste ganze Zahl
 	 * @param b
 	 *            Zweite ganze Zahl
 	 * @return Das kleinste gemeinsame Vielfache beider Zahlen
 	 */
-	public static long kgV(long a, long b) {
+	public static long kgV(final long a, final long b) {
 		return Math.abs(a * b) / ggT(a, b);
 	}
 
 	/**
 	 * K&uuml;rzt einen Bruch.
-	 * 
+	 *
 	 * @param a
 	 *            Ein Bruch als rationale Zahl
 	 * @return Der gek&uuml;rzte Bruch
 	 */
-	public static RationaleZahl kuerze(RationaleZahl a) {
+	public static RationaleZahl kuerze(final RationaleZahl a) {
 		long ggT;
 
 		ggT = ggT(a.zaehler, a.nenner);
@@ -186,40 +188,42 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * Multipliziert zwei ganze Zahlen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste ganze Zahl
 	 * @param b
 	 *            Zweite ganze Zahl
 	 * @return Das Ergebnis der Multiplikation
 	 */
-	public static RationaleZahl multipliziere(long a, long b) {
+	public static RationaleZahl multipliziere(final long a, final long b) {
 		return multipliziere(new RationaleZahl(a), new RationaleZahl(b));
 	}
 
 	/**
 	 * Multipliziert eine rationale Zahlen mit einer ganzen Zahl.
-	 * 
+	 *
 	 * @param a
 	 *            Eine rationale Zahl
 	 * @param b
 	 *            Eine ganze Zahl
 	 * @return Das Ergebnis der Multiplikation
 	 */
-	public static RationaleZahl multipliziere(RationaleZahl a, long b) {
+	public static RationaleZahl multipliziere(final RationaleZahl a,
+			final long b) {
 		return multipliziere(a, new RationaleZahl(b));
 	}
 
 	/**
 	 * Multipliziert zwei rationale Zahlen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste rationale Zahl
 	 * @param b
 	 *            Zweite rationale Zahl
 	 * @return Das Ergebnis der Multiplikation
 	 */
-	public static RationaleZahl multipliziere(RationaleZahl a, RationaleZahl b) {
+	public static RationaleZahl multipliziere(final RationaleZahl a,
+			final RationaleZahl b) {
 		long z, n;
 
 		z = a.zaehler * b.zaehler;
@@ -231,14 +235,15 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	/**
 	 * Berechnet die Potenz einer rationalen Basis mit einem ganzzahligen
 	 * Exponenten.
-	 * 
+	 *
 	 * @param basis
 	 *            Die Basis
 	 * @param exponent
 	 *            Der Exponent
 	 * @return Die Potenz
 	 */
-	public static RationaleZahl potenz(RationaleZahl basis, int exponent) {
+	public static RationaleZahl potenz(final RationaleZahl basis,
+			final int exponent) {
 		RationaleZahl potenz;
 
 		potenz = new RationaleZahl(basis);
@@ -251,53 +256,56 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * Subtrahiert zwei ganze Zahlen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste ganze Zahl
 	 * @param b
 	 *            Zweite ganze Zahl
 	 * @return Das Ergebnis der Subtraktion
 	 */
-	public static RationaleZahl subtrahiere(long a, long b) {
+	public static RationaleZahl subtrahiere(final long a, final long b) {
 		return subtrahiere(new RationaleZahl(a), new RationaleZahl(b));
 	}
 
 	/**
 	 * Subtrahiert eine rationale von einer ganzen Zahl.
-	 * 
+	 *
 	 * @param a
 	 *            Eine ganze Zahl
 	 * @param b
 	 *            Eine rationale Zahl
 	 * @return Das Ergebnis der Subtraktion
 	 */
-	public static RationaleZahl subtrahiere(long a, RationaleZahl b) {
+	public static RationaleZahl subtrahiere(final long a,
+			final RationaleZahl b) {
 		return subtrahiere(new RationaleZahl(a), b);
 	}
 
 	/**
 	 * Subtrahiert eine ganze von einer rationalen Zahl.
-	 * 
+	 *
 	 * @param a
 	 *            Eine rationale Zahl
 	 * @param b
 	 *            Eine ganze Zahl
 	 * @return Das Ergebnis der Subtraktion
 	 */
-	public static RationaleZahl subtrahiere(RationaleZahl a, long b) {
+	public static RationaleZahl subtrahiere(final RationaleZahl a,
+			final long b) {
 		return subtrahiere(a, new RationaleZahl(b));
 	}
 
 	/**
 	 * Subtrahiert zwei rationale Zahlen.
-	 * 
+	 *
 	 * @param a
 	 *            Erste rationale Zahl
 	 * @param b
 	 *            Zweite rationale Zahl
 	 * @return Das Ergebnis der Subtraktion
 	 */
-	public static RationaleZahl subtrahiere(RationaleZahl a, RationaleZahl b) {
+	public static RationaleZahl subtrahiere(final RationaleZahl a,
+			final RationaleZahl b) {
 		long z, n;
 
 		z = a.zaehler * b.nenner - b.zaehler * a.nenner;
@@ -315,12 +323,12 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	/**
 	 * Erzeugt aus einer endlichen reelen Zahl eine rationale Zahl. Da alle
 	 * Double-Werte endlich sind, gibt es kein Problem.
-	 * 
+	 *
 	 * @param wert
 	 *            eine Zahl, deren String-Repräsentation kein "E" enthalten
 	 *            darf.
 	 */
-	public RationaleZahl(double wert) {
+	public RationaleZahl(final double wert) {
 		String s, s1, s2;
 
 		s = Double.valueOf(wert).toString();
@@ -337,23 +345,23 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * Konstruiert eine rationale Zahl als ganze Zahl. Der Nenner ist hier 1.
-	 * 
+	 *
 	 * @param zaehler
 	 *            Der Z&auml;hler
 	 */
-	public RationaleZahl(long zaehler) {
+	public RationaleZahl(final long zaehler) {
 		this(zaehler, 1);
 	}
 
 	/**
 	 * Konstruiert eine rationale Zahl als Quotient.
-	 * 
+	 *
 	 * @param zaehler
 	 *            Der Z&auml;hler
 	 * @param nenner
 	 *            Der Nenner
 	 */
-	public RationaleZahl(long zaehler, long nenner) {
+	public RationaleZahl(final long zaehler, final long nenner) {
 		if (nenner == 0) {
 			throw new ArithmeticException("Null als Nenner ist nicht erlaubt.");
 		}
@@ -369,20 +377,20 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * Konstruiert eine rationale Zahl aus einer anderen.
-	 * 
+	 *
 	 * @param zahl
 	 *            Eine rationale Zahl
 	 */
-	public RationaleZahl(RationaleZahl zahl) {
+	public RationaleZahl(final RationaleZahl zahl) {
 		this(zahl.zaehler, zahl.nenner);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(Object)
 	 */
-	public int compareTo(RationaleZahl zahl) {
+	public int compareTo(final RationaleZahl zahl) {
 		long kgv;
 		Long a, b;
 
@@ -395,7 +403,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see java.lang.Number#doubleValue()
 	 */
 	@Override
@@ -412,11 +420,11 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	 * Zwei rationale Zahlen sind identisch, wenn.
 	 * <p>
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see java.lang.Object#equals(Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 		if (o instanceof RationaleZahl) {
 			RationaleZahl r1, r2;
 
@@ -430,7 +438,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see java.lang.Number#floatValue()
 	 */
 	@Override
@@ -445,7 +453,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * Gibt den Nenner der rationalen Zahl zur&uuml;ck.
-	 * 
+	 *
 	 * @return Der Nenner
 	 */
 	public long getNenner() {
@@ -454,7 +462,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * Gibt den Z&auml;hler der rationalen Zahl zur&uuml;ck.
-	 * 
+	 *
 	 * @return Der Z&auml;hler
 	 */
 	public long getZaehler() {
@@ -463,7 +471,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see java.lang.Number#intValue()
 	 */
 	@Override
@@ -474,7 +482,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	/**
 	 * Bildet den Kehrwert der rationalen Zahl. Es werden Z&auml;hler und Nenner
 	 * vertauscht.
-	 * 
+	 *
 	 * @return Der Kehrwert der rationalen Zahl
 	 */
 	public RationaleZahl kehrwert() {
@@ -483,7 +491,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see java.lang.Number#longValue()
 	 */
 	@Override
@@ -493,7 +501,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

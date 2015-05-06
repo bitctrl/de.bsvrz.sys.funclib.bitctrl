@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -43,11 +43,11 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IObjektWeckerListener;
  * alarmieren.<br>
  * <b>Achtung</b>: Für jedes Objekt kann nur ein Weckzeitpunkt eingestellt
  * werden.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
+ *
  * @version $Id: ObjektWecker.java 8054 2008-04-09 15:11:59Z tfelder $
- * 
+ *
  */
 public class ObjektWecker implements IKontrollProzessListener<Long> {
 
@@ -66,7 +66,8 @@ public class ObjektWecker implements IKontrollProzessListener<Long> {
 	 * sollen.
 	 */
 	protected SortedMap<Long, Set<IObjektWeckerListener>> weckZeitpunktAufObjekte = Collections
-			.synchronizedSortedMap(new TreeMap<Long, Set<IObjektWeckerListener>>());
+			.synchronizedSortedMap(
+					new TreeMap<Long, Set<IObjektWeckerListener>>());
 
 	/**
 	 * Mapt alle zu weckenden Objekte auf den Weckzeitpunkt.
@@ -78,12 +79,12 @@ public class ObjektWecker implements IKontrollProzessListener<Long> {
 	 * Standardkonstruktor.
 	 */
 	public ObjektWecker() {
-		this.kontrollProzess.addListener(this);
+		kontrollProzess.addListener(this);
 	}
 
 	/**
 	 * Erfragt, ob der Wecker für das übergebene Objekt gestellt ist.
-	 * 
+	 *
 	 * @param zuWeckendesObjekt
 	 *            ein Objekt
 	 * @return ob der Wecker für das übergebene Objekt gestellt ist
@@ -93,7 +94,8 @@ public class ObjektWecker implements IKontrollProzessListener<Long> {
 		boolean weckerGestellt = false;
 
 		synchronized (this) {
-			weckerGestellt = this.objektAufWeckZeitpunkt.get(zuWeckendesObjekt) != null;
+			weckerGestellt = objektAufWeckZeitpunkt
+					.get(zuWeckendesObjekt) != null;
 		}
 
 		return weckerGestellt;
@@ -101,7 +103,7 @@ public class ObjektWecker implements IKontrollProzessListener<Long> {
 
 	/**
 	 * Stellt den Wecker für ein Objekt auf einen absoluten Weckzeitpunkt.
-	 * 
+	 *
 	 * @param zuWeckendesObjekt
 	 *            das zu weckende Objekt
 	 * @param weckZeitpunkt
@@ -111,48 +113,47 @@ public class ObjektWecker implements IKontrollProzessListener<Long> {
 			final long weckZeitpunkt) {
 		synchronized (this) {
 			if (weckZeitpunkt == AUS) {
-				Long eingeplanterWeckZeitPunkt = this.objektAufWeckZeitpunkt
+				final Long eingeplanterWeckZeitPunkt = objektAufWeckZeitpunkt
 						.get(zuWeckendesObjekt);
 
 				if (eingeplanterWeckZeitPunkt != null) {
-					this.objektAufWeckZeitpunkt.remove(zuWeckendesObjekt);
-					Set<IObjektWeckerListener> objekte = this.weckZeitpunktAufObjekte
+					objektAufWeckZeitpunkt.remove(zuWeckendesObjekt);
+					final Set<IObjektWeckerListener> objekte = weckZeitpunktAufObjekte
 							.get(eingeplanterWeckZeitPunkt);
 					if (objekte != null) {
 						objekte.remove(zuWeckendesObjekt);
 						if (objekte.isEmpty()) {
-							this.weckZeitpunktAufObjekte
-									.remove(eingeplanterWeckZeitPunkt);
+							weckZeitpunktAufObjekte
+							.remove(eingeplanterWeckZeitPunkt);
 						}
 					}
 				}
 			} else {
-				Long bisherEingeplanterWeckZeitPunkt = this.objektAufWeckZeitpunkt
+				final Long bisherEingeplanterWeckZeitPunkt = objektAufWeckZeitpunkt
 						.get(zuWeckendesObjekt);
 
 				if (bisherEingeplanterWeckZeitPunkt != null) {
-					Set<IObjektWeckerListener> objekte = this.weckZeitpunktAufObjekte
+					final Set<IObjektWeckerListener> objekte = weckZeitpunktAufObjekte
 							.get(bisherEingeplanterWeckZeitPunkt);
 					if (objekte != null) {
 						objekte.remove(zuWeckendesObjekt);
 						if (objekte.isEmpty()) {
-							this.weckZeitpunktAufObjekte
-									.remove(bisherEingeplanterWeckZeitPunkt);
+							weckZeitpunktAufObjekte
+							.remove(bisherEingeplanterWeckZeitPunkt);
 						}
 					}
 				}
 
-				Set<IObjektWeckerListener> weckObjekteZumZeitpunkt = this.weckZeitpunktAufObjekte
+				Set<IObjektWeckerListener> weckObjekteZumZeitpunkt = weckZeitpunktAufObjekte
 						.get(weckZeitpunkt);
 
 				if (weckObjekteZumZeitpunkt == null) {
 					weckObjekteZumZeitpunkt = new HashSet<IObjektWeckerListener>();
-					this.weckZeitpunktAufObjekte.put(weckZeitpunkt,
+					weckZeitpunktAufObjekte.put(weckZeitpunkt,
 							weckObjekteZumZeitpunkt);
 				}
 				weckObjekteZumZeitpunkt.add(zuWeckendesObjekt);
-				this.objektAufWeckZeitpunkt.put(zuWeckendesObjekt,
-						weckZeitpunkt);
+				objektAufWeckZeitpunkt.put(zuWeckendesObjekt, weckZeitpunkt);
 			}
 
 			aktualisiereKontrollProzess();
@@ -163,11 +164,11 @@ public class ObjektWecker implements IKontrollProzessListener<Long> {
 	 * Aktualisiert den internen Kontrollprozess.
 	 */
 	protected synchronized void aktualisiereKontrollProzess() {
-		if (!this.weckZeitpunktAufObjekte.isEmpty()) {
-			Long naechsterWeckZeitPunkt = this.weckZeitpunktAufObjekte
+		if (!weckZeitpunktAufObjekte.isEmpty()) {
+			final Long naechsterWeckZeitPunkt = weckZeitpunktAufObjekte
 					.firstKey();
 			if (naechsterWeckZeitPunkt != null) {
-				this.kontrollProzess.setNaechstenAufrufZeitpunkt(
+				kontrollProzess.setNaechstenAufrufZeitpunkt(
 						naechsterWeckZeitPunkt, naechsterWeckZeitPunkt);
 			}
 		}
@@ -176,26 +177,26 @@ public class ObjektWecker implements IKontrollProzessListener<Long> {
 	/**
 	 * {@inheritDoc}.
 	 */
-	public void trigger(Long weckZeitpunkt) {
-		Set<IObjektWeckerListener> zuWeckendeObjekte = new HashSet<IObjektWeckerListener>();
+	public void trigger(final Long weckZeitpunkt) {
+		final Set<IObjektWeckerListener> zuWeckendeObjekte = new HashSet<IObjektWeckerListener>();
 
 		synchronized (this) {
-			Set<IObjektWeckerListener> menge = this.weckZeitpunktAufObjekte
+			final Set<IObjektWeckerListener> menge = weckZeitpunktAufObjekte
 					.get(weckZeitpunkt);
-			this.weckZeitpunktAufObjekte.remove(weckZeitpunkt);
+			weckZeitpunktAufObjekte.remove(weckZeitpunkt);
 			if (menge == null) {
 				return;
 			}
 			zuWeckendeObjekte.addAll(menge);
 		}
 
-		for (IObjektWeckerListener objekt : zuWeckendeObjekte) {
-			synchronized (this.objektAufWeckZeitpunkt) {
-				this.objektAufWeckZeitpunkt.remove(objekt);
+		for (final IObjektWeckerListener objekt : zuWeckendeObjekte) {
+			synchronized (objektAufWeckZeitpunkt) {
+				objektAufWeckZeitpunkt.remove(objekt);
 			}
 			objekt.alarm();
 		}
 
-		this.aktualisiereKontrollProzess();
+		aktualisiereKontrollProzess();
 	}
 }

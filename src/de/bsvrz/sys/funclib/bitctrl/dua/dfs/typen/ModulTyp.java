@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -34,9 +34,9 @@ import de.bsvrz.sys.funclib.bitctrl.daf.AbstractDavZustand;
 /**
  * Über diese Klasse werden alle im DAV-Enumerationstyp
  * <code>att.modulTyp</code> beschriebenen Werte zur Verfügung gestellt.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
+ *
  * @version $Id: ModulTyp.java 8054 2008-04-09 15:11:59Z tfelder $
  */
 public final class ModulTyp extends AbstractDavZustand {
@@ -84,26 +84,26 @@ public final class ModulTyp extends AbstractDavZustand {
 
 	/**
 	 * Interner Konstruktor.
-	 * 
+	 *
 	 * @param name
 	 *            der Name des Zustandes
 	 * @param code
 	 *            der Kode
 	 */
-	private ModulTyp(String name, int code) {
+	private ModulTyp(final String name, final int code) {
 		super(code, name);
 		werteBereich.put(code, this);
 	}
 
 	/**
 	 * Erfragt den Wert dieses DAV-Enumerationstypen mit dem übergebenen Code.
-	 * 
+	 *
 	 * @param code
 	 *            der Code des Enumerations-Wertes
 	 * @return den Wert dieses DAV-Enumerationstypen mit dem übergebenen Code.
 	 */
-	public static ModulTyp getZustand(int code) {
+	public static ModulTyp getZustand(final int code) {
 		return werteBereich.get(code);
 	}
-	
+
 }

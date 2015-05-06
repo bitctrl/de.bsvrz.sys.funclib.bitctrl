@@ -1,6 +1,6 @@
 /*
- * BitCtrl- Datenverteiler- Funktionsbibliothek
- * Copyright (C) 2007-2010 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -29,8 +29,8 @@ import com.bitctrl.util.resultset.IRelatedResultSetContainer;
 import com.bitctrl.util.resultset.RelatedResultSet;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
-import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.Data.Array;
+import de.bsvrz.dav.daf.main.ResultData;
 import de.bsvrz.dav.daf.main.impl.InvalidArgumentException;
 
 /**

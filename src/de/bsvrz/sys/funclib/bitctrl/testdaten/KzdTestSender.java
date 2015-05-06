@@ -1,4 +1,28 @@
-/*---------------------------------------------------------------*/
+/*
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
+ *
+ * Contact Information:
+ * BitCtrl Systems GmbH
+ * Weißenfelser Straße 67
+ * 04229 Leipzig
+ * Phone: +49 341-490670
+ * mailto: info@bitctrl.de
+ */
 /* Copyright by BitCtrl Systems Leipzig */
 /* BitCtrl Systems Leipzig */
 /* Weisenfelser Str. 67 */
@@ -43,8 +67,8 @@ import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 /**
  * Test-Applikation zur Erzeugung einigermaßen realistischer Kurzzeitdaten.
  */
-public class KzdTestSender extends TimerTask implements StandardApplication,
-		ClientSenderInterface {
+public final class KzdTestSender extends TimerTask
+implements StandardApplication, ClientSenderInterface {
 
 	private static double VLKW_MAX = 100.0;
 
@@ -53,58 +77,58 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 	private static double VPKW_MAX = 140.0;
 
 	/**
-	 * der Logger
+	 * der Logger.
 	 */
-	protected final Logger LOGGER = Logger.getLogger(KzdTestSender.class
-			.getName());
+	protected final Logger LOGGER = Logger
+			.getLogger(KzdTestSender.class.getName());
 
 	/**
-	 * Liste aller Fahrstreifen mit ihrem aktuellen Verbindungszustand
+	 * Liste aller Fahrstreifen mit ihrem aktuellen Verbindungszustand.
 	 */
 	protected final Collection<SystemObject> fahrStreifenListe = new ArrayList<SystemObject>();
 
 	/**
-	 * 
+	 *
 	 */
 	private DataDescription descKurzzeitDaten;
 
 	/**
-	 * 
+	 *
 	 */
 	Timer checkTimer = new Timer("KzdCheckTimer", true); //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 */
 	Random dataSource = new Random();
 
 	/**
-	 * 
+	 *
 	 */
 	private long startZeit;
 
 	/**
-	 * index
+	 * index.
 	 */
-	private int idx_data = 0;
+	private int idxData;
 
 	/**
-	 * 
+	 *
 	 */
 	private final ArrayList<Integer[]> fileData = new ArrayList<Integer[]>();
 
 	/**
 	 * true, wenn Testdaten aus einer Datei erzeugt werden sollen.
 	 */
-	private boolean useFileData = false;
+	private boolean useFileData;
 
 	/**
-	 * intervall, in dem neue Daten erzeugt werden
+	 * intervall, in dem neue Daten erzeugt werden.
 	 */
 	private long delay = 60000L;
 
 	/**
-	 * Die Liste aller DE im System
+	 * Die Liste aller DE im System.
 	 */
 	private SystemObject[] alleDeLve;
 
@@ -119,7 +143,7 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 	private final Map<SystemObject, ResultData> latestResultsKzd = new LinkedHashMap<SystemObject, ResultData>();
 
 	/**
-	 * Standardkonstruktor
+	 * Standardkonstruktor.
 	 */
 	private KzdTestSender() {
 		super();
@@ -137,7 +161,8 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 			startZeit = (now / delay) * delay;
 		}
 
-		LOGGER.fine("Sende Daten für " + fahrStreifenListe.size() + " Fahrstreifen"); //$NON-NLS-1$
+		LOGGER.fine("Sende Daten für " + fahrStreifenListe.size() //$NON-NLS-1$
+		+ " Fahrstreifen");
 
 		int loop = 0;
 		while ((loop < 20) && (startZeit < now)) {
@@ -158,8 +183,8 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 					latestResultsKzd.put(fahrStreifen, result);
 				}
 				if (aktiv) {
-					con.sendData(resultList.toArray(new ResultData[resultList
-							.size()]));
+					con.sendData(resultList
+							.toArray(new ResultData[resultList.size()]));
 					LOGGER.info("Kurzzeitdaten mit Zeitstempel "
 							+ new Date(startZeit - delay) + " versendet für "
 							+ resultList.size() + " Objekte");
@@ -176,10 +201,7 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 		}
 	}
 
-	/**
-	 * @param dav
-	 * @see sys.funclib.application.StandardApplication#initialize(stauma.dav.clientside.ClientDavInterface)
-	 */
+	@Override
 	public void initialize(final ClientDavInterface dav) throws Exception {
 		con = dav;
 
@@ -187,17 +209,17 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 		// auf OK gesetzt wird
 		alleDeLve = dav.getDataModel().getType("typ.deLve").getElements()
 				.toArray(new SystemObject[0]);
-		deFehlerBeschreibung = new DataDescription(dav.getDataModel()
-				.getAttributeGroup("atg.tlsGloDeFehler"), dav.getDataModel()
-				.getAspect("asp.tlsAntwort"));
+		deFehlerBeschreibung = new DataDescription(
+				dav.getDataModel().getAttributeGroup("atg.tlsGloDeFehler"),
+				dav.getDataModel().getAspect("asp.tlsAntwort"));
 
-		final AttributeGroup atg = dav.getDataModel().getAttributeGroup(
-				"atg.verkehrsDatenKurzZeitIntervall"); //$NON-NLS-1$
+		final AttributeGroup atg = dav.getDataModel()
+				.getAttributeGroup("atg.verkehrsDatenKurzZeitIntervall"); //$NON-NLS-1$
 		final Aspect asp = dav.getDataModel().getAspect("asp.externeErfassung"); //$NON-NLS-1$
 		descKurzzeitDaten = new DataDescription(atg, asp);
 
-		fahrStreifenListe.addAll(dav.getDataModel().getType("typ.fahrStreifen")
-				.getElements());
+		fahrStreifenListe.addAll(
+				dav.getDataModel().getType("typ.fahrStreifen").getElements());
 
 		synchronized (fahrStreifenListe) {
 			try {
@@ -231,20 +253,16 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 			}
 			aktiv = true;
 
-			// TODO: Zeitpunkt mit dem Datenintervall synchronisieren.
+			// TODO Zeitpunkt mit dem Datenintervall synchronisieren.
 			checkTimer.scheduleAtFixedRate(this, 1000L, delay);
 		}
 	}
 
-	/**
-	 * @param argumentList
-	 * @throws Exception
-	 * @see sys.funclib.application.StandardApplication#parseArguments(sys.funclib.ArgumentList)
-	 */
+	@Override
 	public void parseArguments(final ArgumentList argumentList)
 			throws Exception {
-		final String startStr = argumentList
-				.fetchArgument("-startDatum=").asString(); //$NON-NLS-1$
+		final String startStr = argumentList.fetchArgument("-startDatum=") //$NON-NLS-1$
+				.asString();
 		if ((startStr != null) && (startStr.length() > 0)) {
 			startZeit = DateFormat.getDateInstance().parse(startStr).getTime();
 		}
@@ -325,14 +343,14 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 			}
 		}
 
-		idx_data = fileData.size() - 1;
+		idxData = fileData.size() - 1;
 		useFileData = true;
 
 	}
 
 	/**
 	 * Die Hauptfunktion des Observers.
-	 * 
+	 *
 	 * @param args
 	 *            Programm-Argumente
 	 */
@@ -340,12 +358,7 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 		StandardApplicationRunner.run(new KzdTestSender(), args);
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 * 
-	 * @see stauma.dav.clientside.ClientSenderInterface#dataRequest(stauma.dav.configuration.interfaces.SystemObject,
-	 *      stauma.dav.clientside.DataDescription, byte)
-	 */
+	@Override
 	public void dataRequest(final SystemObject object,
 			final DataDescription dataDescription, final byte state) {
 		if (state == ClientSenderInterface.START_SENDING
@@ -356,12 +369,6 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 * 
-	 * @see stauma.dav.clientside.ClientSenderInterface#isRequestSupported(stauma.dav.configuration.interfaces.SystemObject,
-	 *      stauma.dav.clientside.DataDescription)
-	 */
 	public boolean isRequestSupported(final SystemObject object,
 			final DataDescription dataDescription) {
 		boolean result = false;
@@ -370,9 +377,9 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 			result = true;
 		} else {
 			LOGGER.warning("Unerwarteter Request: Attributgruppe "
-					+ dataDescription.getAttributeGroup().getName()
-					+ " Aspekt " + dataDescription.getAspect().getName()
-					+ " Objekt " + object.getPid());
+					+ dataDescription.getAttributeGroup().getName() + " Aspekt "
+					+ dataDescription.getAspect().getName() + " Objekt "
+					+ object.getPid());
 		}
 		return result;
 	}
@@ -383,13 +390,13 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 	 */
 	private Data getVerkehrsDaten() throws Exception {
 
-		int _qKfz_; // qKfz-Wert aus Telegramm
-		int _qLkw_; // qLkw-Wert aus Telegramm
-		int _vPkw_; // vPkwÄ-Wert aus Telegramm
-		int _vLkw_; // vLkwÄ-Wert aus Telegramm
-		int _b_; // b-Wert (Belegung)
+		int qKfz; // qKfz-Wert aus Telegramm
+		int qLkw; // qLkw-Wert aus Telegramm
+		int vPkwAe; // vPkwÄ-Wert aus Telegramm
+		int vLkwAe; // vLkwÄ-Wert aus Telegramm
+		int belegung; // b-Wert (Belegung)
 
-		_qKfz_ = (int) (dataSource.nextDouble() * KzdTestSender.QKFZ_MAX); // 0
+		qKfz = (int) (dataSource.nextDouble() * KzdTestSender.QKFZ_MAX); // 0
 		// <=
 		// qKfz
 		// <
@@ -398,22 +405,22 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 		final double anteilLkw = dataSource.nextDouble() * .4; // Zwischen 0%
 		// und 40%
 		// Lkw
-		_qLkw_ = (int) (_qKfz_ * anteilLkw);
-		if (_qKfz_ <= 0) {
-			_vPkw_ = -1; // Geschw. ist nicht ermittelbar, wenn keine gefahren
+		qLkw = (int) (qKfz * anteilLkw);
+		if (qKfz <= 0) {
+			vPkwAe = -1; // Geschw. ist nicht ermittelbar, wenn keine gefahren
 			// sind!
 		} else {
-			_vPkw_ = (int) (dataSource.nextDouble() * KzdTestSender.VPKW_MAX);
+			vPkwAe = (int) (dataSource.nextDouble() * KzdTestSender.VPKW_MAX);
 		}
-		if (_qLkw_ <= 0) {
-			_vLkw_ = -1; // Geschw. ist nicht ermittelbar, wenn keine gefahren
+		if (qLkw <= 0) {
+			vLkwAe = -1; // Geschw. ist nicht ermittelbar, wenn keine gefahren
 			// sind!
 		} else {
-			_vLkw_ = (int) (dataSource.nextDouble() * KzdTestSender.VLKW_MAX);
+			vLkwAe = (int) (dataSource.nextDouble() * KzdTestSender.VLKW_MAX);
 		}
-		_b_ = (int) (dataSource.nextDouble() * 40.);
+		belegung = (int) (dataSource.nextDouble() * 40.);
 
-		return buildData(_qKfz_, _qLkw_, _vPkw_, _vLkw_, _b_);
+		return buildData(qKfz, qLkw, vPkwAe, vLkwAe, belegung);
 	}
 
 	/**
@@ -427,22 +434,22 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 		int _vPkw_; // vPkwÄ-Wert aus Telegramm
 		int _vLkw_; // vLkwÄ-Wert aus Telegramm
 
-		if (idx_data >= fileData.size()) {
-			idx_data = 0;
+		if (idxData >= fileData.size()) {
+			idxData = 0;
 		}
-		_qKfz_ = fileData.get(idx_data)[0];
-		_qLkw_ = fileData.get(idx_data)[1];
-		_vPkw_ = fileData.get(idx_data)[2];
-		_vLkw_ = fileData.get(idx_data)[3];
+		_qKfz_ = fileData.get(idxData)[0];
+		_qLkw_ = fileData.get(idxData)[1];
+		_vPkw_ = fileData.get(idxData)[2];
+		_vLkw_ = fileData.get(idxData)[3];
 
-		idx_data++;
+		idxData++;
 
 		return buildData(_qKfz_, _qLkw_, _vPkw_, _vLkw_, 0);
 	}
 
 	/**
 	 * Methode um einen Datensatz zu erzeugen.
-	 * 
+	 *
 	 * @param _qKfz_
 	 *            die Anzahl der Kfz
 	 * @param _qLkw_
@@ -455,43 +462,46 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 	 *            die Belegung
 	 * @return einen neuen Verkehrsdatensatz
 	 */
-	private Data buildData(final int _qKfz_, final int _qLkw_,
-			final int _vPkw_, final int _vLkw_, final int _b_) {
+	private Data buildData(final int _qKfz_, final int _qLkw_, final int _vPkw_,
+			final int _vLkw_, final int _b_) {
 
 		final Data data = con.createData(descKurzzeitDaten.getAttributeGroup());
 
 		// Intervalllänge aus IntervalldatenHeader
 		// ---------------------------------------------------------------------
-		data.getTimeValue("T").setMillis(delay);//etSeconds(60); //$NON-NLS-1$
+		data.getTimeValue("T").setMillis(delay);
 
 		// Art der Mittelwertbildung am DE aus Betriebsparametern
 		// ------------------------------------------------------
-		data.getUnscaledValue("ArtMittelwertbildung").setText("gleitende Mittelwertbildung"); //$NON-NLS-1$ //$NON-NLS-2$
+		data.getUnscaledValue("ArtMittelwertbildung") //$NON-NLS-1$
+		.setText("gleitende Mittelwertbildung"); //$NON-NLS-1$
 
-		final String[] valStrings = {
-				"qKfz", "vKfz", "qLkw", "vLkw", "qPkw", "vPkw", "b", "tNetto", "sKfz", "vgKfz" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$
+		final String[] valStrings = { "qKfz", "vKfz", "qLkw", "vLkw", "qPkw", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				"vPkw", "b", "tNetto", "sKfz", "vgKfz" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
 		for (final String valString : valStrings) {
-			data.getItem(valString)
-					.getUnscaledValue("Wert").setText("nicht ermittelbar"); //$NON-NLS-1$ //$NON-NLS-2$
-			data.getItem(valString)
-					.getItem("Status").getItem("Erfassung").getUnscaledValue("NichtErfasst").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			data.getItem(valString)
-					.getItem("Status").getItem("PlFormal").getUnscaledValue("WertMax").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			data.getItem(valString)
-					.getItem("Status").getItem("PlFormal").getUnscaledValue("WertMin").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			data.getItem(valString)
-					.getItem("Status").getItem("PlLogisch").getUnscaledValue("WertMaxLogisch").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			data.getItem(valString)
-					.getItem("Status").getItem("PlLogisch").getUnscaledValue("WertMinLogisch").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			data.getItem(valString)
-					.getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Implausibel").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			data.getItem(valString)
-					.getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Interpoliert").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			data.getItem(valString)
-					.getItem("Güte").getUnscaledValue("Index").set(-1); //$NON-NLS-1$ //$NON-NLS-2$
-			data.getItem(valString)
-					.getItem("Güte").getUnscaledValue("Verfahren").set(0); //$NON-NLS-1$ //$NON-NLS-2$
+			data.getItem(valString).getUnscaledValue("Wert") //$NON-NLS-1$
+			.setText("nicht ermittelbar"); //$NON-NLS-1$
+			data.getItem(valString).getItem("Status").getItem("Erfassung") //$NON-NLS-1$ //$NON-NLS-2$
+			.getUnscaledValue("NichtErfasst").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$
+			data.getItem(valString).getItem("Status").getItem("PlFormal") //$NON-NLS-1$ //$NON-NLS-2$
+			.getUnscaledValue("WertMax").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$
+			data.getItem(valString).getItem("Status").getItem("PlFormal") //$NON-NLS-1$ //$NON-NLS-2$
+			.getUnscaledValue("WertMin").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$
+			data.getItem(valString).getItem("Status").getItem("PlLogisch") //$NON-NLS-1$ //$NON-NLS-2$
+			.getUnscaledValue("WertMaxLogisch").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$
+			data.getItem(valString).getItem("Status").getItem("PlLogisch") //$NON-NLS-1$ //$NON-NLS-2$
+			.getUnscaledValue("WertMinLogisch").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$
+			data.getItem(valString).getItem("Status") //$NON-NLS-1$
+			.getItem("MessWertErsetzung") //$NON-NLS-1$
+			.getUnscaledValue("Implausibel").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$
+			data.getItem(valString).getItem("Status") //$NON-NLS-1$
+			.getItem("MessWertErsetzung") //$NON-NLS-1$
+			.getUnscaledValue("Interpoliert").setText("Nein"); //$NON-NLS-1$ //$NON-NLS-2$
+			data.getItem(valString).getItem("Güte").getUnscaledValue("Index") //$NON-NLS-1$ //$NON-NLS-2$
+			.set(-1);
+			data.getItem(valString).getItem("Güte") //$NON-NLS-1$
+			.getUnscaledValue("Verfahren").set(0); //$NON-NLS-1$
 		}
 
 		data.getItem("qKfz").getUnscaledValue("Wert").set(_qKfz_); //$NON-NLS-1$ //$NON-NLS-2$
@@ -515,14 +525,16 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 		_qPkw_ = (_qKfz_ - _qLkw_) >= 0 ? (_qKfz_ - _qLkw_) : -1;
 		data.getItem("qPkw").getUnscaledValue("Wert").set(_qPkw_); //$NON-NLS-1$ //$NON-NLS-2$
 		data.getItem("qPkw").getItem("Güte").getUnscaledValue("Index").set(10); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		data.getItem("qPkw").getItem("Status").getItem("Erfassung").getUnscaledValue("NichtErfasst").setText("Ja"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		data.getItem("qPkw").getItem("Status").getItem("Erfassung") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		.getUnscaledValue("NichtErfasst").setText("Ja"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		_vKfz_ = (_qLkw_ + _qPkw_) > 0 ? ((_qLkw_ * _vLkw_) + (_qPkw_ * _vPkw_))
-				/ (_qLkw_ + _qPkw_)
-				: -1;
+		_vKfz_ = (_qLkw_ + _qPkw_) > 0
+				? ((_qLkw_ * _vLkw_) + (_qPkw_ * _vPkw_)) / (_qLkw_ + _qPkw_)
+						: -1;
 		data.getItem("vKfz").getUnscaledValue("Wert").set(_vKfz_); //$NON-NLS-1$ //$NON-NLS-2$
 		data.getItem("vKfz").getItem("Güte").getUnscaledValue("Index").set(10); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		data.getItem("vKfz").getItem("Status").getItem("Erfassung").getUnscaledValue("NichtErfasst").setText("Ja"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		data.getItem("vKfz").getItem("Status").getItem("Erfassung") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				.getUnscaledValue("NichtErfasst").setText("Ja"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		return data;
 
@@ -530,8 +542,8 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 
 	/**
 	 * Versendet einen DaV-Datensatz an ein oder mehrere Systemobjekte
-	 * (normalerweise eine DE-Liste, ansonsten vermutlich DaV-Exception)
-	 * 
+	 * (normalerweise eine DE-Liste, ansonsten vermutlich DaV-Exception).
+	 *
 	 * @param deList
 	 *            die Liste der Systemobjekte
 	 * @param data
@@ -563,11 +575,11 @@ public class KzdTestSender extends TimerTask implements StandardApplication,
 	}
 
 	/**
-	 * Versendet an alle WZG-DE den globalen DE-Fehlerzustand OK
+	 * Versendet an alle WZG-DE den globalen DE-Fehlerzustand OK.
 	 */
 	private void versendeDeFehlerZustandOk() {
-		final Data data = con.createData(con.getDataModel().getAttributeGroup(
-				"atg.tlsGloDeFehler"));
+		final Data data = con.createData(
+				con.getDataModel().getAttributeGroup("atg.tlsGloDeFehler"));
 
 		data.getUnscaledValue("DEFehlerStatus").set(0);
 		data.getUnscaledValue("DEProjektierungsStatus").set(0);

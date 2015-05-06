@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -39,9 +39,9 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * Parametersatz vorgehalten. Sollten also innerhalb dieser Attributgruppe
  * mehrere Parametersätze für die gleiche SWE vorkommen, so werden diese
  * (später) gemischt.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
+ *
  * @version $Id: ParameterSatz.java 8272 2008-04-16 07:28:31Z tfelder $
  */
 public class ParameterSatz {
@@ -54,11 +54,11 @@ public class ParameterSatz {
 	/**
 	 * alle Publikationszuordnungen dieses Parametersatzes.
 	 */
-	private List<PublikationsZuordung> pubZuordnungen = new ArrayList<PublikationsZuordung>();
+	private final List<PublikationsZuordung> pubZuordnungen = new ArrayList<PublikationsZuordung>();
 
 	/**
 	 * Erfragt die SWE, für die Publikationsparameter in dieser Klasse stehen.
-	 * 
+	 *
 	 * @return die SWE
 	 */
 	public final SWETyp getSwe() {
@@ -67,7 +67,7 @@ public class ParameterSatz {
 
 	/**
 	 * Setzt die SWE, für die Publikationsparameter in dieser Klasse stehen.
-	 * 
+	 *
 	 * @param swe
 	 *            die SWE
 	 */
@@ -78,7 +78,7 @@ public class ParameterSatz {
 	/**
 	 * Erfragt eine Liste mit allen Publikationszuordnungen dieses
 	 * Parametersatzes.
-	 * 
+	 *
 	 * @return alle Publikationszuordnungen dieses Parametersatzes (oder eine
 	 *         leere Liste)
 	 */
@@ -93,15 +93,15 @@ public class ParameterSatz {
 	 * Publikationszuordnung getestet. Fällt dieser Test negativ aus, so wird
 	 * die neue Publikationszuordnung ignoriert und eine den Fehler
 	 * dokumentierende Warnung ausgegeben.
-	 * 
+	 *
 	 * @param pubZuordnung
 	 *            neue Publikationszuordnung
 	 */
 	public final void add(final PublikationsZuordung pubZuordnung) {
 		boolean addErlaubt = true;
 
-		for (PublikationsZuordung altePz : this.pubZuordnungen) {
-			String fehler = altePz.isKompatibelMit(pubZuordnung);
+		for (final PublikationsZuordung altePz : pubZuordnungen) {
+			final String fehler = altePz.isKompatibelMit(pubZuordnung);
 			if (fehler != null) {
 				Debug.getLogger().warning(fehler);
 				addErlaubt = false;
@@ -110,7 +110,7 @@ public class ParameterSatz {
 		}
 
 		if (addErlaubt) {
-			this.pubZuordnungen.add(pubZuordnung);
+			pubZuordnungen.add(pubZuordnung);
 		}
 	}
 
@@ -121,7 +121,7 @@ public class ParameterSatz {
 	public String toString() {
 		String s = "SWE: " + swe + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 
-		for (PublikationsZuordung pz : pubZuordnungen) {
+		for (final PublikationsZuordung pz : pubZuordnungen) {
 			s += pz + "\n"; //$NON-NLS-1$
 		}
 

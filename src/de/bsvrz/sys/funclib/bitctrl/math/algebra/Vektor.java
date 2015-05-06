@@ -1,6 +1,6 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2009 BitCtrl Systems GmbH 
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -30,7 +30,7 @@ import de.bsvrz.sys.funclib.bitctrl.math.RationaleZahl;
 
 /**
  * Repr&auml;sentiert einen Zahlenvektor.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
  * @version $Id: Vektor.java 6386 2008-02-08 08:24:20Z Schumann $
  */
@@ -38,7 +38,7 @@ public class Vektor implements Cloneable {
 
 	/**
 	 * Addiert zwei Vektoren.
-	 * 
+	 *
 	 * @param a
 	 *            Erster Vektor
 	 * @param b
@@ -48,7 +48,7 @@ public class Vektor implements Cloneable {
 	 *             Wenn die beiden Vektoren nicht die gleiche Komponentenanzahl
 	 *             aufweisen
 	 */
-	public static Vektor addiere(Vektor a, Vektor b) {
+	public static Vektor addiere(final Vektor a, final Vektor b) {
 		if (a.anzahlKomponenten() != b.anzahlKomponenten()) {
 			throw new IllegalArgumentException(
 					"Die beiden Vektoren haben nicht die selbe Komponentenanzahl.");
@@ -66,53 +66,53 @@ public class Vektor implements Cloneable {
 
 	/**
 	 * Dividiert einen Vektor mit einem Skalar.
-	 * 
+	 *
 	 * @param a
 	 *            Ein Vektor
 	 * @param s
 	 *            Ein Skalar
 	 * @return Das Vielfache des Vektors
 	 */
-	public static Vektor dividiere(Vektor a, long s) {
+	public static Vektor dividiere(final Vektor a, final long s) {
 		return dividiere(a, new RationaleZahl(s));
 	}
 
 	/**
 	 * Dividiert einen Vektor mit einem Skalar.
-	 * 
+	 *
 	 * @param a
 	 *            Ein Vektor
 	 * @param s
 	 *            Ein Skalar
 	 * @return Das Vielfache des Vektors
 	 */
-	public static Vektor dividiere(Vektor a, RationaleZahl s) {
+	public static Vektor dividiere(final Vektor a, final RationaleZahl s) {
 		return multipliziere(a, s.kehrwert());
 	}
 
 	/**
 	 * Multipliziert einen Vektor mit einem Skalar.
-	 * 
+	 *
 	 * @param a
 	 *            Ein Vektor
 	 * @param s
 	 *            Ein Skalar
 	 * @return Das Vielfache des Vektors
 	 */
-	public static Vektor multipliziere(Vektor a, long s) {
+	public static Vektor multipliziere(final Vektor a, final long s) {
 		return multipliziere(a, new RationaleZahl(s));
 	}
 
 	/**
 	 * Multipliziert einen Vektor mit einem Skalar.
-	 * 
+	 *
 	 * @param a
 	 *            Ein Vektor
 	 * @param s
 	 *            Ein Skalar
 	 * @return Das Vielfache des Vektors
 	 */
-	public static Vektor multipliziere(Vektor a, RationaleZahl s) {
+	public static Vektor multipliziere(final Vektor a, final RationaleZahl s) {
 		Vektor v;
 
 		v = new Vektor(a.anzahlKomponenten());
@@ -125,7 +125,7 @@ public class Vektor implements Cloneable {
 
 	/**
 	 * Berechnet das Skalarprodukt zweier Vektoren.
-	 * 
+	 *
 	 * @param a
 	 *            Erster Vektor
 	 * @param b
@@ -135,7 +135,7 @@ public class Vektor implements Cloneable {
 	 *             Wenn die beiden Vektoren nicht die gleiche Komponentenanzahl
 	 *             von 2 oder 3 aufweisen
 	 */
-	public static RationaleZahl skalarprodukt(Vektor a, Vektor b) {
+	public static RationaleZahl skalarprodukt(final Vektor a, final Vektor b) {
 		if (a.anzahlKomponenten() != b.anzahlKomponenten()) {
 			throw new IllegalArgumentException(
 					"Die beiden Vektoren haben nicht die selbe Komponentenanzahl.");
@@ -145,8 +145,8 @@ public class Vektor implements Cloneable {
 
 		s = new RationaleZahl(0);
 		for (int i = 0; i < a.anzahlKomponenten(); i++) {
-			s = RationaleZahl.addiere(s, RationaleZahl.multipliziere(a.get(i),
-					b.get(i)));
+			s = RationaleZahl.addiere(s,
+					RationaleZahl.multipliziere(a.get(i), b.get(i)));
 		}
 
 		return s;
@@ -155,7 +155,7 @@ public class Vektor implements Cloneable {
 
 	/**
 	 * Subtrahiert zwei Vektoren.
-	 * 
+	 *
 	 * @param a
 	 *            Erster Vektor
 	 * @param b
@@ -165,7 +165,7 @@ public class Vektor implements Cloneable {
 	 *             Wenn die beiden Vektoren nicht die gleiche Komponentenanzahl
 	 *             aufweisen
 	 */
-	public static Vektor subtrahiere(Vektor a, Vektor b) {
+	public static Vektor subtrahiere(final Vektor a, final Vektor b) {
 		if (a.anzahlKomponenten() != b.anzahlKomponenten()) {
 			throw new IllegalArgumentException(
 					"Die beiden Vektoren haben nicht die selbe Komponentenanzahl.");
@@ -183,7 +183,7 @@ public class Vektor implements Cloneable {
 
 	/**
 	 * Berechnet das Vektorprodukt zweier Vektoren.
-	 * 
+	 *
 	 * @param a
 	 *            Erster Vektor
 	 * @param b
@@ -193,7 +193,7 @@ public class Vektor implements Cloneable {
 	 *             Wenn die beiden Vektoren nicht die gleiche Komponentenanzahl
 	 *             von 3 aufweisen
 	 */
-	public static Vektor vektorprodukt(Vektor a, Vektor b) {
+	public static Vektor vektorprodukt(final Vektor a, final Vektor b) {
 		if (a.anzahlKomponenten() != b.anzahlKomponenten()) {
 			throw new IllegalArgumentException(
 					"Die beiden Vektoren haben nicht die selbe Komponentenanzahl.");
@@ -207,32 +207,32 @@ public class Vektor implements Cloneable {
 		Vektor v;
 
 		v = new Vektor(a.anzahlKomponenten());
-		v.set(0, RationaleZahl.subtrahiere(RationaleZahl.multipliziere(
-				a.get(1), b.get(2)), RationaleZahl.multipliziere(a.get(2), b
-				.get(1))));
-		v.set(1, RationaleZahl.subtrahiere(RationaleZahl.multipliziere(
-				a.get(2), b.get(0)), RationaleZahl.multipliziere(a.get(0), b
-				.get(2))));
-		v.set(2, RationaleZahl.subtrahiere(RationaleZahl.multipliziere(
-				a.get(0), b.get(1)), RationaleZahl.multipliziere(a.get(1), b
-				.get(0))));
+		v.set(0, RationaleZahl.subtrahiere(
+				RationaleZahl.multipliziere(a.get(1), b.get(2)),
+				RationaleZahl.multipliziere(a.get(2), b.get(1))));
+		v.set(1, RationaleZahl.subtrahiere(
+				RationaleZahl.multipliziere(a.get(2), b.get(0)),
+				RationaleZahl.multipliziere(a.get(0), b.get(2))));
+		v.set(2, RationaleZahl.subtrahiere(
+				RationaleZahl.multipliziere(a.get(0), b.get(1)),
+				RationaleZahl.multipliziere(a.get(1), b.get(0))));
 
 		return v;
 
 	}
 
 	/** Interner Speicher der Vektorkomponenten. */
-	private RationaleZahl[] vektor;
+	private final RationaleZahl[] vektor;
 
 	/**
 	 * Konstruiert einen leeren Vektor.
-	 * 
+	 *
 	 * @param n
 	 *            Gew&uuml;nschte Gr&ouml;&szlig;e des Vektors
 	 * @throws IllegalArgumentException
 	 *             Wenn die Gr&ouml;&szlig;e kleiner als 1 ist
 	 */
-	public Vektor(int n) {
+	public Vektor(final int n) {
 		if (n < 1) {
 			throw new IllegalArgumentException(
 					"Anzahl der Komponenten muss größer oder gleich 1 sein.");
@@ -246,13 +246,13 @@ public class Vektor implements Cloneable {
 
 	/**
 	 * Konstruiert einen Vektor aus einem Feld.
-	 * 
+	 *
 	 * @param vektor
 	 *            Ein Feld
 	 * @throws IllegalArgumentException
 	 *             Wenn die L&auml;nge des Felds kleiner als 1 ist
 	 */
-	public Vektor(long... vektor) {
+	public Vektor(final long... vektor) {
 		this(vektor.length);
 		for (int i = 0; i < vektor.length; i++) {
 			set(i, vektor[i]);
@@ -261,13 +261,13 @@ public class Vektor implements Cloneable {
 
 	/**
 	 * Konstruiert einen Vektor aus einem Feld.
-	 * 
+	 *
 	 * @param vektor
 	 *            Ein Feld
 	 * @throws IllegalArgumentException
 	 *             Wenn die L&auml;nge des Felds kleiner als 1 ist
 	 */
-	public Vektor(RationaleZahl... vektor) {
+	public Vektor(final RationaleZahl... vektor) {
 		this(vektor.length);
 		for (int i = 0; i < vektor.length; i++) {
 			set(i, new RationaleZahl(vektor[i]));
@@ -276,11 +276,11 @@ public class Vektor implements Cloneable {
 
 	/**
 	 * Konstruiert einen Vektor aus einem bestehenden Vektor.
-	 * 
+	 *
 	 * @param vektor
 	 *            Ein Vektor
 	 */
-	public Vektor(Vektor vektor) {
+	public Vektor(final Vektor vektor) {
 		this(vektor.anzahlKomponenten());
 		for (int i = 0; i < vektor.anzahlKomponenten(); i++) {
 			set(i, new RationaleZahl(vektor.get(i)));
@@ -289,7 +289,7 @@ public class Vektor implements Cloneable {
 
 	/**
 	 * Gibt die Anzahl der Komponenten des Vektors zur&uuml;ck.
-	 * 
+	 *
 	 * @return Komponentenanzahl
 	 */
 	public int anzahlKomponenten() {
@@ -299,7 +299,7 @@ public class Vektor implements Cloneable {
 	/**
 	 * Gibt den quadrierten Betrag (=L&auml;nge) des Vektors zur&uuml;ck. Das
 	 * Quadrieren hat den Vorteil, dass der Wert eine ganze Zahl ist.
-	 * 
+	 *
 	 * @return Der Betrag des Vektors zum Quadrat
 	 */
 	public RationaleZahl betragQuadrat() {
@@ -307,8 +307,8 @@ public class Vektor implements Cloneable {
 
 		bq = new RationaleZahl(0);
 		for (int i = 0; i < anzahlKomponenten(); i++) {
-			bq = RationaleZahl.addiere(bq, RationaleZahl.multipliziere(
-					vektor[i], vektor[i]));
+			bq = RationaleZahl.addiere(bq,
+					RationaleZahl.multipliziere(vektor[i], vektor[i]));
 		}
 
 		return bq;
@@ -317,13 +317,13 @@ public class Vektor implements Cloneable {
 	/**
 	 * Zwei Vektoren sind gleich, wenn sie die gleiche Anzahl Komponenten
 	 * besitzen und in allen Komponenten &uuml;bereinstimmen.
-	 * 
+	 *
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see java.lang.Object#equals(Object)
 	 */
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 		if (o instanceof Vektor) {
 			Vektor v;
 			boolean gleich;
@@ -349,42 +349,42 @@ public class Vektor implements Cloneable {
 
 	/**
 	 * Gibt eine bestimmte Komponente des Vektors zur&uuml;ck.
-	 * 
+	 *
 	 * @param i
 	 *            Index der gesuchten Komponente
 	 * @return Wert der gesuchten Komponente
 	 */
-	public RationaleZahl get(int i) {
+	public RationaleZahl get(final int i) {
 		return vektor[i];
 	}
 
 	/**
 	 * Setzt den Wert einer Vektorkomponente.
-	 * 
+	 *
 	 * @param i
 	 *            Index der Komponente
 	 * @param wert
 	 *            Neuer Wert der Vektorkomponenten
 	 */
-	public void set(int i, long wert) {
+	public void set(final int i, final long wert) {
 		set(i, new RationaleZahl(wert));
 	}
 
 	/**
 	 * Setzt den Wert einer Vektorkomponente.
-	 * 
+	 *
 	 * @param i
 	 *            Index der Komponente
 	 * @param wert
 	 *            Neuer Wert der Vektorkomponenten
 	 */
-	public void set(int i, RationaleZahl wert) {
+	public void set(final int i, final RationaleZahl wert) {
 		vektor[i] = new RationaleZahl(wert);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
