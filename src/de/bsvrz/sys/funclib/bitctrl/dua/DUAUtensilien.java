@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -71,15 +71,13 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
  * Verwendung finden.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: DUAUtensilien.java 23685 2010-06-09 15:42:02Z uhlmann $
  */
 public final class DUAUtensilien {
 
 	/**
 	 * statischer Sender von Standardparametern.
 	 */
-	private static ClientSenderInterface parameterSender = null;
+	private static ClientSenderInterface parameterSender;
 
 	/**
 	 * Standardkonstruktor.
@@ -146,14 +144,14 @@ public final class DUAUtensilien {
 	public static Collection<DAVObjektAnmeldung> getAlleObjektAnmeldungen(
 			final SystemObject obj, final DataDescription datenBeschreibung,
 			final ClientDavInterface dav) {
-		final Collection<DAVObjektAnmeldung> anmeldungen = new TreeSet<DAVObjektAnmeldung>();
+		final Collection<DAVObjektAnmeldung> anmeldungen = new TreeSet<>();
 
 		final Collection<SystemObject> finObjekte = getBasisInstanzen(obj, dav);
 
 		for (final SystemObject finObj : finObjekte) {
 			if (datenBeschreibung == null
-					|| (datenBeschreibung.getAttributeGroup() == null
-					&& datenBeschreibung.getAspect() == null)) {
+					|| (datenBeschreibung.getAttributeGroup() == null && datenBeschreibung
+							.getAspect() == null)) {
 				for (final AttributeGroup atg : finObj.getType()
 						.getAttributeGroups()) {
 					for (final Aspect asp : atg.getAspects()) {
@@ -166,8 +164,8 @@ public final class DUAUtensilien {
 						.getAttributeGroups()) {
 					try {
 						anmeldungen.add(new DAVObjektAnmeldung(finObj,
-								new DataDescription(atg,
-										datenBeschreibung.getAspect())));
+								new DataDescription(atg, datenBeschreibung
+										.getAspect())));
 					} catch (final IllegalArgumentException ex) {
 						Debug.getLogger().fine(Constants.EMPTY_STRING, ex);
 					}
@@ -175,16 +173,13 @@ public final class DUAUtensilien {
 			} else if (datenBeschreibung.getAspect() == null) {
 				for (final Aspect asp : datenBeschreibung.getAttributeGroup()
 						.getAspects()) {
-					anmeldungen
-					.add(new DAVObjektAnmeldung(finObj,
-							new DataDescription(
-									datenBeschreibung
-									.getAttributeGroup(),
-									asp)));
+					anmeldungen.add(new DAVObjektAnmeldung(finObj,
+							new DataDescription(datenBeschreibung
+									.getAttributeGroup(), asp)));
 				}
 			} else {
-				anmeldungen
-				.add(new DAVObjektAnmeldung(finObj, datenBeschreibung));
+				anmeldungen.add(new DAVObjektAnmeldung(finObj,
+						datenBeschreibung));
 			}
 		}
 
@@ -249,22 +244,21 @@ public final class DUAUtensilien {
 				for (final String element : elemente) {
 					if (ergebnis != null) {
 						if (element.length() == 0) {
-							Debug.getLogger()
-							.warning("Syntaxfehler in Attributpfad: \""//$NON-NLS-1$
+							Debug.getLogger().warning(
+									"Syntaxfehler in Attributpfad: \""//$NON-NLS-1$
 											+ attributPfad + "\""); //$NON-NLS-1$
 							return null;
 						}
 
 						if (element.matches(NATUERLICHE_ZAHL)) {
-							ergebnis = ergebnis.asArray()
-									.getItem(Integer.parseInt(element));
+							ergebnis = ergebnis.asArray().getItem(
+									Integer.parseInt(element));
 						} else {
 							ergebnis = ergebnis.getItem(element);
 						}
 
 					} else {
-						Debug.getLogger()
-						.warning("Datensatz " + datum //$NON-NLS-1$
+						Debug.getLogger().warning("Datensatz " + datum //$NON-NLS-1$
 								+ " kann nicht bis \"" + //$NON-NLS-1$
 								attributPfad + "\" exploriert werden."); //$NON-NLS-1$
 					}
@@ -274,8 +268,8 @@ public final class DUAUtensilien {
 						"Übergebener Attributpfad ist " + DUAKonstanten.NULL); //$NON-NLS-1$
 			}
 		} else {
-			Debug.getLogger()
-			.warning("Übergebenes Datum ist " + DUAKonstanten.NULL); //$NON-NLS-1$
+			Debug.getLogger().warning(
+					"Übergebenes Datum ist " + DUAKonstanten.NULL); //$NON-NLS-1$
 		}
 
 		return ergebnis;
@@ -283,7 +277,7 @@ public final class DUAUtensilien {
 
 	/**
 	 * Erfragt die Menge aller Konfigurationsobjekte bzw. Dynamischen Objekte
-	 * (finale Objekte), die unter Umständen im Parameter <code>obj</code>
+	 * (finale Objekte), die unter Umständen im Parameter <code>obj</code> 
 	 * 'versteckt' sind. Sollte als Objekte <code>
 	 * null</code> übergeben worden sein, so werden alle (finalen) Objekte
 	 * zurückgegeben.
@@ -296,23 +290,23 @@ public final class DUAUtensilien {
 	 */
 	public static Collection<SystemObject> getBasisInstanzen(
 			final SystemObject obj, final ClientDavInterface dav) {
-		final Collection<SystemObject> finaleObjekte = new HashSet<SystemObject>();
+		final Collection<SystemObject> finaleObjekte = new HashSet<>();
 
 		if (obj == null || obj.getPid().equals(DaVKonstanten.TYP_TYP)) {
-			final SystemObjectType typTyp = dav.getDataModel()
-					.getType(DaVKonstanten.TYP_TYP);
+			final SystemObjectType typTyp = dav.getDataModel().getType(
+					DaVKonstanten.TYP_TYP);
 			for (final SystemObject typ : typTyp.getElements()) {
 				if (typ.isValid()) {
 					if (typ instanceof SystemObjectType) {
 						for (final SystemObject elem : ((SystemObjectType) typ)
 								.getElements()) {
 							if (elem.isValid()) {
-								if (elem.getClass()
-										.equals(DafConfigurationObject.class)
-										|| elem.getClass()
-										.equals(DafDynamicObject.class)
+								if (elem.getClass().equals(
+										DafConfigurationObject.class)
 										|| elem.getClass().equals(
-												DafConfigurationAuthority.class)) {
+												DafDynamicObject.class)
+										|| elem.getClass()
+												.equals(DafConfigurationAuthority.class)) {
 									finaleObjekte.add(elem);
 								}
 							}
@@ -342,7 +336,7 @@ public final class DUAUtensilien {
 
 	/**
 	 * Erfragt die Menge aller Konfigurationsobjekte bzw. Dynamischen Objekte
-	 * (finale Objekte), die unter Umständen im Argument <code>obj</code>
+	 * (finale Objekte), die unter Umständen im Argument <code>obj</code> 
 	 * 'versteckt' sind <b>und außerdem innerhalb der übergebenen
 	 * Konfigurationsbereiche liegen</b>. Sollte als Objekte <code>
 	 * null</code> übergeben worden sein, so werden alle (finalen) Objekte
@@ -361,8 +355,8 @@ public final class DUAUtensilien {
 	public static Collection<SystemObject> getBasisInstanzen(
 			final SystemObject obj, final ClientDavInterface dav,
 			final Collection<ConfigurationArea> kBereichsFilter) {
-		final Collection<SystemObject> finaleObjekte = new HashSet<SystemObject>();
-		Collection<ConfigurationArea> benutzteBereiche = new HashSet<ConfigurationArea>();
+		final Collection<SystemObject> finaleObjekte = new HashSet<>();
+		Collection<ConfigurationArea> benutzteBereiche = new HashSet<>();
 
 		if (kBereichsFilter != null && kBereichsFilter.size() > 0) {
 			benutzteBereiche = kBereichsFilter;
@@ -376,7 +370,7 @@ public final class DUAUtensilien {
 		}
 
 		if (obj == null || obj.getPid().equals(DaVKonstanten.TYP_TYP)) {
-			final Collection<SystemObjectType> typColl = new TreeSet<SystemObjectType>();
+			final Collection<SystemObjectType> typColl = new TreeSet<>();
 			for (final SystemObject typ : dav.getDataModel()
 					.getType(DaVKonstanten.TYP_TYP).getElements()) {
 				if (typ.isValid() && typ instanceof SystemObjectType) {
@@ -388,22 +382,22 @@ public final class DUAUtensilien {
 						ObjectTimeSpecification.valid())) {
 					if (elem.getClass().equals(DafConfigurationObject.class)
 							|| elem.getClass().equals(DafDynamicObject.class)
-							|| elem.getClass()
-							.equals(DafConfigurationAuthority.class)) {
+							|| elem.getClass().equals(
+									DafConfigurationAuthority.class)) {
 						finaleObjekte.add(elem);
 					}
 				}
 			}
 		} else if (obj instanceof SystemObjectType) {
-			final Collection<SystemObjectType> typColl = new ArrayList<SystemObjectType>();
+			final Collection<SystemObjectType> typColl = new ArrayList<>();
 			typColl.add((SystemObjectType) obj);
 			for (final ConfigurationArea kb : benutzteBereiche) {
 				for (final SystemObject elem : kb.getObjects(typColl,
 						ObjectTimeSpecification.valid())) {
 					if (elem.getClass().equals(DafConfigurationObject.class)
 							|| elem.getClass().equals(DafDynamicObject.class)
-							|| elem.getClass()
-							.equals(DafConfigurationAuthority.class)) {
+							|| elem.getClass().equals(
+									DafConfigurationAuthority.class)) {
 						finaleObjekte.add(elem);
 					}
 				}
@@ -514,8 +508,8 @@ public final class DUAUtensilien {
 					+ datenBeschreibung.getAttributeGroup()
 					+ " nicht definiert"; //$NON-NLS-1$ )
 		} else if (!(obj.getClass().equals(DafConfigurationObject.class)
-				|| obj.getClass().equals(DafDynamicObject.class)
-				|| obj.getClass().equals(DafConfigurationAuthority.class))) {
+				|| obj.getClass().equals(DafDynamicObject.class) || obj
+				.getClass().equals(DafConfigurationAuthority.class))) {
 			result = "Es handelt sich weder um ein Konfigurationsobjekt, " + //$NON-NLS-1$
 					"ein dynamisches Objekt noch eine Konfigurationsautorität: " //$NON-NLS-1$
 					+ obj;
@@ -548,13 +542,15 @@ public final class DUAUtensilien {
 				final IntegerValueRange wertebereich = ((IntegerAttributeType) typ)
 						.getRange();
 
-				final long wertUnskaliert = Math.round(
-						wertSkaliert / wertebereich.getConversionFactor());
-				if (wertebereich != null) {
-					if (wertUnskaliert < wertebereich.getMinimum()
-							|| wertUnskaliert > wertebereich.getMaximum()) {
-						ergebnis = false;
-					}
+				if (wertebereich == null) {
+					return false;
+				}
+
+				final long wertUnskaliert = Math.round(wertSkaliert
+						/ wertebereich.getConversionFactor());
+				if (wertUnskaliert < wertebereich.getMinimum()
+						|| wertUnskaliert > wertebereich.getMaximum()) {
+					ergebnis = false;
 				}
 			}
 		} else {
@@ -676,8 +672,8 @@ public final class DUAUtensilien {
 					text.append(minutes).append(" Minuten "); //$NON-NLS-1$
 				}
 			}
-			if (seconds != 0 || (days == 0 && hours == 0 && minutes == 0
-					&& millis == 0)) {
+			if (seconds != 0
+					|| (days == 0 && hours == 0 && minutes == 0 && millis == 0)) {
 				if (seconds == 1) {
 					text.append("1 Sekunde "); //$NON-NLS-1$
 				} else if (seconds == -1) {
@@ -782,36 +778,30 @@ public final class DUAUtensilien {
 	 *            Verbindung zum Datenverteiler
 	 */
 	public static void setAlleParameter(final ClientDavInterface dav) {
-		final DataDescription datenBeschreibung = new DataDescription(
-				dav.getDataModel().getAttributeGroup("atg.parametrierung"),
-				dav.getDataModel().getAspect("asp.parameterVorgabe"));
+		final DataDescription datenBeschreibung = new DataDescription(dav
+				.getDataModel().getAttributeGroup("atg.parametrierung"), dav
+				.getDataModel().getAspect("asp.parameterVorgabe"));
 
 		if (parameterSender == null) {
 			parameterSender = new ClientSenderInterface() {
 
-				/**
-				 * {@inheritDoc}
-				 */
+				@Override
 				public void dataRequest(final SystemObject object,
-						final DataDescription dataDescription,
-						final byte state) {
+						final DataDescription dataDescription, final byte state) {
 					//
 				}
 
-				/**
-				 * {@inheritDoc}
-				 */
+				@Override
 				public boolean isRequestSupported(final SystemObject object,
 						final DataDescription dataDescription) {
 					return false;
 				}
-
 			};
 
 			try {
-				dav.subscribeSender(parameterSender,
-						dav.getDataModel().getConfigurationAuthority(),
-						datenBeschreibung, SenderRole.sender());
+				dav.subscribeSender(parameterSender, dav.getDataModel()
+						.getConfigurationAuthority(), datenBeschreibung,
+						SenderRole.sender());
 				try {
 					Thread.sleep(2000L);
 				} catch (final InterruptedException ex) {
@@ -822,8 +812,8 @@ public final class DUAUtensilien {
 			}
 		}
 
-		final Data atgData = dav
-				.createData(datenBeschreibung.getAttributeGroup());
+		final Data atgData = dav.createData(datenBeschreibung
+				.getAttributeGroup());
 
 		atgData.getItem("Urlasser").getReferenceValue("BenutzerReferenz")
 				.setSystemObject(null);
@@ -832,24 +822,24 @@ public final class DUAUtensilien {
 
 		atgData.getArray("ParameterSatz").setLength(1);
 		atgData.getArray("ParameterSatz").getItem(0)
-		.getReferenceArray("Bereich").setLength(0);
+				.getReferenceArray("Bereich").setLength(0);
 		atgData.getArray("ParameterSatz").getItem(0)
-		.getArray("DatenSpezifikation").setLength(1);
+				.getArray("DatenSpezifikation").setLength(1);
 		atgData.getArray("ParameterSatz").getItem(0)
-		.getArray("DatenSpezifikation").getItem(0)
-		.getReferenceArray("Objekt").setLength(0);
+				.getArray("DatenSpezifikation").getItem(0)
+				.getReferenceArray("Objekt").setLength(0);
 		atgData.getArray("ParameterSatz").getItem(0)
-		.getArray("DatenSpezifikation").getItem(0)
-		.getReferenceArray("AttributGruppe").setLength(0);
+				.getArray("DatenSpezifikation").getItem(0)
+				.getReferenceArray("AttributGruppe").setLength(0);
 		atgData.getArray("ParameterSatz").getItem(0)
-		.getArray("DatenSpezifikation").getItem(0)
-		.getUnscaledValue("SimulationsVariante").set(0);
+				.getArray("DatenSpezifikation").getItem(0)
+				.getUnscaledValue("SimulationsVariante").set(0);
 		atgData.getArray("ParameterSatz").getItem(0).getItem("Einstellungen")
 				.getUnscaledValue("Parametrieren").set(DUAKonstanten.JA);
 
-		final ResultData resultat = new ResultData(
-				dav.getDataModel().getConfigurationAuthority(),
-				datenBeschreibung, System.currentTimeMillis(), atgData);
+		final ResultData resultat = new ResultData(dav.getDataModel()
+				.getConfigurationAuthority(), datenBeschreibung,
+				System.currentTimeMillis(), atgData);
 
 		try {
 			dav.sendData(resultat);
@@ -882,11 +872,13 @@ public final class DUAUtensilien {
 	public static void sendeBetriebsmeldung(final ClientDavInterface dav,
 			final MessageGrade grade, final SystemObject objekt,
 			final String nachricht) {
-		MessageSender.getInstance().sendMessage(MessageType.APPLICATION_DOMAIN,
-				null, grade,
-				objekt, new MessageCauser(dav.getLocalUser(),
-						Constants.EMPTY_STRING, Constants.EMPTY_STRING),
-						nachricht);
+		MessageSender.getInstance().sendMessage(
+				MessageType.APPLICATION_DOMAIN,
+				null,
+				grade,
+				objekt,
+				new MessageCauser(dav.getLocalUser(), Constants.EMPTY_STRING,
+						Constants.EMPTY_STRING), nachricht);
 	}
 
 	/**
@@ -902,7 +894,7 @@ public final class DUAUtensilien {
 	 */
 	public static Collection<ConfigurationArea> getKonfigurationsBereicheAlsObjekte(
 			final ClientDavInterface dav, final String kbString) {
-		final List<String> resultListe = new ArrayList<String>();
+		final List<String> resultListe = new ArrayList<>();
 
 		if (kbString != null) {
 			final String[] s = kbString.split(","); //$NON-NLS-1$
@@ -912,7 +904,7 @@ public final class DUAUtensilien {
 				}
 			}
 		}
-		final Collection<ConfigurationArea> kbListe = new HashSet<ConfigurationArea>();
+		final Collection<ConfigurationArea> kbListe = new HashSet<>();
 
 		for (final String kb : resultListe) {
 			final ConfigurationArea area = dav.getDataModel()

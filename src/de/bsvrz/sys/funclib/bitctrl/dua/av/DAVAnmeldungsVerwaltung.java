@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -41,9 +41,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * Abstrakte Verwaltungsklasse für Datenanmeldungen.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: DAVAnmeldungsVerwaltung.java 8272 2008-04-16 07:28:31Z tfelder
- *          $
  */
 public abstract class DAVAnmeldungsVerwaltung {
 
@@ -56,12 +53,12 @@ public abstract class DAVAnmeldungsVerwaltung {
 	 * Baum der Datenanmeldungen, die im Moment aktuell sind (ggf. mit ihrem
 	 * Status der Sendesteuerung).
 	 */
-	protected Map<DAVObjektAnmeldung, SendeStatus> aktuelleObjektAnmeldungen = new TreeMap<DAVObjektAnmeldung, SendeStatus>();
+	protected Map<DAVObjektAnmeldung, SendeStatus> aktuelleObjektAnmeldungen = new TreeMap<>();
 
 	/**
 	 * Datenverteilerverbindung.
 	 */
-	protected ClientDavInterface dav = null;
+	protected ClientDavInterface dav;
 
 	/**
 	 * Standardkonstruktor.
@@ -112,14 +109,14 @@ public abstract class DAVAnmeldungsVerwaltung {
 		// Debug Ende
 
 		synchronized (this) {
-			final Collection<DAVObjektAnmeldung> diffObjekteAnmeldungen = new TreeSet<DAVObjektAnmeldung>();
+			final Collection<DAVObjektAnmeldung> diffObjekteAnmeldungen = new TreeSet<>();
 			for (final DAVObjektAnmeldung neueAnmeldung : neueObjektAnmeldungen) {
 				if (!aktuelleObjektAnmeldungen.containsKey(neueAnmeldung)) {
 					diffObjekteAnmeldungen.add(neueAnmeldung);
 				}
 			}
 
-			final Collection<DAVObjektAnmeldung> diffObjekteAbmeldungen = new TreeSet<DAVObjektAnmeldung>();
+			final Collection<DAVObjektAnmeldung> diffObjekteAbmeldungen = new TreeSet<>();
 			for (final DAVObjektAnmeldung aktuelleAnmeldung : aktuelleObjektAnmeldungen
 					.keySet()) {
 				if (!neueObjektAnmeldungen.contains(aktuelleAnmeldung)) {
@@ -205,8 +202,7 @@ public abstract class DAVAnmeldungsVerwaltung {
 		 *            <code>keine Daten</code> oder <code>keine Quelle</code>
 		 *            steht
 		 */
-		public SendeStatus(final byte status,
-				final boolean imMomentKeineDaten) {
+		public SendeStatus(final byte status, final boolean imMomentKeineDaten) {
 			this.status = status;
 			this.imMomentKeineDaten = imMomentKeineDaten;
 		}

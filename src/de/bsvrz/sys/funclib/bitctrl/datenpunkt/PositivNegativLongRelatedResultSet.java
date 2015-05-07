@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -23,6 +23,7 @@
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
+
 package de.bsvrz.sys.funclib.bitctrl.datenpunkt;
 
 import java.util.LinkedHashSet;
@@ -38,10 +39,8 @@ import de.bsvrz.dav.daf.main.impl.InvalidArgumentException;
 
 /**
  * Zusammenhängende Menge von Long-Ergebnissen einer atl.positivNegativListe.
- * 
+ *
  * @author BitCtrl Systems GmbH, Albrecht Uhlmann
- * @version $Id: PositivNegativLongRelatedResultSet.java 27387 2010-11-05
- *          09:52:03Z uhlmann $
  */
 public class PositivNegativLongRelatedResultSet extends
 		RelatedResultSet<Long, ResultData> {
@@ -49,17 +48,17 @@ public class PositivNegativLongRelatedResultSet extends
 	/**
 	 * die Positivliste.
 	 */
-	private final Set<DavUnscaledValueIndividualResult> positivListe = new LinkedHashSet<DavUnscaledValueIndividualResult>();
+	private final Set<DavUnscaledValueIndividualResult> positivListe = new LinkedHashSet<>();
 
 	/**
 	 * die Negativliste.
 	 */
-	private final Set<DavUnscaledValueIndividualResult> negativListe = new LinkedHashSet<DavUnscaledValueIndividualResult>();
+	private final Set<DavUnscaledValueIndividualResult> negativListe = new LinkedHashSet<>();
 
 	/**
 	 * Konstruktor wertet beide Listen aus und lädt die Objekte beider in die
 	 * Menge.
-	 * 
+	 *
 	 * @param container
 	 *            übergeordneter Container, der bei Vollständigkeit aller
 	 *            Ergebnisse oder Timeout benachrichtigt wird.
@@ -101,7 +100,7 @@ public class PositivNegativLongRelatedResultSet extends
 
 	/**
 	 * die Positivliste.
-	 * 
+	 *
 	 * @return Liefert die Positivliste.
 	 */
 	public Set<DavUnscaledValueIndividualResult> getPositivListe() {
@@ -110,7 +109,7 @@ public class PositivNegativLongRelatedResultSet extends
 
 	/**
 	 * Liefert die Negativliste.
-	 * 
+	 *
 	 * @return die Negativliste.
 	 */
 	public Set<DavUnscaledValueIndividualResult> getNegativListe() {

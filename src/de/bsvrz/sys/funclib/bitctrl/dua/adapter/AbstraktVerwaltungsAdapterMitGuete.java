@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -34,22 +34,17 @@ import de.bsvrz.sys.funclib.debug.Debug;
 /**
  * Adapterklasse für Verwaltungsmodule, die eine Messwertersetzung durchführen
  * und dabei die Guete der Messwerte manipulieren.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id: AbstraktVerwaltungsAdapterMitGuete.java 9083 2008-05-21 10:23:14Z goerlitz $
  */
 public abstract class AbstraktVerwaltungsAdapterMitGuete extends
-		AbstraktVerwaltungsAdapter implements IVerwaltungMitGuete {
+AbstraktVerwaltungsAdapter implements IVerwaltungMitGuete {
 
 	/**
 	 * benutzter Guetefaktor.
 	 */
 	private double gueteFaktor = -1;
 
-	/**
-	 * {@inheritDoc}<br>.
-	 */
 	@Override
 	protected void initialisiere() throws DUAInitialisierungsException {
 		final String gueteFaktorStr = DUAUtensilien.getArgument(
@@ -60,31 +55,30 @@ public abstract class AbstraktVerwaltungsAdapterMitGuete extends
 			gueteFaktorDummy = Double.parseDouble(gueteFaktorStr);
 
 			if (gueteFaktorDummy <= 1.0 && gueteFaktorDummy >= 0.0) {
-				this.gueteFaktor = gueteFaktorDummy;
+				gueteFaktor = gueteFaktorDummy;
 			} else {
 				Debug.getLogger()
-						.warning("Der uebergebene Guetefaktor ist ausserhalb des gueltigen Bereichs. Standard: " + //$NON-NLS-1$
-								this.getStandardGueteFaktor());
+				.warning(
+								"Der uebergebene Guetefaktor ist ausserhalb des gueltigen Bereichs. Standard: " + //$NON-NLS-1$
+										getStandardGueteFaktor());
 			}
 		}
 
-		if (this.gueteFaktor < 0.0) {
-			this.gueteFaktor = this.getStandardGueteFaktor();
+		if (gueteFaktor < 0.0) {
+			gueteFaktor = getStandardGueteFaktor();
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final double getGueteFaktor() {
-		return this.gueteFaktor;
+		return gueteFaktor;
 	}
 
 	/**
 	 * Erfragt den Standard-Guetefaktor, welcher in dem Verwaltungsmodul
 	 * verwendet wird, wenn kein Guetefaktor über die Kommandozeilenargumente
 	 * der Applikation selbst uebergeben wurde.
-	 * 
+	 *
 	 * @return der Standard-Guetefaktor
 	 */
 	public abstract double getStandardGueteFaktor();

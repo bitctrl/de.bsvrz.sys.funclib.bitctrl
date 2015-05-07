@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -36,7 +36,6 @@ import de.bsvrz.sys.funclib.bitctrl.interpreter.Variable;
  * Ein boolesches Terminalsymbol (Variable).
  *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: LogischesSymbol.java 6835 2008-02-21 13:04:58Z peuker $
  */
 public class LogischesSymbol implements Variable {
 
@@ -59,8 +58,8 @@ public class LogischesSymbol implements Variable {
 	/**
 	 * Gibt immer {@code null} zur&uuml;ck, da dies ein Terminalsymbol ist.
 	 * <p>
-	 * {@inheritDoc}
 	 */
+	@Override
 	public List<Ausdruck> getNachfolger() {
 		return null;
 	}
@@ -70,15 +69,14 @@ public class LogischesSymbol implements Variable {
 	 *
 	 * @return Variablenname
 	 */
+	@Override
 	public String getName() {
 		assert name != null && name != ""; //$NON-NLS-1$
 
 		return name;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Object interpret(final Kontext kontext) {
 		if (kontext.enthaelt(getName())) {
 			return kontext.get(getName(), LogischerWert.class);
@@ -87,12 +85,6 @@ public class LogischesSymbol implements Variable {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}.<br>
-	 * Die Funktion gibt den Namen des Symbols aus.
-	 *
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return getName();

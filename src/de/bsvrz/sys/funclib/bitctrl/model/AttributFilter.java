@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -33,9 +33,8 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 /**
  * Repräsentiert einen Attributfilter, der aus einer Attributgruppe eine
  * Teilmenge von Attribute herausgreift.
- * 
+ *
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: AttributFilter.java 5135 2007-12-06 13:48:54Z Schumann $
  */
 public class AttributFilter extends ArrayList<Attribut> {
 
@@ -54,7 +53,7 @@ public class AttributFilter extends ArrayList<Attribut> {
 
 	/**
 	 * Initialisiert das Objekt.
-	 * 
+	 *
 	 * @param atg
 	 *            die zu kapselnde Attritrubgruppe.
 	 */
@@ -81,7 +80,7 @@ public class AttributFilter extends ArrayList<Attribut> {
 
 	/**
 	 * Gibt den Wert der Eigenschaft {@code atg} wieder.
-	 * 
+	 *
 	 * @return {@code atg}.
 	 */
 	public Attributgruppe getAtg() {
@@ -90,7 +89,7 @@ public class AttributFilter extends ArrayList<Attribut> {
 
 	/**
 	 * Gibt den Wert der Eigenschaft {@code info} wieder.
-	 * 
+	 *
 	 * @return {@code info}.
 	 */
 	public String getInfo() {
@@ -99,7 +98,7 @@ public class AttributFilter extends ArrayList<Attribut> {
 
 	/**
 	 * Gibt den Wert der Eigenschaft {@code name} wieder.
-	 * 
+	 *
 	 * @return {@code name}.
 	 */
 	public String getName() {
@@ -108,7 +107,7 @@ public class AttributFilter extends ArrayList<Attribut> {
 
 	/**
 	 * Legt den Wert der Eigenschaft {@code atg} fest.
-	 * 
+	 *
 	 * @param atg
 	 *            der neue Wert von {@code atg}.
 	 */
@@ -118,7 +117,7 @@ public class AttributFilter extends ArrayList<Attribut> {
 
 	/**
 	 * Legt den Wert der Eigenschaft {@code info} fest.
-	 * 
+	 *
 	 * @param info
 	 *            der neue Wert von {@code info}.
 	 */
@@ -128,7 +127,7 @@ public class AttributFilter extends ArrayList<Attribut> {
 
 	/**
 	 * Legt den Wert der Eigenschaft {@code name} fest.
-	 * 
+	 *
 	 * @param name
 	 *            der neue Wert von {@code name}.
 	 */
@@ -136,11 +135,6 @@ public class AttributFilter extends ArrayList<Attribut> {
 		this.name = name;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.util.AbstractCollection#toString()
-	 */
 	@Override
 	public String toString() {
 		return name + " (" + atg + ")";

@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -34,12 +34,11 @@ import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Beispielhafte Containerimplementierung für ganzzahlige Ergebnisse.
- * 
+ *
  * @author BitCtrl Systems GmbH, Albrecht Uhlmann
- * @version $Id$
  */
 public class DavUnscaledValueRelatedResultSetContainer implements
-		IRelatedResultSetContainer {
+IRelatedResultSetContainer {
 
 	/**
 	 * Der Debug-Logger.
@@ -50,7 +49,7 @@ public class DavUnscaledValueRelatedResultSetContainer implements
 
 	/**
 	 * Konstruktor legt intern das eigentliche Rgebnis-Set an.
-	 * 
+	 *
 	 * @param connection
 	 *            Verbindung zum Datenverteiler
 	 * @param atlDatenpunktArray
@@ -61,11 +60,12 @@ public class DavUnscaledValueRelatedResultSetContainer implements
 	 */
 	public DavUnscaledValueRelatedResultSetContainer(
 			final ClientDavInterface connection, final Array atlDatenpunktArray)
-			throws InvalidArgumentException {
+					throws InvalidArgumentException {
 		resultSet = new DavUnscaledValueRelatedResultSet(this, 6000,
 				connection, atlDatenpunktArray);
 	}
 
+	@Override
 	public void resultSetComplete(final boolean timeout) {
 		DEBUG.warning("timeout=" + timeout);
 		System.out.println("timeout=" + timeout + "\nResultset=" + resultSet);

@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -38,9 +38,8 @@ import de.bsvrz.dav.daf.main.DavConnectionListener;
  * Basisimplementierung der Schnittstelle {@link DavProvider}. Kann als
  * Grundlage für eigene Implementierungen dienen oder wenn nur eine Instanz
  * (Singleton) benötigt wird.
- * 
+ *
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
  */
 public class DefaultDavProvider implements DavProvider, DavConnectionListener {
 
@@ -49,7 +48,7 @@ public class DefaultDavProvider implements DavProvider, DavConnectionListener {
 	/**
 	 * Gibt eine Defaultverbindung als Singleton zurück. Nützlich für
 	 * Applikationen, die nur mit einer Verbindung umgehen müssen.
-	 * 
+	 *
 	 * @return eine Singletonverbindung.
 	 * @see #init(ClientDavInterface)
 	 */
@@ -71,7 +70,7 @@ public class DefaultDavProvider implements DavProvider, DavConnectionListener {
 	/**
 	 * Klasse darf nicht direkt instanziiert werden, wegen dem
 	 * Singleton-Entwurfsmuster.
-	 * 
+	 *
 	 * @param name
 	 *            der Name der Verbindung.
 	 * @param dav
@@ -85,13 +84,13 @@ public class DefaultDavProvider implements DavProvider, DavConnectionListener {
 	/**
 	 * Initialisert die Datenverteilerverbindung. Die Methode geht davon aus,
 	 * dass die übergebene Verbindung mit dem Datenverteiler verbunden ist.
-	 * 
+	 *
 	 * <p>
 	 * <em>Hinweis:</em> Diese Methode wird nur bei der Verwendung als Singleton
 	 * benötigt.<br>
 	 * <em>Hinweis:</em> Diese Methode muss aufgerufen werden, bevor auf die
 	 * Datenverteilerverbindung zugegriffen werden kann.
-	 * 
+	 *
 	 * @param verbindung
 	 *            die Datenverteilerverbindung.
 	 * @see #getInstanz()
@@ -105,16 +104,17 @@ public class DefaultDavProvider implements DavProvider, DavConnectionListener {
 		setDav(verbindung);
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * Legt den Namen der Verbindung fest.
-	 * 
+	 *
 	 * <p>
 	 * Der Name darf weder <code>null</code> noch ein leerer String sein.
-	 * 
+	 *
 	 * @param name
 	 *            der neue Name der Verbindung.
 	 */
@@ -136,13 +136,14 @@ public class DefaultDavProvider implements DavProvider, DavConnectionListener {
 		propertyChangeSupport.firePropertyChange(PROP_NAME, oldValue, name);
 	}
 
+	@Override
 	public ClientDavInterface getDav() {
 		return dav;
 	}
 
 	/**
 	 * Legt die neue Verbindung zum Datenverteiler fest.
-	 * 
+	 *
 	 * @param dav
 	 *            die neue Datenverteilerverbindung.
 	 */
@@ -192,13 +193,14 @@ public class DefaultDavProvider implements DavProvider, DavConnectionListener {
 		propertyChangeSupport.firePropertyChange(PROP_DAV, oldValue, dav);
 	}
 
+	@Override
 	public boolean isVerbunden() {
 		return verbunden;
 	}
 
 	/**
 	 * Setzt das Flag für den Verbindungszustand.
-	 * 
+	 *
 	 * @param verbunden
 	 *            der neue Wert.
 	 */
@@ -213,24 +215,29 @@ public class DefaultDavProvider implements DavProvider, DavConnectionListener {
 				verbunden);
 	}
 
+	@Override
 	public void connectionClosed(final ClientDavInterface connection) {
 		setVerbunden(false);
 	}
 
+	@Override
 	public void addPropertyChangeListener(final PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 
+	@Override
 	public void addPropertyChangeListener(final String propertyName,
 			final PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
 	}
 
+	@Override
 	public void removePropertyChangeListener(
 			final PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 
+	@Override
 	public void removePropertyChangeListener(final String propertyName,
 			final PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(propertyName,

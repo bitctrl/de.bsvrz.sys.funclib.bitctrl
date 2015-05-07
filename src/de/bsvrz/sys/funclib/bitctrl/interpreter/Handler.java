@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -34,16 +34,15 @@ import java.util.List;
  * Hilfe des Musters <em>Besucher</em> alle Operationen in einer Klasse
  * geb&uuml;ndelt. Neue Operationen k&ouml;nnen durch implementieren dieser
  * Schnittstelle definiert werden. Siehe auch {@link AbstractHandler}
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: Handler.java 6835 2008-02-21 13:04:58Z peuker $
  */
 public interface Handler {
 
 	/**
 	 * Gibt die Liste der Operatoren zur&uuml;ck, die der Handler verarbeiten
 	 * kann.
-	 * 
+	 *
 	 * @return Liste von Operatoren
 	 */
 	Operator[] getHandledOperators();
@@ -51,7 +50,7 @@ public interface Handler {
 	/**
 	 * F&uuml;hrt eine Operation mit der Liste der Operanden aus. Die Liste der
 	 * Operanden wird entsprechend der Ordung des Iterators abgearbeitet.
-	 * 
+	 *
 	 * @param operator
 	 *            Operator
 	 * @param operanden
@@ -62,7 +61,7 @@ public interface Handler {
 
 	/**
 	 * F&uuml;hrt eine Operation mit dem Operanden aus.
-	 * 
+	 *
 	 * @param operator
 	 *            Operator
 	 * @param operanden
@@ -74,7 +73,7 @@ public interface Handler {
 	/**
 	 * Pr&uuml;ft ob der Handler die angegebene Operation auf Liste der
 	 * Operanden anwenden kann.
-	 * 
+	 *
 	 * @param operator
 	 *            Operator
 	 * @param operanden
@@ -87,7 +86,7 @@ public interface Handler {
 	/**
 	 * Pr&uuml;ft ob der Handler die angegebene Operation auf dem Operanden
 	 * anwenden kann.
-	 * 
+	 *
 	 * @param operator
 	 *            Operator
 	 * @param operanden

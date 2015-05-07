@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -49,42 +49,40 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
  * innerhalb der Datenflusssteuerung beschreiben.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: PublikationsZuordung.java 23685 2010-06-09 15:42:02Z uhlmann $
  */
 public class PublikationsZuordung {
 
 	/**
 	 * Der Modul-Typ.
 	 */
-	private ModulTyp modulTyp = null;
+	private final ModulTyp modulTyp;
 
 	/**
 	 * Der Publikationsaspekt.
 	 */
-	private Aspect aspekt = null;
+	private final Aspect aspekt;
 
 	/**
 	 * die (finalen) Objekte, für die ein Publikationsverhalten beschrieben ist.
 	 */
-	private final Collection<SystemObject> objekte = new HashSet<SystemObject>();
+	private final Collection<SystemObject> objekte = new HashSet<>();
 
 	/**
 	 * die Attributgruppen, für die ein Publikationsverhalten vorgesehen ist.
 	 */
-	private final Collection<AttributeGroup> atgs = new HashSet<AttributeGroup>();
+	private final Collection<AttributeGroup> atgs = new HashSet<>();
 
 	/**
 	 * soll publiziert werden.
 	 */
-	private boolean publizieren = false;
+	private final boolean publizieren;
 
 	/**
 	 * Die Objektanmeldungen, die innerhalb dieser Publikationszuordnung
 	 * vorgesehen sind (bzw. bei <code>publizieren ==  false</code> explizit
 	 * nicht vorgesehen)
 	 */
-	private final Collection<DAVObjektAnmeldung> anmeldungen = new TreeSet<DAVObjektAnmeldung>();
+	private final Collection<DAVObjektAnmeldung> anmeldungen = new TreeSet<>();
 
 	/**
 	 * Standardkonstruktor<br>
@@ -99,15 +97,14 @@ public class PublikationsZuordung {
 	 * @param verwaltung
 	 *            Verbindung zum Verwaltungsmodul
 	 */
-	protected PublikationsZuordung(final Data data,
-			final IVerwaltung verwaltung) {
+	protected PublikationsZuordung(final Data data, final IVerwaltung verwaltung) {
 		aspekt = (Aspect) data.getReferenceValue(DFSKonstanten.ATT_ASP)
 				.getSystemObject();
-		modulTyp = ModulTyp.getZustand(
-				(int) data.getUnscaledValue(DFSKonstanten.ATT_MODUL_TYP)
-				.getState().getValue());
-		publizieren = data.getTextValue(DFSKonstanten.ATT_PUBLIZIEREN).getText()
-				.toLowerCase().equals("ja"); //$NON-NLS-1$
+		modulTyp = ModulTyp.getZustand((int) data
+				.getUnscaledValue(DFSKonstanten.ATT_MODUL_TYP).getState()
+				.getValue());
+		publizieren = data.getTextValue(DFSKonstanten.ATT_PUBLIZIEREN)
+				.getText().toLowerCase().equals("ja"); //$NON-NLS-1$
 
 		final ReferenceArray objArray = data
 				.getReferenceArray(DFSKonstanten.ATT_OBJ);
@@ -226,12 +223,14 @@ public class PublikationsZuordung {
 				// 5.
 				for (final DAVObjektAnmeldung thatAnmeldung : that
 						.getObjektAnmeldungen()) {
-					if (thisAnmeldung.getObjekt()
-							.equals(thatAnmeldung.getObjekt())
-							&& thisAnmeldung.getDatenBeschreibung()
-									.getAttributeGroup()
-							.equals(thatAnmeldung.getDatenBeschreibung()
-									.getAttributeGroup())) {
+					if (thisAnmeldung.getObjekt().equals(
+							thatAnmeldung.getObjekt())
+							&& thisAnmeldung
+									.getDatenBeschreibung()
+							.getAttributeGroup()
+									.equals(thatAnmeldung
+											.getDatenBeschreibung()
+											.getAttributeGroup())) {
 						return "Die beiden Objektanmeldungen sind für" + //$NON-NLS-1$
 								" die Datenflusssteuerung widersprüchlich:\n" + //$NON-NLS-1$
 								thisAnmeldung + "\n" + thatAnmeldung; //$NON-NLS-1$
@@ -243,9 +242,6 @@ public class PublikationsZuordung {
 		return null; // keine Widersprüche
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String s = "Modul-Typ: " + modulTyp + "\n"; //$NON-NLS-1$ //$NON-NLS-2$

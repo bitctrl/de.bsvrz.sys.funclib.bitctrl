@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -28,9 +28,8 @@ package de.bsvrz.sys.funclib.bitctrl.geolib;
 
 /**
  * Klasse zur Repr&auml;sentation einer Koordinate in WGS84.
- * 
+ *
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id: WGS84Koordinate.java 10022 2008-07-01 09:51:37Z gieseler $
  */
 public class WGS84Koordinate {
 
@@ -66,7 +65,7 @@ public class WGS84Koordinate {
 
 	/**
 	 * Konstruktor f&uuml;r eine WGS84-Koordinate.
-	 * 
+	 *
 	 * @param laenge
 	 *            geographische L&auml;nge in Dezimalgrad
 	 * @param breite
@@ -112,7 +111,7 @@ public class WGS84Koordinate {
 
 	/**
 	 * Gibt die geographische Breite zur&uuml;ck.
-	 * 
+	 *
 	 * @return geographische Breite in Dezimalgrad
 	 */
 	public double getBreite() {
@@ -121,7 +120,7 @@ public class WGS84Koordinate {
 
 	/**
 	 * Gibt die geographische L&auml;nge zur&uuml;ck.
-	 * 
+	 *
 	 * @return geographische L&auml;nge in Dezimalgrad
 	 */
 	public double getLaenge() {
@@ -142,7 +141,7 @@ public class WGS84Koordinate {
 
 	/**
 	 * Setzt die geographische Breite.
-	 * 
+	 *
 	 * @param breite
 	 *            neue geographische Breite in Dezimalgrad
 	 * @deprecated Die Breite wird im Konstruktor gesetzt und sollte nicht mehr
@@ -162,7 +161,7 @@ public class WGS84Koordinate {
 
 	/**
 	 * Setzt die geographische L&auml;nge.
-	 * 
+	 *
 	 * @param laenge
 	 *            neue geographische L&auml;nge in Dezimalgrad
 	 * @deprecated Die Länge wird im Konstruktor gesetzt und sollte nicht mehr
@@ -182,7 +181,7 @@ public class WGS84Koordinate {
 
 	/**
 	 * Testet die Breite auf G&uuml;ltigkeit.
-	 * 
+	 *
 	 * @param tbreite
 	 *            Breite
 	 * @return true, wenn ok sonst false
@@ -193,7 +192,7 @@ public class WGS84Koordinate {
 
 	/**
 	 * Testet die L&auml;nge auf G&uuml;ltigkeit.
-	 * 
+	 *
 	 * @param tlaenge
 	 *            L&auml;nge
 	 * @return true, wenn ok sonst false

@@ -1,7 +1,7 @@
 /*
- * Allgemeine Funktionen mit und ohne Datenverteilerbezug
- * Copyright (C) 2007 BitCtrl Systems GmbH 
- * 
+ * BitCtrl-Funktionsbibliothek
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -26,10 +26,10 @@
 
 /**
  * Interpreter, allgemeine Struktur zum Auswerten von Ausdrücken.
- * 
+ *
  * Es werden zur Implementierung die beiden Entwurfsmuster <em>Interpreter</em>
  * und <em>Besucher</em> angewandt.
- * 
+ *
  * <h2>UML-Diagramm</h2>
  * <img src="doc-files/uml.png">
  */

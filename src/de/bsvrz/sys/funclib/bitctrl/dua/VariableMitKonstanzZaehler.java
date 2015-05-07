@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -31,33 +31,32 @@ package de.bsvrz.sys.funclib.bitctrl.dua;
  * konstant ist (d.h. wie oft sie mittels der Methode
  * <code>aktualisiere(..)</code> aktualisiert wurde und sich dabei nicht
  * geändert hat)
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @param <T> Art der Variable
- * 
- * @version $Id: VariableMitKonstanzZaehler.java 8054 2008-04-09 15:11:59Z tfelder $
+ *
+ * @param <T>
+ *            Art der Variable
  */
 public class VariableMitKonstanzZaehler<T> {
 
 	/**
 	 * Der Name der Variable.
 	 */
-	private String name = null;
+	private final String name;
 
 	/**
 	 * der aktuelle Wert.
 	 */
-	private T wert = null;
+	private T wert;
 
 	/**
 	 * so lange hat die Variable schon den selben Wert.
 	 */
-	private long wertIstKonstantSeit = 0;
+	private long wertIstKonstantSeit;
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param name
 	 *            der Name der Variable
 	 */
@@ -67,7 +66,7 @@ public class VariableMitKonstanzZaehler<T> {
 
 	/**
 	 * Aktualisiert dieses Objekt mit einem neuen Wert für die Variable.
-	 * 
+	 *
 	 * @param neuerWert
 	 *            ein aktueller Wert
 	 */
@@ -86,7 +85,7 @@ public class VariableMitKonstanzZaehler<T> {
 	 * übergibt ein Inkrement um das der interne Konstanzzähler der Variable
 	 * erhöht werden soll. (Etwa, wenn dieser Zähler zählen soll, wie lange eine
 	 * die Variable konstant ist, kann hier eine Zeit übergeben werden).
-	 * 
+	 *
 	 * @param neuerWert
 	 *            ein aktueller Wert
 	 * @param inkrement
@@ -104,7 +103,7 @@ public class VariableMitKonstanzZaehler<T> {
 
 	/**
 	 * Erfragt den aktuellen Werte dieser Variable.
-	 * 
+	 *
 	 * @return wert der aktuelle Wert
 	 */
 	public final T getWert() {
@@ -113,7 +112,7 @@ public class VariableMitKonstanzZaehler<T> {
 
 	/**
 	 * Erfragt, seit wann diese Variable konstant ist.
-	 * 
+	 *
 	 * @return 0 - wenn die Variable noch nie aktualisiert wurde und sonst die
 	 *         Anzahl der Inkremente seit der aktuelle Wert anliegt
 	 */
@@ -123,16 +122,13 @@ public class VariableMitKonstanzZaehler<T> {
 
 	/**
 	 * Erfragt den Namen dieser Variable.
-	 * 
+	 *
 	 * @return der Name dieser Variable
 	 */
 	public final String getName() {
 		return this.name;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String s = this.name + " ist seit " + this.wertIstKonstantSeit + //$NON-NLS-1$

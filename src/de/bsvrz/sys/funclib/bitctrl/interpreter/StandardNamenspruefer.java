@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -30,16 +30,14 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter;
  * Standardimplementation des Namenspr&uuml;fers.
  *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: StandardNamenspruefer.java 6835 2008-02-21 13:04:58Z peuker $
  */
 public class StandardNamenspruefer implements Namenspruefer {
 
 	/**
 	 * Pr&uuml;ft ob der Name nicht {@code null} ist und nicht nur aus
 	 * Leerzeichen besteht. Leerzeichen am Anfang und Ende werden ignoriert.
-	 *
-	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean pruefe(final String name) {
 		if (name == null) {
 			return false;

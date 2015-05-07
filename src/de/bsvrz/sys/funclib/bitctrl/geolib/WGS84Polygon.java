@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -38,19 +38,18 @@ import java.util.List;
 
 /**
  * Polygonzug in WGS84-Koordinaten.
- * 
+ *
  * Alle Längenangaben für Offsets u.&nbsp;ä. werden, wenn nicht anders
  * angegeben, in Meter notiert.
- * 
+ *
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id: WGS84Polygon.java 9032 2008-05-21 08:32:43Z gieseler $
  */
 public class WGS84Polygon {
 
 	/**
 	 * Berechnet die Koordinaten eines Punktes auf einer Linie mit einem Offset
 	 * vom Anfangspunkt.
-	 * 
+	 *
 	 * @param line
 	 *            Line
 	 * @param alpha
@@ -78,7 +77,7 @@ public class WGS84Polygon {
 	 * ist definiert durch einen Anfangs- und Endpunkt. Wenn der gegebene Offset
 	 * gr&ouml;&szlig;er als die L&auml;nge der Strecke ist, wird eine
 	 * IllegalArgumentException geworfen.
-	 * 
+	 *
 	 * @param s1
 	 *            der Anfangspunkt der Strecke
 	 * @param s2
@@ -86,7 +85,7 @@ public class WGS84Polygon {
 	 * @param offset
 	 *            der Offset (in Meter) beginnend vom Anfang der Strecke, bei
 	 *            dem der Punkt liegen soll
-	 * 
+	 *
 	 * @return der Punkt.
 	 * @throws IllegalArgumentException
 	 */
@@ -136,14 +135,14 @@ public class WGS84Polygon {
 	 * werden, wird als Ergebnis der Punkt der Linie zur&uuml;ckgeliefert,
 	 * welcher dem Punkt am n&auml;chsten liegt, also entweder der Anfangs- oder
 	 * der Endpunkt.
-	 * 
+	 *
 	 * @param s1
 	 *            der Anfangspunkt der Strecke
 	 * @param s2
 	 *            der Endpunkt der Strecke
 	 * @param punkt
 	 *            der abzubildende Punkt
-	 * 
+	 *
 	 * @return die Koordinaten des Bildpunktes
 	 */
 	public static WGS84Punkt bildPunktAufStrecke(final WGS84Punkt s1,
@@ -153,7 +152,7 @@ public class WGS84Polygon {
 			return punkt;
 		}
 
-		// TODO: was passiert bei Zonenwechsel???
+		// TODO was passiert bei Zonenwechsel???
 
 		if (istAbbildbar(s1, s2, punkt)) {
 			// kann nicht abgebildet werden, benutze Anfangspunkt, der am
@@ -206,14 +205,14 @@ public class WGS84Polygon {
 	 * werden, wird als Ergebnis der Punkt der Linie zur&uuml;ckgeliefert,
 	 * welcher dem Punkt am n&auml;chsten liegt, also entweder der Anfangs- oder
 	 * der Endpunkt.
-	 * 
+	 *
 	 * @param s1
 	 *            der Anfangspunkt der Strecke
 	 * @param s2
 	 *            der Endpunkt der Strecke
 	 * @param punkt
 	 *            der abzubildende Punkt
-	 * 
+	 *
 	 * @return die Koordinaten des Bildpunktes
 	 */
 	// XXX Auskommentierten Quelltext löschen?
@@ -224,7 +223,7 @@ public class WGS84Polygon {
 	// return punkt;
 	// }
 	//
-	// // TODO: was passiert bei Zonenwechsel???
+	// // TODO was passiert bei Zonenwechsel???
 	//
 	// // alle Berechnungen auf den kartesischen Koordinaten
 	// Point2D.Double ergebnis;
@@ -279,7 +278,7 @@ public class WGS84Polygon {
 	/**
 	 * Bestimmt, ob der Punkt auf die Strecke abbildbar ist, d.h. ob das Lot vom
 	 * Punkt auf die Strecke zwischen den beiden Streckenpunkten liegt.
-	 * 
+	 *
 	 * @param line
 	 *            Linie
 	 * @param point
@@ -303,14 +302,14 @@ public class WGS84Polygon {
 	/**
 	 * Bestimmt, ob der Punkt auf die Strecke abbildbar ist, d.h. ob das Lot vom
 	 * Punkt auf die Strecke zwischen den beiden Streckenpunkten liegt.
-	 * 
+	 *
 	 * @param s1
 	 *            Anfangspunkt der Strecke
 	 * @param s2
 	 *            Endpunkt der Strecke
 	 * @param punkt
 	 *            abzubildender Punkt
-	 * 
+	 *
 	 * @return abbildbar ja/nein
 	 */
 	private static boolean istAbbildbar(final WGS84Punkt s1,
@@ -338,7 +337,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Bestimmt den Abstand eines Punktes von einer Strecke.
-	 * 
+	 *
 	 * @param l1
 	 *            Startpunkt der Strecke
 	 * @param l2
@@ -362,7 +361,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Test, ob ein Punkt auf einer Strecke liegt.
-	 * 
+	 *
 	 * @param l1
 	 *            Startpunkt der Strecke
 	 * @param l2
@@ -379,7 +378,7 @@ public class WGS84Polygon {
 	/**
 	 * Test, ob ein Punkt mit einer zul&auml;ssigen Abweichung auf einer Strecke
 	 * liegt.
-	 * 
+	 *
 	 * @param l1
 	 *            Startpunkt der Strecke
 	 * @param l2
@@ -398,7 +397,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Bestimmt, ob der Punkt in der korrekten Richtung erzeugt wurde.
-	 * 
+	 *
 	 * @param line
 	 *            die Linie, auf die der Punkt abgebildet werden soll
 	 * @param punkt
@@ -419,9 +418,9 @@ public class WGS84Polygon {
 
 	/**
 	 * Konstruktor für Polygon mit WGS84-Koordinaten in Dezimalnotation.
-	 * 
+	 *
 	 * Beispiel +4.354551 +50.839402 bedeutet 4°. 354551 O 50°. 839402 N
-	 * 
+	 *
 	 * @param laenge
 	 *            L&auml;nge
 	 * @param breite
@@ -435,7 +434,7 @@ public class WGS84Polygon {
 					"Die Anzahl der Koordinaten für Länge und Breite muss übereinstimmen");
 		}
 
-		punkte = new ArrayList<WGS84Punkt>(laenge.length);
+		punkte = new ArrayList<>(laenge.length);
 
 		for (int i = 0; i < laenge.length; i++) {
 			final WGS84Punkt p = new WGS84Punkt(laenge[i], breite[i]);
@@ -445,12 +444,12 @@ public class WGS84Polygon {
 
 	/**
 	 * Konstruktor für Polygon aus Liste von Punkten.
-	 * 
+	 *
 	 * @param punktliste
 	 *            Punktliste
 	 */
 	public WGS84Polygon(final List<WGS84Punkt> punktliste) {
-		punkte = new ArrayList<WGS84Punkt>(punktliste);
+		punkte = new ArrayList<>(punktliste);
 	}
 
 	/**
@@ -459,7 +458,7 @@ public class WGS84Polygon {
 	 * den entsprechenden Teil gekürzt. Wenn der gegebene Offset
 	 * gr&ouml;&szlig;er als die L&auml;nge des Polygones ist, wird eine
 	 * IllegalArgumentException geworfen.
-	 * 
+	 *
 	 * @param offset
 	 *            der Offset (in Meter) beginnend vom Anfang des Polygones, bei
 	 *            dem der Schnittpunkt liegen soll
@@ -467,7 +466,7 @@ public class WGS84Polygon {
 	 * @throws IllegalArgumentException
 	 */
 	public WGS84Polygon anfangAbschneiden(final double offset) {
-		final List<WGS84Punkt> apunkte = new ArrayList<WGS84Punkt>();
+		final List<WGS84Punkt> apunkte = new ArrayList<>();
 
 		if (offset == 0) {
 			return new WGS84Polygon(apunkte);
@@ -521,7 +520,7 @@ public class WGS84Polygon {
 	 * und gibt diesen Teil zurück. Das Polygon wird um den entsprechenden Teil
 	 * gekürzt. Wenn der gegebene Punkt nicht auf dem Polygon liegt, wird eine
 	 * IllegalArgumentException geworfen.
-	 * 
+	 *
 	 * @param punkt
 	 *            Schnittpunkt
 	 * @return Teil des Polygones bis zum Offset-Punkt.
@@ -533,7 +532,7 @@ public class WGS84Polygon {
 					"Der Punkt liegt nicht auf dem Polygon");
 		}
 
-		final List<WGS84Punkt> apunkte = new ArrayList<WGS84Punkt>();
+		final List<WGS84Punkt> apunkte = new ArrayList<>();
 
 		int found = -1;
 		for (int i = 0; i < punkte.size() - 1; i++) {
@@ -566,10 +565,10 @@ public class WGS84Polygon {
 
 	/**
 	 * Berechnet den Offset eines Punktes auf dem Polygon.
-	 * 
+	 *
 	 * @param punkt
 	 *            Punkt, f&uuml;r den der Offset berechnet werden soll
-	 * 
+	 *
 	 * @return Offset (in m).
 	 * @throws IllegalArgumentException
 	 *             wenn der Punkt nicht auf dem Polygon liegt.
@@ -600,11 +599,11 @@ public class WGS84Polygon {
 	 * gegebenen Offset vom Anfangspunkt entfernt ist. Wenn der gegebene Offset
 	 * gr&ouml;&szlig;er als die L&auml;nge des Polygones ist, wird eine
 	 * IllegalArgumentException geworfen.
-	 * 
+	 *
 	 * @param offset
 	 *            der Offset (in Meter) beginnend vom Anfang des Polygones, bei
 	 *            dem der Punkt liegen soll
-	 * 
+	 *
 	 * @return der berechnete Punkt.
 	 * @throws IllegalArgumentException
 	 *             wenn der Offset länger als das Polygon ist.
@@ -644,10 +643,10 @@ public class WGS84Polygon {
 	 * wird als Ergebnis der Punkt der Linie zur&uuml;ckgeliefert, welcher dem
 	 * Punkt am n&auml;chsten liegt, also entweder der Anfangs- oder der
 	 * Endpunkt.
-	 * 
+	 *
 	 * @param punkt
 	 *            der abzubildende Punkt
-	 * 
+	 *
 	 * @return Punkt.
 	 * @throws IllegalArgumentException
 	 */
@@ -688,10 +687,10 @@ public class WGS84Polygon {
 	 * wird als Ergebnis der Punkt der Linie zur&uuml;ckgeliefert, welcher dem
 	 * Punkt am n&auml;chsten liegt, also entweder der Anfangs- oder der
 	 * Endpunkt.
-	 * 
+	 *
 	 * @param punkt
 	 *            der abzubildende Punkt
-	 * 
+	 *
 	 * @return der Punkt.
 	 * @throws IllegalArgumentException
 	 */
@@ -741,7 +740,7 @@ public class WGS84Polygon {
 	/**
 	 * Berechnet die Teilstrecke des Polygons, f&uuml;r die der Abstand eines
 	 * gegebenen Punktes von dieser Strecke minimal ist.
-	 * 
+	 *
 	 * @param punkt
 	 *            Punkt
 	 * @return gefundene Teilstrecke als Polygon oder null
@@ -782,7 +781,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Gibt die Koordinaten des Polygons als Punktliste zur&uuml;ck.
-	 * 
+	 *
 	 * @return Punktkoordinaten
 	 */
 	public ArrayList<WGS84Punkt> getKoordinaten() {
@@ -791,7 +790,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Test, ob ein Punkt der Anfangs- oder Endpunkt des Polygon ist.
-	 * 
+	 *
 	 * @param punkt
 	 *            zu testender Punkt
 	 * @return true, wenn der Punkt der Anfangs- oder Endpunkt des Polygons ist,
@@ -804,7 +803,7 @@ public class WGS84Polygon {
 	/**
 	 * Test, ob ein Punkt der Anfangs- oder Endpunkt des Polygon ist oder in der
 	 * N&auml;he dieser liegt.
-	 * 
+	 *
 	 * @param punkt
 	 *            zu testender Punkt
 	 * @param maxAbstandMeter
@@ -821,7 +820,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Test, ob ein Punkt der Anfangspunkt des Polygon ist.
-	 * 
+	 *
 	 * @param punkt
 	 *            zu testender Punkt
 	 * @return true, wenn der Punkt der Anfangspunkt des Polygons ist, sonst
@@ -838,7 +837,7 @@ public class WGS84Polygon {
 	/**
 	 * Test, ob ein Punkt der Anfangspunkt des Polygon ist oder in dessen
 	 * N&auml;he liegt.
-	 * 
+	 *
 	 * @param punkt
 	 *            zu testender Punkt
 	 * @param maxAbstandMeter
@@ -859,7 +858,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Test, ob ein Punkt der Endpunkt des Polygon ist.
-	 * 
+	 *
 	 * @param punkt
 	 *            zu testender Punkt
 	 * @return true, wenn der Punkt der Endpunkt des Polygons ist, sonst false
@@ -875,7 +874,7 @@ public class WGS84Polygon {
 	/**
 	 * Test, ob ein Punkt der Endpunkt des Polygon ist oder in dessen N&auml;he
 	 * liegt..
-	 * 
+	 *
 	 * @param punkt
 	 *            zu testender Punkt
 	 * @param maxAbstandMeter
@@ -898,7 +897,7 @@ public class WGS84Polygon {
 	 * Test, ob das Polygon gleich einem anderen Polygon ist, wobei eine
 	 * bestimmte Abweichung der Koordinaten nicht &uuml;berschritten werden
 	 * darf.
-	 * 
+	 *
 	 * @param testpolygon
 	 *            Das zu testende Polgon
 	 * @param maxabweichungGrad
@@ -932,7 +931,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Bestimmt den kleinsten Abstand eines Punktes vom Polygon.
-	 * 
+	 *
 	 * @param punkt
 	 *            Der Punkt, f&uuml;r den der Abstand bestimmt werden soll
 	 * @return der kleinste Abstand des Punktes vom Polygon (in m)
@@ -951,7 +950,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Bestimmt den gr&ouml;ssten Abstand eines Punktes vom Polygon.
-	 * 
+	 *
 	 * @param punkt
 	 *            Der Punkt, f&uuml;r den der Abstand bestimmt werden soll
 	 * @return der gr&ouml;sste Abstand des Punktes vom Polygon (in m)
@@ -972,7 +971,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Berechnet die Länge des Polygonzuges in m.
-	 * 
+	 *
 	 * @return L&auml;nge in Meter.
 	 */
 	public double laenge() {
@@ -981,7 +980,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Berechnet die Länge des Polygonzuges in m.
-	 * 
+	 *
 	 * @return L&auml;nge in Meter.
 	 */
 	public double laengeAppr() {
@@ -996,7 +995,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Berechnet die Länge des Polygonzuges in m.
-	 * 
+	 *
 	 * @return L&auml;nge in Meter.
 	 */
 	public double laengeExakt() {
@@ -1013,7 +1012,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Berechnet die Länge des Polygonzuges in m.
-	 * 
+	 *
 	 * @return L&auml;nge in Meter.
 	 */
 	public double laengeKartesisch() {
@@ -1029,7 +1028,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Test, ob ein Punkt auf dem Polygon liegt.
-	 * 
+	 *
 	 * @param punkt
 	 *            Punkt
 	 * @return true, wenn der Punkt auf dem Polygonzug liegt, sonst false
@@ -1046,7 +1045,7 @@ public class WGS84Polygon {
 
 	/**
 	 * Test, ob ein Punkt auf dem Polygon liegt.
-	 * 
+	 *
 	 * @param punkt
 	 *            Punkt
 	 * @param maxAbweichungMeter

@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -28,9 +28,8 @@ package de.bsvrz.sys.funclib.bitctrl.geolib;
 
 /**
  * Ein geographischer Punkt in WGS84-Koordinaten.
- * 
+ *
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id: WGS84Punkt.java 10023 2008-07-01 09:53:42Z gieseler $
  */
 public class WGS84Punkt extends WGS84Koordinate implements
 		Comparable<WGS84Punkt> {
@@ -44,10 +43,10 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	/**
 	 * Abstandsberechnung zwischen 2 Punkten mit Näherungsformel (idealisierte
 	 * Erdkugel).
-	 * 
+	 *
 	 * Formel: d=arccos(sin(X2)*sin(X1)+cos(X2)*cos(X1)*cos(Y2 - Y1)) *
 	 * Erdradius
-	 * 
+	 *
 	 * @param p1
 	 *            erster Punkt
 	 * @param p2
@@ -73,21 +72,21 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	/**
 	 * Abstandsberechnung zwischen 2 Punkten auf der Erdoberfläche mit exakter
 	 * Formel.
-	 * 
+	 *
 	 * (Algorithmus: http://de.wikipedia.org/wiki/Orthodrome)
-	 * 
+	 *
 	 * b1 := Geografische Breite von Standort 1 l1 := Geografische Länge von
 	 * Standort 1 b2 := Geografische Breite von Standort 2 l2 := Geografische
 	 * Länge von Standort 2
-	 * 
+	 *
 	 * f := Abplattung der Erde (1/298,257223563) a := Äquatorradius der Erde
 	 * (6378,14 km) F := (b1+b2)/2 G := (b1-b2)/2 l := (l1-l2)/2 S :=
 	 * sin²(G)cos²(l) + cos²(F)sin²(l) C := cos²(G)cos²(l) + sin²(F)sin²(l) w :=
 	 * arctan(sqrt(S/C)) in rad R := sqrt(S*C)/w D := 2*w*a H1 := (3R-1)/(2C) H2
 	 * := (3R+1)/(2S)
-	 * 
+	 *
 	 * Abstand: s := D(1 + f*H1*sin²(F)cos²(G) - f*H2*cos²(F)sin²(G))
-	 * 
+	 *
 	 * @param p1
 	 *            erster Punkt
 	 * @param p2
@@ -113,9 +112,9 @@ public class WGS84Punkt extends WGS84Koordinate implements
 		final double f = 1 / 298.257223563;
 
 		double s = mD
-				* (1 + (f * mH1 * Math.pow(Math.sin(mF), 2) * Math.pow(Math
-						.cos(mG), 2)) - (f * mH2 * Math.pow(Math.cos(mF), 2) * Math
-						.pow(Math.sin(mG), 2)));
+				* (1 + (f * mH1 * Math.pow(Math.sin(mF), 2) * Math.pow(
+						Math.cos(mG), 2)) - (f * mH2
+								* Math.pow(Math.cos(mF), 2) * Math.pow(Math.sin(mG), 2)));
 
 		// in m
 		s *= 1000;
@@ -126,7 +125,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	/**
 	 * Berechnet den Abstand der Punkte auf der Basis der transformierten
 	 * kartesischen Koordinaten.
-	 * 
+	 *
 	 * @param p1
 	 *            erster Punkt
 	 * @param p2
@@ -145,7 +144,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 
 	/**
 	 * Liefert einen gerundeten Koordinatenwert.
-	 * 
+	 *
 	 * @param wert
 	 *            der Wert der gerundet werden soll
 	 * @return der gerundete Wert
@@ -171,9 +170,9 @@ public class WGS84Punkt extends WGS84Koordinate implements
 
 	/**
 	 * Konstruktor für Punkt mit WGS84-Koordinaten in Dezimalnotation.
-	 * 
+	 *
 	 * Beispiel +4.354551 +50.839402 bedeutet 4°. 354551 O 50°. 839402 N
-	 * 
+	 *
 	 * @param laenge
 	 *            L&auml;nge
 	 * @param breite
@@ -187,7 +186,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 
 	/**
 	 * Konstruktor.
-	 * 
+	 *
 	 * @param w
 	 *            Koordinate
 	 */
@@ -201,6 +200,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 	/**
 	 * Vergleicht erst die Länge und dann die Breite der beiden Punkte.
 	 */
+	@Override
 	public int compareTo(final WGS84Punkt p) {
 		return (getLaenge() > p.getLaenge() ? 1
 				: getLaenge() < p.getLaenge() ? -1 : getBreite() > p
@@ -209,7 +209,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 
 	/**
 	 * Testet auf gleiche Punkte mit einer maximalen Abweichung.
-	 * 
+	 *
 	 * @param obj
 	 *            Objekt
 	 * @param maxAbweichung
@@ -240,7 +240,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 
 	/**
 	 * Gibt die UTM-Koordinate zu diesem WGS84-Punkt zurück.
-	 * 
+	 *
 	 * @return die entsprechende UTM-Koordinate.
 	 */
 	public UTMKoordinate toUTMKoordinate() {
@@ -252,7 +252,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 
 	/**
 	 * Gibt die nach UTM transformierte x-Koordinate (Rechtswert) zur&uuml;ck.
-	 * 
+	 *
 	 * @return kartesische x-Koordinate des Punktes
 	 * @deprecated neu: {@link #toUTMKoordinate()}
 	 */
@@ -263,7 +263,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 
 	/**
 	 * Gibt die nach UTM transformierte y-Koordinate (Hochwert) zur&uuml;ck.
-	 * 
+	 *
 	 * @return kartesische y-Koordinate des Punktes
 	 * @deprecated neu: {@link #toUTMKoordinate()}
 	 */
@@ -274,7 +274,7 @@ public class WGS84Punkt extends WGS84Koordinate implements
 
 	/**
 	 * Gibt die Zone der UTM-Transformation an.
-	 * 
+	 *
 	 * @return Zonen-Nummer
 	 * @deprecated neu: {@link #toUTMKoordinate()}
 	 */

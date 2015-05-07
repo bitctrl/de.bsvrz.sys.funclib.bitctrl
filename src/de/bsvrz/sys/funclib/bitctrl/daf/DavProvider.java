@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -31,9 +31,8 @@ import de.bsvrz.dav.daf.main.ClientDavInterface;
 
 /**
  * Stellt eine Verbindung zum Datenverteiler zur Verfügung.
- * 
+ *
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
  */
 public interface DavProvider {
 
@@ -54,21 +53,21 @@ public interface DavProvider {
 
 	/**
 	 * Gibt den Namen der Verbindung zurück.
-	 * 
+	 *
 	 * @return der Verbindungsname.
 	 */
 	String getName();
 
 	/**
 	 * Gibt die Verbindung zum Datenverteiler zurück.
-	 * 
+	 *
 	 * @return die Verbindung.
 	 */
 	ClientDavInterface getDav();
 
 	/**
 	 * Flag ob eine Datenverteilerverbindung besteht.
-	 * 
+	 *
 	 * @return <code>true</code>, wenn eine aktuell eine Verbindung besteht,
 	 *         sonst <code>false</code>.
 	 */
@@ -76,7 +75,7 @@ public interface DavProvider {
 
 	/**
 	 * Registriert einen Listener auf eine Property der Klasse.
-	 * 
+	 *
 	 * @param listener
 	 *            der Listener.
 	 */
@@ -84,7 +83,7 @@ public interface DavProvider {
 
 	/**
 	 * Registriert einen Listener auf eine Property der Klasse.
-	 * 
+	 *
 	 * @param propertyName
 	 *            der Name der zu beobachtenden Propertery.
 	 * @param listener
@@ -95,7 +94,7 @@ public interface DavProvider {
 
 	/**
 	 * Meldet einen Listener auf eine Property der Klasse wieder ab.
-	 * 
+	 *
 	 * @param listener
 	 *            der Listener.
 	 */
@@ -103,7 +102,7 @@ public interface DavProvider {
 
 	/**
 	 * Meldet einen Listener auf eine Property der Klasse wieder ab.
-	 * 
+	 *
 	 * @param propertyName
 	 *            der Name der Property die nicht mehr beobachtet werden soll.
 	 * @param listener

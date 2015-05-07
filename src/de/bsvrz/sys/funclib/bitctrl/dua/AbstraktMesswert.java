@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -32,16 +32,14 @@ import de.bsvrz.dav.daf.main.Data;
  * Messwert <b>für ein Attribut</b> mit Plausibilisierungsinformationen.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: AbstraktMesswert.java 8054 2008-04-09 15:11:59Z tfelder $
  */
-public abstract class AbstraktMesswert extends MesswertMarkierung
-implements Comparable<AbstraktMesswert> {
+public abstract class AbstraktMesswert extends MesswertMarkierung implements
+		Comparable<AbstraktMesswert> {
 
 	/**
 	 * Der Attributname dieses Messwertes.
 	 */
-	private String attName = null;
+	private final String attName;
 
 	/**
 	 * der Messwert als <code>double</code>.
@@ -61,7 +59,7 @@ implements Comparable<AbstraktMesswert> {
 	/**
 	 * das Guete-Verfahren.
 	 */
-	private int verfahren = 0;
+	private int verfahren;
 
 	/**
 	 * Standardkonstruktor.
@@ -88,9 +86,11 @@ implements Comparable<AbstraktMesswert> {
 		nichtErfasst = datum.getItem(attName).getItem("Status") //$NON-NLS-1$
 				.getItem("Erfassung").//$NON-NLS-1$
 				getUnscaledValue("NichtErfasst").intValue() == DUAKonstanten.JA; //$NON-NLS-1$
-		formalMax = datum.getItem(attName).getItem("Status").getItem("PlFormal") //$NON-NLS-1$ //$NON-NLS-2$
+		formalMax = datum.getItem(attName)
+				.getItem("Status").getItem("PlFormal") //$NON-NLS-1$ //$NON-NLS-2$
 				.getUnscaledValue("WertMax").intValue() == DUAKonstanten.JA; //$NON-NLS-1$
-		formalMin = datum.getItem(attName).getItem("Status").getItem("PlFormal") //$NON-NLS-1$ //$NON-NLS-2$
+		formalMin = datum.getItem(attName)
+				.getItem("Status").getItem("PlFormal") //$NON-NLS-1$ //$NON-NLS-2$
 				.getUnscaledValue("WertMin").intValue() == DUAKonstanten.JA; //$NON-NLS-1$
 
 		logischMax = datum.getItem(attName).getItem("Status") //$NON-NLS-1$
@@ -225,15 +225,11 @@ implements Comparable<AbstraktMesswert> {
 				|| implausibel;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public int compareTo(final AbstraktMesswert that) {
-		return isSkaliert()
-				? new Double(getWertSkaliert())
-						.compareTo(that.getWertSkaliert())
-						: new Long(getWertUnskaliert())
-						.compareTo(that.getWertUnskaliert());
+		return isSkaliert() ? new Double(getWertSkaliert()).compareTo(that
+				.getWertSkaliert()) : new Long(getWertUnskaliert())
+				.compareTo(that.getWertUnskaliert());
 	}
 
 	/**
@@ -246,45 +242,45 @@ implements Comparable<AbstraktMesswert> {
 		if (isSkaliert()) {
 			datum.getItem(attName).getScaledValue("Wert").set(wertSkaliert); //$NON-NLS-1$
 		} else {
-			if (DUAUtensilien.isWertInWerteBereich(
-					datum.getItem(attName).getItem("Wert"), wertUnskaliert)) { //$NON-NLS-1$
+			if (DUAUtensilien.isWertInWerteBereich(datum.getItem(attName)
+					.getItem("Wert"), wertUnskaliert)) { //$NON-NLS-1$
 				datum.getItem(attName).getUnscaledValue("Wert") //$NON-NLS-1$
-				.set(wertUnskaliert);
+						.set(wertUnskaliert);
 			} else {
 				datum.getItem(attName).getUnscaledValue("Wert") //$NON-NLS-1$
-				.set(DUAKonstanten.NICHT_ERMITTELBAR_BZW_FEHLERHAFT);
+						.set(DUAKonstanten.NICHT_ERMITTELBAR_BZW_FEHLERHAFT);
 			}
 		}
 
 		datum.getItem(attName).getItem("Status").getItem("Erfassung").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("NichtErfasst") //$NON-NLS-1$
-		.set(nichtErfasst ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("NichtErfasst") //$NON-NLS-1$
+				.set(nichtErfasst ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
 		datum.getItem(attName).getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMax") //$NON-NLS-1$
-		.set(formalMax ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("WertMax") //$NON-NLS-1$
+				.set(formalMax ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 		datum.getItem(attName).getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMin") //$NON-NLS-1$
-		.set(formalMin ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("WertMin") //$NON-NLS-1$
+				.set(formalMin ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
 		datum.getItem(attName).getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMaxLogisch") //$NON-NLS-1$
-		.set(logischMax ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("WertMaxLogisch") //$NON-NLS-1$
+				.set(logischMax ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 		datum.getItem(attName).getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMinLogisch") //$NON-NLS-1$
-		.set(logischMin ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("WertMinLogisch") //$NON-NLS-1$
+				.set(logischMin ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
 		datum.getItem(attName).getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("Implausibel") //$NON-NLS-1$
-		.set(implausibel ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("Implausibel") //$NON-NLS-1$
+				.set(implausibel ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 		datum.getItem(attName).getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("Interpoliert") //$NON-NLS-1$
-		.set(interpoliert ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("Interpoliert") //$NON-NLS-1$
+				.set(interpoliert ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
 		datum.getItem(attName).getItem("Güte").getUnscaledValue("Index") //$NON-NLS-1$ //$NON-NLS-2$
-		.set(guete.getWert());
+				.set(guete.getWert());
 		datum.getItem(attName).getItem("Güte").getUnscaledValue("Verfahren") //$NON-NLS-1$ //$NON-NLS-2$
-		.set(verfahren);
+				.set(verfahren);
 	}
 
 	/**
@@ -297,55 +293,52 @@ implements Comparable<AbstraktMesswert> {
 		if (isSkaliert()) {
 			datum.getItem(attName).getScaledValue("Wert").set(wertSkaliert); //$NON-NLS-1$
 		} else {
-			if (DUAUtensilien.isWertInWerteBereich(
-					datum.getItem(attName).getItem("Wert"), wertUnskaliert)) { //$NON-NLS-1$
+			if (DUAUtensilien.isWertInWerteBereich(datum.getItem(attName)
+					.getItem("Wert"), wertUnskaliert)) { //$NON-NLS-1$
 				datum.getItem(attName).getUnscaledValue("Wert") //$NON-NLS-1$
-				.set(wertUnskaliert);
+						.set(wertUnskaliert);
 			} else {
 				datum.getItem(attName).getUnscaledValue("Wert") //$NON-NLS-1$
-				.set(DUAKonstanten.NICHT_ERMITTELBAR_BZW_FEHLERHAFT);
+						.set(DUAKonstanten.NICHT_ERMITTELBAR_BZW_FEHLERHAFT);
 			}
 		}
 
 		datum.getItem(attName).getItem("Status").getItem("Erfassung").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("NichtErfasst") //$NON-NLS-1$
-		.set(nichtErfasst ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("NichtErfasst") //$NON-NLS-1$
+				.set(nichtErfasst ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
 		datum.getItem(attName).getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMax") //$NON-NLS-1$
-		.set(formalMax ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("WertMax") //$NON-NLS-1$
+				.set(formalMax ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 		datum.getItem(attName).getItem("Status").getItem("PlFormal").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMin") //$NON-NLS-1$
-		.set(formalMin ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("WertMin") //$NON-NLS-1$
+				.set(formalMin ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
 		datum.getItem(attName).getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMaxLogisch") //$NON-NLS-1$
-		.set(logischMax ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("WertMaxLogisch") //$NON-NLS-1$
+				.set(logischMax ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 		datum.getItem(attName).getItem("Status").getItem("PlLogisch").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("WertMinLogisch") //$NON-NLS-1$
-		.set(logischMin ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("WertMinLogisch") //$NON-NLS-1$
+				.set(logischMin ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
 		datum.getItem(attName).getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("Implausibel") //$NON-NLS-1$
-		.set(implausibel ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("Implausibel") //$NON-NLS-1$
+				.set(implausibel ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 		datum.getItem(attName).getItem("Status").getItem("MessWertErsetzung").//$NON-NLS-1$ //$NON-NLS-2$
-				getUnscaledValue("Interpoliert") //$NON-NLS-1$
-		.set(interpoliert ? DUAKonstanten.JA : DUAKonstanten.NEIN);
+		getUnscaledValue("Interpoliert") //$NON-NLS-1$
+				.set(interpoliert ? DUAKonstanten.JA : DUAKonstanten.NEIN);
 
 		if (datum.getItem(attName).getUnscaledValue("Wert").longValue() < 0) { //$NON-NLS-1$
 			datum.getItem(attName).getItem("Güte").getUnscaledValue("Index") //$NON-NLS-1$ //$NON-NLS-2$
-			.set(0);
+					.set(0);
 		} else {
 			datum.getItem(attName).getItem("Güte").getUnscaledValue("Index") //$NON-NLS-1$ //$NON-NLS-2$
-			.set(guete.getWert());
+					.set(guete.getWert());
 		}
 		datum.getItem(attName).getItem("Güte").getUnscaledValue("Verfahren") //$NON-NLS-1$ //$NON-NLS-2$
-		.set(verfahren);
+				.set(verfahren);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(final Object obj) {
 		boolean gleich = false;
@@ -361,9 +354,6 @@ implements Comparable<AbstraktMesswert> {
 		return gleich;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return (isSkaliert() ? getWertSkaliert() : getWertUnskaliert()) + " " //$NON-NLS-1$

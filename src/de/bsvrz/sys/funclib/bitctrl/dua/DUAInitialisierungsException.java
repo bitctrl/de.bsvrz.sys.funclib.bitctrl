@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -32,9 +32,6 @@ package de.bsvrz.sys.funclib.bitctrl.dua;
  * oder Versenden von Daten durchgeführt werden konnte.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: DUAInitialisierungsException.java 8054 2008-04-09 15:11:59Z
- *          tfelder $
  */
 public final class DUAInitialisierungsException extends Exception {
 
@@ -62,15 +59,11 @@ public final class DUAInitialisierungsException extends Exception {
 	 * @param t
 	 *            die ursprüngliche Ausnahme
 	 */
-	public DUAInitialisierungsException(final String meldung,
-			final Throwable t) {
+	public DUAInitialisierungsException(final String meldung, final Throwable t) {
 		super(t);
 		this.meldung = meldung;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getMessage() {
 		return meldung == null ? super.getMessage() : meldung;

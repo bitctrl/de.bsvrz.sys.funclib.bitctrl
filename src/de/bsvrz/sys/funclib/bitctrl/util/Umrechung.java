@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -42,15 +42,14 @@ package de.bsvrz.sys.funclib.bitctrl.util;
  * <li>VKfz</li>
  * <li>QB</li>
  * </ul>
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: Umrechung.java 7883 2008-04-02 15:14:21Z Schumann $
  */
 public final class Umrechung {
 
 	/**
 	 * Berechnet den Lkw-Anteil.
-	 * 
+	 *
 	 * @param qLkw
 	 *            Lkw-Vekehrsst&auml;rke
 	 * @param qKfz
@@ -74,7 +73,7 @@ public final class Umrechung {
 	/**
 	 * Berechnet QB aus QLkw, QKfz, VPkw und VLkw sowie mit Hilfe zweier
 	 * Parameter k1 und k2.
-	 * 
+	 *
 	 * @param qLkw
 	 *            QLkw
 	 * @param qKfz
@@ -119,7 +118,7 @@ public final class Umrechung {
 	/**
 	 * Berechnet QB aus QLkw, QKfz, VPkw und VLkw sowie mit Hilfe zweier
 	 * Parameter k1 und k2.
-	 * 
+	 *
 	 * @param qLkw
 	 *            QLkw
 	 * @param qKfz
@@ -164,7 +163,7 @@ public final class Umrechung {
 
 	/**
 	 * Berechnet QPkw aus QKfz und QLkw.
-	 * 
+	 *
 	 * @param qKfz
 	 *            QKfz
 	 * @param qLkw
@@ -182,7 +181,7 @@ public final class Umrechung {
 
 	/**
 	 * Berechnet QPkw aus QKfz und QLkw.
-	 * 
+	 *
 	 * @param qKfz
 	 *            QKfz
 	 * @param qLkw
@@ -200,7 +199,7 @@ public final class Umrechung {
 
 	/**
 	 * Berechnet VKfz aus QLkw, QKfz, VPkw und VLkw.
-	 * 
+	 *
 	 * @param qLkw
 	 *            QLkw
 	 * @param qKfz
@@ -237,7 +236,7 @@ public final class Umrechung {
 
 	/**
 	 * Berechnet VKfz aus QLkw, QKfz, VPkw und VLkw.
-	 * 
+	 *
 	 * @param qLkw
 	 *            QLkw
 	 * @param qKfz

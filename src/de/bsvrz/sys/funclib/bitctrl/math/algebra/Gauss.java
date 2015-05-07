@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -33,7 +33,6 @@ import de.bsvrz.sys.funclib.bitctrl.math.RationaleZahl;
  * Gleichunssystemen.
  *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: Gauss.java 6386 2008-02-08 08:24:20Z Schumann $
  */
 public final class Gauss {
 
@@ -81,8 +80,10 @@ public final class Gauss {
 				neueZeile = lr.getZeilenvektor(i);
 				neueZeile.set(j, f);
 				for (int k = j + 1; k < neueZeile.anzahlKomponenten(); k++) {
-					neueZeile.set(k, RationaleZahl.subtrahiere(neueZeile.get(k),
-							v0.get(k)));
+					neueZeile.set(
+							k,
+							RationaleZahl.subtrahiere(neueZeile.get(k),
+									v0.get(k)));
 				}
 				lr.setZeilenvektor(i, neueZeile);
 			}

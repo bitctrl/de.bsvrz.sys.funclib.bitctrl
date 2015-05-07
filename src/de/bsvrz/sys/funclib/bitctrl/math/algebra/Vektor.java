@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -32,7 +32,6 @@ import de.bsvrz.sys.funclib.bitctrl.math.RationaleZahl;
  * Repr&auml;sentiert einen Zahlenvektor.
  *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: Vektor.java 6386 2008-02-08 08:24:20Z Schumann $
  */
 public class Vektor implements Cloneable {
 
@@ -317,10 +316,6 @@ public class Vektor implements Cloneable {
 	/**
 	 * Zwei Vektoren sind gleich, wenn sie die gleiche Anzahl Komponenten
 	 * besitzen und in allen Komponenten &uuml;bereinstimmen.
-	 *
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Object#equals(Object)
 	 */
 	@Override
 	public boolean equals(final Object o) {
@@ -382,11 +377,6 @@ public class Vektor implements Cloneable {
 		vektor[i] = new RationaleZahl(wert);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		String s;

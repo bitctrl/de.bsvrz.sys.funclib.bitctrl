@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -30,7 +30,6 @@ package de.bsvrz.sys.funclib.bitctrl.math;
  * Repr&auml;sentiert eine rationale Zahl.
  *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: RationaleZahl.java 6357 2008-02-07 16:08:38Z Schumann $
  */
 public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
@@ -276,8 +275,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	 *            Eine rationale Zahl
 	 * @return Das Ergebnis der Subtraktion
 	 */
-	public static RationaleZahl subtrahiere(final long a,
-			final RationaleZahl b) {
+	public static RationaleZahl subtrahiere(final long a, final RationaleZahl b) {
 		return subtrahiere(new RationaleZahl(a), b);
 	}
 
@@ -290,8 +288,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	 *            Eine ganze Zahl
 	 * @return Das Ergebnis der Subtraktion
 	 */
-	public static RationaleZahl subtrahiere(final RationaleZahl a,
-			final long b) {
+	public static RationaleZahl subtrahiere(final RationaleZahl a, final long b) {
 		return subtrahiere(a, new RationaleZahl(b));
 	}
 
@@ -385,11 +382,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 		this(zahl.zaehler, zahl.nenner);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Comparable#compareTo(Object)
-	 */
+	@Override
 	public int compareTo(final RationaleZahl zahl) {
 		long kgv;
 		Long a, b;
@@ -401,11 +394,6 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 		return a.compareTo(b);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Number#doubleValue()
-	 */
 	@Override
 	public double doubleValue() {
 		double a, b;
@@ -416,13 +404,6 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 		return a / b;
 	}
 
-	/**
-	 * Zwei rationale Zahlen sind identisch, wenn.
-	 * <p>
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Object#equals(Object)
-	 */
 	@Override
 	public boolean equals(final Object o) {
 		if (o instanceof RationaleZahl) {
@@ -436,11 +417,6 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Number#floatValue()
-	 */
 	@Override
 	public float floatValue() {
 		float a, b;
@@ -469,11 +445,6 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 		return zaehler;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Number#intValue()
-	 */
 	@Override
 	public int intValue() {
 		return Math.round(floatValue());
@@ -489,21 +460,11 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 		return new RationaleZahl(nenner, zaehler);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Number#longValue()
-	 */
 	@Override
 	public long longValue() {
 		return Math.round(doubleValue());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		if (nenner == 1) {

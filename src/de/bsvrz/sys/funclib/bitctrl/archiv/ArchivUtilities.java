@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -47,22 +47,21 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
  * Diverse Hilfsmethoden für Archivanfragen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id$
  */
 public final class ArchivUtilities {
 
 	/**
 	 * Ruft Archivdaten in einen Rutsch ab. Diese Methode sollte nur verwendet
 	 * werden, wenn die zu erwartenden Liste der Archivdaten nicht zu groß ist.
-	 * 
+	 *
 	 * <p>
 	 * <em>Hinweis:</em> Diese Methode sollte nur für Anfragen benutzt werden,
 	 * die relativ kleine Datenmengen abfragen, da die Abfrage sonst sehr lange
 	 * dauern oder gar fehlschlagen kann. Besser ist es den
 	 * {@link ArchivIterator} zu verwenden.
-	 * 
+	 *
 	 * @param dav
 	 *            eine Datenverteilerverbindung.
 	 * @param objekte
@@ -89,7 +88,7 @@ public final class ArchivUtilities {
 			final boolean nurAenderungen, final ArchiveDataKind... dataKinds) {
 		final Iterator<ResultData> iterator = new ArchivIterator(dav,
 				getAnfrage(objekte, dbs, intervall, nurAenderungen, dataKinds));
-		final List<ResultData> liste = new ArrayList<ResultData>();
+		final List<ResultData> liste = new ArrayList<>();
 
 		while (iterator.hasNext()) {
 			liste.add(iterator.next());
@@ -101,13 +100,13 @@ public final class ArchivUtilities {
 	/**
 	 * Liefert eine beliebige Anzahl an Archivdatensätzen vor einem definierten
 	 * Zeitpunkt.
-	 * 
+	 *
 	 * <p>
 	 * <em>Hinweis:</em> Diese Methode sollte nur für Anfragen benutzt werden,
 	 * die relativ kleine Datenmengen abfragen, da die Abfrage sonst sehr lange
 	 * dauern oder gar fehlschlagen kann. Besser ist es den
 	 * {@link ArchivIterator} zu verwenden.
-	 * 
+	 *
 	 * @param dav
 	 *            eine Datenverteilerverbindung.
 	 * @param objekte
@@ -138,7 +137,7 @@ public final class ArchivUtilities {
 		final Iterator<ResultData> iterator = new ArchivIterator(dav,
 				getAnfrage(objekte, dbs, zeitstempel, anzahlDatensaetze,
 						nurAenderungen, dataKinds));
-		final List<ResultData> liste = new ArrayList<ResultData>();
+		final List<ResultData> liste = new ArrayList<>();
 
 		while (iterator.hasNext()) {
 			liste.add(iterator.next());
@@ -150,7 +149,7 @@ public final class ArchivUtilities {
 	/**
 	 * Erzeugt aus den Parametern eine äquivalente Archivanfrage für einen
 	 * Zeitraum.
-	 * 
+	 *
 	 * @param objekte
 	 *            die Objekte, dessen Archivdaten abgefragt werden sollen.
 	 * @param dbs
@@ -172,9 +171,9 @@ public final class ArchivUtilities {
 			final DataDescription dbs, final Interval intervall,
 			final boolean nurAenderungen, final ArchiveDataKind... dataKinds) {
 		final ArchiveTimeSpecification timeSpec = new ArchiveTimeSpecification(
-				TimingType.DATA_TIME, false, intervall.getStart(), intervall
-						.getEnd());
-		final List<ArchiveDataSpecification> specs = new ArrayList<ArchiveDataSpecification>();
+				TimingType.DATA_TIME, false, intervall.getStart(),
+				intervall.getEnd());
+		final List<ArchiveDataSpecification> specs = new ArrayList<>();
 
 		for (final SystemObject so : objekte) {
 			specs.add(new ArchiveDataSpecification(timeSpec,
@@ -190,7 +189,7 @@ public final class ArchivUtilities {
 	/**
 	 * Erzeugt aus den Parametern eine äquivalente Archivanfrage für eine
 	 * bestimmte Anzahl Datensätze vor einem Endzeitpunkt.
-	 * 
+	 *
 	 * @param objekte
 	 *            die Objekte, dessen Archivdaten abgefragt werden sollen.
 	 * @param dbs
@@ -216,7 +215,7 @@ public final class ArchivUtilities {
 			final ArchiveDataKind... dataKinds) {
 		final ArchiveTimeSpecification timeSpec = new ArchiveTimeSpecification(
 				TimingType.DATA_TIME, true, anzahlDatensaetze, zeitstempel);
-		final List<ArchiveDataSpecification> specs = new ArrayList<ArchiveDataSpecification>();
+		final List<ArchiveDataSpecification> specs = new ArrayList<>();
 
 		for (final SystemObject so : objekte) {
 			specs.add(new ArchiveDataSpecification(timeSpec,

@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -47,9 +47,8 @@ import de.bsvrz.dav.daf.main.archive.ArchiveRequestManager;
 /**
  * Der Archiviterator erleichtert die Iteration über die Ergebnisse einer
  * Archivabfrage.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id$
  */
 public class ArchivIterator implements Iterator<ResultData> {
 
@@ -61,7 +60,7 @@ public class ArchivIterator implements Iterator<ResultData> {
 
 	/**
 	 * Führt die Archivanfrage durch und initialisiert den Iterator.
-	 * 
+	 *
 	 * @param dav
 	 *            eine Datenverteilerverbindung.
 	 * @param specs
@@ -83,7 +82,7 @@ public class ArchivIterator implements Iterator<ResultData> {
 
 		// Alle Ströme abrufen
 		try {
-			streams = new FieldIterator<ArchiveDataStream>(antwort.getStreams());
+			streams = new FieldIterator<>(antwort.getStreams());
 		} catch (final IllegalStateException ex) {
 			throw new ArchivException(
 					"Fehler beim Empfang des Archivdatenstroms", ex);
@@ -99,6 +98,7 @@ public class ArchivIterator implements Iterator<ResultData> {
 		fetchNextData();
 	}
 
+	@Override
 	public boolean hasNext() {
 		return currentData != null;
 	}
@@ -107,6 +107,7 @@ public class ArchivIterator implements Iterator<ResultData> {
 	 * @throws ArchivException
 	 *             wenn die ein Fehler bei der Archivanfrage passiert erst.
 	 */
+	@Override
 	public ResultData next() {
 		if (!hasNext()) {
 			throw new NoSuchElementException();
@@ -118,8 +119,8 @@ public class ArchivIterator implements Iterator<ResultData> {
 						ArchiveDataKind.REQUESTED_DELAYED);
 		final Data daten = currentData.getData();
 		final ResultData datensatz = new ResultData(currentData.getObject(),
-				currentData.getDataDescription(), delayed, currentData
-						.getDataIndex(), currentData.getDataTime(),
+				currentData.getDataDescription(), delayed,
+				currentData.getDataIndex(), currentData.getDataTime(),
 				(byte) (currentData.getDataType().getCode() - 1), daten);
 
 		// Den nächsten Archivdatensatz abrufen
@@ -131,6 +132,7 @@ public class ArchivIterator implements Iterator<ResultData> {
 	/**
 	 * Wird nicht unterstützt.
 	 */
+	@Override
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}

@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -35,8 +35,6 @@ import de.bsvrz.sys.funclib.bitctrl.daf.AbstractDavZustand;
  * (mit Zustaenden)
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: GanzZahl.java 8054 2008-04-09 15:11:59Z tfelder $
  */
 public class GanzZahl implements Comparable<GanzZahl> {
 
@@ -53,12 +51,12 @@ public class GanzZahl implements Comparable<GanzZahl> {
 	/**
 	 * Menge der Zustaende dieser Ganzzahl.
 	 */
-	private AbstractDavZustand[] zustaende = null;
+	private AbstractDavZustand[] zustaende;
 
 	/**
 	 * der aktuelle Zustand.
 	 */
-	private AbstractDavZustand aktuellerZustand = null;
+	private AbstractDavZustand aktuellerZustand;
 
 	/***************************************************************************
 	 * * statische Methoden zum Anlegen von Variablen * *
@@ -88,8 +86,8 @@ public class GanzZahl implements Comparable<GanzZahl> {
 	public static final GanzZahl getGueteIndex() {
 		final GanzZahl gueteIndex = new GanzZahl(0.0001,
 				new AbstractDavZustand[] { MesswertZustand.FEHLERHAFT,
-				MesswertZustand.NICHT_ERMITTELBAR,
-				MesswertZustand.FEHLERHAFT_BZW_NICHT_ERMITTELBAR });
+						MesswertZustand.NICHT_ERMITTELBAR,
+						MesswertZustand.FEHLERHAFT_BZW_NICHT_ERMITTELBAR });
 		gueteIndex.setWert(10000);
 		return gueteIndex;
 	}
@@ -209,7 +207,7 @@ public class GanzZahl implements Comparable<GanzZahl> {
 	 *            der aktuelle Zustand dieses Wertes
 	 */
 	public final void setZustand(final AbstractDavZustand zustand) {
-		assert(zustand != null);
+		assert (zustand != null);
 		wert = zustand.getCode();
 		aktuellerZustand = zustand;
 	}
@@ -232,9 +230,6 @@ public class GanzZahl implements Comparable<GanzZahl> {
 		return aktuellerZustand != null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String s = Constants.EMPTY_STRING;
@@ -262,9 +257,6 @@ public class GanzZahl implements Comparable<GanzZahl> {
 		return s;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(final Object obj) {
 		boolean gleich = false;
@@ -277,9 +269,7 @@ public class GanzZahl implements Comparable<GanzZahl> {
 		return gleich;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public int compareTo(final GanzZahl that) {
 		if (that == null) {
 			throw new NullPointerException("Vergleichswert ist <<null>>"); //$NON-NLS-1$

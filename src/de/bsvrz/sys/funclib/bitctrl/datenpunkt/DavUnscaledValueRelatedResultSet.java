@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -36,9 +36,8 @@ import de.bsvrz.dav.daf.main.impl.InvalidArgumentException;
 /**
  * Beispielimplementierung von einer zusammenhängenden Menge von
  * Long-Ergebnissen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Albrecht Uhlmann
- * @version $Id$
  */
 public class DavUnscaledValueRelatedResultSet extends
 		RelatedResultSet<Long, ResultData> {
@@ -46,7 +45,7 @@ public class DavUnscaledValueRelatedResultSet extends
 	/**
 	 * Konstruktor erzeugt für jedes Feldelement aus der atl.datenpunkt ein
 	 * individuelles Objekt und registriert es mit uns.
-	 * 
+	 *
 	 * @param container
 	 *            übergeordneter Container, der bei Vollständigkeit aller
 	 *            Ergebnisse oder Timeout benachrichtigt wird.

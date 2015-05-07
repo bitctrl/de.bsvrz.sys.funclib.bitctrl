@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -29,9 +29,8 @@ package de.bsvrz.sys.funclib.bitctrl.geolib;
 /**
  * Klasse zur Repr&auml;sentation einer Koordinate im UTM (Universal Transverse
  * Mercator) Koordinatensystem.
- * 
+ *
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id: UTMKoordinate.java 7465 2008-03-14 16:31:41Z gieseler $
  */
 public class UTMKoordinate {
 
@@ -81,7 +80,7 @@ public class UTMKoordinate {
 	/**
 	 * Konstruktor f&uuml;r eine UTM-Koordinate auf der n&ouml;rdlichen
 	 * Erdhalbkugel.
-	 * 
+	 *
 	 * @param x
 	 *            X-Koordinate
 	 * @param y
@@ -103,7 +102,7 @@ public class UTMKoordinate {
 
 	/**
 	 * Konstruktor f&uuml;r eine UTM-Koordinate.
-	 * 
+	 *
 	 * @param x
 	 *            X-Koordinate
 	 * @param y
@@ -128,7 +127,7 @@ public class UTMKoordinate {
 
 	/**
 	 * Gibt die Hemisph&auml;re zur&uuml;ck.
-	 * 
+	 *
 	 * @return Hemisph&auml;re.
 	 */
 	public UTMHEMI getHemisphaere() {
@@ -137,7 +136,7 @@ public class UTMKoordinate {
 
 	/**
 	 * Gibt die X-Koordinate (Rechtswert) zur&uuml;ck.
-	 * 
+	 *
 	 * @return X-Koordinate
 	 */
 	public double getX() {
@@ -146,7 +145,7 @@ public class UTMKoordinate {
 
 	/**
 	 * Gibt die Y-Koordinate (Rechtswert) zur&uuml;ck.
-	 * 
+	 *
 	 * @return Y-Koordinate
 	 */
 	public double getY() {
@@ -155,7 +154,7 @@ public class UTMKoordinate {
 
 	/**
 	 * Gibt die Zone zur&uuml;ck.
-	 * 
+	 *
 	 * @return Zone
 	 */
 	public int getZone() {
@@ -164,7 +163,7 @@ public class UTMKoordinate {
 
 	/**
 	 * Setzt die Hemisph&auml;re.
-	 * 
+	 *
 	 * @param hemisphaere
 	 *            Hemisph&auml;re
 	 * @deprecated Die Hemisphäre wird im Konstruktor gesetzt und sollte nicht
@@ -178,7 +177,7 @@ public class UTMKoordinate {
 
 	/**
 	 * Testfunktion f&uuml;r die Zone.
-	 * 
+	 *
 	 * @param zone
 	 *            Zone
 	 * @return true wenn ok sonst false

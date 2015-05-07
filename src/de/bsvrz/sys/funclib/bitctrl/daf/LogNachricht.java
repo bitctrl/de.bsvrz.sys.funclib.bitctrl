@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -34,16 +34,15 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageGrade;
 
 /**
  * Schnittstelle für Nachrichten die geloggt werden sollen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
  */
 public interface LogNachricht extends MessageHandler {
 
 	/**
 	 * Gibt den Level der Nachricht zurück, der für die
 	 * Betriebsmeldungsverwaltung genutzt werden soll.
-	 * 
+	 *
 	 * @return der Level oder {@code null}, wenn keine Betriebsmeldung versandt
 	 *         werden soll.
 	 */
@@ -51,7 +50,7 @@ public interface LogNachricht extends MessageHandler {
 
 	/**
 	 * Gibt den Log-Level der Nachricht zurück.
-	 * 
+	 *
 	 * @return der Log-Level.
 	 */
 	Level getLogLevel();

@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -27,24 +27,20 @@
 package de.bsvrz.sys.funclib.bitctrl.dua.dfs.schnittstellen;
 
 /**
- * Interface das alle Klassen implementieren müssen,
- * die Änderungen innerhalb der Datenflusssteuerung
- * empfangen wollen.
- * 
+ * Interface das alle Klassen implementieren müssen, die Änderungen innerhalb
+ * der Datenflusssteuerung empfangen wollen.
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id: IDatenFlussSteuerungsListener.java 8054 2008-04-09 15:11:59Z tfelder $
  */
 public interface IDatenFlussSteuerungsListener {
 
 	/**
 	 * Aktualisiert alle Parameter zur Datenflusssteuerung.
-	 * 
+	 *
 	 * @param dfs
-	 *            Schnittstelle zur Datenflusssteuerung (dieses
-	 *            Objekt ist <b>immer</b> ungleich <code>null</code>)
+	 *            Schnittstelle zur Datenflusssteuerung (dieses Objekt ist
+	 *            <b>immer</b> ungleich <code>null</code>)
 	 */
-	void aktualisierePublikation(
-							 final IDatenFlussSteuerung dfs);
+	void aktualisierePublikation(final IDatenFlussSteuerung dfs);
 
 }

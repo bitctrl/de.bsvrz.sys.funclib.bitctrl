@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -28,9 +28,8 @@ package de.bsvrz.sys.funclib.bitctrl.archiv;
 
 /**
  * Ausnahme der bei Archivanfragen auftreten kann.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id$
  */
 public class ArchivException extends RuntimeException {
 
@@ -45,7 +44,7 @@ public class ArchivException extends RuntimeException {
 
 	/**
 	 * Eine Ausnahme mit Hinweistext, aber vorangegangenen Grund.
-	 * 
+	 *
 	 * @param message
 	 *            der Hinweistext.
 	 */
@@ -55,7 +54,7 @@ public class ArchivException extends RuntimeException {
 
 	/**
 	 * Eine Ausnahme mit vorangegangenen Grund, aber ohne Hinweistext.
-	 * 
+	 *
 	 * @param cause
 	 *            der vorangegangene Grund.
 	 */
@@ -65,7 +64,7 @@ public class ArchivException extends RuntimeException {
 
 	/**
 	 * Eine Ausnahme mit Hinweistext und vorangegangenen Grund.
-	 * 
+	 *
 	 * @param message
 	 *            der Hinweistext.
 	 * @param cause

@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -38,7 +38,6 @@ import de.bsvrz.sys.funclib.bitctrl.interpreter.InterpreterMessages;
  *
  * @author BitCtrl Systems GmbH, Peuker
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: LogischerWert.java 6716 2008-02-18 17:32:51Z Schumann $
  */
 public class LogischerWert {
 
@@ -104,8 +103,6 @@ public class LogischerWert {
 	/**
 	 * Zwei logische Werte sind gleich, wenn sie beide den selben Typ (logischer
 	 * Wert oder Zugeh&ouml;rigkeit) und Wert besitzen.
-	 *
-	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(final Object obj) {
@@ -208,8 +205,8 @@ public class LogischerWert {
 	 */
 	public void set(final Float z) {
 		if (z != null && (z < 0 || z > 1)) {
-			throw new InterpreterException(
-					Messages.get(InterpreterMessages.BadMembership, z));
+			throw new InterpreterException(Messages.get(
+					InterpreterMessages.BadMembership, z));
 		}
 
 		zugehoerigkeit = z;
@@ -219,8 +216,6 @@ public class LogischerWert {
 	/**
 	 * Wenn der logische Wert ein boolescher Wert ist, wird "wahr" oder "falsch"
 	 * zur&uuml;ckgegeben, sonst der Zahlenwert der Zugeh&ouml;rigkeit.
-	 *
-	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

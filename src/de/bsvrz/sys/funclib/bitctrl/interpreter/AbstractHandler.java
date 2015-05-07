@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -35,7 +35,6 @@ import java.util.List;
  * Implementierung konkreter Handler-Klassen zu erleichtern.
  *
  * @author BitCtrl Systems GmbH, Peuker, Schumann
- * @version $Id: AbstractHandler.java 6835 2008-02-21 13:04:58Z peuker $
  */
 public abstract class AbstractHandler implements Handler {
 
@@ -60,16 +59,12 @@ public abstract class AbstractHandler implements Handler {
 		return ergebnis;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Object perform(final Operator operator, final Object... operanden) {
 		return perform(operator, Arrays.asList(operanden));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public HandlerValidation validiereHandler(final Operator operator,
 			final Object... operanden) {
 		return validiereHandler(operator, Arrays.asList(operanden));

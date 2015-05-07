@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -52,21 +52,19 @@ import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
  * </ul>
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: DAVObjektAnmeldung.java 8054 2008-04-09 15:11:59Z tfelder $
  */
 public class DAVObjektAnmeldung implements Comparable<DAVObjektAnmeldung> {
 
 	/**
 	 * Das (finale) Systemobjekt.
 	 */
-	private SystemObject objekt = null;
+	private final SystemObject objekt;
 
 	/**
 	 * Die Datenbeschreibung unter der das Systemobjekt angemeldet werden soll
 	 * bzw. ist
 	 */
-	private DataDescription datenBeschreibung = null;
+	private final DataDescription datenBeschreibung;
 
 	/**
 	 * Standardkonstruktor.
@@ -131,18 +129,17 @@ public class DAVObjektAnmeldung implements Comparable<DAVObjektAnmeldung> {
 		return objekt;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public int compareTo(final DAVObjektAnmeldung that) {
-		int result = Long.valueOf(getObjekt().getId())
-				.compareTo(that.getObjekt().getId());
+		int result = Long.valueOf(getObjekt().getId()).compareTo(
+				that.getObjekt().getId());
 
 		if (result == 0) {
-			result = Long
-					.valueOf(getDatenBeschreibung().getAttributeGroup().getId())
-					.compareTo(that.getDatenBeschreibung().getAttributeGroup()
-							.getId());
+			result = Long.valueOf(
+					getDatenBeschreibung().getAttributeGroup().getId())
+					.compareTo(
+							that.getDatenBeschreibung().getAttributeGroup()
+									.getId());
 		}
 		if (result == 0) {
 			result = Long.valueOf(getDatenBeschreibung().getAspect().getId())
@@ -153,8 +150,6 @@ public class DAVObjektAnmeldung implements Comparable<DAVObjektAnmeldung> {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
 	 * Diese Methode muss implementiert werden, da nach der Exploration des
 	 * Baums über <code>compareTo(..)</code> (bspw. beim Aufruf von
 	 * <code>contains()</code>) nochmals mit <code>equals(..)</code> explizit
@@ -167,19 +162,15 @@ public class DAVObjektAnmeldung implements Comparable<DAVObjektAnmeldung> {
 		if (obj instanceof DAVObjektAnmeldung) {
 			final DAVObjektAnmeldung that = (DAVObjektAnmeldung) obj;
 			result = getObjekt().equals(that.getObjekt())
-					&& getDatenBeschreibung().getAttributeGroup()
-							.equals(that.getDatenBeschreibung()
-									.getAttributeGroup())
-							&& getDatenBeschreibung().getAspect()
-							.equals(that.getDatenBeschreibung().getAspect());
+					&& getDatenBeschreibung().getAttributeGroup().equals(
+							that.getDatenBeschreibung().getAttributeGroup())
+					&& getDatenBeschreibung().getAspect().equals(
+							that.getDatenBeschreibung().getAspect());
 		}
 
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return objekt + "\n" //$NON-NLS-1$

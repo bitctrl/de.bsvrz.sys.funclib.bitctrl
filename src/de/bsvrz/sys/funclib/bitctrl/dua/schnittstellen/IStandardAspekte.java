@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -35,47 +35,45 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.dua.av.DAVObjektAnmeldung;
 
 /**
- * Über diese Schnittstelle sollen die Standardaspekte für
- * die Publikation innerhalb von bestimmten SWE-Modul-Typ-Kombinationen
- * zur Verfügung gestellt werden. 
- * 
- * @author BitCtrl Systems GmbH, Thierfelder
+ * Über diese Schnittstelle sollen die Standardaspekte für die Publikation
+ * innerhalb von bestimmten SWE-Modul-Typ-Kombinationen zur Verfügung gestellt
+ * werden.
  *
- * @version $Id: IStandardAspekte.java 8054 2008-04-09 15:11:59Z tfelder $
+ * @author BitCtrl Systems GmbH, Thierfelder
  */
 public interface IStandardAspekte {
 
 	/**
-	 * Erfragt den Standardaspekt der Publikation für ein
-	 * bestimmtes empfangenes Originaldatum.
-	 * 
-	 * @param originalDatum das Originaldatum
-	 * @return der Standardpublikationsaspekt des übergebenen
-	 * Datums oder <code>null</code>, wenn kein Aspekt ermittelt
-	 * werden konnte
+	 * Erfragt den Standardaspekt der Publikation für ein bestimmtes empfangenes
+	 * Originaldatum.
+	 *
+	 * @param originalDatum
+	 *            das Originaldatum
+	 * @return der Standardpublikationsaspekt des übergebenen Datums oder
+	 *         <code>null</code>, wenn kein Aspekt ermittelt werden konnte
 	 */
 	Aspect getStandardAspekt(final ResultData originalDatum);
 
 	/**
-	 * Erfragt die Datenanmeldungen, die für die Publikation
-	 * unter den Standardaspekten durchgeführt werden müssen. 
-	 * 
-	 * @param objektFilter die Systemobjekte, die betrachtet werden
-	 * sollen. Wenn dieser Array leer (oder <code>null</code>) ist,
-	 * werden alle definierten Standardanmeldungen zurückgegeben. Sonst
-	 * nur solche, die die in diesem Array enthaltenen Systemobjekte
-	 * beinhalten.
-	 * @return die Objektanmeldungen, die für die Publikation unter
-	 * den Standardaspekten durchgeführt werden müssen (ggf. leere
-	 * Menge)
+	 * Erfragt die Datenanmeldungen, die für die Publikation unter den
+	 * Standardaspekten durchgeführt werden müssen.
+	 *
+	 * @param objektFilter
+	 *            die Systemobjekte, die betrachtet werden sollen. Wenn dieser
+	 *            Array leer (oder <code>null</code>) ist, werden alle
+	 *            definierten Standardanmeldungen zurückgegeben. Sonst nur
+	 *            solche, die die in diesem Array enthaltenen Systemobjekte
+	 *            beinhalten.
+	 * @return die Objektanmeldungen, die für die Publikation unter den
+	 *         Standardaspekten durchgeführt werden müssen (ggf. leere Menge)
 	 */
 	Collection<DAVObjektAnmeldung> getStandardAnmeldungen(
 			final SystemObject[] objektFilter);
 
 	/**
-	 * Erfragt alle Attributgruppen, die innerhalb dieser Standardaspekteversorgung
-	 * beschrieben sind.
-	 * 
+	 * Erfragt alle Attributgruppen, die innerhalb dieser
+	 * Standardaspekteversorgung beschrieben sind.
+	 *
 	 * @return eine ggf. leere Collection mit Attributgruppen
 	 */
 	Collection<AttributeGroup> getAlleAttributGruppen();

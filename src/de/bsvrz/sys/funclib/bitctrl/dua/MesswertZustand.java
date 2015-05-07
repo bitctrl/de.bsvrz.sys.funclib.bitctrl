@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -35,15 +35,13 @@ import de.bsvrz.sys.funclib.bitctrl.daf.AbstractDavZustand;
  * Korrespondiert mit dem Zustandsraum eines Messwertes.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: MesswertZustand.java 8054 2008-04-09 15:11:59Z tfelder $
  */
 public final class MesswertZustand extends AbstractDavZustand {
 
 	/**
 	 * Der Wertebereich dieses DAV-Enumerationstypen.
 	 */
-	private static Map<Integer, MesswertZustand> werteBereich = new HashMap<Integer, MesswertZustand>();
+	private static Map<Integer, MesswertZustand> werteBereich = new HashMap<>();
 
 	/**
 	 * Daten sind nicht ermittelbar (ist KEIN Fehler). Wird gesetzt, wenn der

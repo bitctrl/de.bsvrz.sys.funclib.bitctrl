@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -26,25 +26,23 @@
 
 package de.bsvrz.sys.funclib.bitctrl.daf;
 
-
 /**
  * Schnittstelle für eine Klasse zur Bestimmung der ID für eine Betriebsmeldung.
- * 
+ *
  * @author BitCtrl Systems GmbH, Uwe Peuker
- * @version $Id$
  */
 public interface BetriebsmeldungIdKonverter {
 
 	/**
 	 * bestimt die ID für eine Betriebsmeldung mit den übergebenen Daten.
-	 * 
+	 *
 	 * @param daten
 	 *            die Daten zur Definition der Betriebsmeldung
 	 * @param nachricht
 	 *            die zu versendende Nachricht
 	 * @param arguments
 	 *            die Argumente der Nachricht
-	 * 
+	 *
 	 * @return die ID
 	 */
 	String konvertiere(BetriebsmeldungDaten daten,

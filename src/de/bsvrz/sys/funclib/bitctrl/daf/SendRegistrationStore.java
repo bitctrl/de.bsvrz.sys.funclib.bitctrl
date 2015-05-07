@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -49,15 +49,17 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * Globale Verwaltung aller Sendeanmeldungen, da der Datenverteilungen
  * Sendeanmeldungen für eine Objekt-Datenbeschreibung-Kombination anwendungsweit
  * nur einmalig erlaubt.
+ *
+ * @author BitCtrl Systems GmbH, anonymous
  */
+
 public final class SendRegistrationStore implements ClientSenderInterface {
 
 	/**
 	 * Wrapper - Klasse für eine "Sendeanmeldung", d.h. {@link SystemObject} +
 	 * {@link DataDescription}.
-	 * 
+	 *
 	 * @author BitCtrl Systems GmbH, Hoesel
-	 * @version $Id$
 	 */
 	private class SystemObjectDataDescription {
 		private final SystemObject obj;
@@ -71,7 +73,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
@@ -81,7 +83,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
@@ -104,7 +106,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#hashCode()
 		 */
 		@Override
@@ -127,15 +129,15 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	/**
 	 * die Collection zur Verwaltung der Anmeldeeinträge.
 	 */
-	private static final Map<SystemObjectDataDescription, Integer> storage = new HashMap<SystemObjectDataDescription, Integer>();
+	private static final Map<SystemObjectDataDescription, Integer> STORAGE = new HashMap<>();
 
 	/**
 	 * Menge aller {@link SystemObjectDataDescription}s, für die eine
 	 * Sendeerlaubnis empfangen wurde.
 	 */
-	private static final Set<SystemObjectDataDescription> sendeerlaubnise = new HashSet<SendRegistrationStore.SystemObjectDataDescription>();
+	private static final Set<SystemObjectDataDescription> SENDE_ERLAUBNISSE = new HashSet<>();
 
-	private static final Map<SystemObjectDataDescription, EventListenerList> dataRequestListeners = new HashMap<SendRegistrationStore.SystemObjectDataDescription, EventListenerList>();
+	private static final Map<SystemObjectDataDescription, EventListenerList> DATAREQUEST_LISTENERS = new HashMap<>();
 
 	/**
 	 * Privater Standardkonstruktor.
@@ -147,7 +149,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	/**
 	 * erzeigen einer Instanz der Klasse.<br>
 	 * Da nur eine Instanz existieren kann, wird immer diese geliefert.
-	 * 
+	 *
 	 * @return die Instanz der Klasse
 	 */
 	public static SendRegistrationStore getInstance() {
@@ -161,7 +163,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	/**
 	 * Prüfen, ob Daten für eine Objekt-Datenbeschreibungskombination versendet
 	 * werden können.<br>
-	 * 
+	 *
 	 * @param object
 	 *            das Objekt
 	 * @param desc
@@ -171,7 +173,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	public boolean isRegistered(final SystemObject object,
 			final DataDescription desc) {
 		boolean result = false;
-		if (sendeerlaubnise.contains(new SystemObjectDataDescription(object,
+		if (SENDE_ERLAUBNISSE.contains(new SystemObjectDataDescription(object,
 				desc))) {
 			result = true;
 		}
@@ -183,7 +185,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	 * Objekt-Datenbeschreibungskombination versendet werden können.<br>
 	 * Wird die Sendemöglichkeit innerhalb der vorgegebenen Zeit nicht gemeldet,
 	 * liefert die Funktion eine {@link OperationTimedOutException}.
-	 * 
+	 *
 	 * @param object
 	 *            das Objekt
 	 * @param desc
@@ -196,7 +198,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	 */
 	public static void waitForRegistration(final SystemObject object,
 			final DataDescription desc, final long msec)
-			throws OperationTimedOutException {
+					throws OperationTimedOutException {
 		final long startTime = System.currentTimeMillis();
 		while (!instance.isRegistered(object, desc)) {
 			if (System.currentTimeMillis() - startTime > msec) {
@@ -214,7 +216,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	 * wartet, die {@link #DEFAULT_TIMEOUT}, auf die Bestätigung der
 	 * Sendeanmeldung für die gegebene Kombination aus der Liste der Objekte und
 	 * der Datenverteiler-Datensatzbeschreibung.
-	 * 
+	 *
 	 * @param objects
 	 *            die Liste der Objekte
 	 * @param desc
@@ -250,7 +252,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	 * wartet, die {@link #DEFAULT_TIMEOUT}, auf die Bestätigung der
 	 * Sendeanmeldung für die gegebene Kombination aus dem Objekte und der
 	 * Datenverteiler-Datensatzbeschreibung.
-	 * 
+	 *
 	 * @param object
 	 *            das Objekt
 	 * @param desc
@@ -266,7 +268,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 
 	/**
 	 * F&uuml;gt einen {@link SendRegistrationStoreDataRequestListener} hinzu.
-	 * 
+	 *
 	 * @param object
 	 *            das Objekt
 	 * @param dbs
@@ -277,21 +279,21 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	public static void addSendRegistrationStoreDataRequestListener(
 			final SystemObject object, final DataDescription dbs,
 			final SendRegistrationStoreDataRequestListener listener) {
-		synchronized (dataRequestListeners) {
+		synchronized (DATAREQUEST_LISTENERS) {
 			final SystemObjectDataDescription sods = getInstance().new SystemObjectDataDescription(
 					object, dbs);
 			// Falls notwendig Initialisierung
-			if (!dataRequestListeners.containsKey(sods)) {
-				dataRequestListeners.put(sods, new EventListenerList());
+			if (!DATAREQUEST_LISTENERS.containsKey(sods)) {
+				DATAREQUEST_LISTENERS.put(sods, new EventListenerList());
 			}
-			dataRequestListeners.get(sods).add(
+			DATAREQUEST_LISTENERS.get(sods).add(
 					SendRegistrationStoreDataRequestListener.class, listener);
 		}
 	}
 
 	/**
 	 * Entfernt einen {@link SendRegistrationStoreDataRequestListener} hinzu.
-	 * 
+	 *
 	 * @param object
 	 *            das Objekt
 	 * @param dbs
@@ -302,11 +304,11 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	public static void removeSendRegistrationStoreDataRequestListener(
 			final SystemObject object, final DataDescription dbs,
 			final SendRegistrationStoreDataRequestListener listener) {
-		synchronized (dataRequestListeners) {
+		synchronized (DATAREQUEST_LISTENERS) {
 			final SystemObjectDataDescription sods = getInstance().new SystemObjectDataDescription(
 					object, dbs);
 
-			final EventListenerList listenerListe = dataRequestListeners
+			final EventListenerList listenerListe = DATAREQUEST_LISTENERS
 					.get(sods);
 			if (listenerListe != null) {
 				listenerListe.remove(
@@ -319,7 +321,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	/**
 	 * Rückmeldung der Sendesteuerung für die gegebene Kombination aus Objekt
 	 * und Datenverteiler-Datensatzbeschreibung.
-	 * 
+	 *
 	 * @param obj
 	 *            das Objekt
 	 * @param desc
@@ -331,9 +333,9 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	public void dataRequest(final SystemObject obj, final DataDescription desc,
 			final byte state) {
 		if (state == ClientSenderInterface.START_SENDING) {
-			sendeerlaubnise.add(new SystemObjectDataDescription(obj, desc));
+			SENDE_ERLAUBNISSE.add(new SystemObjectDataDescription(obj, desc));
 		} else {
-			sendeerlaubnise.remove(new SystemObjectDataDescription(obj, desc));
+			SENDE_ERLAUBNISSE.remove(new SystemObjectDataDescription(obj, desc));
 		}
 
 		notifyListener(obj, desc, state);
@@ -341,11 +343,11 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 
 	private void notifyListener(final SystemObject obj,
 			final DataDescription desc, final byte state) {
-		synchronized (dataRequestListeners) {
+		synchronized (DATAREQUEST_LISTENERS) {
 			final SystemObjectDataDescription sods = getInstance().new SystemObjectDataDescription(
 					obj, desc);
 
-			final EventListenerList listenerListe = dataRequestListeners
+			final EventListenerList listenerListe = DATAREQUEST_LISTENERS
 					.get(sods);
 
 			if (listenerListe != null) {
@@ -361,7 +363,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	 * Die Funktion meldet die übergebene
 	 * Objekt-Datensatzbeschreibung-Kombination beim Datenverteiler als Sender
 	 * an.
-	 * 
+	 *
 	 * @param dav
 	 *            die Datenverteilerverbindung
 	 * @param object
@@ -369,29 +371,29 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	 * @param dataDesc
 	 *            die Datensatzbeschreibung
 	 */
-	public synchronized static void subscribeSender(
+	public static synchronized void subscribeSender(
 			final ClientDavInterface dav, final SystemObject object,
 			final DataDescription dataDesc) {
 
 		final SystemObjectDataDescription sysDesc = instance.new SystemObjectDataDescription(
 				object, dataDesc);
-		Integer anzahlAnmeldungen = storage.get(sysDesc);
+		Integer anzahlAnmeldungen = STORAGE.get(sysDesc);
 		if (anzahlAnmeldungen == null || anzahlAnmeldungen == 0) {
-			storage.put(sysDesc, 1);
+			STORAGE.put(sysDesc, 1);
 			try {
 				dav.subscribeSender(instance, object, dataDesc,
 						SenderRole.sender());
 				Debug.getLogger().fine(
 						"Anmeldung als Sender für " + object + "; " + dataDesc
-								+ " erfolgreich.");
+						+ " erfolgreich.");
 			} catch (final OneSubscriptionPerSendData e) {
 				Debug.getLogger()
-						.warning(
-								"Mehr als eine Anmeldung als Sender! Es muß der SendRegistrationStore verwendet werden.",
-								e);
+				.warning(
+						"Mehr als eine Anmeldung als Sender! Es muß der SendRegistrationStore verwendet werden.",
+						e);
 			}
 		} else {
-			storage.put(sysDesc, ++anzahlAnmeldungen);
+			STORAGE.put(sysDesc, ++anzahlAnmeldungen);
 		}
 	}
 
@@ -399,7 +401,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	 * Die Funktion meldet die übergebene Kombination aus dem Array der
 	 * übergebenen Objekte und Datensatzbeschreibung beim Datenverteiler als
 	 * Sender an.
-	 * 
+	 *
 	 * @param dav
 	 *            die Datenverteilerverbindung
 	 * @param object
@@ -412,21 +414,32 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 		subscribeSender(dav, Arrays.asList(object), dataDesc);
 	}
 
-	public synchronized static void unsubscribeSender(
+	/**
+	 * Die Funktion meldet die übergebene Kombination aus dem übergebenen Objekt
+	 * und Datensatzbeschreibung beim Datenverteiler als Sender ab.
+	 *
+	 * @param dav
+	 *            die Datenverteilerverbindung
+	 * @param object
+	 *            das Objekt
+	 * @param desc
+	 *            die Datensatzbeschreibung
+	 */
+	public static synchronized void unsubscribeSender(
 			final ClientDavInterface dav, final SystemObject object,
 			final DataDescription desc) {
 		final SystemObjectDataDescription sysDesc = instance.new SystemObjectDataDescription(
 				object, desc);
-		Integer anzahlAnmeldungen = SendRegistrationStore.storage.get(sysDesc);
+		Integer anzahlAnmeldungen = SendRegistrationStore.STORAGE.get(sysDesc);
 		if (anzahlAnmeldungen != null && anzahlAnmeldungen > 1) {
-			SendRegistrationStore.storage.put(sysDesc, --anzahlAnmeldungen);
+			SendRegistrationStore.STORAGE.put(sysDesc, --anzahlAnmeldungen);
 		} else {
 			dav.unsubscribeSender(instance, object, desc);
 			Debug.getLogger().fine(
 					"Abmeldung als Sender für " + object + "; " + desc
-							+ " erfolgreich.");
-			storage.remove(sysDesc);
-			sendeerlaubnise.remove(sysDesc);
+					+ " erfolgreich.");
+			STORAGE.remove(sysDesc);
+			SENDE_ERLAUBNISSE.remove(sysDesc);
 		}
 	}
 
@@ -434,7 +447,7 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	 * Die Funktion meldet die übergebene Kombination aus der Liste der
 	 * übergebenen Objekte und Datensatzbeschreibung beim Datenverteiler als
 	 * Sender an.
-	 * 
+	 *
 	 * @param dav
 	 *            die Datenverteilerverbindung
 	 * @param object
@@ -442,21 +455,21 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 	 * @param dataDesc
 	 *            die Datensatzbeschreibung
 	 */
-	public synchronized static void subscribeSender(
+	public static synchronized void subscribeSender(
 			final ClientDavInterface dav, final List<SystemObject> object,
 			final DataDescription dataDesc) {
 
-		final List<SystemObject> nochNichtAngemeldet = new ArrayList<SystemObject>();
+		final List<SystemObject> nochNichtAngemeldet = new ArrayList<>();
 		for (final SystemObject obj : object) {
 			final SystemObjectDataDescription sysDesc = instance.new SystemObjectDataDescription(
 					obj, dataDesc);
-			Integer anzahlAnmeldungen = SendRegistrationStore.storage
+			Integer anzahlAnmeldungen = SendRegistrationStore.STORAGE
 					.get(sysDesc);
 			if (anzahlAnmeldungen == null || anzahlAnmeldungen == 0) {
 				nochNichtAngemeldet.add(obj);
-				SendRegistrationStore.storage.put(sysDesc, 1);
+				SendRegistrationStore.STORAGE.put(sysDesc, 1);
 			} else {
-				SendRegistrationStore.storage.put(sysDesc, ++anzahlAnmeldungen);
+				SendRegistrationStore.STORAGE.put(sysDesc, ++anzahlAnmeldungen);
 			}
 
 		}
@@ -466,33 +479,19 @@ public final class SendRegistrationStore implements ClientSenderInterface {
 						SenderRole.sender());
 				Debug.getLogger().fine(
 						"Anmeldung als Sender für " + nochNichtAngemeldet
-								+ "; " + dataDesc + " erfolgreich.");
+						+ "; " + dataDesc + " erfolgreich.");
 			} catch (final OneSubscriptionPerSendData ex) {
 				Debug.getLogger()
-						.warning(
-								"Mehr als eine Anmeldung als Sender! Es muß der SendRegistrationStore verwendet werden.",
-								ex);
+				.warning(
+						"Mehr als eine Anmeldung als Sender! Es muß der SendRegistrationStore verwendet werden.",
+						ex);
 			}
 		}
 	}
 
-	/**
-	 * die Funktion ermittelt, ob für die gegebene Kombination ais Objekt und
-	 * Datensatzbeschreibung eine Sendesteuerung unterstützt wird.<br>
-	 * Da die Klasse zur Verwaltung von Datenverteiler-"Sendern" verwendet wird,
-	 * wird immer true geliefert.
-	 * 
-	 * @param object
-	 *            das Objekt
-	 * @param dataDescription
-	 *            die Datensatzbeschreibung
-	 * @return die Sendesteuerung wird unterstützt ?
-	 * @see stauma.dav.clientside.ClientSenderInterface#isRequestSupported(stauma.dav.configuration.interfaces.SystemObject,
-	 *      stauma.dav.clientside.DataDescription)
-	 */
+	@Override
 	public boolean isRequestSupported(final SystemObject object,
 			final DataDescription dataDescription) {
 		return true;
 	}
-
 }

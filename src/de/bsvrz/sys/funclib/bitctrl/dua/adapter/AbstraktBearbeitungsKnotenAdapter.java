@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -38,12 +38,9 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
  * Adapterklasse für einen Bearbeitungsknoten.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: AbstraktBearbeitungsKnotenAdapter.java 8054 2008-04-09
- *          15:11:59Z tfelder $
  */
-public abstract class AbstraktBearbeitungsKnotenAdapter
-		implements IBearbeitungsKnoten {
+public abstract class AbstraktBearbeitungsKnotenAdapter implements
+		IBearbeitungsKnoten {
 
 	/**
 	 * nächster Bearbeitungsknoten.
@@ -70,22 +67,24 @@ public abstract class AbstraktBearbeitungsKnotenAdapter
 	 */
 	protected DAVSendeAnmeldungsVerwaltung publikationsAnmeldungen;
 
+	@Override
 	public void setPublikation(final boolean publizieren1) {
 		publizieren = publizieren1;
 	}
 
-	public void setNaechstenBearbeitungsKnoten(
-			final IBearbeitungsKnoten knoten1) {
+	@Override
+	public void setNaechstenBearbeitungsKnoten(final IBearbeitungsKnoten knoten1) {
 		knoten = knoten1;
 	}
 
+	@Override
 	public void initialisiere(final IVerwaltung dieVerwaltung)
 			throws DUAInitialisierungsException {
 		if (dieVerwaltung == null || dieVerwaltung.getVerbindung() == null) {
 			throw new DUAInitialisierungsException(
 					"Es konnte keine Verbindung" + //$NON-NLS-1$
 							" zum Verwaltungsmodul (bzw. zum Datenverteiler" + //$NON-NLS-1$
-							") hergestellt werden"); //$NON-NLS-1$
+					") hergestellt werden"); //$NON-NLS-1$
 		}
 		verwaltung = dieVerwaltung;
 		publikationsAnmeldungen = new DAVSendeAnmeldungsVerwaltung(

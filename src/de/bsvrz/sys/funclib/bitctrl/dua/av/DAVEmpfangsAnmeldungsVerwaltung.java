@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -37,33 +37,31 @@ import de.bsvrz.dav.daf.main.ReceiverRole;
 
 /**
  * Verwaltungsklasse für Datenanmeldungen zum Empfangen von Daten. Über die
- * Methode <code>modifiziereDatenAnmeldung(..)</code> lassen sich Daten
- * anmelden bzw. abmelden.
- * 
+ * Methode <code>modifiziereDatenAnmeldung(..)</code> lassen sich Daten anmelden
+ * bzw. abmelden.
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id: DAVEmpfangsAnmeldungsVerwaltung.java 8054 2008-04-09 15:11:59Z tfelder $
  */
 public class DAVEmpfangsAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung {
 
 	/**
 	 * Rolle des Empfängers.
 	 */
-	private ReceiverRole rolle = null;
+	private final ReceiverRole rolle;
 
 	/**
 	 * Optionen.
 	 */
-	private ReceiveOptions optionen = null;
+	private final ReceiveOptions optionen;
 
 	/**
 	 * der Empfänger der Daten.
 	 */
-	private ClientReceiverInterface empfaenger = null;
+	private final ClientReceiverInterface empfaenger;
 
 	/**
 	 * Standardkonstruktor.
-	 * 
+	 *
 	 * @param dav
 	 *            Datenverteilerverbindung
 	 * @param rolle
@@ -83,9 +81,6 @@ public class DAVEmpfangsAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung {
 		this.empfaenger = empfaenger;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected String abmelden(final Collection<DAVObjektAnmeldung> abmeldungen) {
 		String info = Constants.EMPTY_STRING;
@@ -95,23 +90,20 @@ public class DAVEmpfangsAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung {
 				info = "\n"; //$NON-NLS-1$
 			}
 		}
-		for (DAVObjektAnmeldung abmeldung : abmeldungen) {
-			this.dav.unsubscribeReceiver(this.empfaenger,
-					abmeldung.getObjekt(), abmeldung.getDatenBeschreibung());
-			this.aktuelleObjektAnmeldungen.remove(abmeldung);
+		for (final DAVObjektAnmeldung abmeldung : abmeldungen) {
+			dav.unsubscribeReceiver(empfaenger, abmeldung.getObjekt(),
+					abmeldung.getDatenBeschreibung());
+			aktuelleObjektAnmeldungen.remove(abmeldung);
 			if (DEBUG) {
 				info += abmeldung;
 			}
 		}
 		if (DEBUG) {
-			info += "von [" + empfaenger + "]\n"; //$NON-NLS-1$//$NON-NLS-2$	
+			info += "von [" + empfaenger + "]\n"; //$NON-NLS-1$//$NON-NLS-2$
 		}
 		return info;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected String anmelden(final Collection<DAVObjektAnmeldung> anmeldungen) {
 		String info = Constants.EMPTY_STRING;
@@ -121,27 +113,22 @@ public class DAVEmpfangsAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung {
 				info = "\n"; //$NON-NLS-1$
 			}
 		}
-		for (DAVObjektAnmeldung anmeldung : anmeldungen) {
-			this.dav
-					.subscribeReceiver(this.empfaenger, anmeldung.getObjekt(),
-							anmeldung.getDatenBeschreibung(), this.optionen,
-							this.rolle);
-			this.aktuelleObjektAnmeldungen.put(anmeldung, null);
+		for (final DAVObjektAnmeldung anmeldung : anmeldungen) {
+			dav.subscribeReceiver(empfaenger, anmeldung.getObjekt(),
+					anmeldung.getDatenBeschreibung(), optionen, rolle);
+			aktuelleObjektAnmeldungen.put(anmeldung, null);
 			if (DEBUG) {
 				info += anmeldung;
 			}
 		}
 		if (DEBUG) {
-			info += "fuer [" + empfaenger + "]\n"; //$NON-NLS-1$//$NON-NLS-2$	
+			info += "fuer [" + empfaenger + "]\n"; //$NON-NLS-1$//$NON-NLS-2$
 		}
 		return info;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected String getInfo() {
-		return this.rolle + ", " + this.optionen; //$NON-NLS-1$
+		return rolle + ", " + optionen; //$NON-NLS-1$
 	}
 }

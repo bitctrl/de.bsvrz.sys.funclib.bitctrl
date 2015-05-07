@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -47,9 +47,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * abmelden.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: DAVSendeAnmeldungsVerwaltung.java 8742 2008-05-07 17:01:36Z
- *          tfelder $
  */
 public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 		implements ClientSenderInterface {
@@ -57,7 +54,7 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 	/**
 	 * Rolle des Senders.
 	 */
-	private SenderRole rolle = null;
+	private final SenderRole rolle;
 
 	/**
 	 * Standardkonstruktor.
@@ -91,18 +88,17 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 				status = aktuelleObjektAnmeldungen.get(anmeldung);
 			}
 
-			if (status == null || status
-					.getStatus() == ClientSenderInterface.START_SENDING) {
+			if (status == null
+					|| status.getStatus() == ClientSenderInterface.START_SENDING) {
 				boolean imMomentKeineDaten;
-				final boolean alsNaechstestKeineDaten = resultat
-						.getData() == null;
+				final boolean alsNaechstestKeineDaten = resultat.getData() == null;
 
 				if (status != null) {
 					imMomentKeineDaten = status.isImMomentKeineDaten();
-					if (status
-							.isImMomentKeineDaten() != alsNaechstestKeineDaten) {
+					if (status.isImMomentKeineDaten() != alsNaechstestKeineDaten) {
 						synchronized (aktuelleObjektAnmeldungen) {
-							aktuelleObjektAnmeldungen.put(anmeldung,
+							aktuelleObjektAnmeldungen
+							.put(anmeldung,
 									new SendeStatus(
 											ClientSenderInterface.START_SENDING,
 											alsNaechstestKeineDaten));
@@ -132,12 +128,8 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected String abmelden(
-			final Collection<DAVObjektAnmeldung> abmeldungen) {
+	protected String abmelden(final Collection<DAVObjektAnmeldung> abmeldungen) {
 		String info = Constants.EMPTY_STRING;
 		if (DEBUG) {
 			info = "keine\n"; //$NON-NLS-1$
@@ -158,12 +150,8 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 		return info;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected String anmelden(
-			final Collection<DAVObjektAnmeldung> anmeldungen) {
+	protected String anmelden(final Collection<DAVObjektAnmeldung> anmeldungen) {
 		String info = Constants.EMPTY_STRING;
 		if (DEBUG) {
 			info = "keine\n"; //$NON-NLS-1$
@@ -182,8 +170,7 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 					}
 				}
 			} catch (final OneSubscriptionPerSendData e) {
-				Debug.getLogger()
-				.error("Probleme beim" + //$NON-NLS-1$
+				Debug.getLogger().error("Probleme beim" + //$NON-NLS-1$
 						" Anmelden als Sender/Quelle:\n" + anmeldung, //$NON-NLS-1$
 						e);
 				throw new RuntimeException(e);
@@ -192,9 +179,7 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 		return info;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void dataRequest(final SystemObject object,
 			final DataDescription dataDescription, final byte state) {
 		synchronized (aktuelleObjektAnmeldungen) {
@@ -203,18 +188,16 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 			final SendeStatus status = aktuelleObjektAnmeldungen.get(anmeldung);
 
 			if (status == null || status.isImMomentKeineDaten()) {
-				aktuelleObjektAnmeldungen.put(anmeldung,
-						new SendeStatus(state, true));
+				aktuelleObjektAnmeldungen.put(anmeldung, new SendeStatus(state,
+						true));
 			} else {
-				aktuelleObjektAnmeldungen.put(anmeldung,
-						new SendeStatus(state, false));
+				aktuelleObjektAnmeldungen.put(anmeldung, new SendeStatus(state,
+						false));
 			}
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public boolean isRequestSupported(final SystemObject object,
 			final DataDescription dataDescription) {
 		boolean resultat = false;
@@ -228,9 +211,6 @@ public class DAVSendeAnmeldungsVerwaltung extends DAVAnmeldungsVerwaltung
 		return resultat;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected String getInfo() {
 		return rolle.toString();

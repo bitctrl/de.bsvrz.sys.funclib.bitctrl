@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -49,9 +49,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * <code>IDatenFlussSteuerungsListener</code> weiter.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: DatenFlussSteuerungsVersorger.java 23685 2010-06-09 15:42:02Z
- *          uhlmann $
  */
 public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 
@@ -63,7 +60,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	/**
 	 * die statische Instanz dieser Klasse.
 	 */
-	protected static DatenFlussSteuerungsVersorger instanz = null;
+	protected static DatenFlussSteuerungsVersorger instanz;
 
 	/**
 	 * Erfragt die statische Instanz dieser Klasse. Diese liest die Parameter
@@ -133,17 +130,17 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	/**
 	 * Menge aller Beobachter dieser Instanz.
 	 */
-	private final Collection<IDatenFlussSteuerungsListener> listenerListe = new HashSet<IDatenFlussSteuerungsListener>();
+	private final Collection<IDatenFlussSteuerungsListener> listenerListe = new HashSet<>();
 
 	/**
 	 * die aktuellen Parameter der Datenflusssteuerung.
 	 */
-	private DatenFlussSteuerung letzteDfs = null;
+	private DatenFlussSteuerung letzteDfs;
 
 	/**
 	 * Verbindung zum Verwaltungsmodul.
 	 */
-	private IVerwaltung verwaltung = null;
+	private final IVerwaltung verwaltung;
 
 	/**
 	 * Standardkonstruktor.
@@ -161,16 +158,16 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	protected DatenFlussSteuerungsVersorger(final IVerwaltung verwaltung,
 			final SystemObject dfsObjekt) throws DUAInitialisierungsException {
 		if (verwaltung == null) {
-			throw new DUAInitialisierungsException(
-					STD_FEHLER + "\nKeine Verbindung zum Datenverteiler"); //$NON-NLS-1$
+			throw new DUAInitialisierungsException(STD_FEHLER
+					+ "\nKeine Verbindung zum Datenverteiler"); //$NON-NLS-1$
 		}
 		this.verwaltung = verwaltung;
 
 		if (dfsObjekt != null) {
-			final DataDescription dd = new DataDescription(
-					verwaltung.getVerbindung().getDataModel()
-					.getAttributeGroup(DFSKonstanten.ATG),
-					verwaltung.getVerbindung().getDataModel()
+			final DataDescription dd = new DataDescription(verwaltung
+					.getVerbindung().getDataModel()
+					.getAttributeGroup(DFSKonstanten.ATG), verwaltung
+					.getVerbindung().getDataModel()
 					.getAspect(DaVKonstanten.ASP_PARAMETER_SOLL));
 
 			verwaltung.getVerbindung().subscribeReceiver(this, dfsObjekt, dd,
@@ -179,8 +176,8 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 			Debug.getLogger().config("Fuer die Datenflusssteuerung" + //$NON-NLS-1$
 					" wird das Objekt " + dfsObjekt + " verwendet."); //$NON-NLS-1$//$NON-NLS-2$
 		} else {
-			Debug.getLogger()
-					.info("Der Datenfluss ist nicht zur Laufzeit steuerbar.\n" + //$NON-NLS-1$
+			Debug.getLogger().info(
+					"Der Datenfluss ist nicht zur Laufzeit steuerbar.\n" + //$NON-NLS-1$
 							"Es wurde kein Objekt vom Typ "//$NON-NLS-1$
 							+ DFSKonstanten.TYP + " identifiziert."); //$NON-NLS-1$
 		}
@@ -194,8 +191,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 	 * @param listener
 	 *            der neue Beobachter
 	 */
-	public final void addListener(
-			final IDatenFlussSteuerungsListener listener) {
+	public final void addListener(final IDatenFlussSteuerungsListener listener) {
 		synchronized (listenerListe) {
 			listenerListe.add(listener);
 			if (letzteDfs != null) {
@@ -219,9 +215,7 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void update(final ResultData[] resultate) {
 		letzteDfs = new DatenFlussSteuerung();
 
@@ -236,32 +230,27 @@ public class DatenFlussSteuerungsVersorger implements ClientReceiverInterface {
 					&& !resultat.isNoDataAvailable() && resultat.hasData()
 					&& resultat.getData() != null) {
 
-				final Data.Array ps = resultat.getData()
-						.getArray(DFSKonstanten.ATL_PARA_SATZ);
+				final Data.Array ps = resultat.getData().getArray(
+						DFSKonstanten.ATL_PARA_SATZ);
 
 				for (int i = 0; i < ps.getLength(); i++) {
 					final Data satz = ps.getItem(i);
 					if (satz != null) {
 						final ParameterSatz dfParameterSatz = new ParameterSatz();
 
-						final SWETyp swe = SWETyp
-								.getZustand(
-										(int) satz
-										.getUnscaledValue(
-												DFSKonstanten.ATT_SWE)
-												.getState().getValue());
+						final SWETyp swe = SWETyp.getZustand((int) satz
+								.getUnscaledValue(DFSKonstanten.ATT_SWE)
+								.getState().getValue());
 						dfParameterSatz.setSwe(swe);
 
 						/**
 						 * Iteriere über alle Publikationszuordnungen innerhalb
 						 * dieses Parametersatzes
 						 */
-						for (int j = 0; j < satz
-								.getArray(DFSKonstanten.ATT_PUB_ZUORDNUNG)
-								.getLength(); j++) {
-							final Data paraZuordnung = satz
-									.getArray(DFSKonstanten.ATT_PUB_ZUORDNUNG)
-									.getItem(j);
+						for (int j = 0; j < satz.getArray(
+								DFSKonstanten.ATT_PUB_ZUORDNUNG).getLength(); j++) {
+							final Data paraZuordnung = satz.getArray(
+									DFSKonstanten.ATT_PUB_ZUORDNUNG).getItem(j);
 							PublikationsZuordung dfParaZuordnung;
 							dfParaZuordnung = new PublikationsZuordung(
 									paraZuordnung, verwaltung);

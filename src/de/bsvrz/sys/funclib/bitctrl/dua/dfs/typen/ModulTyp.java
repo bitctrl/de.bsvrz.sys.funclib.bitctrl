@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -36,15 +36,13 @@ import de.bsvrz.sys.funclib.bitctrl.daf.AbstractDavZustand;
  * <code>att.modulTyp</code> beschriebenen Werte zur Verfügung gestellt.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: ModulTyp.java 8054 2008-04-09 15:11:59Z tfelder $
  */
 public final class ModulTyp extends AbstractDavZustand {
 
 	/**
 	 * Der Wertebereich dieses DAV-Enumerationstypen.
 	 */
-	private static Map<Integer, ModulTyp> werteBereich = new HashMap<Integer, ModulTyp>();
+	private static Map<Integer, ModulTyp> werteBereich = new HashMap<>();
 
 	/**
 	 * Wert <code>PlPrüfungFormal</code>.

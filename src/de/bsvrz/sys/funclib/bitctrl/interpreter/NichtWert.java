@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -33,9 +33,8 @@ import com.bitctrl.i18n.Messages;
  * Uda annehmen kann. Ein Nichtwert hat keinen Typ. Er kann jeder Variable
  * zugewiesen werden bzw. jeder Variable, die den Nichtwert hat kann ein
  * beliebiges Datenobjekt zugewiesen werden.
- * 
+ *
  * @author BitCtrl Systems GmbH, Uwe Peuker
- * @version $Id: NichtWert.java 6835 2008-02-21 13:04:58Z peuker $
  */
 public final class NichtWert {
 
@@ -52,13 +51,6 @@ public final class NichtWert {
 		super();
 	}
 
-	/**
-	 * liefert die Repräsentation des Nichtwertes als Zeichenkette.
-	 * 
-	 * {@inheritDoc}.
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return (Messages.get(InterpreterMessages.Undefined));

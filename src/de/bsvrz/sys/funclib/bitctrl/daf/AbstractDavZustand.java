@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -29,11 +29,10 @@ package de.bsvrz.sys.funclib.bitctrl.daf;
 import java.io.Serializable;
 
 /**
- * @author peuker
- *
+ * @author BitCtrl Systems GmbH, Uwe Peuker
  */
-public abstract class AbstractDavZustand
-		implements Serializable, Comparable<AbstractDavZustand> {
+public abstract class AbstractDavZustand implements Serializable,
+		Comparable<AbstractDavZustand> {
 
 	/**
 	 *
@@ -72,9 +71,6 @@ public abstract class AbstractDavZustand
 		return name;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(final Object obj) {
 		boolean result = false;
@@ -87,11 +83,7 @@ public abstract class AbstractDavZustand
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 *
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
+	@Override
 	public int compareTo(final AbstractDavZustand o) {
 		return ((Integer) code).compareTo(o.getCode());
 	}

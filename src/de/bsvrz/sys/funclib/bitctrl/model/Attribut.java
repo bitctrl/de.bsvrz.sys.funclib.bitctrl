@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -34,9 +34,8 @@ import de.bsvrz.dav.daf.main.config.AttributeListDefinition;
 
 /**
  * Kapselt ein Attribut und erweitert es um nützliche Funktionen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: Attribut.java 14414 2008-12-02 13:27:00Z Schumann $
  */
 public class Attribut {
 
@@ -48,7 +47,7 @@ public class Attribut {
 
 	/**
 	 * Initialisiert das Objekt.
-	 * 
+	 *
 	 * @param elter
 	 *            das übergeordnete Attribut.
 	 * @param attribut
@@ -73,7 +72,7 @@ public class Attribut {
 
 	/**
 	 * Gibt den Namen des Attributs zurück.
-	 * 
+	 *
 	 * @return der Attributname.
 	 */
 	public String getName() {
@@ -82,7 +81,7 @@ public class Attribut {
 
 	/**
 	 * Gibt das gekapselte Datenverteilerattribut zurück.
-	 * 
+	 *
 	 * @return das gekapselte Datenverteilerattribut.
 	 */
 	public Attribute getAttribut() {
@@ -91,7 +90,7 @@ public class Attribut {
 
 	/**
 	 * Gibt das übergeordnete Attribut zurück.
-	 * 
+	 *
 	 * @return das übergeordnete Attribut.
 	 */
 	public Attribut getElter() {
@@ -100,12 +99,12 @@ public class Attribut {
 
 	/**
 	 * Gibt die Liste der Subattribute zurück.
-	 * 
+	 *
 	 * @return die Subattribute.
 	 */
 	public List<Attribut> getKinder() {
 		if (kinder == null) {
-			kinder = new ArrayList<Attribut>();
+			kinder = new ArrayList<>();
 			for (final Attribute att : ((AttributeListDefinition) attribut
 					.getAttributeType()).getAttributes()) {
 				kinder.add(new Attribut(this, att));
@@ -117,7 +116,7 @@ public class Attribut {
 
 	/**
 	 * Gibt den Pfad des Attributs zurück.
-	 * 
+	 *
 	 * @return der Attributpfad.
 	 */
 	public String getPfad() {
@@ -127,7 +126,7 @@ public class Attribut {
 	/**
 	 * Gibt den Pfad ohne eventuellen Index zurück. Nützlich, um bei
 	 * Feldelementen den Pfad des Felds zu bestimmen.
-	 * 
+	 *
 	 * @return der Pfad ohne Feldindex.
 	 */
 	public String getPfadOhneIndex() {
@@ -136,7 +135,7 @@ public class Attribut {
 
 	/**
 	 * Testet, ob das Attribut eine Attributliste darstellt.
-	 * 
+	 *
 	 * @return {@code true} wenn das Attribut eine Attributliste ist.
 	 */
 	public boolean isAttributliste() {
@@ -145,7 +144,7 @@ public class Attribut {
 
 	/**
 	 * Testet, ob das Attribut ein Feld ist.
-	 * 
+	 *
 	 * @return {@code true}, wenn das Attribut ein Feld ist.
 	 */
 	public boolean isFeld() {
@@ -155,7 +154,7 @@ public class Attribut {
 	/**
 	 * Testet ob dies ein einfaches Attribut ist, also weder Attributliste noch
 	 * Feld.
-	 * 
+	 *
 	 * @return {@code true}, wenn dies ein einfaches Attribut ist.
 	 */
 	public boolean isAttribut() {
@@ -164,7 +163,7 @@ public class Attribut {
 
 	/**
 	 * Gibt den Feldindex des Attributs zurück.
-	 * 
+	 *
 	 * @return der Feldindex oder {@code -1}, wenn das Attribut kein Feld ist.
 	 */
 	public int getIndex() {
@@ -173,7 +172,7 @@ public class Attribut {
 
 	/**
 	 * Legt den Feldindex des Attributs fest.
-	 * 
+	 *
 	 * @param index
 	 *            der Feldindex oder {@code -1}, wenn das Attribut kein Feld
 	 *            ist.
@@ -197,7 +196,7 @@ public class Attribut {
 			final Attribut anderes = (Attribut) obj;
 			final String pfad1 = pfad.replaceAll("\\\\.?", "");
 			final String pfad2 = anderes.pfad.replaceAll("\\\\.?", "");
-	
+
 			return pfad1.equals(pfad2);
 		}
 		return false;
@@ -211,7 +210,7 @@ public class Attribut {
 	@Override
 	public Attribut clone() {
 		final Attribut klon = new Attribut(elter, attribut);
-	
+
 		klon.index = index;
 		return klon;
 	}

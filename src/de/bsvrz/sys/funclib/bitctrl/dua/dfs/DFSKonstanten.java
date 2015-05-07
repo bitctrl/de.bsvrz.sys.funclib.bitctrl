@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -30,10 +30,8 @@ import de.bsvrz.sys.funclib.bitctrl.dua.dfs.schnittstellen.IDatenFlussSteuerungF
 
 /**
  * Konstanten, die für die Datenflusssteuerung benötigt werden.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id: DFSKonstanten.java 8054 2008-04-09 15:11:59Z tfelder $
  */
 public final class DFSKonstanten {
 
@@ -91,13 +89,12 @@ public final class DFSKonstanten {
 	 * Standarddatenflusssteuerung.
 	 */
 	public static final IDatenFlussSteuerungFuerModul STANDARD = new DatenFlussSteuerungFuerModul();
-	
-	
+
 	/**
 	 * Standardkonstruktor.
 	 */
 	private DFSKonstanten() {
-		
+
 	}
 
 }

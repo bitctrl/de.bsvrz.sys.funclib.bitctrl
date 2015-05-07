@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -41,7 +41,6 @@ import de.bsvrz.sys.funclib.bitctrl.interpreter.Operator;
  * Basisoperatoren, alle anderen lassen auf diese zur&uuml;ckf&uuml;hren.
  *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id:LogikHandler.java 559 2007-04-02 12:25:14Z peuker $
  */
 public class LogikHandler extends AbstractHandler {
 
@@ -62,18 +61,13 @@ public class LogikHandler extends AbstractHandler {
 	 */
 	private static Operator[] operatoren = { UND, ODER, NICHT, IMPLIKATION };
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Operator[] getHandledOperators() {
 		return operatoren;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object perform(final Operator operator,
-			final List<Object> operanden) {
+	@Override
+	public Object perform(final Operator operator, final List<Object> operanden) {
 		if (operator == null
 				|| !validiereHandler(operator, operanden).isValid()) {
 			throw new InterpreterException(
@@ -95,9 +89,7 @@ public class LogikHandler extends AbstractHandler {
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public HandlerValidation validiereHandler(final Operator operator,
 			final List<? extends Object> operanden) {
 		assert operanden != null : "Liste der Operanden darf nicht null sein.";
@@ -209,27 +201,28 @@ public class LogikHandler extends AbstractHandler {
 		for (final Object obj : operanden) {
 			assert obj instanceof LogischerWert : "Operanden müssen logische Werte sein.";
 
-			LogischerWert operand;
+		LogischerWert operand;
 
-			operand = (LogischerWert) obj;
-			if (!operand.isBoolWert()) {
-				boolWert = false;
-				if (operand.getZugehoerigkeit() == null) {
-					// Einer der Operanden ist null => Ergebnis = null
-					return new LogischerWert(null);
-				}
+		operand = (LogischerWert) obj;
+		if (!operand.isBoolWert()) {
+			boolWert = false;
+			if (operand.getZugehoerigkeit() == null) {
+				// Einer der Operanden ist null => Ergebnis = null
+				return new LogischerWert(null);
 			}
-			if (wert == null) {
-				// Erster Operand
+		}
+		if (wert == null) {
+			// Erster Operand
+			wert = operand.getZugehoerigkeit();
+		} else {
+			if (operand.getZugehoerigkeit() > wert) {
 				wert = operand.getZugehoerigkeit();
-			} else {
-				if (operand.getZugehoerigkeit() > wert) {
-					wert = operand.getZugehoerigkeit();
-				}
 			}
+		}
 		}
 
 		if (boolWert) {
+			assert (wert != null);
 			assert wert == 1 || wert == 0;
 
 			if (wert == 1) {
@@ -260,29 +253,29 @@ public class LogikHandler extends AbstractHandler {
 		for (final Object obj : operanden) {
 			assert obj instanceof LogischerWert : "Operanden müssen logische Werte sein.";
 
-			LogischerWert operand;
+		LogischerWert operand;
 
-			operand = (LogischerWert) obj;
-			if (!operand.isBoolWert()) {
-				boolWert = false;
-				if (operand.getZugehoerigkeit() == null) {
-					// Einer der Operanden ist null => Ergebnis = null
-					return new LogischerWert(null);
-				}
+		operand = (LogischerWert) obj;
+		if (!operand.isBoolWert()) {
+			boolWert = false;
+			if (operand.getZugehoerigkeit() == null) {
+				// Einer der Operanden ist null => Ergebnis = null
+				return new LogischerWert(null);
 			}
-			if (wert == null) {
-				// Erster Operand
+		}
+		if (wert == null) {
+			// Erster Operand
+			wert = operand.getZugehoerigkeit();
+		} else {
+			if (operand.getZugehoerigkeit() == null) {
+				wert = null;
+				break;
+			}
+
+			if (operand.getZugehoerigkeit() < wert) {
 				wert = operand.getZugehoerigkeit();
-			} else {
-				if (operand.getZugehoerigkeit() == null) {
-					wert = null;
-					break;
-				}
-
-				if (operand.getZugehoerigkeit() < wert) {
-					wert = operand.getZugehoerigkeit();
-				}
 			}
+		}
 		}
 
 		if (boolWert) {

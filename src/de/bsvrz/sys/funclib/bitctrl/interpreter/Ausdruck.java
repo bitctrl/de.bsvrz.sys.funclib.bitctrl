@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -34,7 +34,6 @@ import java.util.Set;
  * Basisklasse aller Symbole des Interpeters.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker, Schumann
- * @version $Id: Ausdruck.java 6835 2008-02-21 13:04:58Z peuker $
  */
 public interface Ausdruck {
 
@@ -43,7 +42,6 @@ public interface Ausdruck {
 	 * unterzubringen.
 	 *
 	 * @author BitCtrl Systems GmbH, Schumann
-	 * @version $Id: Ausdruck.java 6835 2008-02-21 13:04:58Z peuker $
 	 */
 	final class Info {
 
@@ -58,7 +56,7 @@ public interface Ausdruck {
 		public static Set<String> getVariablen(final Ausdruck ausdruck) {
 			Set<String> variablen;
 
-			variablen = new HashSet<String>();
+			variablen = new HashSet<>();
 			if (ausdruck instanceof Variable) {
 				// Wir sind an einem Termsymbol angekommen, was Variable ist
 				variablen.add(((Variable) ausdruck).getName());

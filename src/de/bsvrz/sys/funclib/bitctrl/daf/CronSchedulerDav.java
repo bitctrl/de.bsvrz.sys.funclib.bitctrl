@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -33,9 +33,8 @@ import de.bsvrz.dav.daf.main.ClientDavInterface;
 /**
  * Erweitert den allgemeinen Scheduler für die Zusammenarbeit mit dem
  * Datenverteiler.
- * 
+ *
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
  */
 public class CronSchedulerDav extends CronScheduler {
 
@@ -44,7 +43,7 @@ public class CronSchedulerDav extends CronScheduler {
 
 	/**
 	 * Erzeugt einen Scheduler, der kein Daemon ist.
-	 * 
+	 *
 	 * @param verbindung
 	 *            die zu verwendende Datenverteilerverbindung.
 	 */
@@ -54,7 +53,7 @@ public class CronSchedulerDav extends CronScheduler {
 
 	/**
 	 * Erzeugt einen Scheduler.
-	 * 
+	 *
 	 * @param verbindung
 	 *            die zu verwendende Datenverteilerverbindung.
 	 * @param daemon
@@ -70,24 +69,13 @@ public class CronSchedulerDav extends CronScheduler {
 		this.verbindung = verbindung;
 	}
 
-	/**
-	 * Verwendet {@link ClientDavInterface#getTime()}.
-	 * 
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getTime() {
 		return verbindung.getTime();
 	}
 
-	/**
-	 * Verwendet {@link ClientDavInterface#sleep(long)}.
-	 * 
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void sleep(final long millis) throws InterruptedException {
 		verbindung.sleep(millis);
 	}
-
 }

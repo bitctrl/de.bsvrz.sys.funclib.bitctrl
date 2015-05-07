@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -53,15 +53,13 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
  * <code>keine Daten</code> versendet werden
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: PublikationsModul.java 23685 2010-06-09 15:42:02Z uhlmann $
  */
 public class PublikationsModul extends AbstraktBearbeitungsKnotenAdapter {
 
 	/**
 	 * der Typ des Moduls, für den dieser Bearbeitungsknoten publizieren soll.
 	 */
-	private ModulTyp modulTyp = null;
+	private final ModulTyp modulTyp;
 
 	/**
 	 * Parameter zur Datenflusssteuerung für diese SWE und dieses Modul.
@@ -71,7 +69,7 @@ public class PublikationsModul extends AbstraktBearbeitungsKnotenAdapter {
 	/**
 	 * Zustand <code>keine Daten</code> jedes Objektes.
 	 */
-	private final Map<SystemObject, Boolean> keineDaten = new HashMap<SystemObject, Boolean>();
+	private final Map<SystemObject, Boolean> keineDaten = new HashMap<>();
 
 	/**
 	 * Standardkonstruktor.
@@ -91,9 +89,6 @@ public class PublikationsModul extends AbstraktBearbeitungsKnotenAdapter {
 		this.modulTyp = modulTyp;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void initialisiere(final IVerwaltung dieVerwaltung)
 			throws DUAInitialisierungsException {
@@ -105,9 +100,7 @@ public class PublikationsModul extends AbstraktBearbeitungsKnotenAdapter {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void aktualisiereDaten(final ResultData[] resultate) {
 		if (resultate != null) {
 			for (final ResultData resultat : resultate) {
@@ -119,8 +112,8 @@ public class PublikationsModul extends AbstraktBearbeitungsKnotenAdapter {
 								resultat, resultat.getData(),
 								standardAspekte.getStandardAspekt(resultat));
 					} else {
-						publikationsDatum = new ResultData(resultat.getObject(),
-								new DataDescription(
+						publikationsDatum = new ResultData(
+								resultat.getObject(), new DataDescription(
 										resultat.getDataDescription()
 										.getAttributeGroup(),
 										standardAspekte
@@ -154,22 +147,18 @@ public class PublikationsModul extends AbstraktBearbeitungsKnotenAdapter {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public ModulTyp getModulTyp() {
 		return modulTyp;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void aktualisierePublikation(final IDatenFlussSteuerung iDfs) {
 		if (modulTyp != null) {
 			iDfsMod = iDfs.getDFSFuerModul(verwaltung.getSWETyp(),
 					getModulTyp());
 
-			Collection<DAVObjektAnmeldung> anmeldungenStd = new ArrayList<DAVObjektAnmeldung>();
+			Collection<DAVObjektAnmeldung> anmeldungenStd = new ArrayList<>();
 
 			if (standardAspekte != null) {
 				anmeldungenStd = standardAspekte

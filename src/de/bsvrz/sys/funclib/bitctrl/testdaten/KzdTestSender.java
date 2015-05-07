@@ -67,8 +67,8 @@ import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 /**
  * Test-Applikation zur Erzeugung einigermaßen realistischer Kurzzeitdaten.
  */
-public final class KzdTestSender extends TimerTask
-implements StandardApplication, ClientSenderInterface {
+public final class KzdTestSender extends TimerTask implements
+StandardApplication, ClientSenderInterface {
 
 	private static double VLKW_MAX = 100.0;
 
@@ -79,13 +79,13 @@ implements StandardApplication, ClientSenderInterface {
 	/**
 	 * der Logger.
 	 */
-	protected final Logger LOGGER = Logger
-			.getLogger(KzdTestSender.class.getName());
+	protected final Logger LOGGER = Logger.getLogger(KzdTestSender.class
+			.getName());
 
 	/**
 	 * Liste aller Fahrstreifen mit ihrem aktuellen Verbindungszustand.
 	 */
-	protected final Collection<SystemObject> fahrStreifenListe = new ArrayList<SystemObject>();
+	protected final Collection<SystemObject> fahrStreifenListe = new ArrayList<>();
 
 	/**
 	 *
@@ -115,7 +115,7 @@ implements StandardApplication, ClientSenderInterface {
 	/**
 	 *
 	 */
-	private final ArrayList<Integer[]> fileData = new ArrayList<Integer[]>();
+	private final ArrayList<Integer[]> fileData = new ArrayList<>();
 
 	/**
 	 * true, wenn Testdaten aus einer Datei erzeugt werden sollen.
@@ -138,9 +138,9 @@ implements StandardApplication, ClientSenderInterface {
 
 	private boolean aktiv;
 
-	private final Map<SystemObject, ResultData> latestResultsDeFehler = new LinkedHashMap<SystemObject, ResultData>();
+	private final Map<SystemObject, ResultData> latestResultsDeFehler = new LinkedHashMap<>();
 
-	private final Map<SystemObject, ResultData> latestResultsKzd = new LinkedHashMap<SystemObject, ResultData>();
+	private final Map<SystemObject, ResultData> latestResultsKzd = new LinkedHashMap<>();
 
 	/**
 	 * Standardkonstruktor.
@@ -162,11 +162,11 @@ implements StandardApplication, ClientSenderInterface {
 		}
 
 		LOGGER.fine("Sende Daten für " + fahrStreifenListe.size() //$NON-NLS-1$
-		+ " Fahrstreifen");
+				+ " Fahrstreifen");
 
 		int loop = 0;
 		while ((loop < 20) && (startZeit < now)) {
-			final List<ResultData> resultList = new ArrayList<ResultData>();
+			final List<ResultData> resultList = new ArrayList<>();
 
 			try {
 				for (final SystemObject fahrStreifen : fahrStreifenListe) {
@@ -183,8 +183,8 @@ implements StandardApplication, ClientSenderInterface {
 					latestResultsKzd.put(fahrStreifen, result);
 				}
 				if (aktiv) {
-					con.sendData(resultList
-							.toArray(new ResultData[resultList.size()]));
+					con.sendData(resultList.toArray(new ResultData[resultList
+					                                               .size()]));
 					LOGGER.info("Kurzzeitdaten mit Zeitstempel "
 							+ new Date(startZeit - delay) + " versendet für "
 							+ resultList.size() + " Objekte");
@@ -209,17 +209,17 @@ implements StandardApplication, ClientSenderInterface {
 		// auf OK gesetzt wird
 		alleDeLve = dav.getDataModel().getType("typ.deLve").getElements()
 				.toArray(new SystemObject[0]);
-		deFehlerBeschreibung = new DataDescription(
-				dav.getDataModel().getAttributeGroup("atg.tlsGloDeFehler"),
-				dav.getDataModel().getAspect("asp.tlsAntwort"));
+		deFehlerBeschreibung = new DataDescription(dav.getDataModel()
+				.getAttributeGroup("atg.tlsGloDeFehler"), dav.getDataModel()
+				.getAspect("asp.tlsAntwort"));
 
-		final AttributeGroup atg = dav.getDataModel()
-				.getAttributeGroup("atg.verkehrsDatenKurzZeitIntervall"); //$NON-NLS-1$
+		final AttributeGroup atg = dav.getDataModel().getAttributeGroup(
+				"atg.verkehrsDatenKurzZeitIntervall"); //$NON-NLS-1$
 		final Aspect asp = dav.getDataModel().getAspect("asp.externeErfassung"); //$NON-NLS-1$
 		descKurzzeitDaten = new DataDescription(atg, asp);
 
-		fahrStreifenListe.addAll(
-				dav.getDataModel().getType("typ.fahrStreifen").getElements());
+		fahrStreifenListe.addAll(dav.getDataModel().getType("typ.fahrStreifen")
+				.getElements());
 
 		synchronized (fahrStreifenListe) {
 			try {
@@ -291,13 +291,15 @@ implements StandardApplication, ClientSenderInterface {
 	private void initWithFile(final String file) throws Exception {
 
 		final Properties properties = new Properties();
-		properties.load(new FileInputStream(file));
+		try (FileInputStream inputStream = new FileInputStream(file)) {
+			properties.load(inputStream);
+		}
 
 		if (properties.containsKey("delay")) {
 			delay = Long.parseLong(properties.get("delay").toString());
 		}
 
-		final ArrayList<Integer> values = new ArrayList<Integer>();
+		final ArrayList<Integer> values = new ArrayList<>();
 		for (final String currval : properties.get("qKfz").toString()
 				.split(",")) {
 			values.add(Integer.parseInt(currval));
@@ -369,6 +371,7 @@ implements StandardApplication, ClientSenderInterface {
 
 	}
 
+	@Override
 	public boolean isRequestSupported(final SystemObject object,
 			final DataDescription dataDescription) {
 		boolean result = false;
@@ -377,9 +380,9 @@ implements StandardApplication, ClientSenderInterface {
 			result = true;
 		} else {
 			LOGGER.warning("Unerwarteter Request: Attributgruppe "
-					+ dataDescription.getAttributeGroup().getName() + " Aspekt "
-					+ dataDescription.getAspect().getName() + " Objekt "
-					+ object.getPid());
+					+ dataDescription.getAttributeGroup().getName()
+					+ " Aspekt " + dataDescription.getAspect().getName()
+					+ " Objekt " + object.getPid());
 		}
 		return result;
 	}
@@ -462,8 +465,8 @@ implements StandardApplication, ClientSenderInterface {
 	 *            die Belegung
 	 * @return einen neuen Verkehrsdatensatz
 	 */
-	private Data buildData(final int _qKfz_, final int _qLkw_, final int _vPkw_,
-			final int _vLkw_, final int _b_) {
+	private Data buildData(final int _qKfz_, final int _qLkw_,
+			final int _vPkw_, final int _vLkw_, final int _b_) {
 
 		final Data data = con.createData(descKurzzeitDaten.getAttributeGroup());
 
@@ -528,9 +531,9 @@ implements StandardApplication, ClientSenderInterface {
 		data.getItem("qPkw").getItem("Status").getItem("Erfassung") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		.getUnscaledValue("NichtErfasst").setText("Ja"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		_vKfz_ = (_qLkw_ + _qPkw_) > 0
-				? ((_qLkw_ * _vLkw_) + (_qPkw_ * _vPkw_)) / (_qLkw_ + _qPkw_)
-						: -1;
+		_vKfz_ = (_qLkw_ + _qPkw_) > 0 ? ((_qLkw_ * _vLkw_) + (_qPkw_ * _vPkw_))
+				/ (_qLkw_ + _qPkw_)
+				: -1;
 		data.getItem("vKfz").getUnscaledValue("Wert").set(_vKfz_); //$NON-NLS-1$ //$NON-NLS-2$
 		data.getItem("vKfz").getItem("Güte").getUnscaledValue("Index").set(10); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		data.getItem("vKfz").getItem("Status").getItem("Erfassung") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -578,8 +581,8 @@ implements StandardApplication, ClientSenderInterface {
 	 * Versendet an alle WZG-DE den globalen DE-Fehlerzustand OK.
 	 */
 	private void versendeDeFehlerZustandOk() {
-		final Data data = con.createData(
-				con.getDataModel().getAttributeGroup("atg.tlsGloDeFehler"));
+		final Data data = con.createData(con.getDataModel().getAttributeGroup(
+				"atg.tlsGloDeFehler"));
 
 		data.getUnscaledValue("DEFehlerStatus").set(0);
 		data.getUnscaledValue("DEProjektierungsStatus").set(0);

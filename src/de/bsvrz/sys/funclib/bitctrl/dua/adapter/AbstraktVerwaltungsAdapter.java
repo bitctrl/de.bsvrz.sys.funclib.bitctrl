@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -50,61 +50,50 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
  * Adapterklasse für Verwaltungsmodule.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: AbstraktVerwaltungsAdapter.java 8742 2008-05-07 17:01:36Z
- *          tfelder $
  */
 public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 
 	/**
 	 * Die Objekte, die bearbeitet werden sollen.
 	 */
-	protected SystemObject[] objekte = null;
+	protected SystemObject[] objekte;
 
 	/**
 	 * Verbindung zum Datenverteiler.
 	 */
-	protected ClientDavInterface verbindung = null;
+	protected ClientDavInterface verbindung;
 
 	/**
 	 * die Argumente der Kommandozeile.
 	 */
-	protected ArrayList<String> komArgumente = new ArrayList<String>();
+	protected ArrayList<String> komArgumente = new ArrayList<>();
 
 	/**
 	 * Die Konfigurationsbreiche, deren Objekte bearbeitet werden sollen.
 	 */
-	private Collection<ConfigurationArea> kBereiche = new HashSet<ConfigurationArea>();
+	private Collection<ConfigurationArea> kBereiche = new HashSet<>();
 
 	/**
 	 * Verbindung zur Datenflusssteuerung.
 	 */
-	protected DatenFlussSteuerungsVersorger dfsHilfe = null;
+	protected DatenFlussSteuerungsVersorger dfsHilfe;
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final Collection<ConfigurationArea> getKonfigurationsBereiche() {
 		return kBereiche;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final SystemObject[] getSystemObjekte() {
 		return objekte;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final ClientDavInterface getVerbindung() {
 		return verbindung;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void initialize(final ClientDavInterface dieVerbindung)
 			throws Exception {
 		try {
@@ -112,8 +101,7 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 			verbindung = dieVerbindung;
 			if (komArgumente != null) {
 				kBereiche = DUAUtensilien.getKonfigurationsBereicheAlsObjekte(
-						verbindung,
-						DUAUtensilien.getArgument(
+						verbindung, DUAUtensilien.getArgument(
 								DUAKonstanten.ARG_KONFIGURATIONS_BEREICHS_PID,
 								komArgumente));
 				dfsHilfe = DatenFlussSteuerungsVersorger.getInstanz(this);
@@ -149,22 +137,18 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void parseArguments(final ArgumentList argumente) throws Exception {
 
-		Thread.setDefaultUncaughtExceptionHandler(
-				new Thread.UncaughtExceptionHandler() {
-					public void uncaughtException(
-							@SuppressWarnings("unused") final Thread t,
-							final Throwable e) {
-						Debug.getLogger().error("Applikation wird wegen" + //$NON-NLS-1$
-								" unerwartetem Fehler beendet", e); //$NON-NLS-1$
-						e.printStackTrace();
-						Runtime.getRuntime().exit(-1);
-					}
-				});
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException(final Thread t, final Throwable e) {
+				Debug.getLogger().error("Applikation wird wegen" + //$NON-NLS-1$
+						" unerwartetem Fehler beendet", e); //$NON-NLS-1$
+				e.printStackTrace();
+				Runtime.getRuntime().exit(-1);
+			}
+		});
 
 		for (final String s : argumente.getArgumentStrings()) {
 			if (s != null) {
@@ -175,9 +159,6 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 		argumente.fetchUnusedArguments();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		final String s = "SWE: " + getSWETyp() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -193,9 +174,7 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 		return s + "Konfigurationsbereiche:\n" + dummy; //$NON-NLS-1$
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public String getArgument(final String schluessel) {
 		return DUAUtensilien.getArgument(schluessel, komArgumente);
 	}

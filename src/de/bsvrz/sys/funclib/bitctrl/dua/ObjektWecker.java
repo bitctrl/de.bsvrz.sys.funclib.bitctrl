@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -45,9 +45,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IObjektWeckerListener;
  * werden.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: ObjektWecker.java 8054 2008-04-09 15:11:59Z tfelder $
- *
  */
 public class ObjektWecker implements IKontrollProzessListener<Long> {
 
@@ -59,15 +56,14 @@ public class ObjektWecker implements IKontrollProzessListener<Long> {
 	/**
 	 * Interner Kontrollprozess.
 	 */
-	protected KontrollProzess<Long> kontrollProzess = new KontrollProzess<Long>();
+	protected KontrollProzess<Long> kontrollProzess = new KontrollProzess<>();
 
 	/**
 	 * Mapt alle Weckzeitpunkte auf die Liste der Objekte, die geweckt werden
 	 * sollen.
 	 */
 	protected SortedMap<Long, Set<IObjektWeckerListener>> weckZeitpunktAufObjekte = Collections
-			.synchronizedSortedMap(
-					new TreeMap<Long, Set<IObjektWeckerListener>>());
+			.synchronizedSortedMap(new TreeMap<Long, Set<IObjektWeckerListener>>());
 
 	/**
 	 * Mapt alle zu weckenden Objekte auf den Weckzeitpunkt.
@@ -94,8 +90,7 @@ public class ObjektWecker implements IKontrollProzessListener<Long> {
 		boolean weckerGestellt = false;
 
 		synchronized (this) {
-			weckerGestellt = objektAufWeckZeitpunkt
-					.get(zuWeckendesObjekt) != null;
+			weckerGestellt = objektAufWeckZeitpunkt.get(zuWeckendesObjekt) != null;
 		}
 
 		return weckerGestellt;
@@ -148,7 +143,7 @@ public class ObjektWecker implements IKontrollProzessListener<Long> {
 						.get(weckZeitpunkt);
 
 				if (weckObjekteZumZeitpunkt == null) {
-					weckObjekteZumZeitpunkt = new HashSet<IObjektWeckerListener>();
+					weckObjekteZumZeitpunkt = new HashSet<>();
 					weckZeitpunktAufObjekte.put(weckZeitpunkt,
 							weckObjekteZumZeitpunkt);
 				}
@@ -174,11 +169,9 @@ public class ObjektWecker implements IKontrollProzessListener<Long> {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
+	@Override
 	public void trigger(final Long weckZeitpunkt) {
-		final Set<IObjektWeckerListener> zuWeckendeObjekte = new HashSet<IObjektWeckerListener>();
+		final Set<IObjektWeckerListener> zuWeckendeObjekte = new HashSet<>();
 
 		synchronized (this) {
 			final Set<IObjektWeckerListener> menge = weckZeitpunktAufObjekte

@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -33,8 +33,6 @@ package de.bsvrz.sys.funclib.bitctrl.geolib;
  * (http://home.hiwaay.net/~taylorc/toolbox/geography/geoutm.html)
  *
  * @author BitCtrl Systems GmbH, Gieseler
- * @version $Id: GeoTransformation.java 7465 2008-03-14 16:31:41Z gieseler $
- *
  */
 public final class GeoTransformation {
 
@@ -68,7 +66,7 @@ public final class GeoTransformation {
 	/**
 	 * UTM-Zone.
 	 */
-	private static int zone = 0;
+	private static int zone;
 
 	/**
 	 * Lat/Lon-Koordinaten.
@@ -121,9 +119,11 @@ public final class GeoTransformation {
 		epsilon = (315.0 * Math.pow(n, 4.0) / 512.0);
 
 		/* Now calculate the sum of the series and return */
-		result = alpha * (phi + (beta * Math.sin(2.0 * phi))
-				+ (gamma * Math.sin(4.0 * phi)) + (delta * Math.sin(6.0 * phi))
-				+ (epsilon * Math.sin(8.0 * phi)));
+		result = alpha
+				* (phi + (beta * Math.sin(2.0 * phi))
+						+ (gamma * Math.sin(4.0 * phi))
+						+ (delta * Math.sin(6.0 * phi)) + (epsilon * Math
+						.sin(8.0 * phi)));
 
 		return result;
 	}
@@ -283,24 +283,26 @@ public final class GeoTransformation {
 		l8coef = 1385.0 - 3111.0 * t2 + 543.0 * (t2 * t2) - (t2 * t2 * t2);
 
 		/* Calculate easting (x) */
-		xy[0] = nF * Math.cos(phi) * l
-				+ (nF / 6.0 * Math.pow(Math.cos(phi), 3.0) * l3coef
-						* Math.pow(l, 3.0))
-						+ (nF / 120.0 * Math.pow(Math.cos(phi), 5.0) * l5coef
-						* Math.pow(l, 5.0))
-								+ (nF / 5040.0 * Math.pow(Math.cos(phi), 7.0) * l7coef
-						* Math.pow(l, 7.0));
+		xy[0] = nF
+				* Math.cos(phi)
+				* l
+				+ (nF / 6.0 * Math.pow(Math.cos(phi), 3.0) * l3coef * Math.pow(
+						l, 3.0))
+				+ (nF / 120.0 * Math.pow(Math.cos(phi), 5.0) * l5coef * Math
+						.pow(l, 5.0))
+				+ (nF / 5040.0 * Math.pow(Math.cos(phi), 7.0) * l7coef * Math
+						.pow(l, 7.0));
 
 		/* Calculate northing (y) */
 		xy[1] = arcLengthOfMeridian(phi)
-				+ (t / 2.0 * nF * Math.pow(Math.cos(phi), 2.0)
-						* Math.pow(l, 2.0))
-						+ (t / 24.0 * nF * Math.pow(Math.cos(phi), 4.0) * l4coef
-						* Math.pow(l, 4.0))
-								+ (t / 720.0 * nF * Math.pow(Math.cos(phi), 6.0) * l6coef
-						* Math.pow(l, 6.0))
-										+ (t / 40320.0 * nF * Math.pow(Math.cos(phi), 8.0) * l8coef
-						* Math.pow(l, 8.0));
+				+ (t / 2.0 * nF * Math.pow(Math.cos(phi), 2.0) * Math.pow(l,
+						2.0))
+				+ (t / 24.0 * nF * Math.pow(Math.cos(phi), 4.0) * l4coef * Math
+						.pow(l, 4.0))
+				+ (t / 720.0 * nF * Math.pow(Math.cos(phi), 6.0) * l6coef * Math
+						.pow(l, 6.0))
+				+ (t / 40320.0 * nF * Math.pow(Math.cos(phi), 8.0) * l8coef * Math
+						.pow(l, 8.0));
 
 		return;
 	}
@@ -401,28 +403,27 @@ public final class GeoTransformation {
 
 		x3poly = -1.0 - 2 * tf2 - nuf2;
 
-		x4poly = 5.0 + 3.0 * tf2 + 6.0 * nuf2 - 6.0 * tf2 * nuf2
-				- 3.0 * (nuf2 * nuf2) - 9.0 * tf2 * (nuf2 * nuf2);
+		x4poly = 5.0 + 3.0 * tf2 + 6.0 * nuf2 - 6.0 * tf2 * nuf2 - 3.0
+				* (nuf2 * nuf2) - 9.0 * tf2 * (nuf2 * nuf2);
 
 		x5poly = 5.0 + 28.0 * tf2 + 24.0 * tf4 + 6.0 * nuf2 + 8.0 * tf2 * nuf2;
 
-		x6poly = -61.0 - 90.0 * tf2 - 45.0 * tf4 - 107.0 * nuf2
-				+ 162.0 * tf2 * nuf2;
+		x6poly = -61.0 - 90.0 * tf2 - 45.0 * tf4 - 107.0 * nuf2 + 162.0 * tf2
+				* nuf2;
 
 		x7poly = -61.0 - 662.0 * tf2 - 1320.0 * tf4 - 720.0 * (tf4 * tf2);
 
 		x8poly = 1385.0 + 3633.0 * tf2 + 4095.0 * tf4 + 1575 * (tf4 * tf2);
 
 		/* Calculate latitude */
-		latlon[0] = phif + x2frac * x2poly * (x * x)
-				+ x4frac * x4poly * Math.pow(x, 4.0)
-				+ x6frac * x6poly * Math.pow(x, 6.0)
+		latlon[0] = phif + x2frac * x2poly * (x * x) + x4frac * x4poly
+				* Math.pow(x, 4.0) + x6frac * x6poly * Math.pow(x, 6.0)
 				+ x8frac * x8poly * Math.pow(x, 8.0);
 
 		/* Calculate longitude */
 		latlon[1] = lambda0 + x1frac * x + x3frac * x3poly * Math.pow(x, 3.0)
-		+ x5frac * x5poly * Math.pow(x, 5.0)
-				+ x7frac * x7poly * Math.pow(x, 7.0);
+				+ x5frac * x5poly * Math.pow(x, 5.0) + x7frac * x7poly
+				* Math.pow(x, 7.0);
 
 		return;
 	}

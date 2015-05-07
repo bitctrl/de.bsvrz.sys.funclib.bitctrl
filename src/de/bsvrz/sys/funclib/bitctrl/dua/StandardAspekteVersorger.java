@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -47,23 +47,19 @@ import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Ableitungen dieser Klasse stellen die Standard-Publikationsinformationen für
- * <b>einen</b> Modul-Typ und <b>eine</b> SWE innerhalb der DUA zur Verfügung.
- * <br>
+ * <b>einen</b> Modul-Typ und <b>eine</b> SWE innerhalb der DUA zur Verfügung. <br>
  * Diese Informationen können im Konstruktor dieser Klasse für je eine
  * SWE-Modultyp-Kombination als Instanz der Klasse
  * <code>StandardAspekteAdapter</code> angelegt werden.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: StandardAspekteVersorger.java 23685 2010-06-09 15:42:02Z
- *          uhlmann $
  */
 public abstract class StandardAspekteVersorger {
 
 	/**
 	 * Verbindung zum Verwaltungsmodul.
 	 */
-	protected IVerwaltung verwaltung = null;
+	protected IVerwaltung verwaltung;
 
 	/**
 	 * Die Informationen über die Standardaspekte für die Publikation einer
@@ -73,28 +69,21 @@ public abstract class StandardAspekteVersorger {
 	 */
 	protected IStandardAspekte standardAspekte = new IStandardAspekte() {
 
-		/**
-		 * {@inheritDoc}
-		 */
+		@Override
 		public final Collection<DAVObjektAnmeldung> getStandardAnmeldungen(
 				final SystemObject[] objektFilter) {
-			return new ArrayList<DAVObjektAnmeldung>();
+			return new ArrayList<>();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
+		@Override
 		public Aspect getStandardAspekt(final ResultData originalDatum) {
 			return null;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
+		@Override
 		public Collection<AttributeGroup> getAlleAttributGruppen() {
-			return new ArrayList<AttributeGroup>();
+			return new ArrayList<>();
 		}
-
 	};
 
 	/**
@@ -146,13 +135,13 @@ public abstract class StandardAspekteVersorger {
 		/**
 		 * Notwendige Datenanmeldungen.
 		 */
-		private final Collection<DAVObjektAnmeldung> anmeldungenGlobal = new TreeSet<DAVObjektAnmeldung>();
+		private final Collection<DAVObjektAnmeldung> anmeldungenGlobal = new TreeSet<>();
 
 		/**
 		 * Mapping von Systemobjekt-Attributgruppe-Aspekt-Kombination auf einen
 		 * Standardpublikationsaspekt.
 		 */
-		private final Map<DAVObjektAnmeldung, Aspect> publikationsMap = new TreeMap<DAVObjektAnmeldung, Aspect>();
+		private final Map<DAVObjektAnmeldung, Aspect> publikationsMap = new TreeMap<>();
 
 		/**
 		 * Standardkonstruktor.
@@ -165,16 +154,16 @@ public abstract class StandardAspekteVersorger {
 		 */
 		public StandardAspekteAdapter(
 				final StandardPublikationsZuordnung[] zuordnungen)
-						throws DUAInitialisierungsException {
+				throws DUAInitialisierungsException {
 			if (zuordnungen != null) {
 				for (final StandardPublikationsZuordnung zuordnung : zuordnungen) {
 					try {
 						for (final SystemObject finObj : DUAUtensilien
 								.getBasisInstanzen(zuordnung.typ,
-										verwaltung.getVerbindung(), verwaltung
-												.getKonfigurationsBereiche())) {
-							anmeldungenGlobal.add(new DAVObjektAnmeldung(finObj,
-									new DataDescription(zuordnung.atg,
+										verwaltung.getVerbindung(),
+										verwaltung.getKonfigurationsBereiche())) {
+							anmeldungenGlobal.add(new DAVObjektAnmeldung(
+									finObj, new DataDescription(zuordnung.atg,
 											zuordnung.aspAusgang)));
 						}
 
@@ -197,9 +186,7 @@ public abstract class StandardAspekteVersorger {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
+		@Override
 		public Aspect getStandardAspekt(final ResultData originalDatum) {
 			Aspect ergebnis = null;
 
@@ -211,9 +198,9 @@ public abstract class StandardAspekteVersorger {
 
 					ergebnis = publikationsMap.get(objektAnmeldung);
 				} catch (final IllegalArgumentException e) {
-					Debug.getLogger()
-					.fine("Der Standard-Publikationsaspekt konnte" + //$NON-NLS-1$
-							"nicht ermittelt werden: " + originalDatum, //$NON-NLS-1$
+					Debug.getLogger().fine(
+							"Der Standard-Publikationsaspekt konnte" + //$NON-NLS-1$
+									"nicht ermittelt werden: " + originalDatum, //$NON-NLS-1$
 							e);
 				}
 			}
@@ -221,17 +208,15 @@ public abstract class StandardAspekteVersorger {
 			return ergebnis;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
+		@Override
 		public final Collection<DAVObjektAnmeldung> getStandardAnmeldungen(
 				final SystemObject[] objektFilter) {
-			Collection<DAVObjektAnmeldung> anmeldungen = new TreeSet<DAVObjektAnmeldung>();
+			Collection<DAVObjektAnmeldung> anmeldungen = new TreeSet<>();
 
 			if (objektFilter == null || objektFilter.length == 0) {
 				anmeldungen = anmeldungenGlobal;
 			} else {
-				final HashSet<SystemObject> objekte = new HashSet<SystemObject>();
+				final HashSet<SystemObject> objekte = new HashSet<>();
 				for (final SystemObject obj : objektFilter) {
 					objekte.add(obj);
 				}
@@ -246,9 +231,6 @@ public abstract class StandardAspekteVersorger {
 			return anmeldungen;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			String s = "Objekt-Anmeldungen:\n"; //$NON-NLS-1$
@@ -260,15 +242,13 @@ public abstract class StandardAspekteVersorger {
 			return s;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
+		@Override
 		public Collection<AttributeGroup> getAlleAttributGruppen() {
-			final Collection<AttributeGroup> attributGruppen = new TreeSet<AttributeGroup>();
+			final Collection<AttributeGroup> attributGruppen = new TreeSet<>();
 
 			for (final DAVObjektAnmeldung anmeldung : anmeldungenGlobal) {
-				attributGruppen.add(
-						anmeldung.getDatenBeschreibung().getAttributeGroup());
+				attributGruppen.add(anmeldung.getDatenBeschreibung()
+						.getAttributeGroup());
 			}
 
 			return attributGruppen;
@@ -289,22 +269,22 @@ public abstract class StandardAspekteVersorger {
 		/**
 		 * Objekttyp eines Originaldatums.
 		 */
-		protected SystemObjectType typ = null;
+		protected SystemObjectType typ;
 
 		/**
 		 * Attributgruppe eines Originadatums.
 		 */
-		protected AttributeGroup atg = null;
+		protected AttributeGroup atg;
 
 		/**
 		 * Aspekt eines Originaldatums.
 		 */
-		protected Aspect aspEingang = null;
+		protected Aspect aspEingang;
 
 		/**
 		 * Standardpublikationsaspekt.
 		 */
-		protected Aspect aspAusgang = null;
+		protected Aspect aspAusgang;
 
 		/**
 		 * Standardkonstruktor.
@@ -322,9 +302,9 @@ public abstract class StandardAspekteVersorger {
 		 *             falls eines der übergebenen DAV-Elemente nicht ausgelesen
 		 *             werden konnte
 		 */
-		public StandardPublikationsZuordnung(final String typ, final String atg,
-				final String aspEingang, final String aspAusgang)
-						throws DUAInitialisierungsException {
+		public StandardPublikationsZuordnung(final String typ,
+				final String atg, final String aspEingang,
+				final String aspAusgang) throws DUAInitialisierungsException {
 			try {
 				final DataModel dataModel = verwaltung.getVerbindung()
 						.getDataModel();
@@ -337,7 +317,7 @@ public abstract class StandardAspekteVersorger {
 						"Standardpublikationsaspekt" + //$NON-NLS-1$
 								" konnte" + //$NON-NLS-1$
 								" nicht eingerichtet werden ", //$NON-NLS-1$
-								ex);
+						ex);
 			}
 		}
 	}

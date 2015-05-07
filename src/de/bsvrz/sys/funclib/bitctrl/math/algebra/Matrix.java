@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -33,7 +33,6 @@ import de.bsvrz.sys.funclib.bitctrl.math.RationaleZahl;
  * Anzahl von Zeilen ({@link Vektor}) mit beliebiger L&auml;nge.
  *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: Matrix.java 6386 2008-02-08 08:24:20Z Schumann $
  */
 public class Matrix {
 
@@ -220,8 +219,7 @@ public class Matrix {
 		m = new Matrix(a.anzahlZeilen(), a.anzahlSpalten());
 		for (int i = 0; i < a.anzahlZeilen(); i++) {
 			for (int j = 0; j < a.anzahlSpalten(); j++) {
-				m.set(i, j,
-						RationaleZahl.subtrahiere(a.get(i, j), b.get(i, j)));
+				m.set(i, j, RationaleZahl.subtrahiere(a.get(i, j), b.get(i, j)));
 			}
 		}
 
@@ -317,10 +315,6 @@ public class Matrix {
 	/**
 	 * Zwei Matrizen sind gleich, wenn sie gleiche Ordnung haben und in allen
 	 * Elementen &uuml;bereinstimmen.
-	 *
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Object#equals(Object)
 	 */
 	@Override
 	public boolean equals(final Object o) {
@@ -486,11 +480,6 @@ public class Matrix {
 		return equals(transponiert());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		String s;

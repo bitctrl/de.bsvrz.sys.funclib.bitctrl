@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -35,11 +35,11 @@ package de.bsvrz.sys.funclib.bitctrl.daf;
  * gesetzte ID wird nicht überschrieben.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
- * @version $Id$
  */
-public class DefaultBetriebsMeldungsIdKonverter
-		implements BetriebsmeldungIdKonverter {
+public class DefaultBetriebsMeldungsIdKonverter implements
+BetriebsmeldungIdKonverter {
 
+	@Override
 	public String konvertiere(final BetriebsmeldungDaten daten,
 			final LogNachricht nachricht, final Object... arguments) {
 		String result = null;

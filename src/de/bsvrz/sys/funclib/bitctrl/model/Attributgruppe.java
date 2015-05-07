@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -37,9 +37,8 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 
 /**
  * Kapselt eine Attributgruppe und erweitert sie um nützliche Funktionen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: Attributgruppe.java 17423 2009-05-06 13:47:12Z Schumann $
  */
 public class Attributgruppe {
 
@@ -56,7 +55,7 @@ public class Attributgruppe {
 
 	/**
 	 * Initialisiert das Objekt.
-	 * 
+	 *
 	 * @param attributgruppe
 	 *            eine Attributgruppe.
 	 */
@@ -66,7 +65,7 @@ public class Attributgruppe {
 
 	/**
 	 * Gibt die gekapselte Attributgruppe zurück.
-	 * 
+	 *
 	 * @return die gekapselte Attributgruppe.
 	 */
 	public AttributeGroup getAtg() {
@@ -76,12 +75,12 @@ public class Attributgruppe {
 	/**
 	 * Gibt die Liste der Attribute der Attributgruppe in hierarchischer Form
 	 * zurück.
-	 * 
+	 *
 	 * @return die hierarchische Liste der Attribute.
 	 */
 	public List<Attribut> getAttribute() {
 		if (attribute == null) {
-			attribute = new ArrayList<Attribut>();
+			attribute = new ArrayList<>();
 			for (final Attribute att : atg.getAttributes()) {
 				attribute.add(new Attribut(null, att));
 			}
@@ -92,12 +91,12 @@ public class Attributgruppe {
 
 	/**
 	 * Gibt die Liste aller Attribute der Attributgruppe in flacher Form zurück.
-	 * 
+	 *
 	 * @return die flache Liste der Attribute.
 	 */
 	public List<Attribut> getAttributeFlach() {
 		if (attributeFlach == null) {
-			attributeFlach = new ArrayList<Attribut>();
+			attributeFlach = new ArrayList<>();
 			for (final Attribut att : getAttribute()) {
 				for (final Attribut a : findeAttribute(att)) {
 					if (filter != null && !filter.contains(a)) {
@@ -112,7 +111,7 @@ public class Attributgruppe {
 
 	/**
 	 * Gibt den aktuellen Datensatz zurück, der angezeigt wird.
-	 * 
+	 *
 	 * @return der aktuelle Datensatz.
 	 */
 	public Data getDaten() {
@@ -121,7 +120,7 @@ public class Attributgruppe {
 
 	/**
 	 * Legt den Wert aktuellen Datensatz fest, der angezeigt werden soll.
-	 * 
+	 *
 	 * @param daten
 	 *            der neue Datensatz.
 	 */
@@ -131,7 +130,7 @@ public class Attributgruppe {
 
 	/**
 	 * Gibt die Länge des addressierten Felds zurück.
-	 * 
+	 *
 	 * @param pfad
 	 *            der Pfad zu einem Feld.
 	 * @return dessen Länge.
@@ -151,7 +150,7 @@ public class Attributgruppe {
 	/**
 	 * Gibt den Wert des Datums des Attributs zurück, welches der Pfad
 	 * adressiert.
-	 * 
+	 *
 	 * @param pfad
 	 *            ein Pfad innerhalb der Attributgruppe.
 	 * @return das Datum des Attributs oder {@code null}, wenn kein Datum
@@ -214,7 +213,7 @@ public class Attributgruppe {
 	/**
 	 * Gibt den Wert des Datums des Attributs, welches der Pfad adressiert, als
 	 * String zurück.
-	 * 
+	 *
 	 * @param pfad
 	 *            ein Pfad innerhalb der Attributgruppe.
 	 * @return das Attributdatum als String oder {@code null}, wenn kein Datum
@@ -235,7 +234,7 @@ public class Attributgruppe {
 
 	/**
 	 * Gibt den aktuellen Filter für die Attribute der Attributgruppe zurück.
-	 * 
+	 *
 	 * @return der aktuell Attributfilter.
 	 */
 	public AttributFilter getFilter() {
@@ -244,7 +243,7 @@ public class Attributgruppe {
 
 	/**
 	 * Legt den Filter der Attribute der Attributgruppe fest.
-	 * 
+	 *
 	 * @param filter
 	 *            der neue Attributfilter.
 	 */
@@ -259,7 +258,7 @@ public class Attributgruppe {
 
 	/**
 	 * Gibt die maximale Feldlänge zurück.
-	 * 
+	 *
 	 * @return die maximale Feldlänge.
 	 */
 	public int getMaxFeldlaenge() {
@@ -268,7 +267,7 @@ public class Attributgruppe {
 
 	/**
 	 * Legt die maximale Feldlänge fest.
-	 * 
+	 *
 	 * @param maxFeldlaenge
 	 *            die neue maximale Feldlänge.
 	 */
@@ -300,13 +299,13 @@ public class Attributgruppe {
 	/**
 	 * Sucht rekursiv nach Attributen ausgehend von einem übergeordneten
 	 * Attribut.
-	 * 
+	 *
 	 * @param attribut
 	 *            das oberste Attribut, bei dem die Suche starten soll.
 	 * @return die Liste aller untergeordneten Attribute.
 	 */
 	private List<Attribut> findeAttribute(final Attribut attribut) {
-		final List<Attribut> liste = new ArrayList<Attribut>();
+		final List<Attribut> liste = new ArrayList<>();
 
 		if (attribut.isFeld()) {
 			for (int i = 1; i < maxFeldlaenge + 1; i++) {

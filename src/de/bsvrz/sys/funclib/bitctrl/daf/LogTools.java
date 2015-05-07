@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -42,9 +42,8 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 
 /**
  * Hilfsklasse zum Loggen mittels des Datenverteiler-Loggers.
- * 
+ *
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
  */
 public final class LogTools {
 
@@ -59,7 +58,7 @@ public final class LogTools {
 
 	/**
 	 * Testet ob auf einem Logger mit einem bestimmten Level geloggt wird.
-	 * 
+	 *
 	 * @param debug
 	 *            ein Logger.
 	 * @param level
@@ -75,7 +74,7 @@ public final class LogTools {
 	 * Testet ob auf einem Logger mit einem bestimmten Level geloggt wird.
 	 * Zusätzlich kann auf einen bestimmten Handler z.&nbsp;B.
 	 * <code>ConsoleHandler</code> oder <code>FileHandler</code> geprüft werden.
-	 * 
+	 *
 	 * @param debug
 	 *            ein Logger.
 	 * @param level
@@ -115,7 +114,7 @@ public final class LogTools {
 	 * Gibt die Meldung auf dem Logger aus. Wenn es die Nachricht verlangt, wird
 	 * ebenfalls eine Betriebsmeldung versandt. Wenn der Logger {@code null}
 	 * ist, dann wird nur eine Betriebsmeldung versandt.
-	 * 
+	 *
 	 * @param log
 	 *            der Logger.
 	 * @param nachricht
@@ -162,7 +161,7 @@ public final class LogTools {
 	 * Gibt die Meldung auf dem Logger aus. Wenn es die Nachricht verlangt, wird
 	 * ebenfalls eine Betriebsmeldung versandt. Wenn der Logger {@code null}
 	 * ist, dann wird nur eine Betriebsmeldung versandt.
-	 * 
+	 *
 	 * @param log
 	 *            der Logger.
 	 * @param daten
@@ -210,7 +209,7 @@ public final class LogTools {
 	/**
 	 * Gibt eine Nachricht als Betriebsmeldung aus. Der Level wird aus der
 	 * Nachricht gelesen.
-	 * 
+	 *
 	 * @param daten
 	 *            die Daten für die Betriebsmeldung
 	 * @param nachricht

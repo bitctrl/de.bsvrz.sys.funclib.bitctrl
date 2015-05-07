@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -32,50 +32,48 @@ import com.bitctrl.Constants;
  * Klasse, die alle Markierungen eines Messwertes speichert.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: MesswertMarkierung.java 8054 2008-04-09 15:11:59Z tfelder $
  */
 public class MesswertMarkierung implements Cloneable {
 
 	/**
 	 * der Wert von <code>*.Status.Erfassung.NichtErfasst</code>.
 	 */
-	protected boolean nichtErfasst = false;
+	protected boolean nichtErfasst;
 
 	/**
 	 * der Wert von <code>*.Status.MessWertErsetzung.Implausibel</code>.
 	 */
-	protected boolean implausibel = false;
+	protected boolean implausibel;
 
 	/**
 	 * der Wert von <code>*.Status.MessWertErsetzung.Interpoliert</code>.
 	 */
-	protected boolean interpoliert = false;
+	protected boolean interpoliert;
 
 	/**
 	 * der Wert von <code>*.Status.PlFormal.WertMax</code>.
 	 */
-	protected boolean formalMax = false;
+	protected boolean formalMax;
 
 	/**
 	 * der Wert von <code>*.Status.PlFormal.WertMin</code>.
 	 */
-	protected boolean formalMin = false;
+	protected boolean formalMin;
 
 	/**
 	 * der Wert von <code>*.Status.PlLogisch.WertMaxLogisch</code>.
 	 */
-	protected boolean logischMax = false;
+	protected boolean logischMax;
 
 	/**
 	 * der Wert von <code>*.Status.PlLogisch.WertMinLogisch</code>.
 	 */
-	protected boolean logischMin = false;
+	protected boolean logischMin;
 
 	/**
 	 * zeigt an, ob eine der Setter-Methoden benutzt wurde.
 	 */
-	protected boolean veraendert = false;
+	protected boolean veraendert;
 
 	/**
 	 * Erfragt den Wert von <code>*.Status.MessWertErsetzung.Interpoliert</code>
@@ -229,9 +227,6 @@ public class MesswertMarkierung implements Cloneable {
 		return veraendert;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(final Object obj) {
 		boolean gleich = false;
@@ -250,9 +245,6 @@ public class MesswertMarkierung implements Cloneable {
 		return gleich;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return (nichtErfasst ? "nErf " : Constants.EMPTY_STRING) + //$NON-NLS-1$

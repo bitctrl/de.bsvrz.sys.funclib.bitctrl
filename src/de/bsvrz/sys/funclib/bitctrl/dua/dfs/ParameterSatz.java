@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -41,20 +41,18 @@ import de.bsvrz.sys.funclib.debug.Debug;
  * (später) gemischt.
  *
  * @author BitCtrl Systems GmbH, Thierfelder
- *
- * @version $Id: ParameterSatz.java 8272 2008-04-16 07:28:31Z tfelder $
  */
 public class ParameterSatz {
 
 	/**
 	 * die SWE, deren Publikationsparameter in dieser Klasse stehen.
 	 */
-	private SWETyp swe = null;
+	private SWETyp swe;
 
 	/**
 	 * alle Publikationszuordnungen dieses Parametersatzes.
 	 */
-	private final List<PublikationsZuordung> pubZuordnungen = new ArrayList<PublikationsZuordung>();
+	private final List<PublikationsZuordung> pubZuordnungen = new ArrayList<>();
 
 	/**
 	 * Erfragt die SWE, für die Publikationsparameter in dieser Klasse stehen.
@@ -114,9 +112,6 @@ public class ParameterSatz {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String s = "SWE: " + swe + "\n"; //$NON-NLS-1$ //$NON-NLS-2$

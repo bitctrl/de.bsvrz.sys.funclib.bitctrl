@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -32,28 +32,26 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 /**
  * Überwacht alle {@link DavProvider} die als OSGi-Service registriert wurden.
- * 
+ *
  * <p>
  * Wird eine neue Verbindung zum Datenverteiler aufgebaut, wird diese als neuer
  * Service registriert. Wird eine Verbindung zum Datenveteiler geschlossen, wird
  * der entsprechende Service deregistriert. Mit Hilfe eines
  * {@link ServiceTrackerCustomizer} kann auf diese Änderungen reagiert werden.
- * 
+ *
  * <p>
  * Ein oder mehrere Services mit dem beschriebenen Verhalten müssen selbst am
  * BundleContext registriert werden. Als Vorlage für einen solchen Service kann
  * {@link DefaultDavProvider} dienen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id: DavProviderServiceTracker.java 20127 2009-10-23 12:27:22Z
- *          schumann $
  * @see BundleContext#registerService(String, Object, java.util.Dictionary)
  */
 public class DavProviderServiceTracker extends ServiceTracker {
 
 	/**
 	 * Erzeugt einen Service Tracker für einen bestimmten Bundlekontext.
-	 * 
+	 *
 	 * @param context
 	 *            der Bundlekontext für den Service Tracker angelegt wird.
 	 */
@@ -63,7 +61,7 @@ public class DavProviderServiceTracker extends ServiceTracker {
 
 	/**
 	 * Erzeugt einen Service Tracker für einen bestimmten Bundlekontext.
-	 * 
+	 *
 	 * @param context
 	 *            der Bundlekontext für den Service Tracker angelegt wird.
 	 * @param customizer
@@ -77,7 +75,7 @@ public class DavProviderServiceTracker extends ServiceTracker {
 
 	/**
 	 * Gibt die Objekt Factory der Nutzerverbindung zurück.
-	 * 
+	 *
 	 * @return die Objekt Factory oder <code>null</code>, wenn keine verfügbar
 	 *         ist.
 	 */
@@ -98,7 +96,7 @@ public class DavProviderServiceTracker extends ServiceTracker {
 
 	/**
 	 * Gibt die Objekt Factory der Urlasserverbindung zurück.
-	 * 
+	 *
 	 * @return die Objekt Factory oder <code>null</code>, wenn keine verfügbar
 	 *         ist.
 	 */
@@ -119,7 +117,7 @@ public class DavProviderServiceTracker extends ServiceTracker {
 
 	/**
 	 * Gibt eine Datenverteilerverbindung zurück.
-	 * 
+	 *
 	 * @return eine Datenverteilerverbindung oder <code>null</code>, wenn im
 	 *         Moment keine zur Verfügung steht.
 	 * @see #getService()
@@ -130,7 +128,7 @@ public class DavProviderServiceTracker extends ServiceTracker {
 
 	/**
 	 * Gibt alle verfügbaren Datenverteilerverbindungen zurück.
-	 * 
+	 *
 	 * @return alle im Moment vorhandenen Verbindungen oder <code>null</code>,
 	 *         wenn keine zur Verfügung stehen.
 	 * @see #getServices()
@@ -141,7 +139,7 @@ public class DavProviderServiceTracker extends ServiceTracker {
 
 	/**
 	 * Gibt eine bestimmte Datenverteilerverbindung zurück.
-	 * 
+	 *
 	 * @param name
 	 *            der Name der gesuchten Verbindung.
 	 * @return die gesuchte Verbindung oder <code>null</code>, wenn diese im

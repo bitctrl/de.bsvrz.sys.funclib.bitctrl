@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -40,9 +40,8 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageSender;
  * Eine Alternative für den
  * {@link de.bsvrz.sys.funclib.application.StandardApplicationRunner} mit mehr
  * Optionen.
- * 
+ *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id$
  */
 public class BcStandardApplicationRunner {
 
@@ -53,15 +52,15 @@ public class BcStandardApplicationRunner {
 	 * Bei der Initialisierung werden nacheinander die beiden Methoden
 	 * {@link StandardApplication#parseArguments(ArgumentList)} und
 	 * {@link StandardApplication#initialize(ClientDavInterface)} aufgerufen.
-	 * 
+	 *
 	 * @param application
 	 *            die zu initialisierende Applikation.
 	 * @param args
 	 *            die Kommandozeilenargumente der Applikation.
 	 * @param appTypePID
 	 *            die PID die der Applikation als Typ anstelle von
-	 *            <em>typ.applikation</em> gesetzt werden soll. Wenn {@code
-	 *            null}, wird der Applikationstyp nicht geändert.
+	 *            <em>typ.applikation</em> gesetzt werden soll. Wenn
+	 *            {@code null}, wird der Applikationstyp nicht geändert.
 	 * @param autoReadyMsg
 	 *            dieses Flag sagt aus, ob nach der Initialisierung der
 	 *            Anwendung automatisch das Readysignal gesendet werden soll.
@@ -86,8 +85,8 @@ public class BcStandardApplicationRunner {
 		}
 
 		// Debuglogger initialisieren
-		final String[] classNameParts = application.getClass().getName().split(
-				"[.]");
+		final String[] classNameParts = application.getClass().getName()
+				.split("[.]");
 		final int lastPartIndex = classNameParts.length - 1;
 		final String applicationName;
 		if (lastPartIndex < 0) {
@@ -101,18 +100,17 @@ public class BcStandardApplicationRunner {
 
 		// UncaughtExceptionHandler installieren, falls gewünscht.
 		if (uncaughtExceptionHandler) {
-			Thread
-					.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 
-						public void uncaughtException(final Thread t,
-								final Throwable ex) {
-							Debug.getLogger().error(
-									"Applikation wird unerwartet beendet",
-									LoggerTools.getStackTrace(ex));
-							System.exit(-1);
-						}
+				@Override
+				public void uncaughtException(final Thread t, final Throwable ex) {
+					Debug.getLogger().error(
+							"Applikation wird unerwartet beendet",
+							LoggerTools.getStackTrace(ex));
+					System.exit(-1);
+				}
 
-					});
+			});
 		}
 
 		try {
@@ -156,7 +154,7 @@ public class BcStandardApplicationRunner {
 
 	/**
 	 * Identischt mit {@code run(application, args, null, true, true)}.
-	 * 
+	 *
 	 * @param application
 	 *            die zu initialisierende Applikation.
 	 * @param args

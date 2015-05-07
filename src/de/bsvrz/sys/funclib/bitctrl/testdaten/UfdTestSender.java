@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -63,43 +63,29 @@ import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 
 /**
  * Test-Applikation zur Erzeugung einigermaßen realistischer Kurzzeitdaten.
+ *
+ * @author BitCtrl Systems GmbH, anonymous
  */
-public final class UfdTestSender extends TimerTask
-		implements StandardApplication, ClientSenderInterface {
+public final class UfdTestSender extends TimerTask implements
+		StandardApplication, ClientSenderInterface {
 
 	/**
-	 * der Logger
+	 * der Logger.
 	 */
-	protected final Logger LOGGER = Logger
-			.getLogger(KzdTestSender.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(KzdTestSender.class
+			.getName());
 
 	/**
-	 * Liste aller Umfelddatensensoren mit ihrem aktuellen Verbindungszustand
+	 * Liste aller Umfelddatensensoren mit ihrem aktuellen Verbindungszustand.
 	 */
-	protected final Collection<SystemObject> umfeldDatenSensorenListe = new ArrayList<SystemObject>();
+	private final Collection<SystemObject> umfeldDatenSensorenListe = new ArrayList<>();
 
-	/**
-	 *
-	 */
-	private DataDescription descKurzzeitDaten;
+	private final Timer checkTimer = new Timer("UfdCheckTimer", true);
 
-	/**
-	 *
-	 */
-	Timer checkTimer = new Timer("UfdCheckTimer", true); //$NON-NLS-1$
-
-	/**
-	 *
-	 */
-	Random dataSource = new Random();
-
-	/**
-	 *
-	 */
 	private long startZeit;
 
 	/**
-	 * intervall, in dem neue Daten erzeugt werden
+	 * intervall, in dem neue Daten erzeugt werden.
 	 */
 	private final long delay = 60000L;
 
@@ -107,10 +93,10 @@ public final class UfdTestSender extends TimerTask
 
 	private boolean aktiv;
 
-	private final Map<SystemObject, ResultData> latestResultsKzd = new LinkedHashMap<SystemObject, ResultData>();
+	private final Map<SystemObject, ResultData> latestResultsKzd = new LinkedHashMap<>();
 
 	/**
-	 * Standardkonstruktor
+	 * Standardkonstruktor.
 	 */
 	private UfdTestSender() {
 		super();
@@ -138,11 +124,13 @@ public final class UfdTestSender extends TimerTask
 					Data data;
 					data = getUmfelddatenDaten(sensor);
 					final SystemObjectType typ = sensor.getType();
-					final Aspect asp = con.getDataModel()
-							.getAspect("asp.externeErfassung");
+					final Aspect asp = con.getDataModel().getAspect(
+							"asp.externeErfassung");
 					final AttributeGroup atg = con.getDataModel()
-							.getAttributeGroup("atg." + typ.getPidOrNameOrId()
-									.replace("typ.", ""));
+							.getAttributeGroup(
+									"atg."
+											+ typ.getPidOrNameOrId().replace(
+													"typ.", ""));
 					final DataDescription desc = new DataDescription(atg, asp);
 					final ResultData result = new ResultData(sensor, desc,
 							startZeit, data);
@@ -163,10 +151,6 @@ public final class UfdTestSender extends TimerTask
 		}
 	}
 
-	/**
-	 * @param dav
-	 * @see sys.funclib.application.StandardApplication#initialize(stauma.dav.clientside.ClientDavInterface)
-	 */
 	@Override
 	public void initialize(final ClientDavInterface dav) throws Exception {
 		con = dav;
@@ -186,11 +170,11 @@ public final class UfdTestSender extends TimerTask
 						final SystemObjectType typ = obj.getType();
 						final AttributeGroup atg = con.getDataModel()
 								.getAttributeGroup(
-										"atg." + typ.getPidOrNameOrId()
-												.replace("typ.", ""));
-						con.subscribeSender(this, obj,
-								new DataDescription(atg, asp),
-								SenderRole.source());
+										"atg."
+												+ typ.getPidOrNameOrId()
+														.replace("typ.", ""));
+						con.subscribeSender(this, obj, new DataDescription(atg,
+								asp), SenderRole.source());
 					}
 				}
 			} catch (final OneSubscriptionPerSendData e) {
@@ -204,11 +188,6 @@ public final class UfdTestSender extends TimerTask
 		}
 	}
 
-	/**
-	 * @param argumentList
-	 * @throws Exception
-	 * @see sys.funclib.application.StandardApplication#parseArguments(sys.funclib.ArgumentList)
-	 */
 	@Override
 	public void parseArguments(final ArgumentList argumentList)
 			throws Exception {
@@ -230,12 +209,6 @@ public final class UfdTestSender extends TimerTask
 		StandardApplicationRunner.run(new UfdTestSender(), args);
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 *
-	 * @see stauma.dav.clientside.ClientSenderInterface#dataRequest(stauma.dav.configuration.interfaces.SystemObject,
-	 *      stauma.dav.clientside.DataDescription, byte)
-	 */
 	@Override
 	public void dataRequest(final SystemObject object,
 			final DataDescription dataDescription, final byte state) {
@@ -245,12 +218,6 @@ public final class UfdTestSender extends TimerTask
 
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 *
-	 * @see stauma.dav.clientside.ClientSenderInterface#isRequestSupported(stauma.dav.configuration.interfaces.SystemObject,
-	 *      stauma.dav.clientside.DataDescription)
-	 */
 	@Override
 	public boolean isRequestSupported(final SystemObject object,
 			final DataDescription dataDescription) {
@@ -259,9 +226,9 @@ public final class UfdTestSender extends TimerTask
 			result = true;
 		} else {
 			LOGGER.warning("Unerwarteter Request: Attributgruppe "
-					+ dataDescription.getAttributeGroup().getName() + " Aspekt "
-					+ dataDescription.getAspect().getName() + " Objekt "
-					+ object.getPid());
+					+ dataDescription.getAttributeGroup().getName()
+					+ " Aspekt " + dataDescription.getAspect().getName()
+					+ " Objekt " + object.getPid());
 		}
 		return result;
 	}
@@ -280,22 +247,22 @@ public final class UfdTestSender extends TimerTask
 		final Data result = con.createData(atg);
 		result.setToDefault();
 		result.getTimeValue("T").setSeconds(60);
-		final Data embbededItem = result
-				.getItem(typ.getPidOrNameOrId().replace("typ.ufds", ""));
+		final Data embbededItem = result.getItem(typ.getPidOrNameOrId()
+				.replace("typ.ufds", ""));
 
 		embbededItem.getScaledValue("Wert").set(new Random().nextDouble());
 		final Data statusItem = embbededItem.getItem("Status");
 		statusItem.getItem("Erfassung").getUnscaledValue("NichtErfasst")
-		.setText("Nein");
+				.setText("Nein");
 
 		statusItem.getItem("PlFormal").getUnscaledValue("WertMax")
-		.setText("Nein");
-		statusItem.getItem("PlFormal").getUnscaledValue("WertMin")
-		.setText("Nein");
-		statusItem.getItem("MessWertErsetzung").getUnscaledValue("Implausibel")
-		.setText("Nein");
-		statusItem.getItem("MessWertErsetzung").getUnscaledValue("Interpoliert")
 				.setText("Nein");
+		statusItem.getItem("PlFormal").getUnscaledValue("WertMin")
+				.setText("Nein");
+		statusItem.getItem("MessWertErsetzung").getUnscaledValue("Implausibel")
+				.setText("Nein");
+		statusItem.getItem("MessWertErsetzung")
+				.getUnscaledValue("Interpoliert").setText("Nein");
 
 		final Data gueteItem = embbededItem.getItem("Güte");
 		gueteItem.getUnscaledValue("Index").set(-1); //$NON-NLS-1$

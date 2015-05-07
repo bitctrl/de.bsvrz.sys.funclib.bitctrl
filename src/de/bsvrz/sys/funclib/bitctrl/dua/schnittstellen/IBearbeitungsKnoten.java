@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -32,66 +32,63 @@ import de.bsvrz.sys.funclib.bitctrl.dua.dfs.schnittstellen.IDatenFlussSteuerungs
 import de.bsvrz.sys.funclib.bitctrl.dua.dfs.typen.ModulTyp;
 
 /**
- * Allgemeine Beschreibung der Schnittstelle Berarbeitungsknoten.
- * Diese Schnittstelle wird zur Initialisierung und Verkettung
- * von verschiedenen Modulen der DUA verwendet.
- * 
- * @author BitCtrl Systems GmbH, Thierfelder
+ * Allgemeine Beschreibung der Schnittstelle Berarbeitungsknoten. Diese
+ * Schnittstelle wird zur Initialisierung und Verkettung von verschiedenen
+ * Modulen der DUA verwendet.
  *
- * @version $Id: IBearbeitungsKnoten.java 8054 2008-04-09 15:11:59Z tfelder $
+ * @author BitCtrl Systems GmbH, Thierfelder
  */
 public interface IBearbeitungsKnoten extends IDatenFlussSteuerungsListener {
 
 	/**
-	 * Setzt die Verbindung zum Verwaltungsmodul und
-	 * initialisiert diesen Bearbeitungsknoten. Nach
-	 * dem Aufruf dieser Methode wird davon ausgegangen,
-	 * dass der Knoten voll funktionsfähig ist. Also
-	 * zum Beispiel alle Sendeanmeldungen durchgeführt
-	 * wurden. 
-	 * 
-	 * @param verwaltung eine Verbindung zum Verwaltungsmodul
-	 * @throws DUAInitialisierungsException wird ausgelöst,
-	 * wenn dieser Knoten nicht vollständig initialisiert 
-	 * werden konnte (z.B. wenn als Parameter <code>null</code>
-	 * übergeben wurde).
+	 * Setzt die Verbindung zum Verwaltungsmodul und initialisiert diesen
+	 * Bearbeitungsknoten. Nach dem Aufruf dieser Methode wird davon
+	 * ausgegangen, dass der Knoten voll funktionsfähig ist. Also zum Beispiel
+	 * alle Sendeanmeldungen durchgeführt wurden.
+	 *
+	 * @param verwaltung
+	 *            eine Verbindung zum Verwaltungsmodul
+	 * @throws DUAInitialisierungsException
+	 *             wird ausgelöst, wenn dieser Knoten nicht vollständig
+	 *             initialisiert werden konnte (z.B. wenn als Parameter
+	 *             <code>null</code> übergeben wurde).
 	 */
 	void initialisiere(IVerwaltung verwaltung)
 			throws DUAInitialisierungsException;
 
 	/**
 	 * Teilt diesem Knoten mit, an welchen Knoten die Daten nach der
-	 * vollständigen Bearbeitung durch diesen Knoten weitergeleitet
-	 * werden sollen.
-	 * 
-	 * @param knoten der chronologisch nachgeordnete Bearbeitungsknoten
-	 * oder <code>null</code>, wenn dieser Knoten der Letzte ist.
+	 * vollständigen Bearbeitung durch diesen Knoten weitergeleitet werden
+	 * sollen.
+	 *
+	 * @param knoten
+	 *            der chronologisch nachgeordnete Bearbeitungsknoten oder
+	 *            <code>null</code>, wenn dieser Knoten der Letzte ist.
 	 */
 	void setNaechstenBearbeitungsKnoten(IBearbeitungsKnoten knoten);
 
 	/**
-	 * Legt fest, ob eine Publikation der in diesem
-	 * Bearbeitungsknoten aufbereiteten Daten in den
-	 * Datenverteiler stattfinden soll. 
-	 * 
-	 * @param publizieren <code>true</code>, wenn 
-	 * publiziert werden soll
+	 * Legt fest, ob eine Publikation der in diesem Bearbeitungsknoten
+	 * aufbereiteten Daten in den Datenverteiler stattfinden soll.
+	 *
+	 * @param publizieren
+	 *            <code>true</code>, wenn publiziert werden soll
 	 */
 	void setPublikation(boolean publizieren);
 
 	/**
-	 * Aktualisierungsmethode. Über diese Methode sollten
-	 * dem Objekt, das dieses Interface implementiert alle
-	 * zu bearbeitenden Daten zur Verfügung gestellt werden.  
-	 * 
-	 * @param resultate aktuelle Daten vom Vorgängerknoten.
+	 * Aktualisierungsmethode. Über diese Methode sollten dem Objekt, das dieses
+	 * Interface implementiert alle zu bearbeitenden Daten zur Verfügung
+	 * gestellt werden.
+	 *
+	 * @param resultate
+	 *            aktuelle Daten vom Vorgängerknoten.
 	 */
 	void aktualisiereDaten(ResultData[] resultate);
 
 	/**
-	 * Erfragt den Typen des Moduls, das dieses
-	 * Interface implementiert.
-	 * 
+	 * Erfragt den Typen des Moduls, das dieses Interface implementiert.
+	 *
 	 * @return der Name dieses Moduls
 	 */
 	ModulTyp getModulTyp();

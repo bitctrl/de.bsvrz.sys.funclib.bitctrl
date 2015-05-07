@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -35,7 +35,6 @@ import com.bitctrl.i18n.Messages;
  * Kontext eines Ausdrucks. Speichert alle Variablen in einer Menge.
  *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: Kontext.java 6716 2008-02-18 17:32:51Z Schumann $
  */
 public class Kontext {
 
@@ -55,8 +54,8 @@ public class Kontext {
 	 */
 	public static void pruefeName(final String name) {
 		if (!pruefer.pruefe(name)) {
-			throw new InterpreterException(
-					Messages.get(InterpreterMessages.BadVariableName, name));
+			throw new InterpreterException(Messages.get(
+					InterpreterMessages.BadVariableName, name));
 		}
 	}
 
@@ -67,7 +66,7 @@ public class Kontext {
 	 * Der Standardkonstruktor initialisiert die interne Streuspeicherabbildung.
 	 */
 	public Kontext() {
-		kontext = new HashMap<String, Object>();
+		kontext = new HashMap<>();
 	}
 
 	/**
@@ -119,8 +118,8 @@ public class Kontext {
 
 		final Object wert = kontext.get(name.trim());
 		if (wert == null) {
-			throw new SymbolUndefiniertException(
-					Messages.get(InterpreterMessages.NoVariableWithName, name));
+			throw new SymbolUndefiniertException(Messages.get(
+					InterpreterMessages.NoVariableWithName, name));
 		}
 
 		return wert;
@@ -192,9 +191,6 @@ public class Kontext {
 		kontext.put(name.trim(), wert);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return kontext.toString();

@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -46,9 +46,8 @@ import de.bsvrz.dav.daf.main.impl.InvalidArgumentException;
  * Eine Repräsentation einer Attributliste vom Format der
  * <code>atl.datenpunkt</code> mitsamt den Live-Daten vom Datenverteiler, d.h.
  * das Objekt ist angemeldet!
- * 
+ *
  * @author BitCtrl Systems GmbH, Albrecht Uhlmann
- * @version $Id$
  */
 public class Datenpunkt implements ClientReceiverInterface {
 
@@ -120,20 +119,20 @@ public class Datenpunkt implements ClientReceiverInterface {
 		} else if (AttributeGroupUsage.Usage.OnlineDataAsSourceReceiver
 				.equals(usage)
 				|| AttributeGroupUsage.Usage.OnlineDataAsSourceReceiverOrSenderDrain
-						.equals(usage)) {
+				.equals(usage)) {
 			role = ReceiverRole.receiver();
 		} else {
 			throw new InvalidArgumentException(
 					"Unzulässige Attributgruppenverwendung: " + usage);
 		}
-		connection.subscribeReceiver(this, o, dataDescription, ReceiveOptions
-				.normal(), role);
+		connection.subscribeReceiver(this, o, dataDescription,
+				ReceiveOptions.normal(), role);
 	}
 
 	/**
 	 * Liefert die Beschreibung des aktuellen Datenpunktes, also ein Data-Objekt
-	 * vom Format der <code>atl.datenpunkt</code>
-	 * 
+	 * vom Format der <code>atl.datenpunkt</code>.
+	 *
 	 * @return der Datenpunkt
 	 */
 	public Data getAtlDatenpunkt() {
@@ -142,7 +141,7 @@ public class Datenpunkt implements ClientReceiverInterface {
 
 	/**
 	 * Setzt den Datenpunkt.
-	 * 
+	 *
 	 * @param atlDatenpunkt
 	 *            der Datenpunkt
 	 * @throws InvalidArgumentException
@@ -165,6 +164,7 @@ public class Datenpunkt implements ClientReceiverInterface {
 		return lastValue;
 	}
 
+	@Override
 	public void update(final ResultData[] results) {
 		if (null == atlDatenpunkt) {
 			return;
@@ -177,7 +177,7 @@ public class Datenpunkt implements ClientReceiverInterface {
 	/**
 	 * Aktualisiert einen Ergebnisdatensatz aus dem Feld von
 	 * Ergebnisdatensätzen, die über die DAF-API kamen.
-	 * 
+	 *
 	 * @param result
 	 *            der Ergebnisdatensatz
 	 */
@@ -202,7 +202,7 @@ public class Datenpunkt implements ClientReceiverInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -220,7 +220,7 @@ public class Datenpunkt implements ClientReceiverInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -232,8 +232,8 @@ public class Datenpunkt implements ClientReceiverInterface {
 	}
 
 	/**
-	 * Liefert die dataDescription
-	 * 
+	 * Liefert die dataDescription.
+	 *
 	 * @return die dataDescription, kann <code>null</code> sein.
 	 */
 	public DataDescription getDataDescription() {
@@ -241,8 +241,8 @@ public class Datenpunkt implements ClientReceiverInterface {
 	}
 
 	/**
-	 * Liefert die Pfadkomponenten
-	 * 
+	 * Liefert die Pfadkomponenten.
+	 *
 	 * @return die Pfadkomponenten, kann null sein.
 	 */
 	public String[] getPfadKomponenten() {
@@ -250,8 +250,8 @@ public class Datenpunkt implements ClientReceiverInterface {
 	}
 
 	/**
-	 * Setzt die Datenverteilerverbindung
-	 * 
+	 * Setzt die Datenverteilerverbindung.
+	 *
 	 * @param connection
 	 *            die Datenverteilerverbindung
 	 */
@@ -261,7 +261,7 @@ public class Datenpunkt implements ClientReceiverInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -284,7 +284,7 @@ public class Datenpunkt implements ClientReceiverInterface {
 
 	/**
 	 * Liefert das Systemobjekt, dem dieser Datenpunkt zugeordnet ist.
-	 * 
+	 *
 	 * @return das Objekt oder null, wenn noch keine Anmeldung erfolgt ist.
 	 */
 	public SystemObject getObject() {
@@ -293,7 +293,7 @@ public class Datenpunkt implements ClientReceiverInterface {
 
 	/**
 	 * Liefert den letzten empfangenen Ergebnisdatensatz.
-	 * 
+	 *
 	 * @return der Ergebnisdatensatz. Kann <code>null</code> sein, wenn noch nie
 	 *         einer empfangen wurde. Für den Fall, dass der Ergebnisdatensatz
 	 *         keine Daten enthält, wird er trotzdem gespeichert, nur #lastValue

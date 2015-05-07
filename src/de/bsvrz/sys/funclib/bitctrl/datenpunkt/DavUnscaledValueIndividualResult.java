@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -35,10 +35,8 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
  * Ganzzahliger Ergebniswert aus dem Datenverteiler.
- * 
+ *
  * @author BitCtrl Systems GmbH, uhlmann
- * @version $Id: DavUnscaledValueIndividualResult.java 27375 2010-11-04
- *          16:30:14Z uhlmann $
  */
 public class DavUnscaledValueIndividualResult extends Datenpunkt implements
 		IIndividualResult<Long, ResultData> {
@@ -47,7 +45,7 @@ public class DavUnscaledValueIndividualResult extends Datenpunkt implements
 
 	/**
 	 * Konstruktor weist nur das Elternobjekt zu.
-	 * 
+	 *
 	 * @param parent
 	 *            das Elternobjekt, also die ERgebnismenge, der wir angehören
 	 */
@@ -57,6 +55,7 @@ public class DavUnscaledValueIndividualResult extends Datenpunkt implements
 		this.parent = parent;
 	}
 
+	@Override
 	public Long getCurrentValue() {
 		final Long currentValue;
 		final Data v = getLastValue();
@@ -69,6 +68,7 @@ public class DavUnscaledValueIndividualResult extends Datenpunkt implements
 		return currentValue;
 	}
 
+	@Override
 	public ResultData getCurrentBaseSetValue() {
 		return getLastResult();
 	}
@@ -79,6 +79,7 @@ public class DavUnscaledValueIndividualResult extends Datenpunkt implements
 		parent.neuerWert(this, getCurrentValue());
 	}
 
+	@Override
 	public String getName() {
 		final SystemObject o = getObject();
 		if (null == o) {
@@ -87,6 +88,7 @@ public class DavUnscaledValueIndividualResult extends Datenpunkt implements
 		return o.getName();
 	}
 
+	@Override
 	public void dispose() {
 		abmelden();
 	}

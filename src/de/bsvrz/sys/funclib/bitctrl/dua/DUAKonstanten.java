@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -30,10 +30,8 @@ import java.text.SimpleDateFormat;
 
 /**
  * Allgemeine Konstanten der DUA.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
- * 
- * @version $Id: DUAKonstanten.java 9626 2008-06-13 07:53:23Z tfelder $
  */
 public final class DUAKonstanten {
 
@@ -92,18 +90,18 @@ public final class DUAKonstanten {
 	/**
 	 * DAV-Typ-PID <code>typ.fahrStreifen</code>.
 	 */
-	public static final String TYP_FAHRSTREIFEN = "typ.fahrStreifen"; //$NON-NLS-1$	
+	public static final String TYP_FAHRSTREIFEN = "typ.fahrStreifen"; //$NON-NLS-1$
 
 	/**
 	 * DAV-Typ-PID <code>typ.fahrStreifenLangZeit</code>.
 	 */
 	public static final String TYP_FAHRSTREIFEN_LZ = "typ.fahrStreifenLangZeit"; //$NON-NLS-1$
-	
+
 	/**
 	 * DAV-Typ-PID <code>typ.straﬂenabschnitt</code>.
 	 */
 	public static final String TYP_STRASSEN_ABSCHNITT = "typ.straﬂenAbschnitt"; //$NON-NLS-1$
-	
+
 	/**
 	 * DAV-Atg-PID <code>atg.verkehrsDatenKurzZeitIntervall</code>.
 	 */
@@ -150,7 +148,7 @@ public final class DUAKonstanten {
 	public static final String ATG_FAHRSTREIFEN = "atg.fahrStreifen"; //$NON-NLS-1$
 
 	/**
-	 * DAV-Atg-PID {@value}.
+	 * DAV-Atg-PID {@value} .
 	 */
 	public static final String ATG_UMFELD_DATEN_SENSOR = "atg.umfeldDatenSensor"; //$NON-NLS-1$
 
@@ -177,32 +175,32 @@ public final class DUAKonstanten {
 	/**
 	 * DAV-Atg-PID <code>atg.messQuerschnittVirtuellStandard</code>.
 	 */
-	public static final String ATG_MQ_VIRTUELL_STANDARD = "atg.messQuerschnittVirtuellStandard"; //$NON-NLS-1$	
+	public static final String ATG_MQ_VIRTUELL_STANDARD = "atg.messQuerschnittVirtuellStandard"; //$NON-NLS-1$
 
 	/**
 	 * DAV-Atg-PID <code>atg.verkehrsDatenKurzZeitTrendExtraPolationFs</code>.
 	 */
-	public static final String ATG_KURZZEIT_TRENT_FS = "atg.verkehrsDatenKurzZeitTrendExtraPolationFs"; //$NON-NLS-1$	
+	public static final String ATG_KURZZEIT_TRENT_FS = "atg.verkehrsDatenKurzZeitTrendExtraPolationFs"; //$NON-NLS-1$
 
 	/**
 	 * DAV-Atg-PID <code>atg.verkehrsDatenKurzZeitTrendExtraPolationMq</code>.
 	 */
-	public static final String ATG_KURZZEIT_TRENT_MQ = "atg.verkehrsDatenKurzZeitTrendExtraPolationMq"; //$NON-NLS-1$	
+	public static final String ATG_KURZZEIT_TRENT_MQ = "atg.verkehrsDatenKurzZeitTrendExtraPolationMq"; //$NON-NLS-1$
 
 	/**
 	 * DAV-Atg-PID <code>atg.verkehrsDatenKurzZeitGegl‰ttetFs</code>.
 	 */
-	public static final String ATG_KURZZEIT_GEGLAETTET_FS = "atg.verkehrsDatenKurzZeitGegl‰ttetFs"; //$NON-NLS-1$	
+	public static final String ATG_KURZZEIT_GEGLAETTET_FS = "atg.verkehrsDatenKurzZeitGegl‰ttetFs"; //$NON-NLS-1$
 
 	/**
 	 * DAV-Atg-PID <code>atg.verkehrsDatenKurzZeitGegl‰ttetMq</code>.
 	 */
-	public static final String ATG_KURZZEIT_GEGLAETTET_MQ = "atg.verkehrsDatenKurzZeitGegl‰ttetMq"; //$NON-NLS-1$		
+	public static final String ATG_KURZZEIT_GEGLAETTET_MQ = "atg.verkehrsDatenKurzZeitGegl‰ttetMq"; //$NON-NLS-1$
 
 	/**
 	 * DAV-Atg-PID <code>atg.verkehrsDatenKurzZeitFs</code>.
 	 */
-	public static final String ATG_KURZZEIT_FS = "atg.verkehrsDatenKurzZeitFs"; //$NON-NLS-1$		
+	public static final String ATG_KURZZEIT_FS = "atg.verkehrsDatenKurzZeitFs"; //$NON-NLS-1$
 
 	/**
 	 * DAV-Atg-PID <code>atg.verkehrsDatenKurzZeitMq</code>.
@@ -212,7 +210,7 @@ public final class DUAKonstanten {
 	/**
 	 * DAV-Atg-PID <code>atg.verkehrsDatenDtvFs</code>.
 	 */
-	public static final String ATG_DTV_FS = "atg.verkehrsDatenDtvFs"; //$NON-NLS-1$		
+	public static final String ATG_DTV_FS = "atg.verkehrsDatenDtvFs"; //$NON-NLS-1$
 
 	/**
 	 * DAV-Atg-PID <code>atg.verkehrsDatenDtvMq</code>.

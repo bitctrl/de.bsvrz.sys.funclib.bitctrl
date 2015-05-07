@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -42,13 +42,12 @@ import com.bitctrl.i18n.Messages;
  * {@link Handler} die ihn behandeln können.
  *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: Operator.java 6835 2008-02-21 13:04:58Z peuker $
  */
 public final class Operator {
 	/**
 	 * Statische Menge aller Operatoren.
 	 */
-	private static HashMap<String, Operator> operatorMenge = new HashMap<String, Operator>();
+	private static HashMap<String, Operator> operatorMenge = new HashMap<>();
 
 	/**
 	 * ermiitelt, ob in der Menge der Operatoren ein Operator mit dem gegebenen
@@ -113,7 +112,7 @@ public final class Operator {
 	/**
 	 * Menge aller Handler dieses Operators.
 	 */
-	private final List<Handler> handler = new ArrayList<Handler>();
+	private final List<Handler> handler = new ArrayList<>();
 
 	/**
 	 * Konstruktor verstecken.
@@ -151,12 +150,6 @@ public final class Operator {
 		handler.add(h);
 	}
 
-	/**
-	 * {@inheritDoc}.<br>
-	 * Zwei Operatoren sind gleich, wenn sie das selbe Symbol darstellen.
-	 *
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(final Object obj) {
 		if (obj instanceof Operator) {
@@ -182,8 +175,8 @@ public final class Operator {
 	 */
 	public Object execute(final List<Object> werte) {
 		if (handler.size() == 0) {
-			throw new InterpreterException(Messages
-					.get(InterpreterMessages.HandlerNotFound, getSymbol()));
+			throw new InterpreterException(Messages.get(
+					InterpreterMessages.HandlerNotFound, getSymbol()));
 		}
 
 		for (final Handler h : handler) {
@@ -247,12 +240,6 @@ public final class Operator {
 		return symbol;
 	}
 
-	/**
-	 * {@inheritDoc}.<br>
-	 * Gibt das Symbol des Operators zur&uuml;ck
-	 *
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		assert symbol != null;

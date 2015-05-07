@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -36,7 +36,6 @@ import java.util.List;
  * eine Operation.
  *
  * @author BitCtrl Systems GmbH, Schumann
- * @version $Id: OperationsSymbol.java 6835 2008-02-21 13:04:58Z peuker $
  */
 public class OperationsSymbol implements Ausdruck {
 
@@ -67,7 +66,7 @@ public class OperationsSymbol implements Ausdruck {
 		}
 
 		this.operator = operator;
-		this.operanden = new ArrayList<Ausdruck>();
+		this.operanden = new ArrayList<>();
 		if (operanden.length > 0) {
 			this.operanden.addAll(Arrays.asList(operanden));
 		}
@@ -118,11 +117,9 @@ public class OperationsSymbol implements Ausdruck {
 		this(operatorSymbol, operanden.toArray(new Ausdruck[0]));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public List<Ausdruck> getNachfolger() {
-		return new ArrayList<Ausdruck>(operanden);
+		return new ArrayList<>(operanden);
 	}
 
 	/**
@@ -145,13 +142,11 @@ public class OperationsSymbol implements Ausdruck {
 		return operator;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Object interpret(final Kontext kontext) {
 		assert operator != null;
 
-		final List<Object> values = new ArrayList<Object>();
+		final List<Object> values = new ArrayList<>();
 		for (final Ausdruck a : operanden) {
 			if (a != null) {
 				values.add(a.interpret(kontext));
@@ -163,13 +158,7 @@ public class OperationsSymbol implements Ausdruck {
 		return operator.execute(values);
 	}
 
-	/**
-	 * {@inheritDoc}.<br>
-	 *
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
-	@SuppressWarnings("nls")
 	public String toString() {
 		assert operator != null;
 

@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -46,8 +46,6 @@ import de.bsvrz.sys.funclib.debug.Debug;
  *
  * @param <T>
  *            Information
- *
- * @version $Id: KontrollProzess.java 8272 2008-04-16 07:28:31Z tfelder $
  */
 public class KontrollProzess<T> {
 
@@ -99,13 +97,14 @@ public class KontrollProzess<T> {
 	public final synchronized void setNaechstenAufrufZeitpunkt(
 			final long zeitpunktInMillis) {
 		if (this.naechsterAufrufZeitpunkt != zeitpunktInMillis) {
-			Debug.getLogger()
-			.info("Der eingeplante Kontrollzeitpunkt wird verändert" + //$NON-NLS-1$
-					"\nAlt: "
-					+ DUAKonstanten.ZEIT_FORMAT_GENAU.format(
-							new Date(this.naechsterAufrufZeitpunkt))
-					+ "\nNeu: " + DUAKonstanten.ZEIT_FORMAT_GENAU
-					.format(new Date(zeitpunktInMillis)));
+			Debug.getLogger().info(
+					"Der eingeplante Kontrollzeitpunkt wird verändert" + //$NON-NLS-1$
+							"\nAlt: "
+							+ DUAKonstanten.ZEIT_FORMAT_GENAU.format(new Date(
+									this.naechsterAufrufZeitpunkt))
+									+ "\nNeu: "
+									+ DUAKonstanten.ZEIT_FORMAT_GENAU.format(new Date(
+											zeitpunktInMillis)));
 			this.naechsterAufrufZeitpunkt = zeitpunktInMillis;
 			this.prozess.cancel();
 			this.timer.purge();
@@ -189,8 +188,7 @@ public class KontrollProzess<T> {
 	 * @param listener
 	 *            das zu löschende Beobachterobjekt
 	 */
-	public final void removeListener(
-			final IKontrollProzessListener<T> listener) {
+	public final void removeListener(final IKontrollProzessListener<T> listener) {
 		if (listener != null) {
 			synchronized (this.listenerMenge) {
 				this.listenerMenge.remove(listener);
@@ -206,9 +204,6 @@ public class KontrollProzess<T> {
 	 */
 	protected class Prozess extends TimerTask {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void run() {
 			synchronized (KontrollProzess.this.listenerMenge) {

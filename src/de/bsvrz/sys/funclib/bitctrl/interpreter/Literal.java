@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -30,15 +30,14 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter;
  * Schnittstelle für Klassen, die ein Literal repräsentieren. Es wird keine
  * Funktionalität hinzugefügt. Die Schnittstelle dient lediglich zur Erhöhung
  * der Typsicherheit innerhalb der Softwareeinheit.
- * 
+ *
  * @author BitCtrl Systems GmbH, Uwe Peuker
- * @version $Id: Literal.java 6835 2008-02-21 13:04:58Z peuker $
  */
 public interface Literal extends Ausdruck {
 
 	/**
 	 * Gibt den Wert des Literals zur&uuml;ck.
-	 * 
+	 *
 	 * @return Der Wert
 	 */
 	Object getWert();

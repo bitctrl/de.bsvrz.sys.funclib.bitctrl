@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -57,10 +57,9 @@ import de.bsvrz.dav.daf.main.impl.InvalidArgumentException;
 /**
  * Allgemeine Funktionen im Zusammenhang mit
  * Datenverteiler-Applikationsfunktionen.
- * 
+ *
  * @author BitCtrl Systems GmbH, peuker
  * @author BitCtrl Systems GmbH, Falko Schumann
- * @version $Id$
  */
 public final class DavTools {
 
@@ -90,7 +89,7 @@ public final class DavTools {
 
 	/**
 	 * Konvertiert einen Zeitstempel in eine lesbare absolute Zeit.
-	 * 
+	 *
 	 * @param zeitstempel
 	 *            ein Zeitstempel.
 	 * @return die entsprechende Zeit als lesbaren String.
@@ -104,7 +103,7 @@ public final class DavTools {
 	 * nach einem Leerzeichen in einen Großbuchstaben verwandelt, danach alle
 	 * Leerzeichen entfernt und der erste Buchstabe des Namens in einen
 	 * Kleinbuchstaben umgewandelt.
-	 * 
+	 *
 	 * @param name
 	 *            der Objektname.
 	 * @param praefix
@@ -120,7 +119,7 @@ public final class DavTools {
 	 * nach einem Leerzeichen in einen Großbuchstaben verwandelt, danach alle
 	 * Leerzeichen entfernt und der erste Buchstabe des Namens in einen
 	 * Kleinbuchstaben umgewandelt.
-	 * 
+	 *
 	 * Mit dem Parameter ersetzteUmlaute kann erzwungen werden, dass Umlaute
 	 * ersetzt werden. Die Ersetzung erfolgt wir folgt:
 	 * <ul>
@@ -132,10 +131,10 @@ public final class DavTools {
 	 * <li>Ü wird Ue</li>
 	 * <li>ß wird sz</li>
 	 * </ul>
-	 * 
+	 *
 	 * Die Ersetzung erfolgt dabei nur im generierten Teil ein Präfix, der
 	 * Umlaute enthält behölt diese.
-	 * 
+	 *
 	 * @param name
 	 *            der Objektname.
 	 * @param praefix
@@ -182,11 +181,11 @@ public final class DavTools {
 	/**
 	 * Liefert einen int-Wert, der als Boolean-Ersatz für JaNein-Werte innerhalb
 	 * einer Datenverteiler-Attributgruppe verschickt werden kann.
-	 * 
+	 *
 	 * <p>
 	 * <em>Hinweis:</em> Setzt Verwendung des vorhandenen Standardattribitts
 	 * att.jaNein voraus, in dem <code>false</code> durch 0 repräsentiert wird.
-	 * 
+	 *
 	 * @param wert
 	 *            ein boolean-Wert.
 	 * @return der int-Wert.
@@ -198,11 +197,11 @@ public final class DavTools {
 	/**
 	 * Liefert einen boolean-Wert, der als int-Ersatz für JaNein-Werte innerhalb
 	 * einer Datenverteiler-Attributgruppe verschickt werden kann.
-	 * 
+	 *
 	 * <p>
 	 * <em>Hinweis:</em> Setzt Verwendung des vorhandenen Standardattribitts
 	 * att.jaNein voraus, in dem <code>false</code> durch 0 repräsentiert wird.
-	 * 
+	 *
 	 * @param wert
 	 *            der int-Wert.
 	 * @return der boolean-wert.
@@ -217,7 +216,7 @@ public final class DavTools {
 	 * <p>
 	 * <em>Hinweis:</em> Das Ergebnis wird im Parameter abgelegt, der
 	 * Rückgabewert ist identisch und für chaining-Aufrufe gedacht.
-	 * 
+	 *
 	 * @param objekte
 	 *            die zu sortierende Liste.
 	 * @return die sortierte Liste.
@@ -226,6 +225,7 @@ public final class DavTools {
 			final List<? extends SystemObject> objekte) {
 		Collections.sort(objekte, new Comparator<SystemObject>() {
 
+			@Override
 			public int compare(final SystemObject so1, final SystemObject so2) {
 				final Collator de = Collator.getInstance(Locale.GERMANY);
 				return de.compare(so1.toString(), so2.toString());
@@ -237,7 +237,7 @@ public final class DavTools {
 
 	/**
 	 * Bestimmt den Supertyp einer Menge von Objekten.
-	 * 
+	 *
 	 * @param objects
 	 *            die Menge
 	 * @return der Typ. Kann null sein.
@@ -262,7 +262,7 @@ public final class DavTools {
 		while (basis.size() > 1) {
 			final Iterator<SystemObjectType> iterator = basis.iterator();
 			final SystemObjectType type1 = iterator.next();
-			final Set<SystemObjectType> remove = new HashSet<SystemObjectType>();
+			final Set<SystemObjectType> remove = new HashSet<>();
 
 			while (iterator.hasNext()) {
 				final SystemObjectType type2 = iterator.next();
@@ -282,7 +282,7 @@ public final class DavTools {
 
 	/**
 	 * Bestimmt rekursiv alle Supertypen eines Systemobjekttyps.
-	 * 
+	 *
 	 * @param objectType
 	 *            ein Systemobjekttyp.
 	 * @return alle Typen, die der übergebene Typ direkt oder indirekt
@@ -290,7 +290,7 @@ public final class DavTools {
 	 */
 	public static Set<SystemObjectType> getSuperTypes(
 			final SystemObjectType objectType) {
-		final Set<SystemObjectType> superTypes = new HashSet<SystemObjectType>();
+		final Set<SystemObjectType> superTypes = new HashSet<>();
 
 		superTypes.addAll(objectType.getSuperTypes());
 		for (final SystemObjectType type : superTypes) {
@@ -304,7 +304,7 @@ public final class DavTools {
 	 * Überprüft ob der übergebene Wert eine gültige Simulationsvariante ist.
 	 * Liegt die Simulationsvariante nicht im Bereich 0..999, wird eine
 	 * {@link NoSimulationException} augelöst.
-	 * 
+	 *
 	 * @param sim
 	 *            die zu prüfende Simulationsvariante.
 	 * @throws NoSimulationException
@@ -322,7 +322,7 @@ public final class DavTools {
 	 * Überprüft ob der übergebene Wert eine echte Simulationsvariante ist.
 	 * Liegt die Simulationsvariante nicht im Bereich 1..999, wird eine
 	 * {@link NoSimulationException} augelöst.
-	 * 
+	 *
 	 * @param sim
 	 *            die zu prüfende Simulationsvariante.
 	 * @throws NoSimulationException
@@ -341,7 +341,7 @@ public final class DavTools {
 	 * Datenverteilerverbindung. Der Standardkonfigurationsbereich wird
 	 * verwendet um dynamische Objekte abzulegen, sofern kein expliziter
 	 * Zielbereich für diesen Zweck definiert wurde.
-	 * 
+	 *
 	 * @param verbindung
 	 *            die Verbindung, deren Standardbereich ermittelt werden soll
 	 * @return den ermittelten Konfigurationsbereich.
@@ -380,7 +380,7 @@ public final class DavTools {
 	 * für die PID eines Konfigurationsbereichs die enthalten Systemobjekte und
 	 * für die PID eines Typs alle dazugehörigen Instanzen ermitteln. Praktische
 	 * Funktion für die Auswertung von PIDs bei Kommandozeilenargumenten.
-	 * 
+	 *
 	 * @param dav
 	 *            die Datenverteilerverbindung, die zu Abfrage genutzt werden
 	 *            soll.
@@ -402,7 +402,7 @@ public final class DavTools {
 	public static Collection<SystemObject> getObjekte(
 			final ClientDavInterface dav, final boolean typenAufloesen,
 			final boolean bereicheAufloesen, final String... pids) {
-		final List<SystemObject> result = new ArrayList<SystemObject>();
+		final List<SystemObject> result = new ArrayList<>();
 		final DataModel model = dav.getDataModel();
 
 		for (final String pid : pids) {
@@ -427,7 +427,7 @@ public final class DavTools {
 	 * zweitem Parameter kann der Typ der gesuchten Objekte eingeschränkt
 	 * werden. Praktische Funktion für die Auswertung von PIDs bei
 	 * Kommandozeilenargumenten.
-	 * 
+	 *
 	 * @param kb
 	 *            ein Konfigurationsbereich.
 	 * @param pidTypen
@@ -440,7 +440,7 @@ public final class DavTools {
 			return kb.getObjects(null, ObjectTimeSpecification.valid());
 		}
 
-		final List<SystemObjectType> objekttypen = new ArrayList<SystemObjectType>();
+		final List<SystemObjectType> objekttypen = new ArrayList<>();
 		for (final String typ : pidTypen) {
 			objekttypen.add(kb.getDataModel().getType(typ));
 		}

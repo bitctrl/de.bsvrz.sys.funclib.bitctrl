@@ -1,7 +1,7 @@
 /*
  * BitCtrl-Funktionsbibliothek
- * Copyright (C) 2009 BitCtrl Systems GmbH 
- * 
+ * Copyright (C) 2015 BitCtrl Systems GmbH
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
@@ -28,22 +28,21 @@ package de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen;
 
 /**
  * Schnittstelle zu einem Kontrollprozess.
- * 
+ *
  * @author BitCtrl Systems GmbH, Thierfelder
  *
- * @param <T> eine Information zur Uebergabe an den Listener
- * 
- * @version $Id: IKontrollProzessListener.java 8054 2008-04-09 15:11:59Z tfelder $
+ * @param <T>
+ *            eine Information zur Uebergabe an den Listener
  */
 public interface IKontrollProzessListener<T> {
 
 	/**
-	 * Wird von einem assoziierten Kontrollprozess zur Kontrollzeit
-	 * aufgerufen.
+	 * Wird von einem assoziierten Kontrollprozess zur Kontrollzeit aufgerufen.
 	 *
-	 * @param information ein Objekt mit einer bestimmten Information
-	 * zu diesem Ereignis. Dieses Objekt muss dem zugehörigen Kontrollprozess
-	 * vorher übergeben worden sein
+	 * @param information
+	 *            ein Objekt mit einer bestimmten Information zu diesem
+	 *            Ereignis. Dieses Objekt muss dem zugehörigen Kontrollprozess
+	 *            vorher übergeben worden sein
 	 */
 	void trigger(T information);
 
