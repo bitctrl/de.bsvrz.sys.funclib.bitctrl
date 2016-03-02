@@ -1,2 +1,0 @@
-Weitere Klassen aus alter funclib kopieren, aber nur welche die auch sinnvoll
-sind. Das heiﬂt, auf Dopplungen achten und ggf. entfernen.

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/de.bsvrz.sys.funclib.bitctrl/src/de/bsvrz/sys/funclib/bitctrl/test/KzdSender.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="de.bsvrz.sys.funclib.bitctrl.test.KzdSender"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-debugLevelFileText=all&#13;&#10;-debugLevelStdErrText=all&#13;&#10;-debugSetLoggerAndLevel=:config&#13;&#10;-datenverteiler=192.168.1.137:8083&#13;&#10;-benutzer=Tester&#13;&#10;-authentifizierung=passwd"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="de.bsvrz.sys.funclib.bitctrl"/>
+<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
+</launchConfiguration>
