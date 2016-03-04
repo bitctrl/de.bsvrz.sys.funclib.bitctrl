@@ -131,7 +131,7 @@ public class TreePropertiesTest {
 		tree.endArray("people");
 
 		try {
-			tree.store(new FileOutputStream("test.properties"), "JUnit Test");
+			tree.store(new FileOutputStream("target/test.properties"), "JUnit Test");
 		} catch (final FileNotFoundException ex) {
 			fail(ex.getLocalizedMessage());
 		} catch (final IOException ex) {
@@ -140,7 +140,7 @@ public class TreePropertiesTest {
 
 		final TreeProperties load = new TreeProperties();
 		try {
-			load.load(new FileInputStream("test.properties"));
+			load.load(new FileInputStream("target/test.properties"));
 		} catch (final FileNotFoundException ex) {
 			fail(ex.getLocalizedMessage());
 		} catch (final IOException ex) {
