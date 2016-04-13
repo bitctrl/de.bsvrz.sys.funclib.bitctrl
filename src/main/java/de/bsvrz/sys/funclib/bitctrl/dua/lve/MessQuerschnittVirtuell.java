@@ -1,6 +1,7 @@
 /*
  * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
+ * Copyright 2016 by Kappich Systemberatung Aachen
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -39,8 +40,10 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAInitialisierungsException;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAKonstanten;
 import de.bsvrz.sys.funclib.bitctrl.dua.DUAUtensilien;
+import de.bsvrz.sys.funclib.bitctrl.dua.lve.daten.AtgMessQuerschnittVirtuell;
 import de.bsvrz.sys.funclib.bitctrl.dua.lve.daten.AtgMessQuerschnittVirtuellVLage;
 import de.bsvrz.sys.funclib.bitctrl.dua.lve.daten.KeineDatenException;
+import de.bsvrz.sys.funclib.bitctrl.dua.lve.daten.MessQuerschnittAnteile;
 import de.bsvrz.sys.funclib.bitctrl.dua.lve.typen.MessQuerschnittVirtuellLage;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
@@ -73,7 +76,8 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 		 * <b>NEUE VORSCHRIFT.</b><br>
 		 * Definiert abstrakt eine Menge von (MQ, Anteil)-Tupeln, die
 		 * beschreiben, wie sich die Werte des virtuellen MQ aus denen der
-		 * einzelen-MQs anteilig errechnen.
+		 * einzelnen-MQs anteilig errechnen.
+		 * Optionale Angabe eines MQ, von dem die Geschwindigkeit übernommen wird.
 		 */
 		AUF_BASIS_VON_ATG_MQ_VIRTUELL_V_LAGE,
 
@@ -137,7 +141,7 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 	/**
 	 * die Bestandteile dieses VMQ.
 	 */
-	private AtgMessQuerschnittVirtuellVLage atgMessQuerschnittVirtuellVLage;
+	private MessQuerschnittAnteile messQuerschnittAnteile;
 
 	/**
 	 * Standardkontruktor.
@@ -164,7 +168,7 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 				.getConfigurationData(atgEigenschaftenSTD);
 
 		if (eigenschaftenSTD == null) {
-			Debug.getLogger().warning(
+			Debug.getLogger().fine(
 					"\"atg.messQuerschnittVirtuellStandard\" von MessQuerschnittVirtuell-Objekt " //$NON-NLS-1$
 					+ mqvObjekt + " konnten nicht ausgelesen werden");
 		} else {
@@ -204,22 +208,25 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 		}
 
 		try {
-			atgMessQuerschnittVirtuellVLage = new AtgMessQuerschnittVirtuellVLage(
-					sDav, mqvObjekt);
-			berechnungsVorschrift = BerechnungsVorschrift.AUF_BASIS_VON_ATG_MQ_VIRTUELL_V_LAGE;
+			messQuerschnittAnteile =  new AtgMessQuerschnittVirtuell(
+					sDav, mqvObjekt);;
+					berechnungsVorschrift = BerechnungsVorschrift.AUF_BASIS_VON_ATG_MQ_VIRTUELL_V_LAGE;
 		} catch (final KeineDatenException e) {
-			Debug.getLogger().warning(
+			Debug.getLogger().fine(
 					"\"atg.messQuerschnittVirtuellVLage\" von MessQuerschnittVirtuell-Objekt "
 							+ mqvObjekt + " konnten nicht ausgelesen werden:\n"
 							+ e.getMessage());
 		}
 
-		if (berechnungsVorschrift == BerechnungsVorschrift.UNBEKANNT) {
-			throw new DUAInitialisierungsException(
-					"Die Berechnungsvorschrift fuer den VMQ " + mqvObjekt
-					+ " kann nicht bestimmt werden, "
-					+ "da keine der notwendigen Attributgruppen versorgt ist"
-					+ " (\"atg.messQuerschnittVirtuellVLage\" bzw. \"atg.messQuerschnittVirtuellStandard\").");
+		try {
+			messQuerschnittAnteile = new AtgMessQuerschnittVirtuellVLage(
+					sDav, mqvObjekt);
+			berechnungsVorschrift = BerechnungsVorschrift.AUF_BASIS_VON_ATG_MQ_VIRTUELL_V_LAGE;
+		} catch (final KeineDatenException e) {
+			Debug.getLogger().fine(
+					"\"atg.messQuerschnittVirtuellVLage\" von MessQuerschnittVirtuell-Objekt "
+							+ mqvObjekt + " konnten nicht ausgelesen werden:\n"
+							+ e.getMessage());
 		}
 
 	}
@@ -335,7 +342,7 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 
 		if ((getBerechnungsVorschrift() == null)
 				|| (getBerechnungsVorschrift() == BerechnungsVorschrift.AUF_BASIS_VON_ATG_MQ_VIRTUELL_V_LAGE)) {
-			for (final AtgMessQuerschnittVirtuellVLage.AtlMessQuerSchnittBestandTeil mqBestandteil : getAtgMessQuerschnittVirtuellVLage()
+			for (final AtgMessQuerschnittVirtuellVLage.AtlMessQuerSchnittBestandTeil mqBestandteil : getMessQuerschnittAnteile()
 					.getMessQuerSchnittBestandTeile()) {
 				final MessQuerschnittAllgemein mqa = MessQuerschnittAllgemein
 						.getInstanz(mqBestandteil.getMQReferenz());
@@ -438,11 +445,28 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 	 * Erfragt die Konfigurationsinformationen aus der Attributgruppe
 	 * <code>atg.messQuerschnittVirtuellVLage</code>.
 	 *
+	 *@deprecated ersetzt durch {@link #getMessQuerschnittAnteile()}
+	 *
 	 * @return die Konfigurationsinformationen aus der Attributgruppe
 	 *         <code>atg.messQuerschnittVirtuellVLage</code>.
 	 */
+	@Deprecated
 	public final AtgMessQuerschnittVirtuellVLage getAtgMessQuerschnittVirtuellVLage() {
-		return atgMessQuerschnittVirtuellVLage;
+		if(messQuerschnittAnteile instanceof AtgMessQuerschnittVirtuellVLage) {
+			return (AtgMessQuerschnittVirtuellVLage) messQuerschnittAnteile;
+		}
+		return null;
+	}
+
+	/**
+	 * Erfragt die Konfigurationsinformationen aus der Attributgruppe
+	 * <code>atg.messQuerschnittVirtuellVLage</code>.
+	 *
+	 * @return die Konfigurationsinformationen aus der Attributgruppe
+	 *         <code>atg.messQuerschnittVirtuellVLage</code>.
+	 */
+	public final MessQuerschnittAnteile getMessQuerschnittAnteile() {
+		return messQuerschnittAnteile;
 	}
 
 	@Override

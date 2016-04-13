@@ -452,6 +452,11 @@ public final class UmfeldDatenArt {
 	}
 
 	@Override
+	public int hashCode() {
+		return (int) getTyp().getId();
+	}
+
+	@Override
 	public String toString() {
 		return name + " (" + abkuerzung + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 	}

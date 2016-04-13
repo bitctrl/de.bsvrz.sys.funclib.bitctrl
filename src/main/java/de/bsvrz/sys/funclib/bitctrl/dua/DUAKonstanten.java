@@ -1,6 +1,7 @@
 /*
  * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
+ * Copyright 2016 by Kappich Systemberatung Aachen
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -170,6 +171,11 @@ public final class DUAKonstanten {
 	/**
 	 * DAV-Atg-PID <code>atg.messQuerschnittVirtuell</code>.
 	 */
+	public static final String ATG_MQ_VIRTUELL = "atg.messQuerschnittVirtuell"; //$NON-NLS-1$
+
+	/**
+	 * DAV-Atg-PID <code>atg.messQuerschnittVirtuellVLage</code>.
+	 */
 	public static final String ATG_MQ_VIRTUELL_V_LAGE = "atg.messQuerschnittVirtuellVLage"; //$NON-NLS-1$
 
 	/**
@@ -310,7 +316,7 @@ public final class DUAKonstanten {
 			"b", //$NON-NLS-1$
 			"tNetto", //$NON-NLS-1$
 			"sKfz", //$NON-NLS-1$
-			"vgKfz" }; //$NON-NLS-1$
+	"vgKfz" }; //$NON-NLS-1$
 
 	/**
 	 * Aspekt <code>asp.tlsAntwort</code> für Antworten von TLS-Daten eines

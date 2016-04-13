@@ -1,6 +1,7 @@
 /*
  * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
+ * Copyright 2016 by Kappich Systemberatung Aachen
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -44,9 +45,6 @@ import de.bsvrz.sys.funclib.bitctrl.dua.dfs.DatenFlussSteuerungsVersorger;
 import de.bsvrz.sys.funclib.bitctrl.dua.schnittstellen.IVerwaltung;
 import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 import de.bsvrz.sys.funclib.debug.Debug;
-import de.bsvrz.sys.funclib.operatingMessage.MessageGrade;
-import de.bsvrz.sys.funclib.operatingMessage.MessageSender;
-import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 
 /**
  * Adapterklasse für Verwaltungsmodule.
@@ -130,12 +128,6 @@ public abstract class AbstraktVerwaltungsAdapter implements IVerwaltung {
 					getSWETyp().toString() + " fehlgeschlagen"; //$NON-NLS-1$
 			Debug.getLogger().error(fehler, ex);
 			ex.printStackTrace();
-
-			if (MessageSender.getInstance() != null) {
-				MessageSender.getInstance().sendMessage(
-						MessageType.APPLICATION_DOMAIN, MessageGrade.ERROR,
-						fehler);
-			}
 
 			if (verbindung != null) {
 				verbindung.disconnect(true, fehler);

@@ -1,6 +1,7 @@
 /*
  * Allgemeine Funktionen mit und ohne Datenverteilerbezug
  * Copyright (C) 2007-2015 BitCtrl Systems GmbH
+ * Copyright 2016 by Kappich Systemberatung Aachen
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -42,7 +43,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  *
  * @author BitCtrl Systems GmbH, Thierfelder
  */
-public class AtgMessQuerschnittVirtuellVLage {
+public class AtgMessQuerschnittVirtuellVLage implements MessQuerschnittAnteile {
 
 	/**
 	 * Liste der Messquerschnitte mit Angabe der Berechnungsvorschrift, wie aus
@@ -105,17 +106,6 @@ public class AtgMessQuerschnittVirtuellVLage {
 
 		messQuerSchnittBestandTeile = dummy
 				.toArray(new AtlMessQuerSchnittBestandTeil[0]);
-
-		/**
-		 * Ist Messquerschnitt von dem die Geschwindigkeit uebernommen werden
-		 * soll nicht explizit versorgt wird standardmaessig der erste aus der
-		 * Liste der Anteile genommen:
-		 */
-		if ((messQuerschnittGeschwindigkeit == null)
-				&& (messQuerSchnittBestandTeile.length > 0)) {
-			messQuerschnittGeschwindigkeit = messQuerSchnittBestandTeile[0]
-					.getMQReferenz();
-		}
 	}
 
 	/**
@@ -126,18 +116,19 @@ public class AtgMessQuerschnittVirtuellVLage {
 	 * @return (ggf. leere) Liste der Messquerschnitte mit Angabe der
 	 *         Berechnungsvorschrift.
 	 */
+	@Override
 	public AtlMessQuerSchnittBestandTeil[] getMessQuerSchnittBestandTeile() {
 		return messQuerSchnittBestandTeile;
 	}
 
 	/**
 	 * Erfragt den Messquerschnitt von dem die Geschwindigkeit uebernommen
-	 * werden soll. Ist dieser nicht explizit versorgt wird standardmaessig der
-	 * erste aus der Liste der Anteile genommen.
+	 * werden soll. Ist dieser nicht explizit versorgt wird null zurückgegeben.
 	 *
 	 * @return der Messquerschnitt von dem die Geschwindigkeit uebernommen
 	 *         werden soll.
 	 */
+	@Override
 	public SystemObject getMessQuerschnittGeschwindigkeit() {
 		return messQuerschnittGeschwindigkeit;
 	}
