@@ -234,7 +234,7 @@ public class Intervall implements Cloneable {
 	@Override
 	public String toString() {
 		if (zeitstempel) {
-			DateFormat formatter;
+			final DateFormat formatter;
 
 			formatter = DateFormat.getDateTimeInstance();
 			return "[" + formatter.format(new Date(start)) + ", "

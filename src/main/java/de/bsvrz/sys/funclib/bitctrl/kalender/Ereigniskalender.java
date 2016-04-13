@@ -96,10 +96,10 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * Initialisert die Anfrageschnittstelle.
 	 */
 	private Ereigniskalender() {
-		ObjektFactory factory;
-		OdEreignisKalenderAntwort odAntwort;
-		Aspect aspAntwort;
-		Applikation klient;
+		final ObjektFactory factory;
+		final OdEreignisKalenderAntwort odAntwort;
+		final Aspect aspAntwort;
+		final Applikation klient;
 
 		// Modellobjektfactory initialisieren
 		factory = ObjektFactory.getInstanz();
@@ -173,9 +173,9 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 			final Interval intervall, final String quelle)
 					throws ConfigurationChangeException, AnmeldeException,
 					DatensendeException {
-		Ereignis erg;
-		PdEreignisParameter param;
-		PdEreignisParameter.Daten datum;
+		final Ereignis erg;
+		final PdEreignisParameter param;
+		final PdEreignisParameter.Daten datum;
 
 		erg = Ereignis.anlegen(pid, name, beschreibung, typ);
 		kalender.add(erg);
@@ -185,7 +185,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		datum = param.erzeugeDatum();
 		datum.setZeitlicheGueltigkeit(intervall);
 		datum.getVerkehrlicheGueltigkeit()
-				.add(new PdEreignisParameter.Daten.VerkehrlicheGueltigkeit());
+		.add(new PdEreignisParameter.Daten.VerkehrlicheGueltigkeit());
 		datum.setQuelle(quelle);
 		param.sendeDaten(datum);
 
@@ -224,9 +224,9 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 			final SystemKalenderEintrag ske, final String quelle)
 					throws ConfigurationChangeException, AnmeldeException,
 					DatensendeException {
-		Ereignis erg;
-		PdEreignisParameter param;
-		PdEreignisParameter.Daten datum;
+		final Ereignis erg;
+		final PdEreignisParameter param;
+		final PdEreignisParameter.Daten datum;
 
 		erg = Ereignis.anlegen(pid, name, beschreibung, typ);
 		kalender.add(erg);
@@ -236,7 +236,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		datum = param.erzeugeDatum();
 		datum.setSystemKalenderEintrag(ske);
 		datum.getVerkehrlicheGueltigkeit()
-				.add(new PdEreignisParameter.Daten.VerkehrlicheGueltigkeit());
+		.add(new PdEreignisParameter.Daten.VerkehrlicheGueltigkeit());
 		datum.setQuelle(quelle);
 		param.sendeDaten(datum);
 
@@ -265,7 +265,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 */
 	public EreignisTyp anlegenEreignisTyp(final String pid, final String name,
 			final int prioritaet) throws ConfigurationChangeException,
-					DatensendeException, AnmeldeException {
+	DatensendeException, AnmeldeException {
 		return anlegenEreignisTyp(pid, name, prioritaet,
 				new HashMap<String, String>());
 	}
@@ -297,9 +297,9 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 			final int prioritaet, final Map<String, String> attribute)
 					throws ConfigurationChangeException, DatensendeException,
 					AnmeldeException {
-		EreignisTyp typ;
-		PdEreignisTypParameter param;
-		PdEreignisTypParameter.Daten datum;
+		final EreignisTyp typ;
+		final PdEreignisTypParameter param;
+		final PdEreignisTypParameter.Daten datum;
 
 		typ = EreignisTyp.anlegen(pid, name, attribute);
 		kalender.add(typ);
@@ -336,9 +336,9 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 			final String name, final String definition)
 					throws ConfigurationChangeException, AnmeldeException,
 					DatensendeException {
-		SystemKalenderEintrag ske;
-		PdSystemKalenderEintrag param;
-		PdSystemKalenderEintrag.Daten datum;
+		final SystemKalenderEintrag ske;
+		final PdSystemKalenderEintrag param;
+		final PdSystemKalenderEintrag.Daten datum;
 
 		ske = SystemKalenderEintrag.anlegen(pid, name);
 		kalender.add(ske);
@@ -444,9 +444,9 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 */
 	public void sendeAnfrage(final String absenderZeichen,
 			final KalenderAnfrage anfrage) throws DatensendeException {
-		OdEreignisKalenderAnfrage.Daten datum;
-		ObjektFactory factory;
-		ClientApplication klient;
+		final OdEreignisKalenderAnfrage.Daten datum;
+		final ObjektFactory factory;
+		final ClientApplication klient;
 
 		factory = ObjektFactory.getInstanz();
 		klient = factory.getVerbindung().getLocalApplicationObject();
@@ -457,7 +457,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		datum.setEreignisTypenOption(anfrage.getEreignisTypenOption());
 		datum.setIntervall(anfrage.getIntervall());
 		datum.getRaeumlicheGueltigkeit()
-				.addAll(anfrage.getRaeumlicheGueltigkeit());
+		.addAll(anfrage.getRaeumlicheGueltigkeit());
 		datum.getEreignisTypen().addAll(anfrage.getEreignisTypen());
 
 		odAnfrage.sendeDaten(aspAnfrage, datum);

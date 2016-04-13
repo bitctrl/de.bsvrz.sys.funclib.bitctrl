@@ -77,7 +77,7 @@ public class TestVektor {
 	 */
 	@Test
 	public void testAddiere() {
-		Vektor c;
+		final Vektor c;
 
 		c = new Vektor(8, 10, 8);
 		assertEquals(c, Vektor.addiere(a, b));
@@ -90,7 +90,7 @@ public class TestVektor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddiereException() {
-		Vektor c;
+		final Vektor c;
 
 		c = new Vektor(8, 10);
 		Vektor.addiere(a, c);
@@ -101,7 +101,7 @@ public class TestVektor {
 	 */
 	@Test
 	public void testSubtrahiere() {
-		Vektor c;
+		final Vektor c;
 
 		c = new Vektor(-2, -6, 6);
 		assertEquals(c, Vektor.subtrahiere(a, b));
@@ -112,7 +112,7 @@ public class TestVektor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testSubtrahiereException() {
-		Vektor c;
+		final Vektor c;
 
 		c = new Vektor(8, 10);
 		Vektor.subtrahiere(a, c);
@@ -164,7 +164,7 @@ public class TestVektor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testSkalarproduktException() {
-		Vektor c;
+		final Vektor c;
 
 		c = new Vektor(8, 10);
 		Vektor.skalarprodukt(a, c);
@@ -175,7 +175,7 @@ public class TestVektor {
 	 */
 	@Test
 	public void testVektorprodukt() {
-		Vektor c;
+		final Vektor c;
 
 		c = new Vektor(-54, 32, 14);
 		assertEquals(c, Vektor.vektorprodukt(a, b));
@@ -187,7 +187,7 @@ public class TestVektor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testVektorproduktExceptionA() {
-		Vektor c;
+		final Vektor c;
 
 		c = new Vektor(8, 10);
 		Vektor.vektorprodukt(a, c);
@@ -199,7 +199,7 @@ public class TestVektor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testVektorproduktExceptionB() {
-		Vektor c, d;
+		final Vektor c, d;
 
 		c = new Vektor(8, 1);
 		d = new Vektor(7, 3);

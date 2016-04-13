@@ -53,7 +53,7 @@ public class Vektor implements Cloneable {
 					"Die beiden Vektoren haben nicht die selbe Komponentenanzahl.");
 		}
 
-		Vektor v;
+		final Vektor v;
 
 		v = new Vektor(a.anzahlKomponenten());
 		for (int i = 0; i < a.anzahlKomponenten(); i++) {
@@ -112,7 +112,7 @@ public class Vektor implements Cloneable {
 	 * @return Das Vielfache des Vektors
 	 */
 	public static Vektor multipliziere(final Vektor a, final RationaleZahl s) {
-		Vektor v;
+		final Vektor v;
 
 		v = new Vektor(a.anzahlKomponenten());
 		for (int i = 0; i < a.anzahlKomponenten(); i++) {
@@ -170,7 +170,7 @@ public class Vektor implements Cloneable {
 					"Die beiden Vektoren haben nicht die selbe Komponentenanzahl.");
 		}
 
-		Vektor v;
+		final Vektor v;
 
 		v = new Vektor(a.anzahlKomponenten());
 		for (int i = 0; i < a.anzahlKomponenten(); i++) {
@@ -203,7 +203,7 @@ public class Vektor implements Cloneable {
 					"Die Komponentenanzahl entspricht nicht 3.");
 		}
 
-		Vektor v;
+		final Vektor v;
 
 		v = new Vektor(a.anzahlKomponenten());
 		v.set(0, RationaleZahl.subtrahiere(
@@ -320,7 +320,7 @@ public class Vektor implements Cloneable {
 	@Override
 	public boolean equals(final Object o) {
 		if (o instanceof Vektor) {
-			Vektor v;
+			final Vektor v;
 			boolean gleich;
 
 			v = (Vektor) o;

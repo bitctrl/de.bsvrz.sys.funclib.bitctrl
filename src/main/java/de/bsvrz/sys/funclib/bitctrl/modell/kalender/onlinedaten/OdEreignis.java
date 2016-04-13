@@ -275,15 +275,15 @@ public class OdEreignis extends AbstractOnlineDatensatz<OdEreignis.Daten> {
 
 	@Override
 	protected Data konvertiere(final Daten datum) {
-		Data daten;
+		final Data daten;
 
 		daten = erzeugeSendeCache();
 		daten.getUnscaledValue("zeitlichGültig")
-				.set(datum.isZeitlichGueltig() ? 1 : 0);
+		.set(datum.isZeitlichGueltig() ? 1 : 0);
 		daten.getUnscaledValue("verkehrlichGültig")
-				.set(datum.isVerkehrlichGueltig() ? 1 : 0);
+		.set(datum.isVerkehrlichGueltig() ? 1 : 0);
 		daten.getUnscaledValue("AttributÄnderung")
-				.set(datum.isAttributAenderung() ? 1 : 0);
+		.set(datum.isAttributAenderung() ? 1 : 0);
 		daten.getTimeValue("Zeitpunkt").setMillis(datum.getNaechsterWechsel());
 
 		return daten;
@@ -295,7 +295,7 @@ public class OdEreignis extends AbstractOnlineDatensatz<OdEreignis.Daten> {
 
 		final Daten datum = new Daten();
 		if (result.hasData()) {
-			Data daten;
+			final Data daten;
 
 			daten = result.getData();
 			datum.setZeitlichGueltig(

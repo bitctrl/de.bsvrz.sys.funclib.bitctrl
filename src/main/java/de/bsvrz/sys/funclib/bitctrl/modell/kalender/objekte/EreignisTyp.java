@@ -91,18 +91,18 @@ public class EreignisTyp extends AbstractSystemObjekt {
 	public static EreignisTyp anlegen(final String pid, final String name,
 			final Map<String, String> attribute)
 					throws ConfigurationChangeException {
-		ObjektFactory factory;
-		ClientDavInterface dav;
-		DataModel modell;
-		ConfigurationArea kb;
-		DynamicObjectType typ;
-		SystemObject so;
-		DataAndATGUsageInformation datenUndVerwendung;
-		AttributeGroupUsage atgVerwendung;
-		Data daten;
-		AttributeGroup atg;
-		Aspect asp;
-		Array feld;
+		final ObjektFactory factory;
+		final ClientDavInterface dav;
+		final DataModel modell;
+		final ConfigurationArea kb;
+		final DynamicObjectType typ;
+		final SystemObject so;
+		final DataAndATGUsageInformation datenUndVerwendung;
+		final AttributeGroupUsage atgVerwendung;
+		final Data daten;
+		final AttributeGroup atg;
+		final Aspect asp;
+		final Array feld;
 		int i;
 
 		factory = ObjektFactory.getInstanz();
@@ -121,9 +121,9 @@ public class EreignisTyp extends AbstractSystemObjekt {
 		i = 0;
 		for (final Entry<String, String> entry : attribute.entrySet()) {
 			feld.getItem(i).getTextValue("Attributname")
-					.setText(entry.getKey());
+			.setText(entry.getKey());
 			feld.getItem(i).getTextValue("Attributwert")
-					.setText(entry.getValue());
+			.setText(entry.getValue());
 			++i;
 		}
 

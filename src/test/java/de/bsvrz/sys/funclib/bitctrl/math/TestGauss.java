@@ -46,7 +46,7 @@ public class TestGauss {
 	 */
 	@Test
 	public void testBestimmeLRZerlegungA() {
-		Matrix a, lr, l, r;
+		final Matrix a, lr, l, r;
 
 		a = new Matrix(4, 4);
 		a.set(0, 0, 1);
@@ -77,7 +77,7 @@ public class TestGauss {
 	 */
 	@Test
 	public void testBestimmeLRZerlegungB() {
-		Matrix a, lr, l, r;
+		final Matrix a, lr, l, r;
 
 		a = new Matrix(3, 3);
 		a.set(0, 0, 2);
@@ -101,8 +101,8 @@ public class TestGauss {
 	 */
 	@Test
 	public void testLoeseLGSA() {
-		Matrix a;
-		Vektor b, x;
+		final Matrix a;
+		final Vektor b, x;
 
 		a = new Matrix(2, 2);
 		a.set(0, 0, 8);
@@ -121,8 +121,8 @@ public class TestGauss {
 	 */
 	@Test
 	public void testLoeseLGSB() {
-		Matrix a;
-		Vektor b, x;
+		final Matrix a;
+		final Vektor b, x;
 
 		a = new Matrix(4, 4);
 		a.set(0, 0, 1);
@@ -153,8 +153,8 @@ public class TestGauss {
 	 */
 	@Test
 	public void testLoeseLGSC() {
-		Matrix a;
-		Vektor b, x;
+		final Matrix a;
+		final Vektor b, x;
 
 		a = new Matrix(3, 3);
 		a.set(0, 0, 2);

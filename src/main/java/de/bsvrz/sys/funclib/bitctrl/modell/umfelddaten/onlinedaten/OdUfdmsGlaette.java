@@ -238,7 +238,7 @@ extends AbstractOnlineDatensatz<OdUfdmsGlaette.Daten> {
 		final Daten datum = new Daten();
 		if (result.hasData()) {
 			final Data daten = result.getData();
-			int wert;
+			final int wert;
 
 			wert = daten.getUnscaledValue("AktuellerZustand").intValue();
 			if (wert <= 0) {

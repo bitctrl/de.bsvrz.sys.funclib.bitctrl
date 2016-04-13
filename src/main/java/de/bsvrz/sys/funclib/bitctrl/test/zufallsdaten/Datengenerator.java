@@ -56,7 +56,7 @@ public class Datengenerator implements StandardApplication {
 	@Override
 	public void initialize(final ClientDavInterface connection)
 			throws Exception {
-		ObjektFactory factory;
+		final ObjektFactory factory;
 
 		factory = ObjektFactory.getInstanz();
 		factory.setVerbindung(connection);

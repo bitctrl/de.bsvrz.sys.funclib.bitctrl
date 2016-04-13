@@ -129,7 +129,7 @@ public class TestRationaleZahl {
 	 */
 	@Test
 	public void testAddiere() {
-		RationaleZahl r;
+		final RationaleZahl r;
 
 		r = new RationaleZahl(7, 8);
 		assertEquals(r, RationaleZahl.addiere(a, b));
@@ -141,7 +141,7 @@ public class TestRationaleZahl {
 	 */
 	@Test
 	public void testSubtrahiere() {
-		RationaleZahl r;
+		final RationaleZahl r;
 
 		r = new RationaleZahl(-3, 8);
 		assertEquals(r, RationaleZahl.subtrahiere(a, b));
@@ -153,7 +153,7 @@ public class TestRationaleZahl {
 	 */
 	@Test
 	public void testMultipliziereRationaleZahlLong() {
-		RationaleZahl r;
+		final RationaleZahl r;
 
 		r = new RationaleZahl(3, 4);
 		assertEquals(r, RationaleZahl.multipliziere(a, 3));
@@ -165,7 +165,7 @@ public class TestRationaleZahl {
 	 */
 	@Test
 	public void testMultipliziereRationaleZahlRationaleZahl() {
-		RationaleZahl r;
+		final RationaleZahl r;
 
 		r = new RationaleZahl(5, 32);
 		assertEquals(r, RationaleZahl.multipliziere(a, b));
@@ -176,7 +176,7 @@ public class TestRationaleZahl {
 	 */
 	@Test
 	public void testDividiereRationaleZahlLong() {
-		RationaleZahl r;
+		final RationaleZahl r;
 
 		r = new RationaleZahl(1, 16);
 		assertEquals(r, RationaleZahl.dividiere(a, 4));
@@ -188,7 +188,7 @@ public class TestRationaleZahl {
 	 */
 	@Test
 	public void testDividiereRationaleZahlRationaleZahl() {
-		RationaleZahl r;
+		final RationaleZahl r;
 
 		r = new RationaleZahl(8, 20);
 		assertEquals(r, RationaleZahl.dividiere(a, b));
@@ -237,7 +237,7 @@ public class TestRationaleZahl {
 	 */
 	@Test
 	public void testKehrwert() {
-		RationaleZahl r;
+		final RationaleZahl r;
 
 		r = new RationaleZahl(4, 1);
 		assertEquals(r, a.kehrwert());
@@ -250,7 +250,7 @@ public class TestRationaleZahl {
 	 */
 	@Test
 	public void testKuerze() {
-		RationaleZahl r;
+		final RationaleZahl r;
 
 		r = new RationaleZahl(2, 8);
 		assertEquals(a, RationaleZahl.kuerze(r));
@@ -261,8 +261,8 @@ public class TestRationaleZahl {
 	 */
 	@Test
 	public void testCompareTo() {
-		SortedSet<RationaleZahl> s;
-		Iterator<RationaleZahl> iterator;
+		final SortedSet<RationaleZahl> s;
+		final Iterator<RationaleZahl> iterator;
 		RationaleZahl letzte;
 
 		s = new TreeSet<RationaleZahl>();
@@ -286,7 +286,7 @@ public class TestRationaleZahl {
 	 */
 	@Test
 	public void testEqualsObject() {
-		RationaleZahl r;
+		final RationaleZahl r;
 
 		r = new RationaleZahl(2, 8);
 		assertEquals(r, a);

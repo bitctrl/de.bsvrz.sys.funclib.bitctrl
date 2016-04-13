@@ -365,8 +365,8 @@ public class PdRollenRegionenPaareParameter extends AbstractParameterDatensatz<P
 
 		final Daten datum = new Daten();
 		if (datensatz.hasData()) {
-			ObjektFactory factory;
-			Data daten;
+			final ObjektFactory factory;
+			final Data daten;
 
 			factory = ObjektFactory.getInstanz();
 			daten = datensatz.getData();

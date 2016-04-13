@@ -56,7 +56,7 @@ public class ObservableList<E> implements List<E> {
 	}
 
 	protected void fireChangeEvent() {
-		ChangeEvent e;
+		final ChangeEvent e;
 
 		e = new ChangeEvent(this);
 		for (final ChangeListener l : listener.getListeners(ChangeListener.class)) {
@@ -66,7 +66,7 @@ public class ObservableList<E> implements List<E> {
 
 	@Override
 	public boolean add(final E o) {
-		boolean changed;
+		final boolean changed;
 
 		changed = liste.add(o);
 		fireChangeEvent();

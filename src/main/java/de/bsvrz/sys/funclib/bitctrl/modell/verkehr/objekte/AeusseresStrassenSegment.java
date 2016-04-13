@@ -71,7 +71,7 @@ implements NetzBestandTeil {
 		final Collection<AeusseresStrassenSegment> result = new ArrayList<AeusseresStrassenSegment>();
 
 		if (assListe == null) {
-			List<SystemObject> listeSO;
+			final List<SystemObject> listeSO;
 			listeSO = model.getType(
 					VerkehrsModellTypen.AUESSERES_STRASSENSEGMENT.getPid())
 					.getElements();

@@ -86,7 +86,7 @@ public class KzdSender implements StandardApplication {
 		Gui() {
 			super("Generator für Verkehrskurzzeitdaten am Messquerschnitt");
 
-			Container contentPane;
+			final Container contentPane;
 			JSlider slider;
 
 			contentPane = new JPanel(new GridLayout(6, 3));
@@ -251,9 +251,9 @@ public class KzdSender implements StandardApplication {
 		private final Random dataSource = new Random();
 
 		public Sender(final int intervall) {
-			Timer timer;
-			AttributeGroup atg;
-			Aspect asp;
+			final Timer timer;
+			final AttributeGroup atg;
+			final Aspect asp;
 
 			atg = modell.getAttributeGroup("atg.verkehrsDatenKurzZeitMq");
 			asp = modell.getAspect("asp.analyse");
@@ -292,11 +292,11 @@ public class KzdSender implements StandardApplication {
 
 		@Override
 		public void run() {
-			long zeitstempel;
+			final long zeitstempel;
 
 			zeitstempel = System.currentTimeMillis();
 			for (final SystemObject so : objekte) {
-				Data data;
+				final Data data;
 
 				data = getVerkehrsDaten();
 				try {
@@ -317,7 +317,7 @@ public class KzdSender implements StandardApplication {
 
 		private Data getVerkehrsDaten() {
 
-			int qKfz, qLkw, vPkw, vLkw, sKfz, kb;
+			final int qKfz, qLkw, vPkw, vLkw, sKfz, kb;
 
 			qKfz = (int) (dataSource.nextDouble() * maxQKfz);
 			qLkw = (int) (dataSource.nextDouble() * Math.min(qKfz, maxQLkw));
@@ -331,7 +331,7 @@ public class KzdSender implements StandardApplication {
 
 		private Data buildData(final int qKfz, final int qLkw, final int vPkw, final int vLkw,
 				final int sKfz, final int kb) {
-			Data data;
+			final Data data;
 
 			logger.fine("Eingangswerte: QKfz=" + qKfz + ", QLkw=" + qLkw
 					+ ", VPkw=" + vPkw + ", VLkw=" + vLkw + ", SKfz=" + sKfz
@@ -396,7 +396,7 @@ public class KzdSender implements StandardApplication {
 			.set(10);
 
 			// Nicht erfasste Werte qPkw, vKfz und qb berechnen
-			Integer qPkw, vKfz, qb, aLkw;
+			final Integer qPkw, vKfz, qb, aLkw;
 
 			aLkw = Umrechung.getALkw(qLkw, qKfz);
 			data.getItem("ALkw").getUnscaledValue("Wert").set(aLkw);

@@ -242,7 +242,7 @@ AbstractOnlineDatensatz<OdUfdsWindGeschwindigkeitMittelWert.Daten> {
 		final Daten datum = new Daten();
 		if (result.hasData()) {
 			final Data daten = result.getData();
-			NumberValue wert;
+			final NumberValue wert;
 
 			wert = daten
 					.getItem(Daten.Werte.WindGeschwindigkeitMittelWert.name())

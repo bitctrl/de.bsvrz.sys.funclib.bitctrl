@@ -84,17 +84,17 @@ public class Benutzer extends AbstractSystemObjekt {
 			final String vorname, final String zweiterVorname,
 			final String nachname, final String organisation,
 			final String emailAdresse) throws ConfigurationChangeException {
-		ObjektFactory factory;
-		ClientDavInterface dav;
-		DataModel modell;
-		ConfigurationArea kb;
-		DynamicObjectType typ;
-		SystemObject so;
-		DataAndATGUsageInformation datenUndVerwendung;
-		AttributeGroupUsage atgVerwendung;
-		Data daten;
-		AttributeGroup atg;
-		Aspect asp;
+		final ObjektFactory factory;
+		final ClientDavInterface dav;
+		final DataModel modell;
+		final ConfigurationArea kb;
+		final DynamicObjectType typ;
+		final SystemObject so;
+		final DataAndATGUsageInformation datenUndVerwendung;
+		final AttributeGroupUsage atgVerwendung;
+		final Data daten;
+		final AttributeGroup atg;
+		final Aspect asp;
 
 		factory = ObjektFactory.getInstanz();
 		dav = factory.getVerbindung();
@@ -230,9 +230,9 @@ public class Benutzer extends AbstractSystemObjekt {
 			return;
 		}
 
-		DataModel modell;
-		AttributeGroup atg;
-		Data datum;
+		final DataModel modell;
+		final AttributeGroup atg;
+		final Data datum;
 
 		modell = objekt.getDataModel();
 		atg = modell.getAttributeGroup("atg.benutzerEigenschaften");

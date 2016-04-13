@@ -108,7 +108,7 @@ public class LogischerWert {
 	public boolean equals(final Object obj) {
 		if (obj instanceof LogischerWert) {
 			final LogischerWert lw = (LogischerWert) obj;
-			Float f1, f2;
+			final Float f1, f2;
 			f1 = zugehoerigkeit;
 			f2 = lw.zugehoerigkeit;
 			if (!(boolWert ^ lw.boolWert) && f1.equals(f2)) {
@@ -219,7 +219,7 @@ public class LogischerWert {
 	 */
 	@Override
 	public String toString() {
-		String result;
+		final String result;
 
 		if (boolWert) {
 			if (getBoolWert()) {

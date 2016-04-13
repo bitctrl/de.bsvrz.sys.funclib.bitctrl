@@ -134,7 +134,7 @@ public class TestMatrix {
 	 */
 	@Test
 	public void testAddiere() {
-		Matrix m;
+		final Matrix m;
 
 		m = new Matrix(2, 3);
 		m.set(0, 0, 6);
@@ -161,7 +161,7 @@ public class TestMatrix {
 	 */
 	@Test
 	public void testSubtrahiere() {
-		Matrix m;
+		final Matrix m;
 
 		m = new Matrix(2, 3);
 		m.set(0, 0, -4);
@@ -187,7 +187,7 @@ public class TestMatrix {
 	 */
 	@Test
 	public void testMultipliziereMatrixLong() {
-		Matrix m;
+		final Matrix m;
 
 		m = new Matrix(3, 2);
 		m.set(0, 0, 10);
@@ -204,8 +204,8 @@ public class TestMatrix {
 	 */
 	@Test
 	public void testMultipliziereMatrixVektor() {
-		Matrix m;
-		Vektor v;
+		final Matrix m;
+		final Vektor v;
 
 		v = new Vektor(5, 1, 3);
 
@@ -228,7 +228,7 @@ public class TestMatrix {
 	 */
 	@Test
 	public void testMultipliziereMatrixMatrix() {
-		Matrix m;
+		final Matrix m;
 
 		m = new Matrix(3, 3);
 		m.set(0, 0, 15);
@@ -270,8 +270,8 @@ public class TestMatrix {
 	 */
 	@Test
 	public void testSetZeilenvektor() {
-		Vektor v;
-		Matrix m;
+		final Vektor v;
+		final Matrix m;
 
 		v = new Vektor(2, 5);
 
@@ -289,7 +289,7 @@ public class TestMatrix {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testSetZeilenvektorException() {
-		Vektor v;
+		final Vektor v;
 
 		v = new Vektor(2, 5, 3);
 		a.setZeilenvektor(1, v);
@@ -315,7 +315,7 @@ public class TestMatrix {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testSetSpaltenvektorException() {
-		Vektor v;
+		final Vektor v;
 
 		v = new Vektor(1, 1);
 		a.setSpaltenvektor(1, v);
@@ -326,8 +326,8 @@ public class TestMatrix {
 	 */
 	@Test
 	public void testSetSpaltenvektor() {
-		Vektor v;
-		Matrix m;
+		final Vektor v;
+		final Matrix m;
 
 		v = new Vektor(1, 1, 1);
 
@@ -345,7 +345,7 @@ public class TestMatrix {
 	 */
 	@Test
 	public void testTransponiert() {
-		Matrix m;
+		final Matrix m;
 
 		m = new Matrix(2, 3);
 		m.set(0, 0, 5);
@@ -362,7 +362,7 @@ public class TestMatrix {
 	 */
 	@Test
 	public void testSymetrisch() {
-		Matrix m;
+		final Matrix m;
 
 		assertFalse(a.symetrisch());
 		assertFalse(b.symetrisch());

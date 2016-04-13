@@ -98,8 +98,8 @@ public final class Umrechung {
 				&& (qKfz != null)) {
 			assert qKfz >= qLkw;
 
-			Double fLGL;
-			Double qPkw;
+			final Double fLGL;
+			final Double qPkw;
 
 			qPkw = getQPkw(qKfz, qLkw);
 			if (vPkw > vLkw) {
@@ -145,8 +145,8 @@ public final class Umrechung {
 				&& (qKfz != null)) {
 			assert qKfz >= qLkw;
 
-			float fLGL;
-			Integer qPkw;
+			final float fLGL;
+			final Integer qPkw;
 
 			qPkw = getQPkw(qKfz, qLkw);
 			if (vPkw > vLkw) {
@@ -222,7 +222,7 @@ public final class Umrechung {
 				&& (qKfz > 0)) {
 			assert qKfz >= qLkw;
 
-			Double qPkw;
+			final Double qPkw;
 
 			qPkw = getQPkw(qKfz, qLkw);
 			vKfz = ((qPkw * vPkw) + (qLkw * vLkw)) / qKfz;
@@ -261,7 +261,7 @@ public final class Umrechung {
 				&& (qKfz > 0)) {
 			assert qKfz >= qLkw;
 
-			Integer qPkw;
+			final Integer qPkw;
 
 			qPkw = getQPkw(qKfz, qLkw);
 			vKfz = Math.round((float) ((qPkw * vPkw) + (qLkw * vLkw)) / qKfz);

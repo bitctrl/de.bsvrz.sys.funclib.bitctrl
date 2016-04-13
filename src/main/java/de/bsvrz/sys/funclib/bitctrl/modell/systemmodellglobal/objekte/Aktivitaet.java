@@ -158,9 +158,9 @@ public class Aktivitaet extends AbstractSystemObjekt {
 			return;
 		}
 
-		DataModel modell;
-		AttributeGroup atg;
-		Data datum;
+		final DataModel modell;
+		final AttributeGroup atg;
+		final Data datum;
 
 		modell = objekt.getDataModel();
 		atg = modell.getAttributeGroup("atg.benutzerEigenschaften");

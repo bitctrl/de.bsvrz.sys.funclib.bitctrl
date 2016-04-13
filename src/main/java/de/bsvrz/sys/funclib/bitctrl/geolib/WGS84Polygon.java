@@ -158,7 +158,7 @@ public class WGS84Polygon {
 		}
 
 		// alle Berechnungen auf den kartesischen Koordinaten
-		Point2D.Double ergebnis;
+		final Point2D.Double ergebnis;
 		final Line2D.Double line = new Line2D.Double(s1.getUtmX(), s1.getUtmY(),
 				s2.getUtmX(), s2.getUtmY());
 		final Point2D.Double point = new Point2D.Double(punkt.getUtmX(),

@@ -45,75 +45,75 @@ public interface Datum {
 		 */
 		UNDEFINIERT(
 				null), /**
-						 * Datensatztyp für Datensätze die Nutzdaten enthalten
-						 * (siehe Technische Anforderungen Archivsystem).
-						 */
+				 * Datensatztyp für Datensätze die Nutzdaten enthalten
+				 * (siehe Technische Anforderungen Archivsystem).
+				 */
 		DATEN(DataState.DATA), /**
-								 * Datensatztyp für leere Datensätze, die vom
-								 * Archivsystem in den Antwort-Datensatzstrom
-								 * von Teilanfragen eingefügt wird, um Bereiche
-								 * zu markieren, die gelöscht (und nicht
-								 * gesichert) wurden.
-								 */
+		 * Datensatztyp für leere Datensätze, die vom
+		 * Archivsystem in den Antwort-Datensatzstrom
+		 * von Teilanfragen eingefügt wird, um Bereiche
+		 * zu markieren, die gelöscht (und nicht
+		 * gesichert) wurden.
+		 */
 		GELOESCHTER_BLOCK(
 				DataState.DELETED_BLOCK), /**
-											 * Datensatztyp für leere
-											 * Datensätze, die vom Archivsystem
-											 * in jeden Datensatzstrom eingefügt
-											 * werden, um das Ende eines
-											 * Datensatzstroms einer Teilanfrage
-											 * zu markieren.
-											 */
+				 * Datensatztyp für leere
+				 * Datensätze, die vom Archivsystem
+				 * in jeden Datensatzstrom eingefügt
+				 * werden, um das Ende eines
+				 * Datensatzstroms einer Teilanfrage
+				 * zu markieren.
+				 */
 		ARCHIV_ENDE(
 				DataState.END_OF_ARCHIVE), /**
-											 * Datensatztyp für leere
-											 * Datensätze, die vom
-											 * Datenverteiler versendet werden
-											 * können, wenn eine Anmeldung von
-											 * Daten im Konflikt mit anderen
-											 * Anmeldungen steht (z.B. mehrere
-											 * Senken für die gleichen Daten).
-											 */
+				 * Datensatztyp für leere
+				 * Datensätze, die vom
+				 * Datenverteiler versendet werden
+				 * können, wenn eine Anmeldung von
+				 * Daten im Konflikt mit anderen
+				 * Anmeldungen steht (z.B. mehrere
+				 * Senken für die gleichen Daten).
+				 */
 		UNGUELTIGE_ANMELDUNG(
 				DataState.INVALID_SUBSCRIPTION), /**
-													 * Datensatztyp für leere
-													 * Datensätze, die von der
-													 * Quelle ohne Attributwerte
-													 * versendet wurden (siehe
-													 * Technische Anforderungen
-													 * Archivsystem).
-													 */
+				 * Datensatztyp für leere
+				 * Datensätze, die von der
+				 * Quelle ohne Attributwerte
+				 * versendet wurden (siehe
+				 * Technische Anforderungen
+				 * Archivsystem).
+				 */
 		KEINE_DATEN(
 				DataState.NO_DATA), /**
-									 * Datensatztyp für leere Datensätze, die
-									 * vom Datenverteiler generiert wurden, weil
-									 * nicht die erforderlichen Rechte zum
-									 * Empfang der Daten vorliegen.
-									 */
+				 * Datensatztyp für leere Datensätze, die
+				 * vom Datenverteiler generiert wurden, weil
+				 * nicht die erforderlichen Rechte zum
+				 * Empfang der Daten vorliegen.
+				 */
 		KEINE_RECHTE(
 				DataState.NO_RIGHTS), /**
-										 * Datensatztyp für leere Datensätze,
-										 * die vom Datenverteiler generiert
-										 * wurden, weil keine Quelle für die
-										 * entsprechenden Daten existiert.
-										 */
+				 * Datensatztyp für leere Datensätze,
+				 * die vom Datenverteiler generiert
+				 * wurden, weil keine Quelle für die
+				 * entsprechenden Daten existiert.
+				 */
 		KEINE_QUELLE(
 				DataState.NO_SOURCE), /**
-										 * Datensatztyp für leere Datensätze,
-										 * die vom Archivsystem generiert
-										 * wurden, um eine potentielle
-										 * Datenlücke zu markieren.
-										 */
+				 * Datensatztyp für leere Datensätze,
+				 * die vom Archivsystem generiert
+				 * wurden, um eine potentielle
+				 * Datenlücke zu markieren.
+				 */
 		MOEGLICHE_LUECKE(
 				DataState.POSSIBLE_GAP), /**
-											 * Datensatztyp für leere
-											 * Datensätze, die vom Archivsystem
-											 * in den Antwort-Datensatzstrom von
-											 * Teilanfragen eingefügt wird, um
-											 * Bereiche zu markieren, die
-											 * ausgelagert (d.h. gesichert und
-											 * gelöscht) wurden.
-											 */
+				 * Datensatztyp für leere
+				 * Datensätze, die vom Archivsystem
+				 * in den Antwort-Datensatzstrom von
+				 * Teilanfragen eingefügt wird, um
+				 * Bereiche zu markieren, die
+				 * ausgelagert (d.h. gesichert und
+				 * gelöscht) wurden.
+				 */
 		BLOCK_NICHT_VERFUEGBAR(DataState.UNAVAILABLE_BLOCK);
 
 		/**
@@ -170,7 +170,7 @@ public interface Datum {
 		 * @return der Statusname.
 		 */
 		public String getName() {
-			String result;
+			final String result;
 			if (datenStatus != null) {
 				result = datenStatus.toString();
 			} else {

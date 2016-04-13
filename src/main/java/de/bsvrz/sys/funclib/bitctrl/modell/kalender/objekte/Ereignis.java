@@ -73,17 +73,17 @@ public class Ereignis extends AbstractSystemObjekt {
 	public static Ereignis anlegen(final String pid, final String name,
 			final String beschreibung, final EreignisTyp ereignisTyp)
 					throws ConfigurationChangeException {
-		ObjektFactory factory;
-		ClientDavInterface dav;
-		DataModel modell;
-		ConfigurationArea kb;
-		DynamicObjectType typ;
-		SystemObject so;
-		DataAndATGUsageInformation datenUndVerwendung;
-		AttributeGroupUsage atgVerwendung;
-		Data daten;
-		AttributeGroup atg;
-		Aspect asp;
+		final ObjektFactory factory;
+		final ClientDavInterface dav;
+		final DataModel modell;
+		final ConfigurationArea kb;
+		final DynamicObjectType typ;
+		final SystemObject so;
+		final DataAndATGUsageInformation datenUndVerwendung;
+		final AttributeGroupUsage atgVerwendung;
+		final Data daten;
+		final AttributeGroup atg;
+		final Aspect asp;
 
 		factory = ObjektFactory.getInstanz();
 		dav = factory.getVerbindung();
@@ -97,7 +97,7 @@ public class Ereignis extends AbstractSystemObjekt {
 		daten = dav.createData(atg);
 		daten.getTextValue("Ereignisbeschreibung").setText(beschreibung);
 		daten.getReferenceValue("EreignisTypReferenz")
-				.setSystemObject(ereignisTyp.getSystemObject());
+		.setSystemObject(ereignisTyp.getSystemObject());
 		datenUndVerwendung = new DataAndATGUsageInformation(atgVerwendung,
 				daten);
 
@@ -172,16 +172,16 @@ public class Ereignis extends AbstractSystemObjekt {
 			return;
 		}
 
-		DataModel modell;
-		AttributeGroup atg;
-		Data datum;
+		final DataModel modell;
+		final AttributeGroup atg;
+		final Data datum;
 
 		modell = objekt.getDataModel();
 		atg = modell.getAttributeGroup("atg.ereignisEigenschaften");
 		datum = objekt.getConfigurationData(atg);
 
 		if (datum != null) {
-			SystemObject so;
+			final SystemObject so;
 
 			beschreibung = datum.getTextValue("Ereignisbeschreibung").getText();
 			so = datum.getReferenceValue("EreignisTypReferenz")

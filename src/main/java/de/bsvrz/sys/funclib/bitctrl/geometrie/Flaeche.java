@@ -129,7 +129,11 @@ public class Flaeche {
 	 * @return Flächeninhalt des Rechtecks
 	 */
 	public static double flaecheninhalt(final Dreieck2D d) {
-		double x1, y1, x2, y2, x3, y3; // Punktkoordinaten des Dreiecks
+		final double x1, y1; // Punktkoordinaten des Dreiecks
+		double x2;
+		double y2;
+		double x3;
+		double y3;
 
 		x1 = d.getX1();
 		y1 = d.getY1();

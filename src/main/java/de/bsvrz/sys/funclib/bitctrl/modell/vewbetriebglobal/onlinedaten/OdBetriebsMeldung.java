@@ -552,7 +552,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		.setText(datum.getMeldungsTypZusatz());
 
 		if (datum.getReferenz() != null) {
-			Array array;
+			final Array array;
 
 			array = daten.getArray("Referenz");
 			array.setLength(1);

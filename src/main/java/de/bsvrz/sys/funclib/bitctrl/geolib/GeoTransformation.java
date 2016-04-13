@@ -93,8 +93,8 @@ public final class GeoTransformation {
 	 *
 	 */
 	private static double arcLengthOfMeridian(final double phi) {
-		double alpha, beta, gamma, delta, epsilon, n;
-		double result;
+		final double alpha, beta, gamma, delta, epsilon, n;
+		final double result;
 
 		/* Precalculate n */
 		n = (SM_A - SM_B) / (SM_A + SM_B);
@@ -141,8 +141,8 @@ public final class GeoTransformation {
 	 *
 	 */
 	private static double footpointLatitude(final double y) {
-		double yF, alphaF, betaF, gammaF, deltaF, epsilonF, n;
-		double result;
+		final double yF, alphaF, betaF, gammaF, deltaF, epsilonF, n;
+		final double result;
 
 		/* Precalculate n (Eq. 10.18) */
 		n = (SM_A - SM_B) / (SM_A + SM_B);
@@ -241,9 +241,10 @@ public final class GeoTransformation {
 	 */
 	private static void mapLatLonToXY(final double phi, final double lambda,
 			final double lambda0) {
-		double nF, nu2, ep2, t, t2, l;
-		double l3coef, l4coef, l5coef, l6coef, l7coef, l8coef;
+		final double nF, nu2, ep2, t, t2, l;
+		final double l3coef, l4coef, l5coef, l6coef, l7coef, l8coef;
 		@SuppressWarnings("unused")
+		final
 		double tmp;
 
 		/* Precalculate ep2 */
@@ -342,9 +343,11 @@ public final class GeoTransformation {
 	 */
 	private static void mapXYToLatLon(final double x, final double y,
 			final double lambda0) {
-		double phif, nF, nfpow, nuf2, ep2, tf, tf2, tf4, cf;
-		double x1frac, x2frac, x3frac, x4frac, x5frac, x6frac, x7frac, x8frac;
-		double x2poly, x3poly, x4poly, x5poly, x6poly, x7poly, x8poly;
+		final double phif, nF;
+		double nfpow;
+		final double nuf2, ep2, tf, tf2, tf4, cf;
+		final double x1frac, x2frac, x3frac, x4frac, x5frac, x6frac, x7frac, x8frac;
+		final double x2poly, x3poly, x4poly, x5poly, x6poly, x7poly, x8poly;
 
 		/* Get the value of phif, the footpoint latitude. */
 		phif = footpointLatitude(y);
@@ -450,7 +453,7 @@ public final class GeoTransformation {
 	 *
 	 */
 	private static double uTMCentralMeridian(final int zonep) {
-		double cmeridian;
+		final double cmeridian;
 
 		cmeridian = Math.toRadians(-183.0 + (zonep * 6.0));
 
@@ -465,7 +468,7 @@ public final class GeoTransformation {
 	 * @return die transformierten Koordinaten
 	 */
 	public static WGS84Koordinate uTMnachWGS84Punkt(final UTMKoordinate utm) {
-		boolean southhemi;
+		final boolean southhemi;
 		if (utm.getHemisphaere() == UTMKoordinate.UTMHEMI.SUEDHALBKUGEL) {
 			southhemi = true;
 		} else {
@@ -508,7 +511,7 @@ public final class GeoTransformation {
 	 */
 	private static void uTMXYToLatLon(final double x, final double y,
 			final int utmzone, final boolean southhemi) {
-		double cmeridian;
+		final double cmeridian;
 		double ly = y;
 		double lx = x - 500000.0;
 		lx /= UTM_SCALE_FACTOR;

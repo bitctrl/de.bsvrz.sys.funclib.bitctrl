@@ -51,7 +51,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.NetzBestandTeil;
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
 public class PdEreignisParameter
-		extends AbstractParameterDatensatz<PdEreignisParameter.Daten> {
+extends AbstractParameterDatensatz<PdEreignisParameter.Daten> {
 
 	/**
 	 * Repräsentation der Daten des Ereignisparameters.
@@ -369,32 +369,32 @@ public class PdEreignisParameter
 			daten.getTimeValue("EndeZeitlicheGültigkeit").setMillis(1);
 		} else {
 			daten.getTimeValue("BeginnZeitlicheGültigkeit")
-					.setMillis(datum.getZeitlicheGueltigkeit().getStart());
+			.setMillis(datum.getZeitlicheGueltigkeit().getStart());
 			daten.getTimeValue("EndeZeitlicheGültigkeit")
-					.setMillis(datum.getZeitlicheGueltigkeit().getEnd());
+			.setMillis(datum.getZeitlicheGueltigkeit().getEnd());
 		}
 
 		if (datum.getSystemKalenderEintrag() != null) {
 			daten.getReferenceValue("SystemKalenderEintragReferenz")
-					.setSystemObject(
-							datum.getSystemKalenderEintrag().getSystemObject());
+			.setSystemObject(
+					datum.getSystemKalenderEintrag().getSystemObject());
 		}
 
 		feld = daten.getArray("VerkehrlicheGültigkeit");
 		feld.setLength(datum.getVerkehrlicheGueltigkeit().size());
 		for (int i = 0; i < feld.getLength(); i++) {
-			VerkehrlicheGueltigkeit vg;
+			final VerkehrlicheGueltigkeit vg;
 
 			vg = datum.getVerkehrlicheGueltigkeit().get(i);
 
 			feld.getItem(i).getTimeValue("ZeitDauerAnfangIntervall")
-					.setMillis(vg.getDauerAnfang());
+			.setMillis(vg.getDauerAnfang());
 			feld.getItem(i).getUnscaledValue("ZeitBezugAnfangIntervall")
-					.set(vg.getBezugAnfang());
+			.set(vg.getBezugAnfang());
 			feld.getItem(i).getTimeValue("ZeitDauerEndeIntervall")
-					.setMillis(vg.getDauerEnde());
+			.setMillis(vg.getDauerEnde());
 			feld.getItem(i).getUnscaledValue("ZeitBezugEndeIntervall")
-					.set(vg.getBezugEnde());
+			.set(vg.getBezugEnde());
 		}
 
 		daten.getTextValue("Quelle").setText(datum.getQuelle());
@@ -408,10 +408,10 @@ public class PdEreignisParameter
 
 		final Daten datum = new Daten();
 		if (result.hasData()) {
-			ObjektFactory factory;
-			Data daten;
+			final ObjektFactory factory;
+			final Data daten;
 			Array feld;
-			long start, ende;
+			final long start, ende;
 
 			factory = ObjektFactory.getInstanz();
 			daten = result.getData();
@@ -419,9 +419,9 @@ public class PdEreignisParameter
 			feld = daten.getArray("RäumlicheGültigkeit");
 			for (int i = 0; i < feld.getLength(); i++) {
 				datum.getRaeumlicheGueltigkeit()
-						.add((NetzBestandTeil) factory
-								.getModellobjekt(feld.getItem(i)
-										.asReferenceValue().getSystemObject()));
+				.add((NetzBestandTeil) factory
+						.getModellobjekt(feld.getItem(i)
+								.asReferenceValue().getSystemObject()));
 			}
 
 			start = daten.getTimeValue("BeginnZeitlicheGültigkeit").getMillis();
@@ -443,7 +443,7 @@ public class PdEreignisParameter
 
 			feld = daten.getArray("VerkehrlicheGültigkeit");
 			for (int i = 0; i < feld.getLength(); i++) {
-				VerkehrlicheGueltigkeit vg;
+				final VerkehrlicheGueltigkeit vg;
 
 				vg = new VerkehrlicheGueltigkeit();
 				vg.setDauerAnfang(feld.getItem(i)

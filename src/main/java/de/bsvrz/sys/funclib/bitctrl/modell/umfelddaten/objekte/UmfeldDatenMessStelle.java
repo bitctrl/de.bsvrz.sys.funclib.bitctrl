@@ -69,8 +69,8 @@ implements PunktXY {
 
 		punkt = new PunktXYImpl(so);
 
-		ConfigurationObject co;
-		NonMutableSet menge;
+		final ConfigurationObject co;
+		final NonMutableSet menge;
 
 		umfelddatensensoren = new ArrayList<UmfeldDatenSensor>();
 

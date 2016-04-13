@@ -821,7 +821,7 @@ public final class Benutzerverwaltung {
 		}
 
 		final String pid;
-		Benutzer benutzer;
+		final Benutzer benutzer;
 
 		pid = DavTools.generierePID(benutzerInfo.getLoginname(),
 				Benutzer.PRAEFIX_PID);

@@ -107,7 +107,7 @@ public class InneresStrassenSegment extends StrassenSegment {
 	 */
 	public StrassenKnoten getStrassenKnoten() {
 		if (!knotenGesucht) {
-			List<SystemObjekt> listeSO;
+			final List<SystemObjekt> listeSO;
 
 			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
 					VerkehrsModellTypen.STRASSENKNOTEN.getPid());

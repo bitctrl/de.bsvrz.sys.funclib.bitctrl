@@ -168,14 +168,14 @@ implements BestehtAusLinienobjekten {
 	 */
 	public List<MessQuerschnittAllgemein> getMessquerschnitte() {
 		if (messQuerschnitte == null) {
-			List<SystemObjekt> listeSO;
+			final List<SystemObjekt> listeSO;
 
 			messQuerschnitte = new ArrayList<MessQuerschnittAllgemein>();
 			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
 					VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
 
 			for (final SystemObjekt so : listeSO) {
-				MessQuerschnittAllgemein mq;
+				final MessQuerschnittAllgemein mq;
 				try {
 					mq = (MessQuerschnittAllgemein) so;
 				} catch (final ClassCastException ex) {
@@ -245,9 +245,9 @@ implements BestehtAusLinienobjekten {
 	 */
 	public List<StrassenTeilSegment> getStrassenTeilSegmente() {
 		if (strassenTeilSegmente == null) {
-			DataModel modell;
-			AttributeGroup atg;
-			Data datum;
+			final DataModel modell;
+			final AttributeGroup atg;
+			final Data datum;
 
 			modell = objekt.getDataModel();
 
@@ -256,8 +256,8 @@ implements BestehtAusLinienobjekten {
 			DataCache.cacheData(getSystemObject().getType(), atg);
 			datum = objekt.getConfigurationData(atg);
 			if (datum != null) {
-				ReferenceArray ref;
-				SystemObject[] objekte;
+				final ReferenceArray ref;
+				final SystemObject[] objekte;
 
 				ref = datum.getReferenceArray("LinienReferenz");
 				objekte = ref.getSystemObjectArray();
@@ -309,9 +309,9 @@ implements BestehtAusLinienobjekten {
 	 */
 	private void leseKonfigDaten() {
 		if (messQuerschnitte == null) {
-			DataModel modell;
-			AttributeGroup atg;
-			Data datum;
+			final DataModel modell;
+			final AttributeGroup atg;
+			final Data datum;
 
 			modell = objekt.getDataModel();
 

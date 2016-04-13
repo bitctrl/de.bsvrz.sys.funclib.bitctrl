@@ -402,7 +402,7 @@ public class TreeProperties extends Properties {
 	 */
 	public void setArrayIndex(final int index) {
 		final Group group = stack.peek();
-		int length;
+		final int length;
 
 		if (stack.isEmpty() || !group.isArray()) {
 			throw new IllegalStateException("no array");
@@ -463,7 +463,7 @@ public class TreeProperties extends Properties {
 	@Override
 	public synchronized void store(final OutputStream out,
 			final String comments) throws IOException {
-		BufferedWriter awriter;
+		final BufferedWriter awriter;
 		awriter = new BufferedWriter(new OutputStreamWriter(out, "8859_1"));
 		if (comments != null) {
 			writeln(awriter, "#" + comments);

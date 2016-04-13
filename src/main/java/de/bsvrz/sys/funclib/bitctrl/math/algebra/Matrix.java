@@ -54,7 +54,7 @@ public class Matrix {
 					"Die beiden Matrizen haben nicht die selbe Ordung.");
 		}
 
-		Matrix m;
+		final Matrix m;
 
 		m = new Matrix(a.anzahlZeilen(), a.anzahlSpalten());
 		for (int i = 0; i < a.anzahlZeilen(); i++) {
@@ -123,12 +123,12 @@ public class Matrix {
 					"Spaltenanzahl der ersten Matrix stimmt nicht mit der Zeilenanzahl der zweiten überein.");
 		}
 
-		Matrix m;
+		final Matrix m;
 
 		m = new Matrix(a.anzahlZeilen(), b.anzahlSpalten());
 		for (int i = 0; i < a.anzahlZeilen(); i++) {
 			for (int j = 0; j < b.anzahlSpalten(); j++) {
-				Vektor v1, v2;
+				final Vektor v1, v2;
 
 				v1 = a.getZeilenvektor(i);
 				v2 = b.getSpaltenvektor(j);
@@ -149,7 +149,7 @@ public class Matrix {
 	 * @return Das Vielfache der Matrix
 	 */
 	public static Matrix multipliziere(final Matrix a, final RationaleZahl s) {
-		Matrix m;
+		final Matrix m;
 
 		m = new Matrix(a.anzahlZeilen(), a.anzahlSpalten());
 		for (int i = 0; i < a.anzahlZeilen(); i++) {
@@ -179,13 +179,13 @@ public class Matrix {
 					"Spaltenanzahl der Matrix stimmt nicht mit der Komponentenanzahl des Vektors überein.");
 		}
 
-		Matrix m, b;
+		final Matrix m, b;
 
 		b = new Matrix(v, false);
 		m = new Matrix(a.anzahlZeilen(), b.anzahlSpalten());
 		for (int i = 0; i < a.anzahlZeilen(); i++) {
 			for (int j = 0; j < b.anzahlSpalten(); j++) {
-				Vektor v1, v2;
+				final Vektor v1, v2;
 
 				v1 = a.getZeilenvektor(i);
 				v2 = b.getSpaltenvektor(j);
@@ -214,7 +214,7 @@ public class Matrix {
 					"Die beiden Matrizen haben nicht die selbe Ordung.");
 		}
 
-		Matrix m;
+		final Matrix m;
 
 		m = new Matrix(a.anzahlZeilen(), a.anzahlSpalten());
 		for (int i = 0; i < a.anzahlZeilen(); i++) {
@@ -320,7 +320,7 @@ public class Matrix {
 	@Override
 	public boolean equals(final Object o) {
 		if (o instanceof Matrix) {
-			Matrix m;
+			final Matrix m;
 			boolean gleich;
 
 			m = (Matrix) o;
@@ -366,7 +366,7 @@ public class Matrix {
 	 * @return Die Matrixspalte als Vektor
 	 */
 	public Vektor getSpaltenvektor(final int j) {
-		Vektor v;
+		final Vektor v;
 
 		v = new Vektor(anzahlZeilen());
 		for (int i = 0; i < anzahlZeilen(); i++) {
@@ -507,7 +507,7 @@ public class Matrix {
 	 * @return Die transponierte Matrix
 	 */
 	public Matrix transponiert() {
-		Matrix m;
+		final Matrix m;
 
 		m = new Matrix(anzahlSpalten(), anzahlZeilen());
 		for (int i = 0; i < anzahlZeilen(); i++) {

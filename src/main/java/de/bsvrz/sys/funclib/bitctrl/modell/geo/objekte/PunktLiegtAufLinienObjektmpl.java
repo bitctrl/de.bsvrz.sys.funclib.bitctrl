@@ -42,7 +42,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.geo.GeoModellTypen;
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
 public class PunktLiegtAufLinienObjektmpl extends AbstractSystemObjekt
-		implements PunktLiegtAufLinienObjekt {
+implements PunktLiegtAufLinienObjekt {
 
 	/**
 	 * die Linie auf der der Punkt liegt.
@@ -98,7 +98,7 @@ public class PunktLiegtAufLinienObjektmpl extends AbstractSystemObjekt
 			DataCache.cacheData(getSystemObject().getType(), atg);
 			final Data datum = getSystemObject().getConfigurationData(atg);
 			if (datum != null) {
-				SystemObject so;
+				final SystemObject so;
 
 				so = datum.getReferenceValue("LinienReferenz")
 						.getSystemObject();

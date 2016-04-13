@@ -55,7 +55,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.NetzBestandTeil;
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
 public class OdEreignisKalenderAnfrage
-		extends AbstractOnlineDatensatz<OdEreignisKalenderAnfrage.Daten> {
+extends AbstractOnlineDatensatz<OdEreignisKalenderAnfrage.Daten> {
 
 	/**
 	 * Die vorhandenen Aspekte des Datensatzes.
@@ -325,28 +325,28 @@ public class OdEreignisKalenderAnfrage
 
 	@Override
 	protected Data konvertiere(final Daten datum) {
-		Data daten;
+		final Data daten;
 		Array feld;
 		int i;
 
 		daten = erzeugeSendeCache();
 		daten.getReferenceValue("absenderId")
-				.setSystemObject(datum.getAbsender().getSystemObject());
+		.setSystemObject(datum.getAbsender().getSystemObject());
 		daten.getTextValue("absenderZeichen")
-				.setText(datum.getAbsenderZeichen());
+		.setText(datum.getAbsenderZeichen());
 		daten.getTimeValue("Anfangszeitpunkt")
-				.setMillis(datum.getIntervall().getStart());
+		.setMillis(datum.getIntervall().getStart());
 		daten.getTimeValue("Endzeitpunkt")
-				.setMillis(datum.getIntervall().getEnd());
+		.setMillis(datum.getIntervall().getEnd());
 		daten.getUnscaledValue("EreignisTypenOption")
-				.set(datum.getEreignisTypenOption().getCode());
+		.set(datum.getEreignisTypenOption().getCode());
 
 		feld = daten.getArray("RäumlicheGültigkeit");
 		feld.setLength(datum.getRaeumlicheGueltigkeit().size());
 		i = 0;
 		for (final NetzBestandTeil nbt : datum.getRaeumlicheGueltigkeit()) {
 			feld.getItem(i++).asReferenceValue()
-					.setSystemObject(nbt.getSystemObject());
+			.setSystemObject(nbt.getSystemObject());
 		}
 
 		feld = daten.getArray("EreignisTypReferenz");
@@ -354,7 +354,7 @@ public class OdEreignisKalenderAnfrage
 		i = 0;
 		for (final EreignisTyp typ : datum.getEreignisTypen()) {
 			feld.getItem(i++).asReferenceValue()
-					.setSystemObject(typ.getSystemObject());
+			.setSystemObject(typ.getSystemObject());
 		}
 
 		return daten;
@@ -366,8 +366,8 @@ public class OdEreignisKalenderAnfrage
 
 		final Daten datum = new Daten();
 		if (result.hasData()) {
-			ObjektFactory factory;
-			Data daten;
+			final ObjektFactory factory;
+			final Data daten;
 			Array feld;
 
 			factory = ObjektFactory.getInstanz();
@@ -387,18 +387,18 @@ public class OdEreignisKalenderAnfrage
 			feld = daten.getArray("RäumlicheGültigkeit");
 			for (int i = 0; i < feld.getLength(); i++) {
 				datum.getRaeumlicheGueltigkeit()
-						.add((NetzBestandTeil) factory
-								.getModellobjekt(feld.getItem(i++)
-										.asReferenceValue().getSystemObject()));
+				.add((NetzBestandTeil) factory
+						.getModellobjekt(feld.getItem(i++)
+								.asReferenceValue().getSystemObject()));
 			}
 
 			feld = daten.getArray("EreignisTypReferenz");
 			feld.setLength(datum.getEreignisTypen().size());
 			for (int i = 0; i < feld.getLength(); i++) {
 				datum.getEreignisTypen()
-						.add((EreignisTyp) factory
-								.getModellobjekt(feld.getItem(i++)
-										.asReferenceValue().getSystemObject()));
+				.add((EreignisTyp) factory
+						.getModellobjekt(feld.getItem(i++)
+								.asReferenceValue().getSystemObject()));
 			}
 
 		}

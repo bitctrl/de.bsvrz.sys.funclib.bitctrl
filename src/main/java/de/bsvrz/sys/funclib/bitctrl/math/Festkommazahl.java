@@ -91,7 +91,7 @@ public class Festkommazahl extends Number implements Comparable<Festkommazahl> {
 
 	@Override
 	public int compareTo(final Festkommazahl zahl) {
-		Long a, b;
+		final Long a, b;
 
 		a = wert;
 		b = zahl.wert;

@@ -396,7 +396,11 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 	protected Data konvertiere(final OdVerkehrsDatenKurzZeitIntervall.Daten d) {
 		final Data datum = erzeugeSendeCache();
 
-		Number qKfz, vKfz, qLkw, vLkw, qPkw, vPkw, b, tNetto, sKfz, vgKfz;
+		final Number qKfz;
+		Number vKfz;
+		final Number qLkw, vLkw;
+		Number qPkw;
+		final Number vPkw, b, tNetto, sKfz, vgKfz;
 
 		qKfz = d.getWert(Werte.qKfz.name());
 		vKfz = d.getWert(Werte.vKfz.name());

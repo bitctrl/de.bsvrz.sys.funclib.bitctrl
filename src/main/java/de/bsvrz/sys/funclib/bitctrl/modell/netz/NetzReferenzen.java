@@ -235,8 +235,8 @@ public class NetzReferenzen {
 			final AsbStationierung asb = findeAsbStationierungAmOffset(
 					teilsegment, offsetImTeilsegment);
 
-			long stationierung;
-			ASBStationierungsRichtung richtung;
+			final long stationierung;
+			final ASBStationierungsRichtung richtung;
 			// if
 			// (teilsegment.getAsbStationierung().get(0).getVerkehrsRichtung()
 			// == Verkehrsrichtung.GEGEN_STATIONIERUNGSRICHTUNG) {
@@ -347,7 +347,7 @@ public class NetzReferenzen {
 											- segment.getTeilSegmentOffset(
 													teilsegment)));
 
-							ASBStationierungsRichtung richtung;
+							final ASBStationierungsRichtung richtung;
 							if (asb.getVerkehrsRichtung() == Verkehrsrichtung.GEGEN_STATIONIERUNGSRICHTUNG) {
 								richtung = ASBStationierungsRichtung.GEGEN_STATIONIERUNGSRICHTUNG;
 							} else {
@@ -613,7 +613,7 @@ public class NetzReferenzen {
 					.getModelSegment().getStrasse().getSystemObject());
 
 			// bestimme die Richtung
-			FahrtRichtung fahrtRichtung;
+			final FahrtRichtung fahrtRichtung;
 			final TmcRichtung segmentTmcRictung = ((AeusseresStrassenSegment) segment)
 					.getTmcRichtung();
 			// entsprechend Absprache ist die Strasse in positiver TMC-Richtung

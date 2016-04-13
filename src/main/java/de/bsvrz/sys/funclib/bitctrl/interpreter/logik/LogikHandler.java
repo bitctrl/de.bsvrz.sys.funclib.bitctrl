@@ -198,7 +198,7 @@ public class LogikHandler extends AbstractHandler {
 		for (final Object obj : operanden) {
 			assert obj instanceof LogischerWert : "Operanden müssen logische Werte sein.";
 
-		LogischerWert operand;
+		final LogischerWert operand;
 
 		operand = (LogischerWert) obj;
 		if (!operand.isBoolWert()) {
@@ -249,7 +249,7 @@ public class LogikHandler extends AbstractHandler {
 		for (final Object obj : operanden) {
 			assert obj instanceof LogischerWert : "Operanden müssen logische Werte sein.";
 
-		LogischerWert operand;
+		final LogischerWert operand;
 
 		operand = (LogischerWert) obj;
 		if (!operand.isBoolWert()) {

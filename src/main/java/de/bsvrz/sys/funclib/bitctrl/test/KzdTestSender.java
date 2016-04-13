@@ -106,7 +106,7 @@ public final class KzdTestSender extends TimerTask implements StandardApplicatio
 		while ((loop < 20) && (startZeit < now)) {
 			for (final SystemObject fahrStreifen : objektListe) {
 				try {
-					Data data;
+					final Data data;
 					if (useFileData) {
 						data = getTestDatenFromFile();
 
@@ -266,11 +266,11 @@ public final class KzdTestSender extends TimerTask implements StandardApplicatio
 	 */
 	private Data getVerkehrsDaten() throws Exception {
 
-		int qKfz; // qKfz-Wert aus Telegramm
-		int qLkw; // qLkw-Wert aus Telegramm
-		int vPkw; // vPkwÄ-Wert aus Telegramm
-		int vLkw; // vLkwÄ-Wert aus Telegramm
-		int belegung; // b-Wert (Belegung)
+		final int qKfz; // qKfz-Wert aus Telegramm
+		final int qLkw; // qLkw-Wert aus Telegramm
+		final int vPkw; // vPkwÄ-Wert aus Telegramm
+		final int vLkw; // vLkwÄ-Wert aus Telegramm
+		final int belegung; // b-Wert (Belegung)
 
 		qKfz = (int) (dataSource.nextDouble() * 100.0);
 		qLkw = (int) (dataSource.nextDouble() * 100.0);
@@ -289,10 +289,10 @@ public final class KzdTestSender extends TimerTask implements StandardApplicatio
 	 */
 	private Data getTestDatenFromFile() throws Exception {
 
-		int qKfz; // qKfz-Wert aus Telegramm
-		int qLkw; // qLkw-Wert aus Telegramm
-		int vPkw; // vPkwÄ-Wert aus Telegramm
-		int vLkw; // vLkwÄ-Wert aus Telegramm
+		final int qKfz; // qKfz-Wert aus Telegramm
+		final int qLkw; // qLkw-Wert aus Telegramm
+		final int vPkw; // vPkwÄ-Wert aus Telegramm
+		final int vLkw; // vLkwÄ-Wert aus Telegramm
 
 		if (idxData >= fileData.size()) {
 			idxData = 0;
@@ -369,8 +369,8 @@ public final class KzdTestSender extends TimerTask implements StandardApplicatio
 		data.getItem("b").getUnscaledValue("Wert").set(belegung);
 		data.getItem("b").getItem("Güte").getUnscaledValue("Index").set(10);
 
-		int qPkw;
-		int vKfz;
+		final int qPkw;
+		final int vKfz;
 		// Nicht erfasste Werte qPkw und vKfz berechnen
 		qPkw = (qKfz - qLkw) >= 0 ? (qKfz - qLkw) : -1;
 		data.getItem("qPkw").getUnscaledValue("Wert").set(qPkw); //$NON-NLS-1$ //$NON-NLS-2$

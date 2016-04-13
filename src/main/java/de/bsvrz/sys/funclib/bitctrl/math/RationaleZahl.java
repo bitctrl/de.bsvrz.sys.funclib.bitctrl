@@ -79,7 +79,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	 */
 	public static RationaleZahl addiere(final RationaleZahl a,
 			final RationaleZahl b) {
-		long z, n;
+		final long z, n;
 
 		z = (a.zaehler * b.nenner) + (b.zaehler * a.nenner);
 		n = a.nenner * b.nenner;
@@ -178,7 +178,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	 * @return Der gek&uuml;rzte Bruch
 	 */
 	public static RationaleZahl kuerze(final RationaleZahl a) {
-		long ggT;
+		final long ggT;
 
 		ggT = ggT(a.zaehler, a.nenner);
 
@@ -223,7 +223,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	 */
 	public static RationaleZahl multipliziere(final RationaleZahl a,
 			final RationaleZahl b) {
-		long z, n;
+		final long z, n;
 
 		z = a.zaehler * b.zaehler;
 		n = a.nenner * b.nenner;
@@ -305,7 +305,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	 */
 	public static RationaleZahl subtrahiere(final RationaleZahl a,
 			final RationaleZahl b) {
-		long z, n;
+		final long z, n;
 
 		z = (a.zaehler * b.nenner) - (b.zaehler * a.nenner);
 		n = a.nenner * b.nenner;
@@ -328,7 +328,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	 *            darf.
 	 */
 	public RationaleZahl(final double wert) {
-		String s, s1, s2;
+		final String s, s1, s2;
 
 		s = Double.valueOf(wert).toString();
 		if (s.contains("E")) {
@@ -387,8 +387,8 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	@Override
 	public int compareTo(final RationaleZahl zahl) {
-		long kgv;
-		Long a, b;
+		final long kgv;
+		final Long a, b;
 
 		kgv = kgV(nenner, zahl.nenner);
 		a = zaehler * kgv;
@@ -399,7 +399,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	@Override
 	public double doubleValue() {
-		double a, b;
+		final double a, b;
 
 		a = zaehler;
 		b = nenner;
@@ -410,7 +410,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	@Override
 	public boolean equals(final Object o) {
 		if (o instanceof RationaleZahl) {
-			RationaleZahl r1, r2;
+			final RationaleZahl r1, r2;
 
 			r1 = kuerze(this);
 			r2 = kuerze((RationaleZahl) o);
@@ -422,7 +422,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 	@Override
 	public float floatValue() {
-		float a, b;
+		final float a, b;
 
 		a = zaehler;
 		b = nenner;

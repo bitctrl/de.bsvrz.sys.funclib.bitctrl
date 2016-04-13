@@ -61,7 +61,7 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 			final ObjektFactory factory = ObjektFactory.getInstanz();
 
 			if (set.equals(ereignisse)) {
-				Set<Ereignis> hinzu, entfernt;
+				final Set<Ereignis> hinzu, entfernt;
 
 				hinzu = new HashSet<Ereignis>();
 				for (final SystemObject so : addedObjects) {
@@ -75,7 +75,7 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 
 				fireEreignisseAktualisiert(hinzu, entfernt);
 			} else if (set.equals(ereignisTypen)) {
-				Set<EreignisTyp> hinzu, entfernt;
+				final Set<EreignisTyp> hinzu, entfernt;
 
 				hinzu = new HashSet<EreignisTyp>();
 				for (final SystemObject so : addedObjects) {
@@ -89,7 +89,7 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 
 				fireEreignisTypenAktualisiert(hinzu, entfernt);
 			} else if (set.equals(systemKalenderEintraege)) {
-				Set<SystemKalenderEintrag> hinzu, entfernt;
+				final Set<SystemKalenderEintrag> hinzu, entfernt;
 
 				hinzu = new HashSet<SystemKalenderEintrag>();
 				for (final SystemObject so : addedObjects) {
@@ -137,7 +137,7 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 					"Systemobjekt ist kein Kalender.");
 		}
 
-		ConfigurationObject co;
+		final ConfigurationObject co;
 
 		co = (ConfigurationObject) getSystemObject();
 		ereignisTypen = co.getMutableSet("EreignisTypen");
@@ -212,7 +212,7 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 
 	@Override
 	public Set<Ereignis> getEreignisse() {
-		Set<Ereignis> result;
+		final Set<Ereignis> result;
 
 		result = new HashSet<Ereignis>();
 		for (final SystemObject so : ereignisse.getElements()) {
@@ -225,7 +225,7 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 
 	@Override
 	public Set<EreignisTyp> getEreignisTypen() {
-		Set<EreignisTyp> result;
+		final Set<EreignisTyp> result;
 
 		result = new HashSet<EreignisTyp>();
 		for (final SystemObject so : ereignisTypen.getElements()) {
@@ -238,7 +238,7 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 
 	@Override
 	public Set<SystemKalenderEintrag> getSystemKalenderEintraege() {
-		Set<SystemKalenderEintrag> result;
+		final Set<SystemKalenderEintrag> result;
 
 		result = new HashSet<SystemKalenderEintrag>();
 		for (final SystemObject so : systemKalenderEintraege.getElements()) {
@@ -311,7 +311,7 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 	 */
 	protected void fireEreignisseAktualisiert(final Set<Ereignis> hinzu,
 			final Set<Ereignis> entfernt) {
-		EreignisseAktualisiertEvent e;
+		final EreignisseAktualisiertEvent e;
 
 		e = new EreignisseAktualisiertEvent(this, hinzu, entfernt);
 		for (final EreignisListener l : listener
@@ -330,7 +330,7 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 	 */
 	protected void fireEreignisTypenAktualisiert(final Set<EreignisTyp> hinzu,
 			final Set<EreignisTyp> entfernt) {
-		EreignisTypenAktualisiertEvent e;
+		final EreignisTypenAktualisiertEvent e;
 
 		e = new EreignisTypenAktualisiertEvent(this, hinzu, entfernt);
 		for (final EreignisTypListener l : listener
@@ -351,7 +351,7 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 	protected void fireSystemKalenderEintragAktualisiert(
 			final Set<SystemKalenderEintrag> hinzu,
 			final Set<SystemKalenderEintrag> entfernt) {
-		SystemKalenderEintraegeAktualisiertEvent e;
+		final SystemKalenderEintraegeAktualisiertEvent e;
 
 		e = new SystemKalenderEintraegeAktualisiertEvent(this, hinzu, entfernt);
 		for (final SystemKalenderEintragListener l : listener

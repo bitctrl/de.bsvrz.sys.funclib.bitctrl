@@ -65,7 +65,7 @@ public class Zufallsdaten extends TimerTask {
 	@Override
 	public void run() {
 		for (final SystemObjekt obj : objekte) {
-			OnlineDatensatz datensatz;
+			final OnlineDatensatz datensatz;
 
 			datensatz = obj.getOnlineDatensatz(datensatzTyp);
 		}

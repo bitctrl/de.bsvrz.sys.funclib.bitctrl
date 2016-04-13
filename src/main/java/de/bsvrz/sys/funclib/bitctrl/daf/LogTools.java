@@ -96,8 +96,8 @@ public final class LogTools {
 	 */
 	@Deprecated
 	public static boolean isLogbar(final Class<?> klasse, final Level level) {
-		Logger logger;
-		LogRecord logRecord;
+		final Logger logger;
+		final LogRecord logRecord;
 		boolean result;
 
 		logger = Logger.getLogger(klasse.getSimpleName() + "."
@@ -128,8 +128,8 @@ public final class LogTools {
 	@Deprecated
 	public static boolean isLogbarAufConsole(final Class<?> klasse,
 			final Level level) {
-		Logger logger;
-		LogRecord logRecord;
+		final Logger logger;
+		final LogRecord logRecord;
 		boolean result;
 
 		logger = Logger.getLogger(klasse.getSimpleName() + "."
@@ -162,8 +162,8 @@ public final class LogTools {
 	@Deprecated
 	public static boolean isLogbarInFile(final Class<?> klasse,
 			final Level level) {
-		Logger logger;
-		LogRecord logRecord;
+		final Logger logger;
+		final LogRecord logRecord;
 		boolean result;
 
 		logger = Logger.getLogger(klasse.getSimpleName() + "."
@@ -256,7 +256,7 @@ public final class LogTools {
 	public static void log(final Debug log, final LogNachricht nachricht,
 			final Object... arguments) {
 		if (isLogbar(log, nachricht.getLogLevel())) {
-			String txt;
+			final String txt;
 			if (arguments != null) {
 				txt = MessageFormat.format(nachricht.toString(), arguments);
 			} else {
@@ -305,7 +305,7 @@ public final class LogTools {
 	public static void log(final Debug log, final BetriebsmeldungDaten daten,
 			final LogNachricht nachricht, final Object... arguments) {
 		if (isLogbar(log, nachricht.getLogLevel())) {
-			String txt;
+			final String txt;
 			if (arguments != null) {
 				txt = MessageFormat.format(nachricht.toString(), arguments);
 			} else {

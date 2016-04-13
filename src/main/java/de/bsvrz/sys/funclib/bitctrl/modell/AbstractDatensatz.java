@@ -217,7 +217,7 @@ implements Datensatz<T> {
 		public void dataRequest(final SystemObject object,
 				final DataDescription dataDescription, final byte state) {
 			synchronized (mutex) {
-				Status status;
+				final Status status;
 
 				status = Status.getStatus(state);
 				sendesteuerung.put(dataDescription.getAspect(), status);
@@ -277,10 +277,10 @@ implements Datensatz<T> {
 		 */
 		public void sende(final Data d, final Aspect asp,
 				final long zeitstempel) throws DatensendeException {
-			Status status;
-			long z;
-			DataDescription dbs;
-			ResultData datensatz;
+			final Status status;
+			final long z;
+			final DataDescription dbs;
+			final ResultData datensatz;
 
 			if (!isAngemeldet(asp)) {
 				throw new DatensendeException(
@@ -423,9 +423,9 @@ implements Datensatz<T> {
 		synchronized (mutex) {
 			T result = daten.get(asp);
 			if ((result == null) || !isAutoUpdate(asp)) {
-				ClientDavInterface dav;
-				ResultData datensatz;
-				DataDescription dbs;
+				final ClientDavInterface dav;
+				final ResultData datensatz;
+				final DataDescription dbs;
 
 				dav = ObjektFactory.getInstanz().getVerbindung();
 				dbs = new DataDescription(getAttributGruppe(), asp);
@@ -449,7 +449,7 @@ implements Datensatz<T> {
 	 */
 	protected void addUpdateListener(final Aspect asp,
 			final DatensatzUpdateListener listener) {
-		boolean anmelden;
+		final boolean anmelden;
 
 		// Falls notwenig Initialisierung
 		if (!listeners.containsKey(asp)) {

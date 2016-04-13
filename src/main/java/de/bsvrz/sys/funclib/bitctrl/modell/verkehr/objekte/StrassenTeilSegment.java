@@ -414,7 +414,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 		}
 
 		if (!messQuerschnitteZugeordnet) {
-			List<SystemObjekt> listeSO;
+			final List<SystemObjekt> listeSO;
 
 			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
 					VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
@@ -493,7 +493,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 		}
 
 		if (!segmenteInitialisiert) {
-			List<SystemObjekt> listeSO;
+			final List<SystemObjekt> listeSO;
 			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
 					VerkehrsModellTypen.STRASSENSEGMENT.getPid());
 
@@ -522,9 +522,9 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 */
 	private void leseKonfigDaten() {
 		if (anzahlFahrStreifen == -1) {
-			DataModel modell;
-			AttributeGroup atg;
-			Data datum;
+			final DataModel modell;
+			final AttributeGroup atg;
+			final Data datum;
 
 			modell = objekt.getDataModel();
 			atg = modell.getAttributeGroup("atg.straﬂenTeilSegment");

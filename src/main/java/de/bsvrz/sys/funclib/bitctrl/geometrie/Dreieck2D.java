@@ -496,7 +496,7 @@ public abstract class Dreieck2D implements Shape, Cloneable {
 	@Override
 	public boolean contains(final double x, final double y, final double w,
 			final double h) {
-		double x2, y2, x3, y3, x4, y4; // Eckpunkte des Rechtecks
+		final double x2, y2, x3, y3, x4, y4; // Eckpunkte des Rechtecks
 
 		x2 = x + w;
 		y2 = y;
@@ -562,7 +562,7 @@ public abstract class Dreieck2D implements Shape, Cloneable {
 	public boolean intersects(final double x, final double y, final double w,
 			final double h) {
 		final Rectangle2D r = new Rectangle2D.Double(x, y, w, h);
-		boolean imRechteck;
+		final boolean imRechteck;
 		boolean schneidet = false;
 
 		// Befindet sich das Dreieck im Rechteck?

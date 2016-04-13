@@ -58,12 +58,12 @@ public class SystemKalenderEintrag extends AbstractSystemObjekt {
 	 */
 	public static SystemKalenderEintrag anlegen(final String pid,
 			final String name) throws ConfigurationChangeException {
-		ObjektFactory factory;
-		ClientDavInterface dav;
-		DataModel modell;
-		ConfigurationArea kb;
-		DynamicObjectType typ;
-		SystemObject so;
+		final ObjektFactory factory;
+		final ClientDavInterface dav;
+		final DataModel modell;
+		final ConfigurationArea kb;
+		final DynamicObjectType typ;
+		final SystemObject so;
 
 		factory = ObjektFactory.getInstanz();
 		dav = factory.getVerbindung();

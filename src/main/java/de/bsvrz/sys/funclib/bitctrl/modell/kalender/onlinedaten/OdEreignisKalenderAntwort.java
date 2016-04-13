@@ -336,8 +336,8 @@ extends AbstractOnlineDatensatz<OdEreignisKalenderAntwort.Daten> {
 
 	@Override
 	protected Data konvertiere(final Daten datum) {
-		Data daten;
-		Array feld;
+		final Data daten;
+		final Array feld;
 		int i;
 
 		daten = erzeugeSendeCache();
@@ -378,8 +378,8 @@ extends AbstractOnlineDatensatz<OdEreignisKalenderAntwort.Daten> {
 
 		final Daten datum = new Daten();
 		if (result.hasData()) {
-			Data daten;
-			Array feld;
+			final Data daten;
+			final Array feld;
 
 			daten = result.getData();
 
@@ -390,11 +390,11 @@ extends AbstractOnlineDatensatz<OdEreignisKalenderAntwort.Daten> {
 
 			feld = daten.getArray("Ereignis");
 			for (int i = 0; i < feld.getLength(); i++) {
-				long zeitstempel;
-				SystemObject ereignisSO;
-				Ereignis ereignis;
-				boolean zeitlichGueltig;
-				boolean verkehrlichGueltig;
+				final long zeitstempel;
+				final SystemObject ereignisSO;
+				final Ereignis ereignis;
+				final boolean zeitlichGueltig;
+				final boolean verkehrlichGueltig;
 
 				zeitstempel = feld.getItem(i).getTimeValue("Zeitpunkt")
 						.getMillis();

@@ -73,7 +73,7 @@ implements UmfeldDatenSensor {
 	@Override
 	public List<UmfeldDatenMessStelle> getUmfelddatenMessstellen() {
 		if (listeUDMS == null) {
-			List<SystemObject> listeSO;
+			final List<SystemObject> listeSO;
 
 			listeUDMS = new ArrayList<UmfeldDatenMessStelle>();
 			listeSO = Konfigurationsbereich.getObjekte(

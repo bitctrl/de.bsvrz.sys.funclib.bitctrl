@@ -113,7 +113,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	public <O extends OnlineDatensatz<? extends Datum>> O getOnlineDatensatz(
 			final Class<O> typ) {
 		if (!onlineDaten.containsKey(typ)) {
-			OnlineDatensatz<? extends Datum> od;
+			final OnlineDatensatz<? extends Datum> od;
 			final List<AttributeGroup> atgListe;
 
 			od = getDatensatz(typ);
@@ -146,7 +146,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	public <P extends ParameterDatensatz<? extends Datum>> P getParameterDatensatz(
 			final Class<P> typ) {
 		if (!parameter.containsKey(typ)) {
-			ParameterDatensatz<? extends Datum> pd;
+			final ParameterDatensatz<? extends Datum> pd;
 			final List<AttributeGroup> atgListe;
 
 			pd = getDatensatz(typ);

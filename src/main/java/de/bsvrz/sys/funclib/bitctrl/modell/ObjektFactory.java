@@ -156,7 +156,7 @@ public class ObjektFactory implements ModellObjektFactory {
 				if (obj instanceof ConfigurationArea) {
 					// Alle Objekte des Konfigurationsbereich suchen
 					final ConfigurationArea kb = (ConfigurationArea) obj;
-					List<String> typen;
+					final List<String> typen;
 
 					typen = new ArrayList<String>();
 					for (final ModellObjektFactory f : factories.values()) {
@@ -388,7 +388,7 @@ public class ObjektFactory implements ModellObjektFactory {
 	 */
 	@Override
 	public Collection<SystemObjektTyp> getTypen() {
-		List<SystemObjektTyp> typen;
+		final List<SystemObjektTyp> typen;
 
 		typen = new ArrayList<SystemObjektTyp>();
 		for (final ModellObjektFactory f : factories.values()) {

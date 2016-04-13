@@ -32,7 +32,7 @@ package de.bsvrz.sys.funclib.bitctrl.geolib;
  * @author BitCtrl Systems GmbH, Gieseler
  */
 public class WGS84Punkt extends WGS84Koordinate
-		implements Comparable<WGS84Punkt> {
+implements Comparable<WGS84Punkt> {
 
 	/** $Auml;quatorradius der Erde (6378,137 km). */
 	public static final double ERD_RADIUS_KM = 6378.137;
@@ -151,7 +151,7 @@ public class WGS84Punkt extends WGS84Koordinate
 	 * @return der gerundete Wert
 	 */
 	public static double koordinateRunden(final double wert) {
-		long unscaledValue;
+		final long unscaledValue;
 
 		// unscaledValue = Math.round(wert * (1 / conversionFactor));
 		unscaledValue = Math.round(wert * GENAUIGKEIT_KOORDINATEN);
@@ -266,6 +266,6 @@ public class WGS84Punkt extends WGS84Koordinate
 	@Override
 	public String toString() {
 		return "Punkt in WGS84-Koordinaten: Länge: " + getLaenge()
-				+ ", Breite: " + getBreite();
+		+ ", Breite: " + getBreite();
 	}
 }

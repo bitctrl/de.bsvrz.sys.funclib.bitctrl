@@ -80,8 +80,8 @@ implements BestehtAusLinienobjekten {
 		DataCache.cacheData(getSystemObject().getType(), atg);
 		final Data datum = objekt.getConfigurationData(atg);
 		if (datum != null) {
-			ReferenceArray ref;
-			SystemObject[] objekte;
+			final ReferenceArray ref;
+			final SystemObject[] objekte;
 
 			strassenSegmente = new HashSet<AeusseresStrassenSegment>();
 			ref = datum.getReferenceArray("LinienReferenz");

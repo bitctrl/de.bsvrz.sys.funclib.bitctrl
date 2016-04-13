@@ -44,7 +44,7 @@ public class TestIntervall {
 	 */
 	@Test
 	public void testGetter() {
-		Interval a;
+		final Interval a;
 
 		a = new Interval(3, 6);
 		assertEquals(3L, a.getStart());

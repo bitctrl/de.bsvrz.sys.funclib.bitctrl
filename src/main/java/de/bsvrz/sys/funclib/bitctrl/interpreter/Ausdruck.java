@@ -52,7 +52,7 @@ public interface Ausdruck {
 		 * @return Menge der Variablennamen
 		 */
 		public static Set<String> getVariablen(final Ausdruck ausdruck) {
-			Set<String> variablen;
+			final Set<String> variablen;
 
 			variablen = new HashSet<String>();
 			if (ausdruck instanceof Variable) {

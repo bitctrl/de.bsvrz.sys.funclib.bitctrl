@@ -81,9 +81,10 @@ implements TestDatenGenerator<OdVerkehrsDatenKurzZeitMq.Daten> {
 
 	@Override
 	public OdVerkehrsDatenKurzZeitMq.Daten generiere() {
-		OdVerkehrsDatenKurzZeitMq.Daten datum;
+		final OdVerkehrsDatenKurzZeitMq.Daten datum;
 		int bandbreite;
-		int qLkw, qKfz;
+		int qLkw;
+		final int qKfz;
 
 		datum = new OdVerkehrsDatenKurzZeitMq.Daten();
 

@@ -339,8 +339,8 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitFs.Daten> {
 	@Override
 	protected Data konvertiere(final OdVerkehrsDatenKurzZeitFs.Daten d) {
 		final Data datum = erzeugeSendeCache();
-		int qKfz, qLkw, vPkw, vLkw, sKfz, kb, b;
-		Integer qPkw, vKfz, qb, aLkw;
+		final int qKfz, qLkw, vPkw, vLkw, sKfz, kb, b;
+		final Integer qPkw, vKfz, qb, aLkw;
 
 		qKfz = d.getWert(Werte.qKfz.name()).intValue();
 		qLkw = d.getWert(Werte.qLkw.name()).intValue();

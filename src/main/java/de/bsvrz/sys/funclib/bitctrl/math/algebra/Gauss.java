@@ -56,15 +56,16 @@ public final class Gauss {
 					"Das Element in der ersten Zeile und ersten Spalte der Matrix darf nicht 0 sein.");
 		}
 
-		Matrix lr;
+		final Matrix lr;
 
 		lr = new Matrix(a);
 
 		for (int j = 0; j < lr.anzahlSpalten(); j++) {
 			// Nullen in der aktuellen Spalte erzeugen
 			for (int i = j + 1; i < lr.anzahlZeilen(); i++) {
-				Vektor v0, neueZeile;
-				RationaleZahl z, n, f;
+				Vektor v0;
+				final Vektor neueZeile;
+				final RationaleZahl z, n, f;
 
 				// Erste Matrixzeile
 				v0 = lr.getZeilenvektor(j);
@@ -98,7 +99,7 @@ public final class Gauss {
 	 * @return Die untere Dreiecksmatrix L.
 	 */
 	public static Matrix extrahiereMatrixL(final Matrix lr) {
-		Matrix l;
+		final Matrix l;
 
 		l = new Matrix(lr.anzahlZeilen(), lr.anzahlSpalten());
 		for (int i = 0; i < lr.anzahlZeilen(); i++) {
@@ -122,7 +123,7 @@ public final class Gauss {
 	 * @return Die obere Dreiecksmatrix R.
 	 */
 	public static Matrix extrahiereMatrixR(final Matrix lr) {
-		Matrix r;
+		final Matrix r;
 
 		r = new Matrix(lr.anzahlZeilen(), lr.anzahlSpalten());
 		for (int i = 0; i < lr.anzahlZeilen(); i++) {
@@ -181,7 +182,7 @@ public final class Gauss {
 
 		// 3. Schritt: In der Diagonalen Einsen erzeugen
 		for (int i = 0; i < d.anzahlZeilen(); i++) {
-			Vektor zeile;
+			final Vektor zeile;
 
 			zeile = d.getZeilenvektor(i);
 			d.setZeilenvektor(i, Vektor.dividiere(zeile, zeile.get(i)));
@@ -201,13 +202,14 @@ public final class Gauss {
 	 * @return Die berechnte obere Dreiecksmatrix
 	 */
 	public static Matrix obereDreiecksmatrix(final Matrix m) {
-		Matrix d;
+		final Matrix d;
 
 		d = new Matrix(m);
 		for (int j = 0; j < d.anzahlSpalten(); j++) {
 			for (int i = j + 1; i < d.anzahlZeilen(); i++) {
 				Vektor v0;
-				RationaleZahl z, n, f;
+				final RationaleZahl z, n;
+				RationaleZahl f;
 
 				// Aktuelle Zeile bestimmen, ggf. Zeilen tauschen
 				if (d.get(j, j).equals(RationaleZahl.NULL)) {
@@ -215,7 +217,7 @@ public final class Gauss {
 					for (int k = j + 1; k < d.anzahlZeilen(); k++) {
 						if (!d.get(k, j).equals(RationaleZahl.NULL)) {
 							// Zeilen tauschen
-							Vektor v1, v2;
+							final Vektor v1, v2;
 
 							v1 = d.getZeilenvektor(j);
 							v2 = d.getZeilenvektor(k);
@@ -250,13 +252,14 @@ public final class Gauss {
 	 * @return Die berechnte untere Dreiecksmatrix
 	 */
 	public static Matrix untereDreiecksmatrix(final Matrix m) {
-		Matrix d;
+		final Matrix d;
 
 		d = new Matrix(m);
 		for (int j = d.anzahlSpalten() - 2; j > 0; j--) {
 			for (int i = j - 1; i >= 0; i--) {
 				Vektor v0;
-				RationaleZahl z, n, f;
+				final RationaleZahl z, n;
+				RationaleZahl f;
 
 				// Aktuelle Zeile bestimmen, ggf. Zeilen tauschen
 				if (d.get(j, j).equals(RationaleZahl.NULL)) {
@@ -264,7 +267,7 @@ public final class Gauss {
 					for (int k = j - 1; k >= 0; k--) {
 						if (!d.get(k, j).equals(RationaleZahl.NULL)) {
 							// Zeilen tauschen
-							Vektor v1, v2;
+							final Vektor v1, v2;
 
 							v1 = d.getZeilenvektor(j);
 							v2 = d.getZeilenvektor(k);
