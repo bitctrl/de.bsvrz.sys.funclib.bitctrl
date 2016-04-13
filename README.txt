@@ -14,6 +14,34 @@ oder potentiell genutzt werden können.
 Versionsgeschichte
 ==================
 
+1.3.1
+=====
+Übernahme der Änderungen der Firma Kappich im Rahmen der DuA-Überarbeitung
+DuaKonstanten:
+- neue Konstante für ATG "atg.messQuerschnittVirtuell"
+
+AbstraktVerwaltungsAdapter:
+- Betriebsmeldung beim Fehlschlagen der Initialisierung entfernt
+
+MessQuerschnittVirtuell:
+- Anteile des VMQ als eigene Klasse "MessQuerschnittAnteile" ausgelagert
+- Debug-Level im Konstruktor auf FINE gesetzt, wenn die ATG "virtuellStandard" nicht versorgt ist
+- Funktionsnamen für die ermittlung der MessQuerschnittAnteile angepasst
+
+AtgMessQuerschnittVirtuell ergänzt
+Schnittstelle MessQuerschnittAnteile ergänzt
+
+AtgMessQuerschnittVirtuellVLage
+- erweitert die neue Schnittstelle MessQuerschnittAnteile
+- Ist der Messquerschnitt von dem die Geschwindigkeit uebernommen werden soll nicht explizit versorgt wird nicht mehr der erste aus der Liste der Anteile genommen
+- getMessQuerschnittGeschwindigkeit liefert gegebenenfalls null und nicht den erstbesten MQ
+
+DUAUmfeldDatenSensor
+- verwendet eine IndentityHashMap für die Verwaltung der Instanzen
+
+UmfeldDatenArt
+- hashCode-Funktion ergänzt
+
 1.3.0
 =====
 - Unterstützung für die Umfelddatenarten ZeitreserveGlätte (Vaisala) und Taustoffmenge je Quadratmeter (TLS2012)
