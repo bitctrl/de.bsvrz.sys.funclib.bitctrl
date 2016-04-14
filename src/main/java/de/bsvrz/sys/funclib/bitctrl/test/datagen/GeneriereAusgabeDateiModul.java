@@ -58,7 +58,7 @@ class GeneriereAusgabeDateiModul extends DatenGeneratorModul {
 	/**
 	 * die Liste der zu verwendeten Datenquellen.
 	 */
-	private final SortedMap<Long, Set<DatenQuelle>> quellListe = new TreeMap<Long, Set<DatenQuelle>>();
+	private final SortedMap<Long, Set<DatenQuelle>> quellListe = new TreeMap<>();
 
 	/**
 	 * die Startzeit für die Datenausgabe.
@@ -108,7 +108,7 @@ class GeneriereAusgabeDateiModul extends DatenGeneratorModul {
 			if (nextStart >= 0) {
 				Set<DatenQuelle> set = quellListe.get(nextStart);
 				if (set == null) {
-					set = new HashSet<DatenQuelle>();
+					set = new HashSet<>();
 					quellListe.put(nextStart, set);
 				}
 				set.add(quelle);
@@ -117,7 +117,7 @@ class GeneriereAusgabeDateiModul extends DatenGeneratorModul {
 
 		protokoller = erzeugeProtokoller(zielName);
 
-		final Collection<ResultData> daten = new ArrayList<ResultData>();
+		final Collection<ResultData> daten = new ArrayList<>();
 		while (quellListe.size() > 0) {
 			final long offset = quellListe.firstKey();
 
@@ -130,7 +130,7 @@ class GeneriereAusgabeDateiModul extends DatenGeneratorModul {
 				if (nextStart >= 0) {
 					Set<DatenQuelle> newSet = quellListe.get(nextStart);
 					if (newSet == null) {
-						newSet = new HashSet<DatenQuelle>();
+						newSet = new HashSet<>();
 						quellListe.put(nextStart, newSet);
 					}
 					newSet.add(quelle);
@@ -167,7 +167,7 @@ class GeneriereAusgabeDateiModul extends DatenGeneratorModul {
 			e.printStackTrace();
 		}
 
-		final Collection<String> genArgs = new ArrayList<String>();
+		final Collection<String> genArgs = new ArrayList<>();
 
 		for (final Set<DatenQuelle> quellSet : quellListe.values()) {
 			for (final DatenQuelle quelle : quellSet) {

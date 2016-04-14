@@ -55,7 +55,7 @@ public enum SystemModellAoeTypen implements SystemObjektTyp {
 	 * @param klasse
 	 *            Die Klasse des Modellobjekts
 	 */
-	private SystemModellAoeTypen(final String pid,
+	SystemModellAoeTypen(final String pid,
 			final Class<? extends SystemObjekt> klasse) {
 		this.pid = pid;
 		this.klasse = klasse;

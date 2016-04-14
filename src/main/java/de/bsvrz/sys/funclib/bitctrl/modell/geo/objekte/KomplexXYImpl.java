@@ -54,22 +54,22 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements KomplexXY {
 	/**
 	 * die Liste der Punkte des Objekts.
 	 */
-	List<Punkt> punkte;
+	private List<Punkt> punkte;
 
 	/**
 	 * die Liste der Linien des Objekts.
 	 */
-	List<Linie> linien;
+	private List<Linie> linien;
 
 	/**
 	 * die Liste der Flächen des Objekts.
 	 */
-	List<Flaeche> flaechen;
+	private List<Flaeche> flaechen;
 
 	/**
 	 * die Liste der komplexen Objekte des Objekts.
 	 */
-	List<Komplex> komplexe;
+	private List<Komplex> komplexe;
 
 	/**
 	 * Konstruktor. Die Funktion erstellt ein Komplexes Objekt, das durch das
@@ -88,10 +88,10 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements KomplexXY {
 	 * internen Strukturen.
 	 */
 	private void fuelleObjektListen() {
-		flaechen = new ArrayList<Flaeche>();
-		punkte = new ArrayList<Punkt>();
-		linien = new ArrayList<Linie>();
-		komplexe = new ArrayList<Komplex>();
+		flaechen = new ArrayList<>();
+		punkte = new ArrayList<>();
+		linien = new ArrayList<>();
+		komplexe = new ArrayList<>();
 
 		final DataModel model = getSystemObject().getDataModel();
 		final Data daten = getSystemObject().getConfigurationData(

@@ -38,16 +38,16 @@ public enum BaustellenStatus implements Zustand<Integer> {
 	 * Baustelle befindet sich noch im Entwurfsstadium.
 	 */
 	ENTWORFEN("entworfen", 0), /**
-								 * Baustelle ist vollständig geplant.
-								 */
+	 * Baustelle ist vollständig geplant.
+	 */
 	GEPLANT("geplant", 1), /**
-							 * Baustelle ist gültig und wird bei Berechnungen
-							 * und Prognosen berücksichtigt.
-							 */
+	 * Baustelle ist gültig und wird bei Berechnungen
+	 * und Prognosen berücksichtigt.
+	 */
 	GUELTIG("gültig", 2), /**
-							 * Baustelle ist storniert und wird bei Berechnungen
-							 * und Prognosen NICHT mehr berücksichtigt.
-							 */
+	 * Baustelle ist storniert und wird bei Berechnungen
+	 * und Prognosen NICHT mehr berücksichtigt.
+	 */
 	STORNIERT("storniert", 3);
 
 	/**
@@ -110,7 +110,7 @@ public enum BaustellenStatus implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private BaustellenStatus(final String name, final int code) {
+	BaustellenStatus(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

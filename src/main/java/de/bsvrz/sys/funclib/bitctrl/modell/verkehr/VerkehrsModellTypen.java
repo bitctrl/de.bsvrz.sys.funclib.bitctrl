@@ -118,7 +118,7 @@ public enum VerkehrsModellTypen implements SystemObjektTyp {
 	 * @param klasse
 	 *            Die Klasse des Modellobjekts
 	 */
-	private VerkehrsModellTypen(final String pid,
+	VerkehrsModellTypen(final String pid,
 			final Class<? extends SystemObjekt> klasse) {
 		this.pid = pid;
 		this.klasse = klasse;

@@ -102,7 +102,7 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		 * Liste der Verfahren deren Störfallindikatoren berücksichtigt werden
 		 * sollen ("SIVerfahren").
 		 */
-		private final Collection<Aspect> siVerfahren = new ArrayList<Aspect>();
+		private final Collection<Aspect> siVerfahren = new ArrayList<>();
 
 		/**
 		 * Angenommene Anfangslänge des gestauten Bereichs an einem lokalen

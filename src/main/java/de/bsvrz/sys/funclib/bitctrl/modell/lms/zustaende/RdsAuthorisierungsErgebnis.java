@@ -40,9 +40,9 @@ public enum RdsAuthorisierungsErgebnis implements Zustand<Integer> {
 			0), /** Meldung wurde authorisiert. */
 	AUTHORISIERT("authorisiert", 1), /** Meldung wurde zurückgewiesen. */
 	ZURUECKGEWIESEN("zurückgewiesen", 2), /**
-											 * Meldung und die ihr folgenden
-											 * Meldungen wurden zurückgewiesen.
-											 */
+	 * Meldung und die ihr folgenden
+	 * Meldungen wurden zurückgewiesen.
+	 */
 	ZURUECKGEWIESEN_UND_FOLGENDE("zurückgewiesen und Zurückweisung folgender",
 			3);
 
@@ -91,7 +91,7 @@ public enum RdsAuthorisierungsErgebnis implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsAuthorisierungsErgebnis(final String name, final int code) {
+	RdsAuthorisierungsErgebnis(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

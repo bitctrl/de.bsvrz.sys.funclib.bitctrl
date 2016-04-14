@@ -93,7 +93,7 @@ extends AbstractOnlineDatensatz<OdStoerfallZustand.Daten> {
 		 * @param pid
 		 *            die PID eines Aspekts.
 		 */
-		private Aspekte(final String pid) {
+		Aspekte(final String pid) {
 			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			aspekt = modell.getAspect(pid);
@@ -312,7 +312,7 @@ extends AbstractOnlineDatensatz<OdStoerfallZustand.Daten> {
 
 	@Override
 	public Collection<Aspect> getAspekte() {
-		final Set<Aspect> aspekte = new HashSet<Aspect>();
+		final Set<Aspect> aspekte = new HashSet<>();
 		for (final Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}

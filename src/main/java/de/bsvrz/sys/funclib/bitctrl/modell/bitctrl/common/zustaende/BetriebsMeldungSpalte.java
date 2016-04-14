@@ -103,7 +103,7 @@ public enum BetriebsMeldungSpalte implements Zustand<Integer> {
 	 * @param breite
 	 *            die empfohlene Spaltenbreite.
 	 */
-	private BetriebsMeldungSpalte(final String name, final int code,
+	BetriebsMeldungSpalte(final String name, final int code,
 			final int breite) {
 		this.name = name;
 		this.code = code;

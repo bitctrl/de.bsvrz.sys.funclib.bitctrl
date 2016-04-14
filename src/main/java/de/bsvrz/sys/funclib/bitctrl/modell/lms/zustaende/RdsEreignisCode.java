@@ -48,10 +48,10 @@ public final class RdsEreignisCode implements Zustand<Integer> {
 	private static IntegerAttributeType attribut;
 
 	/** der Menge der Locationtabellen geordnet nach dem Code. */
-	private static final Map<Integer, RdsEreignisCode> TABELLE_PER_CODE = new HashMap<Integer, RdsEreignisCode>();
+	private static final Map<Integer, RdsEreignisCode> TABELLE_PER_CODE = new HashMap<>();
 
 	/** der Menge der Locationtabellen geordnet nach dem Name. */
-	private static final Map<String, RdsEreignisCode> TABELLE_PER_NAME = new HashMap<String, RdsEreignisCode>();
+	private static final Map<String, RdsEreignisCode> TABELLE_PER_NAME = new HashMap<>();
 
 	/**
 	 * liefert den Ereigniscode mit dem übergebenen Code.

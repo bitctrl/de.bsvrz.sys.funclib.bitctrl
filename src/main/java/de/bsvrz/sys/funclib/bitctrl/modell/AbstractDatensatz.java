@@ -78,9 +78,9 @@ implements Datensatz<T> {
 		/**
 		 * Konstruiert den Sender.
 		 */
-		public AsynchronerReceiver() {
+		AsynchronerReceiver() {
 			dav = ObjektFactory.getInstanz().getVerbindung();
-			angemeldet = new HashSet<Aspect>();
+			angemeldet = new HashSet<>();
 		}
 
 		/**
@@ -161,10 +161,10 @@ implements Datensatz<T> {
 		/**
 		 * Konstruiert den Sender.
 		 */
-		public SynchronerSender() {
+		SynchronerSender() {
 			dav = ObjektFactory.getInstanz().getVerbindung();
-			sendesteuerung = new HashMap<Aspect, Status>();
-			angemeldet = new HashSet<Aspect>();
+			sendesteuerung = new HashMap<>();
+			angemeldet = new HashSet<>();
 		}
 
 		/**
@@ -365,8 +365,8 @@ implements Datensatz<T> {
 		this.objekt = objekt;
 		receiver = new AsynchronerReceiver();
 		sender = new SynchronerSender();
-		listeners = new HashMap<Aspect, EventListenerList>();
-		daten = new HashMap<Aspect, T>();
+		listeners = new HashMap<>();
+		daten = new HashMap<>();
 	}
 
 	/**

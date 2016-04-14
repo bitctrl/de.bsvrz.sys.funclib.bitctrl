@@ -55,8 +55,8 @@ extends AbstractDatensatz<T>implements OnlineDatensatz<T> {
 	 */
 	public AbstractOnlineDatensatz(final SystemObjekt objekt) {
 		super(objekt);
-		quellen = new HashSet<Aspect>();
-		senken = new HashSet<Aspect>();
+		quellen = new HashSet<>();
+		senken = new HashSet<>();
 	}
 
 	@Override

@@ -84,7 +84,7 @@ public enum RdsEreignisKodierung implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsEreignisKodierung(final String name, final int code) {
+	RdsEreignisKodierung(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

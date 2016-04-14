@@ -48,10 +48,10 @@ public class KalenderAnfrage {
 	 *
 	 * @see #ereignisTypenOption
 	 */
-	private final Set<EreignisTyp> ereignisTypen = new HashSet<EreignisTyp>();
+	private final Set<EreignisTyp> ereignisTypen = new HashSet<>();
 
 	/** Menge der Netzbestandteile, dessen Ereignisse angefragt werden. */
-	private final Set<NetzBestandTeil> raeumlicheGueltigkeit = new HashSet<NetzBestandTeil>();
+	private final Set<NetzBestandTeil> raeumlicheGueltigkeit = new HashSet<>();
 
 	/** Das Zeitintervall, indem Ereignisse angefragt werden. */
 	private Interval intervall;

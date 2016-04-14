@@ -51,8 +51,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Baustelle;
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
-public class OdBaustellenSimulation
-extends AbstractOnlineDatensatz<OdBaustellenSimulation.Daten> {
+public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellenSimulation.Daten> {
 
 	/**
 	 * Die vorhandenen Aspekte des Datensatzes.
@@ -71,9 +70,8 @@ extends AbstractOnlineDatensatz<OdBaustellenSimulation.Daten> {
 		 * @param pid
 		 *            die PID eines Aspekts.
 		 */
-		private Aspekte(final String pid) {
-			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-					.getDataModel();
+		Aspekte(final String pid) {
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung().getDataModel();
 			aspekt = modell.getAspect(pid);
 			assert aspekt != null;
 		}
@@ -101,15 +99,15 @@ extends AbstractOnlineDatensatz<OdBaustellenSimulation.Daten> {
 		 */
 		public static class StauEintrag implements Cloneable {
 			/** Startzeit des Staus. */
-			long startZeit;
+			private long startZeit;
 			/** Dauer. */
-			long dauer;
+			private long dauer;
 			/** maximale Länge in Metern. */
-			long maxLaenge;
+			private long maxLaenge;
 			/** Zeitpunkt der maximalen Länge. */
-			long maxLaengeZeit;
+			private long maxLaengeZeit;
 			/** Verlustzeit in Sekunden. */
-			long verlustZeit;
+			private long verlustZeit;
 
 			@Override
 			public StauEintrag clone() {
@@ -240,7 +238,7 @@ extends AbstractOnlineDatensatz<OdBaustellenSimulation.Daten> {
 		/**
 		 * die Liste der Staueinträge.
 		 */
-		private final List<StauEintrag> staus = new ArrayList<StauEintrag>();
+		private final List<StauEintrag> staus = new ArrayList<>();
 
 		/**
 		 * der aktuelle Status des Datensatzes.
@@ -409,8 +407,7 @@ extends AbstractOnlineDatensatz<OdBaustellenSimulation.Daten> {
 		 *            <code>true</code>, wenn die Daten einer erfolgreichen
 		 *            Simulation entstammen
 		 */
-		public void setSimulationErfolgreich(
-				final boolean simulationErfolgreich) {
+		public void setSimulationErfolgreich(final boolean simulationErfolgreich) {
 			this.simulationErfolgreich = simulationErfolgreich;
 		}
 	}
@@ -430,8 +427,7 @@ extends AbstractOnlineDatensatz<OdBaustellenSimulation.Daten> {
 		super(baustelle);
 
 		if (atg == null) {
-			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
-					.getDataModel();
+			final DataModel modell = ObjektFactory.getInstanz().getVerbindung().getDataModel();
 			atg = modell.getAttributeGroup(ATG_BAUSTELLEN_SIMULATION);
 			assert atg != null;
 		}
@@ -444,7 +440,7 @@ extends AbstractOnlineDatensatz<OdBaustellenSimulation.Daten> {
 
 	@Override
 	public Collection<Aspect> getAspekte() {
-		final Set<Aspect> aspekte = new HashSet<Aspect>();
+		final Set<Aspect> aspekte = new HashSet<>();
 		for (final Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}
@@ -475,16 +471,11 @@ extends AbstractOnlineDatensatz<OdBaustellenSimulation.Daten> {
 
 		for (int idx = 0; idx < datum.getStaus().size(); idx++) {
 			final Daten.StauEintrag schritt = datum.getStau(idx);
-			array.getItem(idx).getTimeValue("StartZeit")
-			.setMillis(schritt.getStartZeit());
-			array.getItem(idx).getTimeValue("Dauer")
-			.setMillis(schritt.getDauer());
-			array.getItem(idx).getUnscaledValue("MaxLänge")
-			.set(schritt.getMaxLaenge());
-			array.getItem(idx).getTimeValue("MaxLängeZeit")
-			.setMillis(schritt.getMaxLaengeZeit());
-			array.getItem(idx).getTimeValue("VerlustZeit")
-			.setMillis(schritt.getVerlustZeit());
+			array.getItem(idx).getTimeValue("StartZeit").setMillis(schritt.getStartZeit());
+			array.getItem(idx).getTimeValue("Dauer").setMillis(schritt.getDauer());
+			array.getItem(idx).getUnscaledValue("MaxLänge").set(schritt.getMaxLaenge());
+			array.getItem(idx).getTimeValue("MaxLängeZeit").setMillis(schritt.getMaxLaengeZeit());
+			array.getItem(idx).getTimeValue("VerlustZeit").setMillis(schritt.getVerlustZeit());
 		}
 
 		return daten;
@@ -499,30 +490,23 @@ extends AbstractOnlineDatensatz<OdBaustellenSimulation.Daten> {
 		if (result.hasData()) {
 			final Data daten = result.getData();
 
-			if (daten.getUnscaledValue("SimulationErfolgreich")
-					.intValue() != 0) {
+			if (daten.getUnscaledValue("SimulationErfolgreich").intValue() != 0) {
 				datum.setSimulationErfolgreich(true);
 			}
 
 			datum.setAuftragGeber(daten.getTextValue("Auftraggeber").getText());
 			datum.setBemerkung(daten.getTextValue("Bemerkung").getText());
-			datum.setFehlerMeldung(
-					daten.getTextValue("Fehlermeldung").getText());
+			datum.setFehlerMeldung(daten.getTextValue("Fehlermeldung").getText());
 
 			final Data.Array array = daten.getArray("BaustellenSimulation");
 
 			for (int idx = 0; idx < array.getLength(); idx++) {
 				final Daten.StauEintrag schritt = new Daten.StauEintrag();
-				schritt.setStartZeit(array.getItem(idx)
-						.getTimeValue("StartZeit").getMillis());
-				schritt.setDauer(
-						array.getItem(idx).getTimeValue("Dauer").getMillis());
-				schritt.setMaxLaenge(array.getItem(idx)
-						.getUnscaledValue("MaxLänge").longValue());
-				schritt.setMaxLaengeZeit(array.getItem(idx)
-						.getTimeValue("MaxLängeZeit").getMillis());
-				schritt.setVerlustZeit(array.getItem(idx)
-						.getTimeValue("VerlustZeit").getMillis());
+				schritt.setStartZeit(array.getItem(idx).getTimeValue("StartZeit").getMillis());
+				schritt.setDauer(array.getItem(idx).getTimeValue("Dauer").getMillis());
+				schritt.setMaxLaenge(array.getItem(idx).getUnscaledValue("MaxLänge").longValue());
+				schritt.setMaxLaengeZeit(array.getItem(idx).getTimeValue("MaxLängeZeit").getMillis());
+				schritt.setVerlustZeit(array.getItem(idx).getTimeValue("VerlustZeit").getMillis());
 				datum.addSchritte(schritt);
 			}
 		}
@@ -530,7 +514,6 @@ extends AbstractOnlineDatensatz<OdBaustellenSimulation.Daten> {
 		datum.setDatenStatus(Datum.Status.getStatus(result.getDataState()));
 		datum.setZeitstempel(result.getDataTime());
 		setDatum(result.getDataDescription().getAspect(), datum);
-		fireDatensatzAktualisiert(result.getDataDescription().getAspect(),
-				datum.clone());
+		fireDatensatzAktualisiert(result.getDataDescription().getAspect(), datum.clone());
 	}
 }

@@ -78,12 +78,12 @@ implements BestehtAusLinienobjekten {
 		final AttributeGroup atg = modell
 				.getAttributeGroup("atg.bestehtAusLinienObjekten");
 		DataCache.cacheData(getSystemObject().getType(), atg);
-		final Data datum = objekt.getConfigurationData(atg);
+		final Data datum = getSystemObject().getConfigurationData(atg);
 		if (datum != null) {
 			final ReferenceArray ref;
 			final SystemObject[] objekte;
 
-			strassenSegmente = new HashSet<AeusseresStrassenSegment>();
+			strassenSegmente = new HashSet<>();
 			ref = datum.getReferenceArray("LinienReferenz");
 			objekte = ref.getSystemObjectArray();
 			for (final SystemObject so : objekte) {
@@ -104,7 +104,7 @@ implements BestehtAusLinienobjekten {
 	 * @return die ermittelte Liste der Segmente
 	 */
 	public Collection<AeusseresStrassenSegment> getStrassenSegmente() {
-		final Collection<AeusseresStrassenSegment> segmente = new ArrayList<AeusseresStrassenSegment>();
+		final Collection<AeusseresStrassenSegment> segmente = new ArrayList<>();
 		if (strassenSegmente != null) {
 			segmente.addAll(strassenSegmente);
 		}

@@ -74,7 +74,7 @@ public class DatenGenerator implements StandardApplication {
 	/**
 	 * die Argumente für die Datengeneratormodule.
 	 */
-	private final Map<String, String> argumente = new HashMap<String, String>();
+	private final Map<String, String> argumente = new HashMap<>();
 
 	/**
 	 * der String zur Beschreibung des Ausführungsmodus.

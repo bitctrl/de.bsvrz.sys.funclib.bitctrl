@@ -170,7 +170,7 @@ implements BestehtAusLinienobjekten {
 		if (messQuerschnitte == null) {
 			final List<SystemObjekt> listeSO;
 
-			messQuerschnitte = new ArrayList<MessQuerschnittAllgemein>();
+			messQuerschnitte = new ArrayList<>();
 			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
 					VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
 
@@ -249,12 +249,12 @@ implements BestehtAusLinienobjekten {
 			final AttributeGroup atg;
 			final Data datum;
 
-			modell = objekt.getDataModel();
+			modell = getSystemObject().getDataModel();
 
-			strassenTeilSegmente = new ArrayList<StrassenTeilSegment>();
+			strassenTeilSegmente = new ArrayList<>();
 			atg = modell.getAttributeGroup("atg.bestehtAusLinienObjekten");
 			DataCache.cacheData(getSystemObject().getType(), atg);
-			datum = objekt.getConfigurationData(atg);
+			datum = getSystemObject().getConfigurationData(atg);
 			if (datum != null) {
 				final ReferenceArray ref;
 				final SystemObject[] objekte;
@@ -313,12 +313,12 @@ implements BestehtAusLinienobjekten {
 			final AttributeGroup atg;
 			final Data datum;
 
-			modell = objekt.getDataModel();
+			modell = getSystemObject().getDataModel();
 
 			// L‰nge bestimmen
 			atg = modell.getAttributeGroup("atg.straﬂenSegment");
 			DataCache.cacheData(getSystemObject().getType(), atg);
-			datum = objekt.getConfigurationData(atg);
+			datum = getSystemObject().getConfigurationData(atg);
 			if (datum != null) {
 				laenge = datum.getScaledValue("L‰nge").floatValue();
 				final SystemObject strassenObjekt = datum

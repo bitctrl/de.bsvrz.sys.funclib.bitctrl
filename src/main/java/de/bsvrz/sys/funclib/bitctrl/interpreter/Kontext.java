@@ -39,7 +39,7 @@ import com.bitctrl.i18n.Messages;
 public class Kontext {
 
 	/** Pr&uuml;fklasse die Symbolnamen auf ihre G&uuml;ltigkeit testet. */
-	public static Namenspruefer pruefer = new StandardNamenspruefer();
+	private static final Namenspruefer PRUEFER = new StandardNamenspruefer();
 
 	/**
 	 * Prüft ob der String ein gültiger Variablenname ist. Es wird nicht
@@ -53,7 +53,7 @@ public class Kontext {
 	 *             besteht
 	 */
 	public static void pruefeName(final String name) {
-		if (!pruefer.pruefe(name)) {
+		if (!PRUEFER.pruefe(name)) {
 			throw new InterpreterException(
 					Messages.get(InterpreterMessages.BadVariableName, name));
 		}
@@ -66,7 +66,7 @@ public class Kontext {
 	 * Der Standardkonstruktor initialisiert die interne Streuspeicherabbildung.
 	 */
 	public Kontext() {
-		kontext = new HashMap<String, Object>();
+		kontext = new HashMap<>();
 	}
 
 	/**

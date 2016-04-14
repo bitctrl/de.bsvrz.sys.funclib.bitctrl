@@ -40,7 +40,7 @@ import java.util.List;
 public class Flaeche {
 
 	/** Liste aller Teilflächen */
-	private final List<Shape> flaechen = new ArrayList<Shape>();
+	private final List<Shape> flaechen = new ArrayList<>();
 
 	/**
 	 * Fügt der Gesamtfläche ein Rechteck hinzu

@@ -49,7 +49,7 @@ public class MeldungsTypZusatz {
 
 	public static final String SYM_DELIMITER = ";;";
 
-	private final Map<String, String> parameter = new HashMap<String, String>();
+	private final Map<String, String> parameter = new HashMap<>();
 	private final String id;
 
 	public static MeldungsTypZusatz parse(final String meldungsTypZusatz)

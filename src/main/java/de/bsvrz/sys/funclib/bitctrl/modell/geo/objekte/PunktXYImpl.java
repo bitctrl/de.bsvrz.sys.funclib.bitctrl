@@ -62,7 +62,7 @@ public class PunktXYImpl extends AbstractSystemObjekt implements PunktXY {
 		final AttributeGroup atg = model
 				.getAttributeGroup("atg.punktKoordinaten");
 		DataCache.cacheData(getSystemObject().getType(), atg);
-		final Data datum = objekt.getConfigurationData(atg);
+		final Data datum = getSystemObject().getConfigurationData(atg);
 		if (datum != null) {
 			final double x = datum.getScaledValue("x").doubleValue();
 			final double y = datum.getScaledValue("y").doubleValue();

@@ -90,7 +90,7 @@ public final class DataCache {
 			final SystemObjectType type = sucheAtgDefinitionsTyp(objType, atg);
 			Set<AttributeGroup> set = INSTANCE.cachedData.get(type);
 			if (set == null) {
-				set = new HashSet<AttributeGroup>();
+				set = new HashSet<>();
 				INSTANCE.cachedData.put(type, set);
 				set.add(atg);
 				cache = true;
@@ -162,7 +162,7 @@ public final class DataCache {
 	 * Verwaltungsliste für abgerufene Kombinationen aus Objekttyp und
 	 * Attributgruppe.
 	 */
-	private final Map<SystemObjectType, Set<AttributeGroup>> cachedData = new HashMap<SystemObjectType, Set<AttributeGroup>>();
+	private final Map<SystemObjectType, Set<AttributeGroup>> cachedData = new HashMap<>();
 
 	/**
 	 * Konstruktor ist privat, damit keine Objekte des Typs angelegt werden

@@ -176,7 +176,7 @@ extends AbstractParameterDatensatz<PdEreignisParameter.Daten> {
 		}
 
 		/** Die Eigenschaft {@code raeumlicheGueltigkeit}. */
-		private final List<NetzBestandTeil> raeumlicheGueltigkeit = new ArrayList<NetzBestandTeil>();
+		private final List<NetzBestandTeil> raeumlicheGueltigkeit = new ArrayList<>();
 
 		/** Die Eigenschaft {@code zeitlicheGueltigkeit}. */
 		private Interval zeitlicheGueltigkeit;
@@ -185,7 +185,7 @@ extends AbstractParameterDatensatz<PdEreignisParameter.Daten> {
 		private SystemKalenderEintrag systemKalenderEintrag;
 
 		/** Die Eigenschaft {@code verkehrlicheGueltigkeit}. */
-		private final List<VerkehrlicheGueltigkeit> verkehrlicheGueltigkeit = new ArrayList<VerkehrlicheGueltigkeit>();
+		private final List<VerkehrlicheGueltigkeit> verkehrlicheGueltigkeit = new ArrayList<>();
 
 		/** Die Eigenschaft {@code quelle}. */
 		private String quelle;

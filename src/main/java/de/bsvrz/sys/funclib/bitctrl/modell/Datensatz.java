@@ -44,7 +44,7 @@ public interface Datensatz<T extends Datum> {
 	/**
 	 * Die Statuscodes der Sendesteuerung des Datenverteilers als {@code Enum}.
 	 */
-	public enum Status {
+	enum Status {
 
 		/** Der Versand von Daten kann gestartet werden. */
 		START(ClientSenderInterface.START_SENDING,
@@ -104,7 +104,7 @@ public interface Datensatz<T extends Datum> {
 		 * @param beschreibung
 		 *            die Beschreibung des Status.
 		 */
-		private Status(final int code, final String beschreibung) {
+		Status(final int code, final String beschreibung) {
 			this.code = code;
 			this.beschreibung = beschreibung;
 		}

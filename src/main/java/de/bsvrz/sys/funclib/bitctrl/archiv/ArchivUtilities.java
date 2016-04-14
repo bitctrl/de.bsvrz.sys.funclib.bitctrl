@@ -75,7 +75,7 @@ public final class ArchivUtilities {
 			final ArchiveDataKind... dataKinds) {
 		final Iterator<ResultData> iterator = new ArchivIterator(dav,
 				getAnfrage(objekte, dbs, intervall, dataKinds));
-		final List<ResultData> liste = new ArrayList<ResultData>();
+		final List<ResultData> liste = new ArrayList<>();
 
 		while (iterator.hasNext()) {
 			liste.add(iterator.next());
@@ -105,7 +105,7 @@ public final class ArchivUtilities {
 		final ArchiveTimeSpecification timeSpec = new ArchiveTimeSpecification(
 				TimingType.DATA_TIME, false, intervall.getStart(),
 				intervall.getEnd());
-		final List<ArchiveDataSpecification> specs = new ArrayList<ArchiveDataSpecification>();
+		final List<ArchiveDataSpecification> specs = new ArrayList<>();
 		final ArchiveDataKindCombination dataKindComb;
 
 		switch (dataKinds.length) {

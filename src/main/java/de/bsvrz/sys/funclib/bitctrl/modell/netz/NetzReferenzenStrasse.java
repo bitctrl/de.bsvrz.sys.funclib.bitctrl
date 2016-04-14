@@ -59,12 +59,12 @@ public class NetzReferenzenStrasse extends Strasse {
 		/**
 		 * Betriebskilometerwert.
 		 */
-		long betriebsKilometer;
+		private final long betriebsKilometer;
 
 		/**
 		 * Blocknummer.
 		 */
-		int blockNummer;
+		private final int blockNummer;
 
 		/**
 		 * Konstruktor.
@@ -109,7 +109,7 @@ public class NetzReferenzenStrasse extends Strasse {
 	/**
 	 * Die Liste der Teilsegmente der Str&szlig;e.
 	 */
-	private final ArrayList<StrassenTeilSegment> teilSegmente = new ArrayList<StrassenTeilSegment>();
+	private final ArrayList<StrassenTeilSegment> teilSegmente = new ArrayList<>();
 
 	/**
 	 * Konstruktor.
@@ -176,7 +176,7 @@ public class NetzReferenzenStrasse extends Strasse {
 	 */
 	private LinkedList<StrassenSegment> getSegmentListeRueckwaerts(
 			final AeusseresStrassenSegment segment) {
-		final LinkedList<StrassenSegment> liste = new LinkedList<StrassenSegment>();
+		final LinkedList<StrassenSegment> liste = new LinkedList<>();
 
 		if (!segment.getStrasse().equals(this)) {
 			return liste;
@@ -190,7 +190,7 @@ public class NetzReferenzenStrasse extends Strasse {
 					final AeusseresStrassenSegment next = iss.getVonSegment();
 					if ((next != null)
 							&& next.getTmcRichtung()
-									.equals(segment.getTmcRichtung())
+							.equals(segment.getTmcRichtung())
 							&& next.getStrasse().equals(this)) {
 						liste.add(next);
 						liste.addAll(getSegmentListeRueckwaerts(next));
@@ -213,7 +213,7 @@ public class NetzReferenzenStrasse extends Strasse {
 	 */
 	private List<StrassenSegment> getSegmentListeVorwaerts(
 			final StrassenSegment segment) {
-		final List<StrassenSegment> liste = new ArrayList<StrassenSegment>();
+		final List<StrassenSegment> liste = new ArrayList<>();
 		if (segment == null) {
 			return liste;
 		}
@@ -234,7 +234,7 @@ public class NetzReferenzenStrasse extends Strasse {
 								.getNachSegment();
 						if ((iss.getNachSegment() != null)
 								&& iss.getNachSegment().getTmcRichtung()
-										.equals(ass.getTmcRichtung())
+								.equals(ass.getTmcRichtung())
 								&& next.getStrasse().equals(this)) {
 							liste.add(next);
 							liste.addAll(getSegmentListeVorwaerts(next));
@@ -257,7 +257,7 @@ public class NetzReferenzenStrasse extends Strasse {
 	private void init() throws NetzReferenzException {
 		final List<AeusseresStrassenSegment> ass = (List<AeusseresStrassenSegment>) getAuessereStrassensegmente();
 
-		final List<AeusseresStrassenSegment> assr = new ArrayList<AeusseresStrassenSegment>();
+		final List<AeusseresStrassenSegment> assr = new ArrayList<>();
 
 		for (final AeusseresStrassenSegment segment : ass) {
 			if (segment.getTmcRichtung().equals(fahrtRichtung)) {
@@ -270,7 +270,7 @@ public class NetzReferenzenStrasse extends Strasse {
 					+ fahrtRichtung + " nicht initialisiert werden");
 		}
 
-		LinkedList<StrassenSegment> segmente = new LinkedList<StrassenSegment>();
+		LinkedList<StrassenSegment> segmente = new LinkedList<>();
 		// Strassensegmente ordnen
 		final AeusseresStrassenSegment start = assr.get(0);
 		segmente = getSegmentListeRueckwaerts(start);

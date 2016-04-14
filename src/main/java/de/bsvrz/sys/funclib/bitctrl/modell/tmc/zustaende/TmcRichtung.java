@@ -89,7 +89,7 @@ public enum TmcRichtung implements Zustand<Integer> {
 	 * @param code
 	 *            der zugeordnete Code
 	 */
-	private TmcRichtung(final String name, final int code) {
+	TmcRichtung(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

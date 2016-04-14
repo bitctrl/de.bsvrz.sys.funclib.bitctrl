@@ -51,7 +51,7 @@ public class Baustelle extends Situation {
 	/**
 	 * die Menge der Netze in denen die die Baustelle referenziert wird.
 	 */
-	private final Set<VerkehrModellNetz> netze = new HashSet<VerkehrModellNetz>();
+	private final Set<VerkehrModellNetz> netze = new HashSet<>();
 
 	/**
 	 * Konstruktor.<br>

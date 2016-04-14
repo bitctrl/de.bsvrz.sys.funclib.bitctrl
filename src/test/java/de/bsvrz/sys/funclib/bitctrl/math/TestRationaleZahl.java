@@ -265,7 +265,7 @@ public class TestRationaleZahl {
 		final Iterator<RationaleZahl> iterator;
 		RationaleZahl letzte;
 
-		s = new TreeSet<RationaleZahl>();
+		s = new TreeSet<>();
 		s.add(new RationaleZahl(5));
 		s.add(new RationaleZahl(1, 7));
 		s.add(RationaleZahl.EINS);

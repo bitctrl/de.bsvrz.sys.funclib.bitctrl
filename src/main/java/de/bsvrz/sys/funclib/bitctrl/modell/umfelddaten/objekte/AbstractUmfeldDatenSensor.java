@@ -75,9 +75,9 @@ implements UmfeldDatenSensor {
 		if (listeUDMS == null) {
 			final List<SystemObject> listeSO;
 
-			listeUDMS = new ArrayList<UmfeldDatenMessStelle>();
+			listeUDMS = new ArrayList<>();
 			listeSO = Konfigurationsbereich.getObjekte(
-					objekt.getConfigurationArea(),
+					getSystemObject().getConfigurationArea(),
 					UmfelddatenModellTypen.UMFELDDATENMESSSTELLE.getPid());
 
 			for (final SystemObject so : listeSO) {

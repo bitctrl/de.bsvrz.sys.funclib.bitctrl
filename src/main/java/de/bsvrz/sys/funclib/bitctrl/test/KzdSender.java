@@ -71,17 +71,17 @@ public class KzdSender implements StandardApplication {
 
 		private static final String SUFFIX_BEMESSUNGSDICHTE = " Fahrzeuge/km";
 
-		JLabel lblQKfz;
+		private final JLabel lblQKfz;
 
-		JLabel lblQLkw;
+		private final JLabel lblQLkw;
 
-		JLabel lblVPkw;
+		private final JLabel lblVPkw;
 
-		JLabel lblVLkw;
+		private final JLabel lblVLkw;
 
-		JLabel lblSKfz;
+		private final JLabel lblSKfz;
 
-		JLabel lblKB;
+		private final JLabel lblKB;
 
 		Gui() {
 			super("Generator für Verkehrskurzzeitdaten am Messquerschnitt");
@@ -198,43 +198,36 @@ public class KzdSender implements StandardApplication {
 			addWindowListener(new WindowListener() {
 
 				@Override
-				@SuppressWarnings("unused")
 				public void windowActivated(final WindowEvent e) {
 					// Nichts zu tun
 				}
 
 				@Override
-				@SuppressWarnings("unused")
 				public void windowClosed(final WindowEvent e) {
 					// Nichts zu tun
 				}
 
 				@Override
-				@SuppressWarnings("unused")
 				public void windowClosing(final WindowEvent e) {
 					System.exit(0);
 				}
 
 				@Override
-				@SuppressWarnings("unused")
 				public void windowDeactivated(final WindowEvent e) {
 					// Nichts zu tun
 				}
 
 				@Override
-				@SuppressWarnings("unused")
 				public void windowDeiconified(final WindowEvent e) {
 					// Nichts zu tun
 				}
 
 				@Override
-				@SuppressWarnings("unused")
 				public void windowIconified(final WindowEvent e) {
 					// Nichts zu tun
 				}
 
 				@Override
-				@SuppressWarnings("unused")
 				public void windowOpened(final WindowEvent e) {
 					// Nichts zu tun
 				}
@@ -250,7 +243,7 @@ public class KzdSender implements StandardApplication {
 
 		private final Random dataSource = new Random();
 
-		public Sender(final int intervall) {
+		Sender(final int intervall) {
 			final Timer timer;
 			final AttributeGroup atg;
 			final Aspect asp;
@@ -267,7 +260,7 @@ public class KzdSender implements StandardApplication {
 				e.printStackTrace();
 				System.exit(-1);
 			}
-			logger.config("Anmeldung für " + objekte.size()
+			LOGGER.config("Anmeldung für " + objekte.size()
 			+ " Messquerschnitte durchgeführt.");
 
 			timer = new Timer(false);
@@ -312,7 +305,7 @@ public class KzdSender implements StandardApplication {
 					System.exit(-1);
 				}
 			}
-			logger.info("Daten gesendet.");
+			LOGGER.info("Daten gesendet.");
 		}
 
 		private Data getVerkehrsDaten() {
@@ -333,7 +326,7 @@ public class KzdSender implements StandardApplication {
 				final int sKfz, final int kb) {
 			final Data data;
 
-			logger.fine("Eingangswerte: QKfz=" + qKfz + ", QLkw=" + qLkw
+			LOGGER.fine("Eingangswerte: QKfz=" + qKfz + ", QLkw=" + qLkw
 					+ ", VPkw=" + vPkw + ", VLkw=" + vLkw + ", SKfz=" + sKfz
 					+ ", KB=" + kb);
 
@@ -430,7 +423,7 @@ public class KzdSender implements StandardApplication {
 				.getUnscaledValue("NichtErfasst").setText("Ja");
 			}
 
-			logger.fine("Berechnete Werte: QPkw=" + qPkw + ", VKfz=" + vKfz
+			LOGGER.fine("Berechnete Werte: QPkw=" + qPkw + ", VKfz=" + vKfz
 					+ ", QB=" + qb + ", ALkw=" + aLkw);
 
 			return data;
@@ -438,27 +431,27 @@ public class KzdSender implements StandardApplication {
 
 	}
 
-	int maxQKfz = 1000;
+	private int maxQKfz = 1000;
 
-	int maxQLkw = 200;
+	private int maxQLkw = 200;
 
-	int maxVPkw = 130;
+	private int maxVPkw = 130;
 
-	int maxVLkw = 80;
+	private int maxVLkw = 80;
 
-	int maxSKfz = 30;
+	private int maxSKfz = 30;
 
-	int maxKB = 100;
+	private int maxKB = 100;
 
-	Debug logger;
+	private static final Debug LOGGER = Debug.getLogger();
 
-	ClientDavInterface verbindung;
+	private ClientDavInterface verbindung;
 
-	DataModel modell;
+	private DataModel modell;
 
-	List<SystemObject> objekte;
+	private List<SystemObject> objekte;
 
-	Sender sender;
+	private Sender sender;
 
 	private String typPid;
 
@@ -467,11 +460,10 @@ public class KzdSender implements StandardApplication {
 	@Override
 	public void initialize(final ClientDavInterface connection) throws Exception {
 
-		logger = Debug.getLogger();
 		verbindung = connection;
 		modell = verbindung.getDataModel();
 
-		objekte = new ArrayList<SystemObject>();
+		objekte = new ArrayList<>();
 		for (final SystemObject fs : verbindung.getDataModel().getType(typPid)
 				.getElements()) {
 			objekte.add(fs);

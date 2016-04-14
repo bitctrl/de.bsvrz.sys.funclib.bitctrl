@@ -193,11 +193,11 @@ public class PdBcBetriebsMeldungDarstellung extends
 		private int maxAnzahl;
 
 		/** Die Liste der anzuzeigenden Spalten einer Meldung. */
-		private List<BetriebsMeldungSpalte> anzuzeigendeSpalten = new ArrayList<BetriebsMeldungSpalte>(
+		private List<BetriebsMeldungSpalte> anzuzeigendeSpalten = new ArrayList<>(
 				Arrays.asList(BetriebsMeldungSpalte.values()));
 
 		/** Die Liste der Darstellungsbeschreibungen. */
-		private List<Darstellung> darstellung = new ArrayList<Darstellung>();
+		private List<Darstellung> darstellung = new ArrayList<>();
 
 		/**
 		 * Gibt die Zeit in die Vergangenheit zurück, für die initial
@@ -286,9 +286,9 @@ public class PdBcBetriebsMeldungDarstellung extends
 
 			klon.setZeitstempel(getZeitstempel());
 			klon.datenStatus = datenStatus;
-			klon.anzuzeigendeSpalten = new ArrayList<BetriebsMeldungSpalte>(
+			klon.anzuzeigendeSpalten = new ArrayList<>(
 					anzuzeigendeSpalten);
-			klon.darstellung = new ArrayList<Darstellung>(darstellung);
+			klon.darstellung = new ArrayList<>(darstellung);
 			klon.maxAnzahl = maxAnzahl;
 			klon.maxHistory = maxHistory;
 

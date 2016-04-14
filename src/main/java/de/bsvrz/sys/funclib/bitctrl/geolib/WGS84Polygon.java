@@ -88,12 +88,12 @@ public class WGS84Polygon {
 			final WGS84Punkt s2, final double offset) {
 		if (WGS84Punkt.abstandExakt(s1, s2) < offset) {
 			throw new IllegalArgumentException("Der Offset (" + offset
-					+ ") ist größer als die Streckenlänge (" //$NON-NLS-1$
+					+ ") ist größer als die Streckenlänge ("
 					+ WGS84Punkt.abstandExakt(s1, s2) + ").");
 		}
 
 		if (offset < 0.0) {
-			throw new IllegalArgumentException("Der Offset muss positiv sein."); //$NON-NLS-1$
+			throw new IllegalArgumentException("Der Offset muss positiv sein.");
 		}
 
 		// alle Berechnungen auf den kartesischen Koordinaten
@@ -415,10 +415,10 @@ public class WGS84Polygon {
 
 		if (laenge.length != breite.length) {
 			throw new IllegalArgumentException(
-					"Die Anzahl der Koordinaten für Länge und Breite muss übereinstimmen"); //$NON-NLS-1$
+					"Die Anzahl der Koordinaten für Länge und Breite muss übereinstimmen");
 		}
 
-		punkte = new ArrayList<WGS84Punkt>(laenge.length);
+		punkte = new ArrayList<>(laenge.length);
 
 		for (int i = 0; i < laenge.length; i++) {
 			final WGS84Punkt p = new WGS84Punkt(laenge[i], breite[i]);
@@ -434,7 +434,7 @@ public class WGS84Polygon {
 	 */
 	public WGS84Polygon(final List<WGS84Punkt> punktliste) {
 
-		punkte = new ArrayList<WGS84Punkt>(punktliste);
+		punkte = new ArrayList<>(punktliste);
 	}
 
 	/**
@@ -454,7 +454,7 @@ public class WGS84Polygon {
 	public WGS84Polygon anfangAbschneiden(final double offset) {
 		if (laenge() < offset) {
 			throw new IllegalArgumentException(
-					"Der Offset ist größer als die Polygonlänge"); //$NON-NLS-1$
+					"Der Offset ist größer als die Polygonlänge");
 		}
 
 		if (laenge() == offset) {
@@ -465,7 +465,7 @@ public class WGS84Polygon {
 
 		final WGS84Koordinate bk = bildPunkt(offset);
 		final WGS84Punkt bp = new WGS84Punkt(bk.getLaenge(), bk.getBreite());
-		final List<WGS84Punkt> apunkte = new ArrayList<WGS84Punkt>();
+		final List<WGS84Punkt> apunkte = new ArrayList<>();
 
 		int found = -1;
 		for (int i = 0; i < (punkte.size() - 1); i++) {
@@ -509,10 +509,10 @@ public class WGS84Polygon {
 	public WGS84Polygon anfangAbschneiden(final WGS84Punkt punkt) {
 		if (!liegtAufPolygon(punkt, 0.001)) {
 			throw new IllegalArgumentException(
-					"Der Punkt liegt nicht auf dem Polygon"); //$NON-NLS-1$
+					"Der Punkt liegt nicht auf dem Polygon");
 		}
 
-		final List<WGS84Punkt> apunkte = new ArrayList<WGS84Punkt>();
+		final List<WGS84Punkt> apunkte = new ArrayList<>();
 
 		int found = -1;
 		for (int i = 0; i < (punkte.size() - 1); i++) {
@@ -526,7 +526,7 @@ public class WGS84Polygon {
 
 		if (found == -1) {
 			throw new IllegalArgumentException(
-					"Der Punkt liegt nicht auf dem Polygon"); //$NON-NLS-1$
+					"Der Punkt liegt nicht auf dem Polygon");
 		}
 
 		// entferne Anfang von this
@@ -554,7 +554,7 @@ public class WGS84Polygon {
 	public double berecheneOffset(final WGS84Punkt punkt) {
 		if (!liegtAufPolygon(punkt)) {
 			throw new IllegalArgumentException(
-					"Der Offset kann nicht bestimmt werden"); //$NON-NLS-1$
+					"Der Offset kann nicht bestimmt werden");
 		}
 
 		double offset = 0.0;
@@ -587,7 +587,7 @@ public class WGS84Polygon {
 	public strictfp WGS84Punkt bildPunkt(final double offset) {
 		if (laenge() < offset) {
 			throw new IllegalArgumentException(
-					"Der Offset ist größer als die Polygonlänge"); //$NON-NLS-1$
+					"Der Offset ist größer als die Polygonlänge");
 		}
 
 		double laenge = 0.0;
@@ -608,7 +608,7 @@ public class WGS84Polygon {
 
 		// this should not happen!!!
 		throw new IllegalStateException(
-				"Der Offset kann nicht auf das Polygon abgebildet werden"); //$NON-NLS-1$
+				"Der Offset kann nicht auf das Polygon abgebildet werden");
 	}
 
 	/**
@@ -643,7 +643,7 @@ public class WGS84Polygon {
 
 				if (++iterationen > 10) {
 					throw new IllegalArgumentException(
-							"Der Bildpunkt kann nicht genau bestimmt werden"); //$NON-NLS-1$
+							"Der Bildpunkt kann nicht genau bestimmt werden");
 				}
 			} while (!liegtAufPolygon(bp));
 
@@ -651,7 +651,7 @@ public class WGS84Polygon {
 		}
 
 		throw new IllegalArgumentException(
-				"Der Bildpunkt kann nicht bestimmt werden"); //$NON-NLS-1$
+				"Der Bildpunkt kann nicht bestimmt werden");
 	}
 
 	/**
@@ -699,7 +699,7 @@ public class WGS84Polygon {
 
 				if (++iterationen > 10000) {
 					throw new IllegalArgumentException(
-							"Der Bildpunkt kann nicht genau bestimmt werden"); //$NON-NLS-1$
+							"Der Bildpunkt kann nicht genau bestimmt werden");
 				}
 			} while (!liegtAufPolygon(bp));
 
@@ -707,7 +707,7 @@ public class WGS84Polygon {
 		}
 
 		throw new IllegalArgumentException(
-				"Der Bildpunkt kann nicht bestimmt werden"); //$NON-NLS-1$
+				"Der Bildpunkt kann nicht bestimmt werden");
 	}
 
 	/**
@@ -923,7 +923,7 @@ public class WGS84Polygon {
 		}
 
 		throw new IllegalArgumentException(
-				"Der Abstand des Punktes kann nicht bestimmt werden"); //$NON-NLS-1$
+				"Der Abstand des Punktes kann nicht bestimmt werden");
 	}
 
 	/**

@@ -54,7 +54,7 @@ public interface Ausdruck {
 		public static Set<String> getVariablen(final Ausdruck ausdruck) {
 			final Set<String> variablen;
 
-			variablen = new HashSet<String>();
+			variablen = new HashSet<>();
 			if (ausdruck instanceof Variable) {
 				// Wir sind an einem Termsymbol angekommen, was Variable ist
 				variablen.add(((Variable) ausdruck).getName());

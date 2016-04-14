@@ -83,7 +83,7 @@ public enum RdsLocationTabelleTyp implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsLocationTabelleTyp(final String name, final int code) {
+	RdsLocationTabelleTyp(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

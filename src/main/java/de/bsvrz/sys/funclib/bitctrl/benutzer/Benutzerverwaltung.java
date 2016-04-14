@@ -376,7 +376,7 @@ public final class Benutzerverwaltung {
 				.getOnlineDatensatz(AngemeldeteApplikationen.class)
 				.abrufenDatum(
 						AngemeldeteApplikationen.Aspekte.Standard.getAspekt());
-		final List<AngemeldeteApplikation> apps = new ArrayList<AngemeldeteApplikation>();
+		final List<AngemeldeteApplikation> apps = new ArrayList<>();
 
 		for (final AngemeldeteApplikation app : datum) {
 			if (benutzer.equals(app.getBenutzer())) {
@@ -429,7 +429,7 @@ public final class Benutzerverwaltung {
 	 * @return die Benutzerliste.
 	 */
 	public List<Benutzer> getBenutzer() {
-		final List<Benutzer> benutzer = new ArrayList<Benutzer>();
+		final List<Benutzer> benutzer = new ArrayList<>();
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 
 		for (final SystemObjekt so : factory.bestimmeModellobjekte(
@@ -449,7 +449,7 @@ public final class Benutzerverwaltung {
 	 * @return die Benutzerliste.
 	 */
 	public List<Benutzer> getBenutzer(final Berechtigungsklasse klasse) {
-		final List<Benutzer> benutzerListe = new ArrayList<Benutzer>();
+		final List<Benutzer> benutzerListe = new ArrayList<>();
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 
 		for (final SystemObjekt so : factory.bestimmeModellobjekte(
@@ -469,7 +469,7 @@ public final class Benutzerverwaltung {
 	 * @return die Liste der Berechtigungsklassen.
 	 */
 	public List<Berechtigungsklasse> getBerechtigungsklasse() {
-		final List<Berechtigungsklasse> klassen = new ArrayList<Berechtigungsklasse>();
+		final List<Berechtigungsklasse> klassen = new ArrayList<>();
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 
 		for (final SystemObjekt so : factory.bestimmeModellobjekte(
@@ -487,7 +487,7 @@ public final class Benutzerverwaltung {
 	 * @return die aktuelle Rechteverteilung.
 	 */
 	public Map<Benutzer, Berechtigungsklasse> getBenutzerUndKlassen() {
-		final Map<Benutzer, Berechtigungsklasse> rechte = new HashMap<Benutzer, Berechtigungsklasse>();
+		final Map<Benutzer, Berechtigungsklasse> rechte = new HashMap<>();
 
 		for (final Benutzer benutzer : getBenutzer()) {
 			rechte.put(benutzer, getBerechtigungsklasse(benutzer));
@@ -667,7 +667,7 @@ public final class Benutzerverwaltung {
 	 * @return die Liste der Zugriffsrollen.
 	 */
 	public List<Rolle> getRolle() {
-		final List<Rolle> rollen = new ArrayList<Rolle>();
+		final List<Rolle> rollen = new ArrayList<>();
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 
 		for (final SystemObjekt so : factory.bestimmeModellobjekte(
@@ -697,7 +697,7 @@ public final class Benutzerverwaltung {
 	 * @return die Liste der Zugriffsregionen.
 	 */
 	public List<Region> getRegion() {
-		final List<Region> regionen = new ArrayList<Region>();
+		final List<Region> regionen = new ArrayList<>();
 		final ObjektFactory factory = ObjektFactory.getInstanz();
 
 		for (final SystemObjekt so : factory.bestimmeModellobjekte(
@@ -767,7 +767,7 @@ public final class Benutzerverwaltung {
 			final String vorname, final String zweiterVorname,
 			final String organisation, final String email) {
 		final ObjektFactory factory = ObjektFactory.getInstanz();
-		final List<Benutzer> benutzer = new ArrayList<Benutzer>();
+		final List<Benutzer> benutzer = new ArrayList<>();
 
 		for (final SystemObjekt so : factory.bestimmeModellobjekte(
 				SystemModellGlobalTypen.Benutzer.getPid())) {

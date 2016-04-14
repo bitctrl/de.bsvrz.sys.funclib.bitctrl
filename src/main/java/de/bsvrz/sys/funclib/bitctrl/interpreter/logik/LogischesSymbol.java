@@ -70,7 +70,7 @@ public class LogischesSymbol implements Variable {
 	 */
 	@Override
 	public String getName() {
-		assert(name != null) && (name != ""); //$NON-NLS-1$
+		assert(name != null) && (name != "");
 
 		return name;
 	}

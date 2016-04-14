@@ -86,7 +86,7 @@ public class ArchivIterator implements Iterator<ResultData> {
 
 			// Alle Ströme abrufen
 			try {
-				stroeme = new FieldIterator<ArchiveDataStream>(
+				stroeme = new FieldIterator<>(
 						antwort.getStreams());
 			} catch (final IllegalStateException ex) {
 				throw new ArchivException(

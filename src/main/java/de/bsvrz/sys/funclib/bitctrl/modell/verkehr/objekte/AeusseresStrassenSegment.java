@@ -68,7 +68,7 @@ implements NetzBestandTeil {
 	 */
 	public static Collection<AeusseresStrassenSegment> getSegmentListe(
 			final DataModel model) {
-		final Collection<AeusseresStrassenSegment> result = new ArrayList<AeusseresStrassenSegment>();
+		final Collection<AeusseresStrassenSegment> result = new ArrayList<>();
 
 		if (assListe == null) {
 			final List<SystemObject> listeSO;
@@ -76,7 +76,7 @@ implements NetzBestandTeil {
 					VerkehrsModellTypen.AUESSERES_STRASSENSEGMENT.getPid())
 					.getElements();
 
-			assListe = new HashSet<AeusseresStrassenSegment>();
+			assListe = new HashSet<>();
 			for (final SystemObject so : listeSO) {
 				final AeusseresStrassenSegment ass = (AeusseresStrassenSegment) ObjektFactory
 						.getInstanz().getModellobjekt(so);
@@ -156,7 +156,7 @@ implements NetzBestandTeil {
 
 	@Override
 	public Collection<? extends StrassenSegment> getNetzSegmentListe() {
-		final Set<StrassenSegment> liste = new HashSet<StrassenSegment>();
+		final Set<StrassenSegment> liste = new HashSet<>();
 		liste.add(this);
 		if (vonKnoten != null) {
 			for (final InneresStrassenSegment segment : vonKnoten
@@ -184,7 +184,7 @@ implements NetzBestandTeil {
 	 */
 	public Collection<RoutenStueck> getRoutenStuecke() {
 		if (routenStuecke == null) {
-			routenStuecke = new HashSet<RoutenStueck>();
+			routenStuecke = new HashSet<>();
 
 			for (final SystemObject obj : getSystemObject().getDataModel()
 					.getType(VerkehrsModellTypen.ROUTENSTUECK.getPid())

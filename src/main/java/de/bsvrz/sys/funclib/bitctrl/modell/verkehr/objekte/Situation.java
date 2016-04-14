@@ -46,7 +46,7 @@ public abstract class Situation extends AbstractSystemObjekt {
 	/**
 	 * die Menge der Netze in denen die Situation referenziert wird.
 	 */
-	private final Set<VerkehrModellNetz> netze = new HashSet<VerkehrModellNetz>();
+	private final Set<VerkehrModellNetz> netze = new HashSet<>();
 
 	/**
 	 * Konstruktor.<br>

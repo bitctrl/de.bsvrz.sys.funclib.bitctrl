@@ -75,12 +75,12 @@ public class WGS84Koordinate {
 	public WGS84Koordinate(final double laenge, final double breite) {
 		if (testBreite(breite)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Breite ist ungültig!"); //$NON-NLS-1$
+					"Der Wert für die Breite ist ungültig!");
 		}
 
 		if (testLaenge(laenge)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Länge ist ungültig!"); //$NON-NLS-1$
+					"Der Wert für die Länge ist ungültig!");
 		}
 
 		this.laenge = laenge;
@@ -149,7 +149,7 @@ public class WGS84Koordinate {
 	public void setBreite(final double neuebreite) {
 		if (testBreite(neuebreite)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Breite ist ungültig!"); //$NON-NLS-1$
+					"Der Wert für die Breite ist ungültig!");
 		}
 
 		breite = neuebreite;
@@ -164,7 +164,7 @@ public class WGS84Koordinate {
 	public void setLaenge(final double neuelaenge) {
 		if (testLaenge(neuelaenge)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Länge ist ungültig!"); //$NON-NLS-1$
+					"Der Wert für die Länge ist ungültig!");
 		}
 
 		laenge = neuelaenge;

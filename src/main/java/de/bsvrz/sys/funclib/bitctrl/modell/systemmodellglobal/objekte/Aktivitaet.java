@@ -120,7 +120,7 @@ public class Aktivitaet extends AbstractSystemObjekt {
 	 */
 	public List<Aspect> getAspekte() {
 		if (aspekte == null) {
-			aspekte = new ArrayList<Aspect>();
+			aspekte = new ArrayList<>();
 			final ConfigurationObject co = (ConfigurationObject) getSystemObject();
 			for (final SystemObject so : co.getObjectSet("Aspekte")
 					.getElements()) {
@@ -139,7 +139,7 @@ public class Aktivitaet extends AbstractSystemObjekt {
 	 */
 	public List<Aspect> getAttributgruppen() {
 		if (attributgruppen == null) {
-			attributgruppen = new ArrayList<Aspect>();
+			attributgruppen = new ArrayList<>();
 			final ConfigurationObject co = (ConfigurationObject) getSystemObject();
 			for (final SystemObject so : co.getObjectSet("Attributgruppen")
 					.getElements()) {
@@ -162,9 +162,9 @@ public class Aktivitaet extends AbstractSystemObjekt {
 		final AttributeGroup atg;
 		final Data datum;
 
-		modell = objekt.getDataModel();
+		modell = getSystemObject().getDataModel();
 		atg = modell.getAttributeGroup("atg.benutzerEigenschaften");
-		datum = objekt.getConfigurationData(atg);
+		datum = getSystemObject().getConfigurationData(atg);
 
 		if (datum != null) {
 			lesen = datum.getUnscaledValue("lesen").intValue() == 1;

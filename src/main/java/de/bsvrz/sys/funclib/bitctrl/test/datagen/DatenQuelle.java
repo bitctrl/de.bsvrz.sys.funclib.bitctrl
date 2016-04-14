@@ -93,7 +93,7 @@ class DatenQuelle {
 	/**
 	 * die Menge der Systemobjekte, für die Daten versendet werden sollen.
 	 */
-	private final Set<SystemObject> objekte = new HashSet<SystemObject>();
+	private final Set<SystemObject> objekte = new HashSet<>();
 
 	/**
 	 * der Aspekt unter den die Daten versendet werden sollen.
@@ -113,7 +113,7 @@ class DatenQuelle {
 	/**
 	 * die Definition der Standardwerte für die Attribute des Datensatzes.
 	 */
-	private final Map<String, String> defaultWerte = new HashMap<String, String>();
+	private final Map<String, String> defaultWerte = new HashMap<>();
 
 	/**
 	 * die Spaltenbezeichungen des Datenabschnittes.
@@ -124,7 +124,7 @@ class DatenQuelle {
 	 * die Daten für die zu versendenden Datensätze als CSV-EInträge
 	 * (Trennzeichen ';').
 	 */
-	private final SortedMap<Long, List<String>> csvdaten = new TreeMap<Long, List<String>>();
+	private final SortedMap<Long, List<String>> csvdaten = new TreeMap<>();
 
 	/**
 	 * die verwendete Datenverteilerverbindung.
@@ -242,7 +242,7 @@ class DatenQuelle {
 	 */
 	private void addData(final String line) {
 		if (csvHeaders == null) {
-			csvHeaders = new ArrayList<String>();
+			csvHeaders = new ArrayList<>();
 			final StringTokenizer tokenizer = new StringTokenizer(line, ";");
 			while (tokenizer.hasMoreTokens()) {
 				csvHeaders.add(tokenizer.nextToken().trim());
@@ -254,7 +254,7 @@ class DatenQuelle {
 		} else {
 			final StringTokenizer tokenizer = new StringTokenizer(line, ";");
 			final Long offset = Long.valueOf(tokenizer.nextToken().trim());
-			final List<String> datenSatz = new ArrayList<String>();
+			final List<String> datenSatz = new ArrayList<>();
 			csvdaten.put(offset, datenSatz);
 			while (tokenizer.hasMoreTokens()) {
 				datenSatz.add(tokenizer.nextToken());
@@ -335,7 +335,7 @@ class DatenQuelle {
 	 */
 	Collection<ResultData> getAusgabeDaten(final long startZeit, final long offset) {
 
-		final Collection<ResultData> resultData = new ArrayList<ResultData>();
+		final Collection<ResultData> resultData = new ArrayList<>();
 
 		final Data daten = connection.createData(atg);
 
@@ -432,7 +432,7 @@ class DatenQuelle {
 	 */
 	private void setzeAttribut(final Data daten, final String name, final String wert) {
 		final StringTokenizer attributListe = new StringTokenizer(name, ".");
-		final List<String> attNamen = new ArrayList<String>();
+		final List<String> attNamen = new ArrayList<>();
 		while (attributListe.hasMoreElements()) {
 			attNamen.add(attributListe.nextToken());
 		}

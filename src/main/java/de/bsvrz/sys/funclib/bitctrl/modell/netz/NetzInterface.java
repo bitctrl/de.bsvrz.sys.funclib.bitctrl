@@ -38,7 +38,7 @@ public interface NetzInterface {
 	 * Aufz&auml;hlungstyp f&uuml;r die Stationierungsrichtung auf einem ASB
 	 * Abschnitt.
 	 */
-	public enum ASBStationierungsRichtung {
+	enum ASBStationierungsRichtung {
 		/**
 		 * ASB Abschnitt wird in Stationierungsrichtung betrachtet.
 		 */
@@ -53,7 +53,7 @@ public interface NetzInterface {
 	/**
 	 * Aufz&auml;hlungstyp f&uuml;r die Fahrtrichtung auf einer Stra&szlig;e.
 	 */
-	public enum FahrtRichtung {
+	enum FahrtRichtung {
 		/**
 		 * Stra&szlig;e wird wie angegeben durchfahren.
 		 */

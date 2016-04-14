@@ -68,7 +68,7 @@ public class FlaecheXYImpl extends AbstractSystemObjekt implements FlaecheXY {
 	@Override
 	public List<Punkt> getKoordinaten() {
 		if (koordinaten == null) {
-			koordinaten = new ArrayList<Punkt>();
+			koordinaten = new ArrayList<>();
 			final AttributeGroup atg = getSystemObject().getDataModel()
 					.getAttributeGroup("atg.flächenKoordinaten");
 

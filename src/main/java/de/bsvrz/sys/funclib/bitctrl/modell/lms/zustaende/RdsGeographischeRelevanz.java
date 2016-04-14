@@ -106,7 +106,7 @@ public enum RdsGeographischeRelevanz implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsGeographischeRelevanz(final String name, final int code) {
+	RdsGeographischeRelevanz(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

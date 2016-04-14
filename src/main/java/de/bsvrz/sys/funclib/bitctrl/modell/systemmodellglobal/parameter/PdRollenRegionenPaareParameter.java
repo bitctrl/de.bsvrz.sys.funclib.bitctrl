@@ -156,7 +156,7 @@ public class PdRollenRegionenPaareParameter extends AbstractParameterDatensatz<P
 		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/** Die Liste der Paare. */
-		private final List<RolleRegionPaar> paare = new ArrayList<RolleRegionPaar>();
+		private final List<RolleRegionPaar> paare = new ArrayList<>();
 
 		@Override
 		public Status getDatenStatus() {

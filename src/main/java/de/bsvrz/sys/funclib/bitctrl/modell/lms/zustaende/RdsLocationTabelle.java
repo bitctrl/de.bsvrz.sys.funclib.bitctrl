@@ -51,10 +51,10 @@ public final class RdsLocationTabelle implements Zustand<Integer> {
 	private static IntegerAttributeType attribut; // att.rdsLocationTabelle
 
 	/** der Menge der Locationtabellen geordnet nach dem Code. */
-	private static final Map<Integer, RdsLocationTabelle> TABELLE_PER_CODE = new HashMap<Integer, RdsLocationTabelle>();
+	private static final Map<Integer, RdsLocationTabelle> TABELLE_PER_CODE = new HashMap<>();
 
 	/** der Menge der Locationtabellen geordnet nach dem Name. */
-	private static final Map<String, RdsLocationTabelle> TABELLE_PER_NAME = new HashMap<String, RdsLocationTabelle>();
+	private static final Map<String, RdsLocationTabelle> TABELLE_PER_NAME = new HashMap<>();
 
 	/**
 	 * liefert die Location Tabelle mit dem übergebenen Code.

@@ -44,7 +44,6 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 public class InneresStrassenSegment extends StrassenSegment {
 
 	/** PID des Typs eines Inneren Stra&szlig;ensegments. */
-	@SuppressWarnings("hiding")
 	public static final String PID_TYP = "typ.inneresStraﬂenSegment";
 
 	/**

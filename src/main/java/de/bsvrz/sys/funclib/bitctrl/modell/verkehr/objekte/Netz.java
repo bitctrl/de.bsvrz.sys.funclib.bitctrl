@@ -47,7 +47,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 public class Netz extends StoerfallIndikator implements NetzBestandTeil {
 
 	/** Die sortierte Liste der enthaltenen Netzbestandteile. */
-	private final List<NetzBestandTeil> bestandteile = new ArrayList<NetzBestandTeil>();
+	private final List<NetzBestandTeil> bestandteile = new ArrayList<>();
 
 	/**
 	 * die Liste der Straßen, die das Netz bilden.
@@ -84,12 +84,12 @@ public class Netz extends StoerfallIndikator implements NetzBestandTeil {
 	 * @return bestandteile die Liste der konfigurierten Bestandteile
 	 */
 	public List<NetzBestandTeil> getBestandteile() {
-		return new ArrayList<NetzBestandTeil>(bestandteile);
+		return new ArrayList<>(bestandteile);
 	}
 
 	@Override
 	public Collection<? extends StrassenSegment> getNetzSegmentListe() {
-		final Set<StrassenSegment> liste = new HashSet<StrassenSegment>();
+		final Set<StrassenSegment> liste = new HashSet<>();
 		for (final NetzBestandTeil bestandTeil : getBestandteile()) {
 			liste.addAll(bestandTeil.getNetzSegmentListe());
 		}
@@ -103,7 +103,7 @@ public class Netz extends StoerfallIndikator implements NetzBestandTeil {
 	 */
 	public Collection<Strasse> getStrassen() {
 		if (strassenListe == null) {
-			strassenListe = new HashSet<Strasse>();
+			strassenListe = new HashSet<>();
 			for (final NetzBestandTeil bestandTeil : bestandteile) {
 				if (bestandTeil instanceof AeusseresStrassenSegment) {
 					final Strasse str = ((AeusseresStrassenSegment) bestandTeil)

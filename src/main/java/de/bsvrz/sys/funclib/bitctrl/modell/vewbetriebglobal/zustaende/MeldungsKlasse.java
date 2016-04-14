@@ -80,7 +80,7 @@ public enum MeldungsKlasse implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code.
 	 */
-	private MeldungsKlasse(final String name, final int code) {
+	MeldungsKlasse(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

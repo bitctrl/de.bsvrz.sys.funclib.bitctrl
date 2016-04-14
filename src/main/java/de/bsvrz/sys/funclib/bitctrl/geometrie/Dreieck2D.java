@@ -49,22 +49,22 @@ public abstract class Dreieck2D implements Shape, Cloneable {
 	public static class Double extends Dreieck2D {
 
 		/** X-Koordinate des ersten Punkts */
-		public double x1;
+		private double x1;
 
 		/** Y-Koordinate des ersten Punkts */
-		public double y1;
+		private double y1;
 
 		/** X-Koordinate des zweiten Punkts */
-		public double x2;
+		private double x2;
 
 		/** Y-Koordinate des zweiten Punkts */
-		public double y2;
+		private double y2;
 
 		/** X-Koordinate des dritten Punkts */
-		public double x3;
+		private double x3;
 
 		/** Y-Koordinate des dritten Punkts */
-		public double y3;
+		private double y3;
 
 		/**
 		 * Erzeugt ein Dreieck, welches als Punkt entartet ist p1 = p2 = p3 =
@@ -207,22 +207,22 @@ public abstract class Dreieck2D implements Shape, Cloneable {
 	public static class Float extends Dreieck2D {
 
 		/** X-Koordinate des ersten Punkts */
-		public float x1;
+		private float x1;
 
 		/** Y-Koordinate des ersten Punkts */
-		public float y1;
+		private float y1;
 
 		/** X-Koordinate des zweiten Punkts */
-		public float x2;
+		private float x2;
 
 		/** Y-Koordinate des zweiten Punkts */
-		public float y2;
+		private float y2;
 
 		/** X-Koordinate des dritten Punkts */
-		public float x3;
+		private float x3;
 
 		/** Y-Koordinate des dritten Punkts */
-		public float y3;
+		private float y3;
 
 		/**
 		 * Erzeugt ein Dreieck, welches als Punkt entartet ist p1 = p2 = p3 =
@@ -570,8 +570,8 @@ public abstract class Dreieck2D implements Shape, Cloneable {
 				&& r.contains(getP3());
 
 		// Schneidet sich eine Kante des Dreiecks mit einer des Rechtecks?
-		final List<Line2D> dreieck = new ArrayList<Line2D>();
-		final List<Line2D> rechteck = new ArrayList<Line2D>();
+		final List<Line2D> dreieck = new ArrayList<>();
+		final List<Line2D> rechteck = new ArrayList<>();
 		dreieck.add(new Line2D.Double(getP1(), getP2()));
 		dreieck.add(new Line2D.Double(getP2(), getP3()));
 		dreieck.add(new Line2D.Double(getP3(), getP1()));

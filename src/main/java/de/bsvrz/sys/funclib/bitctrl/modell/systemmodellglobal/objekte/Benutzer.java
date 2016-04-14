@@ -234,9 +234,9 @@ public class Benutzer extends AbstractSystemObjekt {
 		final AttributeGroup atg;
 		final Data datum;
 
-		modell = objekt.getDataModel();
+		modell = getSystemObject().getDataModel();
 		atg = modell.getAttributeGroup("atg.benutzerEigenschaften");
-		datum = objekt.getConfigurationData(atg);
+		datum = getSystemObject().getConfigurationData(atg);
 
 		if (datum != null) {
 			vorname = datum.getTextValue("vorname").getText();

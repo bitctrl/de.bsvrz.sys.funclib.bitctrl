@@ -47,7 +47,7 @@ public final class Operator {
 	/**
 	 * Statische Menge aller Operatoren.
 	 */
-	private static HashMap<String, Operator> operatorMenge = new HashMap<String, Operator>();
+	private static HashMap<String, Operator> operatorMenge = new HashMap<>();
 
 	/**
 	 * ermiitelt, ob in der Menge der Operatoren ein Operator mit dem gegebenen
@@ -112,7 +112,7 @@ public final class Operator {
 	/**
 	 * Menge aller Handler dieses Operators.
 	 */
-	private final List<Handler> handler = new ArrayList<Handler>();
+	private final List<Handler> handler = new ArrayList<>();
 
 	/**
 	 * Konstruktor verstecken.

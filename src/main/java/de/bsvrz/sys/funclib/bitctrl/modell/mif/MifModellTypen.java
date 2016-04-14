@@ -67,7 +67,7 @@ public enum MifModellTypen implements SystemObjektTyp {
 	 * @param klasse
 	 *            Die Klasse des Modellobjekts
 	 */
-	private MifModellTypen(final String pid,
+	MifModellTypen(final String pid,
 			final Class<? extends SystemObjekt> klasse) {
 		this.pid = pid;
 		this.klasse = klasse;

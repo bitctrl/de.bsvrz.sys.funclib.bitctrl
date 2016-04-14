@@ -101,21 +101,21 @@ public class ApplikationsManager extends Frame {
 		initialize();
 
 		final Properties prop = new Properties();
-		try {
-			prop.load(new FileInputStream(file));
+		try (FileInputStream inStream = new FileInputStream(file)) {
+			prop.load(inStream);
 		} catch (final IOException e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
 
-		eigenschaften = new HashMap<String, String[]>();
-		applikationen = new HashMap<String, StandardApplikation>();
+		eigenschaften = new HashMap<>();
+		applikationen = new HashMap<>();
 		for (final Object obj : prop.keySet()) {
 			final String name = (String) obj;
 			if ("Argumente".equals(name)) {
-				stdArgumente = prop.getProperty(name).split(" "); //$NON-NLS-1$
+				stdArgumente = prop.getProperty(name).split(" ");
 			} else {
-				eigenschaften.put(name, prop.getProperty(name).split(" ")); //$NON-NLS-1$
+				eigenschaften.put(name, prop.getProperty(name).split(" "));
 			}
 		}
 
@@ -148,7 +148,7 @@ public class ApplikationsManager extends Frame {
 						src.setLabel(src.getName() + STARTING);
 
 						// Standardaufrupparameter holen
-						final List<String> args = new ArrayList<String>();
+						final List<String> args = new ArrayList<>();
 						args.addAll(Arrays.asList(stdArgumente));
 
 						// Klasse und zusätzliche Argumente bestimmen

@@ -86,7 +86,7 @@ public enum RdsLocationFormat implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsLocationFormat(final String name, final int code) {
+	RdsLocationFormat(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

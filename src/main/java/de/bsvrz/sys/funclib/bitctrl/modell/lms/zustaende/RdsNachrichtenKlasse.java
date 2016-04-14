@@ -132,7 +132,7 @@ public enum RdsNachrichtenKlasse implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsNachrichtenKlasse(final String name, final int code) {
+	RdsNachrichtenKlasse(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

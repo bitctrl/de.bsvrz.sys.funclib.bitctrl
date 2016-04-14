@@ -74,7 +74,7 @@ public enum MeldungsTyp implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code.
 	 */
-	private MeldungsTyp(final String name, final int code) {
+	MeldungsTyp(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

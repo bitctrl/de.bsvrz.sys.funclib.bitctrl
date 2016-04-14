@@ -112,7 +112,7 @@ public class UTMKoordinate {
 	public UTMKoordinate(final double x, final double y, final int zone) {
 		if (testZone(zone)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Zone ist ungültig!"); //$NON-NLS-1$
+					"Der Wert für die Zone ist ungültig!");
 		}
 
 		xwert = x;
@@ -137,7 +137,7 @@ public class UTMKoordinate {
 			final UTMHEMI hemisphaere) {
 		if (testZone(zone)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Zone ist ungültig!"); //$NON-NLS-1$
+					"Der Wert für die Zone ist ungültig!");
 		}
 
 		xwert = x;

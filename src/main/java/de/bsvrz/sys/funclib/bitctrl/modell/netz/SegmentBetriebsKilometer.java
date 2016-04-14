@@ -121,7 +121,7 @@ public class SegmentBetriebsKilometer {
 	/**
 	 * Liste der Betriebskilometerangaben auf dem Segment.
 	 */
-	private final List<BetriebsKilometerSegment> bk = new ArrayList<BetriebsKilometerSegment>();
+	private final List<BetriebsKilometerSegment> bk = new ArrayList<>();
 
 	/**
 	 * Fahrtrichtung auf der Stra&szlig;e.

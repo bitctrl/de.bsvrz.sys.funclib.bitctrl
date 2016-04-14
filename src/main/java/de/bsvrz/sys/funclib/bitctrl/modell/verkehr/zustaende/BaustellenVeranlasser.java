@@ -38,15 +38,15 @@ public enum BaustellenVeranlasser implements Zustand<Integer> {
 	 * der Veranlasser ist nicht definiert.
 	 */
 	ALLE("Alle", -1), /**
-						 * der Veranlasser ist nicht definiert.
-						 */
+	 * der Veranlasser ist nicht definiert.
+	 */
 	UNDEFINIERT("Undefiniert",
 			0), /**
-				 * Baustelle wurde durch externes BIS-System angelegt.
-				 */
+			 * Baustelle wurde durch externes BIS-System angelegt.
+			 */
 	BIS("BIS-extern", 1), /**
-							 * Baustelle wurde intern von der VRZ angelegt.
-							 */
+	 * Baustelle wurde intern von der VRZ angelegt.
+	 */
 	VRZ("VRZ-intern", 2);
 
 	/**
@@ -92,7 +92,7 @@ public enum BaustellenVeranlasser implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private BaustellenVeranlasser(final String name, final int code) {
+	BaustellenVeranlasser(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

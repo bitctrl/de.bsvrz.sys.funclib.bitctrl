@@ -46,7 +46,7 @@ import de.bsvrz.dav.daf.main.config.SystemObject;
 public abstract class AbstractSystemObjekt implements SystemObjekt {
 
 	/** Das gekapselte Systemobjekt des Datenverteilers. */
-	protected final SystemObject objekt;
+	private  final SystemObject objekt;
 
 	/**
 	 * Menge der Parameterdatensaätze, deren Daten innerhalb des Objekts

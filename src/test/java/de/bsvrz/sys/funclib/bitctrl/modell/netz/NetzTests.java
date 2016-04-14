@@ -60,7 +60,7 @@ public final class NetzTests {
 	/**
 	 * externe Konfiguration.
 	 */
-	public static Configuration konfig;
+	private static Configuration konfig;
 
 	/**
 	 * .
@@ -104,5 +104,9 @@ public final class NetzTests {
 
 	public static ClientDavConnection getVerbindung() {
 		return verbindung;
+	}
+
+	protected static Configuration getKonfig() {
+		return konfig;
 	}
 }

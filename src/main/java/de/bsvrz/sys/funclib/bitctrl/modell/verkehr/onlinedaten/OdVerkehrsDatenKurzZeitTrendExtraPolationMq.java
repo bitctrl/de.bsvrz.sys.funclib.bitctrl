@@ -80,7 +80,7 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitTrendExtraPolationMq.Daten> {
 		 * @param pid
 		 *            die PID eines Aspekts.
 		 */
-		private Aspekte(final String pid) {
+		Aspekte(final String pid) {
 			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			aspekt = modell.getAspect(pid);
@@ -218,7 +218,7 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitTrendExtraPolationMq.Daten> {
 
 		@Override
 		public List<String> getWerte() {
-			final List<String> werte = new ArrayList<String>();
+			final List<String> werte = new ArrayList<>();
 
 			for (final Werte w : Werte.values()) {
 				werte.add(w.name());
@@ -317,7 +317,7 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitTrendExtraPolationMq.Daten> {
 
 	@Override
 	public Collection<Aspect> getAspekte() {
-		final Set<Aspect> aspekte = new HashSet<Aspect>();
+		final Set<Aspect> aspekte = new HashSet<>();
 		for (final Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}

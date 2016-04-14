@@ -65,7 +65,7 @@ public class LinieXYImpl extends AbstractSystemObjekt implements LinieXY {
 	@Override
 	public List<Punkt> getKoordinaten() {
 		if (koordinaten == null) {
-			koordinaten = new ArrayList<Punkt>();
+			koordinaten = new ArrayList<>();
 			final AttributeGroup atg = getSystemObject().getDataModel()
 					.getAttributeGroup("atg.linienKoordinaten");
 

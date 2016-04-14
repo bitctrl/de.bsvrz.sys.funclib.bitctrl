@@ -36,22 +36,22 @@ import java.util.NoSuchElementException;
 class DreieckIterator implements PathIterator {
 
 	/** X-Koordinate des ersten Punkts */
-	public double x1;
+	private final double x1;
 
 	/** Y-Koordinate des ersten Punkts */
-	public double y1;
+	private final double y1;
 
 	/** X-Koordinate des zweiten Punkts */
-	public double x2;
+	private final double x2;
 
 	/** Y-Koordinate des zweiten Punkts */
-	public double y2;
+	private final double y2;
 
 	/** X-Koordinate des dritten Punkts */
-	public double x3;
+	private final double x3;
 
 	/** Y-Koordinate des dritten Punkts */
-	public double y3;
+	private final double y3;
 
 	/** Affine Transformation der Dreieckspunkte */
 	private final AffineTransform affine;

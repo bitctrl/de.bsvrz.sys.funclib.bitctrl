@@ -107,7 +107,7 @@ public enum StoerfallSituation implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private StoerfallSituation(final String name, final int code) {
+	StoerfallSituation(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}
@@ -134,7 +134,7 @@ public enum StoerfallSituation implements Zustand<Integer> {
 
 	@Override
 	public String toString() {
-		return name + " (" + code + ")"; //$NON-NLS-1$//$NON-NLS-2$
+		return name + " (" + code + ")";
 	}
 
 }

@@ -100,7 +100,7 @@ public final class Betriebsmeldungsverwaltung {
 
 		@Override
 		public void datensatzAktualisiert(final DatensatzUpdateEvent event) {
-			final List<OdBetriebsMeldung.Daten> neu = new ArrayList<OdBetriebsMeldung.Daten>();
+			final List<OdBetriebsMeldung.Daten> neu = new ArrayList<>();
 
 			if (event.getDatum() instanceof OdBetriebsMeldung.Daten) {
 				final OdBetriebsMeldung.Daten datum = (OdBetriebsMeldung.Daten) event
@@ -155,8 +155,8 @@ public final class Betriebsmeldungsverwaltung {
 	private Betriebsmeldungsverwaltung() {
 		log = Debug.getLogger();
 		listeners = new EventListenerList();
-		meldungsliste = new LinkedList<OdBetriebsMeldung.Daten>();
-		befehlsliste = new ArrayList<BetriebsmeldungCommand>();
+		meldungsliste = new LinkedList<>();
+		befehlsliste = new ArrayList<>();
 
 		log.info("Betriebsmeldungsverwaltung bereit.");
 	}
@@ -232,7 +232,7 @@ public final class Betriebsmeldungsverwaltung {
 	 * @return die Liste der entfernten Meldungen.
 	 */
 	private List<OdBetriebsMeldung.Daten> cleanUpMeldungen() {
-		final List<OdBetriebsMeldung.Daten> entfernt = new ArrayList<OdBetriebsMeldung.Daten>();
+		final List<OdBetriebsMeldung.Daten> entfernt = new ArrayList<>();
 		synchronized (meldungsliste) {
 			// Entferne Meldungenm, die zu alte sind.
 			final long maxZeitstempel = System.currentTimeMillis()

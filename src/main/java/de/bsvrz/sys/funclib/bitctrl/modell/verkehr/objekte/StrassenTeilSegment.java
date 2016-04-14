@@ -337,7 +337,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 */
 	public List<AsbStationierung> getAsbStationierung() {
 		if (asbStationierung == null) {
-			asbStationierung = new ArrayList<AsbStationierung>();
+			asbStationierung = new ArrayList<>();
 			final AttributeGroup atg = getSystemObject().getDataModel()
 					.getAttributeGroup("atg.asbStationierung");
 
@@ -364,7 +364,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 */
 	public List<BetriebsKilometer> getBetriebsKilometer() {
 		if (betriebsKilometer == null) {
-			betriebsKilometer = new ArrayList<BetriebsKilometer>();
+			betriebsKilometer = new ArrayList<>();
 			final AttributeGroup atg = getSystemObject().getDataModel()
 					.getAttributeGroup("atg.betriebsKilometer");
 
@@ -410,7 +410,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 */
 	public List<MessQuerschnittAllgemein> getMessQuerschnitte() {
 		if (messQuerschnitte == null) {
-			messQuerschnitte = new ArrayList<MessQuerschnittAllgemein>();
+			messQuerschnitte = new ArrayList<>();
 		}
 
 		if (!messQuerschnitteZugeordnet) {
@@ -424,7 +424,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 				final StrassenTeilSegment sts = mq.getStrassenTeilSegment();
 				if (sts != null) {
 					if (sts.messQuerschnitte == null) {
-						sts.messQuerschnitte = new ArrayList<MessQuerschnittAllgemein>();
+						sts.messQuerschnitte = new ArrayList<>();
 					}
 					sts.messQuerschnitte.add(mq);
 				}
@@ -489,7 +489,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 */
 	public List<StrassenSegment> getStrassenSegment() {
 		if (strassenSegmente == null) {
-			strassenSegmente = new ArrayList<StrassenSegment>();
+			strassenSegmente = new ArrayList<>();
 		}
 
 		if (!segmenteInitialisiert) {
@@ -502,7 +502,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 				for (final StrassenTeilSegment sts : ss
 						.getStrassenTeilSegmente()) {
 					if (sts.strassenSegmente == null) {
-						sts.strassenSegmente = new ArrayList<StrassenSegment>();
+						sts.strassenSegmente = new ArrayList<>();
 					}
 					sts.strassenSegmente.add(ss);
 				}
@@ -526,12 +526,12 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 			final AttributeGroup atg;
 			final Data datum;
 
-			modell = objekt.getDataModel();
+			modell = getSystemObject().getDataModel();
 			atg = modell.getAttributeGroup("atg.straﬂenTeilSegment");
 
 			DataCache.cacheData(getSystemObject().getType(), atg);
 
-			datum = objekt.getConfigurationData(atg);
+			datum = getSystemObject().getConfigurationData(atg);
 			if (datum != null) {
 				laenge = datum.getScaledValue("L‰nge").floatValue();
 				anzahlFahrStreifen = datum

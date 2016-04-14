@@ -118,7 +118,7 @@ public enum RdsLocationMethode implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsLocationMethode(final String name, final int code) {
+	RdsLocationMethode(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

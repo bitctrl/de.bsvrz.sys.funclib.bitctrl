@@ -56,7 +56,7 @@ public class MultipleObjektFactory extends ObjektFactory {
 	 * Öffentlichen Konstruktor verstecken.
 	 */
 	protected MultipleObjektFactory() {
-		objektFactories = new HashMap<String, ObjektFactory>();
+		objektFactories = new HashMap<>();
 	}
 
 	/**

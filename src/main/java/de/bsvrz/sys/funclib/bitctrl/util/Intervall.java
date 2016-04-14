@@ -40,13 +40,13 @@ import java.util.Date;
 public class Intervall implements Cloneable {
 
 	/** Startzeitpunkt des Intervall. */
-	public final long start;
+	private final long start;
 
 	/** Endzeitpunkt des Intervall. */
-	public final long ende;
+	private final long ende;
 
 	/** Die Breite des Intervall. */
-	public final long breite;
+	private final long breite;
 
 	/** Flag, ob das Intervall einen Zeitraum beschreibt. */
 	private final boolean zeitstempel;

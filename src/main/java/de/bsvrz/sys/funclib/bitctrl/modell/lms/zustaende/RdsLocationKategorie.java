@@ -92,7 +92,7 @@ public enum RdsLocationKategorie implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsLocationKategorie(final String name, final int code) {
+	RdsLocationKategorie(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

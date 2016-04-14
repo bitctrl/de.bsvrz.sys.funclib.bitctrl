@@ -76,7 +76,7 @@ public class Strasse extends AbstractSystemObjekt {
 					"Systemobjekt ist keine Straﬂe.");
 		}
 
-		final DataModel modell = objekt.getDataModel();
+		final DataModel modell = getSystemObject().getDataModel();
 		final AttributeGroup atg = modell.getAttributeGroup("atg.straﬂe");
 		DataCache.cacheData(getSystemObject().getType(), atg);
 		final Data daten = obj.getConfigurationData(atg);
@@ -99,7 +99,7 @@ public class Strasse extends AbstractSystemObjekt {
 	 * @return die Liste der ermittelten Straﬂensegmente
 	 */
 	public Collection<AeusseresStrassenSegment> getAuessereStrassensegmente() {
-		final Collection<AeusseresStrassenSegment> result = new ArrayList<AeusseresStrassenSegment>();
+		final Collection<AeusseresStrassenSegment> result = new ArrayList<>();
 		for (final AeusseresStrassenSegment segment : AeusseresStrassenSegment
 				.getSegmentListe(getSystemObject().getDataModel())) {
 			if (equals(segment.getStrasse())) {

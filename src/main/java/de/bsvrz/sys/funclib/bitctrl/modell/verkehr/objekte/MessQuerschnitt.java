@@ -70,7 +70,7 @@ public class MessQuerschnitt extends MessQuerschnittAllgemein {
 	public List<FahrStreifen> getFahrStreifen() {
 
 		if (fahrStreifen == null) {
-			fahrStreifen = new ArrayList<FahrStreifen>();
+			fahrStreifen = new ArrayList<>();
 			final ConfigurationObject co = (ConfigurationObject) getSystemObject();
 			for (final SystemObject so : co.getObjectSet("FahrStreifen")
 					.getElements()) {

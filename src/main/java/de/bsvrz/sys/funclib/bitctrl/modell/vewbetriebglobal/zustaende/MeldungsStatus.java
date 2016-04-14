@@ -94,7 +94,7 @@ public enum MeldungsStatus implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code.
 	 */
-	private MeldungsStatus(final String name, final int code) {
+	MeldungsStatus(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

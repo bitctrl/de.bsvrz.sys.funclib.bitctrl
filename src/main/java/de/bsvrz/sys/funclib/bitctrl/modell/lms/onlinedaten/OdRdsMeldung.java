@@ -112,7 +112,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		 * @param pid
 		 *            die PID eines Aspekts.
 		 */
-		private Aspekte(final String pid) {
+		Aspekte(final String pid) {
 			final DataModel modell = ObjektFactory.getInstanz().getVerbindung().getDataModel();
 			aspekt = modell.getAspect(pid);
 			assert aspekt != null;
@@ -252,7 +252,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		public static class RdsEreignis {
 
 			/** die Liste der Ereignisdaten. */
-			private final List<RdsEreignisDaten> ereignisDaten = new ArrayList<RdsEreignisDaten>();
+			private final List<RdsEreignisDaten> ereignisDaten = new ArrayList<>();
 
 			/** markiert, ob das Ereignis für beide Richtungen gültig ist. */
 			private boolean ereignisInBeidenRichtungen;
@@ -267,7 +267,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			private String ereignisTabelleVersion;
 
 			/** die Liste der zugeordneten Ereignistypen. */
-			private final List<RdsEreignisTyp> ereignisTyp = new ArrayList<RdsEreignisTyp>();
+			private final List<RdsEreignisTyp> ereignisTyp = new ArrayList<>();
 
 			/**
 			 * Konstruktor. Die Daten des Ereignisses werden aus dem übergebenen
@@ -378,7 +378,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			private RdsEreignisDauer ereignisDauer;
 
 			/** die Liste der zugeordneten Ereignisquantitäten. */
-			private final List<RdsEreignisQuantitaet> ereignisQuantitaet = new ArrayList<RdsEreignisQuantitaet>();
+			private final List<RdsEreignisQuantitaet> ereignisQuantitaet = new ArrayList<>();
 
 			/**
 			 * Konstruktor. Der Inhalt der Datnstruktur wird aus dem übergebenen
@@ -762,7 +762,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		 */
 		public static class RdsLocationDaten {
 			/** die Liste der zugeordneten Locations. */
-			private final List<RdsLocation> rdslocation = new ArrayList<RdsLocation>();
+			private final List<RdsLocation> rdslocation = new ArrayList<>();
 
 			/** das Format. */
 			private RdsLocationFormat rdsLocationFormat;
@@ -1071,7 +1071,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		public static class RdsNachrichten {
 
 			/** die Daten der Nachrichten. */
-			private final List<RdsNachrichtenDaten> nachrichtenDaten = new ArrayList<RdsNachrichtenDaten>();
+			private final List<RdsNachrichtenDaten> nachrichtenDaten = new ArrayList<>();
 
 			/** die verwendete Sprache der Nachrichten. */
 			private RdsNachrichtenSprache nachrichtenSprache;
@@ -1868,7 +1868,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 
 	@Override
 	public Collection<Aspect> getAspekte() {
-		final Set<Aspect> aspekte = new HashSet<Aspect>();
+		final Set<Aspect> aspekte = new HashSet<>();
 		for (final Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}

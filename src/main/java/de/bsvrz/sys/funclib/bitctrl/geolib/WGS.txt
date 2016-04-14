@@ -16,9 +16,6 @@ Zu beachten dabei: Breitenangaben für Süd sind negativ, Längenangaben für Ost eb
 
 
 
-
-
-
 http://de.wikipedia.org/wiki/Orthodrome
 
  b1 := Geografische Breite von Standort 1
@@ -99,5 +96,4 @@ d= 1503,31 km
  --> http://www.kowoma.de/gpsforum/viewtopic.php?p=3079
  --> http://www.ottmarlabonde.de/L1/Pr1.Applet1.html
  --> http://www.mydarc.de/db6zh/qthzz/qthxx03.htm
- 
  

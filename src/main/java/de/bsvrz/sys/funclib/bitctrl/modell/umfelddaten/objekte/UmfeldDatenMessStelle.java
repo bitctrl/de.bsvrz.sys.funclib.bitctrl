@@ -72,7 +72,7 @@ implements PunktXY {
 		final ConfigurationObject co;
 		final NonMutableSet menge;
 
-		umfelddatensensoren = new ArrayList<UmfeldDatenSensor>();
+		umfelddatensensoren = new ArrayList<>();
 
 		co = (ConfigurationObject) so;
 		menge = co.getNonMutableSet("UmfeldDatenSensoren");
@@ -119,7 +119,7 @@ implements PunktXY {
 	 * @return Ein Umfelddatensensoriterator
 	 */
 	public List<UmfeldDatenSensor> getUmfelddatensensoren() {
-		return new ArrayList<UmfeldDatenSensor>(umfelddatensensoren);
+		return new ArrayList<>(umfelddatensensoren);
 	}
 
 }

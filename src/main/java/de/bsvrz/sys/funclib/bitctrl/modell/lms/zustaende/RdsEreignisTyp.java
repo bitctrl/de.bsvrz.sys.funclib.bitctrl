@@ -89,7 +89,7 @@ public enum RdsEreignisTyp implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsEreignisTyp(final String name, final int code) {
+	RdsEreignisTyp(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

@@ -91,7 +91,7 @@ public enum StrassenKnotenTyp implements Zustand<Integer> {
 	 * @param code
 	 *            der zugeordnete Code
 	 */
-	private StrassenKnotenTyp(final String name, final int code) {
+	StrassenKnotenTyp(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

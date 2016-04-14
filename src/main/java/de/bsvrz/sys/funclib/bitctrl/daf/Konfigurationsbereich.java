@@ -57,7 +57,7 @@ public final class Konfigurationsbereich {
 	 * @return Liste der gesuchten Systemobjekten
 	 */
 	public static List<SystemObject> getObjekte(final ConfigurationArea kb) {
-		final List<SystemObject> liste = new ArrayList<SystemObject>();
+		final List<SystemObject> liste = new ArrayList<>();
 
 		liste.addAll(kb.getObjects(null, ObjectTimeSpecification.valid()));
 
@@ -77,7 +77,7 @@ public final class Konfigurationsbereich {
 	 */
 	public static List<SystemObject> getObjekte(final ConfigurationArea kb,
 			final SystemObjectType... typen) {
-		final List<SystemObject> liste = new ArrayList<SystemObject>();
+		final List<SystemObject> liste = new ArrayList<>();
 
 		if (typen == null) {
 			liste.addAll(kb.getObjects(null, ObjectTimeSpecification.valid()));
@@ -118,8 +118,8 @@ public final class Konfigurationsbereich {
 	 */
 	public static List<SystemObject> getObjekte(final ConfigurationArea kb,
 			final String... typen) {
-		final List<SystemObject> liste = new ArrayList<SystemObject>();
-		final List<SystemObjectType> objekttypen = new ArrayList<SystemObjectType>();
+		final List<SystemObject> liste = new ArrayList<>();
+		final List<SystemObjectType> objekttypen = new ArrayList<>();
 
 		if (typen == null) {
 			liste.addAll(kb.getObjects(null, ObjectTimeSpecification.valid()));

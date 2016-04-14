@@ -88,7 +88,7 @@ public enum EreignisTypenOption implements Zustand<Integer> {
 	 * @param code
 	 *            der zugeordnete Code
 	 */
-	private EreignisTypenOption(final String name, final int code) {
+	EreignisTypenOption(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

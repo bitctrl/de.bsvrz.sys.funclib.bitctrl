@@ -59,7 +59,7 @@ public enum BcCommonTypen implements SystemObjektTyp {
 	 * @param klasse
 	 *            Die Klasse des Modellobjekts
 	 */
-	private BcCommonTypen(final String pid,
+	BcCommonTypen(final String pid,
 			final Class<? extends SystemObjekt> klasse) {
 		this.pid = pid;
 		this.klasse = klasse;

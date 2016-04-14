@@ -48,10 +48,10 @@ public final class RdsVorhersageCode implements Zustand<Integer> {
 	private static IntegerAttributeType attribut;
 
 	/** der Menge der Locationtabellen geordnet nach dem Code. */
-	private static final Map<Integer, RdsVorhersageCode> TABELLE_PER_CODE = new HashMap<Integer, RdsVorhersageCode>();
+	private static final Map<Integer, RdsVorhersageCode> TABELLE_PER_CODE = new HashMap<>();
 
 	/** der Menge der Locationtabellen geordnet nach dem Name. */
-	private static final Map<String, RdsVorhersageCode> TABELLE_PER_NAME = new HashMap<String, RdsVorhersageCode>();
+	private static final Map<String, RdsVorhersageCode> TABELLE_PER_NAME = new HashMap<>();
 
 	/**
 	 * liefert den Vorhersagecode mit dem übergebenen Code.

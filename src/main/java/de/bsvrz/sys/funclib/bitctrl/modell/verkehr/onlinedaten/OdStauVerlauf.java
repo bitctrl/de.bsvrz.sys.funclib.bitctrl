@@ -69,7 +69,7 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		 * @param pid
 		 *            die PID eines Aspekts.
 		 */
-		private Aspekte(final String pid) {
+		Aspekte(final String pid) {
 			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			aspekt = modell.getAspect(pid);
@@ -111,7 +111,7 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		/**
 		 * die Einzelschritte der Prognose.
 		 */
-		private final List<PrognoseSchritt> schritte = new ArrayList<PrognoseSchritt>();
+		private final List<PrognoseSchritt> schritte = new ArrayList<>();
 
 		/**
 		 * der aktuelle Status des Datensatzes.
@@ -471,7 +471,7 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 
 	@Override
 	public Collection<Aspect> getAspekte() {
-		final Set<Aspect> aspekte = new HashSet<Aspect>();
+		final Set<Aspect> aspekte = new HashSet<>();
 		for (final Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}

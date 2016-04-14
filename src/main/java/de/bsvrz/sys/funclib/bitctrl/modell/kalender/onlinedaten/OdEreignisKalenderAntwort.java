@@ -74,7 +74,7 @@ extends AbstractOnlineDatensatz<OdEreignisKalenderAntwort.Daten> {
 		 * @param pid
 		 *            die PID eines Aspekts.
 		 */
-		private Aspekte(final String pid) {
+		Aspekte(final String pid) {
 			final DataModel modell = ObjektFactory.getInstanz().getVerbindung()
 					.getDataModel();
 			aspekt = modell.getAspect(pid);
@@ -188,7 +188,7 @@ extends AbstractOnlineDatensatz<OdEreignisKalenderAntwort.Daten> {
 		}
 
 		/** Die Liste der Ereignisse und deren Zustandswechsel. */
-		private final List<Zustandswechsel> zustandswechsel = new ArrayList<Zustandswechsel>();
+		private final List<Zustandswechsel> zustandswechsel = new ArrayList<>();
 
 		/** Das Absenderzeichen des Anfragers. */
 		private String absenderZeichen;
@@ -322,7 +322,7 @@ extends AbstractOnlineDatensatz<OdEreignisKalenderAntwort.Daten> {
 
 	@Override
 	public Collection<Aspect> getAspekte() {
-		final Set<Aspect> aspekte = new HashSet<Aspect>();
+		final Set<Aspect> aspekte = new HashSet<>();
 		for (final Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}

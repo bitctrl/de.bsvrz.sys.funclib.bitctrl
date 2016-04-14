@@ -70,7 +70,7 @@ public enum GueteVerfahren implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private GueteVerfahren(final String name, final int code) {
+	GueteVerfahren(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

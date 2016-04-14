@@ -86,7 +86,7 @@ public enum ArtMittelwertBildung implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private ArtMittelwertBildung(final String name, final int code) {
+	ArtMittelwertBildung(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

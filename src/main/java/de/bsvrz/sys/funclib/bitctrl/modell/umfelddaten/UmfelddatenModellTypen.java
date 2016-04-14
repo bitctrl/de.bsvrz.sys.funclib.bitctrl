@@ -81,7 +81,7 @@ public enum UmfelddatenModellTypen implements SystemObjektTyp {
 	 * @param klasse
 	 *            Die Klasse des Modellobjekts
 	 */
-	private UmfelddatenModellTypen(final String pid,
+	UmfelddatenModellTypen(final String pid,
 			final Class<? extends SystemObjekt> klasse) {
 		this.pid = pid;
 		this.klasse = klasse;

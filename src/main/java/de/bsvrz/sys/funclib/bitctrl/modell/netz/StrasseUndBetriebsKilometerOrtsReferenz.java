@@ -39,16 +39,16 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Strasse;
 public class StrasseUndBetriebsKilometerOrtsReferenz implements StrasseUndBetriebsKilometerOrtsReferenzInterface {
 
 	/** Betriebskilometer auf der Stra&szlig;e in Metern. */
-	long betriebsKilometer;
+	private final long betriebsKilometer;
 
 	/** Blocknummer des Betriebskilometers auf der Straﬂe. */
-	int blockNummer;
+	private final int blockNummer;
 
 	/** Richtung auf dem Stra&szlig;enSegment. */
-	NetzInterface.FahrtRichtung fahrtRichtung;
+	private final NetzInterface.FahrtRichtung fahrtRichtung;
 
 	/** Referenzierte Stra&szlig;e. */
-	Strasse strasse;
+	private final Strasse strasse;
 
 	/**
 	 * Erzeugt eine Ortsreferenz, bei der die Ortsangabe &uuml;ber eine

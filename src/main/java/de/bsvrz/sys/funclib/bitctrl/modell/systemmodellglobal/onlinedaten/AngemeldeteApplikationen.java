@@ -77,7 +77,7 @@ public class AngemeldeteApplikationen extends AbstractOnlineDatensatz<Angemeldet
 		 * @param pid
 		 *            die PID eines Aspekts.
 		 */
-		private Aspekte(final String pid) {
+		Aspekte(final String pid) {
 			final DataModel modell = ObjektFactory.getInstanz().getVerbindung().getDataModel();
 			aspekt = modell.getAspect(pid);
 			assert aspekt != null;
@@ -224,7 +224,7 @@ public class AngemeldeteApplikationen extends AbstractOnlineDatensatz<Angemeldet
 		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/** Die Liste der angemeldeten Applikationen. */
-		private final List<AngemeldeteApplikation> angemeldeteApplikationen = new ArrayList<AngemeldeteApplikation>();
+		private final List<AngemeldeteApplikation> angemeldeteApplikationen = new ArrayList<>();
 
 		@Override
 		public Daten clone() {
@@ -407,7 +407,7 @@ public class AngemeldeteApplikationen extends AbstractOnlineDatensatz<Angemeldet
 
 	@Override
 	public Collection<Aspect> getAspekte() {
-		final Set<Aspect> aspekte = new HashSet<Aspect>();
+		final Set<Aspect> aspekte = new HashSet<>();
 		for (final Aspekt a : Aspekte.values()) {
 			aspekte.add(a.getAspekt());
 		}

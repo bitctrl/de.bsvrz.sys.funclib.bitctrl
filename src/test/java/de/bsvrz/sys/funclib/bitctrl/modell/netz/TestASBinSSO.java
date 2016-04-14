@@ -70,36 +70,29 @@ public class TestASBinSSO {
 	@Test
 	public void testUmrechnung() {
 		try {
-			NetzReferenzen.getInstanz().init(NetzTests.getVerbindung(),
-					NetzTests.konfig.getString("Netz"));
+			NetzReferenzen.getInstanz().init(NetzTests.getVerbindung(), NetzTests.getKonfig().getString("Netz"));
 
-			final String anfangsknoten = NetzTests.konfig
-					.getString("Anfangsknoten");
-			final String endknoten = NetzTests.konfig.getString("Endknoten");
-			final long stationierung = Long
-					.parseLong(NetzTests.konfig.getString("Stationierung"));
-			final String richtung = NetzTests.konfig
-					.getString("StationierungsRichtung");
+			final String anfangsknoten = NetzTests.getKonfig().getString("Anfangsknoten");
+			final String endknoten = NetzTests.getKonfig().getString("Endknoten");
+			final long stationierung = Long.parseLong(NetzTests.getKonfig().getString("Stationierung"));
+			final String richtung = NetzTests.getKonfig().getString("StationierungsRichtung");
 			NetzInterface.ASBStationierungsRichtung asbRichtung = null;
 			if (richtung.equalsIgnoreCase("IN_STATIONIERUNGSRICHTUNG")) {
 				asbRichtung = NetzInterface.ASBStationierungsRichtung.IN_STATIONIERUNGSRICHTUNG;
-			} else
-				if (richtung.equalsIgnoreCase("GEGEN_STATIONIERUNGSRICHTUNG")) {
+			} else if (richtung.equalsIgnoreCase("GEGEN_STATIONIERUNGSRICHTUNG")) {
 				asbRichtung = NetzInterface.ASBStationierungsRichtung.GEGEN_STATIONIERUNGSRICHTUNG;
 			} else {
-				fail("Die ASB-Stationierungsrichtung '" + richtung
-						+ "' ist nicht zulässig");
+				fail("Die ASB-Stationierungsrichtung '" + richtung + "' ist nicht zulässig");
 			}
 
-			System.out.println(
-					"Test Referenzierungsumrechnung ASB in Segment und Offset");
+			System.out.println("Test Referenzierungsumrechnung ASB in Segment und Offset");
 			System.out.println("Anfangsknoten: " + anfangsknoten);
 			System.out.println("Endknoten:     " + endknoten);
 			System.out.println("Stationierung: " + stationierung);
 			System.out.println("Richtung:      " + asbRichtung);
 
-			final AsbStationierungOrtsReferenz asbref = new AsbStationierungOrtsReferenz(
-					anfangsknoten, endknoten, asbRichtung, stationierung);
+			final AsbStationierungOrtsReferenz asbref = new AsbStationierungOrtsReferenz(anfangsknoten, endknoten,
+					asbRichtung, stationierung);
 
 			assertNotNull(asbref);
 
@@ -110,8 +103,7 @@ public class TestASBinSSO {
 
 			for (final StrassenSegmentUndOffsetOrtsReferenzInterface ref : soref) {
 				System.out.println("Ortsreferenz:");
-				System.out.println(
-						"Segment: " + ref.getStrassenSegment().getPid());
+				System.out.println("Segment: " + ref.getStrassenSegment().getPid());
 				System.out.println("Offset:  " + ref.getStartOffset());
 			}
 		} catch (final Exception e) {

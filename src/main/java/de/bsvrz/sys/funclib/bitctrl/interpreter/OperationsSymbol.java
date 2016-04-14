@@ -66,7 +66,7 @@ public class OperationsSymbol implements Ausdruck {
 		}
 
 		this.operator = operator;
-		this.operanden = new ArrayList<Ausdruck>();
+		this.operanden = new ArrayList<>();
 		if (operanden.length > 0) {
 			this.operanden.addAll(Arrays.asList(operanden));
 		}
@@ -119,7 +119,7 @@ public class OperationsSymbol implements Ausdruck {
 
 	@Override
 	public List<Ausdruck> getNachfolger() {
-		return new ArrayList<Ausdruck>(operanden);
+		return new ArrayList<>(operanden);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class OperationsSymbol implements Ausdruck {
 	public Object interpret(final Kontext kontext) {
 		assert operator != null;
 
-		final List<Object> values = new ArrayList<Object>();
+		final List<Object> values = new ArrayList<>();
 		for (final Ausdruck a : operanden) {
 			if (a != null) {
 				values.add(a.interpret(kontext));

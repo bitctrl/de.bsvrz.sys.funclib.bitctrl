@@ -39,7 +39,7 @@ public interface Datum {
 	 * Der Status eines Datensatzes. Kapselt die Instanzen der DAF-Klasse
 	 * {@link DataState} als ENUM.
 	 */
-	public enum Status {
+	enum Status {
 		/**
 		 * Datensatztyp für ungültige Datensätze (Initialwert).
 		 */
@@ -146,7 +146,7 @@ public interface Datum {
 		 *            der Statuscode in den
 		 *            Datenverteilerapplikationsfunktionen.
 		 */
-		private Status(final DataState code) {
+		Status(final DataState code) {
 			datenStatus = code;
 		}
 

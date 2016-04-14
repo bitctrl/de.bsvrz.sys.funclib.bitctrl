@@ -37,21 +37,21 @@ import com.bitctrl.Constants;
 
 public class ZeitAngabeTest {
 
-	ZeitAngabe negative = new ZeitAngabe(new GregorianCalendar(1970,
+	private final ZeitAngabe negative = new ZeitAngabe(new GregorianCalendar(1970,
 			Calendar.JANUARY, 1).getTimeInMillis()
 			- (3 * Constants.MILLIS_PER_DAY));
-	ZeitAngabe nullZeit = new ZeitAngabe(0);
-	ZeitAngabe normalZeit = new ZeitAngabe(new GregorianCalendar(2005,
+	private final ZeitAngabe nullZeit = new ZeitAngabe(0);
+	private final ZeitAngabe normalZeit = new ZeitAngabe(new GregorianCalendar(2005,
 			Calendar.DECEMBER, 24).getTimeInMillis());
-	ZeitAngabe normalDauer = new ZeitAngabe((3 * Constants.MILLIS_PER_DAY)
+	private final ZeitAngabe normalDauer = new ZeitAngabe((3 * Constants.MILLIS_PER_DAY)
 			+ (2 * Constants.MILLIS_PER_HOUR)
 			+ (10 * Constants.MILLIS_PER_MINUTE)
 			+ (33 * Constants.MILLIS_PER_SECOND) + 22);
-	ZeitAngabe normalDauer2 = new ZeitAngabe((3 * Constants.MILLIS_PER_DAY)
+	private final ZeitAngabe normalDauer2 = new ZeitAngabe((3 * Constants.MILLIS_PER_DAY)
 			+ (2 * Constants.MILLIS_PER_HOUR)
 			+ (0 * Constants.MILLIS_PER_MINUTE)
 			+ (33 * Constants.MILLIS_PER_SECOND));
-	ZeitAngabe maxZeit = new ZeitAngabe(Long.MAX_VALUE);
+	private final ZeitAngabe maxZeit = new ZeitAngabe(Long.MAX_VALUE);
 
 	@Test
 	public void testDauerAlsText() {

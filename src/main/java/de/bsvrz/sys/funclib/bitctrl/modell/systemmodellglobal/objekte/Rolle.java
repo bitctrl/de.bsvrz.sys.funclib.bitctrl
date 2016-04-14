@@ -72,7 +72,7 @@ public class Rolle extends AbstractSystemObjekt {
 	 */
 	public List<Aktivitaet> getAktivitaeten() {
 		if (aktivitaeten == null) {
-			aktivitaeten = new ArrayList<Aktivitaet>();
+			aktivitaeten = new ArrayList<>();
 			final ConfigurationObject co = (ConfigurationObject) getSystemObject();
 			for (final SystemObject so : co.getObjectSet("Aktivitäten")
 					.getElements()) {

@@ -40,7 +40,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenSegment;
 public class SearchCycleException extends Exception {
 
 	/** die Liste der bei der Sucje durchlaufenen Segmente. */
-	private final List<StrassenSegment> visitedSegments = new ArrayList<StrassenSegment>();
+	private final List<StrassenSegment> visitedSegments = new ArrayList<>();
 
 	/**
 	 * liefert die Liste der bei der Suche durchlaufenen StrassenSegmente.

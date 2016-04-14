@@ -44,7 +44,7 @@ public class RdsMeldung extends AbstractSystemObjekt {
 	/**
 	 * die Menge der Landesmeldestellen in denen die meldung referenziert wird.
 	 */
-	private final Set<LandesMeldeStelle> lmsListe = new HashSet<LandesMeldeStelle>();
+	private final Set<LandesMeldeStelle> lmsListe = new HashSet<>();
 
 	/**
 	 * Konstruktor.<br>

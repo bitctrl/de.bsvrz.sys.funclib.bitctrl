@@ -76,7 +76,7 @@ public class Region extends AbstractSystemObjekt {
 	 */
 	public List<SystemObjekt> getObjekte() {
 		if (objekte == null) {
-			objekte = new ArrayList<SystemObjekt>();
+			objekte = new ArrayList<>();
 			final ConfigurationObject co = (ConfigurationObject) getSystemObject();
 			for (final SystemObject so : co.getObjectSet("Objekte")
 					.getElements()) {
@@ -95,7 +95,7 @@ public class Region extends AbstractSystemObjekt {
 	 */
 	public List<SystemObject> getZusammmenstellungen() {
 		if (zusammmenstellungen == null) {
-			zusammmenstellungen = new ArrayList<SystemObject>();
+			zusammmenstellungen = new ArrayList<>();
 			final ConfigurationObject co = (ConfigurationObject) getSystemObject();
 			for (final SystemObject so : co.getObjectSet("Zusammmenstellungen")
 					.getElements()) {

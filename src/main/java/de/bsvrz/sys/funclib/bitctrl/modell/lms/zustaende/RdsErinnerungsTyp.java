@@ -103,7 +103,7 @@ public enum RdsErinnerungsTyp implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsErinnerungsTyp(final String name, final int code) {
+	RdsErinnerungsTyp(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

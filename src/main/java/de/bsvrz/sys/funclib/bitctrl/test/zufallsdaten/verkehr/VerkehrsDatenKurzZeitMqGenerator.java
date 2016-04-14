@@ -54,10 +54,10 @@ implements TestDatenGenerator<OdVerkehrsDatenKurzZeitMq.Daten> {
 	private final Random datenquelle = new Random();
 
 	/** Sichert die List der Minimas. */
-	private final Map<String, Integer> minimas = new HashMap<String, Integer>();
+	private final Map<String, Integer> minimas = new HashMap<>();
 
 	/** Sichert die List der Maximas. */
-	private final Map<String, Integer> maximas = new HashMap<String, Integer>();
+	private final Map<String, Integer> maximas = new HashMap<>();
 
 	/**
 	 * Initialisiert das Objekt.

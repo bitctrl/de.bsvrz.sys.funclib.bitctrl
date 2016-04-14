@@ -75,7 +75,7 @@ public class StrassenKnoten extends StoerfallIndikator {
 					"Systemobjekt ist kein Straﬂenknoten.");
 		}
 
-		final DataModel modell = objekt.getDataModel();
+		final DataModel modell = getSystemObject().getDataModel();
 		final AttributeGroup atg = modell
 				.getAttributeGroup("atg.straﬂenKnoten");
 		DataCache.cacheData(getSystemObject().getType(), atg);
@@ -93,14 +93,14 @@ public class StrassenKnoten extends StoerfallIndikator {
 	 */
 	public Collection<InneresStrassenSegment> getInnereSegmente() {
 		if (innereSegmente == null) {
-			innereSegmente = new HashSet<InneresStrassenSegment>();
+			innereSegmente = new HashSet<>();
 			for (final SystemObject o : ((ConfigurationObject) getSystemObject())
 					.getObjectSet("InnereStraﬂenSegmente").getElements()) {
 				innereSegmente.add((InneresStrassenSegment) ObjektFactory
 						.getInstanz().getModellobjekt(o));
 			}
 		}
-		return new ArrayList<InneresStrassenSegment>(innereSegmente);
+		return new ArrayList<>(innereSegmente);
 	}
 
 	/**

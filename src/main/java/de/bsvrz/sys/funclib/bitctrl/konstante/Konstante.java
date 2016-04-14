@@ -57,11 +57,11 @@ public final class Konstante {
 	public static final int PROZENT_FAKTOR = 100;
 
 	/** leere Zeichenkette. */
-	public static final String LEERSTRING = ""; //$NON-NLS-1$
+	public static final String LEERSTRING = "";
 
 	/** Zeichenkette "unbekannt". */
-	public static final String STRING_UNBEKANNT = "unbekannt"; //$NON-NLS-1$
+	public static final String STRING_UNBEKANNT = "unbekannt";
 
 	/** systemabhängiges Zeichen für einen Zeilenumbruch. */
-	public static final String NEWLINE = System.getProperty("line.separator"); //$NON-NLS-1$
+	public static final String NEWLINE = System.getProperty("line.separator");
 }

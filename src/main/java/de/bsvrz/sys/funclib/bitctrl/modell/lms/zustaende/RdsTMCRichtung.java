@@ -83,7 +83,7 @@ public enum RdsTMCRichtung implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsTMCRichtung(final String name, final int code) {
+	RdsTMCRichtung(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

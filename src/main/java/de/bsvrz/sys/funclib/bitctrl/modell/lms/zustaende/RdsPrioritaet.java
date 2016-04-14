@@ -89,7 +89,7 @@ public enum RdsPrioritaet implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsPrioritaet(final String name, final int code) {
+	RdsPrioritaet(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

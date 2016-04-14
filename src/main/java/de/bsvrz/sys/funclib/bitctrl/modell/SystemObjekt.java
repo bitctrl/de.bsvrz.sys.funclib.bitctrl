@@ -44,7 +44,7 @@ public interface SystemObjekt extends Comparable<SystemObjekt> {
 	/**
 	 * Klasse zum Vergleich zweier Systemobjekte per PID.
 	 */
-	public class PidComparator implements Comparator<SystemObjekt> {
+	class PidComparator implements Comparator<SystemObjekt> {
 
 		/**
 		 * vergleicht zwei Systemobjekte bezüglich ihrer PID.

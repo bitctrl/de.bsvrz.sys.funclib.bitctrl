@@ -74,7 +74,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		 * Referenzen auf alle Straﬂensegmente, ¸ber die sich die Situation
 		 * ausbreitet. ("StraﬂenSegment")
 		 */
-		private final List<StrassenSegment> segmente = new ArrayList<StrassenSegment>();
+		private final List<StrassenSegment> segmente = new ArrayList<>();
 		/**
 		 * Position des Situationsanfangs im ersten Straﬂensegment.
 		 * ("StartOffset")
@@ -264,7 +264,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 			final StrassenSegment segment = getSegment(0);
 			StrassenSegment usedSegment = segment;
 			MessQuerschnittAllgemein mqDavor = null;
-			final List<StrassenSegment> visited = new ArrayList<StrassenSegment>();
+			final List<StrassenSegment> visited = new ArrayList<>();
 
 			final Debug logger = Debug.getLogger();
 			logger.finer("Ermittle MQ vor der Baustelle");

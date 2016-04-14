@@ -171,7 +171,7 @@ public final class DavTools {
 		while (basis.size() > 1) {
 			final Iterator<SystemObjectType> iterator = basis.iterator();
 			final SystemObjectType type1 = iterator.next();
-			final Set<SystemObjectType> remove = new HashSet<SystemObjectType>();
+			final Set<SystemObjectType> remove = new HashSet<>();
 
 			while (iterator.hasNext()) {
 				final SystemObjectType type2 = iterator.next();
@@ -199,7 +199,7 @@ public final class DavTools {
 	 */
 	public static Set<SystemObjectType> getSuperTypes(
 			final SystemObjectType objectType) {
-		final Set<SystemObjectType> superTypes = new HashSet<SystemObjectType>(
+		final Set<SystemObjectType> superTypes = new HashSet<>(
 				objectType.getSuperTypes());
 
 		for (final SystemObjectType type : superTypes) {

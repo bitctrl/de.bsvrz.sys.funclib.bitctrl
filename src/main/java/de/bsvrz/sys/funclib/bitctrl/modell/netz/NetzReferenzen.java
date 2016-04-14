@@ -77,7 +77,7 @@ public class NetzReferenzen {
 		 * @param asbStationierung
 		 *            ASB-Stationierungsangabe
 		 */
-		public TeilSegmentASB(final StrassenTeilSegment teilSegment,
+		TeilSegmentASB(final StrassenTeilSegment teilSegment,
 				final AsbStationierung asbStationierung) {
 			super();
 			this.teilSegment = teilSegment;
@@ -395,7 +395,7 @@ public class NetzReferenzen {
 			final TeilSegmentASB asbsegment = findeTeilSegmentAsbStationierung(
 					referenz);
 
-			final List<StrassenSegmentUndOffsetOrtsReferenzInterface> refliste = new ArrayList<StrassenSegmentUndOffsetOrtsReferenzInterface>();
+			final List<StrassenSegmentUndOffsetOrtsReferenzInterface> refliste = new ArrayList<>();
 
 			for (final StrassenSegment asegment : asbsegment.getTeilSegment()
 					.getStrassenSegment()) {
@@ -555,7 +555,7 @@ public class NetzReferenzen {
 			if ((ssorefs == null) || (ssorefs.size() == 0)) {
 				throw new NetzReferenzException("keine Abbildung möglich");
 			}
-			final List<StrasseUndBetriebsKilometerOrtsReferenzInterface> reflist = new ArrayList<StrasseUndBetriebsKilometerOrtsReferenzInterface>();
+			final List<StrasseUndBetriebsKilometerOrtsReferenzInterface> reflist = new ArrayList<>();
 			for (final StrassenSegmentUndOffsetOrtsReferenzInterface ssoref : ssorefs) {
 				final StrasseUndBetriebsKilometerOrtsReferenzInterface sbkref = ssoref
 						.ermittleOrtsReferenzStrasseUndBetriebsKilometer();
@@ -779,10 +779,10 @@ public class NetzReferenzen {
 		throw new NetzReferenzException(fehler);
 	}
 
-	Map<Verkehrsrichtung, Map<String, List<StrassenTeilSegment>>> richtungAnfangKnotenMap = new HashMap<Verkehrsrichtung, Map<String, List<StrassenTeilSegment>>>();
-	Set<String> anfangKnotenMap = new HashSet<String>();
-	Set<String> endKnotenMap = new HashSet<String>();
-	boolean anfangKnotenMapInitialisiert;
+	private final Map<Verkehrsrichtung, Map<String, List<StrassenTeilSegment>>> richtungAnfangKnotenMap = new HashMap<>();
+	private final Set<String> anfangKnotenMap = new HashSet<>();
+	private final Set<String> endKnotenMap = new HashSet<>();
+	private boolean anfangKnotenMapInitialisiert;
 
 	public String getAsbKnotenKey(final String knoten) {
 		return knoten.substring(0, 7);
@@ -801,14 +801,14 @@ public class NetzReferenzen {
 						Map<String, List<StrassenTeilSegment>> richtungMap = richtungAnfangKnotenMap
 								.get(verkehrsRichtung);
 						if (richtungMap == null) {
-							richtungMap = new HashMap<String, List<StrassenTeilSegment>>();
+							richtungMap = new HashMap<>();
 							richtungAnfangKnotenMap.put(verkehrsRichtung,
 									richtungMap);
 						}
 						List<StrassenTeilSegment> knotenList = richtungMap
 								.get(getAsbKnotenKey(asb.getAnfangsKnoten()));
 						if (knotenList == null) {
-							knotenList = new ArrayList<StrassenTeilSegment>();
+							knotenList = new ArrayList<>();
 							richtungMap.put(
 									getAsbKnotenKey(asb.getAnfangsKnoten()),
 									knotenList);
@@ -1087,7 +1087,7 @@ public class NetzReferenzen {
 	public List<Strasse> findeStrassen(
 			final AsbStationierungOrtsReferenz referenz)
 					throws NetzReferenzException {
-		final List<Strasse> result = new ArrayList<Strasse>();
+		final List<Strasse> result = new ArrayList<>();
 		try {
 			for (final StrassenSegment segment : netzmodell
 					.getNetzSegmentListe()) {
@@ -1132,7 +1132,7 @@ public class NetzReferenzen {
 			final AsbStationierungOrtsReferenz referenz)
 					throws NetzReferenzException {
 
-		final List<AsbStationierung> bereiche = new ArrayList<AsbStationierung>();
+		final List<AsbStationierung> bereiche = new ArrayList<>();
 
 		if (!anfangKnotenMapInitialisiert) {
 			initKnotenMap();
@@ -1171,7 +1171,7 @@ public class NetzReferenzen {
 			}
 		});
 
-		final List<AsbStationierungBereich> zusammengefassteBereiche = new ArrayList<AsbStationierungBereich>();
+		final List<AsbStationierungBereich> zusammengefassteBereiche = new ArrayList<>();
 		final AsbStationierungBereich anfang = new AsbStationierungBereich(
 				bereiche.get(0));
 		zusammengefassteBereiche.add(anfang);

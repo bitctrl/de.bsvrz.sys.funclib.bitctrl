@@ -176,9 +176,9 @@ public class Ereignis extends AbstractSystemObjekt {
 		final AttributeGroup atg;
 		final Data datum;
 
-		modell = objekt.getDataModel();
+		modell = getSystemObject().getDataModel();
 		atg = modell.getAttributeGroup("atg.ereignisEigenschaften");
-		datum = objekt.getConfigurationData(atg);
+		datum = getSystemObject().getConfigurationData(atg);
 
 		if (datum != null) {
 			final SystemObject so;

@@ -43,7 +43,7 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 	 * Attributname für die Speicherung des aktuellen Störfallzustands des
 	 * Indikators.
 	 */
-	public static final String ATT_NAME_SITUATION = "Situation"; //$NON-NLS-1$
+	public static final String ATT_NAME_SITUATION = "Situation";
 
 	/**
 	 * Erzeugt einen Störfallindikator aus einem Systemobjekt.
@@ -57,7 +57,7 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Störfallindikator."); //$NON-NLS-1$
+					"Systemobjekt ist kein Störfallindikator.");
 		}
 	}
 

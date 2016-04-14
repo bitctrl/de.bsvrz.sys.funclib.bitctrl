@@ -38,12 +38,12 @@ public enum Verkehrsrichtung implements Zustand<Integer> {
 	 * Richtungsbezug unbekannt.
 	 */
 	UNBEKANNT("unbekannt", 0), /**
-								 * Richtungsbezug in Stationierungsrichtung.
-								 */
+	 * Richtungsbezug in Stationierungsrichtung.
+	 */
 	IN_STATIONIERUNGSRICHTUNG("inStationierungsRichtung",
 			1), /**
-				 * Richtungsbezug gegen Stationierungsrichtung.
-				 */
+			 * Richtungsbezug gegen Stationierungsrichtung.
+			 */
 	GEGEN_STATIONIERUNGSRICHTUNG("gegenStationierungsRichtung", 2);
 
 	/**
@@ -89,7 +89,7 @@ public enum Verkehrsrichtung implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private Verkehrsrichtung(final String name, final int code) {
+	Verkehrsrichtung(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

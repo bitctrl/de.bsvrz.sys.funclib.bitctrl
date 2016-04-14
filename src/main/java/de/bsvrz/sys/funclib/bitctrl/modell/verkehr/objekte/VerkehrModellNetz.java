@@ -52,17 +52,16 @@ implements MutableSetChangeListener {
 	/**
 	 * Name der Menge, in der die Staus des VerkehrsmodellNetz abgelegt werden.
 	 */
-	public static final String MENGENNAME_STAUS = "Staus"; //$NON-NLS-1$
+	public static final String MENGENNAME_STAUS = "Staus";
 
 	/**
 	 * Name der Menge, in der die Baustellen des VerkehrsmodellNetz abgelegt
 	 * werden.
 	 */
-	public static final String MENGENNAME_BAUSTELLEN = "Baustellen"; //$NON-NLS-1$
+	public static final String MENGENNAME_BAUSTELLEN = "Baustellen";
 
 	/** PID des Typs eines VerkehrsModellNetz. */
-	@SuppressWarnings("hiding")
-	public static final String PID_TYP = "typ.verkehrsModellNetz"; //$NON-NLS-1$
+	public static final String PID_TYP = "typ.verkehrsModellNetz";
 
 	/**
 	 * Logger für Fehlerausgaben.
@@ -92,7 +91,7 @@ implements MutableSetChangeListener {
 
 		if (!obj.isOfType(PID_TYP)) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein gültiges VerkehrsModellNetz."); //$NON-NLS-1$
+					"Systemobjekt ist kein gültiges VerkehrsModellNetz.");
 		}
 
 		baustellenMenge = ((ConfigurationObject) obj)
@@ -252,7 +251,7 @@ implements MutableSetChangeListener {
 	 * @return die Liste der ermittelten Straßensegmente
 	 */
 	public List<AeusseresStrassenSegment> getAssListe(final Strasse strasse) {
-		final List<AeusseresStrassenSegment> result = new ArrayList<AeusseresStrassenSegment>();
+		final List<AeusseresStrassenSegment> result = new ArrayList<>();
 		for (final StrassenSegment segment : getNetzSegmentListe()) {
 			if (segment instanceof AeusseresStrassenSegment) {
 				if ((strasse == null) || strasse.equals(segment.getStrasse())) {
@@ -270,7 +269,7 @@ implements MutableSetChangeListener {
 	 * @return die Liste der Baustellen
 	 */
 	public Collection<Baustelle> getBaustellen() {
-		final Collection<Baustelle> result = new ArrayList<Baustelle>();
+		final Collection<Baustelle> result = new ArrayList<>();
 		for (final SystemObject obj : baustellenMenge.getElements()) {
 			final Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
 					.getModellobjekt(obj);
@@ -288,7 +287,7 @@ implements MutableSetChangeListener {
 	 * @return die Liste der Staus
 	 */
 	public Collection<Stau> getStaus() {
-		final ArrayList<Stau> result = new ArrayList<Stau>();
+		final ArrayList<Stau> result = new ArrayList<>();
 		for (final SystemObject stauObject : stauMenge.getElements()) {
 			final Stau stau = (Stau) ObjektFactory.getInstanz()
 					.getModellobjekt(stauObject);

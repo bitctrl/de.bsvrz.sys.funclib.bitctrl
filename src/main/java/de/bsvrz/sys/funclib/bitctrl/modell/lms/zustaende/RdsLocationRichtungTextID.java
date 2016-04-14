@@ -111,7 +111,7 @@ public enum RdsLocationRichtungTextID implements Zustand<Integer> {
 	 * @param code
 	 *            der verwendete Code
 	 */
-	private RdsLocationRichtungTextID(final String name, final int code) {
+	RdsLocationRichtungTextID(final String name, final int code) {
 		this.name = name;
 		this.code = code;
 	}

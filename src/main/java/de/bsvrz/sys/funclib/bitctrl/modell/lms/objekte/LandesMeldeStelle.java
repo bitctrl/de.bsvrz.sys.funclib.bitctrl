@@ -54,7 +54,7 @@ implements MutableSetChangeListener {
 	/**
 	 * Name der Menge, in der die Staus des VerkehrsmodellNetz abgelegt werden.
 	 */
-	public static final String MENGENNAME_MELDUNGEN = "RDSMeldungen"; //$NON-NLS-1$
+	public static final String MENGENNAME_MELDUNGEN = "RDSMeldungen";
 
 	/**
 	 * Logger für Fehlerausgaben.
@@ -83,7 +83,7 @@ implements MutableSetChangeListener {
 
 		if (!obj.isOfType(LmsModellTypen.LANDESMELDESTELLE.getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein gültiges VerkehrsModellNetz."); //$NON-NLS-1$
+					"Systemobjekt ist kein gültiges VerkehrsModellNetz.");
 		}
 
 		meldungsMenge = ((ConfigurationObject) obj)
@@ -146,7 +146,7 @@ implements MutableSetChangeListener {
 	 * @return die Liste der Meldungen
 	 */
 	public Collection<RdsMeldung> getMeldungen() {
-		final Collection<RdsMeldung> result = new ArrayList<RdsMeldung>();
+		final Collection<RdsMeldung> result = new ArrayList<>();
 		for (final SystemObject obj : meldungsMenge.getElements()) {
 			final RdsMeldung meldung = (RdsMeldung) ObjektFactory.getInstanz()
 					.getModellobjekt(obj);
