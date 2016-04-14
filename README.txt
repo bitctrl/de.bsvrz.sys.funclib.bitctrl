@@ -14,33 +14,31 @@ oder potentiell genutzt werden können.
 Versionsgeschichte
 ==================
 
-1.3.1
+1.4.0
 =====
-Übernahme der Änderungen der Firma Kappich im Rahmen der DuA-Überarbeitung
-DuaKonstanten:
-- neue Konstante für ATG "atg.messQuerschnittVirtuell"
+Da die SWE de.bsvrz.sys.funclib.bitctrl perspektivisch durch die bereits existierende 
+Version 2.0 auch auf dem Server ersetzt werden soll, wurden im ersten Schritt die 
+Pakete die von der SWE des Segments DuA verwendet werden in eine eigene SWE 
+"de.bsvrz.sys.funclib.bitctrl.dua" ausgelagert.
 
-AbstraktVerwaltungsAdapter:
-- Betriebsmeldung beim Fehlschlagen der Initialisierung entfernt
+Wenn die Funktionsbibliothek verwendet werden soll, müssen für die DuA-Komponenten
+mindestens folgende Versionen verwendet werden, die auf die neue SWE zurückgreifen:
 
-MessQuerschnittVirtuell:
-- Anteile des VMQ als eigene Klasse "MessQuerschnittAnteile" ausgelagert
-- Debug-Level im Konstruktor auf FINE gesetzt, wenn die ATG "virtuellStandard" nicht versorgt ist
-- Funktionsnamen für die ermittlung der MessQuerschnittAnteile angepasst
-
-AtgMessQuerschnittVirtuell ergänzt
-Schnittstelle MessQuerschnittAnteile ergänzt
-
-AtgMessQuerschnittVirtuellVLage
-- erweitert die neue Schnittstelle MessQuerschnittAnteile
-- Ist der Messquerschnitt von dem die Geschwindigkeit uebernommen werden soll nicht explizit versorgt wird nicht mehr der erste aus der Liste der Anteile genommen
-- getMessQuerschnittGeschwindigkeit liefert gegebenenfalls null und nicht den erstbesten MQ
-
-DUAUmfeldDatenSensor
-- verwendet eine IndentityHashMap für die Verwaltung der Instanzen
-
-UmfeldDatenArt
-- hashCode-Funktion ergänzt
+- SWE 4.6  Abfrage Pufferdaten (de.bsvrz.dua.abfrpuffer) in Version 1.3.0
+- SWE 4.9 Aggregation LVE (de.bsvrz.dua.aggrlve) in Version 1.3.0
+- SWE 4.10 Ergänzung BASt-Band (de.bsvrz.dua.bastband) in Version 1.3.0
+- SWE 4.7 Datenaufbereitung LVE (de.bsvrz.dua.dalve) in Version 1.6.0
+- SWE 4.8 Datenaufbereitung UFD (de.bsvrz.dua.daufd) in Version 1.4.0
+- SWE 4.DeFa DE Fehleranalyse fehlende Messdaten (de.bsvrz.dua.fehlertls) in Version 1.5.0
+- SWE 4.11 Güteberechnung (de.bsvrz.dua.guete) in Version 1.3.0
+- SWE 4.DELzFh DE Langzeit-Fehlererkennung (de.bsvrz.dua.langfehlerlve) in Version 1.5.0
+- SWE 4.5 Messwertersetzung LVE (de.bsvrz.dua.mwelve) in Version 1.4.0
+- SWE 4.12 Messwertersetzung UFD (de.bsvrz.dua.mweufd) in Version 1.3.0
+- SWE 4.1 Pl-Prüfung formal (de.bsvrz.dua.plformal) in Version 1.4.0
+- SWE 4.13 Pl-Prüfung langzeit UFD (de.bsvrz.dua.pllangufd) in Version 1.4.0
+- SWE 4.2 Pl-Prüfung logisch LVE (de.bsvrz.dua.plloglve) in Version 1.3.0
+- SWE 4.3 Pl-Prüfung logisch UFD (de.bsvrz.dua.pllogufd) in Version 1.6.0
+- SWE 4.14 SWE Glättewarnung und -prognose (de.bsvrz.dua.progglaette) in Version 1.3.0
 
 1.3.0
 =====
