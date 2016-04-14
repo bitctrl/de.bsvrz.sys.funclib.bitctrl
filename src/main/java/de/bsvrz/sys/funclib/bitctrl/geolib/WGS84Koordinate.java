@@ -130,14 +130,7 @@ public class WGS84Koordinate {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(breite);
-		result = (prime * result) + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(laenge);
-		result = (prime * result) + (int) (temp ^ (temp >>> 32));
-		return result;
+		throw new UnsupportedOperationException("Kein hashCode() ermittelbar");
 	}
 
 	/**
