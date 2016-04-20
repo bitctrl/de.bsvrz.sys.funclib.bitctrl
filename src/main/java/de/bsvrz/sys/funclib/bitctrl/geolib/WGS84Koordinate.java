@@ -57,12 +57,12 @@ public class WGS84Koordinate {
 	/**
 	 * L&auml;nge.
 	 */
-	private double laenge;
+	private final double laenge;
 
 	/**
 	 * Breite.
 	 */
-	private double breite;
+	private final double breite;
 
 	/**
 	 * Konstruktor f&uuml;r eine WGS84-Koordinate.
@@ -87,29 +87,6 @@ public class WGS84Koordinate {
 		this.breite = breite;
 	}
 
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final WGS84Koordinate other = (WGS84Koordinate) obj;
-		if (Double.doubleToLongBits(breite) != Double
-				.doubleToLongBits(other.breite)) {
-			return false;
-		}
-		if (Double.doubleToLongBits(laenge) != Double
-				.doubleToLongBits(other.laenge)) {
-			return false;
-		}
-		return true;
-	}
-
 	/**
 	 * Gibt die geographische Breite zur&uuml;ck.
 	 *
@@ -126,41 +103,6 @@ public class WGS84Koordinate {
 	 */
 	public double getLaenge() {
 		return laenge;
-	}
-
-	@Override
-	public int hashCode() {
-		throw new UnsupportedOperationException("Kein hashCode() ermittelbar");
-	}
-
-	/**
-	 * Setzt die geographische Breite.
-	 *
-	 * @param neuebreite
-	 *            neue geographische Breite in Dezimalgrad
-	 */
-	public void setBreite(final double neuebreite) {
-		if (testBreite(neuebreite)) {
-			throw new IllegalArgumentException(
-					"Der Wert für die Breite ist ungültig!");
-		}
-
-		breite = neuebreite;
-	}
-
-	/**
-	 * Setzt die geographische L&auml;nge.
-	 *
-	 * @param neuelaenge
-	 *            neue geographische L&auml;nge in Dezimalgrad
-	 */
-	public void setLaenge(final double neuelaenge) {
-		if (testLaenge(neuelaenge)) {
-			throw new IllegalArgumentException(
-					"Der Wert für die Länge ist ungültig!");
-		}
-
-		laenge = neuelaenge;
 	}
 
 	/**
@@ -183,5 +125,38 @@ public class WGS84Koordinate {
 	 */
 	private boolean testLaenge(final double tlaenge) {
 		return ((tlaenge < MIN_LAENGE) || (tlaenge > MAX_LAENGE));
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(breite);
+		result = (prime * result) + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(laenge);
+		result = (prime * result) + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof WGS84Koordinate)) {
+			return false;
+		}
+		final WGS84Koordinate other = (WGS84Koordinate) obj;
+		if (Double.doubleToLongBits(breite) != Double.doubleToLongBits(other.breite)) {
+			return false;
+		}
+		if (Double.doubleToLongBits(laenge) != Double.doubleToLongBits(other.laenge)) {
+			return false;
+		}
+		return true;
 	}
 }

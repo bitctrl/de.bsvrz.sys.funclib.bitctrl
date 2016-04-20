@@ -14,6 +14,11 @@ oder potentiell genutzt werden können.
 Versionsgeschichte
 ==================
 
+1.4.1
+=====
+WGS84Koordinaten haben keiner Setter für Länge und Breite, da ansonsten equals/hashCode
+gegen den API-Kontrakt verstossen
+
 1.4.0
 =====
 Da die SWE de.bsvrz.sys.funclib.bitctrl perspektivisch durch die bereits existierende 
