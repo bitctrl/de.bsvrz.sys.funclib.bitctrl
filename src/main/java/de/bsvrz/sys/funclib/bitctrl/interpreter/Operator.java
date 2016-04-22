@@ -166,6 +166,11 @@ public final class Operator {
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		return getSymbol().hashCode();
+	}
+
 	/**
 	 * Wendet den Operator auf die Menge der Operanden an. Die Operanden werden
 	 * von links nach rechts bzw. in der Reihenfolge der Iteration abgearbeitet.
@@ -244,7 +249,7 @@ public final class Operator {
 	}
 
 	/**
-	 * Gibt das Symbol des Operators zur&uuml;ck
+	 * Gibt das Symbol des Operators zur&uuml;ck.
 	 */
 	@Override
 	public String toString() {
