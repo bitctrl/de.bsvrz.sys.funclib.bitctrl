@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -32,18 +32,18 @@ import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.OdBetrie
 
 /**
  * Beschreibt einen Befehl beim Eintreffen bestimmter Betriebsmeldungen
- * ausgeführt werden soll.
+ * ausgefÃ¼hrt werden soll.
  *
  * @author BitCtrl Systems GmbH, Schumann
  */
 public interface BetriebsmeldungCommand extends Command {
 
 	/**
-	 * Prüft ob eine bestimmte Betriebsmeldung diesen Befehl auslöst.
+	 * PrÃ¼ft ob eine bestimmte Betriebsmeldung diesen Befehl auslÃ¶st.
 	 *
 	 * @param meldung
 	 *            eine Betriebsmeldung.
-	 * @return {@code true}, wenn der Befehl ausgeführt werden soll.
+	 * @return {@code true}, wenn der Befehl ausgefÃ¼hrt werden soll.
 	 */
 	boolean isTrigger(OdBetriebsMeldung.Daten meldung);
 

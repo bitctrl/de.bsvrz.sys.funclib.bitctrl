@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -32,7 +32,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen;
 
 /**
- * Repr‰sentiert die Berechtigungsklasse eines Benutzers des Datenverteilers.
+ * Repr√§sentiert die Berechtigungsklasse eines Benutzers des Datenverteilers.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
@@ -41,7 +41,7 @@ public class Berechtigungsklasse extends AbstractSystemObjekt {
 	/**
 	 * Konstruktor zum Anlegen eines Systemobjekt, das ein Applikationsobjekt
 	 * {@link SystemModellGlobalTypen#Berechtigungsklasse} in der
-	 * Datenverteiler-Konfiguration repr‰sentiert.
+	 * Datenverteiler-Konfiguration repr√§sentiert.
 	 *
 	 * @param obj
 	 *            das Objekt in der Konfiguration des Datenverteilers

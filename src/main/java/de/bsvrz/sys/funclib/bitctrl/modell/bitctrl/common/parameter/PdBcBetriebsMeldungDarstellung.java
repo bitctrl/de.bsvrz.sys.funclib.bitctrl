@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -48,7 +48,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKl
 
 /**
  * Parameter, der die Darstellung von Betriebsmeldungen in einer graphischen
- * Oberfl‰che charakterisiert.
+ * Oberfl√§che charakterisiert.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
@@ -56,7 +56,7 @@ public class PdBcBetriebsMeldungDarstellung extends
 		AbstractParameterDatensatz<PdBcBetriebsMeldungDarstellung.Daten> {
 
 	/**
-	 * Repr‰sentation der Daten des Parameters.
+	 * Repr√§sentation der Daten des Parameters.
 	 */
 	public static class Daten extends AbstractDatum {
 
@@ -184,7 +184,7 @@ public class PdBcBetriebsMeldungDarstellung extends
 		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
-		 * Die Zeit in die Vergangenheit, f¸r die Meldungen initial gecacht
+		 * Die Zeit in die Vergangenheit, f√ºr die Meldungen initial gecacht
 		 * werden sollen.
 		 */
 		private long maxHistory;
@@ -200,7 +200,7 @@ public class PdBcBetriebsMeldungDarstellung extends
 		private List<Darstellung> darstellung = new ArrayList<>();
 
 		/**
-		 * Gibt die Zeit in die Vergangenheit zur¸ck, f¸r die initial
+		 * Gibt die Zeit in die Vergangenheit zur√ºck, f√ºr die initial
 		 * archivierte Meldungen gelesen und gecacht werden.
 		 *
 		 * @return das maximale Alter von archivierten Betriebsmeldungen.
@@ -210,14 +210,14 @@ public class PdBcBetriebsMeldungDarstellung extends
 		}
 
 		/**
-		 * Legt die Zeit in die Vergangenheit fest, f¸r die initial archivierte
+		 * Legt die Zeit in die Vergangenheit fest, f√ºr die initial archivierte
 		 * Meldungen gelesen und gecacht werden.
 		 *
 		 * @param maxHistory
 		 *            das maximale Alter von archivierten Betriebsmeldungen.
 		 */
 		public void setMaxHistory(final long maxHistory) {
-			// Nur der Absolutwert wird ¸bernommen.
+			// Nur der Absolutwert wird √ºbernommen.
 			if (maxHistory >= 0) {
 				this.maxHistory = maxHistory;
 			} else {
@@ -226,7 +226,7 @@ public class PdBcBetriebsMeldungDarstellung extends
 		}
 
 		/**
-		 * Gibt die maximale Anzahl gecachter Meldungen zur¸ck.
+		 * Gibt die maximale Anzahl gecachter Meldungen zur√ºck.
 		 *
 		 * @return die Maximalanzahl gecachter Meldungen.
 		 */
@@ -243,7 +243,7 @@ public class PdBcBetriebsMeldungDarstellung extends
 		public void setMaxAnzahl(final int maxAnzahl) {
 			if (maxAnzahl <= 0) {
 				throw new IllegalArgumentException(
-						"Die maximale Anzahl gecachter Betriebsmeldungen muss grˆﬂer 0 sein.");
+						"Die maximale Anzahl gecachter Betriebsmeldungen muss gr√∂√üer 0 sein.");
 			}
 			this.maxAnzahl = maxAnzahl;
 		}
@@ -333,7 +333,7 @@ public class PdBcBetriebsMeldungDarstellung extends
 		 * @param klasse
 		 *            eine Meldungsklasse.
 		 * @return die passenden Darstellungsparameter oder {@code null}, wenn
-		 *         die Liste keine passenden enth‰lt.
+		 *         die Liste keine passenden enth√§lt.
 		 */
 		public Darstellung getDarstellung(final MeldungsKlasse klasse) {
 			for (final Darstellung d : getDarstellung()) {

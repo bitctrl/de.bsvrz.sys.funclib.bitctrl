@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definitionen für das Attribut Erinnerungstyp innerhalb einer RDS-Meldung.
+ * Definitionen fÃ¼r das Attribut Erinnerungstyp innerhalb einer RDS-Meldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
@@ -39,34 +39,34 @@ public enum RdsErinnerungsTyp implements Zustand<Integer> {
 	KEINE("Keine Erinnerung. ErinnerungsZeit wird ignoriert.", 0),
 
 	/**
-	 * ErinnerungsZeitOffset enthält den Offset seit AktivierungsZeit.
+	 * ErinnerungsZeitOffset enthÃ¤lt den Offset seit AktivierungsZeit.
 	 * ErinnerungsZeit = AktivierungsZeit + ErinnerungsZeitOffset, Wert 1.
 	 */
 	PLUS_OFFSET(
-			"ErinnerungsZeitOffset enthält den Offset seit AktivierungsZeit. ErinnerungsZeit = AktivierungsZeit + ErinnerungsZeitOffset.",
+			"ErinnerungsZeitOffset enthÃ¤lt den Offset seit AktivierungsZeit. ErinnerungsZeit = AktivierungsZeit + ErinnerungsZeitOffset.",
 			1),
 
 	/**
-	 * ErinnerungsZeitOffset enthält den Offset bis AblaufZeit. ErinnerungsZeit
+	 * ErinnerungsZeitOffset enthÃ¤lt den Offset bis AblaufZeit. ErinnerungsZeit
 	 * = AblaufZeit - ErinnerungsZeitOffset, Wert 2.
 	 */
 	MINUS_OFFSET(
-			"ErinnerungsZeitOffset enthält den Offset bis AblaufZeit. ErinnerungsZeit = AblaufZeit - ErinnerungsZeitOffset.",
+			"ErinnerungsZeitOffset enthÃ¤lt den Offset bis AblaufZeit. ErinnerungsZeit = AblaufZeit - ErinnerungsZeitOffset.",
 			2),
 
 	/**
-	 * ErinnerungsZeit enthält den absoluten Zeitpunkt. ErinnerungsZeitOffset
+	 * ErinnerungsZeit enthÃ¤lt den absoluten Zeitpunkt. ErinnerungsZeitOffset
 	 * wird ignoriert, Wert 3.
 	 */
-	ABSOLUT("ErinnerungsZeit enthält den absoluten Zeitpunkt. ErinnerungsZeitOffset wird ignoriert.",
+	ABSOLUT("ErinnerungsZeit enthÃ¤lt den absoluten Zeitpunkt. ErinnerungsZeitOffset wird ignoriert.",
 			3);
 
 	/**
-	 * liefert den Rds-Erinnerungstyp mit dem übergebenen Code.
+	 * liefert den Rds-Erinnerungstyp mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine der Status UNBEKANNT geliefert.
 	 */
 	public static RdsErinnerungsTyp getStatus(final int gesuchterCode) {
@@ -93,10 +93,10 @@ public enum RdsErinnerungsTyp implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für einen RDS-Erinerungstyp mit dem
-	 * übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
+	 * Die Funktion einen eine neue Instanz fÃ¼r einen RDS-Erinerungstyp mit dem
+	 * Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
 	 * nur innerhalb der Klasse verwendet. Es wird eine Menge vordefinierter
-	 * Zustände zur Verfügung gestellt.
+	 * ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definitionen für das Attribut EmpfehlungsCoe innerhalb einer RDS-Meldung.
+ * Definitionen fÃ¼r das Attribut EmpfehlungsCoe innerhalb einer RDS-Meldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
@@ -54,12 +54,12 @@ public final class RdsEmpfehlungsCode implements Zustand<Integer> {
 	private static final Map<String, RdsEmpfehlungsCode> TABELLE_PER_NAME = new HashMap<>();
 
 	/**
-	 * liefert den Empfehlungscode mit dem übergebenen Code.
+	 * liefert den Empfehlungscode mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den eine Empfehlungscode gesucht wird.
-	 * @return der ermittelte Empfehlungscode, wenn ein ungültiger Code
-	 *         übergeben wurde, wird eine {@link IllegalArgumentException}
+	 *            der Code fÃ¼r den eine Empfehlungscode gesucht wird.
+	 * @return der ermittelte Empfehlungscode, wenn ein ungÃ¼ltiger Code
+	 *         Ã¼bergeben wurde, wird eine {@link IllegalArgumentException}
 	 *         geworfen
 	 */
 	public static RdsEmpfehlungsCode getEmpfehlungsCode(
@@ -88,7 +88,7 @@ public final class RdsEmpfehlungsCode implements Zustand<Integer> {
 		}
 
 		if (result == null) {
-			throw new IllegalArgumentException("Für den Code \"" + gesuchterCode
+			throw new IllegalArgumentException("FÃ¼r den Code \"" + gesuchterCode
 					+ "\" ist kein Empfehlungscode im Datenkatalog definiert");
 		}
 
@@ -96,12 +96,12 @@ public final class RdsEmpfehlungsCode implements Zustand<Integer> {
 	}
 
 	/**
-	 * liefert den Empfehlungscode mit dem übergebenen Name.
+	 * liefert den Empfehlungscode mit dem Ã¼bergebenen Name.
 	 *
 	 * @param gesuchterName
-	 *            der Name für den ein Empfehlungscode gesucht wird.
-	 * @return der ermittelte Empfehlungscode, wenn ein ungültiger Name
-	 *         übergeben wurde, wird eine {@link IllegalArgumentException}
+	 *            der Name fÃ¼r den ein Empfehlungscode gesucht wird.
+	 * @return der ermittelte Empfehlungscode, wenn ein ungÃ¼ltiger Name
+	 *         Ã¼bergeben wurde, wird eine {@link IllegalArgumentException}
 	 *         geworfen.
 	 */
 	public static RdsEmpfehlungsCode getEmpfehlungsCode(
@@ -130,7 +130,7 @@ public final class RdsEmpfehlungsCode implements Zustand<Integer> {
 		}
 
 		if (result == null) {
-			throw new IllegalArgumentException("Für den Name \"" + gesuchterName
+			throw new IllegalArgumentException("FÃ¼r den Name \"" + gesuchterName
 					+ "\" ist kein Empfehlungscode im Datenkatalog definiert");
 		}
 
@@ -149,10 +149,10 @@ public final class RdsEmpfehlungsCode implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für eine RDS-Nachrichtensprache mit
-	 * dem übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
+	 * Die Funktion einen eine neue Instanz fÃ¼r eine RDS-Nachrichtensprache mit
+	 * dem Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
 	 * wird nur innerhalb der Klasse verwendet. Es wird eine Menge
-	 * vordefinierter Zustände zur Verfügung gestellt.
+	 * vordefinierter ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

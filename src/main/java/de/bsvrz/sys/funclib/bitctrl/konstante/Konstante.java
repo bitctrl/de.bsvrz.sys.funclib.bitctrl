@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -30,7 +30,7 @@ package de.bsvrz.sys.funclib.bitctrl.konstante;
  * Definition von allgemeinen Konstanten.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
- * @deprecated ‹berschneidet sich sich mit
+ * @deprecated √úberschneidet sich sich mit
  *             {@link de.bsvrz.sys.funclib.bitctrl.util.Konstanten} und
  *             {@link com.bitctrl.Constants}.
  */
@@ -53,7 +53,7 @@ public final class Konstante {
 	/** ein Tag in Millisekunden. */
 	public static final long TAG_24_IN_MS = 24L * 60L * 60L * 1000L;
 
-	/** Faktor f¸r Prozentrechnung. */
+	/** Faktor f√ºr Prozentrechnung. */
 	public static final int PROZENT_FAKTOR = 100;
 
 	/** leere Zeichenkette. */
@@ -62,6 +62,6 @@ public final class Konstante {
 	/** Zeichenkette "unbekannt". */
 	public static final String STRING_UNBEKANNT = "unbekannt";
 
-	/** systemabh‰ngiges Zeichen f¸r einen Zeilenumbruch. */
+	/** systemabh√§ngiges Zeichen f√ºr einen Zeilenumbruch. */
 	public static final String NEWLINE = System.getProperty("line.separator");
 }

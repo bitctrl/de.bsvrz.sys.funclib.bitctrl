@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -31,7 +31,7 @@ import java.util.List;
 import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
 
 /**
- * Schnittstelle f¸r die Repr‰sentation eines Objekts vom Typ "typ.fl‰cheXY"
+ * Schnittstelle f√ºr die Repr√§sentation eines Objekts vom Typ "typ.fl√§cheXY"
  * innerhalb der Datenverteilerkonfiguration.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
@@ -39,7 +39,7 @@ import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
 public interface FlaecheXY extends Flaeche {
 
 	/**
-	 * liefert eine Liste der Koordinatenpunkte, mit denen die Fl‰che definiert
+	 * liefert eine Liste der Koordinatenpunkte, mit denen die Fl√§che definiert
 	 * wird.
 	 *
 	 * @return die Liste der Koordinaten

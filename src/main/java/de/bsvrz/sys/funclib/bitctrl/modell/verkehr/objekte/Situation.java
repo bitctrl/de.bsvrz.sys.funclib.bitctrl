@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -51,7 +51,7 @@ public abstract class Situation extends AbstractSystemObjekt {
 	/**
 	 * Konstruktor.<br>
 	 * Die Funktion erzeugt eine Instanz eines Situation auf der Basis des
-	 * übergebenen Systemobjekts.
+	 * Ã¼bergebenen Systemobjekts.
 	 *
 	 * @param obj
 	 *            das Systemobjekt, das die Situation definiert
@@ -61,19 +61,19 @@ public abstract class Situation extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * fügt der Situation eine Netzreferenz hinzu.
+	 * fÃ¼gt der Situation eine Netzreferenz hinzu.
 	 *
 	 * @param netz
-	 *            das Netz für das eine Referenz hinzugefügt wird.
+	 *            das Netz fÃ¼r das eine Referenz hinzugefÃ¼gt wird.
 	 */
 	public void addNetzReferenz(final VerkehrModellNetz netz) {
 		netze.add(netz);
 	}
 
 	/**
-	 * liefert den in Fahrtrichtung auf die Baustelle folgenden Straßenknoten.
+	 * liefert den in Fahrtrichtung auf die Baustelle folgenden StraÃŸenknoten.
 	 * Wird kein Knoten gefunden liefert die Funktion den Wert <code>null</code>
-	 * zurück.
+	 * zurÃ¼ck.
 	 *
 	 * @return den Knoten oder <code>null</code>
 	 */
@@ -88,10 +88,10 @@ public abstract class Situation extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * liefert die Länge der Situation als Summe der Längen der beteiligten
-	 * Straßensegemente abzüglich des Endoffsets und des Startoffsets.
+	 * liefert die LÃ¤nge der Situation als Summe der LÃ¤ngen der beteiligten
+	 * StraÃŸensegemente abzÃ¼glich des Endoffsets und des Startoffsets.
 	 *
-	 * @return die Länge
+	 * @return die LÃ¤nge
 	 */
 	public double getLaenge() {
 		double result = 0;
@@ -230,9 +230,9 @@ public abstract class Situation extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * liefert den in Fahrtrichtung vor der Baustelle liegenden Straßenknoten.
+	 * liefert den in Fahrtrichtung vor der Baustelle liegenden StraÃŸenknoten.
 	 * Wird kein Knoten gefunden liefert die Funktion den Wert <code>null</code>
-	 * zurück.
+	 * zurÃ¼ck.
 	 *
 	 * @return den Knoten oder <code>null</code>
 	 */

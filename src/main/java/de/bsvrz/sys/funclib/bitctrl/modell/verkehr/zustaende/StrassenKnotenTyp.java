@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,13 +29,13 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definition der Typen eines Straßenknotens.
+ * Definition der Typen eines StraÃŸenknotens.
  *
  * @author BitCtrl Systems GmbH, Peuker
  */
 public enum StrassenKnotenTyp implements Zustand<Integer> {
 	/**
-	 * Allgemeiner nicht näher definierter Knoten.
+	 * Allgemeiner nicht nÃ¤her definierter Knoten.
 	 */
 	SONSTIG("SonstigerKnoten", 0), /**
 	 * ein Autobahnkreuz.
@@ -52,11 +52,11 @@ public enum StrassenKnotenTyp implements Zustand<Integer> {
 	AUTOBAHNENDE("AutobahnEnde", 4);
 
 	/**
-	 * liefert den Straßenknotentyp, der dem übergebenen Code entspricht.
+	 * liefert den StraÃŸenknotentyp, der dem Ã¼bergebenen Code entspricht.
 	 *
 	 * @param gesuchterCode
-	 *            der Code, für den ein Straßenknoten
-	 * @return den gefundenen Typ, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code, fÃ¼r den ein StraÃŸenknoten
+	 * @return den gefundenen Typ, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine {@link IllegalArgumentException} geworfen.
 	 */
 	public static StrassenKnotenTyp getTyp(final int gesuchterCode) {
@@ -67,7 +67,7 @@ public enum StrassenKnotenTyp implements Zustand<Integer> {
 		}
 
 		throw new IllegalArgumentException(
-				"Ungültiger Typ mit Code: " + gesuchterCode);
+				"UngÃ¼ltiger Typ mit Code: " + gesuchterCode);
 	}
 
 	/**
@@ -82,9 +82,9 @@ public enum StrassenKnotenTyp implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion erzeugt einen Straßenknotentyp mit dem gegebenen Code und
-	 * der zugehörigen Bezeichnung. Die Funktion wird nur innerhalb der Klasse
-	 * verwendet um eine Mange an Strßenknoten zur Verfügung zu stellen.
+	 * Die Funktion erzeugt einen StraÃŸenknotentyp mit dem gegebenen Code und
+	 * der zugehÃ¶rigen Bezeichnung. Die Funktion wird nur innerhalb der Klasse
+	 * verwendet um eine Mange an StrÃŸenknoten zur VerfÃ¼gung zu stellen.
 	 *
 	 * @param name
 	 *            der Name des Typs

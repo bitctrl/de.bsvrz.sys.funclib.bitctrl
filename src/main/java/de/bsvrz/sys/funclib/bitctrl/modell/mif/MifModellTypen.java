@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.mif.objekte.Ortsname;
 
 /**
  * Definition der Typen, die von {@link MifModellFactory} angelegt werden
- * kˆnnen.
+ * k√∂nnen.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
@@ -47,8 +47,8 @@ public enum MifModellTypen implements SystemObjektTyp {
 	/** die Grenzen eines Ortes. */
 	ORTSLAGE("typ.Ortslage", Ortslage.class),
 
-	/** die Grenzen eines Gew‰ssers. */
-	GEWAESSER("typ.gew‰sser", Gewaesser.class),
+	/** die Grenzen eines Gew√§ssers. */
+	GEWAESSER("typ.gew√§sser", Gewaesser.class),
 
 	/** Eine Ortsbezeichung. */
 	ORTSNAME("typ.Ortsname", Ortsname.class);

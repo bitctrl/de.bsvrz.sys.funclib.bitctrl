@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -27,14 +27,14 @@
 package de.bsvrz.sys.funclib.bitctrl.daf;
 
 /**
- * Schnittstelle für eine Klasse zur Bestimmung der ID für eine Betriebsmeldung.
+ * Schnittstelle fÃ¼r eine Klasse zur Bestimmung der ID fÃ¼r eine Betriebsmeldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
 public interface BetriebsmeldungIdKonverter {
 
 	/**
-	 * bestimt die ID für eine Betriebsmeldung mit den übergebenen Daten.
+	 * bestimt die ID fÃ¼r eine Betriebsmeldung mit den Ã¼bergebenen Daten.
 	 *
 	 * @param daten
 	 *            die Daten zur Definition der Betriebsmeldung

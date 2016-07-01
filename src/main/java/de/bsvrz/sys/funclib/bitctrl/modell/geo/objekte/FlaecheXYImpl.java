@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -39,22 +39,22 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.geo.GeoModellTypen;
 
 /**
- * Implementierung eines Fl‰schenobjekts ("typ.fl‰cheXY"). Instanzen dieser
- * Klasse werden normalerweise nur ¸ber eine ObjektFactory angelegt und sollten
- * ¸ber das Interface {@link FlaecheXY} verwendet werden.
+ * Implementierung eines Fl√§schenobjekts ("typ.fl√§cheXY"). Instanzen dieser
+ * Klasse werden normalerweise nur √ºber eine ObjektFactory angelegt und sollten
+ * √ºber das Interface {@link FlaecheXY} verwendet werden.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
 public class FlaecheXYImpl extends AbstractSystemObjekt implements FlaecheXY {
 
 	/**
-	 * die Koordinaten der Fl‰che.
+	 * die Koordinaten der Fl√§che.
 	 */
 	private List<Punkt> koordinaten;
 
 	/**
 	 * Standardkonstruktor. Es wird ein Systemobjekt erzeugt, das in der
-	 * Datenverteilerkonfiguration durch das ¸bergebene Objekt repr‰sentiert
+	 * Datenverteilerkonfiguration durch das √ºbergebene Objekt repr√§sentiert
 	 * wird.
 	 *
 	 * @param obj
@@ -70,7 +70,7 @@ public class FlaecheXYImpl extends AbstractSystemObjekt implements FlaecheXY {
 		if (koordinaten == null) {
 			koordinaten = new ArrayList<>();
 			final AttributeGroup atg = getSystemObject().getDataModel()
-					.getAttributeGroup("atg.fl‰chenKoordinaten");
+					.getAttributeGroup("atg.fl√§chenKoordinaten");
 
 			DataCache.cacheData(getSystemObject().getType(), atg);
 			final Data datum = getSystemObject().getConfigurationData(atg);

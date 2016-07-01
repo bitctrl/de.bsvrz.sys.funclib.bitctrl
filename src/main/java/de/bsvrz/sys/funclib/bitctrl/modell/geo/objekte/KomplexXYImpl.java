@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -40,14 +40,14 @@ import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Implementierung eines KomplexXY-Objektes, das durch ein SystemObjekt
- * innerhalb der Datenverteiler-Konfiguration repr‰sentiert wird.
+ * innerhalb der Datenverteiler-Konfiguration repr√§sentiert wird.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
 public class KomplexXYImpl extends AbstractSystemObjekt implements KomplexXY {
 
 	/**
-	 * Logger f¸r Debugausgaben.
+	 * Logger f√ºr Debugausgaben.
 	 */
 	private static final Debug LOGGER = Debug.getLogger();
 
@@ -62,7 +62,7 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements KomplexXY {
 	private List<Linie> linien;
 
 	/**
-	 * die Liste der Fl‰chen des Objekts.
+	 * die Liste der Fl√§chen des Objekts.
 	 */
 	private List<Flaeche> flaechen;
 
@@ -73,8 +73,8 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements KomplexXY {
 
 	/**
 	 * Konstruktor. Die Funktion erstellt ein Komplexes Objekt, das durch das
-	 * ¸bergebenen Objekt innerhalb der Datenverteilerkonfiguration
-	 * repr‰sentiert ist.
+	 * √ºbergebenen Objekt innerhalb der Datenverteilerkonfiguration
+	 * repr√§sentiert ist.
 	 *
 	 * @param obj
 	 *            das Objekt
@@ -84,7 +84,7 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements KomplexXY {
 	}
 
 	/**
-	 * liest die Objekte von der Datenverteiler-Konfiguration aus und f¸llt die
+	 * liest die Objekte von der Datenverteiler-Konfiguration aus und f√ºllt die
 	 * internen Strukturen.
 	 */
 	private void fuelleObjektListen() {
@@ -97,7 +97,7 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements KomplexXY {
 		final Data daten = getSystemObject().getConfigurationData(
 				model.getAttributeGroup("atg.komplexKoordinaten"));
 		if (daten != null) {
-			Data.Array array = daten.getArray("Fl‰chenReferenz");
+			Data.Array array = daten.getArray("Fl√§chenReferenz");
 			if (array != null) {
 				for (int idx = 0; idx < array.getLength(); idx++) {
 					final Flaeche neuesObjekt = (FlaecheXY) ObjektFactory
@@ -106,7 +106,7 @@ public class KomplexXYImpl extends AbstractSystemObjekt implements KomplexXY {
 					if (neuesObjekt != null) {
 						flaechen.add(neuesObjekt);
 					} else {
-						LOGGER.warning("Fl‰chenobjekt: "
+						LOGGER.warning("Fl√§chenobjekt: "
 								+ array.getReferenceValue(idx).getSystemObject()
 								+ " konnte nicht angelegt werden");
 					}

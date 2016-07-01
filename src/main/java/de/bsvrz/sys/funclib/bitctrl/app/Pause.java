@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -32,7 +32,7 @@ import de.bsvrz.dav.daf.main.ClientDavInterface;
 
 /**
  * Allgemeine Klasse zum Pausieren eines Threads.<br>
- * Der Thread wird für die angegebene Zeit suspendiert. Wird die gewünschte
+ * Der Thread wird fÃ¼r die angegebene Zeit suspendiert. Wird die gewÃ¼nschte
  * Pausenzeit unterbrochen, wird dies ignoriert, d.h. die Dauer der Pause ist
  * nicht sichergestellt.
  *
@@ -47,10 +47,10 @@ public final class Pause {
 
 	/**
 	 * die Funktion wird verlassen, bis der angebenen Zeitpunkt erreicht ist.
-	 * Die Angabe des Zeitpunkts erfolgt absolut in Millisekunden. Die Auflösung
-	 * beträgt 1 Sekunde.
+	 * Die Angabe des Zeitpunkts erfolgt absolut in Millisekunden. Die AuflÃ¶sung
+	 * betrÃ¤gt 1 Sekunde.
 	 *
-	 * TODO Auflösung verbessern
+	 * TODO AuflÃ¶sung verbessern
 	 *
 	 * @param endzeitpunkt
 	 *            der Zeitpunkt
@@ -66,8 +66,8 @@ public final class Pause {
 	}
 
 	/**
-	 * die Funktion suspendiert die Ausführung des aufrufenden Threads für die
-	 * gegebene Zeit oder kürzer.
+	 * die Funktion suspendiert die AusfÃ¼hrung des aufrufenden Threads fÃ¼r die
+	 * gegebene Zeit oder kÃ¼rzer.
 	 *
 	 * @param millisekunden
 	 *            die Dauer in Millisekunden
@@ -76,7 +76,7 @@ public final class Pause {
 		try {
 			Thread.sleep(millisekunden);
 		} catch (final InterruptedException e) {
-			// wird vernachlässigt
+			// wird vernachlÃ¤ssigt
 		}
 	}
 

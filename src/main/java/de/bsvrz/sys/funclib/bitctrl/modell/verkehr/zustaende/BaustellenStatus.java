@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definitionen für den Status einer Baustelle gemäß Datenkatalog.
+ * Definitionen fÃ¼r den Status einer Baustelle gemÃ¤ÃŸ Datenkatalog.
  *
  * @author BitCtrl Systems GmbH, Peuker
  */
@@ -38,24 +38,24 @@ public enum BaustellenStatus implements Zustand<Integer> {
 	 * Baustelle befindet sich noch im Entwurfsstadium.
 	 */
 	ENTWORFEN("entworfen", 0), /**
-	 * Baustelle ist vollständig geplant.
+	 * Baustelle ist vollstÃ¤ndig geplant.
 	 */
 	GEPLANT("geplant", 1), /**
-	 * Baustelle ist gültig und wird bei Berechnungen
-	 * und Prognosen berücksichtigt.
+	 * Baustelle ist gÃ¼ltig und wird bei Berechnungen
+	 * und Prognosen berÃ¼cksichtigt.
 	 */
-	GUELTIG("gültig", 2), /**
+	GUELTIG("gÃ¼ltig", 2), /**
 	 * Baustelle ist storniert und wird bei Berechnungen
-	 * und Prognosen NICHT mehr berücksichtigt.
+	 * und Prognosen NICHT mehr berÃ¼cksichtigt.
 	 */
 	STORNIERT("storniert", 3);
 
 	/**
-	 * liefert den Baustellenstatus mit dem übergebenen Code.
+	 * liefert den Baustellenstatus mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine der Status ENTWORFEN geliefert.
 	 */
 	public static BaustellenStatus getStatus(final int gesuchterCode) {
@@ -71,10 +71,10 @@ public enum BaustellenStatus implements Zustand<Integer> {
 	}
 
 	/**
-	 * liefert den Baustellenstatus mit dem übergebenen Test.
+	 * liefert den Baustellenstatus mit dem Ã¼bergebenen Test.
 	 *
 	 * @param text
-	 *            der Statustext für den ein Zustand gesucht wird.
+	 *            der Statustext fÃ¼r den ein Zustand gesucht wird.
 	 * @return der ermittelte Code
 	 */
 	public static BaustellenStatus getStatus(final String text) {
@@ -100,10 +100,10 @@ public enum BaustellenStatus implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für einen Störfallzustand mit dem
-	 * übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
+	 * Die Funktion einen eine neue Instanz fÃ¼r einen StÃ¶rfallzustand mit dem
+	 * Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
 	 * nur innerhalb der Klasse verwendet. Es wird eine Menge vordefinierter
-	 * Zustände zur Verfügung gestellt.
+	 * ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

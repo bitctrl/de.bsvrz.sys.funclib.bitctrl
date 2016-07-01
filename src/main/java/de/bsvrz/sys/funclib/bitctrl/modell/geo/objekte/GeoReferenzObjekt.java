@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,13 +29,13 @@ package de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
 /**
- * Schnittstelle f¸r die Repr‰sentation eines Georeferenzobjekts
+ * Schnittstelle f√ºr die Repr√§sentation eines Georeferenzobjekts
  * ("typ.geoReferenzObjekt").
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
 public interface GeoReferenzObjekt extends SystemObjekt {
-	// Die Schnittstelle hat keine spezielle Funktionalit‰t und dient lediglich
+	// Die Schnittstelle hat keine spezielle Funktionalit√§t und dient lediglich
 	// der Abbildung der Objektstruktur entsprechend der
 	// Datenverteiler-Konfiguration.
 }

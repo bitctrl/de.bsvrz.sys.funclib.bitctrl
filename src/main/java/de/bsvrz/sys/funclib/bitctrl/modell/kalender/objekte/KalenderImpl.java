@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -142,7 +142,7 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 		co = (ConfigurationObject) getSystemObject();
 		ereignisTypen = co.getMutableSet("EreignisTypen");
 		ereignisse = co.getMutableSet("Ereignisse");
-		systemKalenderEintraege = co.getMutableSet("SystemKalenderEinträge");
+		systemKalenderEintraege = co.getMutableSet("SystemKalenderEintrÃ¤ge");
 	}
 
 	@Override
@@ -302,10 +302,10 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 	}
 
 	/**
-	 * Teilt den angemeldeten Listener die Änderung der Ereignismenge mit.
+	 * Teilt den angemeldeten Listener die Ã„nderung der Ereignismenge mit.
 	 *
 	 * @param hinzu
-	 *            die Menge der hinzugefügten Ereignisse.
+	 *            die Menge der hinzugefÃ¼gten Ereignisse.
 	 * @param entfernt
 	 *            die Menge der entfernten Ereignisse.
 	 */
@@ -321,10 +321,10 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 	}
 
 	/**
-	 * Teilt den angemeldeten Listener die Änderung der Ereignistypmenge mit.
+	 * Teilt den angemeldeten Listener die Ã„nderung der Ereignistypmenge mit.
 	 *
 	 * @param hinzu
-	 *            die Menge der hinzugefügten Ereignistypen.
+	 *            die Menge der hinzugefÃ¼gten Ereignistypen.
 	 * @param entfernt
 	 *            die Menge der entfernten Ereignistypen.
 	 */
@@ -340,13 +340,13 @@ public class KalenderImpl extends AbstractSystemObjekt implements Kalender {
 	}
 
 	/**
-	 * Teilt den angemeldeten Listener die Änderung der Menge der
-	 * Systemkalendereinträge mit.
+	 * Teilt den angemeldeten Listener die Ã„nderung der Menge der
+	 * SystemkalendereintrÃ¤ge mit.
 	 *
 	 * @param hinzu
-	 *            die Menge der hinzugefügten Systemkalendereinträge.
+	 *            die Menge der hinzugefÃ¼gten SystemkalendereintrÃ¤ge.
 	 * @param entfernt
-	 *            die Menge der entfernten Systemkalendereinträge.
+	 *            die Menge der entfernten SystemkalendereintrÃ¤ge.
 	 */
 	protected void fireSystemKalenderEintragAktualisiert(
 			final Set<SystemKalenderEintrag> hinzu,

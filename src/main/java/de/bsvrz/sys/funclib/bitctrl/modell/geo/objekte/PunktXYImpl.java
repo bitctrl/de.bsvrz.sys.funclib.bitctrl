@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -49,7 +49,7 @@ public class PunktXYImpl extends AbstractSystemObjekt implements PunktXY {
 	 *
 	 * @param obj
 	 *            das Objekt, mit dem der Punkt innerhalb der
-	 *            Datenverteiler-Konfiguration repr‰sentiert ist.
+	 *            Datenverteiler-Konfiguration repr√§sentiert ist.
 	 */
 	public PunktXYImpl(final SystemObject obj) {
 		super(obj);

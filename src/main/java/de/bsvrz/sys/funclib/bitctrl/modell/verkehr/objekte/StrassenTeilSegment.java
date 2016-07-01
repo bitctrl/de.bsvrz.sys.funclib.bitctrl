@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -57,8 +57,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende.Verkehrsrichtung;
 public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 
 	/**
-	 * Eintrag f¸r die Konfiguration der AsbStationierung (eines
-	 * Straﬂenteilsegments).
+	 * Eintrag f√ºr die Konfiguration der AsbStationierung (eines
+	 * Stra√üenteilsegments).
 	 */
 	public class AsbStationierung {
 
@@ -73,7 +73,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 		 * TTTTnnnB, wobei TTTT die vierstellige TK25-Blattnummer und nnn die
 		 * dreistellige laufende Nummer ist, die zusammen die bundesweit
 		 * eindeutige Netzknotennummer darstellen. Durch die Kennung B (ein
-		 * Zeichen) wird zus‰tzlich der Nullpunkt des Abschnitts oder Astes
+		 * Zeichen) wird zus√§tzlich der Nullpunkt des Abschnitts oder Astes
 		 * eindeutig festgelegt. Eine nicht vorhandene Kennung wird als o(hne)
 		 * eingetragen.
 		 */
@@ -84,7 +84,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 		 * oder Astes. Die Nullpunktbezeichung hat die Form TTTTnnnB, wobei TTTT
 		 * die vierstellige TK25-Blattnummer und nnn die dreistellige laufende
 		 * Nummer ist, die zusammen die bundesweit eindeutige Netzknotennummer
-		 * darstellen. Durch die Kennung B (ein Zeichen) wird zus‰tzlich der
+		 * darstellen. Durch die Kennung B (ein Zeichen) wird zus√§tzlich der
 		 * Nullpunkt des Abschnitts oder Astes eindeutig festgelegt. Eine nicht
 		 * vorhandene Kennung wird als o(hne) eingetragen.
 		 */
@@ -102,16 +102,16 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 
 		/**
 		 * Angabe des Richtungsbezugs der ASB-Stationierung relativ zur Richtung
-		 * des Straﬂensegments.
+		 * des Stra√üensegments.
 		 */
 		private final Verkehrsrichtung verkehrsRichtung;
 
 		/**
-		 * Konstruktor, erzeugt einen leeren Datensatz und f¸llt ihn mit den
-		 * Informationen aus den ¸bergebenen Datenverteilerinformnationen.
+		 * Konstruktor, erzeugt einen leeren Datensatz und f√ºllt ihn mit den
+		 * Informationen aus den √ºbergebenen Datenverteilerinformnationen.
 		 *
 		 * @param daten
-		 *            die Daten f¸r die Initialisierung
+		 *            die Daten f√ºr die Initialisierung
 		 */
 		public AsbStationierung(final Data daten) {
 			if (daten != null) {
@@ -189,8 +189,8 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 
 	/**
 	 *
-	 * Eintrag f¸r die Konfiguration der Betriebskilometer (eines
-	 * Straﬂenteilsegments).
+	 * Eintrag f√ºr die Konfiguration der Betriebskilometer (eines
+	 * Stra√üenteilsegments).
 	 */
 	public class BetriebsKilometer {
 
@@ -203,17 +203,17 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 		 */
 		private final long wert;
 		/**
-		 * Blocknummer f¸r diesen Betriebskilometer. F¸r eine Straﬂe ist die
+		 * Blocknummer f√ºr diesen Betriebskilometer. F√ºr eine Stra√üe ist die
 		 * Kombinaiton aus Betriebskilometer und Blocknummer eindeutig.
 		 */
 		private final String blockNummer;
 
 		/**
-		 * Konstruktor, erzeugt einen leeren Datensatz und f¸llt ihn mit den
-		 * Informationen aus den ¸bergebenen Datenverteilerinformnationen.
+		 * Konstruktor, erzeugt einen leeren Datensatz und f√ºllt ihn mit den
+		 * Informationen aus den √ºbergebenen Datenverteilerinformnationen.
 		 *
 		 * @param daten
-		 *            die Daten f¸r die Initialisierung
+		 *            die Daten f√ºr die Initialisierung
 		 */
 		public BetriebsKilometer(final Data daten) {
 			if (daten != null) {
@@ -256,7 +256,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	}
 
 	/**
-	 * markiert, ob die zugeordneten Straﬂensegmente bereits ermittelt wurden.
+	 * markiert, ob die zugeordneten Stra√üensegmente bereits ermittelt wurden.
 	 */
 	private static boolean segmenteInitialisiert;
 
@@ -266,8 +266,8 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	private static boolean messQuerschnitteZugeordnet;
 
 	/**
-	 * das Objekt, mit dem die Linieneigenschaften des Straﬂenteilsegments
-	 * repr‰sentiert werden.
+	 * das Objekt, mit dem die Linieneigenschaften des Stra√üenteilsegments
+	 * repr√§sentiert werden.
 	 */
 	private final LinieXY linie;
 
@@ -280,10 +280,10 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	/** Steigung (positiv) oder Gef&auml;lle (negativ) des Segments. */
 	private int steigungGefaelle = -200; // undefiniert
 
-	/** Liste der ASB-Stationierungs-Eintr‰ge. */
+	/** Liste der ASB-Stationierungs-Eintr√§ge. */
 	private List<AsbStationierung> asbStationierung;
 
-	/** Liste der Betriebskilometer-Eintr‰ge. */
+	/** Liste der Betriebskilometer-Eintr√§ge. */
 	private List<BetriebsKilometer> betriebsKilometer;
 
 	/**
@@ -314,7 +314,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Straﬂenteilsegment.");
+					"Systemobjekt ist kein Stra√üenteilsegment.");
 		}
 	}
 
@@ -383,7 +383,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	}
 
 	/**
-	 * liefert die konfigurierten Koordinaten des Straﬂenteilsegments.
+	 * liefert die konfigurierten Koordinaten des Stra√üenteilsegments.
 	 *
 	 * @return die Koordinaten
 	 */
@@ -440,7 +440,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 * Gibt den Offset auf dem Stra&szlig;ensegment zur&uuml;ck, bei dem das
 	 * Stra&szlig;enteilsegment beginnt.
 	 *
-	 * @deprecated Es wird nur das erste Straﬂensegment zur Berechnung des
+	 * @deprecated Es wird nur das erste Stra√üensegment zur Berechnung des
 	 * Offsets verwendet. Stattdessen sollte die Funktion
 	 * {@link StrassenSegment#getTeilSegmentOffset(StrassenTeilSegment)}
 	 * verwendet werden
@@ -527,16 +527,16 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 			final Data datum;
 
 			modell = getSystemObject().getDataModel();
-			atg = modell.getAttributeGroup("atg.straﬂenTeilSegment");
+			atg = modell.getAttributeGroup("atg.stra√üenTeilSegment");
 
 			DataCache.cacheData(getSystemObject().getType(), atg);
 
 			datum = getSystemObject().getConfigurationData(atg);
 			if (datum != null) {
-				laenge = datum.getScaledValue("L‰nge").floatValue();
+				laenge = datum.getScaledValue("L√§nge").floatValue();
 				anzahlFahrStreifen = datum
 						.getUnscaledValue("AnzahlFahrStreifen").intValue();
-				steigungGefaelle = datum.getUnscaledValue("SteigungGef‰lle")
+				steigungGefaelle = datum.getUnscaledValue("SteigungGef√§lle")
 						.intValue();
 			} else {
 				laenge = 0;

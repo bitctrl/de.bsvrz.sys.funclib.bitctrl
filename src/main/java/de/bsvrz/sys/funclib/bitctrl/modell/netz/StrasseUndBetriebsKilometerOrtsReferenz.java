@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -30,7 +30,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.netz.NetzInterface.FahrtRichtung;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Strasse;
 
 /**
- * Rep&auml;sentiert eine Ortsreferenz, bei der die Ortsangabe ¸ber eine
+ * Rep&auml;sentiert eine Ortsreferenz, bei der die Ortsangabe √ºber eine
  * Stra&szlig;e und den Betriebskilometer dargestellt wird.
  *
  * @author BitCtrl Systems GmbH, Gieseler
@@ -41,7 +41,7 @@ public class StrasseUndBetriebsKilometerOrtsReferenz implements StrasseUndBetrie
 	/** Betriebskilometer auf der Stra&szlig;e in Metern. */
 	private final long betriebsKilometer;
 
-	/** Blocknummer des Betriebskilometers auf der Straﬂe. */
+	/** Blocknummer des Betriebskilometers auf der Stra√üe. */
 	private final int blockNummer;
 
 	/** Richtung auf dem Stra&szlig;enSegment. */

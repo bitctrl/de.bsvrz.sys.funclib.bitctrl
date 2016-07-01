@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -32,7 +32,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 
 /**
- * Repr&auml;ssentiert einen Störfallindikator innerhalb der
+ * Repr&auml;ssentiert einen StÃ¶rfallindikator innerhalb der
  * Modellobjektverwaltung.
  *
  * @author BitCtrl Systems GmbH, Schumann, Peuker
@@ -40,16 +40,16 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 public class StoerfallIndikator extends AbstractSystemObjekt {
 
 	/**
-	 * Attributname für die Speicherung des aktuellen Störfallzustands des
+	 * Attributname fÃ¼r die Speicherung des aktuellen StÃ¶rfallzustands des
 	 * Indikators.
 	 */
 	public static final String ATT_NAME_SITUATION = "Situation";
 
 	/**
-	 * Erzeugt einen Störfallindikator aus einem Systemobjekt.
+	 * Erzeugt einen StÃ¶rfallindikator aus einem Systemobjekt.
 	 *
 	 * @param obj
-	 *            Ein Systemobjekt, welches ein StörfallIndikator sein muss
+	 *            Ein Systemobjekt, welches ein StÃ¶rfallIndikator sein muss
 	 * @throws IllegalArgumentException
 	 */
 	public StoerfallIndikator(final SystemObject obj) {
@@ -57,7 +57,7 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Störfallindikator.");
+					"Systemobjekt ist kein StÃ¶rfallindikator.");
 		}
 	}
 

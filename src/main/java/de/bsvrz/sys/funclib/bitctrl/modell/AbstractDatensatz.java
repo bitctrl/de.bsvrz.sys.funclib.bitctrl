@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -310,7 +310,7 @@ implements Datensatz<T> {
 						"Die Sendesteuerung hat das Senden verboten, weil keine ausreichenden Rechte vorhanden sind.");
 			case ANMELDUNG_UNGUELTIG:
 				throw new DatensendeException(
-						"Die Sendesteuerung hat das Senden verboten, weil die Anmeldung ungültig ist (doppelte Quelle?).");
+						"Die Sendesteuerung hat das Senden verboten, weil die Anmeldung ungÃ¼ltig ist (doppelte Quelle?).");
 			default:
 				// Sendesteuerung ist positiv
 			}
@@ -332,7 +332,7 @@ implements Datensatz<T> {
 	}
 
 	/**
-	 * Standardtimeout von {@value} Millisekunden für das Senden und Empfangen
+	 * Standardtimeout von {@value} Millisekunden fÃ¼r das Senden und Empfangen
 	 * von Daten.
 	 */
 	private static final long TIMEOUT = 60 * MILLIS_PER_SECOND;
@@ -409,7 +409,7 @@ implements Datensatz<T> {
 	}
 
 	/**
-	 * Liefert die aktuellen Daten des Datensatzes. Es wird der für den Aspekt
+	 * Liefert die aktuellen Daten des Datensatzes. Es wird der fÃ¼r den Aspekt
 	 * gespeicherte Datensatz geliefert, falls keiner existiert werden die Daten
 	 * mittels
 	 * {@link ClientDavInterface#getData(SystemObject, DataDescription, long)}
@@ -456,12 +456,12 @@ implements Datensatz<T> {
 			listeners.put(asp, new EventListenerList());
 		}
 
-		// Listener für Aspekt registrieren
+		// Listener fÃ¼r Aspekt registrieren
 		anmelden = listeners.get(asp)
 				.getListenerCount(DatensatzUpdateListener.class) == 0;
 		listeners.get(asp).add(DatensatzUpdateListener.class, listener);
 
-		// Unter Aspekt als Empfänger anmelden
+		// Unter Aspekt als EmpfÃ¤nger anmelden
 		if (anmelden) {
 			receiver.anmelden(asp);
 		}
@@ -497,7 +497,7 @@ implements Datensatz<T> {
 				.equals(getAttributGruppe())) {
 			throw new IllegalArgumentException(
 					"Das Datum muss zur Attributgruppe " + getAttributGruppe()
-					+ " gehören (gefunden: "
+					+ " gehÃ¶ren (gefunden: "
 					+ result.getDataDescription().getAttributeGroup()
 					+ ").");
 		}
@@ -630,7 +630,7 @@ implements Datensatz<T> {
 
 	/**
 	 * Deregistriert einen Listener. Beim Versuch einen nicht registrierten
-	 * Listener zu entfernen, wird keine Aktion ausgeführt.
+	 * Listener zu entfernen, wird keine Aktion ausgefÃ¼hrt.
 	 *
 	 * @param asp
 	 *            der betroffene Aspekt.
@@ -679,7 +679,7 @@ implements Datensatz<T> {
 	 * @param datum
 	 *            das zu sendende Datum.
 	 * @param timeout
-	 *            die Zeitspanne in der die Daten gesendet werden müssen.
+	 *            die Zeitspanne in der die Daten gesendet werden mÃ¼ssen.
 	 * @throws DatensendeException
 	 *             wenn die Daten nicht gesendet werden konnten. Der Sendecache
 	 *             wird in dem Fall nicht geleert.

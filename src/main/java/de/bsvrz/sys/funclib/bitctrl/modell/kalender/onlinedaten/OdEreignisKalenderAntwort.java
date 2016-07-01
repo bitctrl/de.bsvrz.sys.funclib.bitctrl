@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -344,9 +344,9 @@ extends AbstractOnlineDatensatz<OdEreignisKalenderAntwort.Daten> {
 		daten.getTextValue("absenderZeichen")
 		.setText(datum.getAbsenderZeichen());
 		if (datum.isAenderung()) {
-			daten.getUnscaledValue("änderung").set(1);
+			daten.getUnscaledValue("Ã¤nderung").set(1);
 		} else {
-			daten.getUnscaledValue("änderung").set(0);
+			daten.getUnscaledValue("Ã¤nderung").set(0);
 		}
 
 		feld = daten.getArray("Ereignis");
@@ -358,14 +358,14 @@ extends AbstractOnlineDatensatz<OdEreignisKalenderAntwort.Daten> {
 			feld.getItem(i++).getReferenceValue("")
 			.setSystemObject(z.getEreignis().getSystemObject());
 			if (z.isZeitlichGueltig()) {
-				feld.getItem(i++).getUnscaledValue("zeitlichGültig").set(1);
+				feld.getItem(i++).getUnscaledValue("zeitlichGÃ¼ltig").set(1);
 			} else {
-				feld.getItem(i++).getUnscaledValue("zeitlichGültig").set(0);
+				feld.getItem(i++).getUnscaledValue("zeitlichGÃ¼ltig").set(0);
 			}
 			if (z.isVerkehrlichGueltig()) {
-				feld.getItem(i++).getUnscaledValue("verkehrlichGültig").set(1);
+				feld.getItem(i++).getUnscaledValue("verkehrlichGÃ¼ltig").set(1);
 			} else {
-				feld.getItem(i++).getUnscaledValue("verkehrlichGültig").set(0);
+				feld.getItem(i++).getUnscaledValue("verkehrlichGÃ¼ltig").set(0);
 			}
 		}
 
@@ -386,7 +386,7 @@ extends AbstractOnlineDatensatz<OdEreignisKalenderAntwort.Daten> {
 			datum.setAbsenderZeichen(
 					daten.getTextValue("absenderZeichen").getText());
 			datum.setAenderung(
-					daten.getUnscaledValue("änderung").intValue() == 1);
+					daten.getUnscaledValue("Ã¤nderung").intValue() == 1);
 
 			feld = daten.getArray("Ereignis");
 			for (int i = 0; i < feld.getLength(); i++) {
@@ -404,9 +404,9 @@ extends AbstractOnlineDatensatz<OdEreignisKalenderAntwort.Daten> {
 				ereignis = (Ereignis) ObjektFactory.getInstanz()
 						.getModellobjekt(ereignisSO);
 				zeitlichGueltig = feld.getItem(i)
-						.getUnscaledValue("zeitlichGültig").intValue() != 0;
+						.getUnscaledValue("zeitlichGÃ¼ltig").intValue() != 0;
 				verkehrlichGueltig = feld.getItem(i)
-						.getUnscaledValue("verkehrlichGültig").intValue() != 0;
+						.getUnscaledValue("verkehrlichGÃ¼ltig").intValue() != 0;
 				datum.getZustandswechsel()
 				.add(new Daten.Zustandswechsel(zeitstempel, ereignis,
 						zeitlichGueltig, verkehrlichGueltig));

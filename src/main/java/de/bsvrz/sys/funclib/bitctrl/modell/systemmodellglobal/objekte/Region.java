@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -39,7 +39,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen;
 
 /**
- * Repr‰sentiert eine Region des Datenverteilers im Sinne der Nutzerrechte.
+ * Repr√§sentiert eine Region des Datenverteilers im Sinne der Nutzerrechte.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
@@ -54,7 +54,7 @@ public class Region extends AbstractSystemObjekt {
 	/**
 	 * Konstruktor zum Anlegen eines Systemobjekt, das ein Applikationsobjekt
 	 * {@link SystemModellGlobalTypen#Region} in der
-	 * Datenverteiler-Konfiguration repr‰sentiert.
+	 * Datenverteiler-Konfiguration repr√§sentiert.
 	 *
 	 * @param obj
 	 *            das Objekt in der Konfiguration des Datenverteilers
@@ -69,7 +69,7 @@ public class Region extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt eine Read-Only-Liste der Aktivit‰ten zur¸ck, die diese Rolle
+	 * Gibt eine Read-Only-Liste der Aktivit√§ten zur√ºck, die diese Rolle
 	 * umfasst.
 	 *
 	 * @return die Liste der betroffenen Aspekte.
@@ -88,7 +88,7 @@ public class Region extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt eine Read-Only-Liste der Aktivit‰ten zur¸ck, die diese Rolle
+	 * Gibt eine Read-Only-Liste der Aktivit√§ten zur√ºck, die diese Rolle
 	 * umfasst.
 	 *
 	 * @return die Liste der betroffenen Aspekte.

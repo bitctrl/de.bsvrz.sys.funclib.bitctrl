@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Steht jeweils für eine Spalte in einer Betriebsmeldung.
+ * Steht jeweils fÃ¼r eine Spalte in einer Betriebsmeldung.
  *
  * @author BitCtrl Systems GmbH, Falko
  */
@@ -66,11 +66,11 @@ public enum BetriebsMeldungSpalte implements Zustand<Integer> {
 	MeldungsText("MeldungsText", 14, 250);
 
 	/**
-	 * Liefert zu einem Code den dazugehörigen Meldungstyp.
+	 * Liefert zu einem Code den dazugehÃ¶rigen Meldungstyp.
 	 *
 	 * @param code
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine {@link IllegalArgumentException} geworfen.
 	 */
 	public static BetriebsMeldungSpalte valueOf(final int code) {
@@ -81,7 +81,7 @@ public enum BetriebsMeldungSpalte implements Zustand<Integer> {
 		}
 
 		throw new IllegalArgumentException(
-				"Ungültige Betriebsmeldungsspalte mit Code: " + code);
+				"UngÃ¼ltige Betriebsmeldungsspalte mit Code: " + code);
 	}
 
 	/** Der Code des Zustandes. */
@@ -126,7 +126,7 @@ public enum BetriebsMeldungSpalte implements Zustand<Integer> {
 	}
 
 	/**
-	 * Gibt die empfohlene Spaltenbreite zurück.
+	 * Gibt die empfohlene Spaltenbreite zurÃ¼ck.
 	 *
 	 * @return
 	 */

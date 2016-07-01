@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,20 +29,20 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
 import de.bsvrz.dav.daf.main.Data;
 
 /**
- * Schnittstelle für Attributlisten. Anstelle von zig Setter und Getter für ein
+ * Schnittstelle fÃ¼r Attributlisten. Anstelle von zig Setter und Getter fÃ¼r ein
  * Datensatzdatum sollten die Attributlisten auch auf Objekte abgebildet werden.
  * Diese Schnittstelle erlaubt die Konvertierung der Daten zwischen einer
  * Dav-Attributliste und einem Java-Objekt.
  * <p>
  * Eine Attributliste sollte als JavaBean implementiert werden, also in der
- * Regel nur über die üblichen getXXX- und setXXX-Methoden verfügen.
+ * Regel nur Ã¼ber die Ã¼blichen getXXX- und setXXX-Methoden verfÃ¼gen.
  *
  * @author BitCtrl Systems GmbH, Schumann
  */
 public interface Attributliste extends Cloneable {
 
 	/**
-	 * Schreibt die Daten des Java-Objekts in die übergebenen Attributliste.
+	 * Schreibt die Daten des Java-Objekts in die Ã¼bergebenen Attributliste.
 	 *
 	 * @param daten
 	 *            die zum Objekt korrespondierende Attributliste.
@@ -50,7 +50,7 @@ public interface Attributliste extends Cloneable {
 	void bean2Atl(final Data daten);
 
 	/**
-	 * Liest die Daten aus der übergebenen Attributliste und übernimmt sie in
+	 * Liest die Daten aus der Ã¼bergebenen Attributliste und Ã¼bernimmt sie in
 	 * das Java-Objekt.
 	 *
 	 * @param daten

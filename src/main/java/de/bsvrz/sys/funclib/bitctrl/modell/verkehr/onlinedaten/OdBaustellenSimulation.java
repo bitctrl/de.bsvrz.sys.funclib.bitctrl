@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -94,7 +94,7 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 	public static class Daten extends AbstractDatum {
 
 		/**
-		 * ein Staueintrag in der Liste der f¸r eine Baustelle prognostizierten
+		 * ein Staueintrag in der Liste der f√ºr eine Baustelle prognostizierten
 		 * Staus.
 		 */
 		public static class StauEintrag implements Cloneable {
@@ -102,9 +102,9 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 			private long startZeit;
 			/** Dauer. */
 			private long dauer;
-			/** maximale L‰nge in Metern. */
+			/** maximale L√§nge in Metern. */
 			private long maxLaenge;
-			/** Zeitpunkt der maximalen L‰nge. */
+			/** Zeitpunkt der maximalen L√§nge. */
 			private long maxLaengeZeit;
 			/** Verlustzeit in Sekunden. */
 			private long verlustZeit;
@@ -133,16 +133,16 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 			}
 
 			/**
-			 * liefert die maximale L‰nge des Staus.
+			 * liefert die maximale L√§nge des Staus.
 			 *
-			 * @return die L‰nge
+			 * @return die L√§nge
 			 */
 			public long getMaxLaenge() {
 				return maxLaenge;
 			}
 
 			/**
-			 * liefert den Zeitpunkt f¸r den die maximale L‰nge des Staus
+			 * liefert den Zeitpunkt f√ºr den die maximale L√§nge des Staus
 			 * ermittelt wurde.
 			 *
 			 * @return den Zeitpunkt
@@ -183,14 +183,14 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 			 * setzt die maximale Dauer des Staus.
 			 *
 			 * @param maxLaenge
-			 *            die L‰nge
+			 *            die L√§nge
 			 */
 			public void setMaxLaenge(final long maxLaenge) {
 				this.maxLaenge = maxLaenge;
 			}
 
 			/**
-			 * setz den Zeitpunkt der maximalen Staul‰nge.
+			 * setz den Zeitpunkt der maximalen Staul√§nge.
 			 *
 			 * @param maxLaengeZeit
 			 *            der Zeitpunkt
@@ -236,7 +236,7 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 		private String fehlerMeldung;
 
 		/**
-		 * die Liste der Staueintr‰ge.
+		 * die Liste der Staueintr√§ge.
 		 */
 		private final List<StauEintrag> staus = new ArrayList<>();
 
@@ -246,10 +246,10 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
-		 * f¸gt die ¸bergebenen Staueintr‰ge hinzu.
+		 * f√ºgt die √ºbergebenen Staueintr√§ge hinzu.
 		 *
 		 * @param neueStaus
-		 *            die Staueintr‰ge
+		 *            die Staueintr√§ge
 		 */
 		public void addSchritte(final StauEintrag... neueStaus) {
 			for (final StauEintrag schritt : neueStaus) {
@@ -258,7 +258,7 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 		}
 
 		/**
-		 * entfernt alle Staueintr‰ge.
+		 * entfernt alle Staueintr√§ge.
 		 */
 		public void clearStaus() {
 			staus.clear();
@@ -312,7 +312,7 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 		}
 
 		/**
-		 * liefert eine potentielle Fehlermeldung, die die Ausf¸hrung der
+		 * liefert eine potentielle Fehlermeldung, die die Ausf√ºhrung der
 		 * Simulation verhindert hat. Wenn keine gesetzt wurde, wird ein
 		 * Leerstring geliefert.
 		 *
@@ -327,8 +327,8 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 		}
 
 		/**
-		 * liefert den an der ¸bergebenen Position befindlichen Stau aus der
-		 * Liste der Staueintr‰ge.
+		 * liefert den an der √ºbergebenen Position befindlichen Stau aus der
+		 * Liste der Staueintr√§ge.
 		 *
 		 * @param idx
 		 *            der Index
@@ -339,7 +339,7 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 		}
 
 		/**
-		 * liefert die Liste der Staueintr‰ge.
+		 * liefert die Liste der Staueintr√§ge.
 		 *
 		 * @return die Liste
 		 */
@@ -348,8 +348,8 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 		}
 
 		/**
-		 * liefert den Marker, ¸ber den festgelegt ist, ob die Simulation
-		 * erfolgreich durchgef¸hrt werden konnte.
+		 * liefert den Marker, √ºber den festgelegt ist, ob die Simulation
+		 * erfolgreich durchgef√ºhrt werden konnte.
 		 *
 		 * @return <code>true</code>, wenn die Daten das Ergebnis einer
 		 *         erfolgreichen Simulation beschreiben.
@@ -391,7 +391,7 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 
 		/**
 		 * setzt einen Fehlertext, wenn die Simulation nicht erfolgreich
-		 * ausgef¸hrt werden konnte.
+		 * ausgef√ºhrt werden konnte.
 		 *
 		 * @param fehlerMeldung
 		 *            der Text
@@ -473,8 +473,8 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 			final Daten.StauEintrag schritt = datum.getStau(idx);
 			array.getItem(idx).getTimeValue("StartZeit").setMillis(schritt.getStartZeit());
 			array.getItem(idx).getTimeValue("Dauer").setMillis(schritt.getDauer());
-			array.getItem(idx).getUnscaledValue("MaxL‰nge").set(schritt.getMaxLaenge());
-			array.getItem(idx).getTimeValue("MaxL‰ngeZeit").setMillis(schritt.getMaxLaengeZeit());
+			array.getItem(idx).getUnscaledValue("MaxL√§nge").set(schritt.getMaxLaenge());
+			array.getItem(idx).getTimeValue("MaxL√§ngeZeit").setMillis(schritt.getMaxLaengeZeit());
 			array.getItem(idx).getTimeValue("VerlustZeit").setMillis(schritt.getVerlustZeit());
 		}
 
@@ -504,8 +504,8 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 				final Daten.StauEintrag schritt = new Daten.StauEintrag();
 				schritt.setStartZeit(array.getItem(idx).getTimeValue("StartZeit").getMillis());
 				schritt.setDauer(array.getItem(idx).getTimeValue("Dauer").getMillis());
-				schritt.setMaxLaenge(array.getItem(idx).getUnscaledValue("MaxL‰nge").longValue());
-				schritt.setMaxLaengeZeit(array.getItem(idx).getTimeValue("MaxL‰ngeZeit").getMillis());
+				schritt.setMaxLaenge(array.getItem(idx).getUnscaledValue("MaxL√§nge").longValue());
+				schritt.setMaxLaengeZeit(array.getItem(idx).getTimeValue("MaxL√§ngeZeit").getMillis());
 				schritt.setVerlustZeit(array.getItem(idx).getTimeValue("VerlustZeit").getMillis());
 				datum.addSchritte(schritt);
 			}

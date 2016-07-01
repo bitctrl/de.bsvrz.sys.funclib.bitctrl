@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -99,8 +99,8 @@ extends AbstractOnlineDatensatz<OdUfdmsGlaette.Daten> {
 		 */
 		public static final class Werte {
 
-			/** Die Gl‰tte als Zustand. */
-			public static final String GLAETTE = "Gl‰tte";
+			/** Die Gl√§tte als Zustand. */
+			public static final String GLAETTE = "Gl√§tte";
 
 			/**
 			 * Konstruktor verstecken.
@@ -190,7 +190,7 @@ extends AbstractOnlineDatensatz<OdUfdmsGlaette.Daten> {
 	}
 
 	/** Die PID der Attributgruppe. */
-	public static final String ATG_UFDMS_GLAETTE = "atg.ufdmsGl‰tte";
+	public static final String ATG_UFDMS_GLAETTE = "atg.ufdmsGl√§tte";
 
 	/** Die Attributgruppe kann von allen Instanzen gemeinsam genutzt werden. */
 	private static AttributeGroup atg;

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -60,7 +60,7 @@ implements BestehtAusLinienobjekten {
 	/** Die L&auml;nge des Stra&szlig;ensegments. */
 	private float laenge;
 
-	/** Die Stra&szlig;e, zur der das Stra&szlig;ensegment gehört. */
+	/** Die Stra&szlig;e, zur der das Stra&szlig;ensegment gehÃ¶rt. */
 	private Strasse strasse;
 
 	/**
@@ -83,7 +83,7 @@ implements BestehtAusLinienobjekten {
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Straßensegment.");
+					"Systemobjekt ist kein StraÃŸensegment.");
 		}
 	}
 
@@ -109,7 +109,7 @@ implements BestehtAusLinienobjekten {
 	}
 
 	/**
-	 * liefert den Punkt, an dem das Straßensegment beginnt.
+	 * liefert den Punkt, an dem das StraÃŸensegment beginnt.
 	 *
 	 * @return den Punkt oder {@code null}, wenn keiner ermittelt werden konnte
 	 */
@@ -127,7 +127,7 @@ implements BestehtAusLinienobjekten {
 	}
 
 	/**
-	 * liefert den Punkt, an dem das Straßensegment endet.
+	 * liefert den Punkt, an dem das StraÃŸensegment endet.
 	 *
 	 * @return den Punkt oder {@code null}, wenn keiner ermittelt werden konnte
 	 */
@@ -271,14 +271,14 @@ implements BestehtAusLinienobjekten {
 	}
 
 	/**
-	 * die Funktion ermittelt den Offset, an dem das übergebene
-	 * Straßenteilsegment innerhalb des Straßensegmentes beginnt. Ist das
-	 * übergebene Teilsegment nicht Bestandteil des Straßensegments, wird der
+	 * die Funktion ermittelt den Offset, an dem das Ã¼bergebene
+	 * StraÃŸenteilsegment innerhalb des StraÃŸensegmentes beginnt. Ist das
+	 * Ã¼bergebene Teilsegment nicht Bestandteil des StraÃŸensegments, wird der
 	 * Wert -1 geliefert.
 	 *
 	 * @param teilSegment
 	 *            das Teilsegment, dessen Offset ermittelt werden soll
-	 * @return den Offset innerhalb des Straßensegments oder -1, wenn das
+	 * @return den Offset innerhalb des StraÃŸensegments oder -1, wenn das
 	 *         entsprechende Teilsegment innerhalb des Segments nicht existiert
 	 */
 	public double getTeilSegmentOffset(final StrassenTeilSegment teilSegment) {
@@ -315,14 +315,14 @@ implements BestehtAusLinienobjekten {
 
 			modell = getSystemObject().getDataModel();
 
-			// Länge bestimmen
-			atg = modell.getAttributeGroup("atg.straßenSegment");
+			// LÃ¤nge bestimmen
+			atg = modell.getAttributeGroup("atg.straÃŸenSegment");
 			DataCache.cacheData(getSystemObject().getType(), atg);
 			datum = getSystemObject().getConfigurationData(atg);
 			if (datum != null) {
-				laenge = datum.getScaledValue("Länge").floatValue();
+				laenge = datum.getScaledValue("LÃ¤nge").floatValue();
 				final SystemObject strassenObjekt = datum
-						.getReferenceValue("gehörtZuStraße").getSystemObject();
+						.getReferenceValue("gehÃ¶rtZuStraÃŸe").getSystemObject();
 				if (strassenObjekt != null) {
 					strasse = (Strasse) ObjektFactory.getInstanz()
 							.getModellobjekt(strassenObjekt);

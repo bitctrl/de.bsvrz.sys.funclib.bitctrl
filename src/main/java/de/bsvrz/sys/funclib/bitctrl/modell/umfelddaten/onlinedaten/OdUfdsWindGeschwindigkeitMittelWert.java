@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -288,14 +288,14 @@ AbstractOnlineDatensatz<OdUfdsWindGeschwindigkeitMittelWert.Daten> {
 		.getUnscaledValue("Implausibel").setText("Nein");
 		datum.getItem(wert).getItem("Status").getItem("MessWertErsetzung")
 		.getUnscaledValue("Interpoliert").setText("Nein");
-		datum.getItem(wert).getItem("Güte").getUnscaledValue("Index").set(-1);
-		datum.getItem(wert).getItem("Güte").getUnscaledValue("Verfahren")
+		datum.getItem(wert).getItem("GÃ¼te").getUnscaledValue("Index").set(-1);
+		datum.getItem(wert).getItem("GÃ¼te").getUnscaledValue("Verfahren")
 		.set(0);
 
 		if (wgm != null) {
 			datum.getItem(wert).getScaledValue("Wert").set(wgm);
 		}
-		datum.getItem(wert).getItem("Güte").getScaledValue("Index").set(1);
+		datum.getItem(wert).getItem("GÃ¼te").getScaledValue("Index").set(1);
 
 		return datum;
 	}

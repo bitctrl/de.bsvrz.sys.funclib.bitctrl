@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -27,7 +27,7 @@
 package de.bsvrz.sys.funclib.bitctrl.math;
 
 /**
- * Hilfsklasse f¸r den vergleich von Zahlen.
+ * Hilfsklasse f√ºr den vergleich von Zahlen.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @deprecated verschoben nach {@link com.bitctrl.math.MathTools}.

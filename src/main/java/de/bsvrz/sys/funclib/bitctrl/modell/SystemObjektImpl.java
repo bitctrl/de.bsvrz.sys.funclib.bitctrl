@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,12 +29,12 @@ package de.bsvrz.sys.funclib.bitctrl.modell;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
- * Generischer Wrapper für unbekannte Systemobjekte. Diese Klasse dient nur als
- * Rückfallebene bis die entsprechenden Typen im Modell implementiert sind.
+ * Generischer Wrapper fÃ¼r unbekannte Systemobjekte. Diese Klasse dient nur als
+ * RÃ¼ckfallebene bis die entsprechenden Typen im Modell implementiert sind.
  *
  * @author BitCtrl Systems GmbH, Schumann
  * @deprecated Diese Klasse ist per Definition deprecated, Referenzen sollten
- *             möglichst durch echte Wrapper ersetzt werden.
+ *             mÃ¶glichst durch echte Wrapper ersetzt werden.
  */
 @Deprecated
 public class SystemObjektImpl extends AbstractSystemObjekt {
@@ -50,7 +50,7 @@ public class SystemObjektImpl extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt nur rudimentäre Typinformation zurück, also ob es sich um ein
+	 * Gibt nur rudimentÃ¤re Typinformation zurÃ¼ck, also ob es sich um ein
 	 * Konfigurationsobjekt oder ein dynamisches handelt.
 	 */
 	@Override

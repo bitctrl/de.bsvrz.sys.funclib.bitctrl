@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definitionen für das Attribut LocationFormat innerhalb einer RDS-Meldung.
+ * Definitionen fÃ¼r das Attribut LocationFormat innerhalb einer RDS-Meldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
@@ -45,11 +45,11 @@ public enum RdsLocationFormat implements Zustand<Integer> {
 	UNFORMATIERT("Unformatiert", 2);
 
 	/**
-	 * liefert das Rds-Locationformat mit dem übergebenen Code.
+	 * liefert das Rds-Locationformat mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine der Status TMC geliefert.
 	 */
 	public static RdsLocationFormat getStatus(final int gesuchterCode) {
@@ -76,10 +76,10 @@ public enum RdsLocationFormat implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für ein RDS-Locationformat mit dem
-	 * übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
+	 * Die Funktion einen eine neue Instanz fÃ¼r ein RDS-Locationformat mit dem
+	 * Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
 	 * nur innerhalb der Klasse verwendet. Es wird eine Menge vordefinierter
-	 * Zustände zur Verfügung gestellt.
+	 * ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

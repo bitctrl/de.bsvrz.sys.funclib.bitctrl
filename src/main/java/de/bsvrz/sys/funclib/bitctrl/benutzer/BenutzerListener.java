@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.benutzer;
 import java.util.EventListener;
 
 /**
- * Listener für das Anlegen, Löschen und Ändern eines Benutzers.
+ * Listener fÃ¼r das Anlegen, LÃ¶schen und Ã„ndern eines Benutzers.
  *
  * @author BitCtrl Systems GmbH, Schumann
  */
@@ -44,7 +44,7 @@ public interface BenutzerListener extends EventListener {
 	void benutzerAdded(BenutzerEvent e);
 
 	/**
-	 * Wird aufgerufen, wenn ein Benutzer gelöscht wurde.
+	 * Wird aufgerufen, wenn ein Benutzer gelÃ¶scht wurde.
 	 *
 	 * @param e
 	 *            das entsprechende Event.
@@ -52,7 +52,7 @@ public interface BenutzerListener extends EventListener {
 	void benutzerRemoved(BenutzerEvent e);
 
 	/**
-	 * Wird aufgerufen, wenn die Berechtigungsklasse eines Benutzers geändert
+	 * Wird aufgerufen, wenn die Berechtigungsklasse eines Benutzers geÃ¤ndert
 	 * wurde.
 	 *
 	 * @param e

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definition der Werte für den Zustand des Status einer Betriebsmeldung.
+ * Definition der Werte fÃ¼r den Zustand des Status einer Betriebsmeldung.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
@@ -37,15 +37,15 @@ public enum MeldungsStatus implements Zustand<Integer> {
 
 	/**
 	 * Meldung, die nicht mit einem der anderen Status bezeichnet werden kann.
-	 * Diese Meldung wird von Applikationen benutzt, die den für die
-	 * Unterscheidung der drei Fälle "Neue Meldung", "Wiederholungsmeldung" und
-	 * "Änderungsmeldung" notwendigen Verwaltungsaufwand nicht selbst vornehmen
-	 * können oder möchten.
+	 * Diese Meldung wird von Applikationen benutzt, die den fÃ¼r die
+	 * Unterscheidung der drei FÃ¤lle "Neue Meldung", "Wiederholungsmeldung" und
+	 * "Ã„nderungsmeldung" notwendigen Verwaltungsaufwand nicht selbst vornehmen
+	 * kÃ¶nnen oder mÃ¶chten.
 	 */
 	Meldung("Meldung", 0),
 
 	/**
-	 * Meldung, die zu einer zuvor gesandten Meldung gehört und deren Inhalt
+	 * Meldung, die zu einer zuvor gesandten Meldung gehÃ¶rt und deren Inhalt
 	 * wieder aufhebt.
 	 */
 	Gutmeldung("Gutmeldung", 1),
@@ -53,22 +53,22 @@ public enum MeldungsStatus implements Zustand<Integer> {
 	/** Eine Meldung, die zum ersten Mal rausgeschickt wird. */
 	NeueMeldung("Neue Meldung", 2),
 
-	/** Eine Meldung, die zu einer bereits zuvor gesendeten Meldung gehört. */
+	/** Eine Meldung, die zu einer bereits zuvor gesendeten Meldung gehÃ¶rt. */
 	Wiederholungsmeldung("Wiederholungsmeldung", 3),
 
 	/**
-	 * Meldung, die zu einer zuvor gesendeten Meldung gehört und deren Inhalt
+	 * Meldung, die zu einer zuvor gesendeten Meldung gehÃ¶rt und deren Inhalt
 	 * modifiziert.
 	 */
-	Aenderungsmeldung("Änderungsmeldung", 4);
+	Aenderungsmeldung("Ã„nderungsmeldung", 4);
 
 	/**
-	 * Liefert zu einem Code den dazugehörigen Status.
+	 * Liefert zu einem Code den dazugehÃ¶rigen Status.
 	 *
 	 * @param code
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
-	 *         wird {@code null} zurückgegeben.
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
+	 *         wird {@code null} zurÃ¼ckgegeben.
 	 */
 	public static MeldungsStatus getMeldungsStatus(final int code) {
 		for (final MeldungsStatus situation : values()) {

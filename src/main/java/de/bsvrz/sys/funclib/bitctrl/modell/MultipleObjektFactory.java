@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * Erlaubt die Verwendung mehrerer Objektfabriken in einer Applikation. Die
- * Fabriken werden über den ihnen zugewiesenen Namen verwaltet.
+ * Fabriken werden Ã¼ber den ihnen zugewiesenen Namen verwaltet.
  *
  * @author BitCtrl Systems GmbH, Falko
  */
@@ -39,7 +39,7 @@ public class MultipleObjektFactory extends ObjektFactory {
 	private static MultipleObjektFactory singleton;
 
 	/**
-	 * Gibt die einzige Instanz dieser Klasse zurück.
+	 * Gibt die einzige Instanz dieser Klasse zurÃ¼ck.
 	 *
 	 * @return das Singleton.
 	 */
@@ -53,14 +53,14 @@ public class MultipleObjektFactory extends ObjektFactory {
 	private final Map<String, ObjektFactory> objektFactories;
 
 	/**
-	 * Öffentlichen Konstruktor verstecken.
+	 * Ã–ffentlichen Konstruktor verstecken.
 	 */
 	protected MultipleObjektFactory() {
 		objektFactories = new HashMap<>();
 	}
 
 	/**
-	 * Gibt die Objektfabrik mit dem angegebenen Namen zurück. Existiert diese
+	 * Gibt die Objektfabrik mit dem angegebenen Namen zurÃ¼ck. Existiert diese
 	 * noch nicht, wird sie angelegt. Eine neu angelegt Fabrik ist noch nicht
 	 * initialisiert.
 	 *

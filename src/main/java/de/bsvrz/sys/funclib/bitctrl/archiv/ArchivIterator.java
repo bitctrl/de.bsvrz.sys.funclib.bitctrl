@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -46,7 +46,7 @@ import de.bsvrz.dav.daf.main.archive.ArchiveRequestManager;
 import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
- * Der Archiviterator erleichtert die Iteration über die Ergebnisse einer
+ * Der Archiviterator erleichtert die Iteration Ã¼ber die Ergebnisse einer
  * Archivabfrage.
  *
  * @author BitCtrl Systems GmbH, Schumann
@@ -56,7 +56,7 @@ public class ArchivIterator implements Iterator<ResultData> {
 	/** Der Logger der Klasse. */
 	private final Debug log = Debug.getLogger();
 
-	/** Die Archivdatenströme. */
+	/** Die ArchivdatenstrÃ¶me. */
 	private final Iterator<ArchiveDataStream> stroeme;
 
 	/** Der aktuelle Archivdatenstrom. */
@@ -66,7 +66,7 @@ public class ArchivIterator implements Iterator<ResultData> {
 	private ArchiveData archivdaten;
 
 	/**
-	 * Führt die Archivanfrage durch und initialisiert den Iterator.
+	 * FÃ¼hrt die Archivanfrage durch und initialisiert den Iterator.
 	 *
 	 * @param dav
 	 *            eine Datenverteilerverbindung.
@@ -79,12 +79,12 @@ public class ArchivIterator implements Iterator<ResultData> {
 
 		if (!archiv.isArchiveAvailable()) {
 			stroeme = null;
-			log.warning("Das Archiv steht nicht zur Verfügung.");
+			log.warning("Das Archiv steht nicht zur VerfÃ¼gung.");
 		} else {
 			final ArchiveDataQueryResult antwort = archiv
 					.request(ArchiveQueryPriority.MEDIUM, specs);
 
-			// Alle Ströme abrufen
+			// Alle StrÃ¶me abrufen
 			try {
 				stroeme = new FieldIterator<>(
 						antwort.getStreams());
@@ -125,14 +125,14 @@ public class ArchivIterator implements Iterator<ResultData> {
 				archivdaten.getDataIndex(), archivdaten.getDataTime(),
 				(byte) (archivdaten.getDataType().getCode() - 1), daten);
 
-		// Den nächsten Archivdatensatz abrufen
+		// Den nÃ¤chsten Archivdatensatz abrufen
 		fetch();
 
 		return datensatz;
 	}
 
 	/**
-	 * Wird nicht unterstützt.
+	 * Wird nicht unterstÃ¼tzt.
 	 */
 	@Override
 	public void remove() {
@@ -140,7 +140,7 @@ public class ArchivIterator implements Iterator<ResultData> {
 	}
 
 	/**
-	 * Ruft den nächsten Archivdatensatz ab.
+	 * Ruft den nÃ¤chsten Archivdatensatz ab.
 	 */
 	private void fetch() {
 		if (strom == null) {
@@ -162,13 +162,13 @@ public class ArchivIterator implements Iterator<ResultData> {
 			}
 
 			if (archivdaten != null) {
-				// Nächsten Archivdatensatz empfangen
+				// NÃ¤chsten Archivdatensatz empfangen
 				break;
 			} else if (stroeme.hasNext()) {
-				// Prüfe den nächsten Strom auf Daten
+				// PrÃ¼fe den nÃ¤chsten Strom auf Daten
 				strom = stroeme.next();
 			} else {
-				// Kein weiterer Archivdatensatz verfügbar
+				// Kein weiterer Archivdatensatz verfÃ¼gbar
 				break;
 			}
 		}

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -63,9 +63,9 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageState;
 import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 
 /**
- * Hilfsklasse für den Umgang mit der Betriebsmeldungsverwaltung. Die Klasse
- * führt eine Liste der letzten Meldungen. Andere Klassen können sich über
- * Änderungen an dieser Liste informieren lassen.
+ * Hilfsklasse fÃ¼r den Umgang mit der Betriebsmeldungsverwaltung. Die Klasse
+ * fÃ¼hrt eine Liste der letzten Meldungen. Andere Klassen kÃ¶nnen sich Ã¼ber
+ * Ã„nderungen an dieser Liste informieren lassen.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @see de.bsvrz.sys.funclib.operatingMessage.MessageSender
@@ -81,7 +81,7 @@ public final class Betriebsmeldungsverwaltung {
 	private static Betriebsmeldungsverwaltung singleton;
 
 	/**
-	 * Gibt die Betriebsmeldungsverwaltung als Singleton zurück.
+	 * Gibt die Betriebsmeldungsverwaltung als Singleton zurÃ¼ck.
 	 *
 	 * @return die Betriebsmeldungsverwaltung.
 	 */
@@ -94,7 +94,7 @@ public final class Betriebsmeldungsverwaltung {
 
 	/**
 	 * Liest die letzen Betriebsmeldungen aus dem Archiv und cacht diese; meldet
-	 * sich auf neue Betriebsmeldungen als Empfänger an.
+	 * sich auf neue Betriebsmeldungen als EmpfÃ¤nger an.
 	 */
 	private class Meldungsempfaenger implements DatensatzUpdateListener {
 
@@ -142,10 +142,10 @@ public final class Betriebsmeldungsverwaltung {
 	/** Der Datensatz mit dem die Meldungen empfangen werden. */
 	private OdBetriebsMeldung datensatzBetriebsMeldung;
 
-	/** Empfänger der Betriebsmeldungen. */
+	/** EmpfÃ¤nger der Betriebsmeldungen. */
 	private Meldungsempfaenger empfaenger;
 
-	/** Die Darstellungsparameter für Meldungen. */
+	/** Die Darstellungsparameter fÃ¼r Meldungen. */
 	private PdBcBetriebsMeldungDarstellung.Daten darstellungsparameter;
 
 	/**
@@ -162,13 +162,13 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Führt falls noch nicht geschehen die Empfängeranmeldung für
+	 * FÃ¼hrt falls noch nicht geschehen die EmpfÃ¤ngeranmeldung fÃ¼r
 	 * Betriebsmeldungen und das Auslesen der letzten Meldungen aus dem Archiv
 	 * aus.
 	 */
 	private void anmeldenMeldungsenpfaenger() {
 		if (empfaenger != null) {
-			// Anmeldung bereits durchgeführt.
+			// Anmeldung bereits durchgefÃ¼hrt.
 			return;
 		}
 
@@ -190,8 +190,8 @@ public final class Betriebsmeldungsverwaltung {
 		// Meldungen aus dem Archiv auslesen
 		synchronized (meldungsliste) {
 			// Factory wird umgangen, weil dieser Datensatz nur zur
-			// Konvertierung verwendet wird und anschließend das Objekt wieder
-			// zerstört werden kann.
+			// Konvertierung verwendet wird und anschlieÃŸend das Objekt wieder
+			// zerstÃ¶rt werden kann.
 			final OdBetriebsMeldung datensatz = new OdBetriebsMeldung(null);
 
 			final DataDescription dbs = new DataDescription(
@@ -219,7 +219,7 @@ public final class Betriebsmeldungsverwaltung {
 			cleanUpMeldungen();
 		}
 
-		// Als Empfänger für Betriebsmeldungen anmelden
+		// Als EmpfÃ¤nger fÃ¼r Betriebsmeldungen anmelden
 		datensatzBetriebsMeldung = factory.getAOE()
 				.getOnlineDatensatz(OdBetriebsMeldung.class);
 		datensatzBetriebsMeldung.addUpdateListener(
@@ -227,7 +227,7 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Entfernt nicht mehr gültige Meldungen aus der Liste.
+	 * Entfernt nicht mehr gÃ¼ltige Meldungen aus der Liste.
 	 *
 	 * @return die Liste der entfernten Meldungen.
 	 */
@@ -260,7 +260,7 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Registriert einen Listener für Betriebsmeldungen. Die Anmeldung für den
+	 * Registriert einen Listener fÃ¼r Betriebsmeldungen. Die Anmeldung fÃ¼r den
 	 * Empfang der Betriebsmeldungen und das Auslesen der letzten Meldungen aus
 	 * dem Archiv erfolgt einmalig beim ersten Aufruf der Methode.
 	 *
@@ -273,7 +273,7 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Deregistriert einen Listener für Betriebsmeldungen.
+	 * Deregistriert einen Listener fÃ¼r Betriebsmeldungen.
 	 *
 	 * @param l
 	 *            ein Listener.
@@ -283,7 +283,7 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Informiert die angemeldeten Listener über die Änderung der Meldungsliste.
+	 * Informiert die angemeldeten Listener Ã¼ber die Ã„nderung der Meldungsliste.
 	 *
 	 * @param neu
 	 *            die Liste der neu hinzugekommenen Meldungen.
@@ -303,7 +303,7 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Fügt einen Befehl der Befehlsliste hinzu.
+	 * FÃ¼gt einen Befehl der Befehlsliste hinzu.
 	 *
 	 * @param befehl
 	 *            ein Befehl.
@@ -327,7 +327,7 @@ public final class Betriebsmeldungsverwaltung {
 	 * der Fall, wenn der Datensatz nach der Anmeldung <em>Keine Daten</em> oder
 	 * <em>Daten</em> liefert.
 	 *
-	 * @return {@code true}, wenn Meldungen empfangen werden können.
+	 * @return {@code true}, wenn Meldungen empfangen werden kÃ¶nnen.
 	 */
 	public boolean isBereit() {
 		final Status status = datensatzBetriebsMeldung
@@ -337,12 +337,12 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Gibt die gecachter Meldungen zurück. Die Anmeldung für den Empfang der
+	 * Gibt die gecachter Meldungen zurÃ¼ck. Die Anmeldung fÃ¼r den Empfang der
 	 * Betriebsmeldungen und das Auslesen der letzten Meldungen aus dem Archiv
 	 * erfolgt einmalig beim ersten Aufruf der Methode.
 	 *
 	 *
-	 * @return eine unveränderliche Liste der aktuellen Meldungen.
+	 * @return eine unverÃ¤nderliche Liste der aktuellen Meldungen.
 	 */
 	public List<OdBetriebsMeldung.Daten> getMeldungsliste() {
 		anmeldenMeldungsenpfaenger();
@@ -426,7 +426,7 @@ public final class Betriebsmeldungsverwaltung {
 	/**
 	 * Sendet eine Betriebsmeldung.
 	 * <p>
-	 * <em>Hinweis:</em> Diese Methode ist nur für das erneute Senden
+	 * <em>Hinweis:</em> Diese Methode ist nur fÃ¼r das erneute Senden
 	 * (Quittieren, Kommentieren oder Wiederholen) einer empfangenen Meldung
 	 * gedacht.
 	 *
@@ -516,11 +516,11 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Generiert falls nötig einen Standardmeldungszusatz.
+	 * Generiert falls nÃ¶tig einen Standardmeldungszusatz.
 	 *
 	 * @param meldungsTypZusatz
 	 *            ein Zusatz, der {@code null} oder ein Leerstring sein kann.
-	 * @return ein gültiger Meldungstypzusatz.
+	 * @return ein gÃ¼ltiger Meldungstypzusatz.
 	 */
 	private String getMessageTypeAddOn(final String meldungsTypZusatz) {
 		if ((meldungsTypZusatz == null) || (meldungsTypZusatz.length() == 0)) {
@@ -530,10 +530,10 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Gibt den Sender von Betriebsmeldungen zurück. Die Methode ist identisch
+	 * Gibt den Sender von Betriebsmeldungen zurÃ¼ck. Die Methode ist identisch
 	 * mit dem Aufruf von {@link MessageSender#getInstance()}. Diese Methode
 	 * dient lediglich dazu, dass in Klassen nicht zwei
-	 * Betriebsmeldungsverwaltungen verwendet werden müssen.
+	 * Betriebsmeldungsverwaltungen verwendet werden mÃ¼ssen.
 	 *
 	 * @return der Sender.
 	 */
@@ -542,7 +542,7 @@ public final class Betriebsmeldungsverwaltung {
 	}
 
 	/**
-	 * Gibt die aktuellen Darstellungsparameter für Betriebsmeldungen zurück.
+	 * Gibt die aktuellen Darstellungsparameter fÃ¼r Betriebsmeldungen zurÃ¼ck.
 	 *
 	 * @return die Darstellungsparameter.
 	 */

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definitionen für das Attribut Ereigniscode innerhalb einer RDS-Meldung.
+ * Definitionen fÃ¼r das Attribut Ereigniscode innerhalb einer RDS-Meldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
@@ -54,11 +54,11 @@ public final class RdsEreignisCode implements Zustand<Integer> {
 	private static final Map<String, RdsEreignisCode> TABELLE_PER_NAME = new HashMap<>();
 
 	/**
-	 * liefert den Ereigniscode mit dem übergebenen Code.
+	 * liefert den Ereigniscode mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den eine Ereigniscode gesucht wird.
-	 * @return der ermittelte Ereigniscode, wenn ein ungültiger Code übergeben
+	 *            der Code fÃ¼r den eine Ereigniscode gesucht wird.
+	 * @return der ermittelte Ereigniscode, wenn ein ungÃ¼ltiger Code Ã¼bergeben
 	 *         wurde, wird eine {@link IllegalArgumentException} geworfen
 	 */
 	public static RdsEreignisCode getEreignisCode(final int gesuchterCode) {
@@ -86,7 +86,7 @@ public final class RdsEreignisCode implements Zustand<Integer> {
 		}
 
 		if (result == null) {
-			throw new IllegalArgumentException("Für den Code \"" + gesuchterCode
+			throw new IllegalArgumentException("FÃ¼r den Code \"" + gesuchterCode
 					+ "\" ist kein Ereigniscode im Datenkatalog definiert");
 		}
 
@@ -94,11 +94,11 @@ public final class RdsEreignisCode implements Zustand<Integer> {
 	}
 
 	/**
-	 * liefert die Ereigniscode mit dem übergebenen Name.
+	 * liefert die Ereigniscode mit dem Ã¼bergebenen Name.
 	 *
 	 * @param gesuchterName
-	 *            der Name für den ein Ereigniscode gesucht wird.
-	 * @return der ermittelte Ereigniscode, wenn ein ungültiger Name übergeben
+	 *            der Name fÃ¼r den ein Ereigniscode gesucht wird.
+	 * @return der ermittelte Ereigniscode, wenn ein ungÃ¼ltiger Name Ã¼bergeben
 	 *         wurde, wird eine {@link IllegalArgumentException} geworfen.
 	 */
 	public static RdsEreignisCode getEreignisCode(final String gesuchterName) {
@@ -126,7 +126,7 @@ public final class RdsEreignisCode implements Zustand<Integer> {
 		}
 
 		if (result == null) {
-			throw new IllegalArgumentException("Für den Name \"" + gesuchterName
+			throw new IllegalArgumentException("FÃ¼r den Name \"" + gesuchterName
 					+ "\" ist kein Ereigniscode im Datenkatalog definiert");
 		}
 
@@ -145,10 +145,10 @@ public final class RdsEreignisCode implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für eine RDS-Nachrichtensprache mit
-	 * dem übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
+	 * Die Funktion einen eine neue Instanz fÃ¼r eine RDS-Nachrichtensprache mit
+	 * dem Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
 	 * wird nur innerhalb der Klasse verwendet. Es wird eine Menge
-	 * vordefinierter Zustände zur Verfügung gestellt.
+	 * vordefinierter ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

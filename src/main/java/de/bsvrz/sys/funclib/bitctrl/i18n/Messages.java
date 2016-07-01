@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -72,6 +72,6 @@ public final class Messages {
 	 * privater versteckter Konstruktor.
 	 */
 	private Messages() {
-		// wird nie ausgeführt
+		// wird nie ausgefÃ¼hrt
 	}
 }

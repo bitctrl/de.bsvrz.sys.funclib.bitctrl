@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -50,7 +50,7 @@ public class Netz extends StoerfallIndikator implements NetzBestandTeil {
 	private final List<NetzBestandTeil> bestandteile = new ArrayList<>();
 
 	/**
-	 * die Liste der Straﬂen, die das Netz bilden.
+	 * die Liste der Stra√üen, die das Netz bilden.
 	 */
 	private HashSet<Strasse> strassenListe;
 
@@ -66,7 +66,7 @@ public class Netz extends StoerfallIndikator implements NetzBestandTeil {
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein g¸ltiges Netz.");
+					"Systemobjekt ist kein g√ºltiges Netz.");
 		}
 
 		// Netzbestandzeile ermitteln
@@ -79,7 +79,7 @@ public class Netz extends StoerfallIndikator implements NetzBestandTeil {
 	}
 
 	/**
-	 * liefert die Netzbestandteile, die das Netz gem‰ﬂ Konfiguration bilden.
+	 * liefert die Netzbestandteile, die das Netz gem√§√ü Konfiguration bilden.
 	 *
 	 * @return bestandteile die Liste der konfigurierten Bestandteile
 	 */
@@ -97,9 +97,9 @@ public class Netz extends StoerfallIndikator implements NetzBestandTeil {
 	}
 
 	/**
-	 * liefert die Straﬂen, die an der Bildung des Netzes beteiligt sind.
+	 * liefert die Stra√üen, die an der Bildung des Netzes beteiligt sind.
 	 *
-	 * @return die Liste der Straﬂen
+	 * @return die Liste der Stra√üen
 	 */
 	public Collection<Strasse> getStrassen() {
 		if (strassenListe == null) {

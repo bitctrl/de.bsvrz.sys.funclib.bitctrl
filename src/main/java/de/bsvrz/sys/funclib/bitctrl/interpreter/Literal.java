@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -27,8 +27,8 @@
 package de.bsvrz.sys.funclib.bitctrl.interpreter;
 
 /**
- * Schnittstelle für Klassen, die ein Literal repräsentieren. Es wird keine
- * Funktionalität hinzugefügt. Die Schnittstelle dient lediglich zur Erhöhung
+ * Schnittstelle fÃ¼r Klassen, die ein Literal reprÃ¤sentieren. Es wird keine
+ * FunktionalitÃ¤t hinzugefÃ¼gt. Die Schnittstelle dient lediglich zur ErhÃ¶hung
  * der Typsicherheit innerhalb der Softwareeinheit.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker

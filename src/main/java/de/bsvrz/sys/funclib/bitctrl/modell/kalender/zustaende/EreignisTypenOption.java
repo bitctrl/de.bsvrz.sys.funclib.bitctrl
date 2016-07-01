@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -48,11 +48,11 @@ public enum EreignisTypenOption implements Zustand<Integer> {
 	NICHT("Nicht", 2);
 
 	/**
-	 * Liefert den Typ, der dem übergebenen Code entspricht.
+	 * Liefert den Typ, der dem Ã¼bergebenen Code entspricht.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird
-	 * @return den gefundenen Zustand, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den ein Zustand gesucht wird
+	 * @return den gefundenen Zustand, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine {@link IllegalArgumentException} geworfen.
 	 */
 	public static EreignisTypenOption getTyp(final int gesuchterCode) {
@@ -63,7 +63,7 @@ public enum EreignisTypenOption implements Zustand<Integer> {
 		}
 
 		throw new IllegalArgumentException(
-				"Ungültiger Zustand mit Code: " + gesuchterCode);
+				"UngÃ¼ltiger Zustand mit Code: " + gesuchterCode);
 	}
 
 	/**
@@ -78,10 +78,10 @@ public enum EreignisTypenOption implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion erzeugt eine Instanz der TmcRichtung mit dem übergebenen
+	 * Die Funktion erzeugt eine Instanz der TmcRichtung mit dem Ã¼bergebenen
 	 * Code und der zugeordneten Bezeichnung. Die Funktion wird nur innerhalb
-	 * der Klasse aufgerufen und erzeugt die öffentlich zur Verfügung gestellten
-	 * Zustände.
+	 * der Klasse aufgerufen und erzeugt die Ã¶ffentlich zur VerfÃ¼gung gestellten
+	 * ZustÃ¤nde.
 	 *
 	 * @param name
 	 *            der Name

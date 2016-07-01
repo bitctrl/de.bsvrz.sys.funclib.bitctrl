@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -43,7 +43,7 @@ import de.bsvrz.sys.funclib.bitctrl.test.zufallsdaten.TestDatenGenerator;
 /**
  * Testdatengenerator f&uuml;r Verkehrskurzzeitdaten am Messquerschnitt.
  *
- * TODO auch zuf‰llig null-Werte generieren
+ * TODO auch zuf√§llig null-Werte generieren
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */

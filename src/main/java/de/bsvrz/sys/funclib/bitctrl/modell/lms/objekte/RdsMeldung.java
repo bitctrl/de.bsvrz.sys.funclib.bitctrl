@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -49,7 +49,7 @@ public class RdsMeldung extends AbstractSystemObjekt {
 	/**
 	 * Konstruktor.<br>
 	 * Die Funktion erzeugt eine Instanz einer RdsMeldung auf der Basis des
-	 * übergebenen Systemobjekts.
+	 * Ã¼bergebenen Systemobjekts.
 	 *
 	 * @param obj
 	 *            das Systemobjekt, das die Baustelle definiert
@@ -64,10 +64,10 @@ public class RdsMeldung extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * fügt der Meldung eine Referenz auf eine Landesmeldestelle hinzu.
+	 * fÃ¼gt der Meldung eine Referenz auf eine Landesmeldestelle hinzu.
 	 *
 	 * @param lms
-	 *            die Landesmeldestelle, die als Referenz hinzugefügt werden
+	 *            die Landesmeldestelle, die als Referenz hinzugefÃ¼gt werden
 	 *            soll
 	 */
 	public void addLmsReferenz(final LandesMeldeStelle lms) {

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -33,17 +33,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Berechnungen rund um Fl‰chen von geometrischen Figuren
+ * Berechnungen rund um Fl√§chen von geometrischen Figuren
  *
  * @author BitCtrl, Schumann
  */
 public class Flaeche {
 
-	/** Liste aller Teilfl‰chen */
+	/** Liste aller Teilfl√§chen */
 	private final List<Shape> flaechen = new ArrayList<>();
 
 	/**
-	 * F¸gt der Gesamtfl‰che ein Rechteck hinzu
+	 * F√ºgt der Gesamtfl√§che ein Rechteck hinzu
 	 *
 	 * @param r
 	 *            Ein Rechteck
@@ -53,7 +53,7 @@ public class Flaeche {
 	}
 
 	/**
-	 * F¸gt der Gesamtfl‰che ein Dreieck hinzu
+	 * F√ºgt der Gesamtfl√§che ein Dreieck hinzu
 	 *
 	 * @param d
 	 *            Ein Dreieck
@@ -63,9 +63,9 @@ public class Flaeche {
 	}
 
 	/**
-	 * Berechnet die Gesamtfl‰che aller Teilfl‰chen
+	 * Berechnet die Gesamtfl√§che aller Teilfl√§chen
 	 *
-	 * @return Gesamtfl‰che
+	 * @return Gesamtfl√§che
 	 */
 	public double flaecheninhalt() {
 		double a = 0;
@@ -86,14 +86,14 @@ public class Flaeche {
 	}
 
 	/**
-	 * Berechnet den Schwerpunkt der Gesamtfl‰che
+	 * Berechnet den Schwerpunkt der Gesamtfl√§che
 	 *
-	 * @return Schwerpunkt der Gesamtfl‰che
+	 * @return Schwerpunkt der Gesamtfl√§che
 	 */
 	public Point2D schwerpunkt() {
-		double asx = 0; // Teilfl‰che * Teilschwerpunkt, x-Komponente
-		final double asy = 0; // Teilfl‰che * Teilschwerpunkt, y-Komponente
-		final double a = flaecheninhalt(); // Fl‰cheninhalt der Gesamtfl‰che
+		double asx = 0; // Teilfl√§che * Teilschwerpunkt, x-Komponente
+		final double asy = 0; // Teilfl√§che * Teilschwerpunkt, y-Komponente
+		final double a = flaecheninhalt(); // Fl√§cheninhalt der Gesamtfl√§che
 
 		for (final Shape f : flaechen) {
 			if (f instanceof Rectangle2D) {
@@ -111,22 +111,22 @@ public class Flaeche {
 	}
 
 	/**
-	 * Berechnet den Fl‰cheninhalt des Rechtecks
+	 * Berechnet den Fl√§cheninhalt des Rechtecks
 	 *
 	 * @param r
 	 *            Ein Rechteck
-	 * @return Fl‰cheninhalt des Rechtecks
+	 * @return Fl√§cheninhalt des Rechtecks
 	 */
 	public static double flaecheninhalt(final Rectangle2D r) {
 		return r.getWidth() * r.getHeight();
 	}
 
 	/**
-	 * Berechnet den Fl‰cheninhalt des Dreiecks
+	 * Berechnet den Fl√§cheninhalt des Dreiecks
 	 *
 	 * @param d
 	 *            Ein Dreieck
-	 * @return Fl‰cheninhalt des Rechtecks
+	 * @return Fl√§cheninhalt des Rechtecks
 	 */
 	public static double flaecheninhalt(final Dreieck2D d) {
 		final double x1, y1; // Punktkoordinaten des Dreiecks

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -35,7 +35,7 @@ import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.SystemObjectType;
 
 /**
- * Klasse zur Verwaltung der Informationen, für welche
+ * Klasse zur Verwaltung der Informationen, fÃ¼r welche
  * Objekttyp-Attributgruppe-Kombinationen bereits die Konfigurationsdaten
  * komplett abgerufen wurden, um sie per lokalem Datenverteiler-Cache
  * bereitzustellen.
@@ -54,13 +54,13 @@ public final class DataCache {
 		NICHT,
 
 		/**
-		 * Konfigurationsdaten werden für einen Typ von der Konfiguration
+		 * Konfigurationsdaten werden fÃ¼r einen Typ von der Konfiguration
 		 * ermittelt.
 		 */
 		FLACH,
 
 		/**
-		 * Konfigurationsdaten werden für einen Typ und alle Basistypen von der
+		 * Konfigurationsdaten werden fÃ¼r einen Typ und alle Basistypen von der
 		 * Konfiguration ermittelt.
 		 */
 		TIEF
@@ -71,11 +71,11 @@ public final class DataCache {
 
 	/**
 	 * Lesen und Zwsichenspeiechern aller Daten der entsprechenden
-	 * Attributgruppe für den übergebenen Typ. Die Funktion ermittelt den Typ,
-	 * in dem die übergebene Attributgruppe ursprünglich definiert ist,
+	 * Attributgruppe fÃ¼r den Ã¼bergebenen Typ. Die Funktion ermittelt den Typ,
+	 * in dem die Ã¼bergebene Attributgruppe ursprÃ¼nglich definiert ist,
 	 * ermittelt alle Objekte dieses Typs und lieset die mit der Attributgruppe
 	 * beschriebenen konfigurierenden Daten aus. Die Operation wird nur einmalig
-	 * ausgeführt, d.h. beim wiederholten Aufruf mit identischen Parametern
+	 * ausgefÃ¼hrt, d.h. beim wiederholten Aufruf mit identischen Parametern
 	 * erfolgt keine Aktion.
 	 *
 	 * @param objType
@@ -129,14 +129,14 @@ public final class DataCache {
 	}
 
 	/**
-	 * ermitteln des Objekttyps, in dem die übergebene Attributgruppe
-	 * ursprünglich angelegt wurde.
+	 * ermitteln des Objekttyps, in dem die Ã¼bergebene Attributgruppe
+	 * ursprÃ¼nglich angelegt wurde.
 	 *
 	 * @param objType
 	 *            der Typ
 	 * @param atg
 	 *            die Attributgruppe
-	 * @return der ermittelte Basistyp der übergebenen
+	 * @return der ermittelte Basistyp der Ã¼bergebenen
 	 */
 	private static SystemObjectType sucheAtgDefinitionsTyp(
 			final SystemObjectType objType, final AttributeGroup atg) {
@@ -159,14 +159,14 @@ public final class DataCache {
 	private CacheMode caching = CacheMode.NICHT;
 
 	/**
-	 * Verwaltungsliste für abgerufene Kombinationen aus Objekttyp und
+	 * Verwaltungsliste fÃ¼r abgerufene Kombinationen aus Objekttyp und
 	 * Attributgruppe.
 	 */
 	private final Map<SystemObjectType, Set<AttributeGroup>> cachedData = new HashMap<>();
 
 	/**
 	 * Konstruktor ist privat, damit keine Objekte des Typs angelegt werden
-	 * können.
+	 * kÃ¶nnen.
 	 */
 	private DataCache() {
 		super();

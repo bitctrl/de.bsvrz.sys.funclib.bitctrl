@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -34,7 +34,7 @@ import java.util.List;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.onlinedaten.OdBetriebsMeldung;
 
 /**
- * Beschreibt die Änderung der Betriebsmeldungsliste.
+ * Beschreibt die Ã„nderung der Betriebsmeldungsliste.
  *
  * @author BitCtrl Systems GmbH, Schumann
  */
@@ -68,18 +68,18 @@ public class BetriebsmeldungEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt die Liste der neu hinzugekommenen Betriebsmeldungen zurück.
+	 * Gibt die Liste der neu hinzugekommenen Betriebsmeldungen zurÃ¼ck.
 	 *
-	 * @return eine unveränderliche Liste der neuen Meldungen.
+	 * @return eine unverÃ¤nderliche Liste der neuen Meldungen.
 	 */
 	public List<OdBetriebsMeldung.Daten> getNeueMeldungen() {
 		return Collections.unmodifiableList(neueMeldungen);
 	}
 
 	/**
-	 * Gibt die Liste der entfernten Betriebsmeldungen zurück.
+	 * Gibt die Liste der entfernten Betriebsmeldungen zurÃ¼ck.
 	 *
-	 * @return eine unveränderliche Liste der entfernten Meldungen.
+	 * @return eine unverÃ¤nderliche Liste der entfernten Meldungen.
 	 */
 	public List<OdBetriebsMeldung.Daten> getEntfernteMeldungen() {
 		return Collections.unmodifiableList(entfernteMeldungen);

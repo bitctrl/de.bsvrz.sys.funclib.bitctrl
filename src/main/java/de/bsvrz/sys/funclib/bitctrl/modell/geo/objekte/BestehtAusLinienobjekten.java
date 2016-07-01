@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte;
 import java.util.List;
 
 /**
- * Schnittstelle f¸r die Beschreibung eines Objekts, das aus anderen
+ * Schnittstelle f√ºr die Beschreibung eines Objekts, das aus anderen
  * Linienobjekten zusammengesetzt. Es handelt sich um die Abbildung von Objekten
  * des Typs "typ.bestehtAusLinienObjekten" innerhalb der
  * Datenverteilerkonfiguration.

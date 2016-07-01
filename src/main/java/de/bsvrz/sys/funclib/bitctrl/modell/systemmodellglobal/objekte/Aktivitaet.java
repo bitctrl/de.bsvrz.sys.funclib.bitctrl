@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -41,7 +41,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen;
 
 /**
- * Repr‰sentiert eine Aktivit‰t des Datenverteilers im Sinne der Nutzerrechte.
+ * Repr√§sentiert eine Aktivit√§t des Datenverteilers im Sinne der Nutzerrechte.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
@@ -68,7 +68,7 @@ public class Aktivitaet extends AbstractSystemObjekt {
 	/**
 	 * Konstruktor zum Anlegen eines Systemobjekt, das ein Applikationsobjekt
 	 * {@link SystemModellGlobalTypen#Aktivitaet} in der
-	 * Datenverteiler-Konfiguration repr‰sentiert.
+	 * Datenverteiler-Konfiguration repr√§sentiert.
 	 *
 	 * @param obj
 	 *            das Objekt in der Konfiguration des Datenverteilers
@@ -83,7 +83,7 @@ public class Aktivitaet extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt das Flag zur¸ck, ob der Lesezugriff gestattet ist.
+	 * Gibt das Flag zur√ºck, ob der Lesezugriff gestattet ist.
 	 *
 	 * @return das Flag ob der Lesezugriff gestattet ist.
 	 */
@@ -93,7 +93,7 @@ public class Aktivitaet extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt das Flag zur¸ck, ob der Schreibzugriff gestattet ist.
+	 * Gibt das Flag zur√ºck, ob der Schreibzugriff gestattet ist.
 	 *
 	 * @return das Flag ob der Schreibzugriff gestattet ist.
 	 */
@@ -103,7 +103,7 @@ public class Aktivitaet extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt das Flag zur¸ck, ob die Anmeldung als Quelle und Senke erlaubt ist.
+	 * Gibt das Flag zur√ºck, ob die Anmeldung als Quelle und Senke erlaubt ist.
 	 *
 	 * @return das Flag ob die Anmeldung als Quelle und Senke erlaubt ist.
 	 */
@@ -113,7 +113,7 @@ public class Aktivitaet extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt eine Read-Only-Liste der Aspekte zur¸ck, auf die sich die Aktivit‰t
+	 * Gibt eine Read-Only-Liste der Aspekte zur√ºck, auf die sich die Aktivit√§t
 	 * bezieht.
 	 *
 	 * @return die Liste der betroffenen Aspekte.
@@ -132,8 +132,8 @@ public class Aktivitaet extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt eine Read-Only-Liste der Attributgruppen zur¸ck, auf die sich die
-	 * Aktivit‰t bezieht.
+	 * Gibt eine Read-Only-Liste der Attributgruppen zur√ºck, auf die sich die
+	 * Aktivit√§t bezieht.
 	 *
 	 * @return die Liste der betroffenen Aspekte.
 	 */

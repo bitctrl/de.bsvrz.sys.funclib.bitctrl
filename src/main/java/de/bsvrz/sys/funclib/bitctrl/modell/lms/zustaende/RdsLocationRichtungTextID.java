@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Repräsentation des Attributs RdsLocationRichtungTextID innerhalb einer
+ * ReprÃ¤sentation des Attributs RdsLocationRichtungTextID innerhalb einer
  * RDS-Meldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
@@ -39,17 +39,17 @@ public enum RdsLocationRichtungTextID implements Zustand<Integer> {
 	/** unbekannt, Wert 0. */
 	UNBEKANNT("unbekannt", 0),
 
-	/** stadteinwärts, Wert 1. */
-	STADTEINWAERTS("stadteinwärts", 1),
+	/** stadteinwÃ¤rts, Wert 1. */
+	STADTEINWAERTS("stadteinwÃ¤rts", 1),
 
-	/** stadtauswärts, Wert 2. */
-	STADTAUSWAERTS("stadtauswärts", 2),
+	/** stadtauswÃ¤rts, Wert 2. */
+	STADTAUSWAERTS("stadtauswÃ¤rts", 2),
 
 	/** Nord, Wert 3. */
 	NORD("Nord", 3),
 
-	/** Süd, Wert 4. */
-	SUED("Süd", 4),
+	/** SÃ¼d, Wert 4. */
+	SUED("SÃ¼d", 4),
 
 	/** Ost, Wert 5. */
 	OST("Ost", 5),
@@ -63,18 +63,18 @@ public enum RdsLocationRichtungTextID implements Zustand<Integer> {
 	/** Nordwest, Wert 8. */
 	NORDWEST("Nordwest", 8),
 
-	/** Südost, Wert 9. */
-	SUEDOST("Südost", 9),
+	/** SÃ¼dost, Wert 9. */
+	SUEDOST("SÃ¼dost", 9),
 
-	/** Südwest, Wert 10. */
-	SUEDWEST("Südwest", 10);
+	/** SÃ¼dwest, Wert 10. */
+	SUEDWEST("SÃ¼dwest", 10);
 
 	/**
-	 * liefert den Rds-Erinnerungstyp mit dem übergebenen Code.
+	 * liefert den Rds-Erinnerungstyp mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine der Status UNBEKANNT geliefert.
 	 */
 	public static RdsLocationRichtungTextID getStatus(final int gesuchterCode) {
@@ -101,10 +101,10 @@ public enum RdsLocationRichtungTextID implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für einen RDS-Erinerungstyp mit dem
-	 * übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
+	 * Die Funktion einen eine neue Instanz fÃ¼r einen RDS-Erinerungstyp mit dem
+	 * Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
 	 * nur innerhalb der Klasse verwendet. Es wird eine Menge vordefinierter
-	 * Zustände zur Verfügung gestellt.
+	 * ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definitionen für den Status einer RDS-Meldung.
+ * Definitionen fÃ¼r den Status einer RDS-Meldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
@@ -38,24 +38,24 @@ public enum RdsStatus implements Zustand<Integer> {
 	/** Status der Meldung ist nicht bekannt, Wert 0. */
 	UNBEKANNT("Unbekannt", 0),
 
-	/** Meldung wurde verändert, Wert 2. */
+	/** Meldung wurde verÃ¤ndert, Wert 2. */
 	MODIFIKATION("Modifikation", 2),
 
 	/** Meldung wurde aufgehoben, Wert 4. */
 	AUFHEBUNG("Aufhebung", 4),
 
-	/** Meldung wurde gelöscht, Wert 5. */
-	LOESCHUNG("Löschung", 5),
+	/** Meldung wurde gelÃ¶scht, Wert 5. */
+	LOESCHUNG("LÃ¶schung", 5),
 
 	/** Meldung wurde erweitert, Wert 6. */
 	ERWEITERUNG("Erweiterung", 6);
 
 	/**
-	 * liefert den Rds-Status mit dem übergebenen Code.
+	 * liefert den Rds-Status mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine der Status UNBEKANNT geliefert.
 	 */
 	public static RdsStatus getStatus(final int gesuchterCode) {
@@ -82,10 +82,10 @@ public enum RdsStatus implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für einen RDS-Status mit dem
-	 * übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
+	 * Die Funktion einen eine neue Instanz fÃ¼r einen RDS-Status mit dem
+	 * Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
 	 * nur innerhalb der Klasse verwendet. Es wird eine Menge vordefinierter
-	 * Zustände zur Verfügung gestellt.
+	 * ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

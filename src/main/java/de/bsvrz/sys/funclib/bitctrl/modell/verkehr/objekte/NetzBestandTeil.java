@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -31,17 +31,17 @@ import java.util.Collection;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
 /**
- * Schnittstelle für die Repräsentation eines Netzbestandteils.<br>
- * Netzbestandteile bilden ein Netz und können entweder selbst Netze oder äußere
- * Straßensegmente sein.
+ * Schnittstelle fÃ¼r die ReprÃ¤sentation eines Netzbestandteils.<br>
+ * Netzbestandteile bilden ein Netz und kÃ¶nnen entweder selbst Netze oder Ã¤uÃŸere
+ * StraÃŸensegmente sein.
  *
  * @author BitCtrl Systems GmbH, Peuker
  */
 public interface NetzBestandTeil extends SystemObjekt {
 
 	/**
-	 * liefert alle Straßensegmente, die durch das aktuelle Objekt dem gleichen
-	 * Netz zugeordnet werden können.
+	 * liefert alle StraÃŸensegmente, die durch das aktuelle Objekt dem gleichen
+	 * Netz zugeordnet werden kÃ¶nnen.
 	 *
 	 * @return die Liste der ermittelten Segmente
 	 */

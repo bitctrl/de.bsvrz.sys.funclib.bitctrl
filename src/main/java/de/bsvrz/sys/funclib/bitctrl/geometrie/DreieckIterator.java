@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -60,7 +60,7 @@ class DreieckIterator implements PathIterator {
 	private int index;
 
 	/**
-	 * Erzeugt eine Iteration ¸ber die Punkte des Dreiecks
+	 * Erzeugt eine Iteration √ºber die Punkte des Dreiecks
 	 *
 	 * @param dreieck
 	 *            Ein Dreieck

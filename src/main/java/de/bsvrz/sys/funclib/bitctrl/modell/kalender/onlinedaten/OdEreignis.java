@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -278,11 +278,11 @@ public class OdEreignis extends AbstractOnlineDatensatz<OdEreignis.Daten> {
 		final Data daten;
 
 		daten = erzeugeSendeCache();
-		daten.getUnscaledValue("zeitlichGültig")
+		daten.getUnscaledValue("zeitlichGÃ¼ltig")
 		.set(datum.isZeitlichGueltig() ? 1 : 0);
-		daten.getUnscaledValue("verkehrlichGültig")
+		daten.getUnscaledValue("verkehrlichGÃ¼ltig")
 		.set(datum.isVerkehrlichGueltig() ? 1 : 0);
-		daten.getUnscaledValue("AttributÄnderung")
+		daten.getUnscaledValue("AttributÃ„nderung")
 		.set(datum.isAttributAenderung() ? 1 : 0);
 		daten.getTimeValue("Zeitpunkt").setMillis(datum.getNaechsterWechsel());
 
@@ -299,11 +299,11 @@ public class OdEreignis extends AbstractOnlineDatensatz<OdEreignis.Daten> {
 
 			daten = result.getData();
 			datum.setZeitlichGueltig(
-					daten.getUnscaledValue("zeitlichGültig").intValue() == 1);
+					daten.getUnscaledValue("zeitlichGÃ¼ltig").intValue() == 1);
 			datum.setVerkehrlichGueltig(daten
-					.getUnscaledValue("verkehrlichGültig").intValue() == 1);
+					.getUnscaledValue("verkehrlichGÃ¼ltig").intValue() == 1);
 			datum.setAttributAenderung(
-					daten.getUnscaledValue("AttributÄnderung").intValue() == 1);
+					daten.getUnscaledValue("AttributÃ„nderung").intValue() == 1);
 			datum.setNaechsterWechsel(
 					daten.getTimeValue("Zeitpunkt").getMillis());
 

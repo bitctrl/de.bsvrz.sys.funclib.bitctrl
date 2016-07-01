@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -40,7 +40,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
 /**
  * Ein Parameterdatensatz, der die an einem VerkehrsmodellNetz festgelegten
- * Parameter für die Stauobjektbestimmung enthält. Der Datensatz repräsentiert
+ * Parameter fÃ¼r die Stauobjektbestimmung enthÃ¤lt. Der Datensatz reprÃ¤sentiert
  * die Daten einer Attributgruppe "atg.stauBestimmmungModell".
  *
  * @author BitCtrl Systems GmbH, Peuker
@@ -49,39 +49,39 @@ public class PdStauBestimmungModell
 extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 
 	/**
-	 * Definition der Attributnamen für den Zugriff auf den Parameterdatensatz.
+	 * Definition der Attributnamen fÃ¼r den Zugriff auf den Parameterdatensatz.
 	 */
 	private static final class Att {
-		/** Attributname für die Zykluszeit. */
+		/** Attributname fÃ¼r die Zykluszeit. */
 		public static final String ZYKLUSZEIT = "Zykluszeit";
-		/** Attributname für die Liste der Störfallverfahren. */
+		/** Attributname fÃ¼r die Liste der StÃ¶rfallverfahren. */
 		public static final String SIVERFAHREN = "SIVerfahren";
 
-		/** Attributname für die Anfangslänge. */
+		/** Attributname fÃ¼r die AnfangslÃ¤nge. */
 		public static final String ANFANGSLAENGE = "Anfangslaenge";
 
-		/** Attributname für die Stronabverlängerung. */
+		/** Attributname fÃ¼r die StronabverlÃ¤ngerung. */
 		public static final String STROMABVERLAENGERUNG = "StromabVerlaengerung";
 
-		/** Attributname für den maximalen SI-Abstand. */
+		/** Attributname fÃ¼r den maximalen SI-Abstand. */
 		public static final String MAXSIABSTAND = "MaxSIAbstand";
 
-		/** Attributname für die Teilungslänge. */
+		/** Attributname fÃ¼r die TeilungslÃ¤nge. */
 		public static final String TEILUNGSLAENGE = "Teilungslaenge";
 
-		/** Attributname für die Teilungsverzögerung. */
+		/** Attributname fÃ¼r die TeilungsverzÃ¶gerung. */
 		public static final String TEILUNGSVERZOEGERUNG = "Teilungsverzoegerung";
 
-		/** Attributname für den A1-Wert der Formeln der Prognoseberechnung. */
+		/** Attributname fÃ¼r den A1-Wert der Formeln der Prognoseberechnung. */
 		public static final String PROGNOSELAENGE_A1 = "PrognoselaengeA1";
 
-		/** Attributname für den A2-Wert der Formeln der Prognoseberechnung. */
+		/** Attributname fÃ¼r den A2-Wert der Formeln der Prognoseberechnung. */
 		public static final String PROGNOSELAENGE_A2 = "PrognoselaengeA2";
 
-		/** Attributname für den A3-Wert der Formeln der Prognoseberechnung. */
+		/** Attributname fÃ¼r den A3-Wert der Formeln der Prognoseberechnung. */
 		public static final String PROGNOSELAENGE_A3 = "PrognoselaengeA3";
 
-		/** Attributname für die minimlae SI-Güte. */
+		/** Attributname fÃ¼r die minimlae SI-GÃ¼te. */
 		public static final String MINSIGUETE = "MinSIGuete";
 
 		/** privater Konstruktor. */
@@ -91,7 +91,7 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 	}
 
 	/**
-	 * Repräsentation der Daten des Baustelleneigenschaften-Datensatzes.
+	 * ReprÃ¤sentation der Daten des Baustelleneigenschaften-Datensatzes.
 	 */
 	public static class Daten extends AbstractDatum {
 
@@ -99,67 +99,67 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		private long zyklusZeit;
 
 		/**
-		 * Liste der Verfahren deren Störfallindikatoren berücksichtigt werden
+		 * Liste der Verfahren deren StÃ¶rfallindikatoren berÃ¼cksichtigt werden
 		 * sollen ("SIVerfahren").
 		 */
 		private final Collection<Aspect> siVerfahren = new ArrayList<>();
 
 		/**
-		 * Angenommene Anfangslänge des gestauten Bereichs an einem lokalen
-		 * Störfallindikator pro Minute des jeweiligen Erfassungszyklus.
+		 * Angenommene AnfangslÃ¤nge des gestauten Bereichs an einem lokalen
+		 * StÃ¶rfallindikator pro Minute des jeweiligen Erfassungszyklus.
 		 * ("Anfangslaenge")
 		 */
 		private long anfangsLaenge;
 
 		/**
-		 * Angenommene Verlängerung der Anfangslänge bei gestautem
-		 * Infrastrukturobjekt i an einem lokalen Störfallindikator.
+		 * Angenommene VerlÃ¤ngerung der AnfangslÃ¤nge bei gestautem
+		 * Infrastrukturobjekt i an einem lokalen StÃ¶rfallindikator.
 		 * ("StromabVerlaengerung")
 		 */
 		private long stromAbVerlaengerung;
 
 		/**
-		 * Maximalabstand für die Zusammenfassung von gestauten Bereichen
+		 * Maximalabstand fÃ¼r die Zusammenfassung von gestauten Bereichen
 		 * ("MaxSIAbstand").
 		 */
 		private long maxSiAbstand;
 
 		/**
-		 * Mindestlänge eines ungestauten Bereiches innerhalb eines Stauobjektes
-		 * für die sofortige Aufteilung in zwei Stauobjekte ("Teilungslaenge").
+		 * MindestlÃ¤nge eines ungestauten Bereiches innerhalb eines Stauobjektes
+		 * fÃ¼r die sofortige Aufteilung in zwei Stauobjekte ("Teilungslaenge").
 		 */
 		private long teilungsLaenge;
 
 		/**
-		 * Zeitverzögerung für die Aufteilung eines Stauobjekts in dem die Länge
-		 * eines inneren ungestauten Bereiches den Wert "Teilungslänge" noch
-		 * nicht überschreitet ("Teilungsverzoegerung").
+		 * ZeitverzÃ¶gerung fÃ¼r die Aufteilung eines Stauobjekts in dem die LÃ¤nge
+		 * eines inneren ungestauten Bereiches den Wert "TeilungslÃ¤nge" noch
+		 * nicht Ã¼berschreitet ("Teilungsverzoegerung").
 		 */
 		private long teilungsverzoegerung;
 
 		/**
-		 * Parameter a1 aus der Gleichung für die Berechnung der maximalen
-		 * Verlängerung eines Stauobjektes durch die Prognose
+		 * Parameter a1 aus der Gleichung fÃ¼r die Berechnung der maximalen
+		 * VerlÃ¤ngerung eines Stauobjektes durch die Prognose
 		 * ("PrognoselaengeA1").
 		 */
 		private long prognoselaengeA1;
 
 		/**
-		 * Parameter a2 aus der Gleichung für die Berechnung der maximalen
-		 * Verlängerung eines Stauobjektes durch die Prognose
+		 * Parameter a2 aus der Gleichung fÃ¼r die Berechnung der maximalen
+		 * VerlÃ¤ngerung eines Stauobjektes durch die Prognose
 		 * ("PrognoselaengeA2").
 		 */
 		private long prognoselaengeA2;
 
 		/**
-		 * Parameter a3 aus der Gleichung für die Berechnung der maximalen
-		 * Verlängerung eines Stauobjektes durch die Prognose
+		 * Parameter a3 aus der Gleichung fÃ¼r die Berechnung der maximalen
+		 * VerlÃ¤ngerung eines Stauobjektes durch die Prognose
 		 * ("PrognoselaengeA3").
 		 */
 		private long prognoselaengeA3;
 
 		/**
-		 * Minimale Güte von zu berücksichtigenden Störfallindikatoren
+		 * Minimale GÃ¼te von zu berÃ¼cksichtigenden StÃ¶rfallindikatoren
 		 * ("MinSIGuete").
 		 */
 		private double minSIGuete;
@@ -190,7 +190,7 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 
 		/**
 		 * Konstruktor.<br>
-		 * Die Funktion erzeugt ein Datum als Kopie des übergebenen Datums.
+		 * Die Funktion erzeugt ein Datum als Kopie des Ã¼bergebenen Datums.
 		 *
 		 * @param daten
 		 *            die Daten die kopiert werden sollen
@@ -217,10 +217,10 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		/**
 		 * Konstruktor.<br>
 		 * Die Funktion wertet den vom Datenverteiler empfangenen Datensatz aus
-		 * und füllt die Daten entsprechend.
+		 * und fÃ¼llt die Daten entsprechend.
 		 *
 		 * @param result
-		 *            der übergebene Datensatz
+		 *            der Ã¼bergebene Datensatz
 		 */
 		public Daten(final ResultData result) {
 			this();
@@ -263,10 +263,10 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * liefert die angenommene Länge eines Stauobjekts an einem lokalen
-		 * Störfallindikators pro Zeiteinheit.
+		 * liefert die angenommene LÃ¤nge eines Stauobjekts an einem lokalen
+		 * StÃ¶rfallindikators pro Zeiteinheit.
 		 *
-		 * @return die Länge pro Zeiteinheit (m/min)
+		 * @return die LÃ¤nge pro Zeiteinheit (m/min)
 		 */
 		public long getAnfangsLaenge() {
 			return anfangsLaenge;
@@ -278,7 +278,7 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * liefert den maximalen Abstand von zwei Störfallindikatoren, die zu
+		 * liefert den maximalen Abstand von zwei StÃ¶rfallindikatoren, die zu
 		 * einem Stauobjekt zusammengefasst werden sollen (in Metern).
 		 *
 		 * @return der Abstand in Metern
@@ -288,19 +288,19 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * liefert die minimale Güte, mit der der Zustand eines
-		 * Störfallindikators für die Stauobjektbestimmung verwendet werden
+		 * liefert die minimale GÃ¼te, mit der der Zustand eines
+		 * StÃ¶rfallindikators fÃ¼r die Stauobjektbestimmung verwendet werden
 		 * soll.
 		 *
-		 * @return die Güte
+		 * @return die GÃ¼te
 		 */
 		public double getMinSIGuete() {
 			return minSIGuete;
 		}
 
 		/**
-		 * liefert den Parameter a1 für die Berechnung der maximalen
-		 * Stauverlängerung durch eine Prognose (siehe Anwenderanforderungen).
+		 * liefert den Parameter a1 fÃ¼r die Berechnung der maximalen
+		 * StauverlÃ¤ngerung durch eine Prognose (siehe Anwenderanforderungen).
 		 *
 		 * @return der Parameterwert
 		 */
@@ -309,8 +309,8 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * liefert den Parameter a2 für die Berechnung der maximalen
-		 * Stauverlängerung durch eine Prognose (siehe Anwenderanforderungen).
+		 * liefert den Parameter a2 fÃ¼r die Berechnung der maximalen
+		 * StauverlÃ¤ngerung durch eine Prognose (siehe Anwenderanforderungen).
 		 *
 		 * @return der Parameterwert
 		 */
@@ -319,8 +319,8 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * liefert den Parameter a3 für die Berechnung der maximalen
-		 * Stauverlängerung durch eine Prognose (siehe Anwenderanforderungen).
+		 * liefert den Parameter a3 fÃ¼r die Berechnung der maximalen
+		 * StauverlÃ¤ngerung durch eine Prognose (siehe Anwenderanforderungen).
 		 *
 		 * @return der Parameterwert
 		 */
@@ -329,9 +329,9 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * liefert eine Liste der Störfallverfahren, für die die ermittelten
-		 * Störfallzustände für die Stauobjektbestimmung verwendet werden
-		 * sollen. Die Liste enthält die Aspekte, die die jeweiligen Verfahren
+		 * liefert eine Liste der StÃ¶rfallverfahren, fÃ¼r die die ermittelten
+		 * StÃ¶rfallzustÃ¤nde fÃ¼r die Stauobjektbestimmung verwendet werden
+		 * sollen. Die Liste enthÃ¤lt die Aspekte, die die jeweiligen Verfahren
 		 * spezifizieren.
 		 *
 		 * @return die Liste
@@ -341,17 +341,17 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * liefert den Wert, um den ein Stauobjekt stromabwärts verlängert wird
+		 * liefert den Wert, um den ein Stauobjekt stromabwÃ¤rts verlÃ¤ngert wird
 		 * (in Metern).
 		 *
-		 * @return die Länge
+		 * @return die LÃ¤nge
 		 */
 		public long getStromAbVerlaengerung() {
 			return stromAbVerlaengerung;
 		}
 
 		/**
-		 * liefert den Abstand von gestörten Störfallindikatoren, bei dem die
+		 * liefert den Abstand von gestÃ¶rten StÃ¶rfallindikatoren, bei dem die
 		 * Trennung eines Staupbjektes erfolgen soll (in Metern).
 		 *
 		 * @return den Abstand
@@ -361,10 +361,10 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * liefert die Verzögerungszeit für die Trennung eines Stauobjekts, wenn
-		 * der erforderliche Trennungsbastand nicht überschritten wurde.
+		 * liefert die VerzÃ¶gerungszeit fÃ¼r die Trennung eines Stauobjekts, wenn
+		 * der erforderliche Trennungsbastand nicht Ã¼berschritten wurde.
 		 *
-		 * @return die Verzögerungszeit in Millisekunden
+		 * @return die VerzÃ¶gerungszeit in Millisekunden
 		 */
 		public long getTeilungsverzoegerung() {
 			return teilungsverzoegerung;
@@ -380,11 +380,11 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * setzt die angenommene Länge eines Stauobjekts an einem lokalen
-		 * Störfallindikators pro Zeiteinheit.
+		 * setzt die angenommene LÃ¤nge eines Stauobjekts an einem lokalen
+		 * StÃ¶rfallindikators pro Zeiteinheit.
 		 *
 		 * @param anfangsLaenge
-		 *            die Länge pro Zeiteinheit (m/min)
+		 *            die LÃ¤nge pro Zeiteinheit (m/min)
 		 */
 		public void setAnfangsLaenge(final long anfangsLaenge) {
 			this.anfangsLaenge = anfangsLaenge;
@@ -401,7 +401,7 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * setzt den maximalen Abstand von zwei Störfallindikatoren, die zu
+		 * setzt den maximalen Abstand von zwei StÃ¶rfallindikatoren, die zu
 		 * einem Stauobjekt zusammengefasst werden sollen (in Metern).
 		 *
 		 * @param maxSiAbstand
@@ -412,19 +412,19 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * setzt die minimale Güte, mit der der Zustand eines Störfallindikators
-		 * für die Stauobjektbestimmung verwendet werden soll.
+		 * setzt die minimale GÃ¼te, mit der der Zustand eines StÃ¶rfallindikators
+		 * fÃ¼r die Stauobjektbestimmung verwendet werden soll.
 		 *
 		 * @param minSIGuete
-		 *            die Güte
+		 *            die GÃ¼te
 		 */
 		public void setMinSIGuete(final double minSIGuete) {
 			this.minSIGuete = minSIGuete;
 		}
 
 		/**
-		 * setzt den Parameter a1 für die Berechnung der maximalen
-		 * Stauverlängerung durch eine Prognose (siehe Anwenderanforderungen).
+		 * setzt den Parameter a1 fÃ¼r die Berechnung der maximalen
+		 * StauverlÃ¤ngerung durch eine Prognose (siehe Anwenderanforderungen).
 		 *
 		 * @param prognoselaengeA1
 		 *            der Parameterwert
@@ -434,8 +434,8 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * setzt den Parameter a2 für die Berechnung der maximalen
-		 * Stauverlängerung durch eine Prognose (siehe Anwenderanforderungen).
+		 * setzt den Parameter a2 fÃ¼r die Berechnung der maximalen
+		 * StauverlÃ¤ngerung durch eine Prognose (siehe Anwenderanforderungen).
 		 *
 		 * @param prognoselaengeA2
 		 *            der Parameterwert
@@ -445,8 +445,8 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * setzt den Parameter a3 für die Berechnung der maximalen
-		 * Stauverlängerung durch eine Prognose (siehe Anwenderanforderungen).
+		 * setzt den Parameter a3 fÃ¼r die Berechnung der maximalen
+		 * StauverlÃ¤ngerung durch eine Prognose (siehe Anwenderanforderungen).
 		 *
 		 * @param prognoselaengeA3
 		 *            der Parameterwert
@@ -456,9 +456,9 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * setzt die Liste der Störfallverfahren, für die die ermittelten
-		 * Störfallzustände für die Stauobjektbestimmung verwendet werden
-		 * sollen. Die Liste enthält die Aspekte, die die jeweiligen Verfahren
+		 * setzt die Liste der StÃ¶rfallverfahren, fÃ¼r die die ermittelten
+		 * StÃ¶rfallzustÃ¤nde fÃ¼r die Stauobjektbestimmung verwendet werden
+		 * sollen. Die Liste enthÃ¤lt die Aspekte, die die jeweiligen Verfahren
 		 * spezifizieren.
 		 *
 		 * @param siVerfahren
@@ -474,7 +474,7 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * setzt den Wert, um den ein Stauobjekt stromabwärts verlängert wird
+		 * setzt den Wert, um den ein Stauobjekt stromabwÃ¤rts verlÃ¤ngert wird
 		 * (in Metern).
 		 *
 		 * @param stromAbVerlaengerung
@@ -485,7 +485,7 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * setzt den Abstand von gestörten Störfallindikatoren, bei dem die
+		 * setzt den Abstand von gestÃ¶rten StÃ¶rfallindikatoren, bei dem die
 		 * Trennung eines Staupbjektes erfolgen soll (in Metern).
 		 *
 		 * @param teilungsLaenge
@@ -496,11 +496,11 @@ extends AbstractParameterDatensatz<PdStauBestimmungModell.Daten> {
 		}
 
 		/**
-		 * setzt die Verzögerungszeit für die Trennung eines Stauobjekts, wenn
-		 * der erforderliche Trennungsbastand nicht überschritten wurde.
+		 * setzt die VerzÃ¶gerungszeit fÃ¼r die Trennung eines Stauobjekts, wenn
+		 * der erforderliche Trennungsbastand nicht Ã¼berschritten wurde.
 		 *
 		 * @param teilungsverzoegerung
-		 *            die Verzögerungszeit in Millisekunden
+		 *            die VerzÃ¶gerungszeit in Millisekunden
 		 */
 		public void setTeilungsverzoegerung(final long teilungsverzoegerung) {
 			this.teilungsverzoegerung = teilungsverzoegerung;

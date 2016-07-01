@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -136,21 +136,21 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 	public static class Daten extends AbstractDatum {
 
 		/**
-		 * Die Struktur zur Speicherung der RDS-Änderungs-Informationen.
+		 * Die Struktur zur Speicherung der RDS-Ã„nderungs-Informationen.
 		 */
 		public static class RdsAenderungsInfo {
-			/** der Name des Veranlassers der Änderung. */
+			/** der Name des Veranlassers der Ã„nderung. */
 			private String veranlasser;
 
-			/** der Zeitpunkt der Änderung. */
+			/** der Zeitpunkt der Ã„nderung. */
 			private Long modifikationsZeitpunkt;
 
-			/** ein Kommentar zur Änderung. */
+			/** ein Kommentar zur Ã„nderung. */
 			private String modifikationsKommentar;
 
 			/**
 			 * Konstruktor. Die Informationen werden als Datenverteiler-Daten
-			 * übergeben.
+			 * Ã¼bergeben.
 			 *
 			 * @param daten
 			 *            die vom Datenverteiler empfangenen Daten
@@ -164,7 +164,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert den Kommentar der Änderung. Wenn kein Kommentar gesetzt
+			 * liefert den Kommentar der Ã„nderung. Wenn kein Kommentar gesetzt
 			 * wurde, wird der Wert <code>null</code> geliefert.
 			 *
 			 * @return den Kommentar oder <code>null</code>
@@ -174,7 +174,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert den Zeitpunkt, an dem die Änderung vorgenommen wurde.
+			 * liefert den Zeitpunkt, an dem die Ã„nderung vorgenommen wurde.
 			 * Wenn der Zeitpunkt nicht definiert wurde, wird der Wert
 			 * <code>null</code> geliefert.
 			 *
@@ -185,7 +185,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert den Name des Veranlassers der Änderung. Wurde der Name
+			 * liefert den Name des Veranlassers der Ã„nderung. Wurde der Name
 			 * nicht festgelegt, wird der Wert <code>null</code> geliefert.
 			 *
 			 * @return den Name oder <code>null</code>
@@ -196,17 +196,17 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Repräsentatiopn eines RDS-Attributs.
+		 * ReprÃ¤sentatiopn eines RDS-Attributs.
 		 */
 		public static class RdsAttribute {
 			/** Attribut zur Speicherung der geographischen Relevanz. */
 			private RdsGeographischeRelevanz geographischeRelevanz;
 
-			/** Kennzeichen für eine Vorhersage. */
+			/** Kennzeichen fÃ¼r eine Vorhersage. */
 			private boolean vorhersage;
 
 			/**
-			 * Konstruktor. Der Inhalt des Attributs wird aus den übergebenen
+			 * Konstruktor. Der Inhalt des Attributs wird aus den Ã¼bergebenen
 			 * Datenverteilerdaten ermittelt.
 			 *
 			 * @param daten
@@ -226,7 +226,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			 * liefert die Geografische Relevanz des Attributs. Wenn die
 			 * Relevanz nicht gesetzt wurde, wird der Wert <code>null</code>
 			 * geliefert. Wenn der Datenverteilerdatensatz einen unbekannten
-			 * Code für die geographische Relevanz geliefert hat wird der
+			 * Code fÃ¼r die geographische Relevanz geliefert hat wird der
 			 * Standardwert {@link RdsGeographischeRelevanz#NATIONAL} geliefert.
 			 *
 			 * @return die Relevanz oder <code>null</code>
@@ -247,14 +247,14 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Repräsentation eines RDS-Ereignisses innerhalb einer RDS-Meldung.
+		 * ReprÃ¤sentation eines RDS-Ereignisses innerhalb einer RDS-Meldung.
 		 */
 		public static class RdsEreignis {
 
 			/** die Liste der Ereignisdaten. */
 			private final List<RdsEreignisDaten> ereignisDaten = new ArrayList<>();
 
-			/** markiert, ob das Ereignis für beide Richtungen gültig ist. */
+			/** markiert, ob das Ereignis fÃ¼r beide Richtungen gÃ¼ltig ist. */
 			private boolean ereignisInBeidenRichtungen;
 
 			/** die Ereigniskodierung. */
@@ -270,7 +270,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			private final List<RdsEreignisTyp> ereignisTyp = new ArrayList<>();
 
 			/**
-			 * Konstruktor. Die Daten des Ereignisses werden aus dem übergebenen
+			 * Konstruktor. Die Daten des Ereignisses werden aus dem Ã¼bergebenen
 			 * Datenverteiler-Datensatz ermittelt.
 			 *
 			 * @param daten
@@ -346,10 +346,10 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert eine Aussage, ob das Ereignis für beide Fahrtrichtungen
+			 * liefert eine Aussage, ob das Ereignis fÃ¼r beide Fahrtrichtungen
 			 * relevant ist.
 			 *
-			 * @return <code>true</code>, wenn das Ereignis für beide
+			 * @return <code>true</code>, wenn das Ereignis fÃ¼r beide
 			 *         Fahrtrichtungen git
 			 */
 			public boolean isEreignisInBeidenRichtungen() {
@@ -358,7 +358,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Datenstruktur für die Definition der Ereignisdaten eines
+		 * Datenstruktur fÃ¼r die Definition der Ereignisdaten eines
 		 * {@link RdsEreignis}.
 		 */
 		public static class RdsEreignisDaten {
@@ -377,11 +377,11 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/** die Dauer des Ereignisses (qualitativ). */
 			private RdsEreignisDauer ereignisDauer;
 
-			/** die Liste der zugeordneten Ereignisquantitäten. */
+			/** die Liste der zugeordneten EreignisquantitÃ¤ten. */
 			private final List<RdsEreignisQuantitaet> ereignisQuantitaet = new ArrayList<>();
 
 			/**
-			 * Konstruktor. Der Inhalt der Datnstruktur wird aus dem übergebenen
+			 * Konstruktor. Der Inhalt der Datnstruktur wird aus dem Ã¼bergebenen
 			 * Datenverteiler-Datensatz ermittelt.
 			 *
 			 * @param daten
@@ -398,7 +398,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 							.getVorhersagecode(daten.getUnscaledValue("VorhersageCode").intValue());
 					ereignisDauer = RdsEreignisDauer.getStatus(daten.getUnscaledValue("EreignisDauer").intValue());
 
-					final Data.Array array = daten.getArray("EreignisQuantität");
+					final Data.Array array = daten.getArray("EreignisQuantitÃ¤t");
 					for (int idx = 0; idx < array.getLength(); idx++) {
 						ereignisQuantitaet.add(new RdsEreignisQuantitaet(array.getItem(idx)));
 					}
@@ -428,8 +428,8 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/**
 			 * liefert die qualitative Dauer des Ereignisses. Wurde das
 			 * Atztribut nicht gesetzt, wird der Wert <code>null</code>
-			 * geliefert. Enthält der Datenverteiler-Datensatz einen unbekannten
-			 * Code für die Ereignisdauer, wird der Standardwert
+			 * geliefert. EnthÃ¤lt der Datenverteiler-Datensatz einen unbekannten
+			 * Code fÃ¼r die Ereignisdauer, wird der Standardwert
 			 * {@link RdsEreignisDauer#UNBEKANNT} geliefert.
 			 *
 			 * @return die Dauer oder <code>null</code>
@@ -449,7 +449,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert die Liste der zugeordneten Ereignisquantitäten.
+			 * liefert die Liste der zugeordneten EreignisquantitÃ¤ten.
 			 *
 			 * @return die Liste
 			 */
@@ -469,22 +469,22 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Repräsentation einer RDS-Ereignis-Quantität innerhalb einer
+		 * ReprÃ¤sentation einer RDS-Ereignis-QuantitÃ¤t innerhalb einer
 		 * RDS-Meldung.
 		 */
 		public static class RdsEreignisQuantitaet {
-			/** die Kennung der Quantität. */
+			/** die Kennung der QuantitÃ¤t. */
 			private RdsQuantitaet quantitaetsKennung;
 
-			/** der Wert der Quantität. */
+			/** der Wert der QuantitÃ¤t. */
 			private String quantitaetsWert;
 
-			/** die Einheit der Quantität. */
+			/** die Einheit der QuantitÃ¤t. */
 			private String quantitaetsEinheit;
 
 			/**
 			 * Konstruktor. Die Daten des Objekts werden mit den Informationen
-			 * aus dem übergebenen Datenverteiler-Datensatz initialisiert.
+			 * aus dem Ã¼bergebenen Datenverteiler-Datensatz initialisiert.
 			 *
 			 * @param daten
 			 *            die Daten
@@ -492,14 +492,14 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			public RdsEreignisQuantitaet(final Data daten) {
 				if (daten != null) {
 					quantitaetsKennung = new RdsQuantitaet(
-							daten.getReferenceValue("QuantitätsKennung").getSystemObject());
-					quantitaetsWert = daten.getTextValue("QuantitätsWert").getText();
-					quantitaetsEinheit = daten.getTextValue("QuantitätsEinheit").getText();
+							daten.getReferenceValue("QuantitÃ¤tsKennung").getSystemObject());
+					quantitaetsWert = daten.getTextValue("QuantitÃ¤tsWert").getText();
+					quantitaetsEinheit = daten.getTextValue("QuantitÃ¤tsEinheit").getText();
 				}
 			}
 
 			/**
-			 * liefert die Einheit der Quantität. Wenn keine Einheit definiert
+			 * liefert die Einheit der QuantitÃ¤t. Wenn keine Einheit definiert
 			 * wurde, wird der Wert <code>null</code> geliefert.
 			 *
 			 * @return die Einheit oder <code>null</code>
@@ -509,7 +509,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert die Kennung der Quantität. Wenn keine Kennung bekannt
+			 * liefert die Kennung der QuantitÃ¤t. Wenn keine Kennung bekannt
 			 * wird, wird der Wert <code>null</code> geliefert.
 			 *
 			 * @return die Kennung oder <code>null</code>
@@ -519,7 +519,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert den Wert der Quantität, wen kein Wert definiert wurde,
+			 * liefert den Wert der QuantitÃ¤t, wen kein Wert definiert wurde,
 			 * wird <code>null</code> geliefert.
 			 *
 			 * @return den Wert oder <code>null</code>
@@ -530,7 +530,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Repräsentation der Struktur zur Definition der Landeskennung
+		 * ReprÃ¤sentation der Struktur zur Definition der Landeskennung
 		 * innerhalb einer RDS-Meldung.
 		 */
 		public static class RdsLandesKennung {
@@ -543,11 +543,11 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 
 			/**
 			 * Konstruktor. Die konfigurierenden Daten der Attributgruppe
-			 * "atg.rdsLandesKennung" des übergebenen Systemobjekts werden
+			 * "atg.rdsLandesKennung" des Ã¼bergebenen Systemobjekts werden
 			 * verwendet, um die Attribute der Landeskennung zu ermitteln.
 			 *
 			 * @param ref
-			 *            das Systemobjekt, an dem die Daten für die
+			 *            das Systemobjekt, an dem die Daten fÃ¼r die
 			 *            Landeskennung abgelegt sind
 			 */
 			public RdsLandesKennung(final SystemObject ref) {
@@ -585,13 +585,13 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * die Repräsentation einer RDS-Location innerhalb einer RDS-Meldung.
+		 * die ReprÃ¤sentation einer RDS-Location innerhalb einer RDS-Meldung.
 		 */
 		public static class RdsLocation {
 			/** der Code der Location. */
 			private int locationCode;
 
-			/** die Nummer der Straße als Zeichenkette. */
+			/** die Nummer der StraÃŸe als Zeichenkette. */
 			private String strassenNummer;
 
 			/** die Nummer der Ausfahrt als Zeichenkette. */
@@ -612,10 +612,10 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/** die Nummer einer Gebietsreferenz. */
 			private int locationCodeGebietsReferenz;
 
-			/** die Nummer der nächsten Location in negativer Richtung. */
+			/** die Nummer der nÃ¤chsten Location in negativer Richtung. */
 			private int locationNextNegativ;
 
-			/** die Nummer der nächsten Location in positiver Richtung. */
+			/** die Nummer der nÃ¤chsten Location in positiver Richtung. */
 			private int locationNextPositiv;
 
 			/** die Nachrichten der Location. */
@@ -623,7 +623,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 
 			/**
 			 * Konstruktor. Die Daten des Objekts werden mit den Informatioenen
-			 * aus dem übergebenen Datenverteiler-Datensatz initialisiert.
+			 * aus dem Ã¼bergebenen Datenverteiler-Datensatz initialisiert.
 			 *
 			 * @param daten
 			 *            die Daten
@@ -717,7 +717,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert den Code der nächsten in negativer Richtung liegenden
+			 * liefert den Code der nÃ¤chsten in negativer Richtung liegenden
 			 * Location. Wenn keine definiert wurde, wird der Wert 0 geliefert.
 			 *
 			 * @return der Code
@@ -727,7 +727,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert den Code der nächsten in positiver Richtung liegenden
+			 * liefert den Code der nÃ¤chsten in positiver Richtung liegenden
 			 * Location. Wenn keine definiert wurde, wird der Wert 0 geliefert.
 			 *
 			 * @return der Code
@@ -737,10 +737,10 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert die Straßennummer der Location als Zeichenkette. Wenn
+			 * liefert die StraÃŸennummer der Location als Zeichenkette. Wenn
 			 * keine definiert wurde, wird der Wert <code>null</code> geliefert.
 			 *
-			 * @return die Straßennummer oder <code>null</code>
+			 * @return die StraÃŸennummer oder <code>null</code>
 			 */
 			public String getStrassenNummer() {
 				return strassenNummer;
@@ -758,7 +758,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Die Repräsentation von Location-Daten innerhalb einer RDS-Meldung.
+		 * Die ReprÃ¤sentation von Location-Daten innerhalb einer RDS-Meldung.
 		 */
 		public static class RdsLocationDaten {
 			/** die Liste der zugeordneten Locations. */
@@ -776,10 +776,10 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/** die TMC-Richtung. */
 			private RdsTMCRichtung tmcRichtung;
 
-			/** die primäre Entfernung. */
+			/** die primÃ¤re Entfernung. */
 			private long locationPrimaerEntfernung;
 
-			/** die sekundäre Entfernung. */
+			/** die sekundÃ¤re Entfernung. */
 			private long locationSekundaerEntfernung;
 
 			/** die vorgelagerte Location. */
@@ -796,7 +796,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 
 			/**
 			 * Konstruktor. Die Daten des Objekts werden mit den Informationen
-			 * aus dem übergebenen Datenverteiler-Datensatz initialisiert.
+			 * aus dem Ã¼bergebenen Datenverteiler-Datensatz initialisiert.
 			 *
 			 * @param daten
 			 *            die Daten
@@ -814,8 +814,8 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 					locationMethode = RdsLocationMethode
 							.getStatus(daten.getUnscaledValue("LocationMethode").intValue());
 					tmcRichtung = RdsTMCRichtung.getStatus(daten.getUnscaledValue("TMCRichtung").intValue());
-					locationPrimaerEntfernung = daten.getUnscaledValue("LocationPrimärEntfernung").longValue();
-					locationSekundaerEntfernung = daten.getUnscaledValue("LocationSekundärEntfernung").longValue();
+					locationPrimaerEntfernung = daten.getUnscaledValue("LocationPrimÃ¤rEntfernung").longValue();
+					locationSekundaerEntfernung = daten.getUnscaledValue("LocationSekundÃ¤rEntfernung").longValue();
 					locationVorLocation = daten.getUnscaledValue("LocationVorLocation").intValue();
 					locationNachLocation = daten.getUnscaledValue("LocationNachLocation").intValue();
 					locationKategorie = RdsLocationKategorie
@@ -839,7 +839,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/**
 			 * liefert die Kategorie. Wenn keine Definition erfolgt ist, wird
 			 * der Wert <code>null</code> geliefert. Wenn der Datensatz keinen
-			 * gültigen Code für die Kategorie enthalten hat, wird der
+			 * gÃ¼ltigen Code fÃ¼r die Kategorie enthalten hat, wird der
 			 * Standardwert {@link RdsLocationKategorie#PUNKT} geliefert.
 			 *
 			 * @return die Kategorie oder <code>null</code>
@@ -851,7 +851,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/**
 			 * liefert die Location-Methode. Wenn keine Definition erfolgt ist,
 			 * wird der Wert <code>null</code> geliefert. Wenn der Datensatz
-			 * keinen gültigen Code für die Methode enthälten hat, wird der
+			 * keinen gÃ¼ltigen Code fÃ¼r die Methode enthÃ¤lten hat, wird der
 			 * Standardwert {@link RdsLocationMethode#METHODE0} geliefert.
 			 *
 			 * @return die Methode oder <code>null</code>
@@ -871,7 +871,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert die primäre Entfernung der Location. Wenn keine
+			 * liefert die primÃ¤re Entfernung der Location. Wenn keine
 			 * Definition erfolgt ist, wird der Wert 0 geliefert.
 			 *
 			 * @return die Entfernung
@@ -891,7 +891,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert die sekundäre Entfernung der Location. Wenn keine
+			 * liefert die sekundÃ¤re Entfernung der Location. Wenn keine
 			 * Definition erfolgt ist, wird der Wert 0 geliefert.
 			 *
 			 * @return die Entfernung
@@ -932,7 +932,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/**
 			 * liefert die TMC-Richtung. Wenn keine Definition erfolgt ist, wird
 			 * der Wert <code>null</code> geliefert. Wenn der Datensatz keinen
-			 * gültigen Code für die TMC-Richtung enthät, wird der Standardwert
+			 * gÃ¼ltigen Code fÃ¼r die TMC-Richtung enthÃ¤t, wird der Standardwert
 			 * {@link RdsTMCRichtung#POSITIV} geliefert.
 			 *
 			 * @return die Richtung oder <code>null</code>
@@ -943,10 +943,10 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Repräsentation der Koordinaten innerhal einer RDS-Meldung.
+		 * ReprÃ¤sentation der Koordinaten innerhal einer RDS-Meldung.
 		 */
 		public static class RdsLocationKoordinaten {
-			/** die definierte Länge. */
+			/** die definierte LÃ¤nge. */
 			private double laenge;
 
 			/** die definierte Breite. */
@@ -954,7 +954,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 
 			/**
 			 * Konstruktor. Die Daten des Objekts werden mit den Informationen
-			 * aus dem übergebenen Datensatz initialisiert.
+			 * aus dem Ã¼bergebenen Datensatz initialisiert.
 			 *
 			 * @param daten
 			 *            die Daten
@@ -977,10 +977,10 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert die definierte Länge. Wenn keine Länge definiert wurde,
+			 * liefert die definierte LÃ¤nge. Wenn keine LÃ¤nge definiert wurde,
 			 * wird der Wert 0 geliefert.
 			 *
-			 * @return die Länge
+			 * @return die LÃ¤nge
 			 */
 			public double getLaenge() {
 				return laenge;
@@ -988,7 +988,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Repräsentation der Informationen einer Location-Tabelle innerhalb
+		 * ReprÃ¤sentation der Informationen einer Location-Tabelle innerhalb
 		 * einer RDS-Meldung.
 		 */
 		public static class RdsLocationTabelleInfo {
@@ -1006,7 +1006,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 
 			/**
 			 * Konstruktor. Die Daten des Objekts werden mit den Informationen
-			 * aus dem übergebenen Datensatz initialisiert.
+			 * aus dem Ã¼bergebenen Datensatz initialisiert.
 			 *
 			 * @param daten
 			 *            die Daten
@@ -1045,7 +1045,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/**
 			 * liefert den Tabellentyp. Wenn kein Typ definiert wurde, wird der
 			 * Wert <code>null</code> geliefert. Wenn der Datensatz keinen
-			 * gültigen Code für den Tabellentyp enthält, wird der Standardwert
+			 * gÃ¼ltigen Code fÃ¼r den Tabellentyp enthÃ¤lt, wird der Standardwert
 			 * {@link RdsLocationTabelleTyp#TMC} geliefert.
 			 *
 			 * @return den Typ oder <code>null</code>
@@ -1066,7 +1066,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Repräsentation der Nachrichten innerhalb einer RDS-Meldung.
+		 * ReprÃ¤sentation der Nachrichten innerhalb einer RDS-Meldung.
 		 */
 		public static class RdsNachrichten {
 
@@ -1078,7 +1078,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 
 			/**
 			 * Konstruktor. Die Daten des Objekts werden mit den Informationen
-			 * aus dem übergebenen Datenverteiler-Datensatz initialisiert.
+			 * aus dem Ã¼bergebenen Datenverteiler-Datensatz initialisiert.
 			 *
 			 * @param daten
 			 *            die Daten
@@ -1095,12 +1095,12 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert die Nachricht mit dem übergebenen Typ. Wenn kein
+			 * liefert die Nachricht mit dem Ã¼bergebenen Typ. Wenn kein
 			 * entsprechender Eintrag existiert wird eine leere Zeichenkette
 			 * geliefert.
 			 *
 			 * @param typ
-			 *            der Typ für den der Nachrichteneintrag ermittelt
+			 *            der Typ fÃ¼r den der Nachrichteneintrag ermittelt
 			 *            werden soll
 			 * @return der ermittelte Text
 			 */
@@ -1136,7 +1136,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Repräsentiert einen Eintrag innerhalb einer Nachricht einer
+		 * ReprÃ¤sentiert einen Eintrag innerhalb einer Nachricht einer
 		 * RDS-Meldung.
 		 */
 		public static class RdsNachrichtenDaten {
@@ -1149,7 +1149,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 
 			/**
 			 * Konstruktor. Die Daten des Objekts werden mit den Informationen
-			 * aus dem übergebenen Datenverteiler-Datensatz initialisiert.
+			 * aus dem Ã¼bergebenen Datenverteiler-Datensatz initialisiert.
 			 *
 			 * @param daten
 			 *            die Daten
@@ -1165,7 +1165,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/**
 			 * liefert die Nachrichtenklasse des Eintrags. Wenn keine definiert
 			 * wurde, wird der Wert <code>null</code> geliefert. Wenn der
-			 * Datenverteiler-Datensatz keinen gültugen Code für die
+			 * Datenverteiler-Datensatz keinen gÃ¼ltugen Code fÃ¼r die
 			 * Nachrichtenklasse enthalten hat, wird der Standardwert
 			 * {@link RdsNachrichtenKlasse#FREIER_TEXT} geliefert.
 			 *
@@ -1187,7 +1187,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Die Repräsentation eines Textes innerhalb einer RDS-Meldung.
+		 * Die ReprÃ¤sentation eines Textes innerhalb einer RDS-Meldung.
 		 */
 		public static class RdsText {
 
@@ -1199,7 +1199,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 
 			/**
 			 * Konstruktor. Die Daten des Objekts werden mit den Informationen
-			 * aus dem übergebenen Datenverteiler-Datensatzes initialisiert.
+			 * aus dem Ã¼bergebenen Datenverteiler-Datensatzes initialisiert.
 			 *
 			 * @param daten
 			 *            die Daten
@@ -1234,7 +1234,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Repräsenation des verkehrlichen Teils einer RDS-Meldung.
+		 * ReprÃ¤senation des verkehrlichen Teils einer RDS-Meldung.
 		 */
 		public static class RdsVerkehr {
 
@@ -1253,7 +1253,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/** ein der Meldung zugeordnetes Ereignis. */
 			private RdsEreignis ereignis;
 
-			/** zusätzliche Attribute der Meldung. */
+			/** zusÃ¤tzliche Attribute der Meldung. */
 			private RdsAttribute zusatzAttribute;
 
 			/** definierter Alarmierungscode. */
@@ -1261,7 +1261,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 
 			/**
 			 * Konstruktor. Die Daten des Objekts werden mit den Informationen
-			 * aus dem übergeben Datenverteiler-Datensatz initialisiert.
+			 * aus dem Ã¼bergeben Datenverteiler-Datensatz initialisiert.
 			 *
 			 * @param daten
 			 *            die Daten
@@ -1353,7 +1353,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * Repräsentation der Verwaltungsdaten einer RDS-Meldung.
+		 * ReprÃ¤sentation der Verwaltungsdaten einer RDS-Meldung.
 		 */
 		public static class RdsVerwaltung {
 			/** der Name der authorisiernden Organisiationseinheit. */
@@ -1383,7 +1383,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/** der Ablaufzeitpunkt der Meldung. */
 			private long ablaufZeit;
 
-			/** der Zeitpunkt der nächsten Erinnerung für die Meldung. */
+			/** der Zeitpunkt der nÃ¤chsten Erinnerung fÃ¼r die Meldung. */
 			private long erinnerungsZeit;
 
 			/** der Offset des Erinnnerungszeitpunkts. */
@@ -1395,7 +1395,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/** der Zeitpunkt der Erzeugung der Meldung. */
 			private long erzeugungsZeit;
 
-			/** die Änderungsinfromationen der Meldung. */
+			/** die Ã„nderungsinfromationen der Meldung. */
 			private RdsAenderungsInfo aenderungsInformationen;
 
 			/** der Status der Meldung. */
@@ -1404,7 +1404,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/** die Wichtung der Meldung. */
 			private int wichtung;
 
-			/** die Priorität der Meldung. */
+			/** die PrioritÃ¤t der Meldung. */
 			private RdsPrioritaet prioritaet;
 
 			/** die Landeskennung der Meldung. */
@@ -1412,7 +1412,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 
 			/**
 			 * Konstruktor. Die Daten des Objekts werden mit den Informationen
-			 * aus dem übergebenen Datenverteiler-Datensatzes initialisiert.
+			 * aus dem Ã¼bergebenen Datenverteiler-Datensatzes initialisiert.
 			 *
 			 * @param daten
 			 *            die Daten
@@ -1434,10 +1434,10 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 					erinnerungsZeitOffset = daten.getTimeValue("ErinnerungsZeitOffset").getMillis();
 					erinnerungsTyp = RdsErinnerungsTyp.getStatus(daten.getUnscaledValue("ErinnerungsTyp").intValue());
 					erzeugungsZeit = daten.getTimeValue("ErzeugungsZeit").getMillis();
-					aenderungsInformationen = new RdsAenderungsInfo(daten.getItem("ÄnderungsInformationen"));
+					aenderungsInformationen = new RdsAenderungsInfo(daten.getItem("Ã„nderungsInformationen"));
 					status = RdsStatus.getStatus(daten.getUnscaledValue("Status").intValue());
 					wichtung = daten.getUnscaledValue("Wichtung").intValue();
-					prioritaet = RdsPrioritaet.getStatus(daten.getUnscaledValue("Priorität").intValue());
+					prioritaet = RdsPrioritaet.getStatus(daten.getUnscaledValue("PrioritÃ¤t").intValue());
 					landesKennung = new RdsLandesKennung(daten.getReferenceValue("LandesKennung").getSystemObject());
 				}
 			}
@@ -1453,7 +1453,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert die Änderungsinformatioenen. Wurden keine Informationen
+			 * liefert die Ã„nderungsinformatioenen. Wurden keine Informationen
 			 * definiert, wird der Wert <code>null</code> geliefert.
 			 *
 			 * @return die Informationen oder <code>null</code>
@@ -1537,8 +1537,8 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			/**
 			 * liefert den Erinnerungstyp. Wenn kein Typ definiert wurde, wird
 			 * der Wert <code>null</code> geliefert. Wenn der Datensatz zur
-			 * Initialisierung keinen gültigen Code für den Erinnerungstp
-			 * enthält, wird der Standardwert {@link RdsErinnerungsTyp#KEINE}
+			 * Initialisierung keinen gÃ¼ltigen Code fÃ¼r den Erinnerungstp
+			 * enthÃ¤lt, wird der Standardwert {@link RdsErinnerungsTyp#KEINE}
 			 * geliefert.
 			 *
 			 * @return den Typ oder <code>null</code>
@@ -1588,12 +1588,12 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			}
 
 			/**
-			 * liefert die Priorität. Wurde keine Priorotät definiert, wird der
-			 * Wert <code>null</code> geliefert. Enthält der initialisiernde
-			 * Datensatz keinen gültigen Code für die Priorität, wird der
+			 * liefert die PrioritÃ¤t. Wurde keine PriorotÃ¤t definiert, wird der
+			 * Wert <code>null</code> geliefert. EnthÃ¤lt der initialisiernde
+			 * Datensatz keinen gÃ¼ltigen Code fÃ¼r die PrioritÃ¤t, wird der
 			 * Standardwert {@link RdsPrioritaet#NORMAL} geliefert.
 			 *
-			 * @return die Priorität oder <code>null</code>
+			 * @return die PrioritÃ¤t oder <code>null</code>
 			 */
 			public RdsPrioritaet getPrioritaet() {
 				return prioritaet;
@@ -1601,11 +1601,11 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 
 			/**
 			 * liefert den Status. Wurde kein Status definiert, wird der Wert
-			 * <code>null</code> geliefert. Enthält der initialisiernde
-			 * Datensatz keinen gültigen Code für die Priorität, wird der
+			 * <code>null</code> geliefert. EnthÃ¤lt der initialisiernde
+			 * Datensatz keinen gÃ¼ltigen Code fÃ¼r die PrioritÃ¤t, wird der
 			 * Standardwert {@link RdsPrioritaet#NORMAL} geliefert.
 			 *
-			 * @return die Priorität oder <code>null</code>
+			 * @return die PrioritÃ¤t oder <code>null</code>
 			 */
 			public RdsStatus getStatus() {
 				return status;
@@ -1745,7 +1745,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * setzt die Info GUID der Meldung auf den übergebenen Wert.
+		 * setzt die Info GUID der Meldung auf den Ã¼bergebenen Wert.
 		 *
 		 * @param id
 		 *            die zu setzende ID
@@ -1755,7 +1755,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * setzt die Nummer der Meldung auf den übergebenen Wert.
+		 * setzt die Nummer der Meldung auf den Ã¼bergebenen Wert.
 		 *
 		 * @param nummer
 		 *            die zu setzende Nummer
@@ -1765,7 +1765,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * setzt den Name der Organisation der Meldung auf den übergebenen Wert.
+		 * setzt den Name der Organisation der Meldung auf den Ã¼bergebenen Wert.
 		 *
 		 * @param organisation
 		 *            der zu setzende Name
@@ -1775,7 +1775,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * setzt die verkehrstechnischen Daten der Meldung auf den übergebenen
+		 * setzt die verkehrstechnischen Daten der Meldung auf den Ã¼bergebenen
 		 * Wert.
 		 *
 		 * @param verkehr
@@ -1786,7 +1786,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * setzt die Versions GUID der Meldung auf den übergebenen Wert.
+		 * setzt die Versions GUID der Meldung auf den Ã¼bergebenen Wert.
 		 *
 		 * @param id
 		 *            die zu setzende ID
@@ -1796,7 +1796,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 		}
 
 		/**
-		 * setzt die Verwaltungsdaten der Meldung auf den übergebenen Wert.
+		 * setzt die Verwaltungsdaten der Meldung auf den Ã¼bergebenen Wert.
 		 *
 		 * @param verwaltung
 		 *            die zu setzenden Daten
@@ -1816,7 +1816,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 	 * initialisiert den Onlinedatensatz.
 	 *
 	 * @param meldung
-	 *            die Meldung, für deren Daten ein Datensatz initialisiert
+	 *            die Meldung, fÃ¼r deren Daten ein Datensatz initialisiert
 	 *            werden soll
 	 */
 	public OdRdsMeldung(final RdsMeldung meldung) {

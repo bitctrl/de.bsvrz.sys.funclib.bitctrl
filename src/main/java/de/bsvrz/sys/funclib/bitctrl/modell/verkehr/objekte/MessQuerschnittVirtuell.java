@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -31,7 +31,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 
 /**
- * Die Repr‰sentation eines virtuellen Meﬂquerschnitts innerhalb der
+ * Die Repr√§sentation eines virtuellen Me√üquerschnitts innerhalb der
  * Modellabbildung.
  *
  * @author BitCtrl Systems GmbH, Peuker
@@ -40,8 +40,8 @@ public class MessQuerschnittVirtuell extends MessQuerschnittAllgemein {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion erzeugt eine Instanz eines virtuellen Meﬂquerschnitts auf
-	 * der Basis des ¸bergebenen Systemobjekts.
+	 * Die Funktion erzeugt eine Instanz eines virtuellen Me√üquerschnitts auf
+	 * der Basis des √ºbergebenen Systemobjekts.
 	 *
 	 * @param obj
 	 *            das Systemobjekt

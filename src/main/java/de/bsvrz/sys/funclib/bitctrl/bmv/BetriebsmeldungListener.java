@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,14 +29,14 @@ package de.bsvrz.sys.funclib.bitctrl.bmv;
 import java.util.EventListener;
 
 /**
- * Listener der über Änderungen an der Betriebsmeldungsliste informiert.
+ * Listener der Ã¼ber Ã„nderungen an der Betriebsmeldungsliste informiert.
  *
  * @author BitCtrl Systems GmbH, Schumann
  */
 public interface BetriebsmeldungListener extends EventListener {
 
 	/**
-	 * Wird aufgerufen, wenn sich die Betriebsmeldungsliste geändert hat.
+	 * Wird aufgerufen, wenn sich die Betriebsmeldungsliste geÃ¤ndert hat.
 	 *
 	 * @param e
 	 *            das entsprechende Event.

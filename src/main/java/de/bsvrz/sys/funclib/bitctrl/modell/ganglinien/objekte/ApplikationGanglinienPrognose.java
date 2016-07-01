@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.ganglinien.objekte;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
 /**
- * Repr‰sentiert die Ganglinienprognose und das automatische Ganglinienlernen.
+ * Repr√§sentiert die Ganglinienprognose und das automatische Ganglinienlernen.
  * Die Implementierung steht in der <em>SWE 5.5 Funktionen Ganglinien</em>.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann, Peuker

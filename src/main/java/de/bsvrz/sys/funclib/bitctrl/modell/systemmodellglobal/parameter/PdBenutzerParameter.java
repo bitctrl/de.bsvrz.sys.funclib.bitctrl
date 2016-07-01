@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -47,7 +47,7 @@ public class PdBenutzerParameter
 extends AbstractParameterDatensatz<PdBenutzerParameter.Daten> {
 
 	/**
-	 * Repr‰sentation der Daten des Parameters.
+	 * Repr√§sentation der Daten des Parameters.
 	 */
 	public static class Daten extends AbstractDatum {
 
@@ -73,7 +73,7 @@ extends AbstractParameterDatensatz<PdBenutzerParameter.Daten> {
 		}
 
 		/**
-		 * Gibt die Berechtigungsklasse des Nutzers zur¸ck.
+		 * Gibt die Berechtigungsklasse des Nutzers zur√ºck.
 		 *
 		 * @return die Berechtigungsklasse des Nutzers.
 		 */

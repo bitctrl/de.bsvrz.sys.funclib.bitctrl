@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -48,14 +48,14 @@ public class BenutzerInfo {
 	/** Der zweite Vorname, falls vorhanden. */
 	private String zweiterVorname;
 
-	/** Die Organisation (Firma, Behörde, ...). */
+	/** Die Organisation (Firma, BehÃ¶rde, ...). */
 	private String organisation;
 
 	/** Die E-Mail-Adresse. */
 	private String emailAdresse;
 
 	/**
-	 * Gibt den Loginname zurück.
+	 * Gibt den Loginname zurÃ¼ck.
 	 *
 	 * @return der Loginname.
 	 */
@@ -74,7 +74,7 @@ public class BenutzerInfo {
 	}
 
 	/**
-	 * Gibt das Anmeldekennwort zurück.
+	 * Gibt das Anmeldekennwort zurÃ¼ck.
 	 *
 	 * @return das Anmeldekennwort.
 	 */
@@ -93,7 +93,7 @@ public class BenutzerInfo {
 	}
 
 	/**
-	 * Gibt den Nachnamen zurück.
+	 * Gibt den Nachnamen zurÃ¼ck.
 	 *
 	 * @return der Nachname.
 	 */
@@ -112,7 +112,7 @@ public class BenutzerInfo {
 	}
 
 	/**
-	 * Gibt den Vornamen zurück.
+	 * Gibt den Vornamen zurÃ¼ck.
 	 *
 	 * @return der Vorname.
 	 */
@@ -131,7 +131,7 @@ public class BenutzerInfo {
 	}
 
 	/**
-	 * Gibt den zweiten Vornamen zurück.
+	 * Gibt den zweiten Vornamen zurÃ¼ck.
 	 *
 	 * @return der zweiten Vorname.
 	 */
@@ -150,7 +150,7 @@ public class BenutzerInfo {
 	}
 
 	/**
-	 * Gibt die Organisation (Firma, Behörde, ...) zurück.
+	 * Gibt die Organisation (Firma, BehÃ¶rde, ...) zurÃ¼ck.
 	 *
 	 * @return die Organisation.
 	 */
@@ -159,7 +159,7 @@ public class BenutzerInfo {
 	}
 
 	/**
-	 * Legt die Organisation (Firma, Behörde, ...) fest.
+	 * Legt die Organisation (Firma, BehÃ¶rde, ...) fest.
 	 *
 	 * @param organisation
 	 *            die Organisation.
@@ -169,7 +169,7 @@ public class BenutzerInfo {
 	}
 
 	/**
-	 * Gibt die E-Mail-Adresse zurück.
+	 * Gibt die E-Mail-Adresse zurÃ¼ck.
 	 *
 	 * @return die E-Mail-Adresse.
 	 */

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -51,12 +51,12 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 public final class LogTools {
 
 	/**
-	 * definiert, ob die ID für eine Meldung gegebenenfalls explizit berechnet
+	 * definiert, ob die ID fÃ¼r eine Meldung gegebenenfalls explizit berechnet
 	 * werden soll.
 	 */
 	private static boolean calculateId = true;
 
-	/** das Tool zum Bestimmen der ID für eine Betriebsmeldung. */
+	/** das Tool zum Bestimmen der ID fÃ¼r eine Betriebsmeldung. */
 	private static BetriebsmeldungIdKonverter konverter = new DefaultBetriebsMeldungsIdKonverter();
 
 	/**
@@ -84,7 +84,7 @@ public final class LogTools {
 	}
 
 	/**
-	 * Prüft, ob für einen Logger auf einem bestimmten Level eine Ausgabe
+	 * PrÃ¼ft, ob fÃ¼r einen Logger auf einem bestimmten Level eine Ausgabe
 	 * mittels dem {@link ConsoleHandler} erfolgt.
 	 *
 	 * @param klasse
@@ -115,7 +115,7 @@ public final class LogTools {
 	}
 
 	/**
-	 * Prüft, ob für einen Logger auf einem bestimmten Level eine Ausgabe
+	 * PrÃ¼ft, ob fÃ¼r einen Logger auf einem bestimmten Level eine Ausgabe
 	 * mittels dem {@link ConsoleHandler} erfolgt.
 	 *
 	 * @param klasse
@@ -149,7 +149,7 @@ public final class LogTools {
 	}
 
 	/**
-	 * Prüft, ob für einen Logger auf einem bestimmten Level eine Ausgabe
+	 * PrÃ¼ft, ob fÃ¼r einen Logger auf einem bestimmten Level eine Ausgabe
 	 * mittels dem {@link ConsoleHandler} erfolgt.
 	 *
 	 * @param klasse
@@ -188,7 +188,7 @@ public final class LogTools {
 	 * @param debug
 	 *            ein Logger.
 	 * @param level
-	 *            der zu prüfende Level.
+	 *            der zu prÃ¼fende Level.
 	 * @return <code>true</code>, wenn der Logger auf dem angegebenen Level
 	 *         Ausgaben macht.
 	 */
@@ -198,18 +198,18 @@ public final class LogTools {
 
 	/**
 	 * Testet ob auf einem Logger mit einem bestimmten Level geloggt wird.
-	 * Zusätzlich kann auf einen bestimmten Handler z.&nbsp;B.
-	 * <code>ConsoleHandler</code> oder <code>FileHandler</code> geprüft werden.
+	 * ZusÃ¤tzlich kann auf einen bestimmten Handler z.&nbsp;B.
+	 * <code>ConsoleHandler</code> oder <code>FileHandler</code> geprÃ¼ft werden.
 	 *
 	 * @param debug
 	 *            ein Logger.
 	 * @param level
-	 *            der zu prüfende Level.
+	 *            der zu prÃ¼fende Level.
 	 * @param handlerClazz
 	 *            die Klasse eines Log-Handlers.
 	 * @return <code>true</code>, wenn der Logger auf dem angegebenen Handler
 	 *         und Level Ausgaben macht. Wenn der Handler <code>null</code> ist,
-	 *         wird <code>true</code> zurückgegeben, wenn der Logger auf dem
+	 *         wird <code>true</code> zurÃ¼ckgegeben, wenn der Logger auf dem
 	 *         angegebenen Level Ausgaben macht, der Handler wird dann
 	 *         ignoriert.
 	 */
@@ -295,7 +295,7 @@ public final class LogTools {
 	 * @param log
 	 *            der Logger.
 	 * @param daten
-	 *            die Daten für den Versand als Betriebsmeldung
+	 *            die Daten fÃ¼r den Versand als Betriebsmeldung
 	 * @param nachricht
 	 *            die Nachricht.
 	 * @param arguments
@@ -341,7 +341,7 @@ public final class LogTools {
 	 * Nachricht gelesen.
 	 *
 	 * @param daten
-	 *            die Daten für die Betriebsmeldung
+	 *            die Daten fÃ¼r die Betriebsmeldung
 	 * @param nachricht
 	 *            die Nachricht.
 	 * @param arguments
@@ -360,7 +360,7 @@ public final class LogTools {
 			}
 
 			// Ausgabe Betriebsmeldung
-			// TODO Textlänge muss gekürzt werden, da writeUTF die Länge
+			// TODO TextlÃ¤nge muss gekÃ¼rzt werden, da writeUTF die LÃ¤nge
 			// begrenzt. (UTFDataFormatException)
 			if (txt.length() > 20000) {
 				txt = txt.substring(0, 20000);

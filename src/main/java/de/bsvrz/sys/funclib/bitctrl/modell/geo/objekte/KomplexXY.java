@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte;
 import java.util.List;
 
 /**
- * Schnittstelle f¸r die Repr‰sentation eines Komplex-Objektes
+ * Schnittstelle f√ºr die Repr√§sentation eines Komplex-Objektes
  * ("typ.komplexXY").
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
@@ -37,10 +37,10 @@ import java.util.List;
 public interface KomplexXY extends Komplex {
 
 	/**
-	 * liefert die Liste der Fl‰chen aus denen das komplexe Element
+	 * liefert die Liste der Fl√§chen aus denen das komplexe Element
 	 * zusammengesetzt ist.
 	 *
-	 * @return die Liste der Fl‰chen
+	 * @return die Liste der Fl√§chen
 	 */
 	List<Flaeche> getFlaechen();
 

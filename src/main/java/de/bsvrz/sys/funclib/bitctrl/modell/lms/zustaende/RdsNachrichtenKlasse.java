@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,15 +29,15 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definitionen f¸r die Klassen der Informationsbestandteile einer Nachricht
+ * Definitionen f√ºr die Klassen der Informationsbestandteile einer Nachricht
  * innerhalb einer RDS-Meldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
 public enum RdsNachrichtenKlasse implements Zustand<Integer> {
 
-	/** Straﬂennummer, Wert 0. */
-	STRASSEN_NUMMER("Straﬂennummer", 0),
+	/** Stra√üennummer, Wert 0. */
+	STRASSEN_NUMMER("Stra√üennummer", 0),
 
 	/** Segment, Wert 1. */
 	SEGMENT("Segment", 1),
@@ -48,8 +48,8 @@ public enum RdsNachrichtenKlasse implements Zustand<Integer> {
 	/** freier Text, Wert 3. */
 	FREIER_TEXT("freier Text", 3),
 
-	/** Erg‰nzung, Wert 4. */
-	ERGAENZUNG("Erg‰nzung", 4),
+	/** Erg√§nzung, Wert 4. */
+	ERGAENZUNG("Erg√§nzung", 4),
 
 	/** Segment von, Wert 20. */
 	SEGMENT_VON("Segment von", 20),
@@ -66,8 +66,8 @@ public enum RdsNachrichtenKlasse implements Zustand<Integer> {
 	/** Name, Wert 40. */
 	NAME("Name", 40),
 
-	/** Straﬂenname, Wert 41. */
-	STRASSEN_NAME("Straﬂenname", 41),
+	/** Stra√üenname, Wert 41. */
+	STRASSEN_NAME("Stra√üenname", 41),
 
 	/** 2. Name, Wert 42. */
 	ZWEITER_NAME("2. Name", 42),
@@ -91,11 +91,11 @@ public enum RdsNachrichtenKlasse implements Zustand<Integer> {
 	HAUSNUMMER("Hausnummer", 48);
 
 	/**
-	 * liefert den Rds-Nachrichtenklasse mit dem ¸bergebenen Code.
+	 * liefert den Rds-Nachrichtenklasse mit dem √ºbergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code f¸r den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ung¸ltiger Code ¸bergeben wurde,
+	 *            der Code f√ºr den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ung√ºltiger Code √ºbergeben wurde,
 	 *         wird eine der Status FREIER_TEXT geliefert.
 	 */
 	public static RdsNachrichtenKlasse getStatus(final int gesuchterCode) {
@@ -122,10 +122,10 @@ public enum RdsNachrichtenKlasse implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz f¸r eine RDS-Nachrichtenklasse mit
-	 * dem ¸bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
+	 * Die Funktion einen eine neue Instanz f√ºr eine RDS-Nachrichtenklasse mit
+	 * dem √ºbergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
 	 * wird nur innerhalb der Klasse verwendet. Es wird eine Menge
-	 * vordefinierter Zust‰nde zur Verf¸gung gestellt.
+	 * vordefinierter Zust√§nde zur Verf√ºgung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

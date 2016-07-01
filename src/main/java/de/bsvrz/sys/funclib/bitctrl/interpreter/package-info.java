@@ -18,14 +18,14 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
  */
 
 /**
- * Interpreter, allgemeine Struktur zum Auswerten von Ausdrücken.
+ * Interpreter, allgemeine Struktur zum Auswerten von AusdrÃ¼cken.
  *
  * Es werden zur Implementierung die beiden Entwurfsmuster <em>Interpreter</em>
  * und <em>Besucher</em> angewandt.

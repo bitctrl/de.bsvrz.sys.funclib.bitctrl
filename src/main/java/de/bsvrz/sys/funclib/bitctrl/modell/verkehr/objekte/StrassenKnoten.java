@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -44,25 +44,25 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende.StrassenKnotenTyp;
 
 /**
- * Die Repräsentation eines Strßenknotens innerhalb der Modellabbildung.
+ * Die ReprÃ¤sentation eines StrÃŸenknotens innerhalb der Modellabbildung.
  *
  * @author BitCtrl Systems GmbH, Peuker
  */
 public class StrassenKnoten extends StoerfallIndikator {
 
 	/**
-	 * der Typ des Straßenknotens.
+	 * der Typ des StraÃŸenknotens.
 	 */
 	private StrassenKnotenTyp knotenTyp = StrassenKnotenTyp.SONSTIG;
 
 	/**
-	 * die Liste der inneren Straßensegmente des Knotens.
+	 * die Liste der inneren StraÃŸensegmente des Knotens.
 	 */
 	private Set<InneresStrassenSegment> innereSegmente;
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion erzeugt einen Straßenknoten auf der Basis des übergebenen
+	 * Die Funktion erzeugt einen StraÃŸenknoten auf der Basis des Ã¼bergebenen
 	 * Systemobjekts.
 	 *
 	 * @param obj
@@ -72,12 +72,12 @@ public class StrassenKnoten extends StoerfallIndikator {
 		super(obj);
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Straßenknoten.");
+					"Systemobjekt ist kein StraÃŸenknoten.");
 		}
 
 		final DataModel modell = getSystemObject().getDataModel();
 		final AttributeGroup atg = modell
-				.getAttributeGroup("atg.straßenKnoten");
+				.getAttributeGroup("atg.straÃŸenKnoten");
 		DataCache.cacheData(getSystemObject().getType(), atg);
 		final Data daten = obj.getConfigurationData(atg);
 		if (daten != null) {
@@ -87,7 +87,7 @@ public class StrassenKnoten extends StoerfallIndikator {
 	}
 
 	/**
-	 * liefert eine Kopie der Liste der inneren Straßensegmente.
+	 * liefert eine Kopie der Liste der inneren StraÃŸensegmente.
 	 *
 	 * @return die Liste der Segmente
 	 */
@@ -95,7 +95,7 @@ public class StrassenKnoten extends StoerfallIndikator {
 		if (innereSegmente == null) {
 			innereSegmente = new HashSet<>();
 			for (final SystemObject o : ((ConfigurationObject) getSystemObject())
-					.getObjectSet("InnereStraßenSegmente").getElements()) {
+					.getObjectSet("InnereStraÃŸenSegmente").getElements()) {
 				innereSegmente.add((InneresStrassenSegment) ObjektFactory
 						.getInstanz().getModellobjekt(o));
 			}
@@ -104,15 +104,15 @@ public class StrassenKnoten extends StoerfallIndikator {
 	}
 
 	/**
-	 * liefert das innere Straßensegment, das ein äußeres Straßensegment des
-	 * Knotens in Fahrtrichtung mit einem anderen äußeren Straßensegment des
-	 * Knotens auf der gleichen Straße verbindet. Wird kein solches gefunden,
-	 * wird das innere Straßensegment geliefert, das an dem äußeren Segment
-	 * hängt. Existiert auch dieses nicht, wird <b><i>null</i></b> geliefert.
+	 * liefert das innere StraÃŸensegment, das ein Ã¤uÃŸeres StraÃŸensegment des
+	 * Knotens in Fahrtrichtung mit einem anderen Ã¤uÃŸeren StraÃŸensegment des
+	 * Knotens auf der gleichen StraÃŸe verbindet. Wird kein solches gefunden,
+	 * wird das innere StraÃŸensegment geliefert, das an dem Ã¤uÃŸeren Segment
+	 * hÃ¤ngt. Existiert auch dieses nicht, wird <b><i>null</i></b> geliefert.
 	 *
 	 * @param segment
-	 *            das äußere Straßensegment
-	 * @return das ermittelte innere Straßensegment
+	 *            das Ã¤uÃŸere StraÃŸensegment
+	 * @return das ermittelte innere StraÃŸensegment
 	 */
 	public InneresStrassenSegment getInnereVerbindungDanach(
 			final AeusseresStrassenSegment segment) {
@@ -145,16 +145,16 @@ public class StrassenKnoten extends StoerfallIndikator {
 	}
 
 	/**
-	 * liefert das innere Straßensegment, das ein äußeres Straßensegment des
-	 * Knotens in Fahrtrichtung mit einem anderen äußeren Straßensegment des
-	 * Knotens auf der gleichen verkehrlichen Straße verbindet. Wird kein
-	 * solches gefunden, wird das innere Straßensegment geliefert, das an dem
-	 * äußeren Segment hängt. Existiert auch dieses nicht, wird
+	 * liefert das innere StraÃŸensegment, das ein Ã¤uÃŸeres StraÃŸensegment des
+	 * Knotens in Fahrtrichtung mit einem anderen Ã¤uÃŸeren StraÃŸensegment des
+	 * Knotens auf der gleichen verkehrlichen StraÃŸe verbindet. Wird kein
+	 * solches gefunden, wird das innere StraÃŸensegment geliefert, das an dem
+	 * Ã¤uÃŸeren Segment hÃ¤ngt. Existiert auch dieses nicht, wird
 	 * <b><i>null</i></b> geliefert.
 	 *
 	 * @param segment
-	 *            das äußere Straßensegment
-	 * @return das ermittelte innere Straßensegment
+	 *            das Ã¤uÃŸere StraÃŸensegment
+	 * @return das ermittelte innere StraÃŸensegment
 	 */
 	public InneresStrassenSegment getInnereVerbindungDanachAufVerkehrlicherStrasse(
 			final AeusseresStrassenSegment segment) {
@@ -213,16 +213,16 @@ public class StrassenKnoten extends StoerfallIndikator {
 	}
 
 	/**
-	 * liefert das innere Straßensegment, das ein äußeres Straßensegment des
-	 * Knotens entgengesetzt der Fahrtrichtung mit einem anderen äußeren
-	 * Straßensegment des Knotens auf der gleichen Straße verbindet. Wird kein
-	 * solches gefunden, wird das innere Straßensegment geliefert, das an dem
-	 * äußeren Segment hängt. Existiert auch dieses nicht, wird
+	 * liefert das innere StraÃŸensegment, das ein Ã¤uÃŸeres StraÃŸensegment des
+	 * Knotens entgengesetzt der Fahrtrichtung mit einem anderen Ã¤uÃŸeren
+	 * StraÃŸensegment des Knotens auf der gleichen StraÃŸe verbindet. Wird kein
+	 * solches gefunden, wird das innere StraÃŸensegment geliefert, das an dem
+	 * Ã¤uÃŸeren Segment hÃ¤ngt. Existiert auch dieses nicht, wird
 	 * <b><i>null</i></b> geliefert.
 	 *
 	 * @param segment
-	 *            das äußere Straßensegment
-	 * @return das ermittelte innere Straßensegment
+	 *            das Ã¤uÃŸere StraÃŸensegment
+	 * @return das ermittelte innere StraÃŸensegment
 	 */
 	public InneresStrassenSegment getInnereVerbindungDavor(
 			final AeusseresStrassenSegment segment) {
@@ -255,16 +255,16 @@ public class StrassenKnoten extends StoerfallIndikator {
 	}
 
 	/**
-	 * liefert das innere Straßensegment, das ein äußeres Straßensegment des
-	 * Knotens entgengesetzt der Fahrtrichtung mit einem anderen äußeren
-	 * Straßensegment des Knotens auf der gleichen verkehrlichen Straße
-	 * verbindet. Wird kein solches gefunden, wird das innere Straßensegment
-	 * geliefert, das an dem äußeren Segment hängt. Existiert auch dieses nicht,
+	 * liefert das innere StraÃŸensegment, das ein Ã¤uÃŸeres StraÃŸensegment des
+	 * Knotens entgengesetzt der Fahrtrichtung mit einem anderen Ã¤uÃŸeren
+	 * StraÃŸensegment des Knotens auf der gleichen verkehrlichen StraÃŸe
+	 * verbindet. Wird kein solches gefunden, wird das innere StraÃŸensegment
+	 * geliefert, das an dem Ã¤uÃŸeren Segment hÃ¤ngt. Existiert auch dieses nicht,
 	 * wird <b><i>null</i></b> geliefert.
 	 *
 	 * @param segment
-	 *            das äußere Straßensegment
-	 * @return das ermittelte innere Straßensegment
+	 *            das Ã¤uÃŸere StraÃŸensegment
+	 * @return das ermittelte innere StraÃŸensegment
 	 */
 	public InneresStrassenSegment getInnereVerbindungDavorAufVerkehrlicherStrasse(
 			final AeusseresStrassenSegment segment) {
@@ -298,7 +298,7 @@ public class StrassenKnoten extends StoerfallIndikator {
 	}
 
 	/**
-	 * liefert den Typ des Straßenknotens.
+	 * liefert den Typ des StraÃŸenknotens.
 	 *
 	 * @return den Typ
 	 */
@@ -307,7 +307,7 @@ public class StrassenKnoten extends StoerfallIndikator {
 	}
 
 	/**
-	 * liefert die Lage des Straßenknotens.
+	 * liefert die Lage des StraÃŸenknotens.
 	 *
 	 * @return die Lage als Punkt oder {@code null}, wenn keine ermittelt werden
 	 *         konnte

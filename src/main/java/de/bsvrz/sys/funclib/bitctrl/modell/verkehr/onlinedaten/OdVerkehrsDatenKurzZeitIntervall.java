@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -69,10 +69,10 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 		MessWertErsetzung("asp.messWertErsetzung"),
 
 		/** Der Aspekt {@code asp.externeErfassung}. */
-		PlausibilitaetsPruefungFormal("asp.plausibilitätsPrüfungFormal"),
+		PlausibilitaetsPruefungFormal("asp.plausibilitÃ¤tsPrÃ¼fungFormal"),
 
 		/** Der Aspekt {@code asp.externeErfassung}. */
-		PlausibilitaetsPruefungLogisch("asp.plausibilitätsPrüfungLogisch");
+		PlausibilitaetsPruefungLogisch("asp.plausibilitÃ¤tsPrÃ¼fungLogisch");
 
 		/** Der Aspekt, den das enum kapselt. */
 		private final Aspect aspekt;
@@ -130,7 +130,7 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 			/** Belegungsgrad (mit Statusinformationen). */
 			b,
 
-			/** Mittlere Nettozeitlücke (mit Statusinformationen). */
+			/** Mittlere NettozeitlÃ¼cke (mit Statusinformationen). */
 			tNetto,
 
 			/**
@@ -138,7 +138,7 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 			 */
 			sKfz,
 
-			/** Geglätte mittlere Geschwindigkeit (mit Statusinformationen). */
+			/** GeglÃ¤tte mittlere Geschwindigkeit (mit Statusinformationen). */
 			vgKfz;
 		};
 
@@ -169,13 +169,13 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 		/** Belegungsgrad (mit Statusinformationen). */
 		private Long b;
 
-		/** Mittlere Nettozeitlücke (mit Statusinformationen). */
+		/** Mittlere NettozeitlÃ¼cke (mit Statusinformationen). */
 		private Long tNetto;
 
 		/** Standardabweichung der Geschwindigkeit (mit Statusinformationen). */
 		private Long sKfz;
 
-		/** Geglätte mittlere Geschwindigkeit (mit Statusinformationen). */
+		/** GeglÃ¤tte mittlere Geschwindigkeit (mit Statusinformationen). */
 		private Long vgKfz;
 
 		/**
@@ -221,7 +221,7 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 		}
 
 		/**
-		 * liefert die innerhalb des Datensatzes definierte Intervalldauer für
+		 * liefert die innerhalb des Datensatzes definierte Intervalldauer fÃ¼r
 		 * die erfassten Daten.
 		 *
 		 * @return die Intervalldauer in Millisekunden
@@ -271,7 +271,7 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 		}
 
 		/**
-		 * setzt die Art der Mittelwertbildung für den Datensatz.
+		 * setzt die Art der Mittelwertbildung fÃ¼r den Datensatz.
 		 *
 		 * @param artMittelwertBildung
 		 *            die Art
@@ -292,7 +292,7 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 		}
 
 		/**
-		 * setzt die Intervalldauer für die Daten des Datensatzes.
+		 * setzt die Intervalldauer fÃ¼r die Daten des Datensatzes.
 		 *
 		 * @param intervallDauerT
 		 *            die Dauer
@@ -419,7 +419,7 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 		for (final String valString : valStrings) {
 			datum.getItem(valString).getUnscaledValue("Wert")
 			.setText("nicht ermittelbar");
-			datum.getItem(valString).getItem("Güte").getUnscaledValue("Index")
+			datum.getItem(valString).getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(0);
 			datum.getItem(valString).getItem("Status").getItem("Erfassung")
 			.getUnscaledValue("NichtErfasst").setText("Nein");
@@ -437,20 +437,20 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 			datum.getItem(valString).getItem("Status")
 			.getItem("MessWertErsetzung")
 			.getUnscaledValue("Interpoliert").setText("Nein");
-			datum.getItem(valString).getItem("Güte").getUnscaledValue("Index")
+			datum.getItem(valString).getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(-1);
-			datum.getItem(valString).getItem("Güte")
+			datum.getItem(valString).getItem("GÃ¼te")
 			.getUnscaledValue("Verfahren").set(0);
 		}
 
 		if (qKfz != null) {
 			datum.getItem("qKfz").getUnscaledValue("Wert").set(qKfz.intValue());
-			datum.getItem("qKfz").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("qKfz").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10000);
 		}
 		if (vKfz != null) {
 			datum.getItem("vKfz").getUnscaledValue("Wert").set(vKfz.intValue());
-			datum.getItem("vKfz").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("vKfz").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10000);
 		} else {
 			vKfz = Umrechung.getVKfz(qLkw.doubleValue(), qKfz.doubleValue(),
@@ -458,7 +458,7 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 			if (vKfz != null) {
 				datum.getItem("vKfz").getUnscaledValue("Wert")
 				.set(vKfz.intValue());
-				datum.getItem("vKfz").getItem("Güte").getUnscaledValue("Index")
+				datum.getItem("vKfz").getItem("GÃ¼te").getUnscaledValue("Index")
 				.set(10);
 				datum.getItem("vKfz").getItem("Status").getItem("Erfassung")
 				.getUnscaledValue("NichtErfasst").setText("Ja");
@@ -467,17 +467,17 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 		}
 		if (qLkw != null) {
 			datum.getItem("qLkw").getUnscaledValue("Wert").set(qLkw.intValue());
-			datum.getItem("qLkw").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("qLkw").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10000);
 		}
 		if (vLkw != null) {
 			datum.getItem("vLkw").getUnscaledValue("Wert").set(vLkw.intValue());
-			datum.getItem("vLkw").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("vLkw").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10000);
 		}
 		if (qPkw != null) {
 			datum.getItem("qPkw").getUnscaledValue("Wert").set(qPkw.intValue());
-			datum.getItem("qPkw").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("qPkw").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10000);
 		} else {
 			qPkw = Umrechung.getQPkw(qKfz.doubleValue(), qLkw.doubleValue())
@@ -485,7 +485,7 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 			if (qPkw != null) {
 				datum.getItem("qPkw").getUnscaledValue("Wert")
 				.set(qPkw.intValue());
-				datum.getItem("qPkw").getItem("Güte").getUnscaledValue("Index")
+				datum.getItem("qPkw").getItem("GÃ¼te").getUnscaledValue("Index")
 				.set(10);
 				datum.getItem("qPkw").getItem("Status").getItem("Erfassung")
 				.getUnscaledValue("NichtErfasst").setText("Ja");
@@ -495,29 +495,29 @@ AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitIntervall.Daten> {
 
 		if (vPkw != null) {
 			datum.getItem("vPkw").getUnscaledValue("Wert").set(vPkw.intValue());
-			datum.getItem("vPkw").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("vPkw").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10000);
 		}
 		if (b != null) {
 			datum.getItem("b").getUnscaledValue("Wert").set(b.intValue());
-			datum.getItem("b").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("b").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10000);
 		}
 		if (tNetto != null) {
 			datum.getItem("tNetto").getUnscaledValue("Wert")
 			.set(tNetto.longValue());
-			datum.getItem("tNetto").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("tNetto").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10000);
 		}
 		if (sKfz != null) {
 			datum.getItem("sKfz").getUnscaledValue("Wert").set(sKfz.intValue());
-			datum.getItem("sKfz").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("sKfz").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10000);
 		}
 		if (vgKfz != null) {
 			datum.getItem("vgKfz").getUnscaledValue("Wert")
 			.set(sKfz.intValue());
-			datum.getItem("vgKfz").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("vgKfz").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10000);
 		}
 

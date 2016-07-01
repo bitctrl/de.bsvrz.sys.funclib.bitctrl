@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -268,7 +268,7 @@ public class NetzReferenzen {
 					asb.getEndKnoten(), richtung, stationierung);
 		} catch (final Exception e) {
 			throw new NetzReferenzException(
-					"Keine Abbildung möglich: " + e.getMessage());
+					"Keine Abbildung mÃ¶glich: " + e.getMessage());
 		}
 	}
 
@@ -277,7 +277,7 @@ public class NetzReferenzen {
 	 * &uuml;ber das ASB-Stationierungssystem um.
 	 *
 	 * @param referenz
-	 *            Ortsreferenz, bei dem die Ortsangabe über eine Stra&szlig;e und
+	 *            Ortsreferenz, bei dem die Ortsangabe Ã¼ber eine Stra&szlig;e und
 	 *            den Betriebskilometer dargestellt wird.
 	 *
 	 * @return Ortsreferenz nach dem ASB-Stationierungssystem.
@@ -363,9 +363,9 @@ public class NetzReferenzen {
 			}
 		} catch (final Exception e) {
 			throw new NetzReferenzException(
-					"Keine Abbildung möglich: " + e.getMessage());
+					"Keine Abbildung mÃ¶glich: " + e.getMessage());
 		}
-		throw new NetzReferenzException("Keine Abbildung möglich");
+		throw new NetzReferenzException("Keine Abbildung mÃ¶glich");
 	}
 
 	/**
@@ -441,7 +441,7 @@ public class NetzReferenzen {
 			throw e;
 		} catch (final Exception e) {
 			throw new NetzReferenzException(
-					"Keine Abbildung möglich: " + e.getMessage());
+					"Keine Abbildung mÃ¶glich: " + e.getMessage());
 		}
 	}
 
@@ -451,7 +451,7 @@ public class NetzReferenzen {
 	 * Stra&szlig;enSegments um.
 	 *
 	 * @param referenz
-	 *            Ortsreferenz, bei dem die Ortsangabe über eine Stra&szlig;e und
+	 *            Ortsreferenz, bei dem die Ortsangabe Ã¼ber eine Stra&szlig;e und
 	 *            den Betriebskilometer dargestellt wird.
 	 *
 	 * @return Ortsreferenz, bei dem die Ortsangabe &uuml;ber ein
@@ -523,20 +523,20 @@ public class NetzReferenzen {
 			}
 		} catch (final Exception e) {
 			throw new NetzReferenzException(
-					"Keine Abbildung möglich: " + e.getMessage());
+					"Keine Abbildung mÃ¶glich: " + e.getMessage());
 		}
 
-		throw new NetzReferenzException("Keine Abbildung möglich");
+		throw new NetzReferenzException("Keine Abbildung mÃ¶glich");
 	}
 
 	/**
 	 * Rechnet Ortsreferenzen vom ASB-Stationierungssystem in Angaben &uuml;ber
-	 * eine Straße und den Betriebskilometers um.
+	 * eine StraÃŸe und den Betriebskilometers um.
 	 *
 	 * @param referenz
 	 *            Ortsreferenz nach dem ASB-Stationierungssystem.
 	 *
-	 * @return Ortsreferenz, bei dem die Ortsangabe über eine Stra&szlig;e und
+	 * @return Ortsreferenz, bei dem die Ortsangabe Ã¼ber eine Stra&szlig;e und
 	 *         den Betriebskilometer dargestellt wird.
 	 *
 	 * @throws NetzReferenzException
@@ -553,7 +553,7 @@ public class NetzReferenzen {
 			final List<StrassenSegmentUndOffsetOrtsReferenzInterface> ssorefs = ermittleOrtsReferenzStrassenSegmentUndOffset(
 					referenz);
 			if ((ssorefs == null) || (ssorefs.size() == 0)) {
-				throw new NetzReferenzException("keine Abbildung möglich");
+				throw new NetzReferenzException("keine Abbildung mÃ¶glich");
 			}
 			final List<StrasseUndBetriebsKilometerOrtsReferenzInterface> reflist = new ArrayList<>();
 			for (final StrassenSegmentUndOffsetOrtsReferenzInterface ssoref : ssorefs) {
@@ -565,19 +565,19 @@ public class NetzReferenzen {
 			}
 
 			if (reflist.size() == 0) {
-				throw new NetzReferenzException("Keine Abbildung möglich");
+				throw new NetzReferenzException("Keine Abbildung mÃ¶glich");
 			}
 
 			return reflist;
 		} catch (final Exception e) {
 			throw new NetzReferenzException(
-					"Keine Abbildung möglich: " + e.getMessage());
+					"Keine Abbildung mÃ¶glich: " + e.getMessage());
 		}
 	}
 
 	/**
 	 * Rechnet Ortsreferenz mit Stra&szlig;enSegment und Offset vom Anfang des
-	 * Stra&szlig;enSegments in Angaben &uuml;ber eine Straße und den
+	 * Stra&szlig;enSegments in Angaben &uuml;ber eine StraÃŸe und den
 	 * Betriebskilometers um.
 	 *
 	 * @param referenz
@@ -585,7 +585,7 @@ public class NetzReferenzen {
 	 *            Stra&szlig;enSegment und den Offset vom Anfang des
 	 *            Stra&szlig;enSegments dargestellt wird.
 	 *
-	 * @return Ortsreferenz, bei dem die Ortsangabe über eine Stra&szlig;e und
+	 * @return Ortsreferenz, bei dem die Ortsangabe Ã¼ber eine Stra&szlig;e und
 	 *         den Betriebskilometer dargestellt wird.
 	 *
 	 * @throws NetzReferenzException
@@ -604,10 +604,10 @@ public class NetzReferenzen {
 					.getModelSegment();
 			// if (segment instanceof InneresStrassenSegment) {
 			// throw new NetzReferenzException(
-			// "Keine Abbildung möglich da InneresStraßenSegment");
+			// "Keine Abbildung mÃ¶glich da InneresStraÃŸenSegment");
 			// }
 
-			// bestimme die Straße
+			// bestimme die StraÃŸe
 			final Strasse strasse = new Strasse(
 					((StrassenSegmentUndOffsetOrtsReferenz) referenz)
 					.getModelSegment().getStrasse().getSystemObject());
@@ -624,7 +624,7 @@ public class NetzReferenzen {
 				fahrtRichtung = NetzInterface.FahrtRichtung.GEGEN_RICHTUNG;
 			} else {
 				throw new NetzReferenzException(
-						"Die Richtung der Straße kann nicht bestimmt werden");
+						"Die Richtung der StraÃŸe kann nicht bestimmt werden");
 			}
 
 			final SegmentBetriebsKilometer sbk = new SegmentBetriebsKilometer(
@@ -634,7 +634,7 @@ public class NetzReferenzen {
 					.findeBetriebsKilometerAmOffset(referenz.getStartOffset());
 		} catch (final Exception e) {
 			throw new NetzReferenzException(
-					"Keine Abbildung möglich: " + e.getMessage());
+					"Keine Abbildung mÃ¶glich: " + e.getMessage());
 		}
 
 	}
@@ -1176,7 +1176,7 @@ public class NetzReferenzen {
 				bereiche.get(0));
 		zusammengefassteBereiche.add(anfang);
 
-		// zusammenhängende Bereiche bilden
+		// zusammenhÃ¤ngende Bereiche bilden
 		for (int i = 1; i < bereiche.size(); i++) {
 			final AsbStationierung asb = bereiche.get(i);
 			if ((asb.getAnfang() <= anfang.getMaxStationierung())

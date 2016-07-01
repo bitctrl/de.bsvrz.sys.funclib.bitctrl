@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -53,7 +53,7 @@ public final class ServerProgrammeUrlasser {
 	private static ServerProgrammeUrlasser instance;
 
 	/**
-	 * Der Login-Name des Benutzers f¸r die Serverprogramme.
+	 * Der Login-Name des Benutzers f√ºr die Serverprogramme.
 	 */
 	private static final String SERVER_NUTZER_LOGIN_NAME = "Server";
 
@@ -81,7 +81,7 @@ public final class ServerProgrammeUrlasser {
 	}
 
 	/**
-	 * Der Konstruktor ist privat, da es keine ˆffentlichen Instanzen gibt.
+	 * Der Konstruktor ist privat, da es keine √∂ffentlichen Instanzen gibt.
 	 */
 	private ServerProgrammeUrlasser() {
 		urlasser = new Urlasser();

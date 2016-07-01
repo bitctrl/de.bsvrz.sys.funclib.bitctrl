@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -46,7 +46,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.Baustelle;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.MessQuerschnitt;
 
 /**
- * Kapselt die Attributgruppe {@code atg.baustellenSimulationStartenMitMq}. ‹ber
+ * Kapselt die Attributgruppe {@code atg.baustellenSimulationStartenMitMq}. √úber
  * diese Attributgruppe kann die Simulation einer Baustelle durch die
  * Baustellensimulation manuell aktiviert werden.
  *

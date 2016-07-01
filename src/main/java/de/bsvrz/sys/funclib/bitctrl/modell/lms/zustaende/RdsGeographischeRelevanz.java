@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definitionen für das Attribut Geografische Relevanz innerhalb einer
+ * Definitionen fÃ¼r das Attribut Geografische Relevanz innerhalb einer
  * RDS-Meldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
@@ -42,8 +42,8 @@ public enum RdsGeographischeRelevanz implements Zustand<Integer> {
 	/** Regional, Wert 1. */
 	REGIONAL("Regional", 1),
 
-	/** Überregional, Wert 2. */
-	UEBERREGIONAL("Überregional", 2),
+	/** Ãœberregional, Wert 2. */
+	UEBERREGIONAL("Ãœberregional", 2),
 
 	/** National, Wert 3. */
 	NATIONAL("National", 3),
@@ -57,19 +57,19 @@ public enum RdsGeographischeRelevanz implements Zustand<Integer> {
 	/** Regional und angrenzendes Ausland, Wert 6. */
 	REGIONAL_UND_ANGRENZENDES_AUSLAND("Regional und angrenzendes Ausland", 6),
 
-	/** Überregional und angrenzendes Ausland, Wert 7. */
+	/** Ãœberregional und angrenzendes Ausland, Wert 7. */
 	UEBERREGIONAL_UND_ANGRENZENDES_AUSLAND(
-			"Überregional und angrenzendes Ausland", 7),
+			"Ãœberregional und angrenzendes Ausland", 7),
 
 	/** Land und angrenzendes Ausland, Wert 8. */
 	LAND_UND_ANGRENZENDES_AUSLAND("Land und angrenzendes Ausland", 8);
 
 	/**
-	 * liefert die geograpische Relevanz mit dem übergebenen Code.
+	 * liefert die geograpische Relevanz mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine der Status NATIONAL geliefert.
 	 */
 	public static RdsGeographischeRelevanz getStatus(final int gesuchterCode) {
@@ -96,10 +96,10 @@ public enum RdsGeographischeRelevanz implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für eine geografische Relevanz mit
-	 * dem übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
+	 * Die Funktion einen eine neue Instanz fÃ¼r eine geografische Relevanz mit
+	 * dem Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
 	 * wird nur innerhalb der Klasse verwendet. Es wird eine Menge
-	 * vordefinierter Zustände zur Verfügung gestellt.
+	 * vordefinierter ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -43,7 +43,7 @@ import de.bsvrz.dav.daf.main.config.DataModel;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
- * Das Modul zum Erzeugen der Vorlagedateien f¸r die Konfiguration von
+ * Das Modul zum Erzeugen der Vorlagedateien f√ºr die Konfiguration von
  * Datenquellen.
  *
  * @author BitCtrl Systems GmbH, Peuker
@@ -138,7 +138,7 @@ class GeneriereTemplateModul extends DatenGeneratorModul {
 	 * @param out
 	 *            der Ausgabestrom
 	 * @param prefix
-	 *            der verwendete Prefix f¸r das Attribut
+	 *            der verwendete Prefix f√ºr das Attribut
 	 * @param att
 	 *            das Attribut
 	 * @param defWert

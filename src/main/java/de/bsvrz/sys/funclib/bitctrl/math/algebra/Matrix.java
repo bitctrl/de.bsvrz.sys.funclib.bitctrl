@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -120,7 +120,7 @@ public class Matrix {
 	public static Matrix multipliziere(final Matrix a, final Matrix b) {
 		if (a.anzahlSpalten() != b.anzahlZeilen()) {
 			throw new IllegalArgumentException(
-					"Spaltenanzahl der ersten Matrix stimmt nicht mit der Zeilenanzahl der zweiten überein.");
+					"Spaltenanzahl der ersten Matrix stimmt nicht mit der Zeilenanzahl der zweiten Ã¼berein.");
 		}
 
 		final Matrix m;
@@ -176,7 +176,7 @@ public class Matrix {
 	public static Matrix multipliziere(final Matrix a, final Vektor v) {
 		if (a.anzahlSpalten() != v.anzahlKomponenten()) {
 			throw new IllegalArgumentException(
-					"Spaltenanzahl der Matrix stimmt nicht mit der Komponentenanzahl des Vektors überein.");
+					"Spaltenanzahl der Matrix stimmt nicht mit der Komponentenanzahl des Vektors Ã¼berein.");
 		}
 
 		final Matrix m, b;
@@ -243,7 +243,7 @@ public class Matrix {
 	public Matrix(final int n, final int m) {
 		if ((n < 1) || (m < 1)) {
 			throw new IllegalArgumentException(
-					"Die Zeilen- und Spaltenanzahl muss größer oder gleich 1 sein.");
+					"Die Zeilen- und Spaltenanzahl muss grÃ¶ÃŸer oder gleich 1 sein.");
 		}
 
 		matrix = new RationaleZahl[n][m];
@@ -445,7 +445,7 @@ public class Matrix {
 	public void setSpaltenvektor(final int j, final Vektor v) {
 		if (anzahlZeilen() != v.anzahlKomponenten()) {
 			throw new IllegalArgumentException(
-					"Der Anzahl der Vektorelemente stimmt nicht mit der Zeilenanzahl der Matrix überein.");
+					"Der Anzahl der Vektorelemente stimmt nicht mit der Zeilenanzahl der Matrix Ã¼berein.");
 		}
 
 		for (int i = 0; i < anzahlZeilen(); i++) {
@@ -464,7 +464,7 @@ public class Matrix {
 	public void setZeilenvektor(final int i, final Vektor v) {
 		if (anzahlSpalten() != v.anzahlKomponenten()) {
 			throw new IllegalArgumentException(
-					"Der Anzahl der Vektorelemente stimmt nicht mit der Spaltenanzahl der Matrix überein.");
+					"Der Anzahl der Vektorelemente stimmt nicht mit der Spaltenanzahl der Matrix Ã¼berein.");
 		}
 
 		for (int j = 0; j < anzahlSpalten(); j++) {

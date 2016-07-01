@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -27,7 +27,7 @@
 package de.bsvrz.sys.funclib.bitctrl.geometrie;
 
 /**
- * Repr‰sentation eines Koordinatenpunktes f¸r geografisch bezogene Objekte
+ * Repr√§sentation eines Koordinatenpunktes f√ºr geografisch bezogene Objekte
  * innerhalb der Datenverteilerkonfiguration.
  *
  * @author BitCtrl Systems GmbH, Peuker

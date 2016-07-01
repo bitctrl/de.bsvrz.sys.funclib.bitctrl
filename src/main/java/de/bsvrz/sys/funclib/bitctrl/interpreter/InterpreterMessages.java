@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -44,7 +44,7 @@ public enum InterpreterMessages implements MessageHandler {
 	/** Keine Parameter. */
 	NoBooleanValue,
 
-	/** Parameter: 1) Zugehörigkeit. */
+	/** Parameter: 1) ZugehÃ¶rigkeit. */
 	BadMembership,
 
 	/** Parameter: 1) Operator. */
@@ -85,7 +85,7 @@ public enum InterpreterMessages implements MessageHandler {
 	}
 
 	/**
-	 * Gibt den Text der Nachricht zurück.
+	 * Gibt den Text der Nachricht zurÃ¼ck.
 	 */
 	@Override
 	public String toString() {

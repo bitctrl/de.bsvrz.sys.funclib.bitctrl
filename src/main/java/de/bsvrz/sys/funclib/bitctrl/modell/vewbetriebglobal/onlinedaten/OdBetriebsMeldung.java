@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -118,7 +118,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		/** Typ der Applikation, die die Informationsmeldung erzeugt hat. */
 		private SystemObjekt applikationsTyp;
 
-		/** Wird für einen Bezug zur vorherigen Meldung benötigt. */
+		/** Wird fÃ¼r einen Bezug zur vorherigen Meldung benÃ¶tigt. */
 		private String applikationsKennung;
 
 		/** ID der Meldung. */
@@ -146,7 +146,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		private String meldungsText;
 
 		/**
-		 * Gibt die Id der Applikation zurück, die die Informationsmeldung
+		 * Gibt die Id der Applikation zurÃ¼ck, die die Informationsmeldung
 		 * erzeugt hat.
 		 *
 		 * @return die Applikations-Id.
@@ -168,7 +168,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 
 		/**
 		 * Gibt die laufende Nummerierung der durch die Applikation seit dem
-		 * Applikationsstart erzeugten Informationsmeldungen zurück.
+		 * Applikationsstart erzeugten Informationsmeldungen zurÃ¼ck.
 		 *
 		 * @return die laufende Nummer der Meldung.
 		 */
@@ -189,7 +189,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 
 		/**
 		 * Gibt den Typ der Applikation, die die Informationsmeldung erzeugt hat
-		 * zurück.
+		 * zurÃ¼ck.
 		 *
 		 * @return der Applikationstyp.
 		 */
@@ -209,7 +209,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		}
 
 		/**
-		 * Gibt die Applikationskennung zurück.
+		 * Gibt die Applikationskennung zurÃ¼ck.
 		 *
 		 * @return die Applikationskennung.
 		 */
@@ -228,7 +228,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		}
 
 		/**
-		 * Gibt die Id der Meldung zurück. Dieses Attribut kann bei jeder
+		 * Gibt die Id der Meldung zurÃ¼ck. Dieses Attribut kann bei jeder
 		 * Meldung von der Applikation gesetzt werden, um einen Bezug zu einer
 		 * vorherigen Meldung herzustellen.
 		 *
@@ -251,10 +251,10 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		}
 
 		/**
-		 * Gibt den Typ der Meldung zurück. Klassifizierung der Meldungen in
+		 * Gibt den Typ der Meldung zurÃ¼ck. Klassifizierung der Meldungen in
 		 * unterschiedliche Typen, die eine inhaltliche Unterscheidung der
-		 * Meldungen bewirken. Z.B. System und Fach für Meldungen, die sich auf
-		 * programmtechnische oder fachliche Zustände beziehen.
+		 * Meldungen bewirken. Z.B. System und Fach fÃ¼r Meldungen, die sich auf
+		 * programmtechnische oder fachliche ZustÃ¤nde beziehen.
 		 *
 		 * @return der Meldungstyp.
 		 */
@@ -265,8 +265,8 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		/**
 		 * Legt den Typ der Meldung fest. Klassifizierung der Meldungen in
 		 * unterschiedliche Typen, die eine inhaltliche Unterscheidung der
-		 * Meldungen bewirken. Z.B. System und Fach für Meldungen, die sich auf
-		 * programmtechnische oder fachliche Zustände beziehen.
+		 * Meldungen bewirken. Z.B. System und Fach fÃ¼r Meldungen, die sich auf
+		 * programmtechnische oder fachliche ZustÃ¤nde beziehen.
 		 *
 		 * @param meldungsTyp
 		 *            der Meldungstyp.
@@ -276,7 +276,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		}
 
 		/**
-		 * Gibt die nähere Beschreibung des Meldungstyps zurück.
+		 * Gibt die nÃ¤here Beschreibung des Meldungstyps zurÃ¼ck.
 		 *
 		 * @return der Meldungstypzusatz.
 		 */
@@ -285,7 +285,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		}
 
 		/**
-		 * Legt die nähere Beschreibung des Meldungstyps fest.
+		 * Legt die nÃ¤here Beschreibung des Meldungstyps fest.
 		 *
 		 * @param meldungsTypZusatz
 		 *            der Meldungstypzusatz.
@@ -295,7 +295,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		}
 
 		/**
-		 * Gibt die Klasse der Meldung zurück.
+		 * Gibt die Klasse der Meldung zurÃ¼ck.
 		 *
 		 * @return die Meldungsklasse.
 		 */
@@ -314,7 +314,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		}
 
 		/**
-		 * Gibt die Referez auf ein Systemobjekt zurück, auf das sich die
+		 * Gibt die Referez auf ein Systemobjekt zurÃ¼ck, auf das sich die
 		 * Meldung bezieht.
 		 *
 		 * @return ein Systemobjekt oder {@code null}.
@@ -335,7 +335,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		}
 
 		/**
-		 * Gibt den Status der Meldung zurück.
+		 * Gibt den Status der Meldung zurÃ¼ck.
 		 *
 		 * @return der Meldungsstatus.
 		 */
@@ -354,7 +354,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		}
 
 		/**
-		 * Gibt den Text der Meldung zurück.
+		 * Gibt den Text der Meldung zurÃ¼ck.
 		 *
 		 * @return der Meldungstext.
 		 */
@@ -373,7 +373,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		}
 
 		/**
-		 * Gibt die Urlasserinformation Benutzer zurück.
+		 * Gibt die Urlasserinformation Benutzer zurÃ¼ck.
 		 *
 		 * @return die Urlasserinformation.
 		 */
@@ -468,7 +468,7 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 		/**
 		 * Zwei Betriebsmeldungen werden als gleich angesehen, wenn sie in
 		 * Meldungsklasse, Meldungstyp, Meldungstypzusatz, Referenz und
-		 * Meldungstext übereinstimmen.
+		 * Meldungstext Ã¼bereinstimmen.
 		 */
 		@Override
 		public boolean equals(final Object obj) {

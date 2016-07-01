@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -56,7 +56,7 @@ public enum SystemModellGlobalTypen implements SystemObjektTyp {
 	Berechtigungsklasse("typ.berechtigungsklasse", Berechtigungsklasse.class),
 
 	/** Berechtigungsklasse eines Benutzers. */
-	Aktivitaet("typ.zugriffsAktivit‰t", Aktivitaet.class),
+	Aktivitaet("typ.zugriffsAktivit√§t", Aktivitaet.class),
 
 	/** Berechtigungsklasse eines Benutzers. */
 	Region("typ.zugriffsRegion", Region.class),

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -41,12 +41,12 @@ public class UTMKoordinate {
 	public static final class UTMHEMI {
 
 		/**
-		 * Konstante für die n&ouml;rdliche Hemisph&auml;re.
+		 * Konstante fÃ¼r die n&ouml;rdliche Hemisph&auml;re.
 		 */
 		public static final UTMHEMI HORDHALBKUGEL = new UTMHEMI(0);
 
 		/**
-		 * Konstante für die s&uuml;dliche Hemisph&auml;re.
+		 * Konstante fÃ¼r die s&uuml;dliche Hemisph&auml;re.
 		 */
 		public static final UTMHEMI SUEDHALBKUGEL = new UTMHEMI(1);
 
@@ -94,7 +94,7 @@ public class UTMKoordinate {
 	private final int utmzone;
 
 	/**
-	 * die Hemisphäre.
+	 * die HemisphÃ¤re.
 	 */
 	private UTMHEMI utmhemisphaere = UTMHEMI.HORDHALBKUGEL;
 
@@ -112,7 +112,7 @@ public class UTMKoordinate {
 	public UTMKoordinate(final double x, final double y, final int zone) {
 		if (testZone(zone)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Zone ist ungültig!");
+					"Der Wert fÃ¼r die Zone ist ungÃ¼ltig!");
 		}
 
 		xwert = x;
@@ -137,7 +137,7 @@ public class UTMKoordinate {
 			final UTMHEMI hemisphaere) {
 		if (testZone(zone)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Zone ist ungültig!");
+					"Der Wert fÃ¼r die Zone ist ungÃ¼ltig!");
 		}
 
 		xwert = x;

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,13 +29,13 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definitionen zur Festlegung der Priorität einer RDS-meldung.
+ * Definitionen zur Festlegung der PrioritÃ¤t einer RDS-meldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
 public enum RdsPrioritaet implements Zustand<Integer> {
 
-	/** normale Priorität, Wert 0. */
+	/** normale PrioritÃ¤t, Wert 0. */
 	NORMAL("Normal", 0),
 
 	/** eilige Meldung, Wert 1. */
@@ -44,15 +44,15 @@ public enum RdsPrioritaet implements Zustand<Integer> {
 	/** sehr eilige Meldung, Wert 2. */
 	SEHR_EILIG("Sehr eilig", 2),
 
-	/** höchste Gefahr, Wert 3. */
-	HOECHSTE_GEFAHR("Höchste Gefahr", 3);
+	/** hÃ¶chste Gefahr, Wert 3. */
+	HOECHSTE_GEFAHR("HÃ¶chste Gefahr", 3);
 
 	/**
-	 * liefert die Rds-Priorität mit dem übergebenen Code.
+	 * liefert die Rds-PrioritÃ¤t mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine der Status NORMAL geliefert.
 	 */
 	public static RdsPrioritaet getStatus(final int gesuchterCode) {
@@ -79,10 +79,10 @@ public enum RdsPrioritaet implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für eine RDS-Priorität mit dem
-	 * übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
+	 * Die Funktion einen eine neue Instanz fÃ¼r eine RDS-PrioritÃ¤t mit dem
+	 * Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
 	 * nur innerhalb der Klasse verwendet. Es wird eine Menge vordefinierter
-	 * Zustände zur Verfügung gestellt.
+	 * ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

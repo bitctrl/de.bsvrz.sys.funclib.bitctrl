@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte;
 import java.util.EventListener;
 
 /**
- * Schnittstelle f¸r einen Listener, der Benachrichtigt wird, wenn eine
+ * Schnittstelle f√ºr einen Listener, der Benachrichtigt wird, wenn eine
  * Baustelle in einem VerkehrsmodellNetz angelegt oder entfernt wurde.
  *
  * @author BitCtrl Systems GmbH, Peuker

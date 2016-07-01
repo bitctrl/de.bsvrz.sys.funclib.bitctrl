@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -36,7 +36,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
 /**
  * Ein Parameterdatensatz, der die an einem VerkehrsmodellNetz festgelegten
- * Parameter für die Baustellensimulation enthält. Der Datensatz repräsentiert
+ * Parameter fÃ¼r die Baustellensimulation enthÃ¤lt. Der Datensatz reprÃ¤sentiert
  * die Daten einer Attributgruppe "atg.baustellenSimulationModell".
  *
  * @author BitCtrl Systems GmbH, Peuker
@@ -45,29 +45,29 @@ public class PdBaustellenSimulationModell
 extends AbstractParameterDatensatz<PdBaustellenSimulationModell.Daten> {
 
 	/**
-	 * Definition der Attributnamen für den Zugriff auf den Parameterdatensatz.
+	 * Definition der Attributnamen fÃ¼r den Zugriff auf den Parameterdatensatz.
 	 */
 	private static final class Att {
-		/** Attributname für den Prognosehorizont. */
+		/** Attributname fÃ¼r den Prognosehorizont. */
 		public static final String PROGNOSE_HORIZONT = "PrognoseHorizont";
 
-		/** Attributname für das Aktualisierungsintervall. */
+		/** Attributname fÃ¼r das Aktualisierungsintervall. */
 		public static final String AKTUALISIERUNGS_INTERVALL = "AktualisierungsIntervall";
 
-		/** Attributname für die Iterationsschrittweite. */
+		/** Attributname fÃ¼r die Iterationsschrittweite. */
 		public static final String ITERATIONS_SCHRITTWEITE = "IterationsSchrittweite";
 
-		/** Attributname für den Faktor Q0. */
+		/** Attributname fÃ¼r den Faktor Q0. */
 		public static final String FAKTOR_Q0 = "FaktorQ0";
 
-		/** Attributname für die Länge eines Pkw. */
-		public static final String LAENGE_PKW = "LängePkw";
+		/** Attributname fÃ¼r die LÃ¤nge eines Pkw. */
+		public static final String LAENGE_PKW = "LÃ¤ngePkw";
 
-		/** Attributname für die Länge des Staubeginns. */
-		public static final String LAENGE_STAUBEGINN = "LängeStauBeginn";
+		/** Attributname fÃ¼r die LÃ¤nge des Staubeginns. */
+		public static final String LAENGE_STAUBEGINN = "LÃ¤ngeStauBeginn";
 
-		/** Attributname für die Länge der Stauaufhebung. */
-		public static final String LAENGE_STAUAUFHEBUNG = "LängeStauAufhebung";
+		/** Attributname fÃ¼r die LÃ¤nge der Stauaufhebung. */
+		public static final String LAENGE_STAUAUFHEBUNG = "LÃ¤ngeStauAufhebung";
 
 		/** privater Konstruktor. */
 		private Att() {
@@ -76,7 +76,7 @@ extends AbstractParameterDatensatz<PdBaustellenSimulationModell.Daten> {
 	}
 
 	/**
-	 * Repräsentation der Daten des Datensatzes.
+	 * ReprÃ¤sentation der Daten des Datensatzes.
 	 */
 	public static class Daten extends AbstractDatum {
 
@@ -92,13 +92,13 @@ extends AbstractParameterDatensatz<PdBaustellenSimulationModell.Daten> {
 		/** Faktor Q0 als Prozent. */
 		private double faktorQ0;
 
-		/** Länge eines Pkw in Metern. */
+		/** LÃ¤nge eines Pkw in Metern. */
 		private long laengePkw;
 
-		/** Länge des Staubeginns in Metern. */
+		/** LÃ¤nge des Staubeginns in Metern. */
 		private long stauBeginn;
 
-		/** Länge der Stauaufhebung in Metern. */
+		/** LÃ¤nge der Stauaufhebung in Metern. */
 		private long stauAufhebung;
 
 		/**
@@ -124,7 +124,7 @@ extends AbstractParameterDatensatz<PdBaustellenSimulationModell.Daten> {
 
 		/**
 		 * Konstruktor.<br>
-		 * Die Funktion erzeugt ein Datum als Kopie des übergebenen Datums.
+		 * Die Funktion erzeugt ein Datum als Kopie des Ã¼bergebenen Datums.
 		 *
 		 * @param daten
 		 *            die Daten die kopiert werden sollen
@@ -147,10 +147,10 @@ extends AbstractParameterDatensatz<PdBaustellenSimulationModell.Daten> {
 		/**
 		 * Konstruktor.<br>
 		 * Die Funktion wertet den vom Datenverteiler empfangenen Datensatz aus
-		 * und füllt die Daten entsprechend.
+		 * und fÃ¼llt die Daten entsprechend.
 		 *
 		 * @param result
-		 *            der übergebene Datensatz
+		 *            der Ã¼bergebene Datensatz
 		 */
 		public Daten(final ResultData result) {
 			this();
@@ -200,7 +200,7 @@ extends AbstractParameterDatensatz<PdBaustellenSimulationModell.Daten> {
 		/**
 		 * liefert den Faktor mit dem der Q0-Wert des Fundamentaldiagramms eines
 		 * MQ multipliziert wird, wenn dieses als Basis zur Berechnung der
-		 * Kapazität einer Baustelle im Bereich, der Ungültigkeit innerhalb des
+		 * KapazitÃ¤t einer Baustelle im Bereich, der UngÃ¼ltigkeit innerhalb des
 		 * Prognosezeitraums verwendet wird.
 		 *
 		 * @return der Faktor
@@ -220,10 +220,10 @@ extends AbstractParameterDatensatz<PdBaustellenSimulationModell.Daten> {
 		}
 
 		/**
-		 * liefert die normierte Länge eines Fahrzeiges, die dieses im Stau
+		 * liefert die normierte LÃ¤nge eines Fahrzeiges, die dieses im Stau
 		 * beansprucht in Metern.
 		 *
-		 * @return die Länge
+		 * @return die LÃ¤nge
 		 */
 		public long getLaengePkw() {
 			return laengePkw;
@@ -239,20 +239,20 @@ extends AbstractParameterDatensatz<PdBaustellenSimulationModell.Daten> {
 		}
 
 		/**
-		 * liefert die Länge, ab der eine Aufhebung eines Stauobjekts innerhalb
+		 * liefert die LÃ¤nge, ab der eine Aufhebung eines Stauobjekts innerhalb
 		 * der Simulation einer Baustelle angenommen wird, in Metern.
 		 *
-		 * @return die Länge
+		 * @return die LÃ¤nge
 		 */
 		public long getStauAufhebung() {
 			return stauAufhebung;
 		}
 
 		/**
-		 * liefert die Länge, ab der ein Stauobjekts innerhalb der Simulation
+		 * liefert die LÃ¤nge, ab der ein Stauobjekts innerhalb der Simulation
 		 * einer Baustelle gebildet wird, in Metern.
 		 *
-		 * @return die Länge
+		 * @return die LÃ¤nge
 		 */
 		public long getStauBeginn() {
 			return stauBeginn;
@@ -282,7 +282,7 @@ extends AbstractParameterDatensatz<PdBaustellenSimulationModell.Daten> {
 		}
 
 		/**
-		 * setzt den Faktor für die Verwendung des Q0-Wertes aus einem
+		 * setzt den Faktor fÃ¼r die Verwendung des Q0-Wertes aus einem
 		 * Fundamentaldiagramm.
 		 *
 		 * @param faktorQ0
@@ -305,18 +305,18 @@ extends AbstractParameterDatensatz<PdBaustellenSimulationModell.Daten> {
 		}
 
 		/**
-		 * setzt die Länge, die von einen Pkw innerhalb eines Staus belegt
-		 * werden würde, in Metern.
+		 * setzt die LÃ¤nge, die von einen Pkw innerhalb eines Staus belegt
+		 * werden wÃ¼rde, in Metern.
 		 *
 		 * @param laengePkw
-		 *            die Länge
+		 *            die LÃ¤nge
 		 */
 		public void setLaengePkw(final long laengePkw) {
 			this.laengePkw = laengePkw;
 		}
 
 		/**
-		 * setzt den Prognosehorizont für die Ausführung einer
+		 * setzt den Prognosehorizont fÃ¼r die AusfÃ¼hrung einer
 		 * Baustellensimulation in Tagen.
 		 *
 		 * @param horizont
@@ -327,22 +327,22 @@ extends AbstractParameterDatensatz<PdBaustellenSimulationModell.Daten> {
 		}
 
 		/**
-		 * setzt die Länge, bei der ein Stauobjekt innerhalb der Simulation
-		 * aufgelöst werden soll, in Metern.
+		 * setzt die LÃ¤nge, bei der ein Stauobjekt innerhalb der Simulation
+		 * aufgelÃ¶st werden soll, in Metern.
 		 *
 		 * @param stauAufhebung
-		 *            die Länge
+		 *            die LÃ¤nge
 		 */
 		public void setStauAufhebung(final long stauAufhebung) {
 			this.stauAufhebung = stauAufhebung;
 		}
 
 		/**
-		 * setzt die Länge, bei der ein Stauobjekt innerhalb der Simulation
+		 * setzt die LÃ¤nge, bei der ein Stauobjekt innerhalb der Simulation
 		 * gebildet werden soll, in Metern.
 		 *
 		 * @param stauBeginn
-		 *            die Länge
+		 *            die LÃ¤nge
 		 */
 		public void setStauBeginn(final long stauBeginn) {
 			this.stauBeginn = stauBeginn;

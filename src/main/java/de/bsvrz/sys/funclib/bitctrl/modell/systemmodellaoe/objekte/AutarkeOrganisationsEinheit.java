@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -45,7 +45,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellaoe.SystemModellAoeTypen;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte.BetriebsMeldungsVerwaltung;
 
 /**
- * Repr‰sentiert die autarke Organisationseinheit (AOE).
+ * Repr√§sentiert die autarke Organisationseinheit (AOE).
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -55,12 +55,12 @@ import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.parameter.PdRollen
 public class PdRollenRegionenPaareParameter extends AbstractParameterDatensatz<PdRollenRegionenPaareParameter.Daten> {
 
 	/**
-	 * Repr‰sentation der Daten des Parameters.
+	 * Repr√§sentation der Daten des Parameters.
 	 */
 	public static class Daten extends AbstractDatum implements List<Daten.RolleRegionPaar> {
 
 		/**
-		 * Ein zusammengehˆriges Paar aus Rolle und Region.
+		 * Ein zusammengeh√∂riges Paar aus Rolle und Region.
 		 */
 		public static class RolleRegionPaar {
 
@@ -84,7 +84,7 @@ public class PdRollenRegionenPaareParameter extends AbstractParameterDatensatz<P
 			}
 
 			/**
-			 * Gibt die Rolle des Paares zur¸ck.
+			 * Gibt die Rolle des Paares zur√ºck.
 			 *
 			 * @return die Rolle.
 			 */
@@ -103,7 +103,7 @@ public class PdRollenRegionenPaareParameter extends AbstractParameterDatensatz<P
 			}
 
 			/**
-			 * Gibt die Region des Paares zur¸ck.
+			 * Gibt die Region des Paares zur√ºck.
 			 *
 			 * @return die Region.
 			 */

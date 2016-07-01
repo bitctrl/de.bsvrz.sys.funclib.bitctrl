@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -30,7 +30,7 @@ package de.bsvrz.sys.funclib.bitctrl.util;
  * Enth&auml;lt allgemeine Konstanten.
  *
  * @author BitCtrl Systems GmbH, Schumann
- * @deprecated ‹berschneidet sich sich mit
+ * @deprecated √úberschneidet sich sich mit
  *             {@link de.bsvrz.sys.funclib.bitctrl.util.Konstanten} und
  *             {@link com.bitctrl.Constants}.
  */

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -78,7 +78,7 @@ public class KalenderEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt den Kalender zurück, der das Event ausgelöst hat.
+	 * Gibt den Kalender zurÃ¼ck, der das Event ausgelÃ¶st hat.
 	 *
 	 * @return der Kalender.
 	 */

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -55,7 +55,7 @@ public class ZeitAngabeTest {
 
 	@Test
 	public void testDauerAlsText() {
-		Assert.assertEquals("ungültig", negative.dauerAlsText());
+		Assert.assertEquals("ungÃ¼ltig", negative.dauerAlsText());
 		Assert.assertEquals("0 Millisekunden", nullZeit.dauerAlsText());
 		Assert.assertEquals(
 				"3 Tage 2 Stunden 10 Minuten 33 Sekunden 22 Millisekunden",
@@ -67,7 +67,7 @@ public class ZeitAngabeTest {
 
 	@Test
 	public void testDauerAlsTextString() {
-		Assert.assertEquals("ungültig", negative.dauerAlsText("anders"));
+		Assert.assertEquals("ungÃ¼ltig", negative.dauerAlsText("anders"));
 		Assert.assertEquals("0 Millisekunden", nullZeit.dauerAlsText("anders"));
 		Assert.assertEquals(
 				"3 Tage 2 Stunden 10 Minuten 33 Sekunden 22 Millisekunden",

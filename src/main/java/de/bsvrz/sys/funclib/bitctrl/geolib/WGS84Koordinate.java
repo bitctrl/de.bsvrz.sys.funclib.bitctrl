@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -35,22 +35,22 @@ package de.bsvrz.sys.funclib.bitctrl.geolib;
 public class WGS84Koordinate {
 
 	/**
-	 * kleinster zul&auml;ssiger Wert für die L&auml;nge.
+	 * kleinster zul&auml;ssiger Wert fÃ¼r die L&auml;nge.
 	 */
 	public static final double MIN_LAENGE = -180;
 
 	/**
-	 * gr&ouml;ßter zul&auml;ssiger Wert für die Lä&auml;nge.
+	 * gr&ouml;ÃŸter zul&auml;ssiger Wert fÃ¼r die LÃ¤&auml;nge.
 	 */
 	public static final double MAX_LAENGE = 180;
 
 	/**
-	 * kleinster zul&auml;ssiger Wert für die Breite.
+	 * kleinster zul&auml;ssiger Wert fÃ¼r die Breite.
 	 */
 	public static final double MIN_BREITE = -90;
 
 	/**
-	 * gr&ouml;ßter zul&auml;ssiger Wert für die Breite.
+	 * gr&ouml;ÃŸter zul&auml;ssiger Wert fÃ¼r die Breite.
 	 */
 	public static final double MAX_BREITE = 90;
 
@@ -75,12 +75,12 @@ public class WGS84Koordinate {
 	public WGS84Koordinate(final double laenge, final double breite) {
 		if (testBreite(breite)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Breite ist ungültig!");
+					"Der Wert fÃ¼r die Breite ist ungÃ¼ltig!");
 		}
 
 		if (testLaenge(laenge)) {
 			throw new IllegalArgumentException(
-					"Der Wert für die Länge ist ungültig!");
+					"Der Wert fÃ¼r die LÃ¤nge ist ungÃ¼ltig!");
 		}
 
 		this.laenge = laenge;

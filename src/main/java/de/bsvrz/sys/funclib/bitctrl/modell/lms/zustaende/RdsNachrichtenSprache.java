@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definitionen für die unterstützten Sprachen einer RDS-Meldung.
+ * Definitionen fÃ¼r die unterstÃ¼tzten Sprachen einer RDS-Meldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
@@ -54,11 +54,11 @@ public final class RdsNachrichtenSprache implements Zustand<Integer> {
 	private static final Map<String, RdsNachrichtenSprache> TABELLE_PER_NAME = new HashMap<>();
 
 	/**
-	 * liefert die Nachrichtensprache mit dem übergebenen Code.
+	 * liefert die Nachrichtensprache mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den eine Sprache gesucht wird.
-	 * @return die ermittelte Sprache, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den eine Sprache gesucht wird.
+	 * @return die ermittelte Sprache, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine {@link IllegalArgumentException} geworfen
 	 */
 	public static RdsNachrichtenSprache getNachrichtenSprache(
@@ -87,7 +87,7 @@ public final class RdsNachrichtenSprache implements Zustand<Integer> {
 		}
 
 		if (result == null) {
-			throw new IllegalArgumentException("Für den Code \"" + gesuchterCode
+			throw new IllegalArgumentException("FÃ¼r den Code \"" + gesuchterCode
 					+ "\" ist keine Nachrichtensprache im Datenkatalog definiert");
 		}
 
@@ -95,11 +95,11 @@ public final class RdsNachrichtenSprache implements Zustand<Integer> {
 	}
 
 	/**
-	 * liefert die Nachrichtensprache mit dem übergebenen Name.
+	 * liefert die Nachrichtensprache mit dem Ã¼bergebenen Name.
 	 *
 	 * @param gesuchterName
-	 *            der Name für den eine Sprache gesucht wird.
-	 * @return die ermittelte Sprache, wenn ein ungültiger Name übergeben wurde,
+	 *            der Name fÃ¼r den eine Sprache gesucht wird.
+	 * @return die ermittelte Sprache, wenn ein ungÃ¼ltiger Name Ã¼bergeben wurde,
 	 *         wird eine {@link IllegalArgumentException} geworfen.
 	 */
 	public static RdsNachrichtenSprache getNachrichtenSprache(
@@ -128,7 +128,7 @@ public final class RdsNachrichtenSprache implements Zustand<Integer> {
 		}
 
 		if (result == null) {
-			throw new IllegalArgumentException("Für den Name \"" + gesuchterName
+			throw new IllegalArgumentException("FÃ¼r den Name \"" + gesuchterName
 					+ "\" ist keine nachrichtensprache im Datenkatalog definiert");
 		}
 
@@ -147,10 +147,10 @@ public final class RdsNachrichtenSprache implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für eine RDS-Nachrichtensprache mit
-	 * dem übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
+	 * Die Funktion einen eine neue Instanz fÃ¼r eine RDS-Nachrichtensprache mit
+	 * dem Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
 	 * wird nur innerhalb der Klasse verwendet. Es wird eine Menge
-	 * vordefinierter Zustände zur Verfügung gestellt.
+	 * vordefinierter ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

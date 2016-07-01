@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.kalender.objekte;
 import java.util.EventListener;
 
 /**
- * Diese Schnittstelle muss implementiert werden, wenn man über Änderungen an
+ * Diese Schnittstelle muss implementiert werden, wenn man Ã¼ber Ã„nderungen an
  * der Menge der Ereignisse informiert werden will.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
@@ -37,10 +37,10 @@ import java.util.EventListener;
 public interface EreignisListener extends EventListener {
 
 	/**
-	 * Teilt dem Listener die Änderung mit.
+	 * Teilt dem Listener die Ã„nderung mit.
 	 *
 	 * @param e
-	 *            das Event, welches die Mengenänderung kapselt.
+	 *            das Event, welches die MengenÃ¤nderung kapselt.
 	 */
 	void ereignisseAktualisiert(EreignisseAktualisiertEvent e);
 

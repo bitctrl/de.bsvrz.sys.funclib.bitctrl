@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -32,8 +32,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Benutzer;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.objekte.Berechtigungsklasse;
 
 /**
- * Dieses Event wird getriggert, wenn ein Benutzer angelegt, geändert oder
- * gelöscht wurde.
+ * Dieses Event wird getriggert, wenn ein Benutzer angelegt, geÃ¤ndert oder
+ * gelÃ¶scht wurde.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
@@ -64,7 +64,7 @@ public class BenutzerEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt den betroffenen Benutzer zurück.
+	 * Gibt den betroffenen Benutzer zurÃ¼ck.
 	 *
 	 * @return der betroffene Benutzer.
 	 */
@@ -73,10 +73,10 @@ public class BenutzerEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt die Berechtigungsklasse des Benutzers zurück.
+	 * Gibt die Berechtigungsklasse des Benutzers zurÃ¼ck.
 	 * <p>
-	 * <em>Hinweis:</em> Gibt {@code null} zurück, wenn der Benutzer angelegt
-	 * oder gelöscht wurde.
+	 * <em>Hinweis:</em> Gibt {@code null} zurÃ¼ck, wenn der Benutzer angelegt
+	 * oder gelÃ¶scht wurde.
 	 *
 	 * @return die Berechtigungsklasse des Benutzers.
 	 */

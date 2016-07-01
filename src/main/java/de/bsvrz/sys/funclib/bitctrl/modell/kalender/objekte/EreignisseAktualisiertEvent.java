@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -30,7 +30,7 @@ import java.util.EventObject;
 import java.util.Set;
 
 /**
- * Dieses Event kapselt die Änderung der Ereignismenge.
+ * Dieses Event kapselt die Ã„nderung der Ereignismenge.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
@@ -39,7 +39,7 @@ public class EreignisseAktualisiertEvent extends EventObject {
 	/** Die Eigenschaft {@code serialVersionUID}. */
 	private static final long serialVersionUID = 1L;
 
-	/** Die Menge der hinzugefügten Ereignisse. */
+	/** Die Menge der hinzugefÃ¼gten Ereignisse. */
 	private final Set<Ereignis> hinzugefuegt;
 
 	/** Die Menge der entfernten Ereignisse. */
@@ -51,7 +51,7 @@ public class EreignisseAktualisiertEvent extends EventObject {
 	 * @param source
 	 *            die Quelle des Events.
 	 * @param hinzugefuegt
-	 *            die Menge der hinzugefügten Ereignisse.
+	 *            die Menge der hinzugefÃ¼gten Ereignisse.
 	 * @param entfernt
 	 *            die entfernten Ereignisse.
 	 */
@@ -63,7 +63,7 @@ public class EreignisseAktualisiertEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt die Menge der entfernten Ereignisse zurück.
+	 * Gibt die Menge der entfernten Ereignisse zurÃ¼ck.
 	 *
 	 * @return die Menge kann leer sein ist aber nie {@code null}.
 	 */
@@ -73,7 +73,7 @@ public class EreignisseAktualisiertEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt die Menge der hinzugefügten Ereignisse zurück.
+	 * Gibt die Menge der hinzugefÃ¼gten Ereignisse zurÃ¼ck.
 	 *
 	 * @return die Menge kann leer sein ist aber nie {@code null}.
 	 */
@@ -83,7 +83,7 @@ public class EreignisseAktualisiertEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt den Kalender zurück, der das Event geschickt hat.
+	 * Gibt den Kalender zurÃ¼ck, der das Event geschickt hat.
 	 *
 	 * @return der Kalender.
 	 */

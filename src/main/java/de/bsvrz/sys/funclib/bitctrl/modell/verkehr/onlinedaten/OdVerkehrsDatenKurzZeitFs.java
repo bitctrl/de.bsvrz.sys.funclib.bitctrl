@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -107,15 +107,15 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitFs.Daten> {
 			kB,
 
 			/**
-			 * Verkehrsstärke QKfz (alle Fahrzeuge) in Anzahl pro
+			 * VerkehrsstÃ¤rke QKfz (alle Fahrzeuge) in Anzahl pro
 			 * Messabschnittsdauer.
 			 */
 			qKfz,
 
-			/** Verkehrsstärke QPkw in Anzahl pro Messabschnittsdauer. */
+			/** VerkehrsstÃ¤rke QPkw in Anzahl pro Messabschnittsdauer. */
 			qPkw,
 
-			/** Verkehrsstärke QLkw in Anzahl pro Messabschnittsdauer. */
+			/** VerkehrsstÃ¤rke QLkw in Anzahl pro Messabschnittsdauer. */
 			qLkw,
 
 			/** Geschwindigkeit VKfz (Alle Fahrzeuge) in km/h. */
@@ -142,15 +142,15 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitFs.Daten> {
 		private Integer kb;
 
 		/**
-		 * Verkehrsstärke QKfz (alle Fahrzeuge) in Anzahl pro
+		 * VerkehrsstÃ¤rke QKfz (alle Fahrzeuge) in Anzahl pro
 		 * Messabschnittsdauer.
 		 */
 		private Integer qKfz;
 
-		/** Verkehrsstärke QPkw in Anzahl pro Messabschnittsdauer. */
+		/** VerkehrsstÃ¤rke QPkw in Anzahl pro Messabschnittsdauer. */
 		private Integer qPkw;
 
-		/** Verkehrsstärke QLkw in Anzahl pro Messabschnittsdauer. */
+		/** VerkehrsstÃ¤rke QLkw in Anzahl pro Messabschnittsdauer. */
 		private Integer qLkw;
 
 		/** Geschwindigkeit VKfz (Alle Fahrzeuge) in km/h. */
@@ -373,43 +373,43 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitFs.Daten> {
 			datum.getItem(valString).getItem("Status")
 			.getItem("MessWertErsetzung")
 			.getUnscaledValue("Interpoliert").setText("Nein");
-			datum.getItem(valString).getItem("Güte").getUnscaledValue("Index")
+			datum.getItem(valString).getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(-1);
-			datum.getItem(valString).getItem("Güte")
+			datum.getItem(valString).getItem("GÃ¼te")
 			.getUnscaledValue("Verfahren").set(0);
 		}
 
 		datum.getItem("qKfz").getUnscaledValue("Wert").set(qKfz);
-		datum.getItem("qKfz").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("qKfz").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		datum.getItem("qLkw").getUnscaledValue("Wert").set(qLkw);
-		datum.getItem("qLkw").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("qLkw").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		datum.getItem("vPkw").getUnscaledValue("Wert").set(vPkw);
-		datum.getItem("vPkw").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("vPkw").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		datum.getItem("vLkw").getUnscaledValue("Wert").set(vLkw);
-		datum.getItem("vLkw").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("vLkw").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		datum.getItem("sKfz").getUnscaledValue("Wert").set(sKfz);
-		datum.getItem("sKfz").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("sKfz").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		datum.getItem("kB").getUnscaledValue("Wert").set(kb);
-		datum.getItem("kB").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("kB").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		datum.getItem("b").getUnscaledValue("Wert").set(b);
-		datum.getItem("b").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("b").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		// Nicht erfasste Werte berechnen
 
 		aLkw = Umrechung.getALkw(qLkw, qKfz);
 		datum.getItem("aLkw").getUnscaledValue("Wert").set(aLkw);
-		datum.getItem("aLkw").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("aLkw").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		qPkw = Umrechung.getQPkw(qKfz, qLkw);
 		if (qPkw != null) {
 			datum.getItem("qPkw").getUnscaledValue("Wert").set(qPkw);
-			datum.getItem("qPkw").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("qPkw").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10);
 			datum.getItem("qPkw").getItem("Status").getItem("Erfassung")
 			.getUnscaledValue("NichtErfasst").setText("Ja");
@@ -419,7 +419,7 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitFs.Daten> {
 		vKfz = Umrechung.getVKfz(qLkw, qKfz, vPkw, vLkw);
 		if (vKfz != null) {
 			datum.getItem("vKfz").getUnscaledValue("Wert").set(vKfz);
-			datum.getItem("vKfz").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("vKfz").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10);
 			datum.getItem("vKfz").getItem("Status").getItem("Erfassung")
 			.getUnscaledValue("NichtErfasst").setText("Ja");
@@ -428,7 +428,7 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitFs.Daten> {
 		qb = Umrechung.getQB(qLkw, qKfz, vPkw, vLkw, 0.5f, 1);
 		if (qb != null) {
 			datum.getItem("qB").getUnscaledValue("Wert").set(qb);
-			datum.getItem("qB").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("qB").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10);
 			datum.getItem("qB").getItem("Status").getItem("Erfassung")
 			.getUnscaledValue("NichtErfasst").setText("Ja");

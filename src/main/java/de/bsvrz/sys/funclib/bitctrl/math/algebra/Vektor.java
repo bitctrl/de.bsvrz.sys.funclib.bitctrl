@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -234,7 +234,7 @@ public class Vektor implements Cloneable {
 	public Vektor(final int n) {
 		if (n < 1) {
 			throw new IllegalArgumentException(
-					"Anzahl der Komponenten muss grˆﬂer oder gleich 1 sein.");
+					"Anzahl der Komponenten muss gr√∂√üer oder gleich 1 sein.");
 		}
 
 		vektor = new RationaleZahl[n];

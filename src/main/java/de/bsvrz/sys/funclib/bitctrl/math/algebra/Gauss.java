@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -189,8 +189,8 @@ public final class Gauss {
 		}
 
 		// Die (unerweiterte) Koeffizientenmatrix ist jetzt eine Einheitsmatrix.
-		// Die letzte Spalte der erweiterten Koeffizientenmatrix enth‰lt den
-		// Lˆsungsvektor.
+		// Die letzte Spalte der erweiterten Koeffizientenmatrix enth√§lt den
+		// L√∂sungsvektor.
 		return d.getSpaltenvektor(d.anzahlSpalten() - 1);
 	}
 
@@ -213,7 +213,7 @@ public final class Gauss {
 
 				// Aktuelle Zeile bestimmen, ggf. Zeilen tauschen
 				if (d.get(j, j).equals(RationaleZahl.NULL)) {
-					// Auf der Diaginalen steht eine 0, die im Nenner st¸nde
+					// Auf der Diaginalen steht eine 0, die im Nenner st√ºnde
 					for (int k = j + 1; k < d.anzahlZeilen(); k++) {
 						if (!d.get(k, j).equals(RationaleZahl.NULL)) {
 							// Zeilen tauschen
@@ -263,7 +263,7 @@ public final class Gauss {
 
 				// Aktuelle Zeile bestimmen, ggf. Zeilen tauschen
 				if (d.get(j, j).equals(RationaleZahl.NULL)) {
-					// Auf der Diaginalen steht eine 0, die im Nenner st¸nde
+					// Auf der Diaginalen steht eine 0, die im Nenner st√ºnde
 					for (int k = j - 1; k >= 0; k--) {
 						if (!d.get(k, j).equals(RationaleZahl.NULL)) {
 							// Zeilen tauschen

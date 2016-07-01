@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definition der Kategorien für Ereignisse in RDS-Meldungen.
+ * Definition der Kategorien fÃ¼r Ereignisse in RDS-Meldungen.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
@@ -54,11 +54,11 @@ public final class RdsEreignisKategorie implements Zustand<Integer> {
 	private static final Map<String, RdsEreignisKategorie> TABELLE_PER_NAME = new HashMap<>();
 
 	/**
-	 * liefert die EreignisKategorie mit dem übergebenen Code.
+	 * liefert die EreignisKategorie mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den eine Kategorie gesucht wird.
-	 * @return die ermittelte Kategorie, wenn ein ungültiger Code übergeben
+	 *            der Code fÃ¼r den eine Kategorie gesucht wird.
+	 * @return die ermittelte Kategorie, wenn ein ungÃ¼ltiger Code Ã¼bergeben
 	 *         wurde, wird eine {@link IllegalArgumentException} geworfen
 	 */
 	public static RdsEreignisKategorie getKategorie(final int gesuchterCode) {
@@ -86,7 +86,7 @@ public final class RdsEreignisKategorie implements Zustand<Integer> {
 		}
 
 		if (result == null) {
-			throw new IllegalArgumentException("Für den Code \"" + gesuchterCode
+			throw new IllegalArgumentException("FÃ¼r den Code \"" + gesuchterCode
 					+ "\" ist keine Ereigniskategorie im Datenkatalog definiert");
 		}
 
@@ -94,11 +94,11 @@ public final class RdsEreignisKategorie implements Zustand<Integer> {
 	}
 
 	/**
-	 * liefert die Ereigniskategorie mit dem übergebenen Name.
+	 * liefert die Ereigniskategorie mit dem Ã¼bergebenen Name.
 	 *
 	 * @param gesuchterName
-	 *            der Name für den eine Kategorie gesucht wird.
-	 * @return die ermittelte Kategorie, wenn ein ungültiger Name übergeben
+	 *            der Name fÃ¼r den eine Kategorie gesucht wird.
+	 * @return die ermittelte Kategorie, wenn ein ungÃ¼ltiger Name Ã¼bergeben
 	 *         wurde, wird eine {@link IllegalArgumentException} geworfen.
 	 */
 	public static RdsEreignisKategorie getKategorie(
@@ -127,7 +127,7 @@ public final class RdsEreignisKategorie implements Zustand<Integer> {
 		}
 
 		if (result == null) {
-			throw new IllegalArgumentException("Für den Name \"" + gesuchterName
+			throw new IllegalArgumentException("FÃ¼r den Name \"" + gesuchterName
 					+ "\" ist keine Ereigniskategorie im Datenkatalog definiert");
 		}
 
@@ -146,10 +146,10 @@ public final class RdsEreignisKategorie implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für eine RDS-Ereigniskategorie mit
-	 * dem übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
+	 * Die Funktion einen eine neue Instanz fÃ¼r eine RDS-Ereigniskategorie mit
+	 * dem Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor
 	 * wird nur innerhalb der Klasse verwendet. Es wird eine Menge
-	 * vordefinierter Zustände zur Verfügung gestellt.
+	 * vordefinierter ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

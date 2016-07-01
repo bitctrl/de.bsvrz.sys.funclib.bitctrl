@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -38,20 +38,20 @@ public enum RdsAuthorisierungsErgebnis implements Zustand<Integer> {
 	/** Meldung wurde noch nicht authorisiert. */
 	NOCH_NICHT_AUTHORISIERT("(Noch) nicht authorisiert",
 			0), /** Meldung wurde authorisiert. */
-	AUTHORISIERT("authorisiert", 1), /** Meldung wurde zurückgewiesen. */
-	ZURUECKGEWIESEN("zurückgewiesen", 2), /**
+	AUTHORISIERT("authorisiert", 1), /** Meldung wurde zurÃ¼ckgewiesen. */
+	ZURUECKGEWIESEN("zurÃ¼ckgewiesen", 2), /**
 	 * Meldung und die ihr folgenden
-	 * Meldungen wurden zurückgewiesen.
+	 * Meldungen wurden zurÃ¼ckgewiesen.
 	 */
-	ZURUECKGEWIESEN_UND_FOLGENDE("zurückgewiesen und Zurückweisung folgender",
+	ZURUECKGEWIESEN_UND_FOLGENDE("zurÃ¼ckgewiesen und ZurÃ¼ckweisung folgender",
 			3);
 
 	/**
-	 * liefert das Authorisierungsergebnis mit dem übergebenen Code.
+	 * liefert das Authorisierungsergebnis mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine der Status
 	 *         {@link RdsAuthorisierungsErgebnis#NOCH_NICHT_AUTHORISIERT}
 	 *         geliefert.
@@ -81,10 +81,10 @@ public enum RdsAuthorisierungsErgebnis implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für ein RDS-Authorisierungsergebnis
-	 * mit dem übergebenem Code und der entsprechenden Bezeichnung. Der
+	 * Die Funktion einen eine neue Instanz fÃ¼r ein RDS-Authorisierungsergebnis
+	 * mit dem Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der
 	 * Konstruktor wird nur innerhalb der Klasse verwendet. Es wird eine Menge
-	 * vordefinierter Zustände zur Verfügung gestellt.
+	 * vordefinierter ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

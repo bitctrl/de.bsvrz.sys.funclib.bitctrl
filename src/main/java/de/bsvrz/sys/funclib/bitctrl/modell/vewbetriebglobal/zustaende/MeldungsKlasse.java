@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definition der Werte für den Zustand der Meldungsklasse einer
+ * Definition der Werte fÃ¼r den Zustand der Meldungsklasse einer
  * Betriebsmeldung.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
@@ -49,12 +49,12 @@ public enum MeldungsKlasse implements Zustand<Integer> {
 	Information("Information", 3);
 
 	/**
-	 * Liefert zu einem Code die dazugehörige Meldungsklasse.
+	 * Liefert zu einem Code die dazugehÃ¶rige Meldungsklasse.
 	 *
 	 * @param code
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
-	 *         wird {@code null} zurückgegegeben.
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
+	 *         wird {@code null} zurÃ¼ckgegegeben.
 	 */
 	public static MeldungsKlasse getMeldungsKlasse(final int code) {
 		for (final MeldungsKlasse situation : values()) {

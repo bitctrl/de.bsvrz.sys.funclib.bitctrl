@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -66,16 +66,16 @@ public final class DavTools {
 	}
 
 	/**
-	 * Generiert aus einem Objektnamen eine gültige PID. Es wird jedes Zeichen
-	 * vor einem Leerzeichen in einen Großbuchstaben verwandelt, danach alle
+	 * Generiert aus einem Objektnamen eine gÃ¼ltige PID. Es wird jedes Zeichen
+	 * vor einem Leerzeichen in einen GroÃŸbuchstaben verwandelt, danach alle
 	 * Leerzeichen entfernt und der erste Buchstabe des Namens in einen
 	 * Kleinbuchstaben umgewandelt.
 	 *
 	 * @param name
 	 *            der Objektname.
 	 * @param praefix
-	 *            der Präfix für die PID (mit Punkt abgeschlossen).
-	 * @return die gültige PID zum Objektnamen.
+	 *            der PrÃ¤fix fÃ¼r die PID (mit Punkt abgeschlossen).
+	 * @return die gÃ¼ltige PID zum Objektnamen.
 	 */
 	public static String generierePID(final String name, final String praefix) {
 		String pid, regex;
@@ -102,7 +102,7 @@ public final class DavTools {
 	}
 
 	/**
-	 * liefert einen Integerwert, der als Boolean-Ersatz für JaNein-Werte
+	 * liefert einen Integerwert, der als Boolean-Ersatz fÃ¼r JaNein-Werte
 	 * innerhalb einer Datenverteiler-Attributgruppe verschicht werden kann.
 	 *
 	 * @param wert
@@ -143,7 +143,7 @@ public final class DavTools {
 	}
 
 	/**
-	 * liefert einen gemeinsamen übergeordneten Typ für eine Menge von
+	 * liefert einen gemeinsamen Ã¼bergeordneten Typ fÃ¼r eine Menge von
 	 * Systemobjekten.
 	 *
 	 * @param objects
@@ -194,7 +194,7 @@ public final class DavTools {
 	 *
 	 * @param objectType
 	 *            ein Systemobjekttyp.
-	 * @return alle Typen, die der übergebene Typ direkt oder indirekt
+	 * @return alle Typen, die der Ã¼bergebene Typ direkt oder indirekt
 	 *         erweitert.
 	 */
 	public static Set<SystemObjectType> getSuperTypes(
@@ -210,9 +210,9 @@ public final class DavTools {
 	}
 
 	/**
-	 * überprüft die Gültigkeit der übergebenen Simulationsvariante.<br>
+	 * Ã¼berprÃ¼ft die GÃ¼ltigkeit der Ã¼bergebenen Simulationsvariante.<br>
 	 * Liegt die Simulationsvariante nicht im Bereich 0 ... 999, wird eine
-	 * RuntimeException augelöst.
+	 * RuntimeException augelÃ¶st.
 	 *
 	 * @param sim
 	 *            die Simulationsvariante
@@ -221,14 +221,14 @@ public final class DavTools {
 		try {
 			validiereSimulationsVariante(sim, false);
 		} catch (final NoSimulationException e) {
-			// Alle gültigen Simulationsvarianten werden akzeptiert
+			// Alle gÃ¼ltigen Simulationsvarianten werden akzeptiert
 		}
 	}
 
 	/**
-	 * überprüft die Gültigkeit der übergebenen Simulationsvariante.<br>
+	 * Ã¼berprÃ¼ft die GÃ¼ltigkeit der Ã¼bergebenen Simulationsvariante.<br>
 	 * Liegt die Simulationsvariante nicht im Bereich 0 ... 999, wird eine
-	 * RuntimeException augelöst.<br>
+	 * RuntimeException augelÃ¶st.<br>
 	 * Wird der Parameter <i>simulation</i> auf den Wert <i>true</i> gesetzt,
 	 * werden nur echte Simulationen, d.h. Simulationsvarianten &gt; 0
 	 * zugelassen.
@@ -245,7 +245,7 @@ public final class DavTools {
 
 		if ((sim < 0) || (sim > 999)) {
 			throw new RuntimeException(
-					"Die Verwendung der ungültigen Simulationsvariante: \""
+					"Die Verwendung der ungÃ¼ltigen Simulationsvariante: \""
 							+ sim + "\" ist nicht erlaubt");
 		}
 

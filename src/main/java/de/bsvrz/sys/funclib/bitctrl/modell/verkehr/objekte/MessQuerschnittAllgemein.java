@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -74,13 +74,13 @@ implements PunktXY, PunktLiegtAufLinienObjekt {
 	private StrassenTeilSegment strassenTeilSegment;
 
 	/**
-	 * das Objekt, mit dem die Punkteigenschaften dess MQ repr‰sentiert werden.
+	 * das Objekt, mit dem die Punkteigenschaften dess MQ repr√§sentiert werden.
 	 */
 	private final PunktXY punkt;
 
 	/**
 	 * das Objekt, mit dem die PunktLiegtAufLinie-Eigenschaften dess MQ
-	 * repr‰sentiert werden.
+	 * repr√§sentiert werden.
 	 */
 	private final PunktLiegtAufLinienObjekt punktLiegtAufLinie;
 
@@ -104,7 +104,7 @@ implements PunktXY, PunktLiegtAufLinienObjekt {
 	}
 
 	/**
-	 * liefert die konfigurierten Koordinaten, an denen sich der Meﬂquerschnitt
+	 * liefert die konfigurierten Koordinaten, an denen sich der Me√üquerschnitt
 	 * befindet.
 	 *
 	 * @return die Position oder <code>null</code>, wenn keine konfiguriert

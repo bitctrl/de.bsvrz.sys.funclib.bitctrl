@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -38,7 +38,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende.BaustellenVeranlass
 
 /**
  * Ein Parameterdatensatz, die Eigenschaften einer Baustelle beinhaltet. Der
- * Datensatz repräsentiert die Daten einer Attributgruppe
+ * Datensatz reprÃ¤sentiert die Daten einer Attributgruppe
  * "atg.baustellenEigenschaften".
  *
  * @author BitCtrl Systems GmbH, Peuker
@@ -47,13 +47,13 @@ public class PdBaustellenEigenschaften
 extends AbstractParameterDatensatz<PdBaustellenEigenschaften.Daten> {
 
 	/**
-	 * Repräsentation der Daten des Baustelleneigenschaften-Datensatzes.
+	 * ReprÃ¤sentation der Daten des Baustelleneigenschaften-Datensatzes.
 	 */
 	public static class Daten extends AbstractDatum {
 
 		/**
-		 * Restkapazität während der Gültigkeitsdauer der Baustelle.
-		 * ("RestKapazität")
+		 * RestkapazitÃ¤t wÃ¤hrend der GÃ¼ltigkeitsdauer der Baustelle.
+		 * ("RestKapazitÃ¤t")
 		 */
 		private long restKapazitaet;
 		/**
@@ -83,7 +83,7 @@ extends AbstractParameterDatensatz<PdBaustellenEigenschaften.Daten> {
 
 		/**
 		 * Konstruktor.<br>
-		 * Die Funktion erzeugt ein Datum als Kopie des übergebenen Datums.
+		 * Die Funktion erzeugt ein Datum als Kopie des Ã¼bergebenen Datums.
 		 *
 		 * @param daten
 		 *            die Daten die kopiert werden sollen
@@ -99,10 +99,10 @@ extends AbstractParameterDatensatz<PdBaustellenEigenschaften.Daten> {
 		/**
 		 * Konstruktor.<br>
 		 * Die Funktion wertet den vom Datenverteiler empfangenen Datensatz aus
-		 * und füllt die Daten entsprechend.
+		 * und fÃ¼llt die Daten entsprechend.
 		 *
 		 * @param result
-		 *            der übergebene Datensatz
+		 *            der Ã¼bergebene Datensatz
 		 */
 		public Daten(final ResultData result) {
 			setZeitstempel(result.getDataTime());
@@ -114,7 +114,7 @@ extends AbstractParameterDatensatz<PdBaustellenEigenschaften.Daten> {
 			} else {
 				status = BaustellenStatus
 						.getStatus(daten.getUnscaledValue("Status").intValue());
-				restKapazitaet = daten.getScaledValue("RestKapazität")
+				restKapazitaet = daten.getScaledValue("RestKapazitÃ¤t")
 						.longValue();
 				veranlasser = BaustellenVeranlasser.getVeranlasser(
 						daten.getUnscaledValue("Veranlasser").intValue());
@@ -142,9 +142,9 @@ extends AbstractParameterDatensatz<PdBaustellenEigenschaften.Daten> {
 		}
 
 		/**
-		 * liefert die Restkapazität der Baustelle.
+		 * liefert die RestkapazitÃ¤t der Baustelle.
 		 *
-		 * @return die Restkapazität
+		 * @return die RestkapazitÃ¤t
 		 */
 		public long getRestKapazitaet() {
 			return restKapazitaet;
@@ -170,7 +170,7 @@ extends AbstractParameterDatensatz<PdBaustellenEigenschaften.Daten> {
 		}
 
 		/**
-		 * setzt die Restkapazität der Baustelle.
+		 * setzt die RestkapazitÃ¤t der Baustelle.
 		 *
 		 * @param restKapazitaet
 		 *            die zu setzende Restkapazit&auml;t
@@ -240,7 +240,7 @@ extends AbstractParameterDatensatz<PdBaustellenEigenschaften.Daten> {
 
 		daten.getUnscaledValue("Status")
 		.set(datum.getBaustellenStatus().ordinal());
-		daten.getScaledValue("RestKapazität").set(datum.getRestKapazitaet());
+		daten.getScaledValue("RestKapazitÃ¤t").set(datum.getRestKapazitaet());
 		daten.getUnscaledValue("Veranlasser")
 		.set(datum.getVeranlasser().getCode());
 

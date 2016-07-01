@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -64,7 +64,7 @@ implements MutableSetChangeListener {
 	public static final String PID_TYP = "typ.verkehrsModellNetz";
 
 	/**
-	 * Logger für Fehlerausgaben.
+	 * Logger fÃ¼r Fehlerausgaben.
 	 */
 	private static final Debug LOGGER = Debug.getLogger();
 
@@ -91,7 +91,7 @@ implements MutableSetChangeListener {
 
 		if (!obj.isOfType(PID_TYP)) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein gültiges VerkehrsModellNetz.");
+					"Systemobjekt ist kein gÃ¼ltiges VerkehrsModellNetz.");
 		}
 
 		baustellenMenge = ((ConfigurationObject) obj)
@@ -100,10 +100,10 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * fügt dem Netz einen BaustellenListener hinzu.
+	 * fÃ¼gt dem Netz einen BaustellenListener hinzu.
 	 *
 	 * @param listener
-	 *            der hinzuzufügende Listener
+	 *            der hinzuzufÃ¼gende Listener
 	 */
 	public void addBaustellenListener(final BaustellenListener listener) {
 		if (listener == null) {
@@ -121,10 +121,10 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * fügt dem Netz einen BaustellenListener hinzu.
+	 * fÃ¼gt dem Netz einen BaustellenListener hinzu.
 	 *
 	 * @param listener
-	 *            der hinzuzufügende Listener
+	 *            der hinzuzufÃ¼gende Listener
 	 */
 	public void addStauListener(final StauListener listener) {
 		if (listener == null) {
@@ -142,11 +142,11 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * benachrichtigt alle BaustellenListener über hinzugefügte oder entfernte
+	 * benachrichtigt alle BaustellenListener Ã¼ber hinzugefÃ¼gte oder entfernte
 	 * Baustellen.
 	 *
 	 * @param addedObjects
-	 *            die Systemobjekte, die die hinzugefügten Baustellen definieren
+	 *            die Systemobjekte, die die hinzugefÃ¼gten Baustellen definieren
 	 * @param removedObjects
 	 *            die Systemobjekte, die die entfernten Baustellen definieren
 	 */
@@ -170,10 +170,10 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * benachrichtigt alle StauListener über hinzugefügte oder entfernte Staus.
+	 * benachrichtigt alle StauListener Ã¼ber hinzugefÃ¼gte oder entfernte Staus.
 	 *
 	 * @param addedObjects
-	 *            die Systemobjekte, die die hinzugefügten Staus definieren
+	 *            die Systemobjekte, die die hinzugefÃ¼gten Staus definieren
 	 * @param removedObjects
 	 *            die Systemobjekte, die die entfernten Staus definieren
 	 */
@@ -200,7 +200,7 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * entfernt ein Baustellenobjekt mit dem übergeben Systemobjekt vom Netz.
+	 * entfernt ein Baustellenobjekt mit dem Ã¼bergeben Systemobjekt vom Netz.
 	 * Das Objekt wird aus der Menge der Baustellen des VerkehrsmodellNetz
 	 * ausgetragen.
 	 *
@@ -220,7 +220,7 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * fügt den Netz eine Baustelle mit dem übergeben Systemobjekt hinzu. Das
+	 * fÃ¼gt den Netz eine Baustelle mit dem Ã¼bergeben Systemobjekt hinzu. Das
 	 * Objekt wird in die Menge der Baustellen des VerkehrsmodellNetz
 	 * eingetragen.
 	 *
@@ -240,15 +240,15 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * liefert die Liste der äußeren Straßensegmente, die das Netz bilden und
-	 * zur übergebenen Straße gehören. Die Liste enthält alle äußeren
-	 * Straßensegmente, die innerhalb des Netzes selbst konfiguriert sind und
-	 * zusätzlich die Segmente aus den Listen der Unternetze.
+	 * liefert die Liste der Ã¤uÃŸeren StraÃŸensegmente, die das Netz bilden und
+	 * zur Ã¼bergebenen StraÃŸe gehÃ¶ren. Die Liste enthÃ¤lt alle Ã¤uÃŸeren
+	 * StraÃŸensegmente, die innerhalb des Netzes selbst konfiguriert sind und
+	 * zusÃ¤tzlich die Segmente aus den Listen der Unternetze.
 	 *
 	 * @param strasse
-	 *            die Straße, für die die äußeren Straßensegemente gesucht
+	 *            die StraÃŸe, fÃ¼r die die Ã¤uÃŸeren StraÃŸensegemente gesucht
 	 *            werden
-	 * @return die Liste der ermittelten Straßensegmente
+	 * @return die Liste der ermittelten StraÃŸensegmente
 	 */
 	public List<AeusseresStrassenSegment> getAssListe(final Strasse strasse) {
 		final List<AeusseresStrassenSegment> result = new ArrayList<>();
@@ -329,7 +329,7 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * entfernt ein Stauobjekt mit dem übergeben Systemobjekt vom Netz. Das
+	 * entfernt ein Stauobjekt mit dem Ã¼bergeben Systemobjekt vom Netz. Das
 	 * Objekt wird in die Menge der Staus des VerkehrsmodellNetz ausgetragen.
 	 *
 	 * @param obj
@@ -348,7 +348,7 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * fügt den Netz ein Stauobjekt mit dem übergeben Systemobjekt hinzu. Das
+	 * fÃ¼gt den Netz ein Stauobjekt mit dem Ã¼bergeben Systemobjekt hinzu. Das
 	 * Objekt wird in die Menge der Staus des VerkehrsmodellNetz eingetragen.
 	 *
 	 * @param obj
@@ -372,14 +372,14 @@ implements MutableSetChangeListener {
 	 * Objekte mit dem Status "invalid" entfernt.
 	 *
 	 * @param nurUngueltige
-	 *            nur ungültige Objekte entfernen ?
+	 *            nur ungÃ¼ltige Objekte entfernen ?
 	 */
 	public void stausBereinigen(final boolean nurUngueltige) {
 		final ObjectSet set = ((ConfigurationObject) getSystemObject())
 				.getObjectSet(MENGENNAME_STAUS);
 
-		LOGGER.info("Bereinige Stauliste für Netz: " + getName()
-		+ ", nur ungültige: " + nurUngueltige + ", Anzahl: "
+		LOGGER.info("Bereinige Stauliste fÃ¼r Netz: " + getName()
+		+ ", nur ungÃ¼ltige: " + nurUngueltige + ", Anzahl: "
 		+ set.getElements().size());
 
 		int removed = 0;
@@ -394,7 +394,7 @@ implements MutableSetChangeListener {
 			}
 		}
 
-		LOGGER.info("Stauliste bereinigt für Netz: " + getName()
+		LOGGER.info("Stauliste bereinigt fÃ¼r Netz: " + getName()
 		+ ", Anzahl ist jetzt: " + set.getElements().size());
 	}
 

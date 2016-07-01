@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -53,15 +53,15 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.VerkehrModellNetz;
 public enum VerkehrsModellTypen implements SystemObjektTyp {
 
 	/** Ein &auml;u&szlig;eres Stra&szlig;ensegment. */
-	AUESSERES_STRASSENSEGMENT("typ.‰uﬂeresStraﬂenSegment",
+	AUESSERES_STRASSENSEGMENT("typ.√§u√üeresStra√üenSegment",
 			AeusseresStrassenSegment.class),
 
 	/** Ein inneres Stra&szlig;ensegment. */
-	INNERES_STRASSENSEGMENT("typ.inneresStraﬂenSegment",
+	INNERES_STRASSENSEGMENT("typ.inneresStra√üenSegment",
 			InneresStrassenSegment.class),
 
 	/** Ein Messquerschnitt. */
-	STOERFALLINDIKATOR("typ.stˆrfallIndikator", StoerfallIndikator.class),
+	STOERFALLINDIKATOR("typ.st√∂rfallIndikator", StoerfallIndikator.class),
 
 	/** Ein Fahrstreifen. */
 	FAHRSTREIFEN("typ.fahrStreifen", FahrStreifen.class),
@@ -81,22 +81,22 @@ public enum VerkehrsModellTypen implements SystemObjektTyp {
 	NETZ("typ.netz", Netz.class),
 
 	/** Ein Stra&szlig;enknoten. */
-	STRASSENKNOTEN("typ.straﬂenKnoten", StrassenKnoten.class),
+	STRASSENKNOTEN("typ.stra√üenKnoten", StrassenKnoten.class),
 
 	/** Ein Stra&szlig;ensegment. */
-	STRASSENSEGMENT("typ.straﬂenSegment", StrassenSegment.class),
+	STRASSENSEGMENT("typ.stra√üenSegment", StrassenSegment.class),
 
 	/** Ein Stra&szlig;enteilsegment. */
-	STRASSENTEILSEGMENT("typ.straﬂenTeilSegment", StrassenTeilSegment.class),
+	STRASSENTEILSEGMENT("typ.stra√üenTeilSegment", StrassenTeilSegment.class),
 
 	/** Ein Verkehrsmodellnetz. */
 	VERKEHRSMODELLNETZ("typ.verkehrsModellNetz", VerkehrModellNetz.class),
 
 	/** Eine Stra&szlig;e. */
-	STRASSE("typ.straﬂe", Strasse.class),
+	STRASSE("typ.stra√üe", Strasse.class),
 
 	/** Ein Routenst&uuml;ck. */
-	ROUTENSTUECK("typ.routenSt¸ck", RoutenStueck.class),
+	ROUTENSTUECK("typ.routenSt√ºck", RoutenStueck.class),
 
 	/** Eine Baustelle. */
 	BAUSTELLE("typ.baustelle", Baustelle.class),

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -33,7 +33,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.lms.LmsModellTypen;
 
 /**
- * Repr‰sentation einer Quantit‰t innerhalb einer RDS-Meldung.
+ * Repr√§sentation einer Quantit√§t innerhalb einer RDS-Meldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
@@ -52,8 +52,8 @@ public class RdsQuantitaet extends AbstractSystemObjekt {
 	 * Konstruktor.
 	 *
 	 * @param obj
-	 *            das Systemobjekt, mit dem die Quantit‰t in der
-	 *            Datenverteiler-Konfiguration repr‰sentiert ist
+	 *            das Systemobjekt, mit dem die Quantit√§t in der
+	 *            Datenverteiler-Konfiguration repr√§sentiert ist
 	 */
 	public RdsQuantitaet(final SystemObject obj) {
 		super(obj);
@@ -64,7 +64,7 @@ public class RdsQuantitaet extends AbstractSystemObjekt {
 		}
 
 		final Data daten = obj.getConfigurationData(
-				obj.getDataModel().getAttributeGroup("atg.rdsQuantit‰t"));
+				obj.getDataModel().getAttributeGroup("atg.rdsQuantit√§t"));
 		if (daten != null) {
 			kennung = daten.getTextValue("Kennung").getText();
 			beschreibung = daten.getTextValue("Beschreibung").getText();

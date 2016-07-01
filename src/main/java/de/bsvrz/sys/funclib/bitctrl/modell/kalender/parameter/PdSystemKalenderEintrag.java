@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -37,7 +37,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
 /**
- * Repr‰sentiert den Parameterdatensatz "atg.systemKalenderEintrag".
+ * Repr√§sentiert den Parameterdatensatz "atg.systemKalenderEintrag".
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */

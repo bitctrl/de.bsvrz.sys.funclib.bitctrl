@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -114,7 +114,7 @@ public class AngemeldeteApplikationen extends AbstractOnlineDatensatz<Angemeldet
 			private Timestamp seit;
 
 			/**
-			 * Gibt den angemeldeten Benutzer zur¸ck.
+			 * Gibt den angemeldeten Benutzer zur√ºck.
 			 *
 			 * @return der angemeldete Benutzer.
 			 */
@@ -133,7 +133,7 @@ public class AngemeldeteApplikationen extends AbstractOnlineDatensatz<Angemeldet
 			}
 
 			/**
-			 * Gibt die Applikation an der der Benutzer angemeldet ist zur¸ck.
+			 * Gibt die Applikation an der der Benutzer angemeldet ist zur√ºck.
 			 *
 			 * @return die Applikation.
 			 */
@@ -152,7 +152,7 @@ public class AngemeldeteApplikationen extends AbstractOnlineDatensatz<Angemeldet
 			}
 
 			/**
-			 * Gibt den Zeitpunkt der Anmeldung laut Datenverteiler zur¸ck.
+			 * Gibt den Zeitpunkt der Anmeldung laut Datenverteiler zur√ºck.
 			 *
 			 * @return der Anmeldezeitpunkt.
 			 */
@@ -197,7 +197,7 @@ public class AngemeldeteApplikationen extends AbstractOnlineDatensatz<Angemeldet
 			}
 
 			/**
-			 * Der Hash wird aus dem XOR der Hashs f¸r {@code Applikation},
+			 * Der Hash wird aus dem XOR der Hashs f√ºr {@code Applikation},
 			 * {@code Benutzer} und {@code Seit} gebildet.
 			 */
 			@Override

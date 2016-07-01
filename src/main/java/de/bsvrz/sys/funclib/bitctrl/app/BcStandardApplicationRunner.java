@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -37,7 +37,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
 import de.bsvrz.sys.funclib.operatingMessage.MessageSender;
 
 /**
- * Eine Alternative f¸r den
+ * Eine Alternative f√ºr den
  * {@link de.bsvrz.sys.funclib.application.StandardApplicationRunner} mit mehr
  * Optionen.
  *
@@ -47,7 +47,7 @@ public class BcStandardApplicationRunner {
 
 	/**
 	 * Die Methode baut mit Hilfe der Kommandozeilenargumente eine Verbindung
-	 * zum Datenverteiler auf und initialisiert anschlieﬂend die Applikation.
+	 * zum Datenverteiler auf und initialisiert anschlie√üend die Applikation.
 	 * <p>
 	 * Bei der Initialisierung werden nacheinander die beiden Methoden
 	 * {@link StandardApplication#parseArguments(ArgumentList)} und
@@ -60,7 +60,7 @@ public class BcStandardApplicationRunner {
 	 * @param appTypePID
 	 *            die PID die der Applikation als Typ anstelle von
 	 *            <em>typ.applikation</em> gesetzt werden soll. Wenn
-	 *            {@code null}, wird der Applikationstyp nicht ge‰ndert.
+	 *            {@code null}, wird der Applikationstyp nicht ge√§ndert.
 	 * @param autoReadyMsg
 	 *            dieses Flag sagt aus, ob nach der Initialisierung der
 	 *            Anwendung automatisch das Readysignal gesendet werden soll.
@@ -71,8 +71,8 @@ public class BcStandardApplicationRunner {
 	 * @param uncaughtExceptionHandler
 	 *            dieses Flag sagt aus, ob ein UncaughtExceptionHandler
 	 *            installiert werden soll. Ist das Flag {@code true}, wird ein
-	 *            Handler inistalliert, der alle Runtime Exceptions f‰ngt, loggt
-	 *            und anschlieﬂend die Applikation beendet.
+	 *            Handler inistalliert, der alle Runtime Exceptions f√§ngt, loggt
+	 *            und anschlie√üend die Applikation beendet.
 	 */
 	public static void run(final StandardApplication application,
 			final String[] args, final String appTypePID,
@@ -99,7 +99,7 @@ public class BcStandardApplicationRunner {
 		Debug.init(applicationName, argumentList);
 		final Debug debug = Debug.getLogger();
 
-		// UncaughtExceptionHandler installieren, falls gew¸nscht.
+		// UncaughtExceptionHandler installieren, falls gew√ºnscht.
 		if (uncaughtExceptionHandler) {
 			Thread.setDefaultUncaughtExceptionHandler(
 					new Thread.UncaughtExceptionHandler() {

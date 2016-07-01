@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -41,7 +41,7 @@ implements Comparable<WGS84Punkt> {
 	public static final double GENAUIGKEIT_KOORDINATEN = 1000000.0;
 
 	/**
-	 * Abstandsberechnung zwischen 2 Punkten mit Näherungsformel (idealisierte
+	 * Abstandsberechnung zwischen 2 Punkten mit NÃ¤herungsformel (idealisierte
 	 * Erdkugel).
 	 *
 	 * Formel: d=arccos(sin(X2)*sin(X1)+cos(X2)*cos(X1)*cos(Y2 - Y1)) *
@@ -70,22 +70,22 @@ implements Comparable<WGS84Punkt> {
 	}
 
 	/**
-	 * Abstandsberechnung zwischen 2 Punkten auf der Erdoberfläche mit exakter
+	 * Abstandsberechnung zwischen 2 Punkten auf der ErdoberflÃ¤che mit exakter
 	 * Formel.
 	 *
 	 * (Algorithmus: http://de.wikipedia.org/wiki/Orthodrome)
 	 *
-	 * b1 := Geografische Breite von Standort 1 l1 := Geografische Länge von
+	 * b1 := Geografische Breite von Standort 1 l1 := Geografische LÃ¤nge von
 	 * Standort 1 b2 := Geografische Breite von Standort 2 l2 := Geografische
-	 * Länge von Standort 2
+	 * LÃ¤nge von Standort 2
 	 *
-	 * f := Abplattung der Erde (1/298,257223563) a := Äquatorradius der Erde
+	 * f := Abplattung der Erde (1/298,257223563) a := Ã„quatorradius der Erde
 	 * (6378,14 km) F := (b1+b2)/2 G := (b1-b2)/2 l := (l1-l2)/2 S :=
-	 * sin²(G)cos²(l) + cos²(F)sin²(l) C := cos²(G)cos²(l) + sin²(F)sin²(l) w :=
+	 * sinÂ²(G)cosÂ²(l) + cosÂ²(F)sinÂ²(l) C := cosÂ²(G)cosÂ²(l) + sinÂ²(F)sinÂ²(l) w :=
 	 * arctan(sqrt(S/C)) in rad R := sqrt(S*C)/w D := 2*w*a H1 := (3R-1)/(2C) H2
 	 * := (3R+1)/(2S)
 	 *
-	 * Abstand: s := D(1 + f*H1*sin²(F)cos²(G) - f*H2*cos²(F)sin²(G))
+	 * Abstand: s := D(1 + f*H1*sinÂ²(F)cosÂ²(G) - f*H2*cosÂ²(F)sinÂ²(G))
 	 *
 	 * @param p1
 	 *            erster Punkt
@@ -168,9 +168,9 @@ implements Comparable<WGS84Punkt> {
 	private final UTMKoordinate utmPunkt;
 
 	/**
-	 * Konstruktor für Punkt mit WGS84-Koordinaten in Dezimalnotation.
+	 * Konstruktor fÃ¼r Punkt mit WGS84-Koordinaten in Dezimalnotation.
 	 *
-	 * Beispiel +4.354551 +50.839402 bedeutet 4°. 354551 O 50°. 839402 N
+	 * Beispiel +4.354551 +50.839402 bedeutet 4Â°. 354551 O 50Â°. 839402 N
 	 *
 	 * @param laenge
 	 *            L&auml;nge
@@ -265,7 +265,7 @@ implements Comparable<WGS84Punkt> {
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		return "Punkt in WGS84-Koordinaten: Länge: " + getLaenge()
+		return "Punkt in WGS84-Koordinaten: LÃ¤nge: " + getLaenge()
 		+ ", Breite: " + getBreite();
 	}
 }

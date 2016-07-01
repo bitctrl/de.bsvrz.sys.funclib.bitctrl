@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -28,14 +28,14 @@ package de.bsvrz.sys.funclib.bitctrl.daf;
 
 /**
  * Exception, die geworfen wird, wenn eine Simulationsvariante keine "echte"
- * Simulation ist, das heiﬂt ihr Wert == 0 ist.
+ * Simulation ist, das hei√üt ihr Wert == 0 ist.
  *
  * @author peuker
  */
 public class NoSimulationException extends Exception {
 
 	/**
-	 * VersionsID f¸r die Serialisierung.
+	 * VersionsID f√ºr die Serialisierung.
 	 */
 	private static final long serialVersionUID = 1L;
 }

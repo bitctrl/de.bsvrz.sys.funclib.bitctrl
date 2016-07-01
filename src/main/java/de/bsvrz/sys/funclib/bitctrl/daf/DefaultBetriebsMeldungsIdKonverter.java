@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -27,12 +27,12 @@
 package de.bsvrz.sys.funclib.bitctrl.daf;
 
 /**
- * Standardumsetzer für die Ermittlung einer ID aus den Daten für eine
+ * Standardumsetzer fÃ¼r die Ermittlung einer ID aus den Daten fÃ¼r eine
  * Betriebsmeldung.
  *
  * Die ID der Betriebsmeldung ist identisch mit der PID bzw. der ID eines mit
  * der Betriebsmeldung assoziierten Systemobjekts. Eine bereits explizit
- * gesetzte ID wird nicht überschrieben.
+ * gesetzte ID wird nicht Ã¼berschrieben.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */

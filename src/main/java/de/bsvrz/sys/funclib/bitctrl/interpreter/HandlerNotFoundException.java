@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -27,15 +27,15 @@
 package de.bsvrz.sys.funclib.bitctrl.interpreter;
 
 /**
- * Exceptions, die geworfen wird, wenn für die Ausführung einer Operation kein
- * gültiger Handler gefunden werden konnte.
+ * Exceptions, die geworfen wird, wenn fÃ¼r die AusfÃ¼hrung einer Operation kein
+ * gÃ¼ltiger Handler gefunden werden konnte.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
 public class HandlerNotFoundException extends InterpreterException {
 
 	/**
-	 * Versions-ID für die Serialisierung des Objekts.
+	 * Versions-ID fÃ¼r die Serialisierung des Objekts.
 	 */
 	private static final long serialVersionUID = 1L;
 

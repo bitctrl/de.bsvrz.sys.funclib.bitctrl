@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -38,19 +38,19 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen;
 
 /**
- * Repr‰sentiert eine Benutzerrolle des Datenverteilers.
+ * Repr√§sentiert eine Benutzerrolle des Datenverteilers.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
 public class Rolle extends AbstractSystemObjekt {
 
-	/** Die Liste der betroffenen Aktivit‰ten. */
+	/** Die Liste der betroffenen Aktivit√§ten. */
 	private List<Aktivitaet> aktivitaeten;
 
 	/**
 	 * Konstruktor zum Anlegen eines Systemobjekt, das ein Applikationsobjekt
 	 * {@link SystemModellGlobalTypen#Rolle} in der Datenverteiler-Konfiguration
-	 * repr‰sentiert.
+	 * repr√§sentiert.
 	 *
 	 * @param obj
 	 *            das Objekt in der Konfiguration des Datenverteilers
@@ -65,7 +65,7 @@ public class Rolle extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt eine Read-Only-Liste der Aktivit‰ten zur¸ck, die diese Rolle
+	 * Gibt eine Read-Only-Liste der Aktivit√§ten zur√ºck, die diese Rolle
 	 * umfasst.
 	 *
 	 * @return die Liste der betroffenen Aspekte.
@@ -74,7 +74,7 @@ public class Rolle extends AbstractSystemObjekt {
 		if (aktivitaeten == null) {
 			aktivitaeten = new ArrayList<>();
 			final ConfigurationObject co = (ConfigurationObject) getSystemObject();
-			for (final SystemObject so : co.getObjectSet("Aktivit‰ten")
+			for (final SystemObject so : co.getObjectSet("Aktivit√§ten")
 					.getElements()) {
 				aktivitaeten.add((Aktivitaet) ObjektFactory.getInstanz()
 						.getModellobjekt(so));

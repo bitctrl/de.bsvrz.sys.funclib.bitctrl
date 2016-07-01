@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -36,52 +36,52 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 public enum RdsLocationMethode implements Zustand<Integer> {
 
 	/**
-	 * erste Feldposition ist primäre Location und letzte Feldposition ist
-	 * sekundäre Location, Wert 0.
+	 * erste Feldposition ist primÃ¤re Location und letzte Feldposition ist
+	 * sekundÃ¤re Location, Wert 0.
 	 */
 	METHODE0(
-			"erste Feldposition ist primäre Location und letzte Feldposition ist sekundäre Location",
+			"erste Feldposition ist primÃ¤re Location und letzte Feldposition ist sekundÃ¤re Location",
 			0),
 
-	/** Primäre Location und Extent sind gültig, Wert 1. */
-	METHODE1("Primäre Location und Extent sind gültig", 1),
+	/** PrimÃ¤re Location und Extent sind gÃ¼ltig, Wert 1. */
+	METHODE1("PrimÃ¤re Location und Extent sind gÃ¼ltig", 1),
 
-	/** Primäre Location und Sekundäre Location sind gültig, Wert 2. */
-	METHODE2("Primäre Location und Sekundäre Location sind gültig", 2),
+	/** PrimÃ¤re Location und SekundÃ¤re Location sind gÃ¼ltig, Wert 2. */
+	METHODE2("PrimÃ¤re Location und SekundÃ¤re Location sind gÃ¼ltig", 2),
 
-	/** Primäre Location, Extent und primäre Entfernung sind gültig, Wert 3. */
-	METHODE3("Primäre Location, Extent und primäre Entfernung sind gültig", 3),
+	/** PrimÃ¤re Location, Extent und primÃ¤re Entfernung sind gÃ¼ltig, Wert 3. */
+	METHODE3("PrimÃ¤re Location, Extent und primÃ¤re Entfernung sind gÃ¼ltig", 3),
 
 	/**
-	 * Primäre Location, sekundäre Location, primäre Entfernung und sekundäre
-	 * Entfernung sind gültig, Wert 4.
+	 * PrimÃ¤re Location, sekundÃ¤re Location, primÃ¤re Entfernung und sekundÃ¤re
+	 * Entfernung sind gÃ¼ltig, Wert 4.
 	 */
 	METHODE4(
-			"Primäre Location, sekundäre Location, primäre Entfernung und sekundäre Entfernung sind gültig.",
+			"PrimÃ¤re Location, sekundÃ¤re Location, primÃ¤re Entfernung und sekundÃ¤re Entfernung sind gÃ¼ltig.",
 			4),
 
 	/**
-	 * Strassennummer, Ausfahrtnummer und Nachrichtentext für Nachrichtenklasse
-	 * = 40 der primären und sekundären Location sind gültig, Wert 5.
+	 * Strassennummer, Ausfahrtnummer und Nachrichtentext fÃ¼r Nachrichtenklasse
+	 * = 40 der primÃ¤ren und sekundÃ¤ren Location sind gÃ¼ltig, Wert 5.
 	 */
 	METHODE5(
-			"Strassennummer, Ausfahrtnummer und Nachrichtentext für Nachrichtenklasse = 40 der primären und sekundären Location sind gültig.",
+			"Strassennummer, Ausfahrtnummer und Nachrichtentext fÃ¼r Nachrichtenklasse = 40 der primÃ¤ren und sekundÃ¤ren Location sind gÃ¼ltig.",
 			5),
 
 	/**
-	 * Strassennummer, LocationKilometrierung der primären und sekundären
-	 * Location sind gültig, Wert 6.
+	 * Strassennummer, LocationKilometrierung der primÃ¤ren und sekundÃ¤ren
+	 * Location sind gÃ¼ltig, Wert 6.
 	 */
 	METHODE6(
-			"Strassennummer, LocationKilometrierung der primären und sekundären Location sind gültig.",
+			"Strassennummer, LocationKilometrierung der primÃ¤ren und sekundÃ¤ren Location sind gÃ¼ltig.",
 			6);
 
 	/**
-	 * liefert die Rds-Locationmethode mit dem übergebenen Code.
+	 * liefert die Rds-Locationmethode mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine der Status PUNKT geliefert.
 	 */
 	public static RdsLocationMethode getStatus(final int gesuchterCode) {
@@ -108,10 +108,10 @@ public enum RdsLocationMethode implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für eine RDS-Locationmethode mit dem
-	 * übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
+	 * Die Funktion einen eine neue Instanz fÃ¼r eine RDS-Locationmethode mit dem
+	 * Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
 	 * nur innerhalb der Klasse verwendet. Es wird eine Menge vordefinierter
-	 * Zustände zur Verfügung gestellt.
+	 * ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

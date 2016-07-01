@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -36,7 +36,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.PunktXYImpl;
 
 /**
  * Definition der Typen, die von {@link GeoModellFactory} angelegt werden
- * kˆnnen.
+ * k√∂nnen.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
@@ -45,8 +45,8 @@ public enum GeoModellTypen implements SystemObjektTyp {
 	/** komplexes Objekt. */
 	KOMPLEX_XY("typ.komplexXY", KomplexXYImpl.class),
 
-	/** Eine Fl‰che. */
-	FLAECHE_XY("typ.fl‰cheXY", FlaecheXYImpl.class),
+	/** Eine Fl√§che. */
+	FLAECHE_XY("typ.fl√§cheXY", FlaecheXYImpl.class),
 
 	/** Ein Punkt. */
 	PUNKT_XY("typ.punktXY", PunktXYImpl.class),

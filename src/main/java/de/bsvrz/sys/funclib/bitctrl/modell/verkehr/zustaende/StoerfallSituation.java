@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definition der Werte für den Zustand eines Störfallindikators.
+ * Definition der Werte fÃ¼r den Zustand eines StÃ¶rfallindikators.
  *
  * @author BitCtrl Systems GmbH, Peuker
  */
@@ -38,9 +38,9 @@ public enum StoerfallSituation implements Zustand<Integer> {
 	 * der Datenverteiler hat keine Daten zum Indikator geliefert.
 	 */
 	UNBEKANNT("Unbekannt", -1), /**
-	 * der Störfallindikator ist gestört.
+	 * der StÃ¶rfallindikator ist gestÃ¶rt.
 	 */
-	STOERUNG("Störung", 0), /**
+	STOERUNG("StÃ¶rung", 0), /**
 	 * der Indikator kann keine Aussage zum aktuellen
 	 * Verkehrszustand liefern.
 	 */
@@ -55,9 +55,9 @@ public enum StoerfallSituation implements Zustand<Integer> {
 	 */
 	DICHTER_VERKEHR("dichter Verkehr",
 			4), /**
-			 * es herrscht zähfliessender Verkehr.
+			 * es herrscht zÃ¤hfliessender Verkehr.
 			 */
-	ZAEHER_VERKEHR("zähfließender Verkehr",
+	ZAEHER_VERKEHR("zÃ¤hflieÃŸender Verkehr",
 			5), /**
 			 * es herrscht stockender Verkehr.
 			 */
@@ -67,11 +67,11 @@ public enum StoerfallSituation implements Zustand<Integer> {
 	STAU("Stau", 7);
 
 	/**
-	 * liefert den Störfallzustand mit dem übergebenen Code.
+	 * liefert den StÃ¶rfallzustand mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return der ermittelte Code, wenn ein ungültiger Code übergeben wurde,
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return der ermittelte Code, wenn ein ungÃ¼ltiger Code Ã¼bergeben wurde,
 	 *         wird eine {@link IllegalArgumentException} geworfen.
 	 */
 	public static StoerfallSituation getSituation(final int gesuchterCode) {
@@ -82,7 +82,7 @@ public enum StoerfallSituation implements Zustand<Integer> {
 		}
 
 		throw new IllegalArgumentException(
-				"Ungültiger Situation mit Code: " + gesuchterCode);
+				"UngÃ¼ltiger Situation mit Code: " + gesuchterCode);
 	}
 
 	/**
@@ -97,10 +97,10 @@ public enum StoerfallSituation implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für einen Störfallzustand mit dem
-	 * übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
+	 * Die Funktion einen eine neue Instanz fÃ¼r einen StÃ¶rfallzustand mit dem
+	 * Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
 	 * nur innerhalb der Klasse verwendet. Es wird eine Menge vordefinierter
-	 * Zustände zur Verfügung gestellt.
+	 * ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

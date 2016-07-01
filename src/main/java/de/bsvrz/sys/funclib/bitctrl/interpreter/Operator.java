@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -39,7 +39,7 @@ import com.bitctrl.i18n.Messages;
  * Implementiert jedes Operatorsymbol als Entwurfsmuster Singleton. Jedes
  * Operatorsymbol kann abh&auml;ngig vom Kontext im Ausdruck eine andere
  * Operation darstellen. Deshalb f&uuml;hrt jeder Operator eine Liste von
- * {@link Handler} die ihn behandeln können.
+ * {@link Handler} die ihn behandeln kÃ¶nnen.
  *
  * @author BitCtrl Systems GmbH, Schumann
  */
@@ -200,7 +200,7 @@ public final class Operator {
 	/**
 	 * Wendet den Operator auf die Liste der Operanden an. Die Operanden werden
 	 * von links nach rechts bzw. in der Reihenfolge der Iteration abgearbeitet.
-	 * Wenn kein passender Handler für die Operation gefunden wird, wird eine
+	 * Wenn kein passender Handler fÃ¼r die Operation gefunden wird, wird eine
 	 * {@link InterpreterException} geworfen.
 	 *
 	 * @param werte

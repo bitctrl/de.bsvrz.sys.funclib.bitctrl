@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -72,7 +72,7 @@ public final class FileTool {
 				try {
 					input.close();
 				} catch (final IOException e) {
-					// Fehler beim Schliessen der Quelle wird vernachl‰ssigt
+					// Fehler beim Schliessen der Quelle wird vernachl√§ssigt
 				}
 			} catch (final FileNotFoundException e) {
 				// Quelle konnte nicht gelesen werden
@@ -137,7 +137,7 @@ public final class FileTool {
 	 *
 	 * @param verzeichnis
 	 *            das Verzeichnis
-	 * @return <i>true</i>, wenn der Lˆschvorgang erfolgreich ausgef¸hrt werden
+	 * @return <i>true</i>, wenn der L√∂schvorgang erfolgreich ausgef√ºhrt werden
 	 *         konnte
 	 */
 	public static boolean loescheVerzeichnis(final File verzeichnis) {

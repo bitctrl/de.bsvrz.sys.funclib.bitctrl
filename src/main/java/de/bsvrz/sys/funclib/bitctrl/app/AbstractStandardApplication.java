@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -32,7 +32,7 @@ import de.bsvrz.sys.funclib.application.StandardApplication;
  * f&uuml;gt aber n&uuml;tzliche Methoden der Applikation hinzu.
  *
  * @author BitCtrl Systems GmbH, Schumann
- * @deprecated F¸r die Ausgabe beim Starten und dem Auslesen Applikationsdaten
+ * @deprecated F√ºr die Ausgabe beim Starten und dem Auslesen Applikationsdaten
  *             kann nun
  *             {@link com.bitctrl.util.jar.JarTools#printVersionInfo(Class)} und
  *             {@link com.bitctrl.VersionInfo} verwendet werden.
@@ -61,7 +61,7 @@ public abstract class AbstractStandardApplication
 	/**
 	 * Gibt den Namen der Applikation zur&uuml;ck.
 	 *
-	 * @return Vollst‰ndiger Name der Applikation
+	 * @return Vollst√§ndiger Name der Applikation
 	 */
 	protected abstract String getApplikationName();
 

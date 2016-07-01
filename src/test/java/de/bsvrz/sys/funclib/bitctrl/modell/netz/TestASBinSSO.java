@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -42,7 +42,7 @@ import org.junit.Test;
  * @author BitCtrl Systems GmbH, Gieseler
  */
 
-@Ignore("Test ¸berpr¸fen - NetzTest.init funktioniert nicht")
+@Ignore("Test √ºberpr√ºfen - NetzTest.init funktioniert nicht")
 public class TestASBinSSO {
 
 	/**
@@ -53,7 +53,7 @@ public class TestASBinSSO {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		System.out.println("Netzreferenzen-Pr¸fung");
+		System.out.println("Netzreferenzen-Pr√ºfung");
 		NetzTests.init();
 	}
 
@@ -82,7 +82,7 @@ public class TestASBinSSO {
 			} else if (richtung.equalsIgnoreCase("GEGEN_STATIONIERUNGSRICHTUNG")) {
 				asbRichtung = NetzInterface.ASBStationierungsRichtung.GEGEN_STATIONIERUNGSRICHTUNG;
 			} else {
-				fail("Die ASB-Stationierungsrichtung '" + richtung + "' ist nicht zul‰ssig");
+				fail("Die ASB-Stationierungsrichtung '" + richtung + "' ist nicht zul√§ssig");
 			}
 
 			System.out.println("Test Referenzierungsumrechnung ASB in Segment und Offset");

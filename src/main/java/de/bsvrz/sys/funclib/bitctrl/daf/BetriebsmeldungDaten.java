@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -33,7 +33,7 @@ import de.bsvrz.sys.funclib.operatingMessage.MessageState;
 import de.bsvrz.sys.funclib.operatingMessage.MessageType;
 
 /**
- * Klasse zur Speicherung aller für die Erstellung einer Betriebsmeldung
+ * Klasse zur Speicherung aller fÃ¼r die Erstellung einer Betriebsmeldung
  * relevanten Daten.
  *
  * @author BitCtrl Systems GmbH, peuker
@@ -62,7 +62,7 @@ public class BetriebsmeldungDaten {
 
 	/**
 	 * Erzeugt eine Instanz des {@link BetriebsmeldungDaten} mit Standardwerten
-	 * und der übergebenen Referenz.
+	 * und der Ã¼bergebenen Referenz.
 	 *
 	 * @param reference
 	 *            das Referenzobjekt
@@ -85,14 +85,14 @@ public class BetriebsmeldungDaten {
 	}
 
 	/**
-	 * setzt den Verursacher der Meldung. Wenn <code>null</code> übergeben wird,
+	 * setzt den Verursacher der Meldung. Wenn <code>null</code> Ã¼bergeben wird,
 	 * wird ein Standardverursacher erzeugt.
 	 *
 	 * @param causer
-	 *            der definierte Verursacher oder <code>null</code> für den
+	 *            der definierte Verursacher oder <code>null</code> fÃ¼r den
 	 *            Standardwert.
-	 * @return gibt eine Referenz auf sich selbst zurück, damit die Setter
-	 *         gechaint werden könen.
+	 * @return gibt eine Referenz auf sich selbst zurÃ¼ck, damit die Setter
+	 *         gechaint werden kÃ¶nen.
 	 */
 	public BetriebsmeldungDaten setCauser(final MessageCauser causer) {
 		if (causer == null) {
@@ -119,8 +119,8 @@ public class BetriebsmeldungDaten {
 	 *
 	 * @param id
 	 *            die ID.
-	 * @return gibt eine Referenz auf sich selbst zurück, damit die Setter
-	 *         gechaint werden könen.
+	 * @return gibt eine Referenz auf sich selbst zurÃ¼ck, damit die Setter
+	 *         gechaint werden kÃ¶nen.
 	 */
 	public BetriebsmeldungDaten setId(final String id) {
 		this.id = id;
@@ -143,8 +143,8 @@ public class BetriebsmeldungDaten {
 	 *
 	 * @param reference
 	 *            das Objekt.
-	 * @return gibt eine Referenz auf sich selbst zurück, damit die Setter
-	 *         gechaint werden könen.
+	 * @return gibt eine Referenz auf sich selbst zurÃ¼ck, damit die Setter
+	 *         gechaint werden kÃ¶nen.
 	 */
 	public BetriebsmeldungDaten setReference(final SystemObject reference) {
 		this.reference = reference;
@@ -163,13 +163,13 @@ public class BetriebsmeldungDaten {
 	}
 
 	/**
-	 * setzt den Status der Meldung. Wenn <code>null</code> übergeben wird, wird
+	 * setzt den Status der Meldung. Wenn <code>null</code> Ã¼bergeben wird, wird
 	 * der Standardwert {@link MessageState#MESSAGE} gesetzt.
 	 *
 	 * @param state
-	 *            der Status oder <code>null</code> für den Standardwert.
-	 * @return gibt eine Referenz auf sich selbst zurück, damit die Setter
-	 *         gechaint werden könen.
+	 *            der Status oder <code>null</code> fÃ¼r den Standardwert.
+	 * @return gibt eine Referenz auf sich selbst zurÃ¼ck, damit die Setter
+	 *         gechaint werden kÃ¶nen.
 	 */
 	public BetriebsmeldungDaten setState(final MessageState state) {
 		if (state == null) {
@@ -192,13 +192,13 @@ public class BetriebsmeldungDaten {
 	}
 
 	/**
-	 * setzt den Typ der Meldung. Wenn <code>null</code> übergeben wird, wird
+	 * setzt den Typ der Meldung. Wenn <code>null</code> Ã¼bergeben wird, wird
 	 * der Standardwert {@link MessageType#APPLICATION_DOMAIN} gesetzt.
 	 *
 	 * @param type
-	 *            der Typ oder <code>null</code> für den Standardwert.
-	 * @return gibt eine Referenz auf sich selbst zurück, damit die Setter
-	 *         gechaint werden könen.
+	 *            der Typ oder <code>null</code> fÃ¼r den Standardwert.
+	 * @return gibt eine Referenz auf sich selbst zurÃ¼ck, damit die Setter
+	 *         gechaint werden kÃ¶nen.
 	 */
 	public BetriebsmeldungDaten setType(final MessageType type) {
 		if (type != null) {

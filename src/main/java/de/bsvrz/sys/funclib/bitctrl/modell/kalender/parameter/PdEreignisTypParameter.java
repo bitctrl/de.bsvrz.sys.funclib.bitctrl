@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -38,7 +38,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
 /**
  * Ein Parameterdatensatz, die Eigenschaften eines Ereignistyps beinhaltet. Der
- * Datensatz repr‰sentiert die Daten einer Attributgruppe
+ * Datensatz repr√§sentiert die Daten einer Attributgruppe
  * "atg.ereignisTypParameter".
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
@@ -154,7 +154,7 @@ public class PdEreignisTypParameter
 	protected Data konvertiere(final Daten datum) {
 		final Data daten = erzeugeSendeCache();
 
-		daten.getUnscaledValue("EreignisTypPriorit‰t")
+		daten.getUnscaledValue("EreignisTypPriorit√§t")
 				.set(datum.getPrioritaet());
 
 		return daten;
@@ -169,7 +169,7 @@ public class PdEreignisTypParameter
 			final Data daten = result.getData();
 
 			datum.setPrioritaet(
-					daten.getUnscaledValue("EreignisTypPriorit‰t").longValue());
+					daten.getUnscaledValue("EreignisTypPriorit√§t").longValue());
 
 		}
 

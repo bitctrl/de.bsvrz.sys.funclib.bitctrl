@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -56,7 +56,7 @@ public class LinieXYImpl extends AbstractSystemObjekt implements LinieXY {
 	 *
 	 * @param obj
 	 *            das Objekt, mit dem die Linie innerhalb der
-	 *            Datenverteiler-Konfiguration repr‰sentiert ist.
+	 *            Datenverteiler-Konfiguration repr√§sentiert ist.
 	 */
 	public LinieXYImpl(final SystemObject obj) {
 		super(obj);

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -45,8 +45,8 @@ public enum LmsModellTypen implements SystemObjektTyp {
 	/** eine Rds-Meldung. */
 	RDSMELDUNG("typ.rdsMeldung", RdsMeldung.class),
 
-	/** eine RdsQuantit‰t. */
-	RDSQUANTITAET("typ.rdsQuantit‰t", RdsQuantitaet.class);
+	/** eine RdsQuantit√§t. */
+	RDSQUANTITAET("typ.rdsQuantit√§t", RdsQuantitaet.class);
 
 	/** PID des Objekttyps im Datenverteiler. */
 	private final String pid;

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -39,7 +39,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenTeilSegment;
 public class StrassenSegmentUndOffsetOrtsReferenz
 implements StrassenSegmentUndOffsetOrtsReferenzInterface {
 
-	/** Offset auf dem StraﬂenSegment in Metern. */
+	/** Offset auf dem Stra√üenSegment in Metern. */
 	private final long startOffset;
 
 	/** das zugeh&ouml;rige ModellObjekt. */
@@ -62,7 +62,7 @@ implements StrassenSegmentUndOffsetOrtsReferenzInterface {
 		if ((pidStrassenSegment == null)
 				|| (pidStrassenSegment.length() == 0)) {
 			throw new IllegalArgumentException(
-					"Das Straﬂensegment darf nicht 'null' oder leer sein");
+					"Das Stra√üensegment darf nicht 'null' oder leer sein");
 		}
 
 		if (startOffset < 0) {
@@ -77,7 +77,7 @@ implements StrassenSegmentUndOffsetOrtsReferenzInterface {
 
 		if (systemObjekt == null) {
 			throw new NetzReferenzException(
-					"Das Straﬂensegment mit der PID '" + pidStrassenSegment
+					"Das Stra√üensegment mit der PID '" + pidStrassenSegment
 					+ "' existiert nicht im Datenkatalog!");
 		}
 
@@ -86,13 +86,13 @@ implements StrassenSegmentUndOffsetOrtsReferenzInterface {
 
 		if (modelSegment == null) {
 			throw new NetzReferenzException(
-					"Das Straﬂensegment mit der PID '" + pidStrassenSegment
+					"Das Stra√üensegment mit der PID '" + pidStrassenSegment
 					+ "' existiert nicht im Datenkatalog!");
 		}
 
 		if (modelSegment.getLaenge() < startOffset) {
 			throw new NetzReferenzException(
-					"Der Offset ist grˆﬂer als die L‰nge des Straﬂensegmentes!");
+					"Der Offset ist gr√∂√üer als die L√§nge des Stra√üensegmentes!");
 		}
 	}
 
@@ -124,7 +124,7 @@ implements StrassenSegmentUndOffsetOrtsReferenzInterface {
 		}
 
 		throw new NetzReferenzException(
-				"Die L‰ngsneigung konnte nicht bestimmt werden");
+				"Die L√§ngsneigung konnte nicht bestimmt werden");
 	}
 
 	/**

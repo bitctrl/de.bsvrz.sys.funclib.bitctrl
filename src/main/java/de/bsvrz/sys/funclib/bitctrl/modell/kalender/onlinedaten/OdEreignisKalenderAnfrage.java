@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -341,7 +341,7 @@ extends AbstractOnlineDatensatz<OdEreignisKalenderAnfrage.Daten> {
 		daten.getUnscaledValue("EreignisTypenOption")
 		.set(datum.getEreignisTypenOption().getCode());
 
-		feld = daten.getArray("RäumlicheGültigkeit");
+		feld = daten.getArray("RÃ¤umlicheGÃ¼ltigkeit");
 		feld.setLength(datum.getRaeumlicheGueltigkeit().size());
 		i = 0;
 		for (final NetzBestandTeil nbt : datum.getRaeumlicheGueltigkeit()) {
@@ -384,7 +384,7 @@ extends AbstractOnlineDatensatz<OdEreignisKalenderAnfrage.Daten> {
 			datum.setEreignisTypenOption(EreignisTypenOption.getTyp(
 					daten.getUnscaledValue("EreignisTypenOption").intValue()));
 
-			feld = daten.getArray("RäumlicheGültigkeit");
+			feld = daten.getArray("RÃ¤umlicheGÃ¼ltigkeit");
 			for (int i = 0; i < feld.getLength(); i++) {
 				datum.getRaeumlicheGueltigkeit()
 				.add((NetzBestandTeil) factory

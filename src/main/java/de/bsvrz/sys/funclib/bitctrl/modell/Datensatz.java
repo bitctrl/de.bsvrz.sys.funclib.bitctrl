@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -52,25 +52,25 @@ public interface Datensatz<T extends Datum> {
 
 		/**
 		 * Der Versand von Daten soll angehalten werden, weil momentan kein
-		 * Abnehmer sich für die Daten interessiert.
+		 * Abnehmer sich fÃ¼r die Daten interessiert.
 		 */
 		STOP(ClientSenderInterface.STOP_SENDING,
-				"Der Versand von Daten soll angehalten werden, weil momentan kein Abnehmer sich für die Daten interessiert."),
+				"Der Versand von Daten soll angehalten werden, weil momentan kein Abnehmer sich fÃ¼r die Daten interessiert."),
 
 		/**
 		 * Der Versand von Daten soll angehalten werden, weil momentan keine
-		 * Rechte für den Versand vorliegen.
+		 * Rechte fÃ¼r den Versand vorliegen.
 		 */
 		KEINE_RECHTE(ClientSenderInterface.STOP_SENDING_NO_RIGHTS,
-				"Der Versand von Daten soll angehalten werden, weil momentan keine Rechte für den Versand vorliegen."),
+				"Der Versand von Daten soll angehalten werden, weil momentan keine Rechte fÃ¼r den Versand vorliegen."),
 
 		/**
 		 * Der Versand von Daten soll angehalten werden, weil die entsprechende
-		 * Anmeldung momentan nicht gültig ist (z.B. wegen doppelter Quelle).
+		 * Anmeldung momentan nicht gÃ¼ltig ist (z.B. wegen doppelter Quelle).
 		 */
 		ANMELDUNG_UNGUELTIG(
 				ClientSenderInterface.STOP_SENDING_NOT_A_VALID_SUBSCRIPTION,
-				"Der Versand von Daten soll angehalten werden, weil die entsprechende Anmeldung momentan nicht gültig ist (z.B. wegen doppelter Quelle).");
+				"Der Versand von Daten soll angehalten werden, weil die entsprechende Anmeldung momentan nicht gÃ¼ltig ist (z.B. wegen doppelter Quelle).");
 
 		/**
 		 * Bestimmt den Status zu einem Code.
@@ -86,7 +86,7 @@ public interface Datensatz<T extends Datum> {
 				}
 			}
 
-			throw new NoSuchElementException("Ungültiger Code");
+			throw new NoSuchElementException("UngÃ¼ltiger Code");
 		}
 
 		/** Die Eigenschaft {@code beschreibung}. */

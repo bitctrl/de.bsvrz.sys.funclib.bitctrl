@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -49,19 +49,19 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 	private  final SystemObject objekt;
 
 	/**
-	 * Menge der Parameterdatensaätze, deren Daten innerhalb des Objekts
+	 * Menge der ParameterdatensaÃ¤tze, deren Daten innerhalb des Objekts
 	 * verwaltet werden.
 	 */
 	private final Map<Class<? extends ParameterDatensatz<? extends Datum>>, ParameterDatensatz<? extends Datum>> parameter;
 
 	/**
-	 * Menge der Onlinedatensätze, deren Daten innerhalb des Objekts verwaltet
+	 * Menge der OnlinedatensÃ¤tze, deren Daten innerhalb des Objekts verwaltet
 	 * werden.
 	 */
 	private final Map<Class<? extends OnlineDatensatz<? extends Datum>>, OnlineDatensatz<? extends Datum>> onlineDaten;
 
 	/**
-	 * Weist das Systemobjekt zu und prüft ob der Typ stimmt.
+	 * Weist das Systemobjekt zu und prÃ¼ft ob der Typ stimmt.
 	 *
 	 * @param obj
 	 *            Das zu kapselnde Systemobjekt
@@ -119,7 +119,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 			od = getDatensatz(typ);
 			if (od == null) {
 				throw new IllegalArgumentException("Datensatz " + typ
-						+ " kann nicht instantiiert werden, da der öffentlicher "
+						+ " kann nicht instantiiert werden, da der Ã¶ffentlicher "
 						+ "Konstruktor mit einem Parameter vom Typ SystemObjekt fehlt.");
 			}
 
@@ -130,7 +130,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 				throw new IllegalArgumentException("Datensatz "
 						+ od.getAttributGruppe() + " kann nicht mit Objekt "
 						+ getSystemObject().getType()
-						+ " verwendet werden. Verfügbare Attributgruppen: "
+						+ " verwendet werden. VerfÃ¼gbare Attributgruppen: "
 						+ atgListe);
 			}
 		}
@@ -152,7 +152,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 			pd = getDatensatz(typ);
 			if (pd == null) {
 				throw new IllegalArgumentException("Datensatz " + typ
-						+ " kann nicht instantiiert werden, da der öffentlicher "
+						+ " kann nicht instantiiert werden, da der Ã¶ffentlicher "
 						+ "Konstruktor mit einem Parameter vom Typ SystemObjekt fehlt.");
 			}
 
@@ -163,7 +163,7 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 				throw new IllegalArgumentException("Datensatz "
 						+ pd.getAttributGruppe() + " kann nicht mit Objekt "
 						+ getSystemObject().getType()
-						+ " verwendet werden. Verfügbare Attributgruppen: "
+						+ " verwendet werden. VerfÃ¼gbare Attributgruppen: "
 						+ atgListe);
 			}
 		}
@@ -227,17 +227,17 @@ public abstract class AbstractSystemObjekt implements SystemObjekt {
 				try {
 					return (D) c.newInstance(this);
 				} catch (final IllegalArgumentException ex) {
-					// Darf nicht mehr eintreten, weil geprüpft
+					// Darf nicht mehr eintreten, weil geprÃ¼pft
 					throw new IllegalArgumentException("Datensatz "
 							+ typ.getName() + " kann nicht instantiiert werden:"
 							+ ex.getMessage());
 				} catch (final InstantiationException ex) {
-					// Darf nicht mehr eintreten, weil geprüpft
+					// Darf nicht mehr eintreten, weil geprÃ¼pft
 					throw new IllegalArgumentException("Datensatz "
 							+ typ.getName() + " kann nicht instantiiert werden:"
 							+ ex.getMessage());
 				} catch (final IllegalAccessException ex) {
-					// Darf nicht mehr eintreten, weil geprüpft
+					// Darf nicht mehr eintreten, weil geprÃ¼pft
 					throw new IllegalArgumentException("Datensatz "
 							+ typ.getName() + " kann nicht instantiiert werden:"
 							+ ex.getMessage());

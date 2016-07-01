@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -39,38 +39,38 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 public interface Kalender extends SystemObjekt {
 
 	/**
-	 * Fügt ein Ereignis in die Ereignismenge des Kalenders ein.
+	 * FÃ¼gt ein Ereignis in die Ereignismenge des Kalenders ein.
 	 *
 	 * @param ereignis
 	 *            das Ereignis.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Einfügen unzulässig ist.
+	 *             wenn das EinfÃ¼gen unzulÃ¤ssig ist.
 	 */
 	void add(Ereignis ereignis) throws ConfigurationChangeException;
 
 	/**
-	 * Fügt einen Ereignistyp in die Ereignistypmenge des Kalenders ein.
+	 * FÃ¼gt einen Ereignistyp in die Ereignistypmenge des Kalenders ein.
 	 *
 	 * @param ereignisTyp
 	 *            der Ereignistyp.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Einfügen unzulässig ist.
+	 *             wenn das EinfÃ¼gen unzulÃ¤ssig ist.
 	 */
 	void add(EreignisTyp ereignisTyp) throws ConfigurationChangeException;
 
 	/**
-	 * Fügt ein Systemkalendereintrag in die Systemkalendereintragsmenge des
+	 * FÃ¼gt ein Systemkalendereintrag in die Systemkalendereintragsmenge des
 	 * Kalenders ein.
 	 *
 	 * @param eintrag
 	 *            das Systemkalendereintrag.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Einfügen unzulässig ist.
+	 *             wenn das EinfÃ¼gen unzulÃ¤ssig ist.
 	 */
 	void add(SystemKalenderEintrag eintrag) throws ConfigurationChangeException;
 
 	/**
-	 * Registriert einen Listener für die Änderung der Ereignismenge.
+	 * Registriert einen Listener fÃ¼r die Ã„nderung der Ereignismenge.
 	 *
 	 * @param l
 	 *            der neue Listener.
@@ -78,7 +78,7 @@ public interface Kalender extends SystemObjekt {
 	void addEreignisListener(EreignisListener l);
 
 	/**
-	 * Registriert einen Listener für die Änderung der Ereignistypmenge.
+	 * Registriert einen Listener fÃ¼r die Ã„nderung der Ereignistypmenge.
 	 *
 	 * @param l
 	 *            der neue Listener.
@@ -86,8 +86,8 @@ public interface Kalender extends SystemObjekt {
 	void addEreignisTypListener(EreignisTypListener l);
 
 	/**
-	 * Registriert einen Listener für die Änderung der Menge
-	 * Systemkalendereinträge.
+	 * Registriert einen Listener fÃ¼r die Ã„nderung der Menge
+	 * SystemkalendereintrÃ¤ge.
 	 *
 	 * @param l
 	 *            der neue Listener.
@@ -95,23 +95,23 @@ public interface Kalender extends SystemObjekt {
 	void addSystemKalenderEintragListener(SystemKalenderEintragListener l);
 
 	/**
-	 * Gibt die aktuelle Menge der Ereignisse zurück.
+	 * Gibt die aktuelle Menge der Ereignisse zurÃ¼ck.
 	 *
 	 * @return die Ereignismenge.
 	 */
 	Set<Ereignis> getEreignisse();
 
 	/**
-	 * Gibt die aktuelle Menge der Ereignistypen zurück.
+	 * Gibt die aktuelle Menge der Ereignistypen zurÃ¼ck.
 	 *
 	 * @return die Ereignistypmenge.
 	 */
 	Set<EreignisTyp> getEreignisTypen();
 
 	/**
-	 * Gibt die aktuelle Menge der Systemkalendereinträge zurück.
+	 * Gibt die aktuelle Menge der SystemkalendereintrÃ¤ge zurÃ¼ck.
 	 *
-	 * @return die Menge der Systemkalendereinträge.
+	 * @return die Menge der SystemkalendereintrÃ¤ge.
 	 */
 	Set<SystemKalenderEintrag> getSystemKalenderEintraege();
 
@@ -121,7 +121,7 @@ public interface Kalender extends SystemObjekt {
 	 * @param ereignis
 	 *            das Ereignis.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Entfernen unzulässig ist.
+	 *             wenn das Entfernen unzulÃ¤ssig ist.
 	 */
 	void remove(Ereignis ereignis) throws ConfigurationChangeException;
 
@@ -131,7 +131,7 @@ public interface Kalender extends SystemObjekt {
 	 * @param ereignisTyp
 	 *            der Ereignistyp.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Entfernen unzulässig ist.
+	 *             wenn das Entfernen unzulÃ¤ssig ist.
 	 */
 	void remove(EreignisTyp ereignisTyp) throws ConfigurationChangeException;
 
@@ -142,13 +142,13 @@ public interface Kalender extends SystemObjekt {
 	 * @param eintrag
 	 *            das Systemkalendereintrag.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Einfügen unzulässig ist.
+	 *             wenn das EinfÃ¼gen unzulÃ¤ssig ist.
 	 */
 	void remove(SystemKalenderEintrag eintrag)
 			throws ConfigurationChangeException;
 
 	/**
-	 * Entfernet einen Listener, der auf die Änderung der Ereignismenge lauscht.
+	 * Entfernet einen Listener, der auf die Ã„nderung der Ereignismenge lauscht.
 	 *
 	 * @param l
 	 *            der zu entfernende Listener.
@@ -156,7 +156,7 @@ public interface Kalender extends SystemObjekt {
 	void removeEreignisListener(EreignisListener l);
 
 	/**
-	 * Entfernet einen Listener, der auf die Änderung der Ereignistypmenge
+	 * Entfernet einen Listener, der auf die Ã„nderung der Ereignistypmenge
 	 * lauscht.
 	 *
 	 * @param l
@@ -165,8 +165,8 @@ public interface Kalender extends SystemObjekt {
 	void removeEreignisTypListener(EreignisTypListener l);
 
 	/**
-	 * Entfernet einen Listener, der auf die Änderung der Menge
-	 * Systemkalendereinträge lauscht.
+	 * Entfernet einen Listener, der auf die Ã„nderung der Menge
+	 * SystemkalendereintrÃ¤ge lauscht.
 	 *
 	 * @param l
 	 *            der zu entfernende Listener.

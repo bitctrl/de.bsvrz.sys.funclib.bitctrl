@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -49,7 +49,7 @@ import de.bsvrz.pat.onlprot.standardProtocolModule.StandardProtocoller;
 import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 
 /**
- * Das Modul zum Erzeugen der XML-Datei f¸r den Datengenerator der Kernsoftware.
+ * Das Modul zum Erzeugen der XML-Datei f√ºr den Datengenerator der Kernsoftware.
  *
  * @author BitCtrl Systems GmbH, Peuker
  */
@@ -61,7 +61,7 @@ class GeneriereAusgabeDateiModul extends DatenGeneratorModul {
 	private final SortedMap<Long, Set<DatenQuelle>> quellListe = new TreeMap<>();
 
 	/**
-	 * die Startzeit f¸r die Datenausgabe.
+	 * die Startzeit f√ºr die Datenausgabe.
 	 */
 	private long startZeit;
 

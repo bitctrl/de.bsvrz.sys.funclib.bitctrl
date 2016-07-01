@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -39,7 +39,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderModellTypen;
 
 /**
- * Repr‰sentiert einen Systemkalendereintrag.
+ * Repr√§sentiert einen Systemkalendereintrag.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
@@ -54,7 +54,7 @@ public class SystemKalenderEintrag extends AbstractSystemObjekt {
 	 *            der Name.
 	 * @return der angelegte Systemkalendereintrag.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Anlegen unzul‰ssig ist.
+	 *             wenn das Anlegen unzul√§ssig ist.
 	 */
 	public static SystemKalenderEintrag anlegen(final String pid,
 			final String name) throws ConfigurationChangeException {
@@ -93,10 +93,10 @@ public class SystemKalenderEintrag extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Lˆscht das Objekt in dem es auf "ung¸ltig" gesetzt wird.
+	 * L√∂scht das Objekt in dem es auf "ung√ºltig" gesetzt wird.
 	 *
 	 * @throws ConfigurationChangeException
-	 *             wenn das Lˆschen nicht zul‰ssig ist.
+	 *             wenn das L√∂schen nicht zul√§ssig ist.
 	 */
 	public void entfernen() throws ConfigurationChangeException {
 		((DynamicObject) getSystemObject()).invalidate();

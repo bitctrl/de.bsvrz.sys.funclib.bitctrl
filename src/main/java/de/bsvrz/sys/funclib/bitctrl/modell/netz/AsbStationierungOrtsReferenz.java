@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -47,7 +47,7 @@ implements AsbStationierungOrtsReferenzInterface {
 	/** Stationierung (in Metern) auf dem ASB Abschnitt. */
 	private final long stationierung;
 
-	/** Stationierungsrichtung f¸r den ASB Abschnitt. */
+	/** Stationierungsrichtung f√ºr den ASB Abschnitt. */
 	private final ASBStationierungsRichtung richtung;
 
 	/**
@@ -58,7 +58,7 @@ implements AsbStationierungOrtsReferenzInterface {
 	 * @param endKnoten
 	 *            Endknoten der ASB Stationierung
 	 * @param richtung
-	 *            Stationierungsrichtung f¸r den ASB Abschnitt
+	 *            Stationierungsrichtung f√ºr den ASB Abschnitt
 	 * @param stationierung
 	 *            Stationierung (in Metern) auf dem ASB Abschnitt
 	 */

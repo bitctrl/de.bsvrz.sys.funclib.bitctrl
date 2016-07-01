@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -84,14 +84,14 @@ public class KzdSender implements StandardApplication {
 		private final JLabel lblKB;
 
 		Gui() {
-			super("Generator für Verkehrskurzzeitdaten am Messquerschnitt");
+			super("Generator fÃ¼r Verkehrskurzzeitdaten am Messquerschnitt");
 
 			final Container contentPane;
 			JSlider slider;
 
 			contentPane = new JPanel(new GridLayout(6, 3));
 
-			contentPane.add(new JLabel("Maximaler Wert für QKfz"));
+			contentPane.add(new JLabel("Maximaler Wert fÃ¼r QKfz"));
 			slider = new JSlider(0, 10000, maxQKfz);
 			lblQKfz = new JLabel(String.valueOf(maxQKfz)
 					+ SUFFIX_VERKEHRSSTAERKE);
@@ -108,7 +108,7 @@ public class KzdSender implements StandardApplication {
 
 			});
 
-			contentPane.add(new JLabel("Maximaler Wert für QLkw"));
+			contentPane.add(new JLabel("Maximaler Wert fÃ¼r QLkw"));
 			slider = new JSlider(0, 10000, maxQKfz);
 			lblQLkw = new JLabel(String.valueOf(maxQLkw)
 					+ SUFFIX_VERKEHRSSTAERKE);
@@ -125,7 +125,7 @@ public class KzdSender implements StandardApplication {
 
 			});
 
-			contentPane.add(new JLabel("Maximaler Wert für VPkw"));
+			contentPane.add(new JLabel("Maximaler Wert fÃ¼r VPkw"));
 			slider = new JSlider(0, 255, maxVPkw);
 			lblVPkw = new JLabel(String.valueOf(maxVPkw)
 					+ SUFFIX_GESCHWINDIGKEIT);
@@ -142,7 +142,7 @@ public class KzdSender implements StandardApplication {
 
 			});
 
-			contentPane.add(new JLabel("Maximaler Wert für VLkw"));
+			contentPane.add(new JLabel("Maximaler Wert fÃ¼r VLkw"));
 			slider = new JSlider(0, 255, maxVLkw);
 			lblVLkw = new JLabel(String.valueOf(maxVLkw)
 					+ SUFFIX_GESCHWINDIGKEIT);
@@ -159,7 +159,7 @@ public class KzdSender implements StandardApplication {
 
 			});
 
-			contentPane.add(new JLabel("Maximaler Wert für SKfz"));
+			contentPane.add(new JLabel("Maximaler Wert fÃ¼r SKfz"));
 			slider = new JSlider(0, 255, maxSKfz);
 			lblSKfz = new JLabel(String.valueOf(maxSKfz)
 					+ SUFFIX_GESCHWINDIGKEIT);
@@ -176,7 +176,7 @@ public class KzdSender implements StandardApplication {
 
 			});
 
-			contentPane.add(new JLabel("Maximaler Wert für KB"));
+			contentPane.add(new JLabel("Maximaler Wert fÃ¼r KB"));
 			slider = new JSlider(0, 1000, maxKB);
 			lblKB = new JLabel(String.valueOf(maxKB) + SUFFIX_BEMESSUNGSDICHTE);
 			contentPane.add(slider);
@@ -260,8 +260,8 @@ public class KzdSender implements StandardApplication {
 				e.printStackTrace();
 				System.exit(-1);
 			}
-			LOGGER.config("Anmeldung für " + objekte.size()
-			+ " Messquerschnitte durchgeführt.");
+			LOGGER.config("Anmeldung fÃ¼r " + objekte.size()
+			+ " Messquerschnitte durchgefÃ¼hrt.");
 
 			timer = new Timer(false);
 			timer.scheduleAtFixedRate(this, 5000, intervall * 1000);
@@ -358,34 +358,34 @@ public class KzdSender implements StandardApplication {
 				data.getItem(valString).getItem("Status").getItem(
 						"MessWertErsetzung").getUnscaledValue("Interpoliert")
 				.setText("Nein");
-				data.getItem(valString).getItem("Güte").getUnscaledValue(
+				data.getItem(valString).getItem("GÃ¼te").getUnscaledValue(
 						"Index").set(-1);
-				data.getItem(valString).getItem("Güte").getUnscaledValue(
+				data.getItem(valString).getItem("GÃ¼te").getUnscaledValue(
 						"Verfahren").set(0);
 			}
 
 			data.getItem("QKfz").getUnscaledValue("Wert").set(qKfz);
-			data.getItem("QKfz").getItem("Güte").getUnscaledValue("Index").set(
+			data.getItem("QKfz").getItem("GÃ¼te").getUnscaledValue("Index").set(
 					10);
 
 			data.getItem("QLkw").getUnscaledValue("Wert").set(qLkw);
-			data.getItem("QLkw").getItem("Güte").getUnscaledValue("Index").set(
+			data.getItem("QLkw").getItem("GÃ¼te").getUnscaledValue("Index").set(
 					10);
 
 			data.getItem("VPkw").getUnscaledValue("Wert").set(vPkw);
-			data.getItem("VPkw").getItem("Güte").getUnscaledValue("Index").set(
+			data.getItem("VPkw").getItem("GÃ¼te").getUnscaledValue("Index").set(
 					10);
 
 			data.getItem("VLkw").getUnscaledValue("Wert").set(vLkw);
-			data.getItem("VLkw").getItem("Güte").getUnscaledValue("Index").set(
+			data.getItem("VLkw").getItem("GÃ¼te").getUnscaledValue("Index").set(
 					10);
 
 			data.getItem("SKfz").getUnscaledValue("Wert").set(sKfz);
-			data.getItem("SKfz").getItem("Güte").getUnscaledValue("Index").set(
+			data.getItem("SKfz").getItem("GÃ¼te").getUnscaledValue("Index").set(
 					10);
 
 			data.getItem("KB").getUnscaledValue("Wert").set(kb);
-			data.getItem("KB").getItem("Güte").getUnscaledValue("Index")
+			data.getItem("KB").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10);
 
 			// Nicht erfasste Werte qPkw, vKfz und qb berechnen
@@ -393,13 +393,13 @@ public class KzdSender implements StandardApplication {
 
 			aLkw = Umrechung.getALkw(qLkw, qKfz);
 			data.getItem("ALkw").getUnscaledValue("Wert").set(aLkw);
-			data.getItem("ALkw").getItem("Güte").getUnscaledValue("Index").set(
+			data.getItem("ALkw").getItem("GÃ¼te").getUnscaledValue("Index").set(
 					10);
 
 			qPkw = Umrechung.getQPkw(qKfz, qLkw);
 			if (qPkw != null) {
 				data.getItem("QPkw").getUnscaledValue("Wert").set(qPkw);
-				data.getItem("QPkw").getItem("Güte").getUnscaledValue("Index")
+				data.getItem("QPkw").getItem("GÃ¼te").getUnscaledValue("Index")
 				.set(10);
 				data.getItem("QPkw").getItem("Status").getItem("Erfassung")
 				.getUnscaledValue("NichtErfasst").setText("Ja");
@@ -408,7 +408,7 @@ public class KzdSender implements StandardApplication {
 			vKfz = Umrechung.getVKfz(qLkw, qKfz, vPkw, vLkw);
 			if (vKfz != null) {
 				data.getItem("VKfz").getUnscaledValue("Wert").set(vKfz);
-				data.getItem("VKfz").getItem("Güte").getUnscaledValue("Index")
+				data.getItem("VKfz").getItem("GÃ¼te").getUnscaledValue("Index")
 				.set(10);
 				data.getItem("VKfz").getItem("Status").getItem("Erfassung")
 				.getUnscaledValue("NichtErfasst").setText("Ja");
@@ -417,7 +417,7 @@ public class KzdSender implements StandardApplication {
 			qb = Umrechung.getQB(qLkw, qKfz, vPkw, vLkw, 0.5f, 1);
 			if (qb != null) {
 				data.getItem("QB").getUnscaledValue("Wert").set(qb);
-				data.getItem("QB").getItem("Güte").getUnscaledValue("Index")
+				data.getItem("QB").getItem("GÃ¼te").getUnscaledValue("Index")
 				.set(10);
 				data.getItem("QB").getItem("Status").getItem("Erfassung")
 				.getUnscaledValue("NichtErfasst").setText("Ja");

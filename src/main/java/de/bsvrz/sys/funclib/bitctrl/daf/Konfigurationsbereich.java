@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -136,7 +136,7 @@ public final class Konfigurationsbereich {
 	}
 
 	/**
-	 * liefert den Standardkonfigurationsbereich für &uuml;bergebene
+	 * liefert den Standardkonfigurationsbereich fÃ¼r &uuml;bergebene
 	 * Datenverteilerverbindung.<br>
 	 * Der Standardkonfigurationsbereich wird verwendet um dynamische Objekte
 	 * abzulegen, sofern kein expliziter Zielbereich f&uuml;r diesen Zweck
@@ -146,7 +146,7 @@ public final class Konfigurationsbereich {
 	 *            die Verbindung, deren Standardbereich ermittelt werden soll
 	 * @return den ermittelten Bereich
 	 * @throws InvalidArgumentException
-	 *             für die übergebene Verbindung konnte kein entsprechender
+	 *             fÃ¼r die Ã¼bergebene Verbindung konnte kein entsprechender
 	 *             Konfigurationsbereich ermittelt werden.
 	 */
 	public static ConfigurationArea getStandardKonfigurationsBereich(
@@ -173,7 +173,7 @@ public final class Konfigurationsbereich {
 
 		if (result == null) {
 			throw new InvalidArgumentException(
-					"Für die übergebene Datenverteilerverbindung konnte kein Defaultbereich ermittelt werden.");
+					"FÃ¼r die Ã¼bergebene Datenverteilerverbindung konnte kein Defaultbereich ermittelt werden.");
 		}
 
 		return result;

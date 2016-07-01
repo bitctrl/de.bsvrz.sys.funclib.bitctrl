@@ -8,29 +8,29 @@ Entfernung in km = arccos(sin(a) * sin(c) + cos(a) * cos(c) * cos(min(b-d,360-(b
 Die Parameter bedeuten dabei Folgendes: 
 
 a: Geografische Breite Ort1
-b: Längenangabe Ort1
+b: LÃ¤ngenangabe Ort1
 c: Breitenangabe Ort2
-d: Längenangabe Ort2
+d: LÃ¤ngenangabe Ort2
 
-Zu beachten dabei: Breitenangaben für Süd sind negativ, Längenangaben für Ost ebenfalls.  
+Zu beachten dabei: Breitenangaben fÃ¼r SÃ¼d sind negativ, LÃ¤ngenangaben fÃ¼r Ost ebenfalls.  
 
 
 
 http://de.wikipedia.org/wiki/Orthodrome
 
  b1 := Geografische Breite von Standort 1
-   l1 := Geografische Länge von Standort 1
+   l1 := Geografische LÃ¤nge von Standort 1
    b2 := Geografische Breite von Standort 2
-   l2 := Geografische Länge von Standort 2
+   l2 := Geografische LÃ¤nge von Standort 2
    
    f := Abplattung der Erde (1/298,257223563)
-   a := Äquatorradius der Erde (6378,14 km)
+   a := Ã„quatorradius der Erde (6378,14 km)
    
    F := (b1+b2)/2
    G := (b1-b2)/2
    l := (l1-l2)/2
-   S := sin²(G)cos²(l) + cos²(F)sin²(l)
-   C := cos²(G)cos²(l) + sin²(F)sin²(l)
+   S := sinÂ²(G)cosÂ²(l) + cosÂ²(F)sinÂ²(l)
+   C := cosÂ²(G)cosÂ²(l) + sinÂ²(F)sinÂ²(l)
    w := arctan(sqrt(S/C)) in rad
    R := sqrt(S*C)/w
    D := 2*w*a
@@ -38,7 +38,7 @@ http://de.wikipedia.org/wiki/Orthodrome
    H2 := (3R+1)/(2S)
    
    Abstand:
-      s := D(1 + f*H1*sin²(F)cos²(G) - f*H2*cos²(F)sin²(G))
+      s := D(1 + f*H1*sinÂ²(F)cosÂ²(G) - f*H2*cosÂ²(F)sinÂ²(G))
       
       
       
@@ -54,14 +54,14 @@ http://de.wikipedia.org/wiki/Orthodrome
       Berechnung einer Entfernung zweier geographischer Punkte in WGS84
 
 Es ist sehr kompliziert die exakte Entfernung zweier geographischer Koordinaten zu berechnen, 
-da hierfür sowohl die unterschiedlichen Projektionen als auch die abgeflachte Form der Erde in Betracht gezogen werden muss. 
-In den meisten Fällen wird jedoch eine einfache Formel weiterhelfen, solange die Distanz nicht zu kurz und sich die Punkte nicht zu nah an den Polen befinden.
-Die Angaben der WGS84 Koordinaten müssen in Dezimalgrad sein (nicht in Grad-Minuten-Sekunden wie z.B. N 49° 29.296 E 008° 27.722). 
+da hierfÃ¼r sowohl die unterschiedlichen Projektionen als auch die abgeflachte Form der Erde in Betracht gezogen werden muss. 
+In den meisten FÃ¤llen wird jedoch eine einfache Formel weiterhelfen, solange die Distanz nicht zu kurz und sich die Punkte nicht zu nah an den Polen befinden.
+Die Angaben der WGS84 Koordinaten mÃ¼ssen in Dezimalgrad sein (nicht in Grad-Minuten-Sekunden wie z.B. N 49Â° 29.296 E 008Â° 27.722). 
 Alle Koordinaten, die Sie von Platon erhalten, sind in Dezimalgrad.
-Zuerst müssen Sie die Koordinaten vom Gradmaß ins Bogenmaß umrechnen. Dieses erfolgt durch Multiplizieren des Längen- und Breitengrades mit PI/180. 
-In Excel können Sie einfach die Formel =Bogenmass(X) und =Bogenmass(Y) verwenden.
+Zuerst mÃ¼ssen Sie die Koordinaten vom GradmaÃŸ ins BogenmaÃŸ umrechnen. Dieses erfolgt durch Multiplizieren des LÃ¤ngen- und Breitengrades mit PI/180. 
+In Excel kÃ¶nnen Sie einfach die Formel =Bogenmass(X) und =Bogenmass(Y) verwenden.
 
-Mit der folgenden Formel erhalten Sie dann die angenäherte Luftlinie zweier geographischer Punkte:
+Mit der folgenden Formel erhalten Sie dann die angenÃ¤herte Luftlinie zweier geographischer Punkte:
 
 d=arccos(sin(X2)*sin(X1)+cos(X2)*cos(X1)*cos(Y2 - Y1))
 
@@ -74,7 +74,7 @@ Beispiel:
    x-coord: 5,962115675929862;
    y-coord: 51,98395045710915
 
-Längengrad/Breitengrad 	Dezimalgrad 	Bogenmaß
+LÃ¤ngengrad/Breitengrad 	Dezimalgrad 	BogenmaÃŸ
 X1 	 9,136523757581 	0,15946242
 Y1 	38,744916875860 	0,67622637
 		

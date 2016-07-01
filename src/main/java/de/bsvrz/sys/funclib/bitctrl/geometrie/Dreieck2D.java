@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Ergänzt die Java2D-API um ein Dreieck
+ * ErgÃ¤nzt die Java2D-API um ein Dreieck
  *
  * @author BitCtrl, Schumann
  */
@@ -360,63 +360,63 @@ public abstract class Dreieck2D implements Shape, Cloneable {
 	}
 
 	/**
-	 * Gibt den ersten Punkt des Dreiecks zurück
+	 * Gibt den ersten Punkt des Dreiecks zurÃ¼ck
 	 *
 	 * @return Ein Punkt
 	 */
 	public abstract Point2D getP1();
 
 	/**
-	 * Gibt den zweiten Punkt des Dreiecks zurück
+	 * Gibt den zweiten Punkt des Dreiecks zurÃ¼ck
 	 *
 	 * @return Ein Punkt
 	 */
 	public abstract Point2D getP2();
 
 	/**
-	 * Gibt den dritten Punkt des Dreiecks zurück
+	 * Gibt den dritten Punkt des Dreiecks zurÃ¼ck
 	 *
 	 * @return Ein Punkt
 	 */
 	public abstract Point2D getP3();
 
 	/**
-	 * Gibt die x-Koordinate des ersten Punkts zurück
+	 * Gibt die x-Koordinate des ersten Punkts zurÃ¼ck
 	 *
 	 * @return x-Koordinate
 	 */
 	public abstract double getX1();
 
 	/**
-	 * Gibt die x-Koordinate des zweiten Punkts zurück
+	 * Gibt die x-Koordinate des zweiten Punkts zurÃ¼ck
 	 *
 	 * @return x-Koordinate
 	 */
 	public abstract double getX2();
 
 	/**
-	 * Gibt die x-Koordinate des dritten Punkts zurück
+	 * Gibt die x-Koordinate des dritten Punkts zurÃ¼ck
 	 *
 	 * @return x-Koordinate
 	 */
 	public abstract double getX3();
 
 	/**
-	 * Gibt die y-Koordinate des ersten Punkts zurück
+	 * Gibt die y-Koordinate des ersten Punkts zurÃ¼ck
 	 *
 	 * @return y-Koordinate
 	 */
 	public abstract double getY1();
 
 	/**
-	 * Gibt die y-Koordinate des zweiten Punkts zurück
+	 * Gibt die y-Koordinate des zweiten Punkts zurÃ¼ck
 	 *
 	 * @return y-Koordinate
 	 */
 	public abstract double getY2();
 
 	/**
-	 * Gibt die y-Koordinate des dritten Punkts zurück
+	 * Gibt die y-Koordinate des dritten Punkts zurÃ¼ck
 	 *
 	 * @return y-Koordinate
 	 */
@@ -489,7 +489,7 @@ public abstract class Dreieck2D implements Shape, Cloneable {
 	}
 
 	/**
-	 * Alle Eckpunkte des Rechtecks müssen im Inneren des Dreiecks liegen
+	 * Alle Eckpunkte des Rechtecks mÃ¼ssen im Inneren des Dreiecks liegen
 	 *
 	 * @see java.awt.Shape#contains(double, double, double, double)
 	 */
@@ -529,7 +529,7 @@ public abstract class Dreieck2D implements Shape, Cloneable {
 
 	/**
 	 * Der zweite Parameter wird ignoriert, da die Strecken des Pfads nicht
-	 * approximiert werden müssen
+	 * approximiert werden mÃ¼ssen
 	 *
 	 * @see java.awt.Shape#getPathIterator(java.awt.geom.AffineTransform,
 	 *      double)
@@ -549,7 +549,7 @@ public abstract class Dreieck2D implements Shape, Cloneable {
 	}
 
 	/**
-	 * Einer von drei Fällen muss zutreffen.
+	 * Einer von drei FÃ¤llen muss zutreffen.
 	 * <ul>
 	 * <li>Das Dreieck liegt im Rechteck,</li>
 	 * <li>Das Rechteck liegt im Dreieck oder</li>

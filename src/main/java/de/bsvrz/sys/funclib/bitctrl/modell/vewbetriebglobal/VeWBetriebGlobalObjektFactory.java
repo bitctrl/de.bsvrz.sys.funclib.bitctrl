@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -36,7 +36,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.objekte.BetriebsMeldungsVerwaltungImpl;
 
 /**
- * Fabrikmethode f¸r gekapselte Systemobjekte aus dem Teilmodell
+ * Fabrikmethode f√ºr gekapselte Systemobjekte aus dem Teilmodell
  * VeWBetriebGlobal. Jedes gekapselte Objekt wird als Singleton behandelt und
  * zwischengespeichert.
  *

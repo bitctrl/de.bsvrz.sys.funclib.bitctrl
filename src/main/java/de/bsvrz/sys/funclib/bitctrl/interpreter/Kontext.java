@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -42,12 +42,12 @@ public class Kontext {
 	private static final Namenspruefer PRUEFER = new StandardNamenspruefer();
 
 	/**
-	 * Prüft ob der String ein gültiger Variablenname ist. Es wird nicht
-	 * geprüft, ob die Variable existiert, nur ob der Name den Regeln
+	 * PrÃ¼ft ob der String ein gÃ¼ltiger Variablenname ist. Es wird nicht
+	 * geprÃ¼ft, ob die Variable existiert, nur ob der Name den Regeln
 	 * entspricht.
 	 *
 	 * @param name
-	 *            Zu prüfender Variablenname
+	 *            Zu prÃ¼fender Variablenname
 	 * @throws InterpreterException
 	 *             Wenn der Name {@code null} ist oder nur aus Leerzeichen
 	 *             besteht

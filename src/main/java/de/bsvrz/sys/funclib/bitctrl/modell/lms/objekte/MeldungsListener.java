@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.lms.objekte;
 import java.util.EventListener;
 
 /**
- * Schnittstelle für einen Listener, der benachrichtigt wird, wenn eine
+ * Schnittstelle fÃ¼r einen Listener, der benachrichtigt wird, wenn eine
  * RDS-Meldung angelegt bzw. entfernt wird.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
@@ -37,7 +37,7 @@ import java.util.EventListener;
 public interface MeldungsListener extends EventListener {
 
 	/**
-	 * für die übergebene Landesmeldestelle wurde die neue Meldung in die Liste
+	 * fÃ¼r die Ã¼bergebene Landesmeldestelle wurde die neue Meldung in die Liste
 	 * der Meldungen aingetragen.
 	 *
 	 * @param lms
@@ -48,7 +48,7 @@ public interface MeldungsListener extends EventListener {
 	void meldungAngelegt(LandesMeldeStelle lms, RdsMeldung meldung);
 
 	/**
-	 * für die übergebene Landesmeldestelle wurde die übergebene Meldung aus der
+	 * fÃ¼r die Ã¼bergebene Landesmeldestelle wurde die Ã¼bergebene Meldung aus der
 	 * Liste der Meldungen entfernt.
 	 *
 	 * @param lms

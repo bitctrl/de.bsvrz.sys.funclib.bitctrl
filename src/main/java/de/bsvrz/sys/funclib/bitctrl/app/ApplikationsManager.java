@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -43,7 +43,7 @@ import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 /**
  * Kleiner Manager zum Starten und Beenden von Datenverteilerapplikationen.
  * <p>
- * TODO StundardApplikationRunner ersetzen, da dieser st‰ndig die Log-Handler
+ * TODO StundardApplikationRunner ersetzen, da dieser st√§ndig die Log-Handler
  * erneut registriert
  *</p>
  *
@@ -53,22 +53,22 @@ import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 public class ApplikationsManager extends Frame {
 
 	/**
-	 * Suffix f¸r den Startbefehl.
+	 * Suffix f√ºr den Startbefehl.
 	 */
 	private static final String START = " starten";
 
 	/**
-	 * Suffix f¸r das Warten auf das Starten.
+	 * Suffix f√ºr das Warten auf das Starten.
 	 */
 	private static final String STARTING = " wird gestartet ...";
 
 	/**
-	 * Suffix f¸r den Stopbefehl.
+	 * Suffix f√ºr den Stopbefehl.
 	 */
 	private static final String STOP = " beenden";
 
 	/**
-	 * Suffix f¸r das Warten auf das Beenden.
+	 * Suffix f√ºr das Warten auf das Beenden.
 	 */
 	private static final String STOPPING = " wird beendet ...";
 
@@ -78,7 +78,7 @@ public class ApplikationsManager extends Frame {
 	private String[] stdArgumente;
 
 	/**
-	 * Hash-Tabelle aller Applikationsdaten. Der Schl¸ssel ist der Name der
+	 * Hash-Tabelle aller Applikationsdaten. Der Schl√ºssel ist der Name der
 	 * Applikation. Der Wert ist ein Feld, dessen erster Eintrag die zu
 	 * startende Klasse und die restlichen Aufrufparameter darstellen.
 	 */
@@ -151,7 +151,7 @@ public class ApplikationsManager extends Frame {
 						final List<String> args = new ArrayList<>();
 						args.addAll(Arrays.asList(stdArgumente));
 
-						// Klasse und zus‰tzliche Argumente bestimmen
+						// Klasse und zus√§tzliche Argumente bestimmen
 						final String[] app = eigenschaften.get(src.getName());
 						for (int i = 1; i < app.length; i++) {
 							args.add(app[i]);
@@ -173,7 +173,7 @@ public class ApplikationsManager extends Frame {
 							return;
 						}
 
-						// Applikation in Liste "l‰uft" eintragen und starten
+						// Applikation in Liste "l√§uft" eintragen und starten
 						applikationen.put(src.getName(), applikation);
 						StandardApplicationRunner.run(applikation,
 								args.toArray(new String[0]));
@@ -183,7 +183,7 @@ public class ApplikationsManager extends Frame {
 						// Applikation beenden
 						src.setLabel(src.getName() + STOPPING);
 
-						// Applikation stoppen und aus Liste "l‰uft" entfernen
+						// Applikation stoppen und aus Liste "l√§uft" entfernen
 						applikationen.get(src.getName()).exit();
 						applikationen.remove(src.getName());
 
@@ -206,7 +206,7 @@ public class ApplikationsManager extends Frame {
 	 * Startmethode.
 	 *
 	 * @param args
-	 *            wird nicht benˆtigt
+	 *            wird nicht ben√∂tigt
 	 */
 	public static void main(final String[] args) {
 		String file = "applikationen.properties";

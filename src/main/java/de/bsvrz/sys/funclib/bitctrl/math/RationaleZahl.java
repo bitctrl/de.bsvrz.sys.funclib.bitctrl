@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -324,7 +324,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 	 * Double-Werte endlich sind, gibt es kein Problem.
 	 *
 	 * @param wert
-	 *            eine Zahl, deren String-Repr‰sentation kein "E" enthalten
+	 *            eine Zahl, deren String-Repr√§sentation kein "E" enthalten
 	 *            darf.
 	 */
 	public RationaleZahl(final double wert) {

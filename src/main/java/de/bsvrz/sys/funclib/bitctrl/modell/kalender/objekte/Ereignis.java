@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -52,7 +52,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderModellTypen;
  */
 public class Ereignis extends AbstractSystemObjekt {
 
-	/** Der Standardpr‰fix f¸r die PID eines neuen Ereignisses. */
+	/** Der Standardpr√§fix f√ºr die PID eines neuen Ereignisses. */
 	public static final String PRAEFIX_PID = "ereignis.";
 
 	/**
@@ -68,7 +68,7 @@ public class Ereignis extends AbstractSystemObjekt {
 	 *            der Typ des Ereignisses.
 	 * @return das angelegte Ereignis.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Anlegen unzul‰ssig ist.
+	 *             wenn das Anlegen unzul√§ssig ist.
 	 */
 	public static Ereignis anlegen(final String pid, final String name,
 			final String beschreibung, final EreignisTyp ereignisTyp)
@@ -129,10 +129,10 @@ public class Ereignis extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Lˆscht das Objekt in dem es auf "ung¸ltig" gesetzt wird.
+	 * L√∂scht das Objekt in dem es auf "ung√ºltig" gesetzt wird.
 	 *
 	 * @throws ConfigurationChangeException
-	 *             wenn das Lˆschen nicht zul‰ssig ist.
+	 *             wenn das L√∂schen nicht zul√§ssig ist.
 	 */
 	public void entfernen() throws ConfigurationChangeException {
 		((DynamicObject) getSystemObject()).invalidate();

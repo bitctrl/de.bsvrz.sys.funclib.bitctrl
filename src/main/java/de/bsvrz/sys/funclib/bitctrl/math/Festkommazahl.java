@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -83,7 +83,7 @@ public class Festkommazahl extends Number implements Comparable<Festkommazahl> {
 	 * @param stellen
 	 *            Anzahl von Dezimalstellen um die der Wert skaliert werden
 	 *            soll. Eine Zahl kleiner 0 entspricht dabei Kommastellen und
-	 *            eine Zahl grˆﬂer 0 entspricht Zehnerpotenzen.
+	 *            eine Zahl gr√∂√üer 0 entspricht Zehnerpotenzen.
 	 */
 	public Festkommazahl(final double wert, final int stellen) {
 		this(wert, (float) Math.pow(10, stellen));

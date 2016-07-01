@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -46,7 +46,7 @@ import de.bsvrz.dav.daf.main.archive.TimingType;
 import de.bsvrz.dav.daf.main.config.SystemObject;
 
 /**
- * Diverse Hilfsmetzhoden f¸r Archivanfragen.
+ * Diverse Hilfsmetzhoden f√ºr Archivanfragen.
  *
  * @author BitCtrl Systems GmbH, Schumann
  */
@@ -54,7 +54,7 @@ public final class ArchivUtilities {
 
 	/**
 	 * Ruft Archivdaten in einen Rutsch ab. Diese Methode sollte nur verwendet
-	 * werden, wenn die zu erwartenden Liste der Archivdaten nicht zu groﬂ ist.
+	 * werden, wenn die zu erwartenden Liste der Archivdaten nicht zu gro√ü ist.
 	 *
 	 * @param dav
 	 *            eine Datenverteilerverbindung.
@@ -65,7 +65,7 @@ public final class ArchivUtilities {
 	 * @param intervall
 	 *            das Zeitintervall der Archivanfrage.
 	 * @param dataKinds
-	 *            die gew¸nschten Datensatzarten. Wenn nicht angegeben, werden
+	 *            die gew√ºnschten Datensatzarten. Wenn nicht angegeben, werden
 	 *            nur Onlinedaten abgefragt.
 	 * @return die Liste der Archivdaten.
 	 */
@@ -85,7 +85,7 @@ public final class ArchivUtilities {
 	}
 
 	/**
-	 * Erzeugt aus den Parametern eine ‰quivalente Archivanfrage.
+	 * Erzeugt aus den Parametern eine √§quivalente Archivanfrage.
 	 *
 	 * @param objekte
 	 *            die Objekte, dessen Archivdaten abgefragt werden sollen.
@@ -94,7 +94,7 @@ public final class ArchivUtilities {
 	 * @param intervall
 	 *            das Zeitintervall der Archivanfrage.
 	 * @param dataKinds
-	 *            die gew¸nschten Datensatzarten. Wenn nicht angegeben, werden
+	 *            die gew√ºnschten Datensatzarten. Wenn nicht angegeben, werden
 	 *            nur Onlinedaten abgefragt.
 	 * @return die Liste der Archivanfragen.
 	 */

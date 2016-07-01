@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -70,7 +70,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
 /**
  * Verwaltet die Benutzer des Datenverteilers.
  *
- * TODO Falls nötig, mit verschiedenen Dav-Anmeldungen arbeiten.
+ * TODO Falls nÃ¶tig, mit verschiedenen Dav-Anmeldungen arbeiten.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
@@ -85,7 +85,7 @@ public final class Benutzerverwaltung {
 	/** PID der Berechtigungsklasse mit allen Zugriffsrechten. */
 	public static final String PID_KLASSE_BEOBACHTER = "berechtigungsklasse.beobachter";
 
-	/** PID der Zugriffsregion für alle Objekte. */
+	/** PID der Zugriffsregion fÃ¼r alle Objekte. */
 	public static final String PID_REGION_ALLES = "region.alles";
 
 	/** PID der Zugriffsroll mit allen Zugriffsrechten. */
@@ -101,7 +101,7 @@ public final class Benutzerverwaltung {
 	private static Benutzerverwaltung singleton;
 
 	/**
-	 * Gibt die einzige Instanz der Klasse zurück.
+	 * Gibt die einzige Instanz der Klasse zurÃ¼ck.
 	 *
 	 * @return die Nutzerverwaltung als Singleton.
 	 */
@@ -196,14 +196,14 @@ public final class Benutzerverwaltung {
 				AngemeldeteApplikationen.Aspekte.Standard.getAspekt(),
 				privateListener);
 
-		// Listener auf Änderungen der Menge der Benutzer
+		// Listener auf Ã„nderungen der Menge der Benutzer
 		final DynamicObjectType typ = (DynamicObjectType) factory
 				.getModellobjekt(SystemModellGlobalTypen.Benutzer.getPid())
 				.getSystemObject();
 		typ.addObjectCreationListener(privateListener);
 		typ.addInvalidationListener(privateListener);
 
-		// Listener auf Änderungen der Berechtigungsklasse der Nutzer
+		// Listener auf Ã„nderungen der Berechtigungsklasse der Nutzer
 		for (final SystemObjekt so : factory.bestimmeModellobjekte(
 				SystemModellGlobalTypen.Benutzer.getPid())) {
 			if (so instanceof Benutzer) {
@@ -237,7 +237,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Benachrichtigt die angmeldeten Listener über die Anmeldung eines
+	 * Benachrichtigt die angmeldeten Listener Ã¼ber die Anmeldung eines
 	 * Benutzers.
 	 *
 	 * @param benutzer
@@ -259,7 +259,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Benachrichtigt die angmeldeten Listener darüber, dass sich ein Benutzer
+	 * Benachrichtigt die angmeldeten Listener darÃ¼ber, dass sich ein Benutzer
 	 * abgemeldet hat.
 	 *
 	 * @param benutzer
@@ -301,7 +301,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Benachrichtigt die angmeldeten Listener darüber, dass ein neuer Benutzer
+	 * Benachrichtigt die angmeldeten Listener darÃ¼ber, dass ein neuer Benutzer
 	 * angelegt wurde.
 	 *
 	 * @param benutzer
@@ -317,8 +317,8 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Benachrichtigt die angmeldeten Listener darüber, dass ein Benutzer
-	 * gelöscht wurde.
+	 * Benachrichtigt die angmeldeten Listener darÃ¼ber, dass ein Benutzer
+	 * gelÃ¶scht wurde.
 	 *
 	 * @param benutzer
 	 *            der betroffene Benutzer.
@@ -333,8 +333,8 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Benachrichtigt die angmeldeten Listener darüber, dass die
-	 * Berechtigungsklasse eines Benutzer geändert wurde.
+	 * Benachrichtigt die angmeldeten Listener darÃ¼ber, dass die
+	 * Berechtigungsklasse eines Benutzer geÃ¤ndert wurde.
 	 *
 	 * @param benutzer
 	 *            der betroffene Benutzer.
@@ -353,7 +353,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Gibt die lokale Klientapplikation zurück.
+	 * Gibt die lokale Klientapplikation zurÃ¼ck.
 	 *
 	 * @return die lokale Applikation.
 	 */
@@ -362,7 +362,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Gibt die Liste aller aktuell gültigen Anmeldungen eines Benutzers zurück.
+	 * Gibt die Liste aller aktuell gÃ¼ltigen Anmeldungen eines Benutzers zurÃ¼ck.
 	 *
 	 * @param benutzer
 	 *            ein Benutzer.
@@ -388,9 +388,9 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Gibt die Anmeldung zu einer Applikation zurück. Der Rückgabewert kann
+	 * Gibt die Anmeldung zu einer Applikation zurÃ¼ck. Der RÃ¼ckgabewert kann
 	 * {@code null} sein, wenn es keine Anmeldung mehr zu dieser Applikation
-	 * gibt, dass heißt sie wurde beendet.
+	 * gibt, dass heiÃŸt sie wurde beendet.
 	 *
 	 * @param applikation
 	 *            eine Applikation.
@@ -415,7 +415,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Gibt den lokal angemeldeten Benutzer zurück.
+	 * Gibt den lokal angemeldeten Benutzer zurÃ¼ck.
 	 *
 	 * @return der angemeldete Benutzer.
 	 */
@@ -424,7 +424,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Gibt eine Liste aller Benutzer im System zurück.
+	 * Gibt eine Liste aller Benutzer im System zurÃ¼ck.
 	 *
 	 * @return die Benutzerliste.
 	 */
@@ -441,8 +441,8 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Gibt eine Liste aller Benutzer zurück, die einer bestimmten
-	 * Berechtigungsklasse angehören.
+	 * Gibt eine Liste aller Benutzer zurÃ¼ck, die einer bestimmten
+	 * Berechtigungsklasse angehÃ¶ren.
 	 *
 	 * @param klasse
 	 *            eine Berechtigungsklase.
@@ -464,7 +464,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Gibt eine Liste aller Berechtigungsklassen im System zurück.
+	 * Gibt eine Liste aller Berechtigungsklassen im System zurÃ¼ck.
 	 *
 	 * @return die Liste der Berechtigungsklassen.
 	 */
@@ -482,7 +482,7 @@ public final class Benutzerverwaltung {
 
 	/**
 	 * Gibt eine Zusammenstellung aller Benutzer im System und deren
-	 * Benutzerklasse zurück.
+	 * Benutzerklasse zurÃ¼ck.
 	 *
 	 * @return die aktuelle Rechteverteilung.
 	 */
@@ -527,12 +527,12 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Prüft, ob ein Bennutzer der Berechtigungsklasse
+	 * PrÃ¼ft, ob ein Bennutzer der Berechtigungsklasse
 	 * {@link #PID_KLASSE_ADMINISTRATOR} zugeordnet ist.
 	 *
 	 * @param loginname
 	 *            ein beliebiger Nutzername
-	 * @return {@code true}, wenn der Bennutzer Administratoraufgaben ausführen
+	 * @return {@code true}, wenn der Bennutzer Administratoraufgaben ausfÃ¼hren
 	 *         darf.
 	 */
 	public boolean isAdmin(final String loginname) {
@@ -544,15 +544,15 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Prüft ob ein bestimmter Benutzer zu einer bestimmten Berechtigungsklasse
-	 * gehört.
+	 * PrÃ¼ft ob ein bestimmter Benutzer zu einer bestimmten Berechtigungsklasse
+	 * gehÃ¶rt.
 	 *
 	 * @param benutzer
 	 *            ein Benutzer.
 	 * @param klasse
 	 *            eine Berechtuigungsklasse.
 	 * @return {@code true}, wenn der Benutzer zu der Berechtigungsklasse
-	 *         gehört.
+	 *         gehÃ¶rt.
 	 */
 	public boolean isBerechtigungsklasse(final Benutzer benutzer,
 			final Berechtigungsklasse klasse) {
@@ -579,7 +579,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Prüft ob ein bestimmter Benutzer eine bestimmte Rolle in einer Region
+	 * PrÃ¼ft ob ein bestimmter Benutzer eine bestimmte Rolle in einer Region
 	 * hat.
 	 *
 	 * @param benutzer
@@ -588,7 +588,7 @@ public final class Benutzerverwaltung {
 	 *            eine Zugriffsrolle.
 	 * @param region
 	 *            eine Zugriffsregion. Wenn {@code null}, wird die Region
-	 *            ignoriert und nur die Rolle geprüpft.
+	 *            ignoriert und nur die Rolle geprÃ¼pft.
 	 * @return {@code true}, wenn der Benutzer in der Region die angegebene
 	 *         Rolle hat.
 	 */
@@ -662,7 +662,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Gibt eine Liste aller Zugriffsrollen im System zurück.
+	 * Gibt eine Liste aller Zugriffsrollen im System zurÃ¼ck.
 	 *
 	 * @return die Liste der Zugriffsrollen.
 	 */
@@ -692,7 +692,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Gibt eine Liste aller Zugriffsregionen im System zurück.
+	 * Gibt eine Liste aller Zugriffsregionen im System zurÃ¼ck.
 	 *
 	 * @return die Liste der Zugriffsregionen.
 	 */
@@ -709,7 +709,7 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Prüft ob ein bestimmter Benutzer existiert und gibt ihn zurück.
+	 * PrÃ¼ft ob ein bestimmter Benutzer existiert und gibt ihn zurÃ¼ck.
 	 *
 	 * @param loginname
 	 *            der eindeutige Benutzername (Loginname).
@@ -748,8 +748,8 @@ public final class Benutzerverwaltung {
 
 	/**
 	 * Sucht alle Benutzer auf die bestimmte Kriterien zutreffen. Die
-	 * Suchkriterien dürfen auch {@code null} sein, dies wird als Wildcard
-	 * "alle" gedeutet. Die einzelnen Kriterien werden "oder"-verknüpft.
+	 * Suchkriterien dÃ¼rfen auch {@code null} sein, dies wird als Wildcard
+	 * "alle" gedeutet. Die einzelnen Kriterien werden "oder"-verknÃ¼pft.
 	 *
 	 * @param nachname
 	 *            der Nachname der gesuchten Benutzer.
@@ -800,15 +800,15 @@ public final class Benutzerverwaltung {
 	 * Legt einen neuen Benutzer an.
 	 *
 	 * @param adminLoginname
-	 *            der Name des Administrators der die Aktion ausführt.
+	 *            der Name des Administrators der die Aktion ausfÃ¼hrt.
 	 * @param adminPasswort
 	 *            das Anmeldekennwort des Administrators der die Aktion
-	 *            ausführt.
+	 *            ausfÃ¼hrt.
 	 * @param benutzerInfo
 	 *            die Eigenschaften des neuen Benutzers.
 	 * @return der neue Benutzer
 	 * @throws KeineRechteException
-	 *             wenn die Benutzerrechte für diese Aktion nicht ausreichen.
+	 *             wenn die Benutzerrechte fÃ¼r diese Aktion nicht ausreichen.
 	 * @throws BenutzerChangeException
 	 *             wenn beim Anlegen des Benutzers ein Fehler eintrat.
 	 */
@@ -817,7 +817,7 @@ public final class Benutzerverwaltung {
 					throws KeineRechteException, BenutzerChangeException {
 		if (!isAdmin(adminLoginname)) {
 			throw new KeineRechteException(
-					"Sie verfügen nicht über ausreichend Rechte zum Anlegen eines neuen Benutzer.");
+					"Sie verfÃ¼gen nicht Ã¼ber ausreichend Rechte zum Anlegen eines neuen Benutzer.");
 		}
 
 		final String pid;
@@ -855,22 +855,22 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Deaktiviert und löscht einen Benutzer. Das entsprechende Systemobjekt
+	 * Deaktiviert und lÃ¶scht einen Benutzer. Das entsprechende Systemobjekt
 	 * wird invalidiert.
 	 *
 	 * @param adminLoginname
-	 *            der Name des Administrators der die Aktion ausführt.
+	 *            der Name des Administrators der die Aktion ausfÃ¼hrt.
 	 * @param adminPasswort
 	 *            das Anmeldekennwort des Administrators der die Aktion
-	 *            ausführt.
-	 *            <em>Wird derzeit ignoriert, da es nicht benötigt wird!</em>
+	 *            ausfÃ¼hrt.
+	 *            <em>Wird derzeit ignoriert, da es nicht benÃ¶tigt wird!</em>
 	 * @param benutzer
-	 *            der zu löschende Benutzers.
+	 *            der zu lÃ¶schende Benutzers.
 	 * @throws KeineRechteException
-	 *             wenn die Benutzerrechte für diese Aktion nicht ausreichen.
+	 *             wenn die Benutzerrechte fÃ¼r diese Aktion nicht ausreichen.
 	 * @throws BenutzerChangeException
-	 *             wenn beim Löschen des Benutzers ein Fehler eintrat.
-	 * @deprecated Benutzer können derzeit nicht gelöscht werden. Das
+	 *             wenn beim LÃ¶schen des Benutzers ein Fehler eintrat.
+	 * @deprecated Benutzer kÃ¶nnen derzeit nicht gelÃ¶scht werden. Das
 	 *             Systemobjekt kann zwar invalidiert werden, in der
 	 *             benutzerverwaltung.xml kann der Benutzer aber mangels
 	 *             entsprechender Funktion nicht ausgetragen werden.
@@ -881,7 +881,7 @@ public final class Benutzerverwaltung {
 					throws KeineRechteException, BenutzerChangeException {
 		if (!isAdmin(adminLoginname)) {
 			throw new KeineRechteException(
-					"Sie verfügen nicht über ausreichend Rechte zum Löschen eines Benutzer.");
+					"Sie verfÃ¼gen nicht Ã¼ber ausreichend Rechte zum LÃ¶schen eines Benutzer.");
 		}
 
 		deaktiviereBenutzer(adminLoginname, adminPasswort, benutzer);
@@ -890,26 +890,26 @@ public final class Benutzerverwaltung {
 			benutzer.entfernen();
 		} catch (final ConfigurationChangeException ex) {
 			throw new BenutzerChangeException("Der Benutzer "
-					+ benutzer.getName() + " konnte nicht gelöscht werden.",
+					+ benutzer.getName() + " konnte nicht gelÃ¶scht werden.",
 					ex);
 		}
 	}
 
 	/**
-	 * Ändert das Anmeldekennwort eines Benutzer.
+	 * Ã„ndert das Anmeldekennwort eines Benutzer.
 	 *
 	 * @param adminLoginname
-	 *            der Name des Administrators der die Aktion ausführt.
+	 *            der Name des Administrators der die Aktion ausfÃ¼hrt.
 	 * @param adminPasswort
 	 *            das Anmeldekennwort des Administrators der die Aktion
-	 *            ausführt.
+	 *            ausfÃ¼hrt.
 	 * @param benutzer
-	 *            der Benutzer, dessen Passwort geändert werden soll.
+	 *            der Benutzer, dessen Passwort geÃ¤ndert werden soll.
 	 * @param neuesPasswort
 	 *            das neue Passwort des Benutzer.
 	 * @return der neue Benutzer
 	 * @throws KeineRechteException
-	 *             wenn die Benutzerrechte für diese Aktion nicht ausreichen.
+	 *             wenn die Benutzerrechte fÃ¼r diese Aktion nicht ausreichen.
 	 * @throws BenutzerChangeException
 	 *             wenn beim Anlegen des Benutzers ein Fehler eintrat.
 	 */
@@ -919,7 +919,7 @@ public final class Benutzerverwaltung {
 					throws KeineRechteException, BenutzerChangeException {
 		if (!isAdmin(adminLoginname)) {
 			throw new KeineRechteException(
-					"Sie verfügen nicht über ausreichend Rechte zum Ändern eines Benutzerpassworts.");
+					"Sie verfÃ¼gen nicht Ã¼ber ausreichend Rechte zum Ã„ndern eines Benutzerpassworts.");
 		}
 
 		try {
@@ -930,7 +930,7 @@ public final class Benutzerverwaltung {
 					benutzer.getName(), neuesPasswort);
 		} catch (final ConfigurationTaskException ex) {
 			throw new BenutzerChangeException("Das Passwort des Benutzers "
-					+ benutzer.getName() + " konnte nicht geändert werden.",
+					+ benutzer.getName() + " konnte nicht geÃ¤ndert werden.",
 					ex);
 		}
 
@@ -938,21 +938,21 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Ändert die Berechtigungsklasse eines Benutzer.
+	 * Ã„ndert die Berechtigungsklasse eines Benutzer.
 	 *
 	 * @param adminLoginname
-	 *            der Name des Administrators der die Aktion ausführt.
+	 *            der Name des Administrators der die Aktion ausfÃ¼hrt.
 	 * @param adminPasswort
 	 *            das Anmeldekennwort des Administrators der die Aktion
-	 *            ausführt.
+	 *            ausfÃ¼hrt.
 	 * @param benutzer
 	 *            der zu deaktivierende Benutzers.
 	 * @param klasse
 	 *            die zu setzende Berechtigungsklasse.
 	 * @throws KeineRechteException
-	 *             wenn die Benutzerrechte für diese Aktion nicht ausreichen.
+	 *             wenn die Benutzerrechte fÃ¼r diese Aktion nicht ausreichen.
 	 * @throws BenutzerChangeException
-	 *             wenn beim Ändern der Benutzerrechte ein Fehler eintrat.
+	 *             wenn beim Ã„ndern der Benutzerrechte ein Fehler eintrat.
 	 */
 	public void setBerechtigungsklasse(final String adminLoginname,
 			final String adminPasswort, final Benutzer benutzer,
@@ -960,7 +960,7 @@ public final class Benutzerverwaltung {
 					throws KeineRechteException, BenutzerChangeException {
 		if (!isAdmin(adminLoginname)) {
 			throw new KeineRechteException(
-					"Sie verfügen nicht über ausreichend Rechte zum Ändern der Berechtigungsklasse eines Benutzers.");
+					"Sie verfÃ¼gen nicht Ã¼ber ausreichend Rechte zum Ã„ndern der Berechtigungsklasse eines Benutzers.");
 		}
 
 		final PdBenutzerParameter parameter = benutzer
@@ -989,18 +989,18 @@ public final class Benutzerverwaltung {
 				}
 			} catch (final ConfigurationTaskException ex) {
 				throw new BenutzerChangeException(
-						"Die Adminrechte für den Benutzer " + benutzer
-						+ " konnten nicht geändert werden.",
+						"Die Adminrechte fÃ¼r den Benutzer " + benutzer
+						+ " konnten nicht geÃ¤ndert werden.",
 						ex);
 			}
 		} catch (final AnmeldeException ex) {
 			throw new BenutzerChangeException(
-					"Fehler beim Anmelden auf Parameter für Benutzer "
+					"Fehler beim Anmelden auf Parameter fÃ¼r Benutzer "
 							+ benutzer + ".",
 							ex);
 		} catch (final DatensendeException ex) {
 			throw new BenutzerChangeException(
-					"Fehler beim Senden des Parameters für Benutzer " + benutzer
+					"Fehler beim Senden des Parameters fÃ¼r Benutzer " + benutzer
 					+ ".",
 					ex);
 		} finally {
@@ -1012,18 +1012,18 @@ public final class Benutzerverwaltung {
 	 * Deaktiviert einen Benutzer. Seine Berechtigungsklasse wird auf "Kein
 	 * Zugriff" gesetzt.
 	 * <p>
-	 * TODO Passwort überprüfen.
+	 * TODO Passwort Ã¼berprÃ¼fen.
 	 *
 	 * @param adminLoginname
-	 *            der Name des Administrators der die Aktion ausführt.
+	 *            der Name des Administrators der die Aktion ausfÃ¼hrt.
 	 * @param adminPasswort
 	 *            das Anmeldekennwort des Administrators der die Aktion
-	 *            ausführt.
-	 *            <em>Wird derzeit ignoriert, da es nicht benötigt wird!</em>
+	 *            ausfÃ¼hrt.
+	 *            <em>Wird derzeit ignoriert, da es nicht benÃ¶tigt wird!</em>
 	 * @param benutzer
 	 *            der zu deaktivierende Benutzers.
 	 * @throws KeineRechteException
-	 *             wenn die Benutzerrechte für diese Aktion nicht ausreichen.
+	 *             wenn die Benutzerrechte fÃ¼r diese Aktion nicht ausreichen.
 	 * @throws BenutzerChangeException
 	 *             wenn es beim deaktivieren einen Fehler gab.
 	 */
@@ -1050,19 +1050,19 @@ public final class Benutzerverwaltung {
 	}
 
 	/**
-	 * Prüft ein neues Passwort auf seine Sicherheit. Die Funktion wertet die
-	 * für die Vergabe von Passworten definierten Parameter aus und prüft, ob
+	 * PrÃ¼ft ein neues Passwort auf seine Sicherheit. Die Funktion wertet die
+	 * fÃ¼r die Vergabe von Passworten definierten Parameter aus und prÃ¼ft, ob
 	 * das Passwort diesen Kriterien entspricht.
 	 *
 	 * @param passwort
 	 *            das Passwort.
 	 * @param benutzer
-	 *            der Nutzer, für den das Passwort verwendet werden soll.
+	 *            der Nutzer, fÃ¼r den das Passwort verwendet werden soll.
 	 * @param passwortInfo
 	 *            die Sicherheitskriterien.
 	 * @return {@code null}, wenn das Passwort sicher ist, sonst eine
 	 *         Fehlerbeschreibung.
-	 * TODO Prüfen ob alle Sicherheitsaspekte geprüft werden.
+	 * TODO PrÃ¼fen ob alle Sicherheitsaspekte geprÃ¼ft werden.
 	 */
 	public String checkPasswort(final String passwort, final Benutzer benutzer,
 			final PasswortInfo passwortInfo) {
@@ -1090,7 +1090,7 @@ public final class Benutzerverwaltung {
 			}
 
 			if ((anzahl == 0) || (anzahl == laenge)) {
-				return "Das Passwort muss außer Buchstaben auch Zahlen oder Sonderzeichen enthalten.";
+				return "Das Passwort muss auÃŸer Buchstaben auch Zahlen oder Sonderzeichen enthalten.";
 			}
 		}
 

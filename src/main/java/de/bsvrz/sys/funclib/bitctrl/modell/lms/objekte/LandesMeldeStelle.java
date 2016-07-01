@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -57,7 +57,7 @@ implements MutableSetChangeListener {
 	public static final String MENGENNAME_MELDUNGEN = "RDSMeldungen";
 
 	/**
-	 * Logger für Fehlerausgaben.
+	 * Logger fÃ¼r Fehlerausgaben.
 	 */
 	private static final Debug LOGGER = Debug.getLogger();
 
@@ -83,7 +83,7 @@ implements MutableSetChangeListener {
 
 		if (!obj.isOfType(LmsModellTypen.LANDESMELDESTELLE.getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein gültiges VerkehrsModellNetz.");
+					"Systemobjekt ist kein gÃ¼ltiges VerkehrsModellNetz.");
 		}
 
 		meldungsMenge = ((ConfigurationObject) obj)
@@ -91,10 +91,10 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * fügt dem Netz einen MeldungsListener hinzu.
+	 * fÃ¼gt dem Netz einen MeldungsListener hinzu.
 	 *
 	 * @param listener
-	 *            der hinzuzufügende Listener
+	 *            der hinzuzufÃ¼gende Listener
 	 */
 	public void addMeldungsListener(final MeldungsListener listener) {
 		if (listener == null) {
@@ -112,11 +112,11 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * benachrichtigt alle MeldungsListener über hinzugefügte oder entfernte
+	 * benachrichtigt alle MeldungsListener Ã¼ber hinzugefÃ¼gte oder entfernte
 	 * Meldungen.
 	 *
 	 * @param addedObjects
-	 *            die Systemobjekte, die die hinzugefügten Meldungen definieren
+	 *            die Systemobjekte, die die hinzugefÃ¼gten Meldungen definieren
 	 * @param removedObjects
 	 *            die Systemobjekte, die die entfernten Meldungen definieren
 	 */
@@ -163,7 +163,7 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * entfernt ein Meldungsobjekt mit dem übergeben Systemobjekt vom Netz. Das
+	 * entfernt ein Meldungsobjekt mit dem Ã¼bergeben Systemobjekt vom Netz. Das
 	 * Objekt wird aus der Menge der Meldungen des VerkehrsmodellNetz
 	 * ausgetragen.
 	 *
@@ -183,7 +183,7 @@ implements MutableSetChangeListener {
 	}
 
 	/**
-	 * fügt den Netz eine Meldung mit dem übergeben Systemobjekt hinzu. Das
+	 * fÃ¼gt den Netz eine Meldung mit dem Ã¼bergeben Systemobjekt hinzu. Das
 	 * Objekt wird in die Menge der Meldungen des VerkehrsmodellNetz
 	 * eingetragen.
 	 *

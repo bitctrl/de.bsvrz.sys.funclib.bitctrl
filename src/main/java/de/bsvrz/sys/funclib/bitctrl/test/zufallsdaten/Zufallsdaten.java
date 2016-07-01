@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -50,7 +50,7 @@ public class Zufallsdaten extends TimerTask {
 	 * Initialisiert das Objekt.
 	 *
 	 * @param objekte
-	 *            die Liste der Objekte für die Daten generiert werden sollen.
+	 *            die Liste der Objekte fÃ¼r die Daten generiert werden sollen.
 	 * @param generator
 	 *            der Generator der Zufallsdaten.
 	 */

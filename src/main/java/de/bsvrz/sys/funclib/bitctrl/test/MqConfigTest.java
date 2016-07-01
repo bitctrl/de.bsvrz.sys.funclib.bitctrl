@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -49,7 +49,7 @@ public class MqConfigTest implements StandardApplication {
 	 * Hauptfunktion der Anwendung.
 	 *
 	 * @param args
-	 *            die ¸bergebenen Argumente
+	 *            die √ºbergebenen Argumente
 	 */
 	public static void main(final String[] args) {
 		StandardApplicationRunner.run(new MqConfigTest(), args);
@@ -99,7 +99,7 @@ public class MqConfigTest implements StandardApplication {
 
 							if (segment.getVonSegment() != null) {
 								System.err.println(
-										"\tPotentielle Verkn¸pfungen mit gleichen Vorg‰ngersegment:");
+										"\tPotentielle Verkn√ºpfungen mit gleichen Vorg√§ngersegment:");
 								for (final SystemObjekt segObj : strSeg) {
 									final InneresStrassenSegment seg = (InneresStrassenSegment) segObj;
 									if (segment.getVonSegment()
@@ -113,7 +113,7 @@ public class MqConfigTest implements StandardApplication {
 
 							if (segment.getNachSegment() != null) {
 								System.err.println(
-										"\tPotentielle Verkn¸pfungen mit gleichen Nachfolgersegment:");
+										"\tPotentielle Verkn√ºpfungen mit gleichen Nachfolgersegment:");
 								for (final SystemObjekt segObj : strSeg) {
 									final InneresStrassenSegment seg = (InneresStrassenSegment) segObj;
 									if (segment.getNachSegment()
@@ -147,6 +147,6 @@ public class MqConfigTest implements StandardApplication {
 	@Override
 	public void parseArguments(final ArgumentList argumentList)
 			throws Exception {
-		// keine zus‰tzlichen Argumente erwartet
+		// keine zus√§tzlichen Argumente erwartet
 	}
 }

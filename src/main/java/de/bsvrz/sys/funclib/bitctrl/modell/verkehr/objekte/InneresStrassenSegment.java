@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -37,35 +37,35 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 
 /**
- * Repr‰sentation eines inneren Straﬂensegment in der Datenmodellabbildung.
+ * Repr√§sentation eines inneren Stra√üensegment in der Datenmodellabbildung.
  *
  * @author BitCtrl Systems GmbH, Peuker
  */
 public class InneresStrassenSegment extends StrassenSegment {
 
 	/** PID des Typs eines Inneren Stra&szlig;ensegments. */
-	public static final String PID_TYP = "typ.inneresStraﬂenSegment";
+	public static final String PID_TYP = "typ.inneresStra√üenSegment";
 
 	/**
-	 * das ‰uﬂere Straﬂensegment am Beginn des Segments.
+	 * das √§u√üere Stra√üensegment am Beginn des Segments.
 	 */
 	private final SystemObject vonSegmentObj;
 
 	/**
-	 * das ‰uﬂere Straﬂensegment am Ende des Segments.
+	 * das √§u√üere Stra√üensegment am Ende des Segments.
 	 */
 	private final SystemObject nachSegmentObj;
 
-	/** markiert, ob der Straﬂenknoten bereits ermittelt wurde. */
+	/** markiert, ob der Stra√üenknoten bereits ermittelt wurde. */
 	private boolean knotenGesucht;
 
-	/** der Straﬂenknoten zu dem das Segment gehˆrt. */
+	/** der Stra√üenknoten zu dem das Segment geh√∂rt. */
 	private StrassenKnoten strassenKnoten;
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion erzeugt ein InneresStraﬂensegment auf der Basis des
-	 * ¸bergebenen Systemsobjekts.
+	 * Die Funktion erzeugt ein InneresStra√üensegment auf der Basis des
+	 * √ºbergebenen Systemsobjekts.
 	 *
 	 * @param obj
 	 *            das Systemobjekt
@@ -74,18 +74,18 @@ public class InneresStrassenSegment extends StrassenSegment {
 		super(obj);
 
 		final AttributeGroup atg = obj.getDataModel()
-				.getAttributeGroup("atg.inneresStraﬂenSegment");
+				.getAttributeGroup("atg.inneresStra√üenSegment");
 		DataCache.cacheData(getSystemObject().getType(), atg);
 
 		final Data daten = obj.getConfigurationData(atg);
-		vonSegmentObj = daten.getReferenceValue("vonStraﬂenSegment")
+		vonSegmentObj = daten.getReferenceValue("vonStra√üenSegment")
 				.getSystemObject();
-		nachSegmentObj = daten.getReferenceValue("nachStraﬂenSegment")
+		nachSegmentObj = daten.getReferenceValue("nachStra√üenSegment")
 				.getSystemObject();
 	}
 
 	/**
-	 * liefert das ‰uﬂere Straﬂensegment, das nach dem inneren Straﬂensegment
+	 * liefert das √§u√üere Stra√üensegment, das nach dem inneren Stra√üensegment
 	 * folgt.
 	 *
 	 * @return das Segment oder <code>null</code>, wenn keines konfiguriert ist
@@ -100,7 +100,7 @@ public class InneresStrassenSegment extends StrassenSegment {
 	}
 
 	/**
-	 * ermittelt den Straﬂenknoten, zu dem des Segment gehˆrt.
+	 * ermittelt den Stra√üenknoten, zu dem des Segment geh√∂rt.
 	 *
 	 * @return der Knoten oder <code>null</code>
 	 */
@@ -125,7 +125,7 @@ public class InneresStrassenSegment extends StrassenSegment {
 	}
 
 	/**
-	 * liefert das ‰uﬂere Straﬂensegment, an dem das Segment beginnt.
+	 * liefert das √§u√üere Stra√üensegment, an dem das Segment beginnt.
 	 *
 	 * @return das Segment oder <code>null</code>, wenn keines konfiguriert
 	 *         wurde.

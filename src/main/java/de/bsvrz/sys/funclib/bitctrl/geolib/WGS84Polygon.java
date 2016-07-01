@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -88,7 +88,7 @@ public class WGS84Polygon {
 			final WGS84Punkt s2, final double offset) {
 		if (WGS84Punkt.abstandExakt(s1, s2) < offset) {
 			throw new IllegalArgumentException("Der Offset (" + offset
-					+ ") ist größer als die Streckenlänge ("
+					+ ") ist grÃ¶ÃŸer als die StreckenlÃ¤nge ("
 					+ WGS84Punkt.abstandExakt(s1, s2) + ").");
 		}
 
@@ -402,9 +402,9 @@ public class WGS84Polygon {
 	private final ArrayList<WGS84Punkt> punkte;
 
 	/**
-	 * Konstruktor für Polygon mit WGS84-Koordinaten in Dezimalnotation.
+	 * Konstruktor fÃ¼r Polygon mit WGS84-Koordinaten in Dezimalnotation.
 	 *
-	 * Beispiel +4.354551 +50.839402 bedeutet 4°. 354551 O 50°. 839402 N
+	 * Beispiel +4.354551 +50.839402 bedeutet 4Â°. 354551 O 50Â°. 839402 N
 	 *
 	 * @param laenge
 	 *            L&auml;nge
@@ -415,7 +415,7 @@ public class WGS84Polygon {
 
 		if (laenge.length != breite.length) {
 			throw new IllegalArgumentException(
-					"Die Anzahl der Koordinaten für Länge und Breite muss übereinstimmen");
+					"Die Anzahl der Koordinaten fÃ¼r LÃ¤nge und Breite muss Ã¼bereinstimmen");
 		}
 
 		punkte = new ArrayList<>(laenge.length);
@@ -427,7 +427,7 @@ public class WGS84Polygon {
 	}
 
 	/**
-	 * Konstruktor für Polygon aus Liste von Punkten.
+	 * Konstruktor fÃ¼r Polygon aus Liste von Punkten.
 	 *
 	 * @param punktliste
 	 *            Punktliste
@@ -439,8 +439,8 @@ public class WGS84Polygon {
 
 	/**
 	 * Schneidet den Anfangsteil des Polygones bis zur L&auml;nge des
-	 * angegebenen Offsets ab und gibt diesen Teil zurück. Das Polygon wird um
-	 * den entsprechenden Teil gekürzt. Wenn der gegebene Offset
+	 * angegebenen Offsets ab und gibt diesen Teil zurÃ¼ck. Das Polygon wird um
+	 * den entsprechenden Teil gekÃ¼rzt. Wenn der gegebene Offset
 	 * gr&ouml;&szlig;er als die L&auml;nge des Polygones ist, wird eine
 	 * IllegalArgumentException geworfen.
 	 *
@@ -454,7 +454,7 @@ public class WGS84Polygon {
 	public WGS84Polygon anfangAbschneiden(final double offset) {
 		if (laenge() < offset) {
 			throw new IllegalArgumentException(
-					"Der Offset ist größer als die Polygonlänge");
+					"Der Offset ist grÃ¶ÃŸer als die PolygonlÃ¤nge");
 		}
 
 		if (laenge() == offset) {
@@ -497,8 +497,8 @@ public class WGS84Polygon {
 
 	/**
 	 * Schneidet den Anfangsteil des Polygones bis zu einem gegebenen Punkt ab
-	 * und gibt diesen Teil zurück. Das Polygon wird um den entsprechenden Teil
-	 * gekürzt. Wenn der gegebene Punkt nicht auf dem Polygon liegt, wird eine
+	 * und gibt diesen Teil zurÃ¼ck. Das Polygon wird um den entsprechenden Teil
+	 * gekÃ¼rzt. Wenn der gegebene Punkt nicht auf dem Polygon liegt, wird eine
 	 * IllegalArgumentException geworfen.
 	 *
 	 * @param punkt
@@ -587,7 +587,7 @@ public class WGS84Polygon {
 	public strictfp WGS84Punkt bildPunkt(final double offset) {
 		if (laenge() < offset) {
 			throw new IllegalArgumentException(
-					"Der Offset ist größer als die Polygonlänge");
+					"Der Offset ist grÃ¶ÃŸer als die PolygonlÃ¤nge");
 		}
 
 		double laenge = 0.0;
@@ -948,7 +948,7 @@ public class WGS84Polygon {
 	}
 
 	/**
-	 * Berechnet die Länge des Polygonzuges in m.
+	 * Berechnet die LÃ¤nge des Polygonzuges in m.
 	 *
 	 * @return L&auml;nge in Meter.
 	 */
@@ -957,7 +957,7 @@ public class WGS84Polygon {
 	}
 
 	/**
-	 * Berechnet die Länge des Polygonzuges in m.
+	 * Berechnet die LÃ¤nge des Polygonzuges in m.
 	 *
 	 * @return L&auml;nge in Meter.
 	 */
@@ -972,7 +972,7 @@ public class WGS84Polygon {
 	}
 
 	/**
-	 * Berechnet die Länge des Polygonzuges in m.
+	 * Berechnet die LÃ¤nge des Polygonzuges in m.
 	 *
 	 * @return L&auml;nge in Meter.
 	 */
@@ -988,7 +988,7 @@ public class WGS84Polygon {
 	}
 
 	/**
-	 * Berechnet die Länge des Polygonzuges in m.
+	 * Berechnet die LÃ¤nge des Polygonzuges in m.
 	 *
 	 * @return L&auml;nge in Meter.
 	 */

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -35,8 +35,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Klasse für die Definition der länderspezifischen Location-Tabellen. Die
- * einzelnen Zustände können per Nummer oder String ermittelt werden. Wenn kein
+ * Klasse fÃ¼r die Definition der lÃ¤nderspezifischen Location-Tabellen. Die
+ * einzelnen ZustÃ¤nde kÃ¶nnen per Nummer oder String ermittelt werden. Wenn kein
  * entsprechender Eintrag im Datenkatalog der Konfiguration gefunden wird, wird
  * eine {@link IllegalArgumentException} geworfen.
  *
@@ -57,12 +57,12 @@ public final class RdsLocationTabelle implements Zustand<Integer> {
 	private static final Map<String, RdsLocationTabelle> TABELLE_PER_NAME = new HashMap<>();
 
 	/**
-	 * liefert die Location Tabelle mit dem übergebenen Code.
+	 * liefert die Location Tabelle mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den ein Zustand gesucht wird.
-	 * @return die ermittelte Locationtabellle, wenn ein ungültiger Code
-	 *         übergeben wurde, wird eine {@link IllegalArgumentException}
+	 *            der Code fÃ¼r den ein Zustand gesucht wird.
+	 * @return die ermittelte Locationtabellle, wenn ein ungÃ¼ltiger Code
+	 *         Ã¼bergeben wurde, wird eine {@link IllegalArgumentException}
 	 *         geworfen
 	 */
 	public static RdsLocationTabelle getLocationTabelle(
@@ -91,7 +91,7 @@ public final class RdsLocationTabelle implements Zustand<Integer> {
 		}
 
 		if (result == null) {
-			throw new IllegalArgumentException("Für den Code \"" + gesuchterCode
+			throw new IllegalArgumentException("FÃ¼r den Code \"" + gesuchterCode
 					+ "\" ist keine Locationtabelle im Datenkatalog definiert");
 		}
 
@@ -99,12 +99,12 @@ public final class RdsLocationTabelle implements Zustand<Integer> {
 	}
 
 	/**
-	 * liefert die Location Tabelle mit dem übergebenen Name.
+	 * liefert die Location Tabelle mit dem Ã¼bergebenen Name.
 	 *
 	 * @param gesuchterName
-	 *            der Name für den ein Zustand gesucht wird.
-	 * @return die ermittelte Locationtabelle, wenn ein ungültiger Name
-	 *         übergeben wurde, wird eine {@link IllegalArgumentException}
+	 *            der Name fÃ¼r den ein Zustand gesucht wird.
+	 * @return die ermittelte Locationtabelle, wenn ein ungÃ¼ltiger Name
+	 *         Ã¼bergeben wurde, wird eine {@link IllegalArgumentException}
 	 *         geworfen.
 	 */
 	public static RdsLocationTabelle getLocationTabelle(
@@ -133,7 +133,7 @@ public final class RdsLocationTabelle implements Zustand<Integer> {
 		}
 
 		if (result == null) {
-			throw new IllegalArgumentException("Für den Name \"" + gesuchterName
+			throw new IllegalArgumentException("FÃ¼r den Name \"" + gesuchterName
 					+ "\" ist keine Locationtabelle im Datenkatalog definiert");
 		}
 
@@ -152,10 +152,10 @@ public final class RdsLocationTabelle implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für eine Locationtabelle mit dem
-	 * übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
+	 * Die Funktion einen eine neue Instanz fÃ¼r eine Locationtabelle mit dem
+	 * Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
 	 * nur innerhalb der Klasse verwendet. Es wird eine Menge vordefinierter
-	 * Zustände zur Verfügung gestellt.
+	 * ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

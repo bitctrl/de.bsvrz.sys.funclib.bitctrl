@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -107,15 +107,15 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitMq.Daten> {
 			KB,
 
 			/**
-			 * Verkehrsstärke QKfz (alle Fahrzeuge) in Anzahl pro
+			 * VerkehrsstÃ¤rke QKfz (alle Fahrzeuge) in Anzahl pro
 			 * Messabschnittsdauer.
 			 */
 			QKfz,
 
-			/** Verkehrsstärke QPkw in Anzahl pro Messabschnittsdauer. */
+			/** VerkehrsstÃ¤rke QPkw in Anzahl pro Messabschnittsdauer. */
 			QPkw,
 
-			/** Verkehrsstärke QLkw in Anzahl pro Messabschnittsdauer. */
+			/** VerkehrsstÃ¤rke QLkw in Anzahl pro Messabschnittsdauer. */
 			QLkw,
 
 			/** Geschwindigkeit VKfz (Alle Fahrzeuge) in km/h. */
@@ -134,7 +134,7 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitMq.Daten> {
 			B,
 
 			/**
-			 * Bemessungsverkehrsstärke (Anzahl der Pkw-Einheiten) pro Stunde
+			 * BemessungsverkehrsstÃ¤rke (Anzahl der Pkw-Einheiten) pro Stunde
 			 * (normiert auf Stunde).
 			 */
 			QB;
@@ -148,21 +148,21 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitMq.Daten> {
 		private Integer kb;
 
 		/**
-		 * Verkehrsstärke QKfz (alle Fahrzeuge) in Anzahl pro
+		 * VerkehrsstÃ¤rke QKfz (alle Fahrzeuge) in Anzahl pro
 		 * Messabschnittsdauer.
 		 */
 		private Integer qKfz;
 
 		/**
-		 * Bemessungsverkehrsstärke (Anzahl der Pkw-Einheiten) pro Stunde
+		 * BemessungsverkehrsstÃ¤rke (Anzahl der Pkw-Einheiten) pro Stunde
 		 * (normiert auf Stunde).
 		 */
 		private Integer qb;
 
-		/** Verkehrsstärke QPkw in Anzahl pro Messabschnittsdauer. */
+		/** VerkehrsstÃ¤rke QPkw in Anzahl pro Messabschnittsdauer. */
 		private Integer qPkw;
 
-		/** Verkehrsstärke QLkw in Anzahl pro Messabschnittsdauer. */
+		/** VerkehrsstÃ¤rke QLkw in Anzahl pro Messabschnittsdauer. */
 		private Integer qLkw;
 
 		/** Geschwindigkeit VKfz (Alle Fahrzeuge) in km/h. */
@@ -522,7 +522,7 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitMq.Daten> {
 		n = d.getWert(Werte.ALkw.name());
 		aLkw = n != null ? n.intValue() : null;
 
-		// Standardwerte für alles setzen
+		// Standardwerte fÃ¼r alles setzen
 		final String[] valStrings = { "QKfz", "VKfz", "QLkw", "VLkw", "QPkw",
 				"VPkw", "B", "SKfz", "BMax", "VgKfz", "ALkw", "KKfz", "KPkw",
 				"KLkw", "QB", "KB", "VDelta" };
@@ -545,9 +545,9 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitMq.Daten> {
 			datum.getItem(valString).getItem("Status")
 			.getItem("MessWertErsetzung")
 			.getUnscaledValue("Interpoliert").setText("Nein");
-			datum.getItem(valString).getItem("Güte").getUnscaledValue("Index")
+			datum.getItem(valString).getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(-1);
-			datum.getItem(valString).getItem("Güte")
+			datum.getItem(valString).getItem("GÃ¼te")
 			.getUnscaledValue("Verfahren").set(0);
 		}
 
@@ -555,57 +555,57 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitMq.Daten> {
 		if (qKfz != null) {
 			datum.getItem("QKfz").getUnscaledValue("Wert").set(qKfz);
 		}
-		datum.getItem("QKfz").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("QKfz").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		if (qPkw != null) {
 			datum.getItem("QPkw").getUnscaledValue("Wert").set(qPkw);
 		}
-		datum.getItem("QPkw").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("QPkw").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		if (qLkw != null) {
 			datum.getItem("QLkw").getUnscaledValue("Wert").set(qLkw);
 		}
-		datum.getItem("QLkw").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("QLkw").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		if (vKfz != null) {
 			datum.getItem("VKfz").getUnscaledValue("Wert").set(vKfz);
 		}
-		datum.getItem("VKfz").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("VKfz").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		if (vPkw != null) {
 			datum.getItem("VPkw").getUnscaledValue("Wert").set(vPkw);
 		}
-		datum.getItem("VPkw").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("VPkw").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		if (vLkw != null) {
 			datum.getItem("VLkw").getUnscaledValue("Wert").set(vLkw);
 		}
-		datum.getItem("VLkw").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("VLkw").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		if (sKfz != null) {
 			datum.getItem("SKfz").getUnscaledValue("Wert").set(sKfz);
 		}
-		datum.getItem("SKfz").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("SKfz").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		if (kb != null) {
 			datum.getItem("KB").getUnscaledValue("Wert").set(kb);
 		}
-		datum.getItem("KB").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("KB").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		if (b != null) {
 			datum.getItem("B").getUnscaledValue("Wert").set(b);
 		}
-		datum.getItem("B").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("B").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		if (qb != null) {
 			datum.getItem("QB").getUnscaledValue("Wert").set(qb);
 		}
-		datum.getItem("QB").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("QB").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		if (aLkw != null) {
 			datum.getItem("ALkw").getUnscaledValue("Wert").set(aLkw);
 		}
-		datum.getItem("ALkw").getItem("Güte").getUnscaledValue("Index").set(10);
+		datum.getItem("ALkw").getItem("GÃ¼te").getUnscaledValue("Index").set(10);
 
 		// Nicht erfasste Werte berechnen, falls noch nicht festgelegt
 		if (aLkw == null) {
@@ -613,13 +613,13 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitMq.Daten> {
 			if (aLkw != null) {
 				datum.getItem("ALkw").getUnscaledValue("Wert").set(aLkw);
 			}
-			datum.getItem("ALkw").getItem("Güte").getUnscaledValue("Index")
+			datum.getItem("ALkw").getItem("GÃ¼te").getUnscaledValue("Index")
 			.set(10);
 
 			qPkw = Umrechung.getQPkw(qKfz, qLkw);
 			if (qPkw != null) {
 				datum.getItem("QPkw").getUnscaledValue("Wert").set(qPkw);
-				datum.getItem("QPkw").getItem("Güte").getUnscaledValue("Index")
+				datum.getItem("QPkw").getItem("GÃ¼te").getUnscaledValue("Index")
 				.set(10);
 				datum.getItem("QPkw").getItem("Status").getItem("Erfassung")
 				.getUnscaledValue("NichtErfasst").setText("Ja");
@@ -630,7 +630,7 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitMq.Daten> {
 			vKfz = Umrechung.getVKfz(qLkw, qKfz, vPkw, vLkw);
 			if (vKfz != null) {
 				datum.getItem("VKfz").getUnscaledValue("Wert").set(vKfz);
-				datum.getItem("VKfz").getItem("Güte").getUnscaledValue("Index")
+				datum.getItem("VKfz").getItem("GÃ¼te").getUnscaledValue("Index")
 				.set(10);
 				datum.getItem("VKfz").getItem("Status").getItem("Erfassung")
 				.getUnscaledValue("NichtErfasst").setText("Ja");
@@ -640,7 +640,7 @@ extends AbstractOnlineDatensatz<OdVerkehrsDatenKurzZeitMq.Daten> {
 			qb = Umrechung.getQB(qLkw, qKfz, vPkw, vLkw, 0.5f, 1);
 			if (qb != null) {
 				datum.getItem("QB").getUnscaledValue("Wert").set(qb);
-				datum.getItem("QB").getItem("Güte").getUnscaledValue("Index")
+				datum.getItem("QB").getItem("GÃ¼te").getUnscaledValue("Index")
 				.set(10);
 				datum.getItem("QB").getItem("Status").getItem("Erfassung")
 				.getUnscaledValue("NichtErfasst").setText("Ja");

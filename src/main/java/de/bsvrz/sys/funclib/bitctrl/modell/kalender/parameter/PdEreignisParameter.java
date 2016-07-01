@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -54,12 +54,12 @@ public class PdEreignisParameter
 extends AbstractParameterDatensatz<PdEreignisParameter.Daten> {
 
 	/**
-	 * Repräsentation der Daten des Ereignisparameters.
+	 * ReprÃ¤sentation der Daten des Ereignisparameters.
 	 */
 	public static class Daten extends AbstractDatum {
 
 		/**
-		 * Repräsentiert die verkehrliche Gültigkeit.
+		 * ReprÃ¤sentiert die verkehrliche GÃ¼ltigkeit.
 		 */
 		public static class VerkehrlicheGueltigkeit {
 
@@ -238,7 +238,7 @@ extends AbstractParameterDatensatz<PdEreignisParameter.Daten> {
 		 * Gibt den Wert der Eigenschaft {@code systemKalenderEintrag} wieder.
 		 *
 		 * @return {@code systemKalenderEintrag} oder {@code null}, wenn das
-		 *         Ereignis über die zeitliche Gültigkeit definiert ist.
+		 *         Ereignis Ã¼ber die zeitliche GÃ¼ltigkeit definiert ist.
 		 */
 		public SystemKalenderEintrag getSystemKalenderEintrag() {
 			return systemKalenderEintrag;
@@ -257,7 +257,7 @@ extends AbstractParameterDatensatz<PdEreignisParameter.Daten> {
 		 * Gibt den Wert der Eigenschaft {@code zeitlicheGueltigkeit} wieder.
 		 *
 		 * @return {@code zeitlicheGueltigkeit} oder {@code null}, wenn das
-		 *         Intervall ungültig ist oder das Ereignis über den
+		 *         Intervall ungÃ¼ltig ist oder das Ereignis Ã¼ber den
 		 *         Systemkalendereintrag definiert ist.
 		 */
 		public Interval getZeitlicheGueltigkeit() {
@@ -357,7 +357,7 @@ extends AbstractParameterDatensatz<PdEreignisParameter.Daten> {
 
 		Array feld;
 
-		feld = daten.getArray("RäumlicheGültigkeit");
+		feld = daten.getArray("RÃ¤umlicheGÃ¼ltigkeit");
 		feld.setLength(datum.getRaeumlicheGueltigkeit().size());
 		for (int i = 0; i < feld.getLength(); i++) {
 			feld.getItem(i).asReferenceValue().setSystemObject(
@@ -365,12 +365,12 @@ extends AbstractParameterDatensatz<PdEreignisParameter.Daten> {
 		}
 
 		if (datum.getZeitlicheGueltigkeit() == null) {
-			daten.getTimeValue("BeginnZeitlicheGültigkeit").setMillis(1);
-			daten.getTimeValue("EndeZeitlicheGültigkeit").setMillis(1);
+			daten.getTimeValue("BeginnZeitlicheGÃ¼ltigkeit").setMillis(1);
+			daten.getTimeValue("EndeZeitlicheGÃ¼ltigkeit").setMillis(1);
 		} else {
-			daten.getTimeValue("BeginnZeitlicheGültigkeit")
+			daten.getTimeValue("BeginnZeitlicheGÃ¼ltigkeit")
 			.setMillis(datum.getZeitlicheGueltigkeit().getStart());
-			daten.getTimeValue("EndeZeitlicheGültigkeit")
+			daten.getTimeValue("EndeZeitlicheGÃ¼ltigkeit")
 			.setMillis(datum.getZeitlicheGueltigkeit().getEnd());
 		}
 
@@ -380,7 +380,7 @@ extends AbstractParameterDatensatz<PdEreignisParameter.Daten> {
 					datum.getSystemKalenderEintrag().getSystemObject());
 		}
 
-		feld = daten.getArray("VerkehrlicheGültigkeit");
+		feld = daten.getArray("VerkehrlicheGÃ¼ltigkeit");
 		feld.setLength(datum.getVerkehrlicheGueltigkeit().size());
 		for (int i = 0; i < feld.getLength(); i++) {
 			final VerkehrlicheGueltigkeit vg;
@@ -416,7 +416,7 @@ extends AbstractParameterDatensatz<PdEreignisParameter.Daten> {
 			factory = ObjektFactory.getInstanz();
 			daten = result.getData();
 
-			feld = daten.getArray("RäumlicheGültigkeit");
+			feld = daten.getArray("RÃ¤umlicheGÃ¼ltigkeit");
 			for (int i = 0; i < feld.getLength(); i++) {
 				datum.getRaeumlicheGueltigkeit()
 				.add((NetzBestandTeil) factory
@@ -424,24 +424,24 @@ extends AbstractParameterDatensatz<PdEreignisParameter.Daten> {
 								.asReferenceValue().getSystemObject()));
 			}
 
-			start = daten.getTimeValue("BeginnZeitlicheGültigkeit").getMillis();
-			ende = daten.getTimeValue("EndeZeitlicheGültigkeit").getMillis();
+			start = daten.getTimeValue("BeginnZeitlicheGÃ¼ltigkeit").getMillis();
+			ende = daten.getTimeValue("EndeZeitlicheGÃ¼ltigkeit").getMillis();
 			if (start == ende) {
-				// Definition über Systemkalendereintrag
+				// Definition Ã¼ber Systemkalendereintrag
 				datum.setSystemKalenderEintrag(
 						(SystemKalenderEintrag) factory.getModellobjekt(daten
 								.getReferenceValue(
 										"SystemKalenderEintragReferenz")
 								.getSystemObject()));
 			} else if (start < ende) {
-				// Definition über zeitliche Gültigkeit
+				// Definition Ã¼ber zeitliche GÃ¼ltigkeit
 				datum.setZeitlicheGueltigkeit(new Interval(start, ende));
 			} else {
-				// Intervall ist ungültig, weil Start größer als Ende
+				// Intervall ist ungÃ¼ltig, weil Start grÃ¶ÃŸer als Ende
 				datum.setZeitlicheGueltigkeit(null);
 			}
 
-			feld = daten.getArray("VerkehrlicheGültigkeit");
+			feld = daten.getArray("VerkehrlicheGÃ¼ltigkeit");
 			for (int i = 0; i < feld.getLength(); i++) {
 				final VerkehrlicheGueltigkeit vg;
 

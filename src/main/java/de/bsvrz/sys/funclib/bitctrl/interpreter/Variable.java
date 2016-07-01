@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -27,9 +27,9 @@
 package de.bsvrz.sys.funclib.bitctrl.interpreter;
 
 /**
- * Repräsentation einer Variable innerhalb eines Uda-Skripts. Eine Variable
- * stellt einen Namen dar, über den auf Daten innerhalb des aktuellen Kontextes
- * der Ausführung eines Uda-Skriptes zugegriffen werden kann.
+ * ReprÃ¤sentation einer Variable innerhalb eines Uda-Skripts. Eine Variable
+ * stellt einen Namen dar, Ã¼ber den auf Daten innerhalb des aktuellen Kontextes
+ * der AusfÃ¼hrung eines Uda-Skriptes zugegriffen werden kann.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */

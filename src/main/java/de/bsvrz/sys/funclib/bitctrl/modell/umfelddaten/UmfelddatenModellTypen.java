@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -50,7 +50,7 @@ public enum UmfelddatenModellTypen implements SystemObjektTyp {
 	UDS_HELLIGKEIT("typ.ufdsHelligkeit", UfdsHelligkeit.class),
 
 	/** Umfelddatensensor f&uuml;r die Niederschlag. */
-	UDS_NIEDERSCHLAGSINTENSITAET("typ.ufdsNiederschlagsIntensit‰t",
+	UDS_NIEDERSCHLAGSINTENSITAET("typ.ufdsNiederschlagsIntensit√§t",
 			UfdsNiederschlagsIntensitaet.class),
 
 	/** Umfelddatensensor f&uuml;r die Sichtweite. */

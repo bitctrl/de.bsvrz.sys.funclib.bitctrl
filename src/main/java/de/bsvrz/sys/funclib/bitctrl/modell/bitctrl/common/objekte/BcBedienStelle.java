@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.BcCommonTypen;
  */
 public class BcBedienStelle extends AbstractSystemObjekt {
 
-	/** Der Standardpr‰fix f¸r den Namen einer Bedienstelle. */
+	/** Der Standardpr√§fix f√ºr den Namen einer Bedienstelle. */
 	public static final String PRAEFIX_NAME = "bcBedienStelle.";
 
 	/**

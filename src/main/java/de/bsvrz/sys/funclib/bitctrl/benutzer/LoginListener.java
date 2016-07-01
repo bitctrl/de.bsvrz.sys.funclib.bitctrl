@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.benutzer;
 import java.util.EventListener;
 
 /**
- * Listener f¸r das Anmelden und Abmelden von Benutzern am Datenverteiler.
+ * Listener f√ºr das Anmelden und Abmelden von Benutzern am Datenverteiler.
  *
  * @author BitCtrl Systems GmbH, Schumann
  */

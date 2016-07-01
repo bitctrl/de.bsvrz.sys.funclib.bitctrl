@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -32,7 +32,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.PunktXYImpl;
 import de.bsvrz.sys.funclib.bitctrl.modell.mif.MifModellTypen;
 
 /**
- * Repr‰sentation eine Objekts vom Typ "typ.Ortsname" innerhalb der
+ * Repr√§sentation eine Objekts vom Typ "typ.Ortsname" innerhalb der
  * Datenverteilerkonfiguration.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
@@ -44,7 +44,7 @@ public class Ortsname extends PunktXYImpl {
 	 *
 	 * @param obj
 	 *            das Objekt mit dem der Ortsname innerhalb der Konfguration des
-	 *            Datenverteilers repr‰sentiert ist.
+	 *            Datenverteilers repr√§sentiert ist.
 	 */
 	public Ortsname(final SystemObject obj) {
 		super(obj);

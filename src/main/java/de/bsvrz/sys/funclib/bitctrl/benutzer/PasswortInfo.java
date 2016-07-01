@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -34,15 +34,15 @@ package de.bsvrz.sys.funclib.bitctrl.benutzer;
  */
 public class PasswortInfo {
 
-	/** Die minimale Länge eines Passworts. */
+	/** Die minimale LÃ¤nge eines Passworts. */
 	private long minLaenge = 1;
 
-	/** Die Gültigkeitsdauer eines Passworts. */
+	/** Die GÃ¼ltigkeitsdauer eines Passworts. */
 	private long gueltiggeitsdauer;
 
 	/**
-	 * Soll bei der Neueingabe eines Passworts auf Ähnlichkeiten zu den
-	 * Nutzerdaten geprüft werden?
+	 * Soll bei der Neueingabe eines Passworts auf Ã„hnlichkeiten zu den
+	 * Nutzerdaten geprÃ¼ft werden?
 	 */
 	private boolean vergleicheBenutzerdaten;
 
@@ -54,7 +54,7 @@ public class PasswortInfo {
 
 	/**
 	 * Soll bei der Neueingabe eines Passworts auf Unterschiede zum zuletzt
-	 * vergebenen geprüft werden?
+	 * vergebenen geprÃ¼ft werden?
 	 */
 	private boolean vergleichePasswort;
 
@@ -66,13 +66,13 @@ public class PasswortInfo {
 
 	/**
 	 * Die Blockierungszeit eines Terminals nach der Blockierung durch eine zu
-	 * große Anzahl von fehlerhaften Anmeldeversuchen.
+	 * groÃŸe Anzahl von fehlerhaften Anmeldeversuchen.
 	 */
 	private long blockierungszeit = 10;
 
 	/**
-	 * Die maximale Zeitdauer ohne Nutzeraktivität, bevor eine erneute
-	 * Überprüfung der Nutzeranmeldung erfolgt.
+	 * Die maximale Zeitdauer ohne NutzeraktivitÃ¤t, bevor eine erneute
+	 * ÃœberprÃ¼fung der Nutzeranmeldung erfolgt.
 	 */
 	private long maxInaktivitaet = 10000;
 

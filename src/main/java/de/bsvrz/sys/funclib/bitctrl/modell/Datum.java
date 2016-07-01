@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -41,43 +41,43 @@ public interface Datum {
 	 */
 	enum Status {
 		/**
-		 * Datensatztyp für ungültige Datensätze (Initialwert).
+		 * Datensatztyp fÃ¼r ungÃ¼ltige DatensÃ¤tze (Initialwert).
 		 */
 		UNDEFINIERT(
 				null), /**
-				 * Datensatztyp für Datensätze die Nutzdaten enthalten
+				 * Datensatztyp fÃ¼r DatensÃ¤tze die Nutzdaten enthalten
 				 * (siehe Technische Anforderungen Archivsystem).
 				 */
 		DATEN(DataState.DATA), /**
-		 * Datensatztyp für leere Datensätze, die vom
+		 * Datensatztyp fÃ¼r leere DatensÃ¤tze, die vom
 		 * Archivsystem in den Antwort-Datensatzstrom
-		 * von Teilanfragen eingefügt wird, um Bereiche
-		 * zu markieren, die gelöscht (und nicht
+		 * von Teilanfragen eingefÃ¼gt wird, um Bereiche
+		 * zu markieren, die gelÃ¶scht (und nicht
 		 * gesichert) wurden.
 		 */
 		GELOESCHTER_BLOCK(
 				DataState.DELETED_BLOCK), /**
-				 * Datensatztyp für leere
-				 * Datensätze, die vom Archivsystem
-				 * in jeden Datensatzstrom eingefügt
+				 * Datensatztyp fÃ¼r leere
+				 * DatensÃ¤tze, die vom Archivsystem
+				 * in jeden Datensatzstrom eingefÃ¼gt
 				 * werden, um das Ende eines
 				 * Datensatzstroms einer Teilanfrage
 				 * zu markieren.
 				 */
 		ARCHIV_ENDE(
 				DataState.END_OF_ARCHIVE), /**
-				 * Datensatztyp für leere
-				 * Datensätze, die vom
+				 * Datensatztyp fÃ¼r leere
+				 * DatensÃ¤tze, die vom
 				 * Datenverteiler versendet werden
-				 * können, wenn eine Anmeldung von
+				 * kÃ¶nnen, wenn eine Anmeldung von
 				 * Daten im Konflikt mit anderen
 				 * Anmeldungen steht (z.B. mehrere
-				 * Senken für die gleichen Daten).
+				 * Senken fÃ¼r die gleichen Daten).
 				 */
 		UNGUELTIGE_ANMELDUNG(
 				DataState.INVALID_SUBSCRIPTION), /**
-				 * Datensatztyp für leere
-				 * Datensätze, die von der
+				 * Datensatztyp fÃ¼r leere
+				 * DatensÃ¤tze, die von der
 				 * Quelle ohne Attributwerte
 				 * versendet wurden (siehe
 				 * Technische Anforderungen
@@ -85,34 +85,34 @@ public interface Datum {
 				 */
 		KEINE_DATEN(
 				DataState.NO_DATA), /**
-				 * Datensatztyp für leere Datensätze, die
+				 * Datensatztyp fÃ¼r leere DatensÃ¤tze, die
 				 * vom Datenverteiler generiert wurden, weil
 				 * nicht die erforderlichen Rechte zum
 				 * Empfang der Daten vorliegen.
 				 */
 		KEINE_RECHTE(
 				DataState.NO_RIGHTS), /**
-				 * Datensatztyp für leere Datensätze,
+				 * Datensatztyp fÃ¼r leere DatensÃ¤tze,
 				 * die vom Datenverteiler generiert
-				 * wurden, weil keine Quelle für die
+				 * wurden, weil keine Quelle fÃ¼r die
 				 * entsprechenden Daten existiert.
 				 */
 		KEINE_QUELLE(
 				DataState.NO_SOURCE), /**
-				 * Datensatztyp für leere Datensätze,
+				 * Datensatztyp fÃ¼r leere DatensÃ¤tze,
 				 * die vom Archivsystem generiert
 				 * wurden, um eine potentielle
-				 * Datenlücke zu markieren.
+				 * DatenlÃ¼cke zu markieren.
 				 */
 		MOEGLICHE_LUECKE(
 				DataState.POSSIBLE_GAP), /**
-				 * Datensatztyp für leere
-				 * Datensätze, die vom Archivsystem
+				 * Datensatztyp fÃ¼r leere
+				 * DatensÃ¤tze, die vom Archivsystem
 				 * in den Antwort-Datensatzstrom von
-				 * Teilanfragen eingefügt wird, um
+				 * Teilanfragen eingefÃ¼gt wird, um
 				 * Bereiche zu markieren, die
 				 * ausgelagert (d.h. gesichert und
-				 * gelöscht) wurden.
+				 * gelÃ¶scht) wurden.
 				 */
 		BLOCK_NICHT_VERFUEGBAR(DataState.UNAVAILABLE_BLOCK);
 
@@ -165,7 +165,7 @@ public interface Datum {
 		}
 
 		/**
-		 * Gibt den Namen des Status zurück.
+		 * Gibt den Namen des Status zurÃ¼ck.
 		 *
 		 * @return der Statusname.
 		 */
@@ -221,9 +221,9 @@ public interface Datum {
 	long getZeitstempel();
 
 	/**
-	 * Prüft ob das Datum Daten enthält.
+	 * PrÃ¼ft ob das Datum Daten enthÃ¤lt.
 	 *
-	 * @return {@code true}, wenn der Datensatz Daten enthält.
+	 * @return {@code true}, wenn der Datensatz Daten enthÃ¤lt.
 	 */
 	boolean isValid();
 

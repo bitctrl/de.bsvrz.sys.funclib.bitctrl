@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -94,7 +94,7 @@ public class LogikHandler extends AbstractHandler {
 		boolean anzahlOk = false;
 		boolean typOk = true;
 
-		// Anzahl der Operanden und Operation prüfen
+		// Anzahl der Operanden und Operation prÃ¼fen
 		switch (operanden.size()) {
 		case 0:
 			anzahlOk = false;
@@ -118,7 +118,7 @@ public class LogikHandler extends AbstractHandler {
 			}
 		}
 
-		// Alle Operanden müssen ein logischer Wert sein
+		// Alle Operanden mÃ¼ssen ein logischer Wert sein
 		for (final Object obj : operanden) {
 			if (obj instanceof LogischerWert) {
 				final LogischerWert lw = (LogischerWert) obj;
@@ -146,8 +146,8 @@ public class LogikHandler extends AbstractHandler {
 	protected LogischerWert implikation(final Object[] operanden) {
 		assert operanden != null : "Argument operanden darf nicht null sein.";
 		assert operanden.length == 2 : "Anzahl der Operanden muss gleich 2 sein.";
-		assert operanden[0] instanceof LogischerWert : "Operanden müssen logische Werte sein.";
-		assert operanden[1] instanceof LogischerWert : "Operanden müssen logische Werte sein.";
+		assert operanden[0] instanceof LogischerWert : "Operanden mÃ¼ssen logische Werte sein.";
+		assert operanden[1] instanceof LogischerWert : "Operanden mÃ¼ssen logische Werte sein.";
 
 		final LogischerWert na = komplement(operanden[0]);
 		final LogischerWert[] ab = { na, (LogischerWert) operanden[1] };
@@ -190,13 +190,13 @@ public class LogikHandler extends AbstractHandler {
 	 */
 	protected LogischerWert maximum(final Object[] operanden) {
 		assert operanden != null : "Argument operanden darf nicht null sein.";
-		assert operanden.length > 0 : "Anzahl der Operanden muss größer 0 sein.";
+		assert operanden.length > 0 : "Anzahl der Operanden muss grÃ¶ÃŸer 0 sein.";
 
 		Float wert = null;
 		boolean boolWert = true;
 
 		for (final Object obj : operanden) {
-			assert obj instanceof LogischerWert : "Operanden müssen logische Werte sein.";
+			assert obj instanceof LogischerWert : "Operanden mÃ¼ssen logische Werte sein.";
 
 		final LogischerWert operand;
 
@@ -241,13 +241,13 @@ public class LogikHandler extends AbstractHandler {
 	 */
 	protected LogischerWert minimum(final Object[] operanden) {
 		assert operanden != null : "Argument operanden darf nicht null sein.";
-		assert operanden.length > 0 : "Anzahl der Operanden muss größer 0 sein.";
+		assert operanden.length > 0 : "Anzahl der Operanden muss grÃ¶ÃŸer 0 sein.";
 
 		Float wert = null;
 		boolean boolWert = true;
 
 		for (final Object obj : operanden) {
-			assert obj instanceof LogischerWert : "Operanden müssen logische Werte sein.";
+			assert obj instanceof LogischerWert : "Operanden mÃ¼ssen logische Werte sein.";
 
 		final LogischerWert operand;
 

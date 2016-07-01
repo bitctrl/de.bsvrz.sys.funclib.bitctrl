@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -53,7 +53,7 @@ public enum GueteVerfahren implements Zustand<Integer> {
 		}
 
 		throw new IllegalArgumentException(
-				"Zum Code " + code + " existiert kein G¸teverfahren.");
+				"Zum Code " + code + " existiert kein G√ºteverfahren.");
 	}
 
 	/** Der Code des Zustandes. */

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -35,8 +35,8 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
 /**
- * Ein Parameterdatensatz, der die Daten des Verantwortlichen f¸r die Baustelle
- * beinhaltet. Der Datensatz repr‰sentiert die Daten einer Attributgruppe
+ * Ein Parameterdatensatz, der die Daten des Verantwortlichen f√ºr die Baustelle
+ * beinhaltet. Der Datensatz repr√§sentiert die Daten einer Attributgruppe
  * "atg.baustellenVerantwortlicher".
  *
  * @author BitCtrl Systems GmbH, Gieseler

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -34,7 +34,7 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter;
 public class HandlerValidation {
 
 	/**
-	 * der Handler kann mit der Anzahl der übergebenen Operanden umgehen.
+	 * der Handler kann mit der Anzahl der Ã¼bergebenen Operanden umgehen.
 	 */
 	private final boolean richtigeAnzahl;
 

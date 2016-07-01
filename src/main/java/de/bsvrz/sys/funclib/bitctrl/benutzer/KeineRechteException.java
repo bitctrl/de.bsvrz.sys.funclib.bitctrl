@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -27,7 +27,7 @@
 package de.bsvrz.sys.funclib.bitctrl.benutzer;
 
 /**
- * Diese Ausnahme zeigt an, dass ein Benutzer nicht die notwendigen Rechte f¸r
+ * Diese Ausnahme zeigt an, dass ein Benutzer nicht die notwendigen Rechte f√ºr
  * die angeforderte Aktion besitzt.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann

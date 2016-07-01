@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -32,7 +32,7 @@ import java.util.List;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte.StrassenSegment;
 
 /**
- * Exception die geworfen wird, wenn eine Schleife in der Suche ¸ber
+ * Exception die geworfen wird, wenn eine Schleife in der Suche √ºber
  * Strassensegmente innerhalb eines Netzes ermittelt wurde.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker

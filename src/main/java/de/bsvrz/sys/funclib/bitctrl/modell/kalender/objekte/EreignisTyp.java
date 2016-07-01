@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -56,7 +56,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.kalender.KalenderModellTypen;
  */
 public class EreignisTyp extends AbstractSystemObjekt {
 
-	/** Der Standardpr‰fix ({@value}) f¸r die PID eines neuen Ereignistyps. */
+	/** Der Standardpr√§fix ({@value}) f√ºr die PID eines neuen Ereignistyps. */
 	public static final String PRAEFIX_PID = "ereignisTyp.";
 
 	/**
@@ -68,7 +68,7 @@ public class EreignisTyp extends AbstractSystemObjekt {
 	 *            der Name.
 	 * @return der angelegte Ereignistyp.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Anlegen unzul‰ssig ist.
+	 *             wenn das Anlegen unzul√§ssig ist.
 	 */
 	public static EreignisTyp anlegen(final String pid, final String name)
 			throws ConfigurationChangeException {
@@ -83,10 +83,10 @@ public class EreignisTyp extends AbstractSystemObjekt {
 	 * @param name
 	 *            der Name.
 	 * @param attribute
-	 *            eine Liste von zus‰tzlichen Attributname/Attributwert-Paaren.
+	 *            eine Liste von zus√§tzlichen Attributname/Attributwert-Paaren.
 	 * @return der angelegte Ereignistyp.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Anlegen unzul‰ssig ist.
+	 *             wenn das Anlegen unzul√§ssig ist.
 	 */
 	public static EreignisTyp anlegen(final String pid, final String name,
 			final Map<String, String> attribute)
@@ -116,7 +116,7 @@ public class EreignisTyp extends AbstractSystemObjekt {
 		atgVerwendung = atg.getAttributeGroupUsage(asp);
 
 		daten = dav.createData(atg);
-		feld = daten.getArray("Zus‰tzlicheAttribute");
+		feld = daten.getArray("Zus√§tzlicheAttribute");
 		feld.setLength(attribute.size());
 		i = 0;
 		for (final Entry<String, String> entry : attribute.entrySet()) {
@@ -152,10 +152,10 @@ public class EreignisTyp extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Lˆscht das Objekt in dem es auf "ung¸ltig" gesetzt wird.
+	 * L√∂scht das Objekt in dem es auf "ung√ºltig" gesetzt wird.
 	 *
 	 * @throws ConfigurationChangeException
-	 *             wenn das Lˆschen nicht zul‰ssig ist.
+	 *             wenn das L√∂schen nicht zul√§ssig ist.
 	 */
 	public void entfernen() throws ConfigurationChangeException {
 		((DynamicObject) getSystemObject()).invalidate();

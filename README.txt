@@ -4,19 +4,23 @@
 
 Version: ${version}
 
-Übersicht
+Ãœbersicht
 =========
 
-Dieses Modul enthält allgemeine Funktionen die von mehreren SWE genutzt werden
-oder potentiell genutzt werden können.
+Dieses Modul enthÃ¤lt allgemeine Funktionen die von mehreren SWE genutzt werden
+oder potentiell genutzt werden kÃ¶nnen.
 
 
 Versionsgeschichte
 ==================
 
+1.5.0
+=====
+- Umstellung auf Java 8 und UTF-8
+
 1.4.1
 =====
-WGS84Koordinaten haben keiner Setter für Länge und Breite, da ansonsten equals/hashCode
+WGS84Koordinaten haben keiner Setter fÃ¼r LÃ¤nge und Breite, da ansonsten equals/hashCode
 gegen den API-Kontrakt verstossen
 
 1.4.0
@@ -26,34 +30,34 @@ Version 2.0 auch auf dem Server ersetzt werden soll, wurden im ersten Schritt di
 Pakete die von der SWE des Segments DuA verwendet werden in eine eigene SWE 
 "de.bsvrz.sys.funclib.bitctrl.dua" ausgelagert.
 
-Wenn die Funktionsbibliothek verwendet werden soll, müssen für die DuA-Komponenten
-mindestens folgende Versionen verwendet werden, die auf die neue SWE zurückgreifen:
+Wenn die Funktionsbibliothek verwendet werden soll, mÃ¼ssen fÃ¼r die DuA-Komponenten
+mindestens folgende Versionen verwendet werden, die auf die neue SWE zurÃ¼ckgreifen:
 
 - SWE 4.6  Abfrage Pufferdaten (de.bsvrz.dua.abfrpuffer) in Version 1.3.0
 - SWE 4.9 Aggregation LVE (de.bsvrz.dua.aggrlve) in Version 1.3.0
-- SWE 4.10 Ergänzung BASt-Band (de.bsvrz.dua.bastband) in Version 1.3.0
+- SWE 4.10 ErgÃ¤nzung BASt-Band (de.bsvrz.dua.bastband) in Version 1.3.0
 - SWE 4.7 Datenaufbereitung LVE (de.bsvrz.dua.dalve) in Version 1.6.0
 - SWE 4.8 Datenaufbereitung UFD (de.bsvrz.dua.daufd) in Version 1.4.0
 - SWE 4.DeFa DE Fehleranalyse fehlende Messdaten (de.bsvrz.dua.fehlertls) in Version 1.5.0
-- SWE 4.11 Güteberechnung (de.bsvrz.dua.guete) in Version 1.3.0
+- SWE 4.11 GÃ¼teberechnung (de.bsvrz.dua.guete) in Version 1.3.0
 - SWE 4.DELzFh DE Langzeit-Fehlererkennung (de.bsvrz.dua.langfehlerlve) in Version 1.5.0
 - SWE 4.5 Messwertersetzung LVE (de.bsvrz.dua.mwelve) in Version 1.4.0
 - SWE 4.12 Messwertersetzung UFD (de.bsvrz.dua.mweufd) in Version 1.3.0
-- SWE 4.1 Pl-Prüfung formal (de.bsvrz.dua.plformal) in Version 1.4.0
-- SWE 4.13 Pl-Prüfung langzeit UFD (de.bsvrz.dua.pllangufd) in Version 1.4.0
-- SWE 4.2 Pl-Prüfung logisch LVE (de.bsvrz.dua.plloglve) in Version 1.3.0
-- SWE 4.3 Pl-Prüfung logisch UFD (de.bsvrz.dua.pllogufd) in Version 1.6.0
-- SWE 4.14 SWE Glättewarnung und -prognose (de.bsvrz.dua.progglaette) in Version 1.3.0
+- SWE 4.1 Pl-PrÃ¼fung formal (de.bsvrz.dua.plformal) in Version 1.4.0
+- SWE 4.13 Pl-PrÃ¼fung langzeit UFD (de.bsvrz.dua.pllangufd) in Version 1.4.0
+- SWE 4.2 Pl-PrÃ¼fung logisch LVE (de.bsvrz.dua.plloglve) in Version 1.3.0
+- SWE 4.3 Pl-PrÃ¼fung logisch UFD (de.bsvrz.dua.pllogufd) in Version 1.6.0
+- SWE 4.14 SWE GlÃ¤ttewarnung und -prognose (de.bsvrz.dua.progglaette) in Version 1.3.0
 
 1.3.0
 =====
-- Unterstützung für die Umfelddatenarten ZeitreserveGlätte (Vaisala) und Taustoffmenge je Quadratmeter (TLS2012)
+- UnterstÃ¼tzung fÃ¼r die Umfelddatenarten ZeitreserveGlÃ¤tte (Vaisala) und Taustoffmenge je Quadratmeter (TLS2012)
 - Neues Flag -fehlerhafteWertePublizieren, mit dem das Defaultverhalten, implausible Werte
-  durch 'fehlerhaft' zu ersetzen, überschrieben werden kann.
+  durch 'fehlerhaft' zu ersetzen, Ã¼berschrieben werden kann.
 
 1.2.7
 =====
-- nicht verwendete Klasse "SortierteListe" wegen Java 8 - Kompatibilitätsproblem 
+- nicht verwendete Klasse "SortierteListe" wegen Java 8 - KompatibilitÃ¤tsproblem 
   entfernt
 
 1.2.4
@@ -64,12 +68,12 @@ mindestens folgende Versionen verwendet werden, die auf die neue SWE zurückgreif
 1.2.3
 =====
 - Umstellung auf Maven-Build
-- neue Exception UmfeldDatenSensorUnbekannteDatenartException für unbekannte Umfelddatensensoren 
+- neue Exception UmfeldDatenSensorUnbekannteDatenartException fÃ¼r unbekannte Umfelddatensensoren 
 
 2014-06-12
 
   - dua.ufd: Bei unbekannten Umfelddatenarten wird neue Exception 
-    'UmfeldDatenSensorUnbekannteDatenartException' ausgelöst und in der UmfeldDatenMessStelle 
+    'UmfeldDatenSensorUnbekannteDatenartException' ausgelÃ¶st und in der UmfeldDatenMessStelle 
     derart behandelt, dass eine Warnung ausgegeben und der betroffene Sensor ignoriert wird 
 
 
@@ -89,7 +93,7 @@ mindestens folgende Versionen verwendet werden, die auf die neue SWE zurückgreif
 
 2011-10-19
 
-  - Betriebsmeldungsdaten liefern in Settern das Objekt selbst zurück, um die Initialisierung
+  - Betriebsmeldungsdaten liefern in Settern das Objekt selbst zurÃ¼ck, um die Initialisierung
     zu erleichtern
 
 2011-10-04
@@ -112,22 +116,22 @@ mindestens folgende Versionen verwendet werden, die auf die neue SWE zurückgreif
 2010-10-11
 
   - FIX: Umrechnung ASB-Stationierung in SegmentUndOffset korrigiert
-  - PdSituationseigenschaften: Länge wird mit gesetzt
+  - PdSituationseigenschaften: LÃ¤nge wird mit gesetzt
 
 
 2010-06-09
 
-  - FIX: Sämtliche Konstruktoren DataDescription(atg, asp, sim) ersetzt durch
+  - FIX: SÃ¤mtliche Konstruktoren DataDescription(atg, asp, sim) ersetzt durch
          DataDescription(atg, asp)
 
 2009-04-28
 
-  - NEU: boolean LogTools.isLogbar(Debug, Level) prüft ob ein Logger auf einem
+  - NEU: boolean LogTools.isLogbar(Debug, Level) prÃ¼ft ob ein Logger auf einem
     bestimmten Level Ausgaben auf einem beliebigen Handler macht.
 
   - UPDATE: void LogTools.log(Debug, LogNachricht, Object...) baut Meldungen
-    erst dann zusammen (Nachrichtentext und Parameter), wenn sie tatsächlich
-    benötigt werden. Verwendet LogTools.isLogbar(Debug, Level).
+    erst dann zusammen (Nachrichtentext und Parameter), wenn sie tatsÃ¤chlich
+    benÃ¶tigt werden. Verwendet LogTools.isLogbar(Debug, Level).
 
 
 2010-05-20
@@ -167,7 +171,7 @@ Kontakt
 =======
 
 BitCtrl Systems GmbH
-Weißenfelser Straße 67
+WeiÃŸenfelser StraÃŸe 67
 04229 Leipzig
 Phone: +49 341-490670
 mailto: info@bitctrl.de

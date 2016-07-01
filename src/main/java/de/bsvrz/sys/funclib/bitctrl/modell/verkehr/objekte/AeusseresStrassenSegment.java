@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -43,7 +43,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.tmc.zustaende.TmcRichtung;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 
 /**
- * Die Repräsentation eines äußeren Straßensegments innerhalb der
+ * Die ReprÃ¤sentation eines Ã¤uÃŸeren StraÃŸensegments innerhalb der
  * Modellobjektverwaltung.
  *
  * @author BitCtrl Systems GmbH, Peuker
@@ -52,19 +52,19 @@ public class AeusseresStrassenSegment extends StrassenSegment
 implements NetzBestandTeil {
 
 	/**
-	 * die Liste aller definierten äußeren Straßensegmente.
+	 * die Liste aller definierten Ã¤uÃŸeren StraÃŸensegmente.
 	 */
 	private static Set<AeusseresStrassenSegment> assListe;
 
 	/**
-	 * liefert die Liste aller im System deifnierten äußeren Straßensegmente.
+	 * liefert die Liste aller im System deifnierten Ã¤uÃŸeren StraÃŸensegmente.
 	 * <br>
 	 * Die Liste wird nur einmalig abgefragt und initialisiert, da
-	 * Straßensegmente nicht dynamisch angelegt werden können.
+	 * StraÃŸensegmente nicht dynamisch angelegt werden kÃ¶nnen.
 	 *
 	 * @param model
-	 *            das Datenmodell, aus dem die Straßensegmente ermittelt werden
-	 * @return die Liste der ermittelten Straßensegmente
+	 *            das Datenmodell, aus dem die StraÃŸensegmente ermittelt werden
+	 * @return die Liste der ermittelten StraÃŸensegmente
 	 */
 	public static Collection<AeusseresStrassenSegment> getSegmentListe(
 			final DataModel model) {
@@ -91,29 +91,29 @@ implements NetzBestandTeil {
 	}
 
 	/**
-	 * der Straßenknoten, an dem das Segment beginnt.
+	 * der StraÃŸenknoten, an dem das Segment beginnt.
 	 */
 	private StrassenKnoten vonKnoten;
 
 	/**
-	 * der Straßenknoten, an dem das Segment endet.
+	 * der StraÃŸenknoten, an dem das Segment endet.
 	 */
 	private StrassenKnoten nachKnoten;
 
 	/**
-	 * die Menge der Routenstücke, zu denen das Straßensegment gehört.
+	 * die Menge der RoutenstÃ¼cke, zu denen das StraÃŸensegment gehÃ¶rt.
 	 */
 	private Set<RoutenStueck> routenStuecke;
 
 	/**
-	 * die Richtung des Straßensegments.
+	 * die Richtung des StraÃŸensegments.
 	 */
 	private TmcRichtung tmcRichtung = TmcRichtung.UNDEFINIERT;
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion erzeugt eine Instanz des äußeren Teilsegments auf Basis des
-	 * übergebenen Systemsobjekts.
+	 * Die Funktion erzeugt eine Instanz des Ã¤uÃŸeren Teilsegments auf Basis des
+	 * Ã¼bergebenen Systemsobjekts.
 	 *
 	 * @param obj
 	 *            das zu Grunde liegende Systemobjekt
@@ -123,9 +123,9 @@ implements NetzBestandTeil {
 
 		final DataModel model = obj.getDataModel();
 
-		// Straßenknoten ermitteln
+		// StraÃŸenknoten ermitteln
 		final AttributeGroup atg = model
-				.getAttributeGroup("atg.äußeresStraßenSegment");
+				.getAttributeGroup("atg.Ã¤uÃŸeresStraÃŸenSegment");
 		DataCache.cacheData(getSystemObject().getType(), atg);
 		final Data daten = getSystemObject().getConfigurationData(atg);
 		if (daten != null) {
@@ -146,7 +146,7 @@ implements NetzBestandTeil {
 	}
 
 	/**
-	 * liefert den Knoten, zu dem das Straßensegment hinführt.
+	 * liefert den Knoten, zu dem das StraÃŸensegment hinfÃ¼hrt.
 	 *
 	 * @return den Knoten
 	 */
@@ -178,9 +178,9 @@ implements NetzBestandTeil {
 	}
 
 	/**
-	 * liefert die Liste der Routenstücke, zu denen das Straßensegment gehört.
+	 * liefert die Liste der RoutenstÃ¼cke, zu denen das StraÃŸensegment gehÃ¶rt.
 	 *
-	 * @return die Liste der ermittelten Routenstücke
+	 * @return die Liste der ermittelten RoutenstÃ¼cke
 	 */
 	public Collection<RoutenStueck> getRoutenStuecke() {
 		if (routenStuecke == null) {
@@ -201,7 +201,7 @@ implements NetzBestandTeil {
 	}
 
 	/**
-	 * liefert die für das Straßensegment definierte TMC-Richtung.
+	 * liefert die fÃ¼r das StraÃŸensegment definierte TMC-Richtung.
 	 *
 	 * @return die Richtung
 	 */
@@ -215,7 +215,7 @@ implements NetzBestandTeil {
 	}
 
 	/**
-	 * liefert den Knoten, an dem das Straßensegment beginnt.
+	 * liefert den Knoten, an dem das StraÃŸensegment beginnt.
 	 *
 	 * @return vonKnoten
 	 */

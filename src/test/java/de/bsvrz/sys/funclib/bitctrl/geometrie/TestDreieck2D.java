@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -38,7 +38,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Testfall für die Klasse.
+ * Testfall fÃ¼r die Klasse.
  * {@link de.bsvrz.sys.funclib.bitctrl.geometrie.Dreieck2D}
  *
  * @author BitCtrl Systems GmbH, Schumann
@@ -46,11 +46,11 @@ import org.junit.Test;
 @SuppressWarnings("nls")
 public class TestDreieck2D {
 
-	/** Dreieck für die Tests. */
+	/** Dreieck fÃ¼r die Tests. */
 	private Dreieck2D dreieck;
 
 	/**
-	 * Initialisiert das Testdreieck für alle Testfälle mit identischen Daten.
+	 * Initialisiert das Testdreieck fÃ¼r alle TestfÃ¤lle mit identischen Daten.
 	 */
 	@Before
 	public void before() {
@@ -72,7 +72,7 @@ public class TestDreieck2D {
 		assertTrue(dreieck.contains(2, 2));
 		assertTrue(dreieck.contains(3, 1));
 
-		// Äußere Punkte
+		// Ã„uÃŸere Punkte
 		assertFalse(dreieck.contains(-1, 2));
 		assertFalse(dreieck.contains(3, -5));
 		assertFalse(dreieck.contains(2, 4));
@@ -94,7 +94,7 @@ public class TestDreieck2D {
 		assertFalse(dreieck.contains(2, 0, 5, 2));
 		assertFalse(dreieck.contains(1, -5, 3, 10));
 
-		// Äußere Rechtecke
+		// Ã„uÃŸere Rechtecke
 		assertFalse(dreieck.contains(-5, 2, 3, 3));
 		assertFalse(dreieck.contains(1, 7, 5, 1));
 		assertFalse(dreieck.contains(10, 12, 5, 4));
@@ -172,7 +172,7 @@ public class TestDreieck2D {
 		assertTrue(dreieck.intersects(2, 0, 5, 2));
 		assertTrue(dreieck.intersects(1, -5, 3, 10));
 
-		// Äußere Rechtecke
+		// Ã„uÃŸere Rechtecke
 		assertFalse(dreieck.intersects(-5, 2, 3, 3));
 		assertFalse(dreieck.intersects(1, 7, 5, 1));
 		assertFalse(dreieck.intersects(10, 12, 5, 4));

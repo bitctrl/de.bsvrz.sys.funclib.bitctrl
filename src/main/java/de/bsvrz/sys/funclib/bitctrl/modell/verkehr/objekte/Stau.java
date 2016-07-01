@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -40,7 +40,7 @@ public class Stau extends Situation {
 	/**
 	 * Konstruktor.<br>
 	 * Die Funktion erzeugt eine Instanz einer Baustelle auf der Basis des
-	 * ¸bergebenen Systemobjekts.
+	 * √ºbergebenen Systemobjekts.
 	 *
 	 * @param obj
 	 *            das Systemobjekt, das die Baustelle definiert

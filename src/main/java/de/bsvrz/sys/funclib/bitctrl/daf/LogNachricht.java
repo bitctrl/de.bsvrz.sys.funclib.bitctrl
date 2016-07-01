@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -33,14 +33,14 @@ import com.bitctrl.i18n.MessageHandler;
 import de.bsvrz.sys.funclib.operatingMessage.MessageGrade;
 
 /**
- * Schnittstelle für Nachrichten die geloggt werden sollen.
+ * Schnittstelle fÃ¼r Nachrichten die geloggt werden sollen.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
 public interface LogNachricht extends MessageHandler {
 
 	/**
-	 * Gibt den Level der Nachricht zurück, der für die
+	 * Gibt den Level der Nachricht zurÃ¼ck, der fÃ¼r die
 	 * Betriebsmeldungsverwaltung genutzt werden soll.
 	 *
 	 * @return der Level oder {@code null}, wenn keine Betriebsmeldung versandt
@@ -49,7 +49,7 @@ public interface LogNachricht extends MessageHandler {
 	MessageGrade getBmvLevel();
 
 	/**
-	 * Gibt den Log-Level der Nachricht zurück.
+	 * Gibt den Log-Level der Nachricht zurÃ¼ck.
 	 *
 	 * @return der Log-Level.
 	 */

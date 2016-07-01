@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -113,7 +113,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 		odAnfrage = kalender
 				.getOnlineDatensatz(OdEreignisKalenderAnfrage.class);
 
-		// Anmelden als Empfänger der Kalenderantworten
+		// Anmelden als EmpfÃ¤nger der Kalenderantworten
 		klient = (Applikation) factory.getModellobjekt(
 				factory.getVerbindung().getLocalApplicationObject());
 		odAntwort = klient.getOnlineDatensatz(OdEreignisKalenderAntwort.class);
@@ -124,7 +124,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 			odAnfrage.anmeldenSender(aspAnfrage);
 		} catch (final AnmeldeException ex) {
 			log.error(
-					"Anmeldung zum Senden von Anfragen an die Ganglinienprognose konnte nicht durchgeführt werden",
+					"Anmeldung zum Senden von Anfragen an die Ganglinienprognose konnte nicht durchgefÃ¼hrt werden",
 					ex);
 		}
 
@@ -142,7 +142,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	}
 
 	/**
-	 * Legt ein Ereignis an und fügt ihn der entsprechenden Menge am Kalender
+	 * Legt ein Ereignis an und fÃ¼gt ihn der entsprechenden Menge am Kalender
 	 * hinzu.
 	 *
 	 * @param pid
@@ -154,18 +154,18 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * @param typ
 	 *            der Ereignistyp.
 	 * @param intervall
-	 *            das Intervall in dem das Ereignis gültig sein soll. Das
+	 *            das Intervall in dem das Ereignis gÃ¼ltig sein soll. Das
 	 *            Intervall bezieht sich auf die zeitliche und verkehrliche
-	 *            Gültigkeit.
+	 *            GÃ¼ltigkeit.
 	 * @param quelle
 	 *            die Quelle.
 	 * @return der angeleget Ereignistyp.
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen fehlerhaft verlief.
 	 * @throws AnmeldeException
-	 *             wenn das Anmelden nicht möglich war.
+	 *             wenn das Anmelden nicht mÃ¶glich war.
 	 * @throws DatensendeException
-	 *             wenn das Sendes Parameters mit dem Intervall nicht möglich
+	 *             wenn das Sendes Parameters mit dem Intervall nicht mÃ¶glich
 	 *             war.
 	 */
 	public Ereignis anlegenEreignis(final String pid, final String name,
@@ -193,7 +193,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	}
 
 	/**
-	 * Legt ein Ereignis an und fügt ihn der entsprechenden Menge am Kalender
+	 * Legt ein Ereignis an und fÃ¼gt ihn der entsprechenden Menge am Kalender
 	 * hinzu.
 	 *
 	 * @param pid
@@ -205,8 +205,8 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * @param typ
 	 *            der Ereignistyp.
 	 * @param ske
-	 *            ein Systemkalendereintrag, der die Gültigkeit des Ereignisses
-	 *            beschreibt. Die zeitliche und verkehrliche Gültigkeit wird als
+	 *            ein Systemkalendereintrag, der die GÃ¼ltigkeit des Ereignisses
+	 *            beschreibt. Die zeitliche und verkehrliche GÃ¼ltigkeit wird als
 	 *            identisch angenommen.
 	 * @param quelle
 	 *            die Quelle.
@@ -214,9 +214,9 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen fehlerhaft verlief.
 	 * @throws AnmeldeException
-	 *             wenn das Anmelden nicht möglich war.
+	 *             wenn das Anmelden nicht mÃ¶glich war.
 	 * @throws DatensendeException
-	 *             wenn das Sendes Parameters mit dem Intervall nicht möglich
+	 *             wenn das Sendes Parameters mit dem Intervall nicht mÃ¶glich
 	 *             war.
 	 */
 	public Ereignis anlegenEreignis(final String pid, final String name,
@@ -244,7 +244,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	}
 
 	/**
-	 * Legt einen Ereignistyp an und fügt ihn der entsprechenden Menge am
+	 * Legt einen Ereignistyp an und fÃ¼gt ihn der entsprechenden Menge am
 	 * Kalender hinzu.
 	 *
 	 * @param pid
@@ -252,15 +252,15 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * @param name
 	 *            der Name.
 	 * @param prioritaet
-	 *            die Priorität des Ereignistyps.
+	 *            die PrioritÃ¤t des Ereignistyps.
 	 * @return der angeleget Ereignistyp.
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen fehlerhaft verlief.
 	 * @throws DatensendeException
-	 *             wenn der Parameter mit der Priorität nicht gesendet werden
+	 *             wenn der Parameter mit der PrioritÃ¤t nicht gesendet werden
 	 *             konnte.
 	 * @throws AnmeldeException
-	 *             wenn der Parameter mit der Priorität nicht zum Senden
+	 *             wenn der Parameter mit der PrioritÃ¤t nicht zum Senden
 	 *             angemeldet werden konnte.
 	 */
 	public EreignisTyp anlegenEreignisTyp(final String pid, final String name,
@@ -271,7 +271,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	}
 
 	/**
-	 * Legt einen Ereignistyp an und fügt ihn der entsprechenden Menge am
+	 * Legt einen Ereignistyp an und fÃ¼gt ihn der entsprechenden Menge am
 	 * Kalender hinzu.
 	 *
 	 * @param pid
@@ -279,18 +279,18 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * @param name
 	 *            der Name.
 	 * @param prioritaet
-	 *            die Priorität des Ereignistyps.
+	 *            die PrioritÃ¤t des Ereignistyps.
 	 * @param attribute
-	 *            zusätzliche Attribute in Form einer Liste von
-	 *            Schlüssel/Wert-Paaren.
+	 *            zusÃ¤tzliche Attribute in Form einer Liste von
+	 *            SchlÃ¼ssel/Wert-Paaren.
 	 * @return der angeleget Ereignistyp.
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen fehlerhaft verlief.
 	 * @throws DatensendeException
-	 *             wenn der Parameter mit der Priorität nicht gesendet werden
+	 *             wenn der Parameter mit der PrioritÃ¤t nicht gesendet werden
 	 *             konnte.
 	 * @throws AnmeldeException
-	 *             wenn der Parameter mit der Priorität nicht zum Senden
+	 *             wenn der Parameter mit der PrioritÃ¤t nicht zum Senden
 	 *             angemeldet werden konnte.
 	 */
 	public EreignisTyp anlegenEreignisTyp(final String pid, final String name,
@@ -314,7 +314,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	}
 
 	/**
-	 * Legt einen Systemkalendereintrag an und fügt ihn der entsprechenden Menge
+	 * Legt einen Systemkalendereintrag an und fÃ¼gt ihn der entsprechenden Menge
 	 * am Kalender hinzu.
 	 *
 	 * @param pid
@@ -327,7 +327,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen fehlerhaft verlief.
 	 * @throws AnmeldeException
-	 *             wenn das Anmelden zum Datensenden nicht möglich ist.
+	 *             wenn das Anmelden zum Datensenden nicht mÃ¶glich ist.
 	 * @throws DatensendeException
 	 *             wenn der Parameter mit der Definition nicht gesendet werden
 	 *             konnte.
@@ -362,7 +362,7 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 	/**
 	 * Fragt, ob der Kalender Anfragen entgegennimmt. Wenn die Sendesteuerung
 	 * noch nicht geantwortet hat, wartet die Methode maximal 30 Sekunden. Hat
-	 * die Sendesteuerung schon geantwortet, entsteht keine Verzögerung.
+	 * die Sendesteuerung schon geantwortet, entsteht keine VerzÃ¶gerung.
 	 *
 	 * @return {@code true}, wenn der Kalender verwendet werden kann.
 	 */
@@ -378,12 +378,12 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 
 	/**
 	 * Entfernt das Ereignis aus der entsprechenden Menge am Kalender und
-	 * "löscht" das Ereignis anschließend, in dem er invalidiert wird.
+	 * "lÃ¶scht" das Ereignis anschlieÃŸend, in dem er invalidiert wird.
 	 *
 	 * @param erg
-	 *            das zu löschende Ereignis.
+	 *            das zu lÃ¶schende Ereignis.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Löschen schief ging.
+	 *             wenn das LÃ¶schen schief ging.
 	 */
 	public void loeschen(final Ereignis erg)
 			throws ConfigurationChangeException {
@@ -393,12 +393,12 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 
 	/**
 	 * Entfernt den Ereignistyp aus der entsprechenden Menge am Kalender und
-	 * "löscht" den Typ anschließend, in dem er invalidiert wird.
+	 * "lÃ¶scht" den Typ anschlieÃŸend, in dem er invalidiert wird.
 	 *
 	 * @param typ
-	 *            der zu löschende Ereignistyp.
+	 *            der zu lÃ¶schende Ereignistyp.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Löschen schief ging.
+	 *             wenn das LÃ¶schen schief ging.
 	 */
 	public void loeschen(final EreignisTyp typ)
 			throws ConfigurationChangeException {
@@ -408,12 +408,12 @@ public final class Ereigniskalender implements DatensatzUpdateListener {
 
 	/**
 	 * Entfernt den Ereignistyp aus der entsprechenden Menge am Kalender und
-	 * "löscht" den Typ anschließend, in dem er invalidiert wird.
+	 * "lÃ¶scht" den Typ anschlieÃŸend, in dem er invalidiert wird.
 	 *
 	 * @param typ
-	 *            der zu löschende Ereignistyp.
+	 *            der zu lÃ¶schende Ereignistyp.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Löschen schief ging.
+	 *             wenn das LÃ¶schen schief ging.
 	 */
 	public void loeschen(final SystemKalenderEintrag typ)
 			throws ConfigurationChangeException {

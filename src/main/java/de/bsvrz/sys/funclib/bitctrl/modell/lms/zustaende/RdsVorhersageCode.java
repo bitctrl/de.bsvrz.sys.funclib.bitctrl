@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -35,7 +35,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definitionen für das Attribut Vorhersagecode innerhalb einer RDS-Meldung.
+ * Definitionen fÃ¼r das Attribut Vorhersagecode innerhalb einer RDS-Meldung.
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker
  */
@@ -54,12 +54,12 @@ public final class RdsVorhersageCode implements Zustand<Integer> {
 	private static final Map<String, RdsVorhersageCode> TABELLE_PER_NAME = new HashMap<>();
 
 	/**
-	 * liefert den Vorhersagecode mit dem übergebenen Code.
+	 * liefert den Vorhersagecode mit dem Ã¼bergebenen Code.
 	 *
 	 * @param gesuchterCode
-	 *            der Code für den eine Vorhersagecode gesucht wird.
-	 * @return den ermittelten Vorhersagecode, wenn ein ungültiger Code
-	 *         übergeben wurde, wird eine {@link IllegalArgumentException}
+	 *            der Code fÃ¼r den eine Vorhersagecode gesucht wird.
+	 * @return den ermittelten Vorhersagecode, wenn ein ungÃ¼ltiger Code
+	 *         Ã¼bergeben wurde, wird eine {@link IllegalArgumentException}
 	 *         geworfen
 	 */
 	public static RdsVorhersageCode getVorhersagecode(final int gesuchterCode) {
@@ -87,7 +87,7 @@ public final class RdsVorhersageCode implements Zustand<Integer> {
 		}
 
 		if (result == null) {
-			throw new IllegalArgumentException("Für den Code \"" + gesuchterCode
+			throw new IllegalArgumentException("FÃ¼r den Code \"" + gesuchterCode
 					+ "\" ist kein Vorhersagecode im Datenkatalog definiert");
 		}
 
@@ -95,11 +95,11 @@ public final class RdsVorhersageCode implements Zustand<Integer> {
 	}
 
 	/**
-	 * liefert die Vorhersagecode mit dem übergebenen Name.
+	 * liefert die Vorhersagecode mit dem Ã¼bergebenen Name.
 	 *
 	 * @param gesuchterName
-	 *            der Name für den ein Vorhersagecode gesucht wird.
-	 * @return der ermittelte Vorhersagecode, wenn ein ungültiger Name übergeben
+	 *            der Name fÃ¼r den ein Vorhersagecode gesucht wird.
+	 * @return der ermittelte Vorhersagecode, wenn ein ungÃ¼ltiger Name Ã¼bergeben
 	 *         wurde, wird eine {@link IllegalArgumentException} geworfen.
 	 */
 	public static RdsVorhersageCode getVorhersagecode(
@@ -128,7 +128,7 @@ public final class RdsVorhersageCode implements Zustand<Integer> {
 		}
 
 		if (result == null) {
-			throw new IllegalArgumentException("Für den Name \"" + gesuchterName
+			throw new IllegalArgumentException("FÃ¼r den Name \"" + gesuchterName
 					+ "\" ist kein Vorhersagecode im Datenkatalog definiert");
 		}
 
@@ -147,10 +147,10 @@ public final class RdsVorhersageCode implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion einen eine neue Instanz für einen Vorhersagecode mit dem
-	 * übergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
+	 * Die Funktion einen eine neue Instanz fÃ¼r einen Vorhersagecode mit dem
+	 * Ã¼bergebenem Code und der entsprechenden Bezeichnung. Der Konstruktor wird
 	 * nur innerhalb der Klasse verwendet. Es wird eine Menge vordefinierter
-	 * Zustände zur Verfügung gestellt.
+	 * ZustÃ¤nde zur VerfÃ¼gung gestellt.
 	 *
 	 * @param name
 	 *            der Name des zustands

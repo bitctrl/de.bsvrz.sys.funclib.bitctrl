@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -58,31 +58,31 @@ extends AbstractOnlineDatensatz<OdStoerfallZustand.Daten> {
 	public enum Aspekte implements Aspekt {
 
 		/** Der Aspekt {@code asp.st&ouml;rfallVerfahrenStandard}. */
-		StoerfallVerfahrenStandard("asp.störfallVerfahrenStandard"),
+		StoerfallVerfahrenStandard("asp.stÃ¶rfallVerfahrenStandard"),
 
 		/** Der Aspekt {@code asp.st&ouml;rfallVerfahrenMARZ}. */
-		StoerfallVerfahrenMARZ("asp.störfallVerfahrenMARZ"),
+		StoerfallVerfahrenMARZ("asp.stÃ¶rfallVerfahrenMARZ"),
 
 		/** Der Aspekt {@code asp.st&ouml;rfallVerfahrenNRW}. */
-		StoerfallVerfahrenNRW("asp.störfallVerfahrenNRW"),
+		StoerfallVerfahrenNRW("asp.stÃ¶rfallVerfahrenNRW"),
 
 		/** Der Aspekt {@code asp.st&ouml;rfallVerfahrenRDS}. */
-		StoerfallVerfahrenRDS("asp.störfallVerfahrenRDS"),
+		StoerfallVerfahrenRDS("asp.stÃ¶rfallVerfahrenRDS"),
 
 		/** Der Aspekt {@code asp.st&ouml;rfallVerfahrenFD}. */
-		StoerfallVerfahrenFD("asp.störfallVerfahrenFD"),
+		StoerfallVerfahrenFD("asp.stÃ¶rfallVerfahrenFD"),
 
 		/** Der Aspekt {@code asp.st&ouml;rfallVerfahrenVKDiffKfz}. */
-		StoerfallVerfahrenVKDiffKfz("asp.störfallVerfahrenVKDiffKfz"),
+		StoerfallVerfahrenVKDiffKfz("asp.stÃ¶rfallVerfahrenVKDiffKfz"),
 
-		/** Der Aspekt {@code asp.störfallVerfahrenConstraint}. */
-		StoerfallVerfahrenConstraint("asp.störfallVerfahrenConstraint"),
+		/** Der Aspekt {@code asp.stÃ¶rfallVerfahrenConstraint}. */
+		StoerfallVerfahrenConstraint("asp.stÃ¶rfallVerfahrenConstraint"),
 
-		/** Der Aspekt {@code asp.störfallVerfahrenFuzzy}. */
-		StoerfallVerfahrenFuzzy("asp.störfallVerfahrenFuzzy"),
+		/** Der Aspekt {@code asp.stÃ¶rfallVerfahrenFuzzy}. */
+		StoerfallVerfahrenFuzzy("asp.stÃ¶rfallVerfahrenFuzzy"),
 
-		/** Der Aspekt {@code asp.störfallVerfahrenMOBINET}. */
-		StoerfallVerfahrenMOBINET("asp.störfallVerfahrenMOBINET");
+		/** Der Aspekt {@code asp.stÃ¶rfallVerfahrenMOBINET}. */
+		StoerfallVerfahrenMOBINET("asp.stÃ¶rfallVerfahrenMOBINET");
 
 		/** Der Aspekt, den das enum kapselt. */
 		private final Aspect aspekt;
@@ -279,7 +279,7 @@ extends AbstractOnlineDatensatz<OdStoerfallZustand.Daten> {
 	}
 
 	/** Die PID der Attributgruppe. */
-	private static final String ATG_STOERFALL_ZUSTAND = "atg.störfallZustand";
+	private static final String ATG_STOERFALL_ZUSTAND = "atg.stÃ¶rfallZustand";
 	/** Die Attributgruppe kann von allen Instanzen gemeinsam genutzt werden. */
 	private static AttributeGroup atg;
 
@@ -325,8 +325,8 @@ extends AbstractOnlineDatensatz<OdStoerfallZustand.Daten> {
 	}
 
 	/**
-	 * liefert den Störfallzustand, der mit dem übergebenen Aspekt berechnet
-	 * wurde. Wenn keine daten für den Aspekt verfügbar sind wird der Zustand
+	 * liefert den StÃ¶rfallzustand, der mit dem Ã¼bergebenen Aspekt berechnet
+	 * wurde. Wenn keine daten fÃ¼r den Aspekt verfÃ¼gbar sind wird der Zustand
 	 * UNBEKANNT geliefert.
 	 *
 	 * @param aspekt
@@ -349,12 +349,12 @@ extends AbstractOnlineDatensatz<OdStoerfallZustand.Daten> {
 
 		final double gIndex = datum.getGueteIndex();
 		if (gIndex < 0) {
-			daten.getItem("Güte").getUnscaledValue("Index").set((int) gIndex);
+			daten.getItem("GÃ¼te").getUnscaledValue("Index").set((int) gIndex);
 		} else {
-			daten.getItem("Güte").getScaledValue("Index").set(gIndex);
+			daten.getItem("GÃ¼te").getScaledValue("Index").set(gIndex);
 		}
 
-		daten.getItem("Güte").getUnscaledValue("Verfahren")
+		daten.getItem("GÃ¼te").getUnscaledValue("Verfahren")
 		.set(datum.getGueteVerfahren().getCode());
 		daten.getTimeValue("Horizont").setMillis(datum.getHorizont());
 		daten.getTimeValue("T").setMillis(datum.getT());
@@ -371,15 +371,15 @@ extends AbstractOnlineDatensatz<OdStoerfallZustand.Daten> {
 		if (result.hasData()) {
 			final Data daten = result.getData();
 
-			if (daten.getItem("Güte").getUnscaledValue("Index").isState()) {
-				datum.setGueteIndex(daten.getItem("Güte")
+			if (daten.getItem("GÃ¼te").getUnscaledValue("Index").isState()) {
+				datum.setGueteIndex(daten.getItem("GÃ¼te")
 						.getUnscaledValue("Index").intValue());
 			} else {
-				datum.setGueteIndex(daten.getItem("Güte")
+				datum.setGueteIndex(daten.getItem("GÃ¼te")
 						.getScaledValue("Index").doubleValue());
 			}
 			datum.setGueteVerfahren(GueteVerfahren.getGueteVerfahren(daten
-					.getItem("Güte").getUnscaledValue("Verfahren").intValue()));
+					.getItem("GÃ¼te").getUnscaledValue("Verfahren").intValue()));
 			datum.setHorizont(daten.getTimeValue("Horizont").getMillis());
 			datum.setT(daten.getTimeValue("T").getMillis());
 			datum.setSituation(StoerfallSituation.getSituation(

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -47,13 +47,13 @@ public interface SystemObjekt extends Comparable<SystemObjekt> {
 	class PidComparator implements Comparator<SystemObjekt> {
 
 		/**
-		 * vergleicht zwei Systemobjekte bez¸glich ihrer PID.
+		 * vergleicht zwei Systemobjekte bez√ºglich ihrer PID.
 		 *
 		 * @param o1
 		 *            erstes Objekt
 		 * @param o2
 		 *            zweites Objekt
-		 * @return &lt;0, wenn o1 kleiner als o2 ist; 0, &gt;0, wenn o1 grˆsser
+		 * @return &lt;0, wenn o1 kleiner als o2 ist; 0, &gt;0, wenn o1 gr√∂sser
 		 *         als o2 ist; 0 sonst.
 		 *
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)

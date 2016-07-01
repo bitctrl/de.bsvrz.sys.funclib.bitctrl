@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -51,7 +51,7 @@ public class PdBcBedienStellenBelegung
 		extends AbstractParameterDatensatz<PdBcBedienStellenBelegung.Daten> {
 
 	/**
-	 * Repr‰sentation der Daten der Onlinedaten.
+	 * Repr√§sentation der Daten der Onlinedaten.
 	 */
 	public static class Daten extends ArrayList<Benutzer>implements Datum {
 

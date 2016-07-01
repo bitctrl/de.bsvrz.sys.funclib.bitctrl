@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -30,7 +30,7 @@ import java.util.EventObject;
 import java.util.Set;
 
 /**
- * Dieses Event kapselt die Änderung der Systemkalendereintragsmenge.
+ * Dieses Event kapselt die Ã„nderung der Systemkalendereintragsmenge.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
@@ -39,10 +39,10 @@ public class SystemKalenderEintraegeAktualisiertEvent extends EventObject {
 	/** Die Eigenschaft {@code serialVersionUID}. */
 	private static final long serialVersionUID = 1L;
 
-	/** Die Menge der hinzugefügten Systemkalendereinträge. */
+	/** Die Menge der hinzugefÃ¼gten SystemkalendereintrÃ¤ge. */
 	private final Set<SystemKalenderEintrag> hinzugefuegt;
 
-	/** Die Menge der entfernten Systemkalendereinträge. */
+	/** Die Menge der entfernten SystemkalendereintrÃ¤ge. */
 	private final Set<SystemKalenderEintrag> entfernt;
 
 	/**
@@ -51,9 +51,9 @@ public class SystemKalenderEintraegeAktualisiertEvent extends EventObject {
 	 * @param source
 	 *            die Quelle des Events.
 	 * @param hinzugefuegt
-	 *            die Menge der hinzugefügten Systemkalendereinträge.
+	 *            die Menge der hinzugefÃ¼gten SystemkalendereintrÃ¤ge.
 	 * @param entfernt
-	 *            die entfernten Systemkalendereinträge.
+	 *            die entfernten SystemkalendereintrÃ¤ge.
 	 */
 	public SystemKalenderEintraegeAktualisiertEvent(final Kalender source,
 			final Set<SystemKalenderEintrag> hinzugefuegt,
@@ -68,7 +68,7 @@ public class SystemKalenderEintraegeAktualisiertEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt die Menge der entfernten Systemkalendereinträge zurück.
+	 * Gibt die Menge der entfernten SystemkalendereintrÃ¤ge zurÃ¼ck.
 	 *
 	 * @return die Menge kann leer sein ist aber nie {@code null}.
 	 */
@@ -78,7 +78,7 @@ public class SystemKalenderEintraegeAktualisiertEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt die Menge der hinzugefügten Systemkalendereinträge zurück.
+	 * Gibt die Menge der hinzugefÃ¼gten SystemkalendereintrÃ¤ge zurÃ¼ck.
 	 *
 	 * @return die Menge kann leer sein ist aber nie {@code null}.
 	 */
@@ -88,7 +88,7 @@ public class SystemKalenderEintraegeAktualisiertEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt den Kalender zurück, der das Event geschickt hat.
+	 * Gibt den Kalender zurÃ¼ck, der das Event geschickt hat.
 	 *
 	 * @return der Kalender.
 	 */

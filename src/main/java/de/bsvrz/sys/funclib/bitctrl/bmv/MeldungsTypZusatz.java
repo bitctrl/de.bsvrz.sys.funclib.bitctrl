@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -37,7 +37,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.ObjektFactory;
 import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
 /**
- * Hilfsklasse zum Generieren und parsen von Meldungstypzus‰tzen.
+ * Hilfsklasse zum Generieren und parsen von Meldungstypzus√§tzen.
  *
  * @author BitCtrl Systems GmbH, Falko
  */
@@ -114,7 +114,7 @@ public class MeldungsTypZusatz {
 	}
 
 	/**
-	 * Gibt eine unver‰nderliche Kopie der Paramter zur¸ck.
+	 * Gibt eine unver√§nderliche Kopie der Paramter zur√ºck.
 	 *
 	 * @return die Kopie der Parameter.
 	 */
@@ -147,7 +147,7 @@ public class MeldungsTypZusatz {
 	}
 
 	/**
-	 * Gibt {@code null} zur¸ck, wenn unter dem Namen kein Parameter angelegt
+	 * Gibt {@code null} zur√ºck, wenn unter dem Namen kein Parameter angelegt
 	 * ist oder dieser ein Leerstring ist.
 	 *
 	 * @param name
@@ -241,7 +241,7 @@ public class MeldungsTypZusatz {
 	}
 
 	/**
-	 * Der Meldungstypzusatz ist gleich, wenn Id und Parameter ¸bereinstimmen.
+	 * Der Meldungstypzusatz ist gleich, wenn Id und Parameter √ºbereinstimmen.
 	 * Die Reihenfolge der Parameter spielt keine Rolle.
 	 */
 	@Override
@@ -257,7 +257,7 @@ public class MeldungsTypZusatz {
 	}
 
 	/**
-	 * Gibt den Hash-Wert der Id zur¸ck.
+	 * Gibt den Hash-Wert der Id zur√ºck.
 	 *
 	 * @see #getId()
 	 */

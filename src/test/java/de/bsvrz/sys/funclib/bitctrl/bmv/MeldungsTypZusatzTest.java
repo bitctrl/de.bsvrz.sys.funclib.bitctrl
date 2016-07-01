@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -35,7 +35,7 @@ import org.junit.Test;
 /**
  * @author BitCtrl Systems GmbH, Falko
  *
- *         TODO Auch Fehlerf‰lle in Test einbeziehen.
+ *         TODO Auch Fehlerf√§lle in Test einbeziehen.
  */
 public class MeldungsTypZusatzTest {
 

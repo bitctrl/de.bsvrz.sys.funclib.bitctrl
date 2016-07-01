@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -41,14 +41,14 @@ public class Urlasser implements Cloneable, Attributliste {
 	/** Der Benutzer, der den Datensatz verschickt. */
 	private Benutzer benutzer;
 
-	/** Die Ursache für das Verschicken dieses Datensatzes. */
+	/** Die Ursache fÃ¼r das Verschicken dieses Datensatzes. */
 	private String ursache = "";
 
 	/** Der Veranlasser. */
 	private String veranlasser = "";
 
 	/**
-	 * Gibt den Benutzer zurück, der den Datensatz schickt.
+	 * Gibt den Benutzer zurÃ¼ck, der den Datensatz schickt.
 	 *
 	 * @return der Benutzer.
 	 */
@@ -67,7 +67,7 @@ public class Urlasser implements Cloneable, Attributliste {
 	}
 
 	/**
-	 * Gibt die Ursache für das Verschicken des Datensatzes zurück.
+	 * Gibt die Ursache fÃ¼r das Verschicken des Datensatzes zurÃ¼ck.
 	 *
 	 * @return die Ursache.
 	 */
@@ -76,7 +76,7 @@ public class Urlasser implements Cloneable, Attributliste {
 	}
 
 	/**
-	 * Legt die Ursache für das Verschicken des Datensatzes fest.
+	 * Legt die Ursache fÃ¼r das Verschicken des Datensatzes fest.
 	 *
 	 * @param ursache
 	 *            die Ursache.
@@ -86,7 +86,7 @@ public class Urlasser implements Cloneable, Attributliste {
 	}
 
 	/**
-	 * Gibt den Veranlasser zurück.
+	 * Gibt den Veranlasser zurÃ¼ck.
 	 *
 	 * @return der Veranlasser.
 	 */

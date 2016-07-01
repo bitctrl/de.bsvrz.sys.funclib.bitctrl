@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -43,7 +43,7 @@ public final class ZeitAngabe {
 
 	/**
 	 * Konstruktor. Die Funktion erzeugt eine Instanz einer Zeitangabe. Der
-	 * übergebene Wert repräsentiert eine Zeitgröße in Millisekunden.
+	 * Ã¼bergebene Wert reprÃ¤sentiert eine ZeitgrÃ¶ÃŸe in Millisekunden.
 	 *
 	 * @param zeitWert
 	 *            der Wert
@@ -56,7 +56,7 @@ public final class ZeitAngabe {
 	/**
 	 * liefert den Zeitwert als Dauer. Die Ausgabe erfolgt als a Tage b Stunden
 	 * c Minuten d Sekunden e Millisekunden. Alle Bestandteile mit dem Wert 0
-	 * werden ausgelassen. Eine negative Dauer liefert den String "ungültig" ein
+	 * werden ausgelassen. Eine negative Dauer liefert den String "ungÃ¼ltig" ein
 	 * Wert von 0 wird als "0 Millisekunden" ausgegeben. Der Wert Long.MAX_VALUE
 	 * wird als "unbekannt" umgesetzt.
 	 *
@@ -69,19 +69,19 @@ public final class ZeitAngabe {
 	/**
 	 * liefert den Zeitwert als Dauer. Die Ausgabe erfolgt als a Tage b Stunden
 	 * c Minuten d Sekunden e Millisekunden. Alle Bestandteile mit dem Wert 0
-	 * werden ausgelassen. Eine negative Dauer liefert den String "ungültig" ein
+	 * werden ausgelassen. Eine negative Dauer liefert den String "ungÃ¼ltig" ein
 	 * Wert von 0 wird als "0 Millisekunden" ausgegeben. Der Wert Long.MAX_VALUE
-	 * wird als mit dem übergebenen Text umgesetzt.
+	 * wird als mit dem Ã¼bergebenen Text umgesetzt.
 	 *
 	 * @param maxText
-	 *            der Text, der für den Wert Long.MAX_VALUE ausgegeben werden
+	 *            der Text, der fÃ¼r den Wert Long.MAX_VALUE ausgegeben werden
 	 *            soll.
 	 * @return die Dauer aks Text
 	 */
 	public String dauerAlsText(final String maxText) {
 		final StringBuffer result = new StringBuffer();
 		if (zeitWert < 0) {
-			result.append("ungültig");
+			result.append("ungÃ¼ltig");
 		} else if (zeitWert == Long.MAX_VALUE) {
 			result.append(maxText);
 		} else {
@@ -121,7 +121,7 @@ public final class ZeitAngabe {
 	 * @param restWert
 	 *            der noch bestehende Restwert
 	 * @param faktor
-	 *            der Faktor für den einzufügenden Abschnitt
+	 *            der Faktor fÃ¼r den einzufÃ¼genden Abschnitt
 	 * @param einheit
 	 *            die Einheit als Text
 	 * @return den Restwert nach der Ermittlung des betreffenden Abschnittes
@@ -151,11 +151,11 @@ public final class ZeitAngabe {
 
 	/**
 	 * liefert den Zeitstempel im Standardformat, wobei der Wert 0 durch den
-	 * übergebenen Text ersetzt wird. Wird als Text der Wert <code>null</code>
-	 * übergeben, erfolgt keine Sonderbehanldung für den Zeitwert 0.
+	 * Ã¼bergebenen Text ersetzt wird. Wird als Text der Wert <code>null</code>
+	 * Ã¼bergeben, erfolgt keine Sonderbehanldung fÃ¼r den Zeitwert 0.
 	 *
 	 * @param nullText
-	 *            der Text für den Wert 0
+	 *            der Text fÃ¼r den Wert 0
 	 * @return den Zeitstempel als Text
 	 */
 	public String zeitStempel(final String nullText) {
@@ -164,15 +164,15 @@ public final class ZeitAngabe {
 
 	/**
 	 * liefert den Zeitstempel im Standardformat, wobei der Wert 0 durch den
-	 * übergebenen Text <code>nullText</code> und der Wert Long.MAX_VALUE durch
-	 * den übergebenen Text <code>maxText</code> ersetzt wird. Wird für die
-	 * Textparameter der Wert <code>null</code> übergeben, erfolgt keine
-	 * Sonderbehanldung für den jeweiligen Wert.
+	 * Ã¼bergebenen Text <code>nullText</code> und der Wert Long.MAX_VALUE durch
+	 * den Ã¼bergebenen Text <code>maxText</code> ersetzt wird. Wird fÃ¼r die
+	 * Textparameter der Wert <code>null</code> Ã¼bergeben, erfolgt keine
+	 * Sonderbehanldung fÃ¼r den jeweiligen Wert.
 	 *
 	 * @param nullText
-	 *            der Text für den Wert 0
+	 *            der Text fÃ¼r den Wert 0
 	 * @param maxText
-	 *            der Text für den Wert Long.MAX_VALUE
+	 *            der Text fÃ¼r den Wert Long.MAX_VALUE
 	 * @return den Zeitstempel als Text
 	 */
 	public String zeitStempel(final String nullText, final String maxText) {

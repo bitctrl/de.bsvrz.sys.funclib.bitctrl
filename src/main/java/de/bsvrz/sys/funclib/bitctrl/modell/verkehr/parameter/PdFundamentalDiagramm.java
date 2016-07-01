@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -44,7 +44,7 @@ public class PdFundamentalDiagramm
 extends AbstractParameterDatensatz<PdFundamentalDiagramm.Daten> {
 
 	/**
-	 * Die Repräsentation der Daten des Situationseigenschaften-Datensatzes.
+	 * Die ReprÃ¤sentation der Daten des Situationseigenschaften-Datensatzes.
 	 */
 	public static class Daten extends AbstractDatum {
 
@@ -83,7 +83,7 @@ extends AbstractParameterDatensatz<PdFundamentalDiagramm.Daten> {
 		}
 
 		/**
-		 * Konstruktor zu Erstellen einer Kopie des übergebenen Datums.
+		 * Konstruktor zu Erstellen einer Kopie des Ã¼bergebenen Datums.
 		 *
 		 * @param daten
 		 *            das zu kopierende Datum
@@ -98,8 +98,8 @@ extends AbstractParameterDatensatz<PdFundamentalDiagramm.Daten> {
 
 		/**
 		 * Konstruktor.<br>
-		 * Die Funktion erzeugt eine Instnz des Datums und füllt dieses mit dem
-		 * Inhalt des übergebenen Datenverteiler-Datensatzes.
+		 * Die Funktion erzeugt eine Instnz des Datums und fÃ¼llt dieses mit dem
+		 * Inhalt des Ã¼bergebenen Datenverteiler-Datensatzes.
 		 *
 		 * @param result
 		 *            die vom Datenverteiler empfangenen Dtaen
@@ -219,15 +219,15 @@ extends AbstractParameterDatensatz<PdFundamentalDiagramm.Daten> {
 	}
 
 	/**
-	 * die Attributgruppe für den Zugriff auf die Parameter.
+	 * die Attributgruppe fÃ¼r den Zugriff auf die Parameter.
 	 */
 	private static AttributeGroup attributGruppe;
 
 	/**
 	 * Konstruktor.<br>
 	 * Die Funktion erzeugt eine Instanz des Parameterdatensatzes auf der Basis
-	 * des übergebenen Störfallindikators. Zulässige Störfallindikatoren sind
-	 * MessquerschnittAllgemein und Straßenteilsegment.
+	 * des Ã¼bergebenen StÃ¶rfallindikators. ZulÃ¤ssige StÃ¶rfallindikatoren sind
+	 * MessquerschnittAllgemein und StraÃŸenteilsegment.
 	 *
 	 * @param indikator
 	 *            das Systemobjekt

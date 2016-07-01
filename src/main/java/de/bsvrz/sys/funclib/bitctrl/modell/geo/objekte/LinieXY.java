@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -31,7 +31,7 @@ import java.util.List;
 import de.bsvrz.sys.funclib.bitctrl.geometrie.Punkt;
 
 /**
- * Schnittstelle f¸r die Repr‰sentation eines Linien-Objektes mit Koordinaten
+ * Schnittstelle f√ºr die Repr√§sentation eines Linien-Objektes mit Koordinaten
  * ("typ.linieXY").
  *
  * @author BitCtrl Systems GmbH, Uwe Peuker

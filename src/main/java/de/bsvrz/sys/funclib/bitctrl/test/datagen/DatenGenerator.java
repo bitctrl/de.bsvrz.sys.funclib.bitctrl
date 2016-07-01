@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -36,32 +36,32 @@ import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList.Argument;
 
 /**
- * Werkzeug zum generieren von Testdaten für beliebige Datensätze.<br>
+ * Werkzeug zum generieren von Testdaten fÃ¼r beliebige DatensÃ¤tze.<br>
  * Das Programm generiert eine XML-Datei, die mit dem Standard-Datengenerator
  * der Datenverteiler-Software eingesetzt werden kann.<br>
- * Für jeden zu verwendenden Datensatztyp wird eine Datei erstellt, die in drei
+ * FÃ¼r jeden zu verwendenden Datensatztyp wird eine Datei erstellt, die in drei
  * Teilen die zu sendenden Daten beschreibt:
  * <ol>
- * <li>Der Konfigurationsbereich enthält die Informationen zu den Objekten, für
- * die Daten versendet werden sollen, die Attributgruppe und der Aspekt für die
+ * <li>Der Konfigurationsbereich enthÃ¤lt die Informationen zu den Objekten, fÃ¼r
+ * die Daten versendet werden sollen, die Attributgruppe und der Aspekt fÃ¼r die
  * Daten und die Art der Anmeldung der Datenquelle (quelle, sender)</li>
- * <li>Der Standardwertbereich enthält die Werte, die beim Datenversand konstant
+ * <li>Der Standardwertbereich enthÃ¤lt die Werte, die beim Datenversand konstant
  * sind.</li>
- * <li>Der Datenbereich enthält im CSV-Format die Daten für die Attribute, die
+ * <li>Der Datenbereich enthÃ¤lt im CSV-Format die Daten fÃ¼r die Attribute, die
  * abweichend zu den Standardwerten im jeweiligen Datensatz gesetzt werden
- * sollen. Die erste Spalte enthält immer die Zeit des Datensatzes. Der
+ * sollen. Die erste Spalte enthÃ¤lt immer die Zeit des Datensatzes. Der
  * Zeitstempel wird relativ in Sekunden angegeben.</li>
  * </ol>
  * <br>
- * Das Programm kann in zwei Betriebsarten ausgeführt werden, die durch den
+ * Das Programm kann in zwei Betriebsarten ausgefÃ¼hrt werden, die durch den
  * Aufrufparameter <i>-modus</i> festgelegt werden:
  * <ul>
- * <li>CONFIG: erzeugt eine Vorlagedatei für alle verfügbaren Attribugruppen,
+ * <li>CONFIG: erzeugt eine Vorlagedatei fÃ¼r alle verfÃ¼gbaren Attribugruppen,
  * Aspekt-Kombinationen. Die Ausgabe der Vorlagedateien erfolgt in das
- * Verzeichnis "dataTemplates". Der Name des Ausgabeverzeichnisses kann über den
- * Aufrufparameter "-verzeichnis" verändert werden.</li>
+ * Verzeichnis "dataTemplates". Der Name des Ausgabeverzeichnisses kann Ã¼ber den
+ * Aufrufparameter "-verzeichnis" verÃ¤ndert werden.</li>
  * <li>CREATE: erzeugt aus einer Liste von Konfigurationsdateien die XML-Datei
- * für den Datengenerator der Kernsoftware. Mit dem Parameter <b>-input</b> wird
+ * fÃ¼r den Datengenerator der Kernsoftware. Mit dem Parameter <b>-input</b> wird
  * eine kommagetrennte Liste von Eingabedateien angegeben. Die Ausgabe erfolgt
  * in die mit <b>-output</b> angegebene Datei oder auf die Konsole. Die Angabe
  * der Startzeit kann mit der Option <b><i>-start</i></b> erfolgen</li>
@@ -72,12 +72,12 @@ import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList.Argument;
 public class DatenGenerator implements StandardApplication {
 
 	/**
-	 * die Argumente für die Datengeneratormodule.
+	 * die Argumente fÃ¼r die Datengeneratormodule.
 	 */
 	private final Map<String, String> argumente = new HashMap<>();
 
 	/**
-	 * der String zur Beschreibung des Ausführungsmodus.
+	 * der String zur Beschreibung des AusfÃ¼hrungsmodus.
 	 */
 	private String modStr;
 
@@ -108,7 +108,7 @@ public class DatenGenerator implements StandardApplication {
 	 * die Hauptfunktion der Anwendung.
 	 *
 	 * @param args
-	 *            die übergebenen Argumente.
+	 *            die Ã¼bergebenen Argumente.
 	 */
 	public static void main(final String[] args) {
 		StandardApplicationRunner.run(new DatenGenerator(), args);

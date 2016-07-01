@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -111,7 +111,7 @@ public class ObjektFactory implements ModellObjektFactory {
 
 	/**
 	 * Die Datenverteilerverbindung der Objektfactory, muss explizit gesetzt
-	 * werden und wird von den Autoupdatern der Datensätze benötigt.
+	 * werden und wird von den Autoupdatern der DatensÃ¤tze benÃ¶tigt.
 	 */
 	private ClientDavInterface verbindung;
 
@@ -201,7 +201,7 @@ public class ObjektFactory implements ModellObjektFactory {
 	}
 
 	/**
-	 * Gibt die autarke Organisationseinheit zurück.
+	 * Gibt die autarke Organisationseinheit zurÃ¼ck.
 	 *
 	 * @return die AOE.
 	 */
@@ -210,7 +210,7 @@ public class ObjektFactory implements ModellObjektFactory {
 	}
 
 	/**
-	 * Gibt die lokale Klientapplikation zurück.
+	 * Gibt die lokale Klientapplikation zurÃ¼ck.
 	 *
 	 * @return die lokale Applikation.
 	 */
@@ -219,7 +219,7 @@ public class ObjektFactory implements ModellObjektFactory {
 	}
 
 	/**
-	 * Gibt den Datenverteiler zurück, mit dem die lokale Applikation verbunden
+	 * Gibt den Datenverteiler zurÃ¼ck, mit dem die lokale Applikation verbunden
 	 * ist.
 	 *
 	 * @return der Datenverteiler.
@@ -229,7 +229,7 @@ public class ObjektFactory implements ModellObjektFactory {
 	}
 
 	/**
-	 * Gibt den angemeldeten Benutzer für die lokale Applikation zurück.
+	 * Gibt den angemeldeten Benutzer fÃ¼r die lokale Applikation zurÃ¼ck.
 	 *
 	 * @return der lokale Benutzer.
 	 */
@@ -283,10 +283,10 @@ public class ObjektFactory implements ModellObjektFactory {
 
 	/**
 	 * Versucht mit Hilfe der registrierten Fabriken ein Systemobjekt in ein
-	 * Modellobjekt zu überführen. Gibt es mehrere Fabriken, die dazu in der
+	 * Modellobjekt zu Ã¼berfÃ¼hren. Gibt es mehrere Fabriken, die dazu in der
 	 * Lage sind, wird die Fabrik benutzt, die zuerst registriert wurde.
 	 * Existiert keine passende Fabrik, wird generisches {@link SystemObjekt}
-	 * zurückgegeben.
+	 * zurÃ¼ckgegeben.
 	 *
 	 * @param obj
 	 *            Ein Systemobjekt
@@ -305,8 +305,8 @@ public class ObjektFactory implements ModellObjektFactory {
 			return cache.get(obj.getId());
 		}
 
-		// Objekt muss erzeugt werden, dazu wird über die Typhierachie des
-		// übergebenen SystemObjects eine passende Factory gesucht.
+		// Objekt muss erzeugt werden, dazu wird Ã¼ber die Typhierachie des
+		// Ã¼bergebenen SystemObjects eine passende Factory gesucht.
 		Collection<SystemObjectType> objTypen = new ArrayList<>();
 		objTypen.add(obj.getType());
 		do {
@@ -345,7 +345,7 @@ public class ObjektFactory implements ModellObjektFactory {
 			cache.put(obj.getId(), so);
 		}
 
-		// Falls noch nicht geschehen gewünschte Standarddatensätze ergänzen
+		// Falls noch nicht geschehen gewÃ¼nschte StandarddatensÃ¤tze ergÃ¤nzen
 		if (so != null) {
 			for (final Class<? extends SystemObjekt> co : DEFAULT.keySet()) {
 				if (co.isInstance(so)) {
@@ -362,7 +362,7 @@ public class ObjektFactory implements ModellObjektFactory {
 		}
 
 		if (so == null) {
-			log.fine("Es existiert kein passendes Modellobjekt für " + obj + " vom Typ " + obj.getType() + ".");
+			log.fine("Es existiert kein passendes Modellobjekt fÃ¼r " + obj + " vom Typ " + obj.getType() + ".");
 			@SuppressWarnings("deprecation")
 			final SystemObjekt deprecatedObj = new SystemObjektImpl(obj);
 			so = deprecatedObj;
@@ -441,7 +441,7 @@ public class ObjektFactory implements ModellObjektFactory {
 	}
 
 	/**
-	 * Registriert alle Factories üfr BitCtrl-spezifische Objekte. Folgende
+	 * Registriert alle Factories Ã¼fr BitCtrl-spezifische Objekte. Folgende
 	 * Factories werden registriert:
 	 * <ul>
 	 * <li>{@link BcCommonObjektFactory}</li>
@@ -452,7 +452,7 @@ public class ObjektFactory implements ModellObjektFactory {
 	}
 
 	/**
-	 * Ordnet der Factory eine Datenverteilerverbindung zu und löscht den
+	 * Ordnet der Factory eine Datenverteilerverbindung zu und lÃ¶scht den
 	 * Systemobjektcache.
 	 *
 	 * @param verbindung

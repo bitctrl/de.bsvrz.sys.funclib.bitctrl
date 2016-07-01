@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -48,7 +48,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Ein Parameterdatensatz, die Eigenschaften einer Situation beinhaltet. Der
- * Datensatz repräsentiert die Daten einer Attributgruppe
+ * Datensatz reprÃ¤sentiert die Daten einer Attributgruppe
  * "atg.situationsEigenschaften".
  *
  * @author BitCtrl Systems GmbH, Peuker
@@ -57,7 +57,7 @@ public class PdSituationsEigenschaften
 extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 
 	/**
-	 * Die Repräsentation der Daten des Situationseigenschaften-Datensatzes.
+	 * Die ReprÃ¤sentation der Daten des Situationseigenschaften-Datensatzes.
 	 */
 	public static class Daten extends AbstractDatum {
 
@@ -67,16 +67,16 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		 */
 		private long dauer;
 		/**
-		 * Position des Situationsendes im letzten Straßensegment. ("EndOffset")
+		 * Position des Situationsendes im letzten StraÃŸensegment. ("EndOffset")
 		 */
 		private long endOffset;
 		/**
-		 * Referenzen auf alle Straßensegmente, über die sich die Situation
-		 * ausbreitet. ("StraßenSegment")
+		 * Referenzen auf alle StraÃŸensegmente, Ã¼ber die sich die Situation
+		 * ausbreitet. ("StraÃŸenSegment")
 		 */
 		private final List<StrassenSegment> segmente = new ArrayList<>();
 		/**
-		 * Position des Situationsanfangs im ersten Straßensegment.
+		 * Position des Situationsanfangs im ersten StraÃŸensegment.
 		 * ("StartOffset")
 		 */
 		private long startOffset;
@@ -105,7 +105,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		}
 
 		/**
-		 * Konstruktor zu Erstellen einer Kopie des übergebenen Datums.
+		 * Konstruktor zu Erstellen einer Kopie des Ã¼bergebenen Datums.
 		 *
 		 * @param daten
 		 *            das zu kopierende Datum
@@ -122,8 +122,8 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 
 		/**
 		 * Konstruktor.<br>
-		 * Die Funktion erzeugt eine Instnz des Datums und füllt dieses mit dem
-		 * Inhalt des übergebenen Datenverteiler-Datensatzes.
+		 * Die Funktion erzeugt eine Instnz des Datums und fÃ¼llt dieses mit dem
+		 * Inhalt des Ã¼bergebenen Datenverteiler-Datensatzes.
 		 *
 		 * @param result
 		 *            die vom Datenverteiler empfangenen Dtaen
@@ -135,7 +135,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 				startZeit = daten.getTimeValue("StartZeit").getMillis();
 				dauer = daten.getTimeValue("Dauer").getMillis();
 				final Data.Array segmentArray = daten
-						.getArray("StraßenSegment");
+						.getArray("StraÃŸenSegment");
 				for (int idx = 0; idx < segmentArray.getLength(); idx++) {
 					segmente.add((StrassenSegment) ObjektFactory.getInstanz()
 							.getModellobjekt(segmentArray.getReferenceValue(idx)
@@ -173,7 +173,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		}
 
 		/**
-		 * liefert die Position des Situationsendes im letzten Straßensegment.
+		 * liefert die Position des Situationsendes im letzten StraÃŸensegment.
 		 *
 		 * @return der Offset
 		 */
@@ -197,8 +197,8 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 
 		/**
 		 * liefert den in Fahrtrichtung auf die Situation folgenden
-		 * Straßenknoten. Wird kein Knoten gefunden liefert die Funktion den
-		 * Wert <code>null</code> zurück.
+		 * StraÃŸenknoten. Wird kein Knoten gefunden liefert die Funktion den
+		 * Wert <code>null</code> zurÃ¼ck.
 		 *
 		 * @return den Knoten oder <code>null</code>
 		 */
@@ -231,10 +231,10 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		}
 
 		/**
-		 * liefert die Länge der Situation als Summe der Längen der beteiligten
-		 * Straßensegemente abzüglich des Endoffsets und des Startoffsets.
+		 * liefert die LÃ¤nge der Situation als Summe der LÃ¤ngen der beteiligten
+		 * StraÃŸensegemente abzÃ¼glich des Endoffsets und des Startoffsets.
 		 *
-		 * @return die Länge
+		 * @return die LÃ¤nge
 		 */
 		public double getLaenge() {
 			double result = 0;
@@ -306,14 +306,14 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 				}
 
 				if (usedSegment instanceof AeusseresStrassenSegment) {
-					logger.finer("MQ nicht gefunden - Suche VonKnoten für: "
+					logger.finer("MQ nicht gefunden - Suche VonKnoten fÃ¼r: "
 							+ usedSegment);
 					final StrassenKnoten vonKnoten = ((AeusseresStrassenSegment) usedSegment)
 							.getVonKnoten();
 					StrassenSegment result = null;
 					if (vonKnoten != null) {
 						logger.finer(
-								"Suche passendes inneres Straßensegment in Knoten: "
+								"Suche passendes inneres StraÃŸensegment in Knoten: "
 										+ vonKnoten);
 						for (final InneresStrassenSegment innen : vonKnoten
 								.getInnereSegmente()) {
@@ -328,7 +328,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 										break;
 									}
 								} else {
-									logger.finer(innen + " führt nicht zu "
+									logger.finer(innen + " fÃ¼hrt nicht zu "
 											+ usedSegment + ", sondern zu "
 											+ innen.getNachSegment());
 								}
@@ -358,7 +358,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		}
 
 		/**
-		 * liefert das Segment mit dem übergebenen Index aus der Liste der
+		 * liefert das Segment mit dem Ã¼bergebenen Index aus der Liste der
 		 * Segmente, die die Situation bilden.
 		 *
 		 * @param idx
@@ -374,7 +374,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		}
 
 		/**
-		 * Referenzen auf alle Straßensegmente, über die sich die Situation
+		 * Referenzen auf alle StraÃŸensegmente, Ã¼ber die sich die Situation
 		 * ausbreitet.
 		 *
 		 * @return die Liste der Segmente
@@ -384,7 +384,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		}
 
 		/**
-		 * liefert die Position des Situationsanfangs im ersten Straßensegment.
+		 * liefert die Position des Situationsanfangs im ersten StraÃŸensegment.
 		 *
 		 * @return den Offset
 		 */
@@ -421,8 +421,8 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 
 		/**
 		 * liefert den in Fahrtrichtung auf die Situation folgenden
-		 * Straßenknoten. Wird kein Knoten gefunden liefert die Funktion den
-		 * Wert <code>null</code> zurück.
+		 * StraÃŸenknoten. Wird kein Knoten gefunden liefert die Funktion den
+		 * Wert <code>null</code> zurÃ¼ck.
 		 *
 		 * @return den Knoten oder <code>null</code>
 		 */
@@ -475,7 +475,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		}
 
 		/**
-		 * setzt den Offset des Endes der Situation bezüglich des letzten
+		 * setzt den Offset des Endes der Situation bezÃ¼glich des letzten
 		 * beteiligten Segments.
 		 *
 		 * @param endOffset
@@ -486,7 +486,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		}
 
 		/**
-		 * füllt die Liste der beteiligten Straßensegmente mit den übergebenen
+		 * fÃ¼llt die Liste der beteiligten StraÃŸensegmente mit den Ã¼bergebenen
 		 * Segmenten.
 		 *
 		 * @param liste
@@ -498,7 +498,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		}
 
 		/**
-		 * setzt den Offset des Anfangs der Situation bezüglich des ersten
+		 * setzt den Offset des Anfangs der Situation bezÃ¼glich des ersten
 		 * beteiligten Segments.
 		 *
 		 * @param startOffset
@@ -521,14 +521,14 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 	}
 
 	/**
-	 * die Attributgruppe für den Zugriff auf die Parameter.
+	 * die Attributgruppe fÃ¼r den Zugriff auf die Parameter.
 	 */
 	private static AttributeGroup attributGruppe;
 
 	/**
 	 * Konstruktor.<br>
 	 * Die Funktion erzeugt eine Instanz des Parameterdatensatzes auf der Basis
-	 * des übergebenen Systemobjekts.
+	 * des Ã¼bergebenen Systemobjekts.
 	 *
 	 * @param objekt
 	 *            das Systemobjekt
@@ -558,14 +558,14 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		result.getTimeValue("StartZeit").setMillis(datum.getStartZeit());
 		result.getTimeValue("Dauer").setMillis(datum.getDauer());
 		final List<StrassenSegment> segmente = datum.getSegmente();
-		result.getArray("StraßenSegment").setLength(segmente.size());
+		result.getArray("StraÃŸenSegment").setLength(segmente.size());
 		for (int idx = 0; idx < segmente.size(); idx++) {
-			result.getArray("StraßenSegment").getReferenceValue(idx)
+			result.getArray("StraÃŸenSegment").getReferenceValue(idx)
 			.setSystemObject(segmente.get(idx).getSystemObject());
 		}
 		result.getUnscaledValue("StartOffset").set(datum.getStartOffset());
 		result.getUnscaledValue("EndOffset").set(datum.getEndOffset());
-		result.getUnscaledValue("Länge").set((long) datum.getLaenge());
+		result.getUnscaledValue("LÃ¤nge").set((long) datum.getLaenge());
 
 		return result;
 	}

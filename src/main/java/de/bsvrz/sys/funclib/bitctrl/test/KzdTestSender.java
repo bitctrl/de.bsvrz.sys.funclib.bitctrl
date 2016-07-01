@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -52,7 +52,7 @@ import de.bsvrz.sys.funclib.application.StandardApplicationRunner;
 import de.bsvrz.sys.funclib.commandLineArgs.ArgumentList;
 
 /**
- * Test-Applikation zur Erzeugung einigermaﬂen realistischer Kurzzeitdaten.
+ * Test-Applikation zur Erzeugung einigerma√üen realistischer Kurzzeitdaten.
  *
  * @author BitCtrl Systems GmbH, anonymous
  */
@@ -89,8 +89,8 @@ public final class KzdTestSender extends TimerTask implements StandardApplicatio
 	}
 
 	/**
-	 * Pr¸ft die Verf¸gbarkeit von Kurzzeitdaten aller Fahrstreifen<br>
-	 * und sendet f¸r die Stationen, die l‰nger als X Minuten keine KZD
+	 * Pr√ºft die Verf√ºgbarkeit von Kurzzeitdaten aller Fahrstreifen<br>
+	 * und sendet f√ºr die Stationen, die l√§nger als X Minuten keine KZD
 	 * empfangen haben eine Warnung an die BMV.
 	 */
 	@Override
@@ -100,7 +100,7 @@ public final class KzdTestSender extends TimerTask implements StandardApplicatio
 			startZeit = (now / 60000L) * 60000L;
 		}
 
-		System.err.printf("Sende Daten f¸r %d \n", objektListe.size());
+		System.err.printf("Sende Daten f√ºr %d \n", objektListe.size());
 
 		int loop = 0;
 		while ((loop < 20) && (startZeit < now)) {
@@ -172,7 +172,7 @@ public final class KzdTestSender extends TimerTask implements StandardApplicatio
 	}
 
 	/**
-	 * Initialisiert den KzdSender mit Daten aus dem ¸bergebenen File.
+	 * Initialisiert den KzdSender mit Daten aus dem √ºbergebenen File.
 	 *
 	 * @param file
 	 *            der Name des Files
@@ -270,8 +270,8 @@ public final class KzdTestSender extends TimerTask implements StandardApplicatio
 
 		final int qKfz; // qKfz-Wert aus Telegramm
 		final int qLkw; // qLkw-Wert aus Telegramm
-		final int vPkw; // vPkwƒ-Wert aus Telegramm
-		final int vLkw; // vLkwƒ-Wert aus Telegramm
+		final int vPkw; // vPkw√Ñ-Wert aus Telegramm
+		final int vLkw; // vLkw√Ñ-Wert aus Telegramm
 		final int belegung; // b-Wert (Belegung)
 
 		qKfz = (int) (dataSource.nextDouble() * 100.0);
@@ -293,8 +293,8 @@ public final class KzdTestSender extends TimerTask implements StandardApplicatio
 
 		final int qKfz; // qKfz-Wert aus Telegramm
 		final int qLkw; // qLkw-Wert aus Telegramm
-		final int vPkw; // vPkwƒ-Wert aus Telegramm
-		final int vLkw; // vLkwƒ-Wert aus Telegramm
+		final int vPkw; // vPkw√Ñ-Wert aus Telegramm
+		final int vLkw; // vLkw√Ñ-Wert aus Telegramm
 
 		if (idxData >= fileData.size()) {
 			idxData = 0;
@@ -328,7 +328,7 @@ public final class KzdTestSender extends TimerTask implements StandardApplicatio
 
 		final Data data = verbindung.createData(descKurzzeitDaten.getAttributeGroup());
 
-		// Intervalll‰nge aus IntervalldatenHeader
+		// Intervalll√§nge aus IntervalldatenHeader
 		// ---------------------------------------------------------------------
 		data.getTimeValue("T").setSeconds(60);
 
@@ -352,36 +352,36 @@ public final class KzdTestSender extends TimerTask implements StandardApplicatio
 			.setText("Nein");
 			data.getItem(valString).getItem("Status").getItem("MessWertErsetzung").getUnscaledValue("Interpoliert")
 			.setText("Nein");
-			data.getItem(valString).getItem("G¸te").getUnscaledValue("Index").set(-1);
-			data.getItem(valString).getItem("G¸te").getUnscaledValue("Verfahren").set(0);
+			data.getItem(valString).getItem("G√ºte").getUnscaledValue("Index").set(-1);
+			data.getItem(valString).getItem("G√ºte").getUnscaledValue("Verfahren").set(0);
 		}
 
 		data.getItem("qKfz").getUnscaledValue("Wert").set(qKfz);
-		data.getItem("qKfz").getItem("G¸te").getUnscaledValue("Index").set(10);
+		data.getItem("qKfz").getItem("G√ºte").getUnscaledValue("Index").set(10);
 
 		data.getItem("qLkw").getUnscaledValue("Wert").set(qLkw);
-		data.getItem("qLkw").getItem("G¸te").getUnscaledValue("Index").set(10);
+		data.getItem("qLkw").getItem("G√ºte").getUnscaledValue("Index").set(10);
 
 		data.getItem("vPkw").getUnscaledValue("Wert").set(vPkw);
-		data.getItem("vPkw").getItem("G¸te").getUnscaledValue("Index").set(10);
+		data.getItem("vPkw").getItem("G√ºte").getUnscaledValue("Index").set(10);
 
 		data.getItem("vLkw").getUnscaledValue("Wert").set(vLkw);
-		data.getItem("vLkw").getItem("G¸te").getUnscaledValue("Index").set(10);
+		data.getItem("vLkw").getItem("G√ºte").getUnscaledValue("Index").set(10);
 
 		data.getItem("b").getUnscaledValue("Wert").set(belegung);
-		data.getItem("b").getItem("G¸te").getUnscaledValue("Index").set(10);
+		data.getItem("b").getItem("G√ºte").getUnscaledValue("Index").set(10);
 
 		final int qPkw;
 		final int vKfz;
 		// Nicht erfasste Werte qPkw und vKfz berechnen
 		qPkw = (qKfz - qLkw) >= 0 ? (qKfz - qLkw) : -1;
 		data.getItem("qPkw").getUnscaledValue("Wert").set(qPkw);
-		data.getItem("qPkw").getItem("G¸te").getUnscaledValue("Index").set(10);
+		data.getItem("qPkw").getItem("G√ºte").getUnscaledValue("Index").set(10);
 		data.getItem("qPkw").getItem("Status").getItem("Erfassung").getUnscaledValue("NichtErfasst").setText("Ja");
 
 		vKfz = (qLkw + qPkw) > 0 ? ((qLkw * vLkw) + (qPkw * vPkw)) / (qLkw + qPkw) : -1;
 		data.getItem("vKfz").getUnscaledValue("Wert").set(vKfz);
-		data.getItem("vKfz").getItem("G¸te").getUnscaledValue("Index").set(10);
+		data.getItem("vKfz").getItem("G√ºte").getUnscaledValue("Index").set(10);
 		data.getItem("vKfz").getItem("Status").getItem("Erfassung").getUnscaledValue("NichtErfasst").setText("Ja");
 
 		return data;

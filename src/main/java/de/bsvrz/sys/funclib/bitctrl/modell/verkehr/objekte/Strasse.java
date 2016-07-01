@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -40,30 +40,30 @@ import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende.StrassenTyp;
 
 /**
- * Repr‰senation einer Straﬂe in der Modellabbildung.
+ * Repr√§senation einer Stra√üe in der Modellabbildung.
  *
  * @author BitCtrl Systems GmbH, Peuker
  */
 public class Strasse extends AbstractSystemObjekt {
 
 	/**
-	 * die Nummer der Straﬂe.
+	 * die Nummer der Stra√üe.
 	 */
 	private final long nummer;
 
 	/**
-	 * der Typ der Straﬂe.
+	 * der Typ der Stra√üe.
 	 */
 	private final StrassenTyp strassenTyp;
 
 	/**
-	 * Zusatzbezeichnung der Straﬂe.
+	 * Zusatzbezeichnung der Stra√üe.
 	 */
 	private final String zusatz;
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion erzeugt eine Instanz einer Straﬂe auf Basis des ¸bergebenen
+	 * Die Funktion erzeugt eine Instanz einer Stra√üe auf Basis des √ºbergebenen
 	 * Systemobjekts.
 	 *
 	 * @param obj
@@ -73,11 +73,11 @@ public class Strasse extends AbstractSystemObjekt {
 		super(obj);
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist keine Straﬂe.");
+					"Systemobjekt ist keine Stra√üe.");
 		}
 
 		final DataModel modell = getSystemObject().getDataModel();
-		final AttributeGroup atg = modell.getAttributeGroup("atg.straﬂe");
+		final AttributeGroup atg = modell.getAttributeGroup("atg.stra√üe");
 		DataCache.cacheData(getSystemObject().getType(), atg);
 		final Data daten = obj.getConfigurationData(atg);
 		if (daten != null) {
@@ -93,10 +93,10 @@ public class Strasse extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * liefert die Liste der ‰uﬂeren Straﬂensegmente, die zu dieser Straﬂe
-	 * gehˆren.
+	 * liefert die Liste der √§u√üeren Stra√üensegmente, die zu dieser Stra√üe
+	 * geh√∂ren.
 	 *
-	 * @return die Liste der ermittelten Straﬂensegmente
+	 * @return die Liste der ermittelten Stra√üensegmente
 	 */
 	public Collection<AeusseresStrassenSegment> getAuessereStrassensegmente() {
 		final Collection<AeusseresStrassenSegment> result = new ArrayList<>();
@@ -110,7 +110,7 @@ public class Strasse extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * liefert die Straﬂennummer.
+	 * liefert die Stra√üennummer.
 	 *
 	 * @return die Nummer
 	 */
@@ -119,7 +119,7 @@ public class Strasse extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * liefert den Typ der Straﬂe.
+	 * liefert den Typ der Stra√üe.
 	 *
 	 * @return den Typ
 	 */
@@ -133,7 +133,7 @@ public class Strasse extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * liefert die Zusatzbezeichnung der Straﬂe.
+	 * liefert die Zusatzbezeichnung der Stra√üe.
 	 *
 	 * @return de Bezeichnung
 	 */

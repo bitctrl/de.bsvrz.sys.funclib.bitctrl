@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -72,7 +72,7 @@ public class LoginEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt den betroffenen Benutzer zurück.
+	 * Gibt den betroffenen Benutzer zurÃ¼ck.
 	 *
 	 * @return der Benutzer.
 	 */
@@ -81,7 +81,7 @@ public class LoginEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt die betroffene Applikation zurück.
+	 * Gibt die betroffene Applikation zurÃ¼ck.
 	 *
 	 * @return die betroffene Applikation.
 	 */
@@ -90,7 +90,7 @@ public class LoginEvent extends EventObject {
 	}
 
 	/**
-	 * Gibt den Anmeldezeitpunkt laut Datenverteiler zurück.
+	 * Gibt den Anmeldezeitpunkt laut Datenverteiler zurÃ¼ck.
 	 *
 	 * @return der Zeitpunkt der Anmeldung.
 	 */

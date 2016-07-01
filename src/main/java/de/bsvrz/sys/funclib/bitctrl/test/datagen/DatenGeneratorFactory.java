@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -46,7 +46,7 @@ final class DatenGeneratorFactory {
 	}
 
 	/**
-	 * erzeugt das geforderte Programmmodul auf Basis der ¸bergebenen
+	 * erzeugt das geforderte Programmmodul auf Basis der √ºbergebenen
 	 * Datenverteilerverbindung, dem Modulname und der Liste der
 	 * Aufrufargumente.
 	 *
@@ -55,7 +55,7 @@ final class DatenGeneratorFactory {
 	 * @param modStr
 	 *            der Name des zu erzeugenden Moduls
 	 * @param argumente
-	 *            die Liste der Argumente f¸r das Modul
+	 *            die Liste der Argumente f√ºr das Modul
 	 * @return das Modul
 	 */
 	static DatenGeneratorModul getModul(final ClientDavInterface connection,

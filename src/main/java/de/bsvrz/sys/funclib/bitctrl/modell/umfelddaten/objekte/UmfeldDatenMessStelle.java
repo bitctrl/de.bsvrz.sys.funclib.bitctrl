@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -52,7 +52,7 @@ implements PunktXY {
 	private final List<UmfeldDatenSensor> umfelddatensensoren;
 
 	/**
-	 * das Objekt mit dem die Punkteigenschaften des Objekts repr‰sentiert
+	 * das Objekt mit dem die Punkteigenschaften des Objekts repr√§sentiert
 	 * werden.
 	 */
 	private final PunktXY punkt;

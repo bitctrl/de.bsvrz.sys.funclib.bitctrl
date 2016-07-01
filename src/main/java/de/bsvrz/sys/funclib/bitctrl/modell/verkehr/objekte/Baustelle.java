@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -56,7 +56,7 @@ public class Baustelle extends Situation {
 	/**
 	 * Konstruktor.<br>
 	 * Die Funktion erzeugt eine Instanz einer Baustelle auf der Basis des
-	 * übergebenen Systemobjekts.
+	 * Ã¼bergebenen Systemobjekts.
 	 *
 	 * @param obj
 	 *            das Systemobjekt, das die Baustelle definiert
@@ -71,10 +71,10 @@ public class Baustelle extends Situation {
 	}
 
 	/**
-	 * fügt der Baustelle eine Netzreferenz hinzu.
+	 * fÃ¼gt der Baustelle eine Netzreferenz hinzu.
 	 *
 	 * @param netz
-	 *            das Netz für das eine Referenz hinzugefügt wird.
+	 *            das Netz fÃ¼r das eine Referenz hinzugefÃ¼gt wird.
 	 */
 	@Override
 	public void addNetzReferenz(final VerkehrModellNetz netz) {

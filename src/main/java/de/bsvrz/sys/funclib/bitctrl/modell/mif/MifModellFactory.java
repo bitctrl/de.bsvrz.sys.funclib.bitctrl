@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -47,7 +47,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
 public class MifModellFactory implements ModellObjektFactory {
 
 	/**
-	 * Logger f¸r Debug-Ausgaben.
+	 * Logger f√ºr Debug-Ausgaben.
 	 */
 	private static final Debug LOGGER = Debug.getLogger();
 
@@ -70,7 +70,7 @@ public class MifModellFactory implements ModellObjektFactory {
 		}
 
 		if (obj == null) {
-			LOGGER.error("F¸r das Ohbjekt: " + objekt
+			LOGGER.error("F√ºr das Ohbjekt: " + objekt
 					+ " konnte kein Systemobjekt angelegt werden");
 		}
 

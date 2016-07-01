@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -99,13 +99,13 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		/** Dauer des Staus. */
 		private long dauer = Long.MAX_VALUE;
 
-		/** Auflösungszeit. */
+		/** AuflÃ¶sungszeit. */
 		private long aufloesungsZeit = Long.MAX_VALUE;
 
-		/** Maximale Länge. */
+		/** Maximale LÃ¤nge. */
 		private long maxLaenge;
 
-		/** Zeitpunkt der maximalen Länge. */
+		/** Zeitpunkt der maximalen LÃ¤nge. */
 		private long zeitMaxLaenge;
 
 		/**
@@ -119,10 +119,10 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		private Status datenStatus = Datum.Status.UNDEFINIERT;
 
 		/**
-		 * fügt die übergebenen Prognoseschritte hinzu.
+		 * fÃ¼gt die Ã¼bergebenen Prognoseschritte hinzu.
 		 *
 		 * @param neueSchritte
-		 *            die hinzuzufügenden Schritte
+		 *            die hinzuzufÃ¼genden Schritte
 		 */
 		public void addSchritte(final PrognoseSchritt... neueSchritte) {
 			for (final PrognoseSchritt schritt : neueSchritte) {
@@ -131,7 +131,7 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		}
 
 		/**
-		 * löscht alle Schritte des Stauverlaufs.
+		 * lÃ¶scht alle Schritte des Stauverlaufs.
 		 */
 		public void clearSchritte() {
 			schritte.clear();
@@ -172,7 +172,7 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		}
 
 		/**
-		 * liefert die prognostizierte Auflösungszeit.
+		 * liefert die prognostizierte AuflÃ¶sungszeit.
 		 *
 		 * @return die Zeit
 		 */
@@ -195,9 +195,9 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		}
 
 		/**
-		 * liefert die maximale Länge im Prognosebereich.
+		 * liefert die maximale LÃ¤nge im Prognosebereich.
 		 *
-		 * @return die Länge
+		 * @return die LÃ¤nge
 		 */
 		public long getMaxLaenge() {
 			return maxLaenge;
@@ -220,7 +220,7 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		 * liefert den mit dem Index spezifizierten Prognoseschritt.
 		 *
 		 * @param idx
-		 *            der gewünschte Index
+		 *            der gewÃ¼nschte Index
 		 * @return den Prignoseschritt
 		 */
 		public PrognoseSchritt getSchritt(final int idx) {
@@ -237,7 +237,7 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		}
 
 		/**
-		 * liefert die für die Prognose verwendete Schrittweite.
+		 * liefert die fÃ¼r die Prognose verwendete Schrittweite.
 		 *
 		 * @return die Schrittweite
 		 */
@@ -246,7 +246,7 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		}
 
 		/**
-		 * liefert den Zeitpunkt zu dem im Prognosezeitraun die größte Länge des
+		 * liefert den Zeitpunkt zu dem im Prognosezeitraun die grÃ¶ÃŸte LÃ¤nge des
 		 * Staus auftritt.
 		 *
 		 * @return den Zeitpunkt
@@ -256,7 +256,7 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		}
 
 		/**
-		 * setzt die Auflösungszeit des Staus.
+		 * setzt die AuflÃ¶sungszeit des Staus.
 		 *
 		 * @param aufloesungsZeit
 		 *            der Zeitpunkt
@@ -286,17 +286,17 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		}
 
 		/**
-		 * setzt die maximale Länge des Staus im Prognosezeitraum.
+		 * setzt die maximale LÃ¤nge des Staus im Prognosezeitraum.
 		 *
 		 * @param maxLaenge
-		 *            die Länge
+		 *            die LÃ¤nge
 		 */
 		public void setMaxLaenge(final long maxLaenge) {
 			this.maxLaenge = maxLaenge;
 		}
 
 		/**
-		 * setzt die für die Prognose verwendete Schrittweite.
+		 * setzt die fÃ¼r die Prognose verwendete Schrittweite.
 		 *
 		 * @param schrittweite
 		 *            die Schrittweite
@@ -306,7 +306,7 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		}
 
 		/**
-		 * setzt den Zeitpunkt, zu dem im Prognosezeitraum die maximale Länge
+		 * setzt den Zeitpunkt, zu dem im Prognosezeitraum die maximale LÃ¤nge
 		 * des Staus aufgetreten ist.
 		 *
 		 * @param zeitMaxLaenge
@@ -318,14 +318,14 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 	}
 
 	/**
-	 * Die Repräsentation eines Schritts innerhalb einer Stauprognose.
+	 * Die ReprÃ¤sentation eines Schritts innerhalb einer Stauprognose.
 	 */
 	public class PrognoseSchritt implements Cloneable {
-		/** Zufluß an Fahrzeugen in Fz/h. */
+		/** ZufluÃŸ an Fahrzeugen in Fz/h. */
 		private long zufluss;
-		/** Kapazität in Fz/h. */
+		/** KapazitÃ¤t in Fz/h. */
 		private long kapazitaet;
-		/** Länge in Metern. */
+		/** LÃ¤nge in Metern. */
 		private long laenge;
 		/** Verlustzeit in Sekunden. */
 		private long verlustZeit;
@@ -347,18 +347,18 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		}
 
 		/**
-		 * liefert die freie Kapazität innerhalb des Prognoseschritts.
+		 * liefert die freie KapazitÃ¤t innerhalb des Prognoseschritts.
 		 *
-		 * @return die Kapazität
+		 * @return die KapazitÃ¤t
 		 */
 		public long getKapazitaet() {
 			return kapazitaet;
 		}
 
 		/**
-		 * liefert die im Prognoseschritt erwartetet Staulänge.
+		 * liefert die im Prognoseschritt erwartetet StaulÃ¤nge.
 		 *
-		 * @return die Länge
+		 * @return die LÃ¤nge
 		 */
 		public long getLaenge() {
 			return laenge;
@@ -374,7 +374,7 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		}
 
 		/**
-		 * liefert den VKfz-Wert für den Schritt.
+		 * liefert den VKfz-Wert fÃ¼r den Schritt.
 		 *
 		 * @return den Wert
 		 */
@@ -392,20 +392,20 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		}
 
 		/**
-		 * setzt die Kapazität zum Zeitpunkt des Schritts.
+		 * setzt die KapazitÃ¤t zum Zeitpunkt des Schritts.
 		 *
 		 * @param kapazitaet
-		 *            die Kapazität
+		 *            die KapazitÃ¤t
 		 */
 		public void setKapazitaet(final long kapazitaet) {
 			this.kapazitaet = kapazitaet;
 		}
 
 		/**
-		 * setzt die Länge des Staus zum Zeitpunkt des Prognoseschritts.
+		 * setzt die LÃ¤nge des Staus zum Zeitpunkt des Prognoseschritts.
 		 *
 		 * @param laenge
-		 *            die Länge
+		 *            die LÃ¤nge
 		 */
 		public void setLaenge(final long laenge) {
 			this.laenge = laenge;
@@ -432,7 +432,7 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 		}
 
 		/**
-		 * setzt den Zuflusswert für den Prognoseschritt.
+		 * setzt den Zuflusswert fÃ¼r den Prognoseschritt.
 		 *
 		 * @param zufluss
 		 *            dr Wert
@@ -489,10 +489,10 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 
 		daten.getTimeValue("Schrittweite").setMillis(datum.getSchrittweite());
 		daten.getTimeValue("Dauer").setMillis(datum.getDauer());
-		daten.getTimeValue("AuflösungsZeit")
+		daten.getTimeValue("AuflÃ¶sungsZeit")
 		.setMillis(datum.getAufloesungsZeit());
-		daten.getUnscaledValue("MaxLänge").set(datum.getDauer());
-		daten.getTimeValue("MaxLängeZeit")
+		daten.getUnscaledValue("MaxLÃ¤nge").set(datum.getDauer());
+		daten.getTimeValue("MaxLÃ¤ngeZeit")
 		.setMillis(datum.getAufloesungsZeit());
 
 		final Data.Array array = daten.getArray("Prognoseverlauf");
@@ -502,9 +502,9 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 			final PrognoseSchritt schritt = datum.getSchritt(idx);
 			array.getItem(idx).getUnscaledValue("Zufluss")
 			.set(schritt.getZufluss());
-			array.getItem(idx).getUnscaledValue("Kapazität")
+			array.getItem(idx).getUnscaledValue("KapazitÃ¤t")
 			.set(schritt.getKapazitaet());
-			array.getItem(idx).getUnscaledValue("Länge")
+			array.getItem(idx).getUnscaledValue("LÃ¤nge")
 			.set(schritt.getLaenge());
 			array.getItem(idx).getTimeValue("VerlustZeit")
 			.setMillis(schritt.getVerlustZeit());
@@ -526,10 +526,10 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 					daten.getTimeValue("Schrittweite").getMillis());
 			datum.setDauer(daten.getTimeValue("Dauer").getMillis());
 			datum.setAufloesungsZeit(
-					daten.getTimeValue("AuflösungsZeit").getMillis());
-			datum.setMaxLaenge(daten.getUnscaledValue("MaxLänge").longValue());
+					daten.getTimeValue("AuflÃ¶sungsZeit").getMillis());
+			datum.setMaxLaenge(daten.getUnscaledValue("MaxLÃ¤nge").longValue());
 			datum.setZeitMaxLaenge(
-					daten.getTimeValue("MaxLängeZeit").getMillis());
+					daten.getTimeValue("MaxLÃ¤ngeZeit").getMillis());
 
 			final Data.Array array = daten.getArray("Prognoseverlauf");
 
@@ -538,8 +538,8 @@ extends AbstractOnlineDatensatz<OdStauVerlauf.Daten> {
 				schritt.setZufluss(array.getItem(idx)
 						.getUnscaledValue("Zufluss").longValue());
 				schritt.setKapazitaet(array.getItem(idx)
-						.getUnscaledValue("Kapazität").longValue());
-				schritt.setLaenge(array.getItem(idx).getUnscaledValue("Länge")
+						.getUnscaledValue("KapazitÃ¤t").longValue());
+				schritt.setLaenge(array.getItem(idx).getUnscaledValue("LÃ¤nge")
 						.longValue());
 				schritt.setVerlustZeit(array.getItem(idx)
 						.getTimeValue("VerlustZeit").getMillis());

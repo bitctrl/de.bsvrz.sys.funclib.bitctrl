@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,7 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.interpreter;
 import com.bitctrl.i18n.Messages;
 
 /**
- * Die Klasse repr‰sentiert den Nichtwert "undefiniert", den jedes Element in
+ * Die Klasse repr√§sentiert den Nichtwert "undefiniert", den jedes Element in
  * Uda annehmen kann. Ein Nichtwert hat keinen Typ. Er kann jeder Variable
  * zugewiesen werden bzw. jeder Variable, die den Nichtwert hat kann ein
  * beliebiges Datenobjekt zugewiesen werden.
@@ -44,7 +44,7 @@ public final class NichtWert {
 	public static final NichtWert NICHTWERT = new NichtWert();
 
 	/**
-	 * privater Konstruktor, verhindert das Anlagen zus‰tzlicher
+	 * privater Konstruktor, verhindert das Anlagen zus√§tzlicher
 	 * Nichtwert-Instanzen.
 	 */
 	private NichtWert() {
@@ -52,7 +52,7 @@ public final class NichtWert {
 	}
 
 	/**
-	 * liefert die Repr‰sentation des Nichtwertes als Zeichenkette.
+	 * liefert die Repr√§sentation des Nichtwertes als Zeichenkette.
 	 */
 	@Override
 	public String toString() {

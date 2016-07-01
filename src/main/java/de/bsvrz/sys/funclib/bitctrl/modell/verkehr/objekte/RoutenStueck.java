@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -45,7 +45,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.geo.objekte.Linie;
 import de.bsvrz.sys.funclib.bitctrl.modell.verkehr.VerkehrsModellTypen;
 
 /**
- * Repräsentation eines Routenstücks innerhalb der Datenmodellabbildung.
+ * ReprÃ¤sentation eines RoutenstÃ¼cks innerhalb der Datenmodellabbildung.
  *
  * @author BitCtrl Systems GmbH, Peuker
  */
@@ -53,14 +53,14 @@ public class RoutenStueck extends StoerfallIndikator
 implements BestehtAusLinienobjekten {
 
 	/**
-	 * die Liste der Straßensegmente, die das Routenstück bilden.
+	 * die Liste der StraÃŸensegmente, die das RoutenstÃ¼ck bilden.
 	 */
 	private Set<AeusseresStrassenSegment> strassenSegmente;
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion erzeugt eine Instanz eines Routenstücks auf der Basis des
-	 * übergebenen Systemobjekts.
+	 * Die Funktion erzeugt eine Instanz eines RoutenstÃ¼cks auf der Basis des
+	 * Ã¼bergebenen Systemobjekts.
 	 *
 	 * @param obj
 	 *            das Systemobjekt
@@ -70,10 +70,10 @@ implements BestehtAusLinienobjekten {
 
 		if (!obj.isOfType(getTyp().getPid())) {
 			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Routenstück.");
+					"Systemobjekt ist kein RoutenstÃ¼ck.");
 		}
 
-		// Straßenteilsegmente bestimmen
+		// StraÃŸenteilsegmente bestimmen
 		final DataModel modell = obj.getDataModel();
 		final AttributeGroup atg = modell
 				.getAttributeGroup("atg.bestehtAusLinienObjekten");
@@ -99,7 +99,7 @@ implements BestehtAusLinienobjekten {
 	}
 
 	/**
-	 * liefert die Liste der Straßensegmente, die das Routenstück bilden.
+	 * liefert die Liste der StraÃŸensegmente, die das RoutenstÃ¼ck bilden.
 	 *
 	 * @return die ermittelte Liste der Segmente
 	 */

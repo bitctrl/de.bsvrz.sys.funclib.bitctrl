@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -46,13 +46,13 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjektTyp;
 import de.bsvrz.sys.funclib.bitctrl.modell.systemmodellglobal.SystemModellGlobalTypen;
 
 /**
- * Repräsentiert einen Benutzer des Datenverteilers.
+ * ReprÃ¤sentiert einen Benutzer des Datenverteilers.
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
 public class Benutzer extends AbstractSystemObjekt {
 
-	/** Der Standardpräfix für die PID eines neuen Benutzer. */
+	/** Der StandardprÃ¤fix fÃ¼r die PID eines neuen Benutzer. */
 	public static final String PRAEFIX_PID = "benutzer.";
 
 	/**
@@ -71,12 +71,12 @@ public class Benutzer extends AbstractSystemObjekt {
 	 * @param nachname
 	 *            der Nachname des Benutzers.
 	 * @param organisation
-	 *            der Name der Verwaltung oder Firma zu der der Benutzer gehört.
+	 *            der Name der Verwaltung oder Firma zu der der Benutzer gehÃ¶rt.
 	 * @param emailAdresse
 	 *            die E-Mail-Adresse des Benutzers.
 	 * @return der angelegte Benutzer.
 	 * @throws ConfigurationChangeException
-	 *             wenn das Anlegen unzulässig ist.
+	 *             wenn das Anlegen unzulÃ¤ssig ist.
 	 * @see de.bsvrz.dav.daf.main.config.management.UserAdministration
 	 * @see de.bsvrz.dav.daf.main.config.DataModel#getUserAdministration()
 	 */
@@ -134,7 +134,7 @@ public class Benutzer extends AbstractSystemObjekt {
 	/** Der Nachname des Benutzers. */
 	private String nachname;
 
-	/** Der Name der Verwaltung oder Firma zu der der Benutzer gehört. */
+	/** Der Name der Verwaltung oder Firma zu der der Benutzer gehÃ¶rt. */
 	private String organisation;
 
 	/** Die E-Mail-Adresse des Benutzers. */
@@ -146,7 +146,7 @@ public class Benutzer extends AbstractSystemObjekt {
 	/**
 	 * Konstruktor zum Anlegen eines Systemobjekt, das ein Applikationsobjekt
 	 * {@link SystemModellGlobalTypen#Benutzer} in der
-	 * Datenverteiler-Konfiguration repräsentiert.
+	 * Datenverteiler-Konfiguration reprÃ¤sentiert.
 	 *
 	 * @param obj
 	 *            das Objekt in der Konfiguration des Datenverteilers
@@ -161,17 +161,17 @@ public class Benutzer extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Löscht das Objekt in dem es auf "ungültig" gesetzt wird.
+	 * LÃ¶scht das Objekt in dem es auf "ungÃ¼ltig" gesetzt wird.
 	 *
 	 * @throws ConfigurationChangeException
-	 *             wenn das Löschen nicht zulässig ist.
+	 *             wenn das LÃ¶schen nicht zulÃ¤ssig ist.
 	 */
 	public void entfernen() throws ConfigurationChangeException {
 		((DynamicObject) getSystemObject()).invalidate();
 	}
 
 	/**
-	 * Gibt den Vornamen des Benutzers zurück.
+	 * Gibt den Vornamen des Benutzers zurÃ¼ck.
 	 *
 	 * @return der Vorname des Benutzers.
 	 */
@@ -181,7 +181,7 @@ public class Benutzer extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt den zwieten Vornamen des Benutzers zurück.
+	 * Gibt den zwieten Vornamen des Benutzers zurÃ¼ck.
 	 *
 	 * @return der zweite Vorname des Benutzers oder {@code null}, wenn es
 	 *         keinen gibt.
@@ -192,7 +192,7 @@ public class Benutzer extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt den Nachnamen des Benutzers zurück.
+	 * Gibt den Nachnamen des Benutzers zurÃ¼ck.
 	 *
 	 * @return der Nachname des Benutzers.
 	 */
@@ -202,10 +202,10 @@ public class Benutzer extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt den Namen der Verwaltung oder Firma, zu der der Benutzer gehört,
-	 * zurück.
+	 * Gibt den Namen der Verwaltung oder Firma, zu der der Benutzer gehÃ¶rt,
+	 * zurÃ¼ck.
 	 *
-	 * @return der Name der Verwaltung oder Firma zu der der Benutzer gehört.
+	 * @return der Name der Verwaltung oder Firma zu der der Benutzer gehÃ¶rt.
 	 */
 	public String getOrganisation() {
 		leseKonfigEigenschaften();
@@ -213,7 +213,7 @@ public class Benutzer extends AbstractSystemObjekt {
 	}
 
 	/**
-	 * Gibt die E-Mail-Adresse des Benutzers zurück.
+	 * Gibt die E-Mail-Adresse des Benutzers zurÃ¼ck.
 	 *
 	 * @return die E-Mail-Adresse des Benutzers.
 	 */

@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -50,12 +50,12 @@ abstract class DatenGeneratorModul {
 	private final ClientDavInterface connection;
 
 	/**
-	 * erzeugt ein Modul für die übergebene Datenverteilerverbindung.
+	 * erzeugt ein Modul fÃ¼r die Ã¼bergebene Datenverteilerverbindung.
 	 *
 	 * @param connection
 	 *            die verwendete Datenverteilerverbindung
 	 * @param argumente
-	 *            die Argumente für das Modul
+	 *            die Argumente fÃ¼r das Modul
 	 */
 	DatenGeneratorModul(final ClientDavInterface connection,
 			final Map<String, String> argumente) {
@@ -64,9 +64,9 @@ abstract class DatenGeneratorModul {
 	}
 
 	/**
-	 * führt das entsprechende Modul aus.
+	 * fÃ¼hrt das entsprechende Modul aus.
 	 *
-	 * @return das Ergbnis der Ausführung (EXIT-Code der Anwendung)
+	 * @return das Ergbnis der AusfÃ¼hrung (EXIT-Code der Anwendung)
 	 */
 	protected abstract int ausfuehren();
 

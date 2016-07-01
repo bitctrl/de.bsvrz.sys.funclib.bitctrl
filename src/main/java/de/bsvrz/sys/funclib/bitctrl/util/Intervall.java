@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -159,7 +159,7 @@ public class Intervall implements Cloneable {
 	}
 
 	/**
-	 * Prüftft ob ein anderes Intervall in diesem Intervall enhalten ist.
+	 * PrÃ¼ftft ob ein anderes Intervall in diesem Intervall enhalten ist.
 	 *
 	 * @param intervall
 	 *            ein Intervall.
@@ -183,7 +183,7 @@ public class Intervall implements Cloneable {
 	}
 
 	/**
-	 * Prüft ob sich ein anderes Intervall innerhalb der Intervallgrenzen dieses
+	 * PrÃ¼ft ob sich ein anderes Intervall innerhalb der Intervallgrenzen dieses
 	 * Intervalls befindet.
 	 *
 	 * @param intervall

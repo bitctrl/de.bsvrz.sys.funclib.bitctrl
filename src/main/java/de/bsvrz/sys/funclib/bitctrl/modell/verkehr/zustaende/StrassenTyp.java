@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weiﬂenfelser Straﬂe 67
+ * Wei√üenfelser Stra√üe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -29,46 +29,46 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.zustaende;
 import de.bsvrz.sys.funclib.bitctrl.modell.Zustand;
 
 /**
- * Definition der Typen einer Straﬂe.
+ * Definition der Typen einer Stra√üe.
  *
  * @author BitCtrl Systems GmbH, Peuker
  */
 public enum StrassenTyp implements Zustand<Integer> {
 	/**
-	 * Allgemeiner nicht n‰her definierte Straﬂe.
+	 * Allgemeiner nicht n√§her definierte Stra√üe.
 	 */
-	SONSTIGE("SonstigeStraﬂe", 0), /**
+	SONSTIGE("SonstigeStra√üe", 0), /**
 	 * eine Autobahn.
 	 */
 	AUTOBAHN("Autobahn", 1), /**
-	 * eine Bundesstraﬂe.
+	 * eine Bundesstra√üe.
 	 */
-	BUNDESSSTRASSE("Bundesstraﬂe", 2), /**
-	 * eine Landstraﬂe.
+	BUNDESSSTRASSE("Bundesstra√üe", 2), /**
+	 * eine Landstra√üe.
 	 */
-	LANDSTRASSE("Landstraﬂe", 3), /**
-	 * eine Kreisstraﬂe.
+	LANDSTRASSE("Landstra√üe", 3), /**
+	 * eine Kreisstra√üe.
 	 */
-	KREISSTRASSE("Kreisstraﬂe", 4), /**
-	 * eine Stadtstraﬂe.
+	KREISSTRASSE("Kreisstra√üe", 4), /**
+	 * eine Stadtstra√üe.
 	 */
-	STADTSTRASSE("Stadtstraﬂe", 5), /**
-	 * eine Hauptverkehrsstraﬂe.
+	STADTSTRASSE("Stadtstra√üe", 5), /**
+	 * eine Hauptverkehrsstra√üe.
 	 */
-	HAUPTVERKEHRSSTRASSE("Hauptverkehrsstraﬂe", 6), /**
-	 * eine Sammelstraﬂe.
+	HAUPTVERKEHRSSTRASSE("Hauptverkehrsstra√üe", 6), /**
+	 * eine Sammelstra√üe.
 	 */
-	SAMMELSTRASSE("Sammelstraﬂe", 7), /**
-	 * eine Anliegerstraﬂe.
+	SAMMELSTRASSE("Sammelstra√üe", 7), /**
+	 * eine Anliegerstra√üe.
 	 */
-	ANLIEGERSTRASSE("Anliegerstraﬂe", 8);
+	ANLIEGERSTRASSE("Anliegerstra√üe", 8);
 
 	/**
-	 * liefert den Straﬂenknotentyp, der dem ¸bergebenen Code entspricht.
+	 * liefert den Stra√üenknotentyp, der dem √ºbergebenen Code entspricht.
 	 *
 	 * @param gesuchterCode
-	 *            der Code, f¸r den ein Straﬂenknoten
-	 * @return den gefundenen Typ, wenn ein ung¸ltiger Code ¸bergeben wurde,
+	 *            der Code, f√ºr den ein Stra√üenknoten
+	 * @return den gefundenen Typ, wenn ein ung√ºltiger Code √ºbergeben wurde,
 	 *         wird eine {@link IllegalArgumentException} geworfen.
 	 */
 	public static StrassenTyp getTyp(final int gesuchterCode) {
@@ -79,7 +79,7 @@ public enum StrassenTyp implements Zustand<Integer> {
 		}
 
 		throw new IllegalArgumentException(
-				"Ung¸ltiger Typ mit Code: " + gesuchterCode);
+				"Ung√ºltiger Typ mit Code: " + gesuchterCode);
 	}
 
 	/**
@@ -94,9 +94,9 @@ public enum StrassenTyp implements Zustand<Integer> {
 
 	/**
 	 * Konstruktor.<br>
-	 * Die Funktion erzeugt einen Straﬂentyp mit dem gegebenen Code und der
-	 * zugehˆrigen Bezeichnung. Die Funktion wird nur innerhalb der Klasse
-	 * verwendet um eine Mange an Straﬂentypen zur Verf¸gung zu stellen.
+	 * Die Funktion erzeugt einen Stra√üentyp mit dem gegebenen Code und der
+	 * zugeh√∂rigen Bezeichnung. Die Funktion wird nur innerhalb der Klasse
+	 * verwendet um eine Mange an Stra√üentypen zur Verf√ºgung zu stellen.
 	 *
 	 * @param name
 	 *            der Name des Typs

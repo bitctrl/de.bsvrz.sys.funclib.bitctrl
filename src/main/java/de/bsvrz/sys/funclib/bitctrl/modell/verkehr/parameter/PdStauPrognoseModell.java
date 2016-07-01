@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -36,7 +36,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.SystemObjekt;
 
 /**
  * Ein Parameterdatensatz, der die an einem VerkehrsmodellNetz festgelegten
- * Parameter für die Stauprognose enthält. Der Datensatz repräsentiert die Daten
+ * Parameter fÃ¼r die Stauprognose enthÃ¤lt. Der Datensatz reprÃ¤sentiert die Daten
  * einer Attributgruppe "atg.stauPrognoseModell".
  *
  * @author BitCtrl Systems GmbH, Peuker
@@ -45,23 +45,23 @@ public class PdStauPrognoseModell
 extends AbstractParameterDatensatz<PdStauPrognoseModell.Daten> {
 
 	/**
-	 * Definition der Attributnamen für den Zugriff auf den Parameterdatensatz.
+	 * Definition der Attributnamen fÃ¼r den Zugriff auf den Parameterdatensatz.
 	 */
 	private static final class Att {
-		/** Attributname für den Prognosehorizont. */
+		/** Attributname fÃ¼r den Prognosehorizont. */
 		public static final String PROGNOSE_HORIZONT = "PrognoseHorizont";
 
-		/** Attributname für das Aktualisierungsintervall. */
+		/** Attributname fÃ¼r das Aktualisierungsintervall. */
 		public static final String AKTUALISIERUNGS_INTERVALL = "AktualisierungsIntervall";
 
-		/** Attributname für den FaktorQ0. */
+		/** Attributname fÃ¼r den FaktorQ0. */
 		public static final String FAKTOR_Q0 = "FaktorQ0";
 
-		/** Attributname für die Länge eines Pkw. */
-		public static final String LAENGE_PKW = "LängePkw";
+		/** Attributname fÃ¼r die LÃ¤nge eines Pkw. */
+		public static final String LAENGE_PKW = "LÃ¤ngePkw";
 
-		/** Attributname für die Dämpfungszeit. */
-		public static final String DAEMPFUNGSZEIT = "DämpfungsZeit";
+		/** Attributname fÃ¼r die DÃ¤mpfungszeit. */
+		public static final String DAEMPFUNGSZEIT = "DÃ¤mpfungsZeit";
 
 		/** privater Konstruktor. */
 		private Att() {
@@ -70,7 +70,7 @@ extends AbstractParameterDatensatz<PdStauPrognoseModell.Daten> {
 	}
 
 	/**
-	 * Repräsentation der Daten des Baustelleneigenschaften-Datensatzes.
+	 * ReprÃ¤sentation der Daten des Baustelleneigenschaften-Datensatzes.
 	 */
 	public static class Daten extends AbstractDatum {
 
@@ -82,15 +82,15 @@ extends AbstractParameterDatensatz<PdStauPrognoseModell.Daten> {
 		 */
 		private long aktualisierungsIntervall;
 
-		/** Faktor für die Anpassung von Q0 aus dem Fundamentaldiagramm. */
+		/** Faktor fÃ¼r die Anpassung von Q0 aus dem Fundamentaldiagramm. */
 		private double faktorQ0;
 
 		/** Strecke, die ein Pkw im Stau beansprucht. */
 		private long laengePkw;
 
 		/**
-		 * Zeit, die bei der Bestimmung der Verkehrsstärke von Anschlussstellen
-		 * im Stau fü die lineare Dämpfung vom aktuellen Messwert zur
+		 * Zeit, die bei der Bestimmung der VerkehrsstÃ¤rke von Anschlussstellen
+		 * im Stau fÃ¼ die lineare DÃ¤mpfung vom aktuellen Messwert zur
 		 * Prognoseganglinie verwendet wird.
 		 */
 		private long daempfungsZeit;
@@ -116,7 +116,7 @@ extends AbstractParameterDatensatz<PdStauPrognoseModell.Daten> {
 
 		/**
 		 * Konstruktor.<br>
-		 * Die Funktion erzeugt ein Datum als Kopie des übergebenen Datums.
+		 * Die Funktion erzeugt ein Datum als Kopie des Ã¼bergebenen Datums.
 		 *
 		 * @param daten
 		 *            die Daten die kopiert werden sollen
@@ -137,10 +137,10 @@ extends AbstractParameterDatensatz<PdStauPrognoseModell.Daten> {
 		/**
 		 * Konstruktor.<br>
 		 * Die Funktion wertet den vom Datenverteiler empfangenen Datensatz aus
-		 * und füllt die Daten entsprechend.
+		 * und fÃ¼llt die Daten entsprechend.
 		 *
 		 * @param result
-		 *            der übergebene Datensatz
+		 *            der Ã¼bergebene Datensatz
 		 */
 		public Daten(final ResultData result) {
 			this();
@@ -170,7 +170,7 @@ extends AbstractParameterDatensatz<PdStauPrognoseModell.Daten> {
 		/**
 		 * liefert die Anzahl der Prognoseschritte, die innerhalb einer
 		 * Aktualisierungsintervalls der vorgelagerten Stauobjektbestimmung
-		 * ausgeführt werden sollen.
+		 * ausgefÃ¼hrt werden sollen.
 		 *
 		 * @return die Anzahl
 		 */
@@ -179,7 +179,7 @@ extends AbstractParameterDatensatz<PdStauPrognoseModell.Daten> {
 		}
 
 		/**
-		 * liefert die Dämpfungszeit zur linearen Dämpfung von historischen
+		 * liefert die DÃ¤mpfungszeit zur linearen DÃ¤mpfung von historischen
 		 * Ganglinien.
 		 *
 		 * @return die Zeit in Millisekunden
@@ -204,16 +204,16 @@ extends AbstractParameterDatensatz<PdStauPrognoseModell.Daten> {
 		}
 
 		/**
-		 * liefert die Länge eines Fahrzeugs innerhalb eines Staus in Metern.
+		 * liefert die LÃ¤nge eines Fahrzeugs innerhalb eines Staus in Metern.
 		 *
-		 * @return die Länge in Metern
+		 * @return die LÃ¤nge in Metern
 		 */
 		public long getLaengePkw() {
 			return laengePkw;
 		}
 
 		/**
-		 * liefert den Prognosehorizont für die Prognose eines Stauobjekts.
+		 * liefert den Prognosehorizont fÃ¼r die Prognose eines Stauobjekts.
 		 *
 		 * @return der Horizont in Millisekunden
 		 */
@@ -224,7 +224,7 @@ extends AbstractParameterDatensatz<PdStauPrognoseModell.Daten> {
 		/**
 		 * setzt die Anzahl der Prognoseschritte, die innerhalb einer
 		 * Aktualisierungsintervalls der vorgelagerten Stauobjektbestimmung
-		 * ausgeführt werden sollen.
+		 * ausgefÃ¼hrt werden sollen.
 		 *
 		 * @param aktualisierungsIntervall
 		 *            die Anzahl
@@ -235,7 +235,7 @@ extends AbstractParameterDatensatz<PdStauPrognoseModell.Daten> {
 		}
 
 		/**
-		 * setzt die Dämpfungszeit zur linearen Dämpfung von historischen
+		 * setzt die DÃ¤mpfungszeit zur linearen DÃ¤mpfung von historischen
 		 * Ganglinien.
 		 *
 		 * @param daempfungsZeit
@@ -267,17 +267,17 @@ extends AbstractParameterDatensatz<PdStauPrognoseModell.Daten> {
 		}
 
 		/**
-		 * setzt die Länge eines Fahrzeugs innerhalb eines Staus in Metern.
+		 * setzt die LÃ¤nge eines Fahrzeugs innerhalb eines Staus in Metern.
 		 *
 		 * @param laengePkw
-		 *            die Länge in Metern
+		 *            die LÃ¤nge in Metern
 		 */
 		public void setLaengePkw(final long laengePkw) {
 			this.laengePkw = laengePkw;
 		}
 
 		/**
-		 * setzt den Prognosehorizont für die Prognose eines Stauobjekts.
+		 * setzt den Prognosehorizont fÃ¼r die Prognose eines Stauobjekts.
 		 *
 		 * @param prognoseHorizont
 		 *            der Horizont in Millisekunden

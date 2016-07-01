@@ -18,7 +18,7 @@
  *
  * Contact Information:
  * BitCtrl Systems GmbH
- * Weißenfelser Straße 67
+ * WeiÃŸenfelser StraÃŸe 67
  * 04229 Leipzig
  * Phone: +49 341-490670
  * mailto: info@bitctrl.de
@@ -58,7 +58,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
 
 /**
  * Die Realisierung einer einzelnen Datenquelle zur Erstellung der Eingabedatei
- * für den Datenverteiler-Datengenerator.
+ * fÃ¼r den Datenverteiler-Datengenerator.
  *
  * @author BitCtrl Systems GmbH, Peuker
  */
@@ -73,25 +73,25 @@ class DatenQuelle {
 	 */
 	private enum Bereich {
 		/**
-		 * Bereich für die allgemeinen Konfigurationsdaten der Datenquelle.
+		 * Bereich fÃ¼r die allgemeinen Konfigurationsdaten der Datenquelle.
 		 */
 		CONFIG, /**
-		 * Bereich für die Standardwerte für die Attribute eines
+		 * Bereich fÃ¼r die Standardwerte fÃ¼r die Attribute eines
 		 * Datensatzes.
 		 */
 		DEFAULT, /**
-		 * Bereich für die variablen Werte eines Datensatzes.
+		 * Bereich fÃ¼r die variablen Werte eines Datensatzes.
 		 */
 		DATEN;
 	}
 
 	/**
-	 * Logger für Debugausgaben.
+	 * Logger fÃ¼r Debugausgaben.
 	 */
 	private static final Debug LOGGER = Debug.getLogger();
 
 	/**
-	 * die Menge der Systemobjekte, für die Daten versendet werden sollen.
+	 * die Menge der Systemobjekte, fÃ¼r die Daten versendet werden sollen.
 	 */
 	private final Set<SystemObject> objekte = new HashSet<>();
 
@@ -111,7 +111,7 @@ class DatenQuelle {
 	private short simulationsVariante;
 
 	/**
-	 * die Definition der Standardwerte für die Attribute des Datensatzes.
+	 * die Definition der Standardwerte fÃ¼r die Attribute des Datensatzes.
 	 */
 	private final Map<String, String> defaultWerte = new HashMap<>();
 
@@ -121,7 +121,7 @@ class DatenQuelle {
 	private List<String> csvHeaders;
 
 	/**
-	 * die Daten für die zu versendenden Datensätze als CSV-EInträge
+	 * die Daten fÃ¼r die zu versendenden DatensÃ¤tze als CSV-EIntrÃ¤ge
 	 * (Trennzeichen ';').
 	 */
 	private final SortedMap<Long, List<String>> csvdaten = new TreeMap<>();
@@ -165,7 +165,7 @@ class DatenQuelle {
 				if (line != null) {
 					line = line.trim();
 					if ((line.length() <= 0) || line.startsWith("#") || (line.startsWith("//"))) {
-						// Kommentar wird vernachlässigt
+						// Kommentar wird vernachlÃ¤ssigt
 						LOGGER.finest("Ignoriere Kommentarzeile: " + line);
 					} else if (line.toUpperCase().startsWith("[CONFIG]")) {
 						aktuellerBereich = Bereich.CONFIG;
@@ -235,7 +235,7 @@ class DatenQuelle {
 	}
 
 	/**
-	 * fügt einen Eintrag aus dem Abschnitt für die variablen Daten hinzu.
+	 * fÃ¼gt einen Eintrag aus dem Abschnitt fÃ¼r die variablen Daten hinzu.
 	 *
 	 * @param line
 	 *            die Zeile aus der Konfigurationsdatei
@@ -248,7 +248,7 @@ class DatenQuelle {
 				csvHeaders.add(tokenizer.nextToken().trim());
 			}
 			if (!csvHeaders.get(0).equals("Zeit")) {
-				throw new RuntimeException("Ungültige Datenkonfiguration: Erste Spalte muss Zeit sein");
+				throw new RuntimeException("UngÃ¼ltige Datenkonfiguration: Erste Spalte muss Zeit sein");
 			}
 			csvHeaders.remove(0);
 		} else {
@@ -263,7 +263,7 @@ class DatenQuelle {
 	}
 
 	/**
-	 * fügt einen Eintrag für den Standardwert eines Attributes des Datensatzes
+	 * fÃ¼gt einen Eintrag fÃ¼r den Standardwert eines Attributes des Datensatzes
 	 * hinzu.
 	 *
 	 * @param line
@@ -288,12 +288,12 @@ class DatenQuelle {
 	}
 
 	/**
-	 * füllt den Datenverteilerdatensatz mit den konfigurierten Werten.
+	 * fÃ¼llt den Datenverteilerdatensatz mit den konfigurierten Werten.
 	 *
 	 * @param daten
 	 *            der Zieldatensatz
 	 * @param offset
-	 *            der Offset für den Ausführungszeitpunkt
+	 *            der Offset fÃ¼r den AusfÃ¼hrungszeitpunkt
 	 */
 	private void fuelleDatenSatz(final Data daten, final long offset) {
 		for (final Entry<String, String> entry : defaultWerte.entrySet()) {
@@ -324,14 +324,14 @@ class DatenQuelle {
 	}
 
 	/**
-	 * liefert die den zu versendeden Datensätze für den übergebenen
+	 * liefert die den zu versendeden DatensÃ¤tze fÃ¼r den Ã¼bergebenen
 	 * Startzeitpunkt.
 	 *
 	 * @param startZeit
-	 *            der absolute Startzeotpunkt für die Gesamtdatei.
+	 *            der absolute Startzeotpunkt fÃ¼r die Gesamtdatei.
 	 * @param offset
-	 *            der Offset für den aktuellen Datensatz
-	 * @return die Liste der zu versendeten Datensätze.
+	 *            der Offset fÃ¼r den aktuellen Datensatz
+	 * @return die Liste der zu versendeten DatensÃ¤tze.
 	 */
 	Collection<ResultData> getAusgabeDaten(final long startZeit, final long offset) {
 
@@ -353,7 +353,7 @@ class DatenQuelle {
 	 * liefert die Beschreibung des Datensatzes in der Form
 	 * &lt;atg&gt;:&lt;aspekt&gt;:&lt;simulationsvariante&gt;.
 	 *
-	 * @return die Repräsentation der Datenbeschreibung
+	 * @return die ReprÃ¤sentation der Datenbeschreibung
 	 */
 	String getDatenBeschreibung() {
 		final StringBuffer buffer = new StringBuffer();
@@ -382,13 +382,13 @@ class DatenQuelle {
 	}
 
 	/**
-	 * liefert den auf den übergebenen Zeitpunkt nächstfolgenden Zeitpunkt für
+	 * liefert den auf den Ã¼bergebenen Zeitpunkt nÃ¤chstfolgenden Zeitpunkt fÃ¼r
 	 * den Versand eines Datensatzes. Die Zeitpunkte ergeben sich aus den im
-	 * Datenberecih definierten Einträgen für die relativen Zeitstempel.
+	 * Datenberecih definierten EintrÃ¤gen fÃ¼r die relativen Zeitstempel.
 	 *
 	 * @param wert
-	 *            der Zeuitpunkt nach dem der nächste Start gesucht ist.
-	 * @return den nächstfolgenden Zeitpunkt oder -1, wenn es keinen weiteren
+	 *            der Zeuitpunkt nach dem der nÃ¤chste Start gesucht ist.
+	 * @return den nÃ¤chstfolgenden Zeitpunkt oder -1, wenn es keinen weiteren
 	 *         gibt.
 	 */
 	long getNextStart(final long wert) {
@@ -401,7 +401,7 @@ class DatenQuelle {
 	}
 
 	/**
-	 * liefert die Liste der Systemobjekte, für die Daten versendet werden
+	 * liefert die Liste der Systemobjekte, fÃ¼r die Daten versendet werden
 	 * sollen.
 	 *
 	 * @return die Liste der Objekte
@@ -411,7 +411,7 @@ class DatenQuelle {
 	}
 
 	/**
-	 * liefert die definierte Rolle für den Datenversand.
+	 * liefert die definierte Rolle fÃ¼r den Datenversand.
 	 *
 	 * @return die Rolle
 	 */
@@ -420,7 +420,7 @@ class DatenQuelle {
 	}
 
 	/**
-	 * setzt den mit dem Namen definierten Dateneintrag auf den übergebenen
+	 * setzt den mit dem Namen definierten Dateneintrag auf den Ã¼bergebenen
 	 * Wert.
 	 *
 	 * @param daten
