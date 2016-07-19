@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/bitctrl/de.bsvrz.pat.sysprot.svg?branch=develop)](https://travis-ci.org/bitctrl/de.bsvrz.sys.funclib.bitctrl)
+[![Build Status](https://api.bintray.com/packages/bitctrl/maven/de.bsvrz.sys.funclib.bitctrl/images/download.svg)](https://bintray.com/bitctrl/maven/de.bsvrz.sys.funclib.bitctrl)
+
 ********************************************************************************
 *                        Allgemeine Systemfunktionen                           *
 ********************************************************************************
