@@ -28,6 +28,8 @@ package de.bsvrz.sys.funclib.bitctrl.text;
 // import static org.junit.Assert.*;
 
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
@@ -45,8 +47,8 @@ public class ZeitAngabeTest {
 
 	@BeforeClass
 	public static void initCandidates() {
-		//		final Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("CET"), Locale.GERMAN);
-		final Calendar cal = Calendar.getInstance();
+		final Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("CET"), Locale.GERMAN);
+		//		final Calendar cal = Calendar.getInstance();
 
 		cal.set(1970, Calendar.JANUARY, 1, 0, 0, 0);
 		cal.add(Calendar.DAY_OF_MONTH, -3);
