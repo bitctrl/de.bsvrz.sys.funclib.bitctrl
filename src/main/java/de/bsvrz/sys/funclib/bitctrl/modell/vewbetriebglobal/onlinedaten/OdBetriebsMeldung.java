@@ -495,6 +495,10 @@ extends AbstractOnlineDatensatz<OdBetriebsMeldung.Daten> {
 			return false;
 		}
 
+		@Override
+		public int hashCode() {
+			throw new UnsupportedOperationException();
+		}
 	}
 
 	/** Die PID der Attributgruppe. */

@@ -28,6 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.util;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Repr&auml;sentiert ein Intervall f&uuml;r <code>long</code>-Werte. Wird
@@ -129,6 +130,11 @@ public class Intervall implements Cloneable {
 		}
 
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(start, ende);
 	}
 
 	/**

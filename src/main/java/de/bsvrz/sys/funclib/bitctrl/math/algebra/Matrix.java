@@ -345,6 +345,11 @@ public class Matrix {
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		throw new UnsupportedOperationException();
+	}
+
 	/**
 	 * Gibt ein bestimmtes Element der Matrix zur&uuml;ck.
 	 *

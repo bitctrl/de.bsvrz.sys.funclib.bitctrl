@@ -28,8 +28,10 @@ package de.bsvrz.sys.funclib.bitctrl.test.datagen;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -157,7 +159,7 @@ class DatenQuelle {
 		final File file = new File(string);
 		Bereich aktuellerBereich = null;
 
-		try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+		try (final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), Charset.defaultCharset()))) {
 
 			String line = null;
 			do {
@@ -456,13 +458,13 @@ class DatenQuelle {
 		if (data.getAttributeType() instanceof IntegerAttributeType) {
 			if (((IntegerAttributeType) data.getAttributeType()).getRange() != null) {
 				try {
-					data.asScaledValue().set(Long.valueOf(wert));
+					data.asScaledValue().set(Long.parseLong(wert));
 				} catch (final NumberFormatException e) {
 					data.asTextValue().setText(wert);
 				}
 			} else {
 				try {
-					data.asUnscaledValue().set(Long.valueOf(wert));
+					data.asUnscaledValue().set(Long.parseLong(wert));
 				} catch (final NumberFormatException e) {
 					data.asTextValue().setText(wert);
 				}

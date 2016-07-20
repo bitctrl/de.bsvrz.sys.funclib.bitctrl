@@ -27,10 +27,14 @@
 package de.bsvrz.sys.funclib.bitctrl.io;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.charset.Charset;
 
 /**
  * Allgemeine Funktionen zur Arbeit mit Dateien.
@@ -52,10 +56,8 @@ public final class FileTool {
 		boolean result = false;
 
 		if (datei.isFile()) {
-			try {
-				final FileReader input = new FileReader(datei);
-				try {
-					final FileWriter output = new FileWriter(ziel);
+			try (Reader input = new InputStreamReader(new FileInputStream(datei), Charset.defaultCharset())) {
+				try (Writer output = new OutputStreamWriter(new FileOutputStream(ziel), Charset.defaultCharset())) {
 					do {
 						final int ch = input.read();
 						if (ch < 0) {
@@ -66,15 +68,8 @@ public final class FileTool {
 					output.flush();
 					output.close();
 					result = true;
-				} catch (final IOException e) {
-					loescheVerzeichnis(ziel);
 				}
-				try {
-					input.close();
-				} catch (final IOException e) {
-					// Fehler beim Schliessen der Quelle wird vernachlässigt
-				}
-			} catch (final FileNotFoundException e) {
+			} catch (final IOException e) {
 				// Quelle konnte nicht gelesen werden
 			}
 		}
@@ -91,8 +86,7 @@ public final class FileTool {
 	 *            das Zielverzeichnis
 	 * @return <i>true</i>, wenn der Kopiervorgang erfolgreich war.
 	 */
-	public static boolean kopiereVerzeichnis(final File verzeichnis,
-			final File ziel) {
+	public static boolean kopiereVerzeichnis(final File verzeichnis, final File ziel) {
 
 		boolean result = false;
 
@@ -113,9 +107,7 @@ public final class FileTool {
 		if (result) {
 			if (ziel.mkdirs()) {
 				for (final File file : verzeichnis.listFiles()) {
-					if (!kopiereVerzeichnis(
-							new File(verzeichnis, file.getName()),
-							new File(ziel, file.getName()))) {
+					if (!kopiereVerzeichnis(new File(verzeichnis, file.getName()), new File(ziel, file.getName()))) {
 						result = false;
 						break;
 					}
@@ -172,8 +164,7 @@ public final class FileTool {
 	 *            die Argumente
 	 */
 	public static void main(final String[] args) {
-		FileTool.kopiereVerzeichnis(new File("H:/TEMP/Neuer Ordner"),
-				new File("H:/TEMP/TESTKOPIE"));
+		FileTool.kopiereVerzeichnis(new File("H:/TEMP/Neuer Ordner"), new File("H:/TEMP/TESTKOPIE"));
 	}
 
 	/**

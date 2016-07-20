@@ -33,7 +33,7 @@ import com.bitctrl.util.Timestamp;
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
-public abstract class AbstractDatum implements Datum {
+public abstract class AbstractDatum implements Datum, Cloneable {
 
 	/** Der Zeitstempel des Datums. */
 	private long zeitstempel;

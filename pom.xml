@@ -61,48 +61,31 @@
         <url>https://travis-ci.org/bitctrl/${project.artifactId}/</url>
     </ciManagement>
 
-	<repositories>
-                <repository>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                    <id>bintray-bitctrl-maven</id>
-                    <name>bintray</name>
-                    <url>http://dl.bintray.com/bitctrl/maven</url>
-                </repository>
-            </repositories>
-
     <profiles>
     	<profile>
       		<id>bitctrl</id>
-      		<activation>
-                <activeByDefault>false</activeByDefault>
-      		</activation>
             <repositories>
                 <repository>
-					<id>bitctrl.nexus.snapshots</id>
-					<name>Lokales BitCtrl Maven Snapshots Repository</name>
-					<url>http://bitctrlbuildserver:8081/nexus/content/repositories/snapshots/</url>
+					             <id>bitctrl.nexus.snapshots</id>
+					             <name>Lokales BitCtrl Maven Snapshots Repository</name>
+					             <url>http://bitctrlbuildserver:8081/nexus/content/repositories/snapshots/</url>
                 </repository>
+                <repository>
+        					<id>bitctrl.nexus</id>
+        					<name>BitCtrl Nexus Releases Repository</name>
+        					<url>http://bitctrlbuildserver:8081/nexus/content/repositories/releases/</url>
+        				</repository>
             </repositories>
-      		<distributionManagement>
-				<snapshotRepository>
-					<id>bitctrl.nexus.snapshots</id>
-					<name>BitCtrl Nexus Snapshots Repository</name>
-					<url>http://bitctrlbuildserver:8081/nexus/content/repositories/snapshots/</url>
-				</snapshotRepository>
-				<repository>
-					<id>bitctrl.nexus</id>
-					<name>BitCtrl Nexus Releases Repository</name>
-					<url>http://bitctrlbuildserver:8081/nexus/content/repositories/releases/</url>
-				</repository>
+      	  <distributionManagement>
+				        <snapshotRepository>
+					             <id>bitctrl.nexus.snapshots</id>
+					                  <name>BitCtrl Nexus Snapshots Repository</name>
+					                  <url>http://bitctrlbuildserver:8081/nexus/content/repositories/snapshots/</url>
+				         </snapshotRepository>
 			</distributionManagement>
     	</profile>
         <profile>
             <id>bintray</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <repositories>
                 <repository>
                     <snapshots>

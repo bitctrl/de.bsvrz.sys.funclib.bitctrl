@@ -30,7 +30,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
@@ -94,7 +96,7 @@ class GeneriereTemplateModul extends DatenGeneratorModul {
 								+ "_" + asp.getPid() + ".template");
 						final FileOutputStream output = new FileOutputStream(
 								file);
-						final PrintWriter writer = new PrintWriter(output,
+						final PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, Charset.defaultCharset()),
 								true);
 
 						writer.println("[config]");

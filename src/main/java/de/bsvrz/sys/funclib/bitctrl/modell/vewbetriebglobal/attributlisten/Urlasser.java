@@ -115,8 +115,6 @@ public class Urlasser implements Cloneable, Attributliste {
 
 			if ((benutzer == null) || (o.benutzer == null)) {
 				result = benutzer == o.benutzer;
-			} else if (benutzer != null) {
-				result = benutzer.equals(o.benutzer);
 			} else {
 				result = o.benutzer.equals(benutzer);
 			}
@@ -127,6 +125,11 @@ public class Urlasser implements Cloneable, Attributliste {
 			return result;
 		}
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

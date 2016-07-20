@@ -26,6 +26,8 @@
 
 package de.bsvrz.sys.funclib.bitctrl.math;
 
+import java.util.Objects;
+
 /**
  * Repr&auml;sentiert eine rationale Zahl.
  *
@@ -338,7 +340,7 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 
 		s1 = s.substring(0, s.indexOf('.'));
 		s2 = s.substring(s.indexOf('.') + 1);
-		zaehler = Long.valueOf(s1 + s2);
+		zaehler = Long.parseLong(s1 + s2);
 		nenner = (long) Math.pow(10, Long.valueOf(s2.length()));
 	}
 
@@ -418,6 +420,11 @@ public class RationaleZahl extends Number implements Comparable<RationaleZahl> {
 		}
 
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(zaehler, nenner);
 	}
 
 	@Override

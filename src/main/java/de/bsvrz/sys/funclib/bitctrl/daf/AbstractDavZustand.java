@@ -33,7 +33,7 @@ import java.io.Serializable;
  *
  */
 public abstract class AbstractDavZustand
-		implements Serializable, Comparable<AbstractDavZustand> {
+implements Serializable, Comparable<AbstractDavZustand> {
 
 	/**
 	 *
@@ -86,6 +86,6 @@ public abstract class AbstractDavZustand
 
 	@Override
 	public int compareTo(final AbstractDavZustand o) {
-		return ((Integer) code).compareTo(o.getCode());
+		return Integer.compare(code, o.code);
 	}
 }

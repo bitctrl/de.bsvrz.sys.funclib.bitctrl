@@ -119,6 +119,11 @@ public class LogischerWert {
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		throw new UnsupportedOperationException();
+	}
+
 	/**
 	 * Gibt den aktuellen Wert zur&uuml;ck.
 	 *

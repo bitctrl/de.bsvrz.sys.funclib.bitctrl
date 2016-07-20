@@ -481,7 +481,7 @@ public class KzdSender implements StandardApplication {
 				.fetchArgument("-typ=typ.messQuerschnittAllgemein").asString();
 
 		// Intervall in Sekunden
-		intervall = Integer.valueOf(argumentList.fetchArgument("-intervall=10")
+		intervall = Integer.parseInt(argumentList.fetchArgument("-intervall=10")
 				.asString());
 	}
 

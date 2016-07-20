@@ -28,6 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.text;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import com.bitctrl.Constants;
 
@@ -182,7 +183,7 @@ public final class ZeitAngabe {
 		} else if ((zeitWert == Long.MAX_VALUE) && (maxText != null)) {
 			result = maxText;
 		} else {
-			result = DateFormat.getDateTimeInstance()
+			result = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.GERMAN)
 					.format(new Date(zeitWert));
 		}
 		return result;

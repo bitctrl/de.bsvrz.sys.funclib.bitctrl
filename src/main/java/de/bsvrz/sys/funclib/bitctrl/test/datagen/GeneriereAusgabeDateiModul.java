@@ -29,7 +29,9 @@ package de.bsvrz.sys.funclib.bitctrl.test.datagen;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -78,8 +80,7 @@ class GeneriereAusgabeDateiModul extends DatenGeneratorModul {
 	 * @param argumente
 	 *            die Argumente des Moduls
 	 */
-	GeneriereAusgabeDateiModul(final ClientDavInterface connection,
-			final Map<String, String> argumente) {
+	GeneriereAusgabeDateiModul(final ClientDavInterface connection, final Map<String, String> argumente) {
 		super(connection, argumente);
 	}
 
@@ -89,8 +90,7 @@ class GeneriereAusgabeDateiModul extends DatenGeneratorModul {
 		final String startZeitStr = getArgumente().get("-start");
 		if (startZeitStr != null) {
 			try {
-				startZeit = DateFormat.getDateTimeInstance().parse(startZeitStr)
-						.getTime();
+				startZeit = DateFormat.getDateTimeInstance().parse(startZeitStr).getTime();
 			} catch (final ParseException e) {
 				System.err.println("Startzeit: \"" + startZeitStr
 						+ "\" konnte nicht interpretiert werden, verwende aktuelle Zeit");
@@ -99,11 +99,9 @@ class GeneriereAusgabeDateiModul extends DatenGeneratorModul {
 
 		final String quellenNamen = getArgumente().get("-input");
 		final String zielName = getArgumente().get("-output");
-		final StringTokenizer tokenizer = new StringTokenizer(quellenNamen,
-				",");
+		final StringTokenizer tokenizer = new StringTokenizer(quellenNamen, ",");
 		while (tokenizer.hasMoreElements()) {
-			final DatenQuelle quelle = new DatenQuelle(getConnection(),
-					tokenizer.nextToken().trim());
+			final DatenQuelle quelle = new DatenQuelle(getConnection(), tokenizer.nextToken().trim());
 			final long nextStart = quelle.getNextStart(-1L);
 			if (nextStart >= 0) {
 				Set<DatenQuelle> set = quellListe.get(nextStart);
@@ -153,15 +151,15 @@ class GeneriereAusgabeDateiModul extends DatenGeneratorModul {
 	 *            der Name der Zieldatei
 	 * @return der Protokollierer
 	 */
-	private ClientProtocollerInterface erzeugeProtokoller(
-			final String zielname) {
+	private ClientProtocollerInterface erzeugeProtokoller(final String zielname) {
 		PrintWriter writer = null;
 		try {
 			if (zielname == null) {
-				writer = new PrintWriter(System.err, true);
+				writer = new PrintWriter(new OutputStreamWriter(System.err, Charset.defaultCharset()), true);
 			} else {
 				writer = new PrintWriter(
-						new FileOutputStream(new File(zielname)), true);
+						new OutputStreamWriter(new FileOutputStream(new File(zielname)), Charset.defaultCharset()),
+						true);
 			}
 		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
@@ -190,9 +188,8 @@ class GeneriereAusgabeDateiModul extends DatenGeneratorModul {
 			}
 		}
 
-		return (ClientProtocollerInterface) new StandardProtocoller()
-				.initProtocol(new ArgumentList(new String[] { "-ausgabe=xml" }),
-						writer, genArgs.toArray(new String[genArgs.size()]));
+		return (ClientProtocollerInterface) new StandardProtocoller().initProtocol(
+				new ArgumentList(new String[] { "-ausgabe=xml" }), writer, genArgs.toArray(new String[genArgs.size()]));
 
 	}
 }

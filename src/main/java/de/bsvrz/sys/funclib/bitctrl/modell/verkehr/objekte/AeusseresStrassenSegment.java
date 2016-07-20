@@ -54,7 +54,8 @@ implements NetzBestandTeil {
 	/**
 	 * die Liste aller definierten äußeren Straßensegmente.
 	 */
-	private static Set<AeusseresStrassenSegment> assListe;
+	private static Set<AeusseresStrassenSegment> assListe = new HashSet<>();
+	private static boolean initialized;
 
 	/**
 	 * liefert die Liste aller im System deifnierten äußeren Straßensegmente.
@@ -70,13 +71,13 @@ implements NetzBestandTeil {
 			final DataModel model) {
 		final Collection<AeusseresStrassenSegment> result = new ArrayList<>();
 
-		if (assListe == null) {
+		if (! initialized) {
+			initialized = true;
 			final List<SystemObject> listeSO;
 			listeSO = model.getType(
 					VerkehrsModellTypen.AUESSERES_STRASSENSEGMENT.getPid())
 					.getElements();
 
-			assListe = new HashSet<>();
 			for (final SystemObject so : listeSO) {
 				final AeusseresStrassenSegment ass = (AeusseresStrassenSegment) ObjektFactory
 						.getInstanz().getModellobjekt(so);

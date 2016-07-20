@@ -53,7 +53,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.vewbetriebglobal.zustaende.MeldungsKl
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
 public class PdBcBetriebsMeldungDarstellung extends
-		AbstractParameterDatensatz<PdBcBetriebsMeldungDarstellung.Daten> {
+AbstractParameterDatensatz<PdBcBetriebsMeldungDarstellung.Daten>  {
 
 	/**
 	 * Repräsentation der Daten des Parameters.
@@ -392,25 +392,25 @@ public class PdBcBetriebsMeldungDarstellung extends
 			final Darstellung d = datum.getDarstellung().get(i);
 			item.getUnscaledValue("Klasse").set(d.getKlasse().getCode());
 			item.getUnscaledValue("Vordergrundfarbe")
-					.set(d.getVordergrundfarbe());
+			.set(d.getVordergrundfarbe());
 			item.getUnscaledValue("Hintergrundfarbe")
-					.set(d.getHintergrundfarbe());
+			.set(d.getHintergrundfarbe());
 			item.getTextValue("Schriftart").setText(d.getSchriftart());
 			item.getUnscaledValue("Fettdruck")
-					.setText(d.isFettdruck() ? "Ja" : "Nein");
+			.setText(d.isFettdruck() ? "Ja" : "Nein");
 			item.getUnscaledValue("Kursivdruck")
-					.setText(d.isKursivdruck() ? "Ja" : "Nein");
+			.setText(d.isKursivdruck() ? "Ja" : "Nein");
 		}
 
 		daten.getUnscaledValue("MaxAnzahl").set(datum.getMaxAnzahl());
 		daten.getUnscaledValue("MaxHistory")
-				.set(datum.getMaxHistory() / Constants.MILLIS_PER_DAY);
+		.set(datum.getMaxHistory() / Constants.MILLIS_PER_DAY);
 
 		anzuzeigendeSpalten = daten.getArray("AnzuzeigendeSpalten");
 		anzuzeigendeSpalten.setLength(datum.getAnzuzeigendeSpalten().size());
 		for (int i = 0; i < anzuzeigendeSpalten.getLength(); ++i) {
 			anzuzeigendeSpalten.getItem(i).asUnscaledValue()
-					.set(datum.getAnzuzeigendeSpalten().get(i).getCode());
+			.set(datum.getAnzuzeigendeSpalten().get(i).getCode());
 		}
 
 		return daten;

@@ -342,6 +342,11 @@ public class Vektor implements Cloneable {
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		throw new UnsupportedOperationException();
+	}
+
 	/**
 	 * Gibt eine bestimmte Komponente des Vektors zur&uuml;ck.
 	 *
