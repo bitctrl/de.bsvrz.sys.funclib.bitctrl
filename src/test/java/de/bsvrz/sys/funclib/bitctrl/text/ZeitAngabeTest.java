@@ -25,11 +25,9 @@
  */
 package de.bsvrz.sys.funclib.bitctrl.text;
 
-// import static org.junit.Assert.*;
-
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
@@ -47,40 +45,32 @@ public class ZeitAngabeTest {
 
 	@BeforeClass
 	public static void initCandidates() {
-		final Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("CET"), Locale.GERMAN);
-		//		final Calendar cal = Calendar.getInstance();
 
-		cal.set(1970, Calendar.JANUARY, 1, 0, 0, 0);
-		cal.add(Calendar.DAY_OF_MONTH, -3);
-		negative = new ZeitAngabe(cal.getTimeInMillis());
+		long timeStamp = LocalDateTime.of(1970, 1, 1, 0, 0, 0).atZone(ZoneId.systemDefault()).toInstant()
+				.toEpochMilli();
+		timeStamp -= TimeUnit.DAYS.toMillis(3);
+		negative = new ZeitAngabe(timeStamp);
 		nullZeit = new ZeitAngabe(0);
 
-		cal.set(2005, Calendar.DECEMBER, 24, 0, 0, 0);
-		normalZeit = new ZeitAngabe(cal.getTimeInMillis());
+		timeStamp = LocalDateTime.of(2005, 12, 24, 0, 0, 0).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+		normalZeit = new ZeitAngabe(timeStamp);
 
-		normalDauer = new ZeitAngabe((3 * TimeUnit.DAYS.toMillis(1))
-				+ (2 * TimeUnit.HOURS.toMillis(1))
-				+ (10 * TimeUnit.MINUTES.toMillis(1))
-				+ (33 * TimeUnit.SECONDS.toMillis(1)) + 22);
-		normalDauer2 = new ZeitAngabe((3 * TimeUnit.DAYS.toMillis(1))
-				+ (2 * TimeUnit.HOURS.toMillis(1))
-				+ (0 * TimeUnit.MINUTES.toMillis(1))
-				+ (33 * TimeUnit.SECONDS.toMillis(1)));
+		normalDauer = new ZeitAngabe((3 * TimeUnit.DAYS.toMillis(1)) + (2 * TimeUnit.HOURS.toMillis(1))
+				+ (10 * TimeUnit.MINUTES.toMillis(1)) + (33 * TimeUnit.SECONDS.toMillis(1)) + 22);
+		normalDauer2 = new ZeitAngabe((3 * TimeUnit.DAYS.toMillis(1)) + (2 * TimeUnit.HOURS.toMillis(1))
+				+ (0 * TimeUnit.MINUTES.toMillis(1)) + (33 * TimeUnit.SECONDS.toMillis(1)));
 
-		maxZeit = new ZeitAngabe(Long.MAX_VALUE);
+		timeStamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.MAX_VALUE), ZoneId.systemDefault())
+				.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+		maxZeit = new ZeitAngabe(timeStamp);
 	}
-
-
 
 	@Test
 	public void testDauerAlsText() {
 		Assert.assertEquals("ungültig", negative.dauerAlsText());
 		Assert.assertEquals("0 Millisekunden", nullZeit.dauerAlsText());
-		Assert.assertEquals(
-				"3 Tage 2 Stunden 10 Minuten 33 Sekunden 22 Millisekunden",
-				normalDauer.dauerAlsText());
-		Assert.assertEquals("3 Tage 2 Stunden 33 Sekunden", normalDauer2
-				.dauerAlsText());
+		Assert.assertEquals("3 Tage 2 Stunden 10 Minuten 33 Sekunden 22 Millisekunden", normalDauer.dauerAlsText());
+		Assert.assertEquals("3 Tage 2 Stunden 33 Sekunden", normalDauer2.dauerAlsText());
 		Assert.assertEquals("unbekannt", maxZeit.dauerAlsText());
 	}
 
@@ -88,11 +78,9 @@ public class ZeitAngabeTest {
 	public void testDauerAlsTextString() {
 		Assert.assertEquals("ungültig", negative.dauerAlsText("anders"));
 		Assert.assertEquals("0 Millisekunden", nullZeit.dauerAlsText("anders"));
-		Assert.assertEquals(
-				"3 Tage 2 Stunden 10 Minuten 33 Sekunden 22 Millisekunden",
+		Assert.assertEquals("3 Tage 2 Stunden 10 Minuten 33 Sekunden 22 Millisekunden",
 				normalDauer.dauerAlsText("anders"));
-		Assert.assertEquals("3 Tage 2 Stunden 33 Sekunden", normalDauer2
-				.dauerAlsText("anders"));
+		Assert.assertEquals("3 Tage 2 Stunden 33 Sekunden", normalDauer2.dauerAlsText("anders"));
 		Assert.assertEquals("anders", maxZeit.dauerAlsText("anders"));
 	}
 
@@ -101,7 +89,7 @@ public class ZeitAngabeTest {
 		Assert.assertEquals("29.12.1969 00:00:00", negative.zeitStempel());
 		Assert.assertEquals("01.01.1970 01:00:00", nullZeit.zeitStempel());
 		Assert.assertEquals("24.12.2005 00:00:00", normalZeit.zeitStempel());
-		//	Assert.assertEquals("17.08.292278994 08:12:55", maxZeit.zeitStempel());
+		//		Assert.assertEquals("17.08.292278994 09:12:55", maxZeit.zeitStempel());
 	}
 
 	@Test
@@ -109,12 +97,12 @@ public class ZeitAngabeTest {
 		Assert.assertEquals("29.12.1969 00:00:00", negative.zeitStempel(null));
 		Assert.assertEquals("01.01.1970 01:00:00", nullZeit.zeitStempel(null));
 		Assert.assertEquals("24.12.2005 00:00:00", normalZeit.zeitStempel(null));
-		//		Assert.assertEquals("17.08.292278994 08:12:55", maxZeit.zeitStempel(null));
+		//		Assert.assertEquals("17.08.292278994 09:12:55", maxZeit.zeitStempel(null));
 
 		Assert.assertEquals("29.12.1969 00:00:00", negative.zeitStempel("0Wert"));
 		Assert.assertEquals("0Wert", nullZeit.zeitStempel("0Wert"));
 		Assert.assertEquals("24.12.2005 00:00:00", normalZeit.zeitStempel("0Wert"));
-		//		Assert.assertEquals("17.08.292278994 08:12:55", maxZeit.zeitStempel("0Wert"));
+		//		Assert.assertEquals("17.08.292278994 09:12:55", maxZeit.zeitStempel("0Wert"));
 	}
 
 	@Test
@@ -122,14 +110,11 @@ public class ZeitAngabeTest {
 		Assert.assertEquals("29.12.1969 00:00:00", negative.zeitStempel(null, null));
 		Assert.assertEquals("01.01.1970 01:00:00", nullZeit.zeitStempel(null, null));
 		Assert.assertEquals("24.12.2005 00:00:00", normalZeit.zeitStempel(null, null));
-		//		Assert.assertEquals("17.08.292278994 08:12:55", maxZeit
-		//	.zeitStempel(null, null));
+		//		Assert.assertEquals("17.08.292278994 09:12:55", maxZeit.zeitStempel(null, null));
 
-		Assert.assertEquals("29.12.1969 00:00:00", negative.zeitStempel("0Wert",
-				"Ende"));
+		Assert.assertEquals("29.12.1969 00:00:00", negative.zeitStempel("0Wert", "Ende"));
 		Assert.assertEquals("0Wert", nullZeit.zeitStempel("0Wert", "Ende"));
-		Assert.assertEquals("24.12.2005 00:00:00", normalZeit.zeitStempel("0Wert",
-				"Ende"));
+		Assert.assertEquals("24.12.2005 00:00:00", normalZeit.zeitStempel("0Wert", "Ende"));
 		Assert.assertEquals("Ende", maxZeit.zeitStempel("0Wert", "Ende"));
 	}
 }

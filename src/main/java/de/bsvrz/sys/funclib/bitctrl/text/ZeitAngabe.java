@@ -26,10 +26,10 @@
 
 package de.bsvrz.sys.funclib.bitctrl.text;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -183,7 +183,7 @@ public final class ZeitAngabe {
 		} else if ((zeitWert == Long.MAX_VALUE) && (maxText != null)) {
 			result = maxText;
 		} else {
-			final LocalDateTime localDate = new Date(zeitWert).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			final LocalDateTime localDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(zeitWert), ZoneId.systemDefault());
 			result = localDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
 		}
 		return result;
