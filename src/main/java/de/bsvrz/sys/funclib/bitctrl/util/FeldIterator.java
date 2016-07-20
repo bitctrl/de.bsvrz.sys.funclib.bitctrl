@@ -34,6 +34,7 @@ import java.util.NoSuchElementException;
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @param <T>
+ *            der Typ der Feldelemente
  * @deprecated Wurde nach "com.bitctrl.util.FeldIterator" ausgelagert.
  */
 @Deprecated
@@ -81,8 +82,7 @@ public class FeldIterator<T> implements Iterator<T> {
 	@Override
 	public String toString() {
 		if (hasNext()) {
-			return getClass().getName() + "[cursor=" + cursor + ", next="
-					+ data[cursor] + "]";
+			return getClass().getName() + "[cursor=" + cursor + ", next=" + data[cursor] + "]";
 		}
 		return getClass().getName() + "[cursor=" + cursor + ", next=]";
 	}

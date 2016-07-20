@@ -46,8 +46,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  *
  * @author BitCtrl Systems GmbH, peuker
  */
-public class VerkehrModellNetz extends Netz
-implements MutableSetChangeListener {
+public class VerkehrModellNetz extends Netz implements MutableSetChangeListener {
 
 	/**
 	 * Name der Menge, in der die Staus des VerkehrsmodellNetz abgelegt werden.
@@ -85,17 +84,16 @@ implements MutableSetChangeListener {
 	 * @param obj
 	 *            Ein Systemobjekt, welches ein Netz darstellt
 	 * @throws IllegalArgumentException
+	 *             das übergebene Objekt hat den falschen Typ
 	 */
 	public VerkehrModellNetz(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(PID_TYP)) {
-			throw new IllegalArgumentException(
-					"Systemobjekt ist kein gültiges VerkehrsModellNetz.");
+			throw new IllegalArgumentException("Systemobjekt ist kein gültiges VerkehrsModellNetz.");
 		}
 
-		baustellenMenge = ((ConfigurationObject) obj)
-				.getMutableSet(MENGENNAME_BAUSTELLEN);
+		baustellenMenge = ((ConfigurationObject) obj).getMutableSet(MENGENNAME_BAUSTELLEN);
 		stauMenge = ((ConfigurationObject) obj).getMutableSet(MENGENNAME_STAUS);
 	}
 
@@ -107,12 +105,10 @@ implements MutableSetChangeListener {
 	 */
 	public void addBaustellenListener(final BaustellenListener listener) {
 		if (listener == null) {
-			throw new IllegalArgumentException(
-					"null beim registrieren eines Listeners ist nicht erlaubt");
+			throw new IllegalArgumentException("null beim registrieren eines Listeners ist nicht erlaubt");
 		}
 
-		final boolean registerListener = (listeners
-				.getListenerCount(BaustellenListener.class) == 0);
+		final boolean registerListener = (listeners.getListenerCount(BaustellenListener.class) == 0);
 		listeners.add(BaustellenListener.class, listener);
 
 		if (registerListener) {
@@ -128,12 +124,10 @@ implements MutableSetChangeListener {
 	 */
 	public void addStauListener(final StauListener listener) {
 		if (listener == null) {
-			throw new IllegalArgumentException(
-					"null beim registrieren eines Listeners ist nicht erlaubt");
+			throw new IllegalArgumentException("null beim registrieren eines Listeners ist nicht erlaubt");
 		}
 
-		final boolean registerListener = (listeners
-				.getListenerCount(StauListener.class) == 0);
+		final boolean registerListener = (listeners.getListenerCount(StauListener.class) == 0);
 		listeners.add(StauListener.class, listener);
 
 		if (registerListener) {
@@ -150,19 +144,15 @@ implements MutableSetChangeListener {
 	 * @param removedObjects
 	 *            die Systemobjekte, die die entfernten Baustellen definieren
 	 */
-	private void aktualisiereBaustellen(final SystemObject[] addedObjects,
-			final SystemObject[] removedObjects) {
-		for (final BaustellenListener listener : listeners
-				.getListeners(BaustellenListener.class)) {
+	private void aktualisiereBaustellen(final SystemObject[] addedObjects, final SystemObject[] removedObjects) {
+		for (final BaustellenListener listener : listeners.getListeners(BaustellenListener.class)) {
 			for (final SystemObject obj : removedObjects) {
-				final Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
-						.getModellobjekt(obj);
+				final Baustelle bst = (Baustelle) ObjektFactory.getInstanz().getModellobjekt(obj);
 				bst.removeNetzReferenz(this);
 				listener.baustelleEntfernt(this, bst);
 			}
 			for (final SystemObject obj : addedObjects) {
-				final Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
-						.getModellobjekt(obj);
+				final Baustelle bst = (Baustelle) ObjektFactory.getInstanz().getModellobjekt(obj);
 				bst.addNetzReferenz(this);
 				listener.baustelleAngelegt(this, bst);
 			}
@@ -177,21 +167,17 @@ implements MutableSetChangeListener {
 	 * @param removedObjects
 	 *            die Systemobjekte, die die entfernten Staus definieren
 	 */
-	private void aktualisiereStaus(final SystemObject[] addedObjects,
-			final SystemObject[] removedObjects) {
+	private void aktualisiereStaus(final SystemObject[] addedObjects, final SystemObject[] removedObjects) {
 
-		for (final StauListener listener : listeners
-				.getListeners(StauListener.class)) {
+		for (final StauListener listener : listeners.getListeners(StauListener.class)) {
 			for (final SystemObject stauObj : removedObjects) {
-				final Stau stau = (Stau) ObjektFactory.getInstanz()
-						.getModellobjekt(stauObj);
+				final Stau stau = (Stau) ObjektFactory.getInstanz().getModellobjekt(stauObj);
 				stau.removeNetzReferenz(this);
 				listener.stauEntfernt(this, stau);
 			}
 			for (final SystemObject stauObj : addedObjects) {
 				if (stauObj.isValid()) {
-					final Stau stau = (Stau) ObjektFactory.getInstanz()
-							.getModellobjekt(stauObj);
+					final Stau stau = (Stau) ObjektFactory.getInstanz().getModellobjekt(stauObj);
 					stau.addNetzReferenz(this);
 					listener.stauAngelegt(this, stau);
 				}
@@ -208,8 +194,7 @@ implements MutableSetChangeListener {
 	 *            das zu entfernende Stauobjekt
 	 */
 	public void baustelleEntfernen(final SystemObject obj) {
-		final ObjectSet set = ((ConfigurationObject) getSystemObject())
-				.getObjectSet(MENGENNAME_BAUSTELLEN);
+		final ObjectSet set = ((ConfigurationObject) getSystemObject()).getObjectSet(MENGENNAME_BAUSTELLEN);
 		if (set.getElements().contains(obj)) {
 			try {
 				set.remove(obj);
@@ -228,8 +213,7 @@ implements MutableSetChangeListener {
 	 *            das neue Baustellen
 	 */
 	public void baustelleHinzufuegen(final SystemObject obj) {
-		final ObjectSet set = ((ConfigurationObject) getSystemObject())
-				.getObjectSet(MENGENNAME_BAUSTELLEN);
+		final ObjectSet set = ((ConfigurationObject) getSystemObject()).getObjectSet(MENGENNAME_BAUSTELLEN);
 		if (!set.getElements().contains(obj)) {
 			try {
 				set.add(obj);
@@ -271,8 +255,7 @@ implements MutableSetChangeListener {
 	public Collection<Baustelle> getBaustellen() {
 		final Collection<Baustelle> result = new ArrayList<>();
 		for (final SystemObject obj : baustellenMenge.getElements()) {
-			final Baustelle bst = (Baustelle) ObjektFactory.getInstanz()
-					.getModellobjekt(obj);
+			final Baustelle bst = (Baustelle) ObjektFactory.getInstanz().getModellobjekt(obj);
 			bst.addNetzReferenz(this);
 			result.add(bst);
 
@@ -289,8 +272,7 @@ implements MutableSetChangeListener {
 	public Collection<Stau> getStaus() {
 		final ArrayList<Stau> result = new ArrayList<>();
 		for (final SystemObject stauObject : stauMenge.getElements()) {
-			final Stau stau = (Stau) ObjektFactory.getInstanz()
-					.getModellobjekt(stauObject);
+			final Stau stau = (Stau) ObjektFactory.getInstanz().getModellobjekt(stauObject);
 			stau.addNetzReferenz(this);
 			result.add(stau);
 		}
@@ -336,8 +318,7 @@ implements MutableSetChangeListener {
 	 *            das zu entfernende Stauobjekt
 	 */
 	public void stauEntfernen(final SystemObject obj) {
-		final ObjectSet set = ((ConfigurationObject) getSystemObject())
-				.getObjectSet(MENGENNAME_STAUS);
+		final ObjectSet set = ((ConfigurationObject) getSystemObject()).getObjectSet(MENGENNAME_STAUS);
 		if (set.getElements().contains(obj)) {
 			try {
 				set.remove(obj);
@@ -355,8 +336,7 @@ implements MutableSetChangeListener {
 	 *            das neue Stauobjekt
 	 */
 	public void stauHinzufuegen(final SystemObject obj) {
-		final ObjectSet set = ((ConfigurationObject) getSystemObject())
-				.getObjectSet(MENGENNAME_STAUS);
+		final ObjectSet set = ((ConfigurationObject) getSystemObject()).getObjectSet(MENGENNAME_STAUS);
 		if (!set.getElements().contains(obj)) {
 			try {
 				set.add(obj);
@@ -375,12 +355,10 @@ implements MutableSetChangeListener {
 	 *            nur ungültige Objekte entfernen ?
 	 */
 	public void stausBereinigen(final boolean nurUngueltige) {
-		final ObjectSet set = ((ConfigurationObject) getSystemObject())
-				.getObjectSet(MENGENNAME_STAUS);
+		final ObjectSet set = ((ConfigurationObject) getSystemObject()).getObjectSet(MENGENNAME_STAUS);
 
-		LOGGER.info("Bereinige Stauliste für Netz: " + getName()
-		+ ", nur ungültige: " + nurUngueltige + ", Anzahl: "
-		+ set.getElements().size());
+		LOGGER.info("Bereinige Stauliste für Netz: " + getName() + ", nur ungültige: " + nurUngueltige + ", Anzahl: "
+				+ set.getElements().size());
 
 		int removed = 0;
 		for (final SystemObject stauObject : set.getElements()) {
@@ -394,13 +372,11 @@ implements MutableSetChangeListener {
 			}
 		}
 
-		LOGGER.info("Stauliste bereinigt für Netz: " + getName()
-		+ ", Anzahl ist jetzt: " + set.getElements().size());
+		LOGGER.info("Stauliste bereinigt für Netz: " + getName() + ", Anzahl ist jetzt: " + set.getElements().size());
 	}
 
 	@Override
-	public void update(final MutableSet set, final SystemObject[] addedObjects,
-			final SystemObject[] removedObjects) {
+	public void update(final MutableSet set, final SystemObject[] addedObjects, final SystemObject[] removedObjects) {
 		if (set.equals(baustellenMenge)) {
 			aktualisiereBaustellen(addedObjects, removedObjects);
 		} else if (set.equals(stauMenge)) {

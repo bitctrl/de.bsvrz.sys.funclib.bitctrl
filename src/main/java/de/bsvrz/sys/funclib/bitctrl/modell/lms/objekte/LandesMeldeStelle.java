@@ -48,8 +48,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  *
  * @author BitCtrl Systems GmbH, peuker
  */
-public class LandesMeldeStelle extends AbstractSystemObjekt
-implements MutableSetChangeListener {
+public class LandesMeldeStelle extends AbstractSystemObjekt implements MutableSetChangeListener {
 
 	/**
 	 * Name der Menge, in der die Staus des VerkehrsmodellNetz abgelegt werden.
@@ -77,17 +76,16 @@ implements MutableSetChangeListener {
 	 * @param obj
 	 *            Ein Systemobjekt, welches ein Netz darstellt
 	 * @throws IllegalArgumentException
+	 *             das übergebene Objekt hat den falschen Typ
 	 */
 	public LandesMeldeStelle(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(LmsModellTypen.LANDESMELDESTELLE.getPid())) {
-			throw new IllegalArgumentException(
-					"Systemobjekt ist kein gültiges VerkehrsModellNetz.");
+			throw new IllegalArgumentException("Systemobjekt ist kein gültiges VerkehrsModellNetz.");
 		}
 
-		meldungsMenge = ((ConfigurationObject) obj)
-				.getMutableSet(MENGENNAME_MELDUNGEN);
+		meldungsMenge = ((ConfigurationObject) obj).getMutableSet(MENGENNAME_MELDUNGEN);
 	}
 
 	/**
@@ -98,12 +96,10 @@ implements MutableSetChangeListener {
 	 */
 	public void addMeldungsListener(final MeldungsListener listener) {
 		if (listener == null) {
-			throw new IllegalArgumentException(
-					"null beim registrieren eines Listeners ist nicht erlaubt");
+			throw new IllegalArgumentException("null beim registrieren eines Listeners ist nicht erlaubt");
 		}
 
-		final boolean registerListener = (listeners
-				.getListenerCount(MeldungsListener.class) == 0);
+		final boolean registerListener = (listeners.getListenerCount(MeldungsListener.class) == 0);
 		listeners.add(MeldungsListener.class, listener);
 
 		if (registerListener) {
@@ -120,19 +116,15 @@ implements MutableSetChangeListener {
 	 * @param removedObjects
 	 *            die Systemobjekte, die die entfernten Meldungen definieren
 	 */
-	private void aktualisiereMeldungen(final SystemObject[] addedObjects,
-			final SystemObject[] removedObjects) {
-		for (final MeldungsListener listener : listeners
-				.getListeners(MeldungsListener.class)) {
+	private void aktualisiereMeldungen(final SystemObject[] addedObjects, final SystemObject[] removedObjects) {
+		for (final MeldungsListener listener : listeners.getListeners(MeldungsListener.class)) {
 			for (final SystemObject obj : removedObjects) {
-				final RdsMeldung meldung = (RdsMeldung) ObjektFactory
-						.getInstanz().getModellobjekt(obj);
+				final RdsMeldung meldung = (RdsMeldung) ObjektFactory.getInstanz().getModellobjekt(obj);
 				meldung.removeLmsReferenz(this);
 				listener.meldungEntfernt(this, meldung);
 			}
 			for (final SystemObject obj : addedObjects) {
-				final RdsMeldung meldung = (RdsMeldung) ObjektFactory
-						.getInstanz().getModellobjekt(obj);
+				final RdsMeldung meldung = (RdsMeldung) ObjektFactory.getInstanz().getModellobjekt(obj);
 				meldung.addLmsReferenz(this);
 				listener.meldungAngelegt(this, meldung);
 			}
@@ -148,8 +140,7 @@ implements MutableSetChangeListener {
 	public Collection<RdsMeldung> getMeldungen() {
 		final Collection<RdsMeldung> result = new ArrayList<>();
 		for (final SystemObject obj : meldungsMenge.getElements()) {
-			final RdsMeldung meldung = (RdsMeldung) ObjektFactory.getInstanz()
-					.getModellobjekt(obj);
+			final RdsMeldung meldung = (RdsMeldung) ObjektFactory.getInstanz().getModellobjekt(obj);
 			meldung.addLmsReferenz(this);
 			result.add(meldung);
 
@@ -171,8 +162,7 @@ implements MutableSetChangeListener {
 	 *            das zu entfernende Stauobjekt
 	 */
 	public void meldungEntfernen(final SystemObject obj) {
-		final ObjectSet set = ((ConfigurationObject) getSystemObject())
-				.getObjectSet(MENGENNAME_MELDUNGEN);
+		final ObjectSet set = ((ConfigurationObject) getSystemObject()).getObjectSet(MENGENNAME_MELDUNGEN);
 		if (set.getElements().contains(obj)) {
 			try {
 				set.remove(obj);
@@ -191,8 +181,7 @@ implements MutableSetChangeListener {
 	 *            die neue Meldung
 	 */
 	public void meldungHinzufuegen(final SystemObject obj) {
-		final ObjectSet set = ((ConfigurationObject) getSystemObject())
-				.getObjectSet(MENGENNAME_MELDUNGEN);
+		final ObjectSet set = ((ConfigurationObject) getSystemObject()).getObjectSet(MENGENNAME_MELDUNGEN);
 		if (!set.getElements().contains(obj)) {
 			try {
 				set.add(obj);
@@ -218,8 +207,7 @@ implements MutableSetChangeListener {
 	}
 
 	@Override
-	public void update(final MutableSet set, final SystemObject[] addedObjects,
-			final SystemObject[] removedObjects) {
+	public void update(final MutableSet set, final SystemObject[] addedObjects, final SystemObject[] removedObjects) {
 		if (set.equals(meldungsMenge)) {
 			aktualisiereMeldungen(addedObjects, removedObjects);
 		}

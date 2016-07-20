@@ -60,21 +60,19 @@ public class Netz extends StoerfallIndikator implements NetzBestandTeil {
 	 * @param obj
 	 *            Ein Systemobjekt, welches ein Netz darstellt
 	 * @throws IllegalArgumentException
+	 *             das übergebene Objekt ist kein Netz
 	 */
 	public Netz(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
-			throw new IllegalArgumentException(
-					"Systemobjekt ist kein gültiges Netz.");
+			throw new IllegalArgumentException("Systemobjekt ist kein gültiges Netz.");
 		}
 
 		// Netzbestandzeile ermitteln
-		final ObjectSet menge = ((ConfigurationObject) getSystemObject())
-				.getObjectSet("NetzBestandTeile");
+		final ObjectSet menge = ((ConfigurationObject) getSystemObject()).getObjectSet("NetzBestandTeile");
 		for (final SystemObject mengenObj : menge.getElements()) {
-			bestandteile.add((NetzBestandTeil) ObjektFactory.getInstanz()
-					.getModellobjekt(mengenObj));
+			bestandteile.add((NetzBestandTeil) ObjektFactory.getInstanz().getModellobjekt(mengenObj));
 		}
 	}
 
@@ -106,8 +104,7 @@ public class Netz extends StoerfallIndikator implements NetzBestandTeil {
 			strassenListe = new HashSet<>();
 			for (final NetzBestandTeil bestandTeil : bestandteile) {
 				if (bestandTeil instanceof AeusseresStrassenSegment) {
-					final Strasse str = ((AeusseresStrassenSegment) bestandTeil)
-							.getStrasse();
+					final Strasse str = ((AeusseresStrassenSegment) bestandTeil).getStrasse();
 					if (str != null) {
 						strassenListe.add(str);
 					}

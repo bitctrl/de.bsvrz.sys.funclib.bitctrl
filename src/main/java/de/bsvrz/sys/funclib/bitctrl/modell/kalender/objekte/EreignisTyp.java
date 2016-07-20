@@ -70,8 +70,7 @@ public class EreignisTyp extends AbstractSystemObjekt {
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen unzulässig ist.
 	 */
-	public static EreignisTyp anlegen(final String pid, final String name)
-			throws ConfigurationChangeException {
+	public static EreignisTyp anlegen(final String pid, final String name) throws ConfigurationChangeException {
 		return anlegen(pid, name, new HashMap<String, String>());
 	}
 
@@ -88,9 +87,8 @@ public class EreignisTyp extends AbstractSystemObjekt {
 	 * @throws ConfigurationChangeException
 	 *             wenn das Anlegen unzulässig ist.
 	 */
-	public static EreignisTyp anlegen(final String pid, final String name,
-			final Map<String, String> attribute)
-					throws ConfigurationChangeException {
+	public static EreignisTyp anlegen(final String pid, final String name, final Map<String, String> attribute)
+			throws ConfigurationChangeException {
 		final ObjektFactory factory;
 		final ClientDavInterface dav;
 		final DataModel modell;
@@ -108,8 +106,7 @@ public class EreignisTyp extends AbstractSystemObjekt {
 		factory = ObjektFactory.getInstanz();
 		dav = factory.getVerbindung();
 		modell = dav.getDataModel();
-		typ = (DynamicObjectType) modell
-				.getType(KalenderModellTypen.EREIGNISTYP.getPid());
+		typ = (DynamicObjectType) modell.getType(KalenderModellTypen.EREIGNISTYP.getPid());
 		kb = dav.getLocalConfigurationAuthority().getConfigurationArea();
 		atg = modell.getAttributeGroup("atg.ereignisTypEigenschaften");
 		asp = modell.getAspect("asp.eigenschaften");
@@ -120,17 +117,13 @@ public class EreignisTyp extends AbstractSystemObjekt {
 		feld.setLength(attribute.size());
 		i = 0;
 		for (final Entry<String, String> entry : attribute.entrySet()) {
-			feld.getItem(i).getTextValue("Attributname")
-			.setText(entry.getKey());
-			feld.getItem(i).getTextValue("Attributwert")
-			.setText(entry.getValue());
+			feld.getItem(i).getTextValue("Attributname").setText(entry.getKey());
+			feld.getItem(i).getTextValue("Attributwert").setText(entry.getValue());
 			++i;
 		}
 
-		datenUndVerwendung = new DataAndATGUsageInformation(atgVerwendung,
-				daten);
-		so = kb.createDynamicObject(typ, pid, name,
-				Collections.singleton(datenUndVerwendung));
+		datenUndVerwendung = new DataAndATGUsageInformation(atgVerwendung, daten);
+		so = kb.createDynamicObject(typ, pid, name, Collections.singleton(datenUndVerwendung));
 
 		return (EreignisTyp) factory.getModellobjekt(so);
 	}
@@ -141,13 +134,13 @@ public class EreignisTyp extends AbstractSystemObjekt {
 	 * @param obj
 	 *            Ein Systemobjekt, welches ein Messquerschnitt sein muss
 	 * @throws IllegalArgumentException
+	 *             das übergebene Objekt ist keine Ereignistyp
 	 */
 	public EreignisTyp(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
-			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Ereignistyp.");
+			throw new IllegalArgumentException("Systemobjekt ist kein Ereignistyp.");
 		}
 	}
 

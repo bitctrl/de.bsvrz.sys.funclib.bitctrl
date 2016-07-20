@@ -45,8 +45,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.umfelddaten.UmfelddatenModellTypen;
  *
  * @author BitCtrl Systems GmbH, Schumann
  */
-public class UmfeldDatenMessStelle extends AbstractSystemObjekt
-implements PunktXY {
+public class UmfeldDatenMessStelle extends AbstractSystemObjekt implements PunktXY {
 
 	/** Liste der Umfelddatensensoren dieser Umfelddatenmessstelle. */
 	private final List<UmfeldDatenSensor> umfelddatensensoren;
@@ -63,6 +62,7 @@ implements PunktXY {
 	 * @param so
 	 *            Ein Systemobjekt, welches eine Umfelddatenmessstelle sein muss
 	 * @throws IllegalArgumentException
+	 *             das übergebene Objekt ist keine Umfelddatenmessstelle
 	 */
 	public UmfeldDatenMessStelle(final SystemObject so) {
 		super(so);
@@ -77,8 +77,7 @@ implements PunktXY {
 		co = (ConfigurationObject) so;
 		menge = co.getNonMutableSet("UmfeldDatenSensoren");
 		for (final SystemObject obj : menge.getElements()) {
-			umfelddatensensoren.add((UmfeldDatenSensor) ObjektFactory
-					.getInstanz().getModellobjekt(obj));
+			umfelddatensensoren.add((UmfeldDatenSensor) ObjektFactory.getInstanz().getModellobjekt(obj));
 		}
 	}
 

@@ -1032,7 +1032,7 @@ public class NetzReferenzen {
 	 * @param referenz
 	 *            Ortsreferenz nach dem ASB-Stationierungssystem.
 	 * @return Strasse, auf der die Ortsreferenz liegt
-	 * @throws NetzReferenzException
+	 * @throws NetzReferenzException Fehler beim Ermitteln der Stra&szlig;e
 	 * @deprecated Ersetzt durch
 	 *             {@link #findeStrassen(AsbStationierungOrtsReferenz)}.
 	 */
@@ -1082,7 +1082,7 @@ public class NetzReferenzen {
 	 * @param referenz
 	 *            Ortsreferenz nach dem ASB-Stationierungssystem.
 	 * @return Strasse, Liste von gefundenen Stra&szlig;en
-	 * @throws NetzReferenzException
+	 * @throws NetzReferenzException Fehler beim Ermitteln der Stra&szlig;e
 	 */
 	public List<Strasse> findeStrassen(
 			final AsbStationierungOrtsReferenz referenz)

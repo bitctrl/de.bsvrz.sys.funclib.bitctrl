@@ -53,9 +53,10 @@ public class Zufallsdaten extends TimerTask {
 	 *            die Liste der Objekte für die Daten generiert werden sollen.
 	 * @param generator
 	 *            der Generator der Zufallsdaten.
+	 * @param datensatzTyp
+	 *            der Typ der zu erzeugenden Daten
 	 */
-	public Zufallsdaten(final List<SystemObjekt> objekte,
-			final TestDatenGenerator generator,
+	public Zufallsdaten(final List<SystemObjekt> objekte, final TestDatenGenerator generator,
 			final Class<OnlineDatensatz> datensatzTyp) {
 		this.objekte = objekte;
 		this.generator = generator;

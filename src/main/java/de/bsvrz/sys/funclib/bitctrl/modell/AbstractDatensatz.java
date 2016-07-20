@@ -330,10 +330,10 @@ implements Datensatz<T> {
 	}
 
 	/**
-	 * Standardtimeout von {@value} Millisekunden für das Senden und Empfangen
+	 * Standardtimeout von 60 Sekunden für das Senden und Empfangen
 	 * von Daten.
 	 */
-	private static final long TIMEOUT = 60 * TimeUnit.SECONDS.toMillis(1);
+	private static final long TIMEOUT = TimeUnit.SECONDS.toMillis(60);
 
 	/** Der Empf&auml;nger dieses Datensatzes. */
 	private final AsynchronerReceiver receiver;

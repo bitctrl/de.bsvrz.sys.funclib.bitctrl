@@ -128,7 +128,7 @@ public enum BetriebsMeldungSpalte implements Zustand<Integer> {
 	/**
 	 * Gibt die empfohlene Spaltenbreite zurück.
 	 *
-	 * @return
+	 * @return die Breite
 	 */
 	public int getBreite() {
 		return breite;

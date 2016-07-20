@@ -51,13 +51,13 @@ public class StoerfallIndikator extends AbstractSystemObjekt {
 	 * @param obj
 	 *            Ein Systemobjekt, welches ein StörfallIndikator sein muss
 	 * @throws IllegalArgumentException
+	 *             das übergebene Objekt ist kein Störfallindikator
 	 */
 	public StoerfallIndikator(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
-			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Störfallindikator.");
+			throw new IllegalArgumentException("Systemobjekt ist kein Störfallindikator.");
 		}
 	}
 

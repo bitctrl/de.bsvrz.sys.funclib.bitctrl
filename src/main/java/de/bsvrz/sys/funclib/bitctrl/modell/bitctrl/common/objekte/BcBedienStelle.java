@@ -38,9 +38,6 @@ public class BcBedienStelle extends AbstractSystemObjekt {
 	/** Der Standardpräfix für den Namen einer Bedienstelle. */
 	public static final String PRAEFIX_NAME = "bcBedienStelle.";
 
-	/**
-	 * @param obj
-	 */
 	public BcBedienStelle(final SystemObject obj) {
 		super(obj);
 

@@ -30,8 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.bitctrl.Constants;
-
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.config.AttributeGroup;
 import de.bsvrz.dav.daf.main.config.DataModel;
@@ -120,8 +118,8 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 				ende = daten.getUnscaledValue("Ende").longValue();
 				endKnoten = daten.getTextValue("EndKnoten").getText();
 				offset = daten.getUnscaledValue("Offset").longValue();
-				verkehrsRichtung = Verkehrsrichtung.getVerkehrsRichtung(daten
-						.getUnscaledValue("VerkehrsRichtung").shortValue());
+				verkehrsRichtung = Verkehrsrichtung
+						.getVerkehrsRichtung(daten.getUnscaledValue("VerkehrsRichtung").shortValue());
 			} else {
 				anfang = 0;
 				anfangsKnoten = "";
@@ -306,6 +304,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 *            Ein Systemobjekt, welches ein Stra&szlig;enteilsegment sein
 	 *            muss
 	 * @throws IllegalArgumentException
+	 *             das übergebene Objekt hat den falschen Typ
 	 */
 	public StrassenTeilSegment(final SystemObject obj) {
 		super(obj);
@@ -313,8 +312,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 		linie = new LinieXYImpl(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
-			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Straßenteilsegment.");
+			throw new IllegalArgumentException("Systemobjekt ist kein Straßenteilsegment.");
 		}
 	}
 
@@ -338,8 +336,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	public List<AsbStationierung> getAsbStationierung() {
 		if (asbStationierung == null) {
 			asbStationierung = new ArrayList<>();
-			final AttributeGroup atg = getSystemObject().getDataModel()
-					.getAttributeGroup("atg.asbStationierung");
+			final AttributeGroup atg = getSystemObject().getDataModel().getAttributeGroup("atg.asbStationierung");
 
 			DataCache.cacheData(getSystemObject().getType(), atg);
 			final Data datum = getSystemObject().getConfigurationData(atg);
@@ -347,8 +344,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 			if (datum != null) {
 				final Data.Array array = datum.getArray("AsbStationierung");
 				for (int idx = 0; idx < array.getLength(); idx++) {
-					asbStationierung
-					.add(new AsbStationierung(array.getItem(idx)));
+					asbStationierung.add(new AsbStationierung(array.getItem(idx)));
 				}
 			}
 		}
@@ -365,8 +361,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	public List<BetriebsKilometer> getBetriebsKilometer() {
 		if (betriebsKilometer == null) {
 			betriebsKilometer = new ArrayList<>();
-			final AttributeGroup atg = getSystemObject().getDataModel()
-					.getAttributeGroup("atg.betriebsKilometer");
+			final AttributeGroup atg = getSystemObject().getDataModel().getAttributeGroup("atg.betriebsKilometer");
 
 			DataCache.cacheData(getSystemObject().getType(), atg);
 			final Data datum = getSystemObject().getConfigurationData(atg);
@@ -374,8 +369,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 			if (datum != null) {
 				final Data.Array array = datum.getArray("BetriebsKilometer");
 				for (int idx = 0; idx < array.getLength(); idx++) {
-					betriebsKilometer
-					.add(new BetriebsKilometer(array.getItem(idx)));
+					betriebsKilometer.add(new BetriebsKilometer(array.getItem(idx)));
 				}
 			}
 		}
@@ -416,8 +410,8 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 		if (!messQuerschnitteZugeordnet) {
 			final List<SystemObjekt> listeSO;
 
-			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
-					VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
+			listeSO = ObjektFactory.getInstanz()
+					.bestimmeModellobjekte(VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
 
 			for (final SystemObjekt so : listeSO) {
 				final MessQuerschnittAllgemein mq = (MessQuerschnittAllgemein) so;
@@ -441,9 +435,9 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 	 * Stra&szlig;enteilsegment beginnt.
 	 *
 	 * @deprecated Es wird nur das erste Straßensegment zur Berechnung des
-	 * Offsets verwendet. Stattdessen sollte die Funktion
-	 * {@link StrassenSegment#getTeilSegmentOffset(StrassenTeilSegment)}
-	 * verwendet werden
+	 *             Offsets verwendet. Stattdessen sollte die Funktion
+	 *             {@link StrassenSegment#getTeilSegmentOffset(StrassenTeilSegment)}
+	 *             verwendet werden
 	 *
 	 * @return der Offset des zugeh&ouml;rigen Stra&szlig;ensegmentes, bei dem
 	 *         das Teilsegment beginnt
@@ -458,8 +452,7 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 
 		if (strassenSegmente != null) {
 			offset = 0;
-			for (final StrassenTeilSegment teilsegment : strassenSegmente.get(0)
-					.getStrassenTeilSegmente()) {
+			for (final StrassenTeilSegment teilsegment : strassenSegmente.get(0).getStrassenTeilSegmente()) {
 				if (teilsegment == this) {
 					break;
 				}
@@ -494,13 +487,11 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 
 		if (!segmenteInitialisiert) {
 			final List<SystemObjekt> listeSO;
-			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
-					VerkehrsModellTypen.STRASSENSEGMENT.getPid());
+			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(VerkehrsModellTypen.STRASSENSEGMENT.getPid());
 
 			for (final SystemObjekt so : listeSO) {
 				final StrassenSegment ss = (StrassenSegment) so;
-				for (final StrassenTeilSegment sts : ss
-						.getStrassenTeilSegmente()) {
+				for (final StrassenTeilSegment sts : ss.getStrassenTeilSegmente()) {
 					if (sts.strassenSegmente == null) {
 						sts.strassenSegmente = new ArrayList<>();
 					}
@@ -534,10 +525,8 @@ public class StrassenTeilSegment extends StoerfallIndikator implements LinieXY {
 			datum = getSystemObject().getConfigurationData(atg);
 			if (datum != null) {
 				laenge = datum.getScaledValue("Länge").floatValue();
-				anzahlFahrStreifen = datum
-						.getUnscaledValue("AnzahlFahrStreifen").intValue();
-				steigungGefaelle = datum.getUnscaledValue("SteigungGefälle")
-						.intValue();
+				anzahlFahrStreifen = datum.getUnscaledValue("AnzahlFahrStreifen").intValue();
+				steigungGefaelle = datum.getUnscaledValue("SteigungGefälle").intValue();
 			} else {
 				laenge = 0;
 				anzahlFahrStreifen = 0;

@@ -485,9 +485,6 @@ public class KzdSender implements StandardApplication {
 				.asString());
 	}
 
-	/**
-	 * @param args
-	 */
 	public static void main(final String[] args) {
 		StandardApplicationRunner.run(new KzdSender(), args);
 

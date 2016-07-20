@@ -33,6 +33,7 @@ import de.bsvrz.sys.funclib.bitctrl.modell.Datum;
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  * @param <T>
+ *            der Typ der Testdaten
  */
 public interface TestDatenGenerator<T extends Datum> {
 

@@ -53,8 +53,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  *
  * @author BitCtrl Systems GmbH, Peuker
  */
-public class PdSituationsEigenschaften
-extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
+public class PdSituationsEigenschaften extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 
 	/**
 	 * Die Repräsentation der Daten des Situationseigenschaften-Datensatzes.
@@ -134,12 +133,10 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 			if (daten != null) {
 				startZeit = daten.getTimeValue("StartZeit").getMillis();
 				dauer = daten.getTimeValue("Dauer").getMillis();
-				final Data.Array segmentArray = daten
-						.getArray("StraßenSegment");
+				final Data.Array segmentArray = daten.getArray("StraßenSegment");
 				for (int idx = 0; idx < segmentArray.getLength(); idx++) {
 					segmente.add((StrassenSegment) ObjektFactory.getInstanz()
-							.getModellobjekt(segmentArray.getReferenceValue(idx)
-									.getSystemObject()));
+							.getModellobjekt(segmentArray.getReferenceValue(idx).getSystemObject()));
 				}
 				startOffset = daten.getUnscaledValue("StartOffset").longValue();
 				endOffset = daten.getUnscaledValue("EndOffset").longValue();
@@ -207,8 +204,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 
 			final List<StrassenSegment> segmentListe = getSegmente();
 			if (segmentListe.size() > 0) {
-				final StrassenSegment segment = segmentListe
-						.get(segmentListe.size() - 1);
+				final StrassenSegment segment = segmentListe.get(segmentListe.size() - 1);
 				if (segment instanceof InneresStrassenSegment) {
 					final InneresStrassenSegment iss = (InneresStrassenSegment) segment;
 					if (iss.getNachSegment() != null) {
@@ -220,8 +216,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 						}
 					}
 				} else if (segment instanceof AeusseresStrassenSegment) {
-					final StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
-							.getNachKnoten();
+					final StrassenKnoten knoten = ((AeusseresStrassenSegment) segment).getNachKnoten();
 					if (knoten != null) {
 						result = knoten;
 					}
@@ -258,9 +253,9 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 		 *
 		 * @return den Messquerschnitt oder <code>null</code>
 		 * @throws SearchCycleException
+		 *             Zykluis bei der Suche aufgetreten
 		 */
-		public MessQuerschnittAllgemein getMessquerschnittDavor()
-				throws SearchCycleException {
+		public MessQuerschnittAllgemein getMessquerschnittDavor() throws SearchCycleException {
 			final StrassenSegment segment = getSegment(0);
 			StrassenSegment usedSegment = segment;
 			MessQuerschnittAllgemein mqDavor = null;
@@ -272,16 +267,14 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 			while ((mqDavor == null) && (usedSegment != null)) {
 
 				if (visited.contains(usedSegment)) {
-					throw new SearchCycleException(
-							"Schleife bei der Ermittlung des vor der Baustelle liegenden MQ",
+					throw new SearchCycleException("Schleife bei der Ermittlung des vor der Baustelle liegenden MQ",
 							visited);
 				}
 
 				visited.add(usedSegment);
 
 				Debug.getLogger().finer("Verwende Segment: " + usedSegment);
-				final List<MessQuerschnittAllgemein> mqs = usedSegment
-						.getMessquerschnitte();
+				final List<MessQuerschnittAllgemein> mqs = usedSegment.getMessquerschnitte();
 				if (segment == usedSegment) {
 					for (int idx = mqs.size(); idx > 0; idx--) {
 						final MessQuerschnittAllgemein mq = mqs.get(idx - 1);
@@ -290,10 +283,8 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 							mqDavor = mq;
 							break;
 						} else {
-							logger.finer(
-									"MQ: " + mq + "mit Offset " + mqSegOffset
-									+ " liegt innerhalb der Baustelle mit Startoffset: "
-									+ getStartOffset());
+							logger.finer("MQ: " + mq + "mit Offset " + mqSegOffset
+									+ " liegt innerhalb der Baustelle mit Startoffset: " + getStartOffset());
 						}
 					}
 				} else if (mqs.size() > 0) {
@@ -306,30 +297,21 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 				}
 
 				if (usedSegment instanceof AeusseresStrassenSegment) {
-					logger.finer("MQ nicht gefunden - Suche VonKnoten für: "
-							+ usedSegment);
-					final StrassenKnoten vonKnoten = ((AeusseresStrassenSegment) usedSegment)
-							.getVonKnoten();
+					logger.finer("MQ nicht gefunden - Suche VonKnoten für: " + usedSegment);
+					final StrassenKnoten vonKnoten = ((AeusseresStrassenSegment) usedSegment).getVonKnoten();
 					StrassenSegment result = null;
 					if (vonKnoten != null) {
-						logger.finer(
-								"Suche passendes inneres Straßensegment in Knoten: "
-										+ vonKnoten);
-						for (final InneresStrassenSegment innen : vonKnoten
-								.getInnereSegmente()) {
+						logger.finer("Suche passendes inneres Straßensegment in Knoten: " + vonKnoten);
+						for (final InneresStrassenSegment innen : vonKnoten.getInnereSegmente()) {
 							if (innen.getVonSegment() != null) {
-								if (usedSegment
-										.equals(innen.getNachSegment())) {
-									final Strasse strasse = segment
-											.getStrasse();
-									if ((strasse == null) || (strasse
-											.equals(innen.getStrasse()))) {
+								if (usedSegment.equals(innen.getNachSegment())) {
+									final Strasse strasse = segment.getStrasse();
+									if ((strasse == null) || (strasse.equals(innen.getStrasse()))) {
 										result = innen;
 										break;
 									}
 								} else {
-									logger.finer(innen + " führt nicht zu "
-											+ usedSegment + ", sondern zu "
+									logger.finer(innen + " führt nicht zu " + usedSegment + ", sondern zu "
 											+ innen.getNachSegment());
 								}
 							} else {
@@ -341,18 +323,13 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 					}
 					usedSegment = result;
 				} else if (usedSegment instanceof InneresStrassenSegment) {
-					logger.finer(
-							"MQ nicht gefunden - Suche weiter bei VonSegment des Segments "
-									+ usedSegment);
-					usedSegment = ((InneresStrassenSegment) usedSegment)
-							.getVonSegment();
+					logger.finer("MQ nicht gefunden - Suche weiter bei VonSegment des Segments " + usedSegment);
+					usedSegment = ((InneresStrassenSegment) usedSegment).getVonSegment();
 				} else {
 					usedSegment = null;
 				}
 
-				logger.finer(
-						"MQ nicht gefunden - Setze Suche weiter fort mit Segment: "
-								+ usedSegment);
+				logger.finer("MQ nicht gefunden - Setze Suche weiter fort mit Segment: " + usedSegment);
 			}
 			return mqDavor;
 		}
@@ -443,8 +420,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 						}
 					}
 				} else if (segment instanceof AeusseresStrassenSegment) {
-					final StrassenKnoten knoten = ((AeusseresStrassenSegment) segment)
-							.getVonKnoten();
+					final StrassenKnoten knoten = ((AeusseresStrassenSegment) segment).getVonKnoten();
 					if (knoten != null) {
 						result = knoten;
 					}
@@ -536,8 +512,7 @@ extends AbstractParameterDatensatz<PdSituationsEigenschaften.Daten> {
 	public PdSituationsEigenschaften(final SystemObjekt objekt) {
 		super(objekt);
 		if (PdSituationsEigenschaften.attributGruppe == null) {
-			PdSituationsEigenschaften.attributGruppe = objekt.getSystemObject()
-					.getDataModel()
+			PdSituationsEigenschaften.attributGruppe = objekt.getSystemObject().getDataModel()
 					.getAttributeGroup("atg.situationsEigenschaften");
 		}
 	}

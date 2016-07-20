@@ -247,31 +247,19 @@ AbstractParameterDatensatz<PdBcBetriebsMeldungDarstellung.Daten>  {
 			this.maxAnzahl = maxAnzahl;
 		}
 
-		/**
-		 * @return
-		 */
 		public List<BetriebsMeldungSpalte> getAnzuzeigendeSpalten() {
 			return anzuzeigendeSpalten;
 		}
 
-		/**
-		 * @param anzuzeigendeSpalten
-		 */
 		public void setAnzuzeigendeSpalten(
 				final List<BetriebsMeldungSpalte> anzuzeigendeSpalten) {
 			this.anzuzeigendeSpalten = anzuzeigendeSpalten;
 		}
 
-		/**
-		 * @return
-		 */
 		public List<Darstellung> getDarstellung() {
 			return darstellung;
 		}
 
-		/**
-		 * @param darstellung
-		 */
 		public void setDarstellung(final List<Darstellung> darstellung) {
 			this.darstellung = darstellung;
 		}

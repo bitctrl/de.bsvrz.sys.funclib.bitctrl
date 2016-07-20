@@ -51,8 +51,7 @@ import de.bsvrz.sys.funclib.debug.Debug;
  *
  * @author BitCtrl Systems GmbH, Falko Schumann
  */
-public class StrassenSegment extends StoerfallIndikator
-implements BestehtAusLinienobjekten {
+public class StrassenSegment extends StoerfallIndikator implements BestehtAusLinienobjekten {
 
 	/** Die sortierte Liste der enthaltenen Stra&szlig;enteilsegmente. */
 	private List<StrassenTeilSegment> strassenTeilSegmente;
@@ -77,13 +76,13 @@ implements BestehtAusLinienobjekten {
 	 * @param obj
 	 *            Ein Systemobjekt, welches ein Stra&szlig;ensegment darstellt
 	 * @throws IllegalArgumentException
+	 *             das übergebene Objekt hat den falschen Typ
 	 */
 	public StrassenSegment(final SystemObject obj) {
 		super(obj);
 
 		if (!obj.isOfType(getTyp().getPid())) {
-			throw new IllegalArgumentException(
-					"Systemobjekt ist kein Straßensegment.");
+			throw new IllegalArgumentException("Systemobjekt ist kein Straßensegment.");
 		}
 	}
 
@@ -116,8 +115,7 @@ implements BestehtAusLinienobjekten {
 	public Punkt getAnfangsPunkt() {
 		Punkt result = null;
 		if (getStrassenTeilSegmente().size() > 0) {
-			final StrassenTeilSegment segment = getStrassenTeilSegmente()
-					.get(0);
+			final StrassenTeilSegment segment = getStrassenTeilSegmente().get(0);
 			final List<Punkt> punkte = segment.getKoordinaten();
 			if (punkte.size() > 0) {
 				result = punkte.get(0);
@@ -134,8 +132,7 @@ implements BestehtAusLinienobjekten {
 	public Punkt getEndPunkt() {
 		Punkt result = null;
 		if (getStrassenTeilSegmente().size() > 0) {
-			final StrassenTeilSegment segment = getStrassenTeilSegmente()
-					.get(getStrassenTeilSegmente().size() - 1);
+			final StrassenTeilSegment segment = getStrassenTeilSegmente().get(getStrassenTeilSegmente().size() - 1);
 			final List<Punkt> punkte = segment.getKoordinaten();
 			if (punkte.size() > 0) {
 				result = punkte.get(punkte.size() - 1);
@@ -171,19 +168,16 @@ implements BestehtAusLinienobjekten {
 			final List<SystemObjekt> listeSO;
 
 			messQuerschnitte = new ArrayList<>();
-			listeSO = ObjektFactory.getInstanz().bestimmeModellobjekte(
-					VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
+			listeSO = ObjektFactory.getInstanz()
+					.bestimmeModellobjekte(VerkehrsModellTypen.MESSQUERSCHNITTALLGEMEIN.getPid());
 
 			for (final SystemObjekt so : listeSO) {
 				final MessQuerschnittAllgemein mq;
 				try {
 					mq = (MessQuerschnittAllgemein) so;
 				} catch (final ClassCastException ex) {
-					Debug.getLogger()
-					.error("Das Systemobjekt: "
-							+ so.getSystemObject().toString()
-							+ " kann nicht auf den Typ MessQuerschnittAllgemein gecastet werden!",
-							ex);
+					Debug.getLogger().error("Das Systemobjekt: " + so.getSystemObject().toString()
+							+ " kann nicht auf den Typ MessQuerschnittAllgemein gecastet werden!", ex);
 					throw ex;
 				}
 				if (equals(mq.getStrassenSegment())) {
@@ -262,8 +256,7 @@ implements BestehtAusLinienobjekten {
 				ref = datum.getReferenceArray("LinienReferenz");
 				objekte = ref.getSystemObjectArray();
 				for (final SystemObject so : objekte) {
-					strassenTeilSegmente.add((StrassenTeilSegment) ObjektFactory
-							.getInstanz().getModellobjekt(so));
+					strassenTeilSegmente.add((StrassenTeilSegment) ObjektFactory.getInstanz().getModellobjekt(so));
 				}
 			}
 		}
@@ -321,11 +314,9 @@ implements BestehtAusLinienobjekten {
 			datum = getSystemObject().getConfigurationData(atg);
 			if (datum != null) {
 				laenge = datum.getScaledValue("Länge").floatValue();
-				final SystemObject strassenObjekt = datum
-						.getReferenceValue("gehörtZuStraße").getSystemObject();
+				final SystemObject strassenObjekt = datum.getReferenceValue("gehörtZuStraße").getSystemObject();
 				if (strassenObjekt != null) {
-					strasse = (Strasse) ObjektFactory.getInstanz()
-							.getModellobjekt(strassenObjekt);
+					strasse = (Strasse) ObjektFactory.getInstanz().getModellobjekt(strassenObjekt);
 				} else {
 					strasse = null;
 				}

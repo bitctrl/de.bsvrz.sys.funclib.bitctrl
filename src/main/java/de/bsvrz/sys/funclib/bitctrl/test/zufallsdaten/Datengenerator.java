@@ -46,9 +46,6 @@ public class Datengenerator implements StandardApplication {
 	/** Versionsangabe. */
 	public static final String APP_VERSION = "1.0.0";
 
-	/**
-	 * @param args
-	 */
 	public static void main(final String[] args) {
 		StandardApplicationRunner.run(new Datengenerator(), args);
 	}

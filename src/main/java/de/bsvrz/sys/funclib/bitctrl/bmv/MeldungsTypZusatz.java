@@ -72,7 +72,7 @@ public class MeldungsTypZusatz {
 				} else {
 					throw new ParseException("Das Trennzeichen \"" + SYM_ASSIGN
 							+ "\" kommt mehr als einmal im Parameter \"" + s[0]
-							+ "\" vor.", 0);
+									+ "\" vor.", 0);
 				}
 			}
 		} else {
@@ -122,26 +122,14 @@ public class MeldungsTypZusatz {
 		return Collections.unmodifiableMap(parameter);
 	}
 
-	/**
-	 * @param name
-	 * @return
-	 */
 	public boolean containsKey(final String name) {
 		return parameter.containsKey(name);
 	}
 
-	/**
-	 * @param name
-	 * @return
-	 */
 	public String getString(final String name) {
 		return parameter.get(name);
 	}
 
-	/**
-	 * @param name
-	 * @param value
-	 */
 	public void set(final String name, final String value) {
 		parameter.put(name, value);
 	}
@@ -150,8 +138,8 @@ public class MeldungsTypZusatz {
 	 * Gibt {@code null} zurück, wenn unter dem Namen kein Parameter angelegt
 	 * ist oder dieser ein Leerstring ist.
 	 *
-	 * @param name
-	 * @return
+	 * @param name der name der Objekts
+	 * @return das Objekt oder null
 	 */
 	public SystemObjekt getObjekt(final String name) {
 		if ((parameter.get(name) != null) && !parameter.get(name).equals("")) {
@@ -165,8 +153,8 @@ public class MeldungsTypZusatz {
 	/**
 	 * Legt einen Leerstring ab, wenn {@code value == null}.
 	 *
-	 * @param name
-	 * @param value
+	 * @param name der Schlüssel
+	 * @param value der Wert
 	 */
 	public void set(final String name, final SystemObjekt value) {
 		if (value != null) {
@@ -176,66 +164,34 @@ public class MeldungsTypZusatz {
 		}
 	}
 
-	/**
-	 * @param name
-	 * @return
-	 */
 	public int getInteger(final String name) {
 		return Integer.parseInt(parameter.get(name));
 	}
 
-	/**
-	 * @param name
-	 * @param value
-	 */
 	public void set(final String name, final int value) {
 		parameter.put(name, String.valueOf(value));
 	}
 
-	/**
-	 * @param name
-	 * @return
-	 */
 	public long getLong(final String name) {
 		return Long.parseLong(parameter.get(name));
 	}
 
-	/**
-	 * @param name
-	 * @param value
-	 */
 	public void set(final String name, final long value) {
 		parameter.put(name, String.valueOf(value));
 	}
 
-	/**
-	 * @param name
-	 * @return
-	 */
 	public double getDouble(final String name) {
 		return Double.parseDouble(parameter.get(name));
 	}
 
-	/**
-	 * @param name
-	 * @param value
-	 */
 	public void set(final String name, final double value) {
 		parameter.put(name, String.valueOf(value));
 	}
 
-	/**
-	 * @param name
-	 * @return
-	 */
 	public boolean getBoolean(final String name) {
 		return Boolean.parseBoolean(parameter.get(name));
 	}
 
-	/**
-	 * @param name
-	 * @param value
-	 */
 	public void set(final String name, final boolean value) {
 		parameter.put(name, String.valueOf(value));
 	}
