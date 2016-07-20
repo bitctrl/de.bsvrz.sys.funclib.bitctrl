@@ -6,7 +6,7 @@
 
  	<groupId>de.bsvrz.sys</groupId>
 	<artifactId>de.bsvrz.sys.funclib.bitctrl</artifactId>
-	<version>1.5.0-SNAPSHOT</version>
+	<version>1.5.0</version>
 
 	<name>Datenverteilerfunktionsbibliothek BitCtrl</name>
 
@@ -25,7 +25,7 @@
         <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
         <kernsoftware.version>3.8.0</kernsoftware.version>
         <distributionspaket.status>FREI</distributionspaket.status>
-        <distributionspaket.standDatum>2016-07-19</distributionspaket.standDatum>
+        <distributionspaket.standDatum>2016-07-20</distributionspaket.standDatum>
         <distributionspaket.lizenz>LGPLv3.0</distributionspaket.lizenz>
     </properties>
 
