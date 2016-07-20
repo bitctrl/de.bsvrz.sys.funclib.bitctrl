@@ -1105,7 +1105,7 @@ implements ParameterDatensatz<OdRdsMeldung.Daten> {
 			 * @return der ermittelte Text
 			 */
 			public String getNachricht(final RdsNachrichtenKlasse typ) {
-				String result = Constants.EMPTY_STRING;
+				String result = "";
 				for (final RdsNachrichtenDaten eintrag : nachrichtenDaten) {
 					if (eintrag.getNachrichtenKlasse().equals(typ)) {
 						result = eintrag.getNachrichtenText();

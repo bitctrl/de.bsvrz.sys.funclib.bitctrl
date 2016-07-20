@@ -43,8 +43,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
-
-import com.bitctrl.Constants;
+import java.util.concurrent.TimeUnit;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.Data;
@@ -345,7 +344,7 @@ class DatenQuelle {
 
 		for (final SystemObject object : objekte) {
 			resultData.add(new ResultData(object, new DataDescription(atg, asp, simulationsVariante),
-					startZeit + (offset * Constants.MILLIS_PER_SECOND), daten));
+					startZeit + (offset * TimeUnit.SECONDS.toMillis(1)), daten));
 		}
 
 		return resultData;

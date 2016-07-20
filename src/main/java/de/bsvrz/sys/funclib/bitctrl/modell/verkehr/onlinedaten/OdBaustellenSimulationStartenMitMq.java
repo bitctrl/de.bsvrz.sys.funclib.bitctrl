@@ -99,12 +99,12 @@ AbstractOnlineDatensatz<OdBaustellenSimulationStartenMitMq.Daten> {
 		/**
 		 * der Name des Auftragsgebers.
 		 */
-		private String name = Constants.EMPTY_STRING;
+		private String name = "";
 
 		/**
 		 * eine Bemerkung zum Versand des Auftrags.
 		 */
-		private String bemerkung = Constants.EMPTY_STRING;
+		private String bemerkung = "";
 
 		/**
 		 * der aktuelle Status des Datensatzes.
@@ -179,7 +179,7 @@ AbstractOnlineDatensatz<OdBaustellenSimulationStartenMitMq.Daten> {
 			if (bemerkung != null) {
 				this.bemerkung = bemerkung;
 			} else {
-				this.bemerkung = Constants.EMPTY_STRING;
+				this.bemerkung = "";
 			}
 		}
 
@@ -203,7 +203,7 @@ AbstractOnlineDatensatz<OdBaustellenSimulationStartenMitMq.Daten> {
 			if (name != null) {
 				this.name = name;
 			} else {
-				this.name = Constants.EMPTY_STRING;
+				this.name = "";
 			}
 		}
 	}

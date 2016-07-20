@@ -31,8 +31,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.bitctrl.Constants;
+import java.util.concurrent.TimeUnit;
 
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.Data.NumberValue;
@@ -270,7 +269,7 @@ extends AbstractOnlineDatensatz<OdUfdsSichtWeite.Daten> {
 		n = d.getWert(wert);
 		sw = n != null ? n.intValue() : null;
 
-		datum.getTimeValue("T").setMillis(Constants.MILLIS_PER_MINUTE);
+		datum.getTimeValue("T").setMillis(TimeUnit.MINUTES.toMillis(1));
 		datum.getItem(wert).getUnscaledValue("Wert")
 		.setText("nicht ermittelbar");
 		datum.getItem(wert).getItem("Status").getItem("Erfassung")

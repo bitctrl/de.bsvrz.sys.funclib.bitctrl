@@ -29,6 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.text;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import com.bitctrl.Constants;
 
@@ -88,13 +89,13 @@ public final class ZeitAngabe {
 		} else {
 			long restWert = zeitWert;
 			restWert = teilDauerErmitteln(result, restWert,
-					Constants.MILLIS_PER_DAY, "Tage");
+					TimeUnit.DAYS.toMillis(1), "Tage");
 			restWert = teilDauerErmitteln(result, restWert,
-					Constants.MILLIS_PER_HOUR, "Stunden");
+					TimeUnit.HOURS.toMillis(1), "Stunden");
 			restWert = teilDauerErmitteln(result, restWert,
-					Constants.MILLIS_PER_MINUTE, "Minuten");
+					TimeUnit.MINUTES.toMillis(1), "Minuten");
 			restWert = teilDauerErmitteln(result, restWert,
-					Constants.MILLIS_PER_SECOND, "Sekunden");
+					TimeUnit.SECONDS.toMillis(1), "Sekunden");
 			teilDauerErmitteln(result, restWert, 1, "Millisekunden");
 
 			if (result.length() <= 0) {

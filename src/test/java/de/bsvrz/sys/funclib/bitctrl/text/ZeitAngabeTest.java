@@ -28,30 +28,47 @@ package de.bsvrz.sys.funclib.bitctrl.text;
 // import static org.junit.Assert.*;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.bitctrl.Constants;
 
 public class ZeitAngabeTest {
 
-	private final ZeitAngabe negative = new ZeitAngabe(new GregorianCalendar(1970,
-			Calendar.JANUARY, 1).getTimeInMillis()
-			- (3 * Constants.MILLIS_PER_DAY));
-	private final ZeitAngabe nullZeit = new ZeitAngabe(0);
-	private final ZeitAngabe normalZeit = new ZeitAngabe(new GregorianCalendar(2005,
-			Calendar.DECEMBER, 24).getTimeInMillis());
-	private final ZeitAngabe normalDauer = new ZeitAngabe((3 * Constants.MILLIS_PER_DAY)
-			+ (2 * Constants.MILLIS_PER_HOUR)
-			+ (10 * Constants.MILLIS_PER_MINUTE)
-			+ (33 * Constants.MILLIS_PER_SECOND) + 22);
-	private final ZeitAngabe normalDauer2 = new ZeitAngabe((3 * Constants.MILLIS_PER_DAY)
-			+ (2 * Constants.MILLIS_PER_HOUR)
-			+ (0 * Constants.MILLIS_PER_MINUTE)
-			+ (33 * Constants.MILLIS_PER_SECOND));
-	private final ZeitAngabe maxZeit = new ZeitAngabe(Long.MAX_VALUE);
+	private static ZeitAngabe negative;
+	private static ZeitAngabe nullZeit;
+	private static ZeitAngabe normalZeit;
+	private static ZeitAngabe normalDauer;
+	private static ZeitAngabe normalDauer2;
+	private static ZeitAngabe maxZeit;
+
+	@BeforeClass
+	public static void initCandidates() {
+		final Calendar cal = Calendar.getInstance();
+		cal.setTimeZone(TimeZone.getTimeZone("CET"));
+
+		cal.set(1970, Calendar.JANUARY, 1, 0, 0, 0);
+		cal.add(Calendar.DAY_OF_MONTH, -3);
+		negative = new ZeitAngabe(cal.getTimeInMillis());
+		nullZeit = new ZeitAngabe(0);
+
+		cal.set(2005, Calendar.DECEMBER, 24, 0, 0, 0);
+		normalZeit = new ZeitAngabe(cal.getTimeInMillis());
+
+		normalDauer = new ZeitAngabe((3 * TimeUnit.DAYS.toMillis(1))
+				+ (2 * TimeUnit.HOURS.toMillis(1))
+				+ (10 * TimeUnit.MINUTES.toMillis(1))
+				+ (33 * TimeUnit.SECONDS.toMillis(1)) + 22);
+		normalDauer2 = new ZeitAngabe((3 * TimeUnit.DAYS.toMillis(1))
+				+ (2 * TimeUnit.HOURS.toMillis(1))
+				+ (0 * TimeUnit.MINUTES.toMillis(1))
+				+ (33 * TimeUnit.SECONDS.toMillis(1)));
+		maxZeit = new ZeitAngabe(Long.MAX_VALUE);
+	}
+
+
 
 	@Test
 	public void testDauerAlsText() {

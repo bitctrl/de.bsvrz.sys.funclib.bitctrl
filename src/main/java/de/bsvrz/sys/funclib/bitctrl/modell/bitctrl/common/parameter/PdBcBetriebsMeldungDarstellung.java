@@ -29,8 +29,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.bitctrl.common.parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.bitctrl.Constants;
+import java.util.concurrent.TimeUnit;
 
 import de.bsvrz.dav.daf.main.Data;
 import de.bsvrz.dav.daf.main.Data.Array;
@@ -404,7 +403,7 @@ AbstractParameterDatensatz<PdBcBetriebsMeldungDarstellung.Daten>  {
 
 		daten.getUnscaledValue("MaxAnzahl").set(datum.getMaxAnzahl());
 		daten.getUnscaledValue("MaxHistory")
-		.set(datum.getMaxHistory() / Constants.MILLIS_PER_DAY);
+		.set(datum.getMaxHistory() / TimeUnit.DAYS.toMillis(1));
 
 		anzuzeigendeSpalten = daten.getArray("AnzuzeigendeSpalten");
 		anzuzeigendeSpalten.setLength(datum.getAnzuzeigendeSpalten().size());
@@ -446,7 +445,7 @@ AbstractParameterDatensatz<PdBcBetriebsMeldungDarstellung.Daten>  {
 			}
 
 			datum.setMaxAnzahl(daten.getUnscaledValue("MaxAnzahl").intValue());
-			datum.setMaxHistory(Constants.MILLIS_PER_DAY
+			datum.setMaxHistory(TimeUnit.DAYS.toMillis(1)
 					* daten.getUnscaledValue("MaxHistory").intValue());
 
 			anzuzeigendeSpalten = daten.getArray("AnzuzeigendeSpalten");

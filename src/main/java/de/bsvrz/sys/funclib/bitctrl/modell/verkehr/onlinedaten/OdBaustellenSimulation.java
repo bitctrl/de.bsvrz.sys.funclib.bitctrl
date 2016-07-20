@@ -301,7 +301,7 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 		public String getBemerkung() {
 			String result = bemerkung;
 			if (result == null) {
-				result = Constants.EMPTY_STRING;
+				result = "";
 			}
 			return result;
 		}
@@ -321,7 +321,7 @@ public class OdBaustellenSimulation extends AbstractOnlineDatensatz<OdBaustellen
 		public String getFehlerMeldung() {
 			String result = fehlerMeldung;
 			if (result == null) {
-				result = Constants.EMPTY_STRING;
+				result = "";
 			}
 			return result;
 		}

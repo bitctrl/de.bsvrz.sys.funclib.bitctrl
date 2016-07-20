@@ -98,12 +98,12 @@ extends AbstractOnlineDatensatz<OdBaustellenSimulationStarten.Daten> {
 		/**
 		 * der Name des Auftragsgebers.
 		 */
-		private String name = Constants.EMPTY_STRING;
+		private String name = "";
 
 		/**
 		 * eine Bemerkung zum Versand des Auftrags.
 		 */
-		private String bemerkung = Constants.EMPTY_STRING;
+		private String bemerkung = "";
 
 		/**
 		 * der aktuelle Status des Datensatzes.
@@ -152,7 +152,7 @@ extends AbstractOnlineDatensatz<OdBaustellenSimulationStarten.Daten> {
 			if (bemerkung != null) {
 				this.bemerkung = bemerkung;
 			} else {
-				this.bemerkung = Constants.EMPTY_STRING;
+				this.bemerkung = "";
 			}
 		}
 
@@ -176,7 +176,7 @@ extends AbstractOnlineDatensatz<OdBaustellenSimulationStarten.Daten> {
 			if (name != null) {
 				this.name = name;
 			} else {
-				this.name = Constants.EMPTY_STRING;
+				this.name = "";
 			}
 		}
 	}

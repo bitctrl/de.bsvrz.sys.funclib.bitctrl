@@ -26,7 +26,7 @@
 
 package de.bsvrz.sys.funclib.bitctrl.app;
 
-import com.bitctrl.Constants;
+import java.util.concurrent.TimeUnit;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 
@@ -61,7 +61,7 @@ public final class Pause {
 			if (now >= endzeitpunkt) {
 				break;
 			}
-			warte(Constants.MILLIS_PER_SECOND);
+			warte(TimeUnit.SECONDS.toMillis(1));
 		} while (true);
 	}
 

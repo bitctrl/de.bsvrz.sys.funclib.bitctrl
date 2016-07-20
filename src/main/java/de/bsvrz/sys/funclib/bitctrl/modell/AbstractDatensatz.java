@@ -26,17 +26,15 @@
 
 package de.bsvrz.sys.funclib.bitctrl.modell;
 
-import static com.bitctrl.Constants.MILLIS_PER_SECOND;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.event.EventListenerList;
-
-import com.bitctrl.Constants;
 
 import de.bsvrz.dav.daf.main.ClientDavInterface;
 import de.bsvrz.dav.daf.main.ClientReceiverInterface;
@@ -335,7 +333,7 @@ implements Datensatz<T> {
 	 * Standardtimeout von {@value} Millisekunden für das Senden und Empfangen
 	 * von Daten.
 	 */
-	private static final long TIMEOUT = 60 * MILLIS_PER_SECOND;
+	private static final long TIMEOUT = 60 * TimeUnit.SECONDS.toMillis(1);
 
 	/** Der Empf&auml;nger dieses Datensatzes. */
 	private final AsynchronerReceiver receiver;
@@ -430,7 +428,7 @@ implements Datensatz<T> {
 				dav = ObjektFactory.getInstanz().getVerbindung();
 				dbs = new DataDescription(getAttributGruppe(), asp);
 				datensatz = dav.getData(getObjekt().getSystemObject(), dbs,
-						Constants.MILLIS_PER_HOUR);
+						TimeUnit.HOURS.toMillis(1));
 				setDaten(datensatz);
 
 				result = daten.get(asp);

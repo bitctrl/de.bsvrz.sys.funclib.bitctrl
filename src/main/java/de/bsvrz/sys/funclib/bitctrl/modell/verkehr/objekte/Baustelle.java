@@ -28,6 +28,7 @@ package de.bsvrz.sys.funclib.bitctrl.modell.verkehr.objekte;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import com.bitctrl.Constants;
 
@@ -154,7 +155,7 @@ public class Baustelle extends Situation {
 		try {
 			getOnlineDatensatz(OdBaustellenSimulationStarten.class).sendeDaten(
 					OdBaustellenSimulationStarten.Aspekte.Senden.getAspekt(),
-					datum, Constants.MILLIS_PER_MINUTE);
+					datum, TimeUnit.MINUTES.toMillis(1));
 		} catch (final DatensendeException e) {
 			getOnlineDatensatz(OdBaustellenSimulationStarten.class)
 			.abmeldenSender(OdBaustellenSimulationStarten.Aspekte.Senden
@@ -203,7 +204,7 @@ public class Baustelle extends Situation {
 			.sendeDaten(
 					OdBaustellenSimulationStartenMitMq.Aspekte.Senden
 					.getAspekt(),
-					datum, Constants.MILLIS_PER_MINUTE);
+					datum, TimeUnit.MINUTES.toMillis(1));
 		} catch (final DatensendeException e) {
 			getOnlineDatensatz(OdBaustellenSimulationStartenMitMq.class)
 			.abmeldenSender(
