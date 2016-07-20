@@ -26,12 +26,11 @@
 
 package de.bsvrz.sys.funclib.bitctrl.text;
 
-import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
-import com.bitctrl.Constants;
 
 /**
  * Klasse zur formatierten Ausgabe von Zeitangaben als Dauer oder Zeitstempel.
@@ -184,8 +183,8 @@ public final class ZeitAngabe {
 		} else if ((zeitWert == Long.MAX_VALUE) && (maxText != null)) {
 			result = maxText;
 		} else {
-			result = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.GERMAN)
-					.format(new Date(zeitWert));
+			final LocalDateTime localDate = new Date(zeitWert).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			result = localDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
 		}
 		return result;
 	}
