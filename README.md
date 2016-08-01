@@ -17,6 +17,15 @@ oder potentiell genutzt werden können.
 Versionsgeschichte
 ==================
 
+1.5.1
+=====
+- Klassenpfad im runtime-jar korrigiert
+
+1.5.0
+=====
+- Umstellung auf Java 8 und UTF-8
+
+
 1.5.0
 =====
 - Umstellung auf Java 8 und UTF-8
