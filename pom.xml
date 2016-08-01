@@ -24,7 +24,7 @@
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 		<kernsoftware.version>3.8.0</kernsoftware.version>
 		<distributionspaket.status>FREI</distributionspaket.status>
-		<distributionspaket.standDatum>2016-07-20</distributionspaket.standDatum>
+		<distributionspaket.standDatum>${maven.build.timestamp}</distributionspaket.standDatum>
 		<distributionspaket.lizenz>LGPLv3.0</distributionspaket.lizenz>
 	</properties>
 
@@ -100,6 +100,9 @@
 		</profile>
 		<profile>
 			<id>bintray</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<repositories>
 				<repository>
 					<snapshots>
@@ -120,6 +123,9 @@
 					<url>http://dl.bintray.com/datenverteiler/maven</url>
 				</pluginRepository>
 			</pluginRepositories>
+		</profile>
+		<profile>
+			<id>bintray-deploy</id>
 			<distributionManagement>
 				<repository>
 					<id>bintray-bitctrl-maven</id>
@@ -334,7 +340,9 @@
 								de.bsvrz.pua,
 								de.bsvrz.sys,
 								de.bsvrz.vew,
-								de.bsvrz.pat</excludeGroupIds>
+								de.bsvrz.pat,
+								commons-codec
+							</excludeGroupIds>
 						</configuration>
 					</execution>
 					<execution>
@@ -358,7 +366,9 @@
 								de.bsvrz.pua,
 								de.bsvrz.sys,
 								de.bsvrz.vew,
-								de.bsvrz.pat</excludeGroupIds>
+								de.bsvrz.pat,
+								commons-codec
+							</excludeGroupIds>
 						</configuration>
 					</execution>
 				</executions>
