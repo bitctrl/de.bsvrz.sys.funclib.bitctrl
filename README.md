@@ -17,6 +17,11 @@ oder potentiell genutzt werden können.
 Versionsgeschichte
 ==================
 
+1.5.2
+=====
+- Fehler beim Abruf von Objekten der Konfiguration, weil die ObjektFactory versucht hat, 
+  Objekte von Typen abzurufen, die in der Konfiguration nicht vorhanden sind.
+
 1.5.1
 =====
 - Klassenpfad im runtime-jar korrigiert

@@ -75,15 +75,13 @@ public final class Konfigurationsbereich {
 	 *            Optional ein Feld von Systemobjekttypen
 	 * @return Liste der gesuchten Systemobjekten
 	 */
-	public static List<SystemObject> getObjekte(final ConfigurationArea kb,
-			final SystemObjectType... typen) {
+	public static List<SystemObject> getObjekte(final ConfigurationArea kb, final SystemObjectType... typen) {
 		final List<SystemObject> liste = new ArrayList<>();
 
 		if (typen == null) {
 			liste.addAll(kb.getObjects(null, ObjectTimeSpecification.valid()));
 		} else {
-			liste.addAll(kb.getObjects(Arrays.asList(typen),
-					ObjectTimeSpecification.valid()));
+			liste.addAll(kb.getObjects(Arrays.asList(typen), ObjectTimeSpecification.valid()));
 		}
 
 		return liste;
@@ -100,8 +98,7 @@ public final class Konfigurationsbereich {
 	 *            Optional ein Feld von Systemobjekttypen
 	 * @return Liste der gesuchten Systemobjekten
 	 */
-	public static List<SystemObject> getObjekte(final ConfigurationArea kb,
-			final List<String> typen) {
+	public static List<SystemObject> getObjekte(final ConfigurationArea kb, final List<String> typen) {
 		return getObjekte(kb, typen.toArray(new String[typen.size()]));
 	}
 
@@ -116,8 +113,7 @@ public final class Konfigurationsbereich {
 	 *            Optional ein Feld von Systemobjekttypen
 	 * @return Liste der gesuchten Systemobjekten
 	 */
-	public static List<SystemObject> getObjekte(final ConfigurationArea kb,
-			final String... typen) {
+	public static List<SystemObject> getObjekte(final ConfigurationArea kb, final String... typen) {
 		final List<SystemObject> liste = new ArrayList<>();
 		final List<SystemObjectType> objekttypen = new ArrayList<>();
 
@@ -125,11 +121,13 @@ public final class Konfigurationsbereich {
 			liste.addAll(kb.getObjects(null, ObjectTimeSpecification.valid()));
 		} else {
 			for (final String typ : typen) {
-				objekttypen.add(kb.getDataModel().getType(typ));
+				final SystemObjectType type = kb.getDataModel().getType(typ);
+				if (type != null) {
+					objekttypen.add(type);
+				}
 			}
 
-			liste.addAll(kb.getObjects(objekttypen,
-					ObjectTimeSpecification.valid()));
+			liste.addAll(kb.getObjects(objekttypen, ObjectTimeSpecification.valid()));
 		}
 
 		return liste;
@@ -149,23 +147,18 @@ public final class Konfigurationsbereich {
 	 *             für die übergebene Verbindung konnte kein entsprechender
 	 *             Konfigurationsbereich ermittelt werden.
 	 */
-	public static ConfigurationArea getStandardKonfigurationsBereich(
-			final ClientDavInterface verbindung)
-					throws InvalidArgumentException {
+	public static ConfigurationArea getStandardKonfigurationsBereich(final ClientDavInterface verbindung)
+			throws InvalidArgumentException {
 
 		ConfigurationArea result = null;
 
 		if (verbindung != null) {
-			final ConfigurationAuthority authority = verbindung
-					.getLocalApplicationObject().getConfigurationArea()
+			final ConfigurationAuthority authority = verbindung.getLocalApplicationObject().getConfigurationArea()
 					.getConfigurationAuthority();
 			final Data daten = authority.getConfigurationData(
-					authority.getDataModel().getAttributeGroup(
-							"atg.konfigurationsVerantwortlicherEigenschaften"));
-			final String bereichsPid = daten.getTextArray("defaultBereich")
-					.getText(0);
-			final SystemObject objekt = authority.getDataModel()
-					.getObject(bereichsPid);
+					authority.getDataModel().getAttributeGroup("atg.konfigurationsVerantwortlicherEigenschaften"));
+			final String bereichsPid = daten.getTextArray("defaultBereich").getText(0);
+			final SystemObject objekt = authority.getDataModel().getObject(bereichsPid);
 			if ((objekt != null) && (objekt instanceof ConfigurationArea)) {
 				result = (ConfigurationArea) objekt;
 			}
